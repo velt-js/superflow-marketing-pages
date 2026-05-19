@@ -72,15 +72,15 @@
   mask-image: linear-gradient(
     to right,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 8%,
-    rgba(0, 0, 0, 1) 92%,
+    rgba(0, 0, 0, 1) 12.5%,
+    rgba(0, 0, 0, 1) 87.5%,
     rgba(0, 0, 0, 0) 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 8%,
-    rgba(0, 0, 0, 1) 92%,
+    rgba(0, 0, 0, 1) 12.5%,
+    rgba(0, 0, 0, 1) 87.5%,
     rgba(0, 0, 0, 0) 100%
   );
 }
