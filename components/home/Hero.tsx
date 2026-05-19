@@ -178,7 +178,7 @@ export default function Hero() {
               Try Demo
             </a>
             <a
-              href="https://app.usesuperflow.com/"
+              href="https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU."
               rel="noopener"
               className="flex items-center justify-center rounded-[32px] bg-white px-6 py-3 text-black transition-colors hover:bg-white/90"
               style={{ fontFamily: "var(--font-poppins)", fontSize: 18, fontWeight: 500, lineHeight: "1.5em" }}

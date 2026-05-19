@@ -202,8 +202,8 @@ export default function Nav() {
           >
             Book Demo
           </Link>
-          <Link
-            href="/demo"
+          <a
+            href="https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU."
             className="rounded-pill px-4 py-2 text-[14px] font-medium transition-colors"
             style={{
               background: isDark ? "#fff" : "#0a0a0a",
@@ -211,7 +211,7 @@ export default function Nav() {
             }}
           >
             Try Now for Free
-          </Link>
+          </a>
         </div>
       </div>
     </nav>

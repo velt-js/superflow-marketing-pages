@@ -5,15 +5,22 @@ import { useState } from "react";
 const faqs = [
   {
     q: "What is Superflow?",
-    a: "Superflow is a collaboration platform that lets creative teams review and approve assets — images, videos, PDFs, websites, Lottie — in one place, with comments, approvals, and integrations to your existing stack.",
+    a: (
+      <>
+        Superflow is a collaboration platform for agencies &amp; marketers to review, proof and deliver creative assets fast. Superflow supports websites, videos, lottie animations, PDF and images.
+        <br />
+        <br />
+        With Superflow agencies &amp; marketers deliver more high quality creative assets fast.
+      </>
+    ),
   },
   {
     q: "What formats are supported in Superflow?",
-    a: "Websites, video, Lottie animations, PDFs, images, and more. New formats are added regularly based on customer requests.",
+    a: "Superflow supports all types of Websites, Videos, Lottie, Images and PDFs.",
   },
   {
     q: "Does Superflow offer a free plan?",
-    a: "Yes — you can get started for free with no credit card required. Upgrade when your team grows.",
+    a: "Superflow offers a free 10-day trial to new users, no credit card needed. During the trial period, you get full access to all features.",
   },
 ];
 
@@ -29,17 +36,17 @@ export default function FAQ() {
         >
           Frequently
           <br />
-          Asked Question
+          Asked Questions
         </h2>
         <p className="text-[14px] leading-[28px] text-white/75">
           Got more questions?
           <br />
           You can{" "}
-          <a href="#contact" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
+          <a href="mailto:support@usesuperflow.com" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
             Contact Us
           </a>{" "}
           or{" "}
-          <a href="#demo" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
+          <a href="/book-demo" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
             Book a Demo
           </a>
         </p>
@@ -65,7 +72,7 @@ export default function FAQ() {
               </span>
             </button>
             {open === i && (
-              <p className="pb-8 text-[14px] leading-[24px] text-white/75">{item.a}</p>
+              <div className="pb-8 text-[14px] leading-[24px] text-white/75">{item.a}</div>
             )}
           </div>
         ))}

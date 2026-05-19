@@ -31,7 +31,7 @@ export default function CTABanner() {
               more cool sh!t
             </h2>
             <a
-              href="#signup"
+              href="https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU."
               className="rounded-[32px] bg-black px-[24px] py-[16px] text-[18px] font-semibold capitalize tracking-[-0.54px] text-white"
             >
               Try Now for Free

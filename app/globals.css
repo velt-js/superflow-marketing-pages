@@ -104,7 +104,7 @@
 }
 
 body {
-  background: var(--color-superflow-ink);
+  background: #ffffff;
   color: #fff;
   margin: 0;
   font-family: var(--font-poppins);

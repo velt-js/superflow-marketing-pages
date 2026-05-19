@@ -12,7 +12,7 @@ const tools = [
 
 export default function HeroShowcase() {
   return (
-    <section className="bg-black px-4 lg:px-[52px] pb-12 lg:pb-[80px]">
+    <section className="bg-black px-4 lg:px-[52px] pb-12 lg:pb-[80px] rounded-b-[80px]">
       {/* Outer black card with white-12% 4px border, rounded-80, 12px inner padding */}
       <div
         className="relative mx-auto max-w-[1200px] bg-black p-[12px]"
