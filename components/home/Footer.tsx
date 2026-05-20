@@ -4,14 +4,16 @@ import Link from "next/link";
 type LinkItem = { label: string; href: string; dollar?: boolean };
 type Column = { title: string; links: LinkItem[] };
 
+const SIGNUP_URL = "https://app.usesuperflow.com/signup";
+
 const tryColumn: Column = {
   title: "Try Superflow",
   links: [
-    { label: "For Website", href: "#" },
-    { label: "For PDF", href: "#" },
-    { label: "For Image", href: "#" },
-    { label: "For Video", href: "#" },
-    { label: "For Lottie", href: "#" },
+    { label: "For Website", href: SIGNUP_URL },
+    { label: "For PDF", href: SIGNUP_URL },
+    { label: "For Image", href: SIGNUP_URL },
+    { label: "For Video", href: SIGNUP_URL },
+    { label: "For Lottie", href: SIGNUP_URL },
   ],
 };
 
@@ -19,88 +21,96 @@ const COLUMNS: Column[] = [
   {
     title: "Product",
     links: [
-      { label: "Features", href: "#" },
-      { label: "Integrations", href: "#" },
-      { label: "Pricing", href: "#" },
-      { label: "Affiliate", href: "#", dollar: true },
-      { label: "For Web Apps", href: "#" },
+      { label: "Features", href: "/#features" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Affiliate", href: "/affiliate", dollar: true },
+      { label: "For Web Apps", href: "/web-apps" },
     ],
   },
   {
     title: "Integrations",
     links: [
-      { label: "Asana", href: "#" },
-      { label: "Slack", href: "#" },
-      { label: "ClickUp", href: "#" },
-      { label: "Webflow", href: "#" },
-      { label: "Monday.com", href: "#" },
-      { label: "Google Tag Manager", href: "#" },
+      { label: "Asana", href: "/integrations/asana" },
+      { label: "Slack", href: "/integrations/slack" },
+      { label: "ClickUp", href: "/integrations/clickup" },
+      { label: "Webflow", href: "/integrations/webflow" },
+      { label: "Monday.com", href: "/integrations/monday" },
+      { label: "Google Tag Manager", href: "/integrations/google-tag-manager" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Docs", href: "#" },
-      { label: "Case Study", href: "#" },
-      { label: "SEO Checklist", href: "#" },
+      { label: "Docs", href: "/docs" },
+      { label: "Case Study", href: "/case-study" },
+      { label: "SEO Checklist", href: "/seo-checklist" },
       { label: "Blog", href: "/blog" },
-      { label: "Cost Calculator", href: "#", dollar: true },
-      { label: "YouTube", href: "#" },
-      { label: "Join Community", href: "#" },
+      { label: "Cost Calculator", href: "/cost-calculator", dollar: true },
+      { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
+      { label: "Join Community", href: "/community" },
     ],
   },
   {
     title: "Competition",
     links: [
-      { label: "Markup Alternative", href: "#" },
-      { label: "Pastel Alternative", href: "#" },
-      { label: "Bugherd Alternative", href: "#" },
-      { label: "Ruttl Alternative", href: "#" },
-      { label: "Vercel Comments", href: "#" },
-      { label: "Webflow Comments", href: "#" },
-      { label: "Marker.io Comments", href: "#" },
-      { label: "Use Bubbles", href: "#" },
+      { label: "Markup Alternative", href: "/alternative/markup" },
+      { label: "Pastel Alternative", href: "/alternative/pastel" },
+      { label: "Bugherd Alternative", href: "/alternative/bugherd" },
+      { label: "Ruttl Alternative", href: "/alternative/ruttl" },
+      { label: "Vercel Comments", href: "/alternative/vercel-comments" },
+      { label: "Webflow Comments", href: "/alternative/webflow-comments" },
+      { label: "Marker.io Comments", href: "/alternative/marker-io" },
+      { label: "Use Bubbles", href: "/alternative/bubbles" },
     ],
   },
   {
     title: "Comparison",
     links: [
-      { label: "MarkUp vs Pastel", href: "#" },
-      { label: "MarkUp vs Ruttl", href: "#" },
+      { label: "MarkUp vs Pastel", href: "/comparison/markup-vs-pastel" },
+      { label: "MarkUp vs Ruttl", href: "/comparison/markup-vs-ruttl" },
     ],
   },
   {
     title: "Use Case",
     links: [
-      { label: "UAT & QA testing", href: "#" },
-      { label: "Client feedback", href: "#" },
-      { label: "Conversion optimization", href: "#" },
-      { label: "Reporting bug", href: "#" },
-      { label: "UX/UI Optimization", href: "#" },
+      { label: "UAT & QA testing", href: "/use-case/uat-qa-testing" },
+      { label: "Client feedback", href: "/use-case/client-feedback" },
+      { label: "Conversion optimization", href: "/use-case/conversion-optimization" },
+      { label: "Reporting bug", href: "/use-case/reporting-bugs" },
+      { label: "UX/UI Optimization", href: "/use-case/ux-ui-optimization" },
     ],
   },
   {
     title: "User Persona",
     links: [
-      { label: "QA team", href: "#" },
-      { label: "Project Managers", href: "#" },
-      { label: "Founder", href: "#" },
-      { label: "Developer", href: "#" },
-      { label: "product company", href: "#" },
-      { label: "marketing agency", href: "#" },
-      { label: "Designer", href: "#" },
-      { label: "Product Manager", href: "#" },
-      { label: "Marketer", href: "#" },
+      { label: "QA team", href: "/user-persona/qa-team" },
+      { label: "Project Managers", href: "/user-persona/project-managers" },
+      { label: "Founder", href: "/user-persona/founders" },
+      { label: "Developer", href: "/user-persona/developers" },
+      { label: "product company", href: "/user-persona/product-managers" },
+      { label: "marketing agency", href: "/user-persona/agencies" },
+      { label: "Designer", href: "/user-persona/designers" },
+      { label: "Product Manager", href: "/user-persona/product-managers" },
+      { label: "Marketer", href: "/user-persona/marketers" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy", href: "#" },
-      { label: "Terms", href: "#" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
     ],
   },
 ];
+
+const SOCIAL_LINKS: Record<string, string> = {
+  slack: "https://usesuperflow.com",
+  linkedin: "https://www.linkedin.com/company/usesuperflow",
+  x: "https://x.com/usesuperflow",
+  instagram: "https://www.instagram.com/usesuperflow",
+  youtube: "https://www.youtube.com/@usesuperflow",
+};
 
 function DollarBadge() {
   return (
@@ -178,9 +188,17 @@ function SocialIcon({ name }: { name: string }) {
   }
 }
 
-export default function Footer() {
+export default function Footer({ roundedTop = false }: { roundedTop?: boolean }) {
   return (
-    <footer className="text-white" style={{ background: "#0a0a0a" }}>
+    <footer
+      className="text-white"
+      style={{
+        background: "#0a0a0a",
+        ...(roundedTop
+          ? { borderTopLeftRadius: 80, borderTopRightRadius: 80 }
+          : null),
+      }}
+    >
       <div className="mx-auto max-w-[1200px] px-6 lg:px-[80px] pt-[80px] lg:pt-[120px] pb-[80px]">
         <div className="flex flex-col lg:flex-row gap-[60px] lg:gap-[40px]">
           {/* Left: Try Superflow column */}
@@ -222,10 +240,12 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
           <div className="flex items-center gap-[26px]">
-            {["slack", "linkedin", "x", "instagram", "youtube"].map((name) => (
+            {Object.entries(SOCIAL_LINKS).map(([name, href]) => (
               <a
                 key={name}
-                href={`#${name}`}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={name}
                 className="text-white/60 hover:text-white transition-colors"
               >

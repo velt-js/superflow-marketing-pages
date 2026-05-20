@@ -1,13 +1,18 @@
-import FAQ from "./FAQ";
+import FAQ, { type FAQItemProps } from "./FAQ";
 import CTABanner from "./CTABanner";
 
-export default function DarkSection() {
+interface DarkSectionProps {
+  withTopCurve?: boolean;
+  faqItems?: FAQItemProps[];
+}
+
+export default function DarkSection({ withTopCurve = false, faqItems }: DarkSectionProps) {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-[120px] py-[80px]"
+      className={`relative flex flex-col items-center justify-center gap-[120px] py-[80px] ${withTopCurve ? "rounded-t-[60px] lg:rounded-t-[80px] -mt-[60px] lg:-mt-[80px]" : ""}`}
       style={{ background: "#121212" }}
     >
-      <FAQ />
+      <FAQ items={faqItems} />
       <CTABanner />
     </section>
   );

@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
-const faqs = [
+export interface FAQItemProps {
+  q: string;
+  a: ReactNode;
+}
+
+const defaultFaqs: FAQItemProps[] = [
   {
     q: "What is Superflow?",
     a: (
@@ -24,8 +29,9 @@ const faqs = [
   },
 ];
 
-export default function FAQ() {
+export default function FAQ({ items }: { items?: FAQItemProps[] }) {
   const [open, setOpen] = useState<number | null>(null);
+  const faqs = items && items.length > 0 ? items : defaultFaqs;
 
   return (
     <div className="container-page flex flex-col lg:flex-row items-start justify-between gap-12 max-w-[1000px] mx-auto">
