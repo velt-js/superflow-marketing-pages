@@ -11,7 +11,25 @@ type Card = {
   preview: string;
 };
 
-const CARDS: Card[] = [
+export type CollaborationToolsCardOverride = {
+  title: string;
+  body: string;
+  iconSrc: string;
+  previewSrc: string;
+};
+
+export type CollaborationToolsProps = {
+  /** Heading line 1 — rendered in default text color. */
+  headingLine1?: string;
+  /** Heading line 2 — rendered with the rainbow gradient. */
+  headingLine2?: string;
+  /** Per-feature card content; defaults to Superflow homepage values. */
+  cards?: CollaborationToolsCardOverride[];
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+const DEFAULT_CARDS: Card[] = [
   {
     icon: `${IMG}/icon-comments.png`,
     title: "Comments in context",
@@ -54,11 +72,15 @@ const CARDS: Card[] = [
   },
 ];
 
-function FeatureCard({ card }: { card: Card }) {
+// Card heights from Figma 18:3783 frames. C3 (Private & Guest Mode) is
+// 27px taller to accommodate the access-permissions dropdown.
+const CARD_HEIGHTS = [508, 508, 535, 508, 508, 508];
+
+function FeatureCard({ card, height }: { card: Card; height: number }) {
   return (
     <div
-      className="feature-card group relative flex flex-col w-full max-w-[490px] h-[560px] overflow-hidden rounded-[32px] transition-transform duration-300 ease-out hover:scale-[1.05]"
-      style={{ background: "#f8f8fa", border: "2px solid #f5f5f7" }}
+      className="feature-card group relative flex flex-col w-full max-w-[490px] overflow-hidden rounded-[32px] transition-transform duration-300 ease-out hover:scale-[1.05]"
+      style={{ background: "#f8f8fa", border: "2px solid #f5f5f7", height }}
     >
       <div className="flex flex-col items-start gap-[15px] p-[32px] lg:p-[52px]">
         <div className="w-[40px] h-[40px] relative grayscale group-hover:grayscale-0 transition-[filter] duration-300 ease-out">
@@ -78,7 +100,6 @@ function FeatureCard({ card }: { card: Card }) {
         </p>
       </div>
 
-      {/* Preview image anchored at the bottom, with a top fade into the card bg */}
       <div className="relative w-full mt-auto">
         <div className="relative w-full grayscale group-hover:grayscale-0 transition-[filter] duration-300 ease-out" style={{ aspectRatio: "490 / 260" }}>
           <Image src={card.preview} alt="" fill sizes="490px" className="object-cover object-top" />
@@ -94,7 +115,22 @@ function FeatureCard({ card }: { card: Card }) {
   );
 }
 
-export default function CollaborationTools() {
+export default function CollaborationTools({
+  headingLine1 = "Collaboration tools",
+  headingLine2 = "for faster teamwork",
+  cards,
+  ctaLabel = "Try Now For Free",
+  ctaHref = SIGNUP_URL,
+}: CollaborationToolsProps = {}) {
+  const resolved: Card[] = cards && cards.length === 6
+    ? cards.map((c) => ({
+        icon: c.iconSrc,
+        title: c.title,
+        body: c.body,
+        preview: c.previewSrc,
+      }))
+    : DEFAULT_CARDS;
+
   return (
     <section id="features" className="bg-white px-6 lg:px-12 py-[80px]">
       <div className="mx-auto max-w-[1000px] flex flex-col items-center gap-[48px]">
@@ -106,7 +142,7 @@ export default function CollaborationTools() {
             lineHeight: 1.2,
           }}
         >
-          <span style={{ color: "#23222b" }}>Collaboration tools</span>
+          <span style={{ color: "#23222b" }}>{headingLine1}</span>
           <br />
           <span
             style={{
@@ -117,22 +153,26 @@ export default function CollaborationTools() {
               color: "transparent",
             }}
           >
-            for faster teamwork
+            {headingLine2}
           </span>
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] w-full place-items-center">
-          {CARDS.map((card) => (
-            <FeatureCard key={card.title} card={card} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] w-full place-items-start">
+          {resolved.map((card, i) => (
+            <FeatureCard
+              key={`${card.title}-${i}`}
+              card={card}
+              height={CARD_HEIGHTS[i] ?? 508}
+            />
           ))}
         </div>
 
         <a
-          href={SIGNUP_URL}
+          href={ctaHref}
           className="rounded-[32px] bg-black px-[32px] py-[16px] text-white"
           style={{ fontFamily: "var(--font-poppins)", fontSize: 16, fontWeight: 500, lineHeight: "1.5em" }}
         >
-          Try Now For Free
+          {ctaLabel}
         </a>
       </div>
     </section>
