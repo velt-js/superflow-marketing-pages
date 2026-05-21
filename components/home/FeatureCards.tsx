@@ -65,6 +65,9 @@ export type FeatureCardsProps = {
   integrationLogos?: IntegrationLogoOverride[];
   integrationsCtaLabel?: string;
   integrationsCtaHref?: string;
+  /** Replaces the default slot-0 card with a custom node. Used on
+   *  /website-review to mount the interactive tabbed WebsiteFirstCard. */
+  firstCardOverride?: React.ReactNode;
 };
 
 // Tag icons — simple Tabler-style SVGs to avoid extra binary downloads.
@@ -462,6 +465,7 @@ export default function FeatureCards({
   integrationLogos,
   integrationsCtaLabel = "View Integrations",
   integrationsCtaHref = "#integrations",
+  firstCardOverride,
 }: FeatureCardsProps = {}) {
   const source = cards && cards.length === 4 ? cards : DEFAULT_CARDS;
   const logos = integrationLogos && integrationLogos.length > 0 ? integrationLogos : DEFAULT_INTEGRATION_LOGOS;
@@ -469,6 +473,9 @@ export default function FeatureCards({
   return (
     <section className="bg-white">
       {source.map((override, i) => {
+        if (i === 0 && firstCardOverride) {
+          return <div key="first-card-override">{firstCardOverride}</div>;
+        }
         const chrome = CARD_CHROME[i];
         const heroLayout = CARD_HERO_LAYOUT[i];
         const card: CardDef & {

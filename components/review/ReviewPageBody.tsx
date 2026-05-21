@@ -26,6 +26,9 @@ import WhatElse from "@/components/home/WhatElse";
 import WorkflowStats from "@/components/home/WorkflowStats";
 
 import { ReviewHero, type ReviewHeroPersona } from "./ReviewHero";
+import WebsiteFirstCard from "./WebsiteFirstCard";
+import ReviewWebsiteFuture, { type WebsiteFutureTab } from "./ReviewWebsiteFuture";
+import ReviewWebsiteInstall from "./ReviewWebsiteInstall";
 
 type CtaLink = {
   label?: string;
@@ -55,6 +58,17 @@ export type ReviewPageDoc = {
     integrationsCtaLabel?: string | null;
     integrationsCtaHref?: string | null;
   } | null;
+  websiteFuture?: {
+    headingLine1?: string | null;
+    subheading?: string | null;
+    tabs?: WebsiteFutureTab[] | null;
+  } | null;
+  websiteInstall?: {
+    headingLine1?: string | null;
+    headingLine2?: string | null;
+    subheading?: string | null;
+    logosSrc?: string | null;
+  } | null;
   collaborationTools?: {
     headingLine1?: string | null;
     headingLine2?: string | null;
@@ -69,6 +83,10 @@ export type ReviewPageDoc = {
 
 export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
   if (!doc?.hero?.headlineLine1) notFound();
+
+  const isWebsite = doc.feature === "website";
+  const showWebsiteFirstCard = isWebsite && (doc.featureCards?.cards?.[0] != null);
+  const firstFeatureCard = doc.featureCards?.cards?.[0];
 
   return (
     <main>
@@ -91,7 +109,31 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         integrationLogos={doc.featureCards?.integrationLogos ?? undefined}
         integrationsCtaLabel={doc.featureCards?.integrationsCtaLabel ?? undefined}
         integrationsCtaHref={doc.featureCards?.integrationsCtaHref ?? undefined}
+        firstCardOverride={
+          showWebsiteFirstCard && firstFeatureCard ? (
+            <WebsiteFirstCard
+              titleLine1={firstFeatureCard.titleLine1}
+              titleLine2={firstFeatureCard.titleLine2 ?? undefined}
+              subtitle={firstFeatureCard.subtitle}
+            />
+          ) : undefined
+        }
       />
+      {isWebsite && doc.websiteFuture?.tabs?.length ? (
+        <ReviewWebsiteFuture
+          headingLine1={doc.websiteFuture.headingLine1 ?? "Superflow is built for the future"}
+          subheading={doc.websiteFuture.subheading ?? undefined}
+          tabs={doc.websiteFuture.tabs}
+        />
+      ) : null}
+      {isWebsite && doc.websiteInstall?.logosSrc ? (
+        <ReviewWebsiteInstall
+          headingLine1={doc.websiteInstall.headingLine1 ?? "Install Anywhere."}
+          headingLine2={doc.websiteInstall.headingLine2 ?? "In Seconds."}
+          subheading={doc.websiteInstall.subheading ?? undefined}
+          logosSrc={doc.websiteInstall.logosSrc}
+        />
+      ) : null}
       <Testimonial
         name="Calbie Creative"
         role="Digital Designer @Calbie Creative"

@@ -67,7 +67,26 @@ export async function getReviewPageBySlug(slug: string) {
           "logoSrc": logo.asset->url
         },
         integrationsCtaLabel,
-        integrationsCtaHref
+        integrationsCtaHref,
+        firstCardVariants[] {
+          pillLabel,
+          "imageSrc": image.asset->url
+        }
+      },
+      websiteFuture {
+        headingLine1,
+        subheading,
+        tabs[] {
+          label,
+          iconName,
+          "imageSrc": image.asset->url
+        }
+      },
+      websiteInstall {
+        headingLine1,
+        headingLine2,
+        subheading,
+        "logosSrc": logos.asset->url
       },
       collaborationTools {
         headingLine1,

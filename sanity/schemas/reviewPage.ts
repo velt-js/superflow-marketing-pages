@@ -165,7 +165,32 @@ export const reviewFeatureCards = defineType({
       initialValue: "View Integrations",
     }),
     defineField({ name: "integrationsCtaHref", title: "Integrations CTA URL", type: "url" }),
+    defineField({
+      name: "firstCardVariants",
+      title: "First card — tabbed variants (website only)",
+      description:
+        "When populated, the first FeatureCard renders an interactive pill row that swaps the inner mock between variants. Used only on /website-review.",
+      type: "array",
+      of: [{ type: "reviewWebsiteFirstCardVariant" }],
+    }),
   ],
+});
+
+export const reviewWebsiteFirstCardVariant = defineType({
+  name: "reviewWebsiteFirstCardVariant",
+  title: "Website first-card variant",
+  type: "object",
+  fields: [
+    defineField({ name: "pillLabel", title: "Pill label", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "image",
+      title: "Variant mock image",
+      type: "image",
+      options: { hotspot: false },
+      validation: (r) => r.required(),
+    }),
+  ],
+  preview: { select: { title: "pillLabel", media: "image" } },
 });
 
 // ---- CollaborationTools (6-card grid, Figma 18:3783) ----
@@ -237,6 +262,96 @@ export const reviewCollabTools = defineType({
   ],
 });
 
+// ---- Website-only sections (rendered only on /website-review) ----
+
+export const reviewWebsiteFutureTab = defineType({
+  name: "reviewWebsiteFutureTab",
+  title: "Website Future Tab",
+  type: "object",
+  fields: [
+    defineField({
+      name: "label",
+      title: "Tab label",
+      type: "string",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "iconName",
+      title: "Tabler icon name",
+      description: 'e.g. "grid-dots", "app-window", "devices", "lock-password".',
+      type: "string",
+    }),
+    defineField({
+      name: "image",
+      title: "Tab content image",
+      type: "image",
+      options: { hotspot: false },
+      validation: (r) => r.required(),
+    }),
+  ],
+  preview: { select: { title: "label", subtitle: "iconName", media: "image" } },
+});
+
+export const reviewWebsiteFuture = defineType({
+  name: "reviewWebsiteFuture",
+  title: "Website Future section",
+  type: "object",
+  fields: [
+    defineField({
+      name: "headingLine1",
+      title: "Heading line 1",
+      type: "string",
+      initialValue: "Superflow is built for the future",
+    }),
+    defineField({
+      name: "subheading",
+      title: "Subheading",
+      type: "string",
+      initialValue: "Built using bleeding edge technology to deliver only the best",
+    }),
+    defineField({
+      name: "tabs",
+      title: "Tabs",
+      type: "array",
+      of: [{ type: "reviewWebsiteFutureTab" }],
+      validation: (r) => r.min(2).max(6),
+    }),
+  ],
+});
+
+export const reviewWebsiteInstall = defineType({
+  name: "reviewWebsiteInstall",
+  title: "Website Install section",
+  type: "object",
+  fields: [
+    defineField({
+      name: "headingLine1",
+      title: "Heading line 1",
+      type: "string",
+      initialValue: "Install Anywhere.",
+    }),
+    defineField({
+      name: "headingLine2",
+      title: "Heading line 2 (gradient)",
+      type: "string",
+      initialValue: "In Seconds.",
+    }),
+    defineField({
+      name: "subheading",
+      title: "Subheading",
+      type: "string",
+      initialValue: "Works on all web based platforms",
+    }),
+    defineField({
+      name: "logos",
+      title: "Logo strip image (1547×80)",
+      type: "image",
+      description: "Single horizontal strip of platform logos. Will scroll as a marquee at 12s.",
+      options: { hotspot: false },
+    }),
+  ],
+});
+
 // ---- reviewPage document ----
 
 export const reviewPage = defineType({
@@ -305,6 +420,22 @@ export const reviewPage = defineType({
       title: "Collaboration Tools (6-card grid)",
       type: "reviewCollabTools",
       group: "collabTools",
+    }),
+
+    defineField({
+      name: "websiteFuture",
+      title: "Website-only — \"Built for the future\" tabbed section",
+      type: "reviewWebsiteFuture",
+      group: "collabTools",
+      description: "Renders only on /website-review. Leave empty for other feature pages.",
+    }),
+
+    defineField({
+      name: "websiteInstall",
+      title: "Website-only — \"Install Anywhere\" section",
+      type: "reviewWebsiteInstall",
+      group: "collabTools",
+      description: "Renders only on /website-review. Leave empty for other feature pages.",
     }),
 
     defineField({

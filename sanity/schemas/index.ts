@@ -9,8 +9,12 @@ import {
   reviewFeatureCard,
   reviewIntegrationLogo,
   reviewFeatureCards,
+  reviewWebsiteFirstCardVariant,
   reviewCollabCard,
   reviewCollabTools,
+  reviewWebsiteFutureTab,
+  reviewWebsiteFuture,
+  reviewWebsiteInstall,
   reviewPage,
 } from "./reviewPage";
 
@@ -35,6 +39,10 @@ export const schemaTypes = [
   reviewFeatureCard,
   reviewIntegrationLogo,
   reviewFeatureCards,
+  reviewWebsiteFirstCardVariant,
   reviewCollabCard,
   reviewCollabTools,
+  reviewWebsiteFutureTab,
+  reviewWebsiteFuture,
+  reviewWebsiteInstall,
 ];
