@@ -1,4 +1,4 @@
-import { CursorBadge, PhotographerCursor } from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 
 const assetPills = [
   { label: "Websites", icon: "/images/hero/icon-world.svg", href: "/website-review" },
@@ -35,6 +35,23 @@ export default function Hero() {
     <section
       className="relative w-full overflow-hidden bg-black pt-[120px] pb-[60px] lg:pt-[160px] lg:pb-[80px]"
     >
+      {/* Section-edge anchored cursors — 5% in from each side, vertically aligned
+          with the gradient ("Assets Impossibly Fast") title line. */}
+      <Cursor
+        text="Developer"
+        color="#4dd5ff"
+        direction="right"
+        className="pointer-events-none hidden lg:block"
+        style={{ position: "absolute", left: "5%", top: "270px" }}
+      />
+      <Cursor
+        text="Designer"
+        color="#fc6cba"
+        direction="left"
+        className="pointer-events-none hidden lg:block"
+        style={{ position: "absolute", right: "5%", top: "330px" }}
+      />
+
       <div className="container-page relative flex flex-col items-center gap-[40px] lg:gap-[52px]">
         <div className="relative flex flex-col items-center gap-[24px]">
           <div className="relative flex flex-col items-center gap-[10px]">
@@ -61,25 +78,6 @@ export default function Hero() {
             </h1>
           </div>
 
-          <CursorBadge
-            label="Developer"
-            color="#4dd5ff"
-            side="left"
-            style={{ left: "-160px", top: "calc(50% + 12px)" }}
-          />
-          <CursorBadge
-            label="Designer"
-            color="#fc6cba"
-            side="right"
-            style={{ right: "-160px", top: "calc(50% + 12px)" }}
-          />
-          <CursorBadge
-            label="Photographer"
-            color="#4dd5ff"
-            side="right"
-            cursor={<PhotographerCursor />}
-            style={{ right: "-80px", top: "calc(100% + 8px)" }}
-          />
 
           <p
             className="text-center text-white max-w-[720px]"

@@ -1,24 +1,31 @@
 function LetterTile({ letter }: { letter: string }) {
   return (
     <div
-      className="w-[36px] h-[36px] flex items-center justify-center rounded-[12px] bg-white"
+      className="group w-[36px] h-[36px] rounded-[12px] bg-white overflow-hidden transition-colors duration-200 hover:bg-[#ececec]"
       style={{ border: "1px solid rgba(34,34,34,0.08)" }}
     >
-      <span
-        className="text-[14px] leading-none"
-        style={{ fontFamily: "var(--font-poppins)", fontWeight: 500, color: "#111" }}
-      >
-        {letter}
-      </span>
+      <div className="flex flex-col transition-transform duration-300 ease-out group-hover:-translate-y-[36px]">
+        <span
+          className="h-[36px] w-[36px] flex items-center justify-center text-[18px] leading-none"
+          style={{ fontFamily: "var(--font-poppins)", fontWeight: 700, color: "#5748ff" }}
+        >
+          ✱
+        </span>
+        <span
+          className="h-[36px] w-[36px] flex items-center justify-center text-[14px] leading-none"
+          style={{ fontFamily: "var(--font-poppins)", fontWeight: 500, color: "#111" }}
+        >
+          {letter}
+        </span>
+      </div>
     </div>
   );
 }
 
-function LockIcon() {
+function CheckIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="5" y="11" width="14" height="10" rx="2" />
-      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
     </svg>
   );
 }
@@ -32,65 +39,70 @@ const MID_GRADIENT_BG =
 
 export default function SuperSecure() {
   return (
-    <section className="bg-white px-6 lg:px-12 py-[80px] flex justify-center">
-      <div
-        className="relative w-full max-w-[1440px] rounded-[60px] lg:rounded-[80px] p-[2px]"
-        style={{ background: GRADIENT_BG }}
-      >
-        <div className="bg-white rounded-[58px] lg:rounded-[78px] p-[10px] lg:p-[12px]">
-          <div className="rounded-[55px] lg:rounded-[75px] p-[2px]" style={{ background: SOFT_GRADIENT_BG }}>
-            <div className="bg-white rounded-[53px] lg:rounded-[73px] p-[10px] lg:p-[12px]">
-              <div className="rounded-[50px] lg:rounded-[70px] p-[2px]" style={{ background: MID_GRADIENT_BG }}>
-                <div className="bg-white rounded-[48px] lg:rounded-[68px] py-[60px] px-6 lg:p-[120px] flex flex-col items-center gap-[40px] lg:gap-[52px]">
-                  <div className="flex items-center justify-center gap-[10px]">
-                    {["S", "E", "C", "U", "R", "E"].map((l, i) => (
-                      <LetterTile key={`${l}-${i}`} letter={l} />
-                    ))}
-                  </div>
+    <section
+      className="bg-white px-6 lg:px-12 py-[40px] flex justify-center"
+      style={{ height: "90vh", maxHeight: "720px" }}
+    >
+      <div className="relative w-full max-w-[1440px]">
+        <div
+          className="absolute inset-0 rounded-[60px] lg:rounded-[80px] secure-ring"
+          style={{ background: GRADIENT_BG, animationDelay: "0s" }}
+        />
+        <div
+          className="absolute inset-[12px] lg:inset-[14px] rounded-[55px] lg:rounded-[75px] secure-ring"
+          style={{ background: SOFT_GRADIENT_BG, animationDelay: "0.8s" }}
+        />
+        <div
+          className="absolute inset-[24px] lg:inset-[28px] rounded-[50px] lg:rounded-[70px] secure-ring"
+          style={{ background: MID_GRADIENT_BG, animationDelay: "1.6s" }}
+        />
 
-                  <h2
-                    className="text-center font-semibold"
-                    style={{
-                      fontFamily: "var(--font-poppins)",
-                      fontSize: "clamp(36px, 6vw, 60px)",
-                      lineHeight: 1.2,
-                      letterSpacing: "-1.8px",
-                    }}
-                  >
-                    <span style={{ color: "#000" }}>Super secure with</span>
-                    <br />
-                    <span
-                      style={{
-                        backgroundImage: "linear-gradient(90deg, #85bdff 0%, #5748ff 100%)",
-                        backgroundClip: "text",
-                        WebkitBackgroundClip: "text",
-                        color: "transparent",
-                      }}
-                    >
-                      SOCII Type 2 Compliance
-                    </span>
-                  </h2>
+        <div className="absolute inset-[26px] lg:inset-[30px] bg-white rounded-[48px] lg:rounded-[68px] flex flex-col items-center justify-center gap-[40px] lg:gap-[52px] py-[40px] pb-[80px] px-6 lg:py-[60px] lg:pb-[80px] lg:px-[120px]">
+          <div className="flex items-center justify-center gap-[10px]">
+            {["S", "E", "C", "U", "R", "E"].map((l, i) => (
+              <LetterTile key={`${l}-${i}`} letter={l} />
+            ))}
+          </div>
 
-                  <div className="flex flex-wrap items-center justify-center gap-[24px] lg:gap-[40px]">
-                    {["End-to-End data encryption", "Dedicated Storage", "SOC2 Compliant"].map((label) => (
-                      <div key={label} className="flex items-center gap-[16px]">
-                        <LockIcon />
-                        <span
-                          className="text-[18px] leading-[21.6px] whitespace-nowrap"
-                          style={{
-                            fontFamily: "var(--font-poppins)",
-                            color: "rgba(0,0,0,0.5)",
-                            letterSpacing: "-0.54px",
-                          }}
-                        >
-                          {label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          <h2
+            className="text-center font-semibold"
+            style={{
+              fontFamily: "var(--font-poppins)",
+              fontSize: "clamp(36px, 6vw, 60px)",
+              lineHeight: 1.2,
+              letterSpacing: "-1.8px",
+            }}
+          >
+            <span style={{ color: "#000" }}>Super secure with</span>
+            <br />
+            <span
+              style={{
+                backgroundImage: "linear-gradient(90deg, #85bdff 0%, #5748ff 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              SOCII Type 2 Compliance
+            </span>
+          </h2>
+
+          <div className="flex flex-wrap items-center justify-center gap-[24px] lg:gap-[40px]">
+            {["End-to-End data encryption", "Dedicated Storage", "SOC2 Compliant"].map((label) => (
+              <div key={label} className="flex items-center gap-[16px]">
+                <CheckIcon />
+                <span
+                  className="text-[18px] leading-[21.6px] whitespace-nowrap"
+                  style={{
+                    fontFamily: "var(--font-poppins)",
+                    color: "rgba(0,0,0,0.5)",
+                    letterSpacing: "-0.54px",
+                  }}
+                >
+                  {label}
+                </span>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

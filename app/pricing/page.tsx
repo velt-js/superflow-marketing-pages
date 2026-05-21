@@ -1,18 +1,17 @@
-// /pricing — Figma node 217:5662 in HqWIZdR6ISJmaG2n4o3gr8.
-// Static page (no Sanity); composition mirrors the live velt.dev/pricing
-// page. Tier copy + comparison-table content live in
+// /pricing — composition mirrors the live usesuperflow.com/pricing page.
+// Static page (no Sanity); tier copy + comparison-table content live in
 // components/pricing/pricing-data.ts.
 
 import Footer from "@/components/home/Footer";
-import { TrustedLogos } from "@/components/home/TrustedLogos";
+import LogoBar from "@/components/home/LogoBar";
+import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
+import DarkSection from "@/components/home/DarkSection";
 import { PageHero } from "@/components/library/PageHero";
-import { LibraryFAQ } from "@/components/library/LibraryFAQ";
-import { FeatureCustomerCarousel } from "@/components/feature/FeatureCustomerCarousel";
 import { PricingTiers } from "@/components/pricing/PricingTiers";
-import { PricingYCCallout } from "@/components/pricing/PricingYCCallout";
 import { PricingComparisonTable } from "@/components/pricing/PricingComparisonTable";
+import { BillingProvider } from "@/components/pricing/BillingContext";
 import { pricingFAQ } from "@/components/pricing/pricing-faq";
-import { TIERS } from "@/components/pricing/pricing-data";
+import { TIERS, APP_URL } from "@/components/pricing/pricing-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
@@ -25,94 +24,95 @@ import {
 export const revalidate = 60;
 
 // Plain-text FAQ answers for the JSON-LD payload. Source of truth for
-// the rendered UI is components/pricing/pricing-faq.tsx, but three of
-// those entries embed inline links via JSX (`paragraphs`) and a fourth
-// uses literal "\n\n" line breaks. We mirror the prose verbatim here
-// so the FAQPage schema submitted to Google is plain text.
+// the rendered UI is components/pricing/pricing-faq.tsx, but two of
+// those entries embed inline links via JSX (`paragraphs`). We mirror
+// the prose verbatim here so the FAQPage schema submitted to Google is
+// plain text.
 const PRICING_FAQ_FOR_SCHEMA: Array<{ question: string; answer: string }> = [
   {
-    question: "What is a MAD (Monthly Active Document)?",
+    question: "What is Superflow?",
     answer:
-      "An active document is a unique document which has CRUD operations by any Velt Feature during the month. Note: This excludes documents which were merely initiated without performing CRUD operations on features like comments, notifications, CRDT, etc.",
+      "Superflow is a collaboration platform for agencies & marketers to review, proof and deliver creative assets fast. Superflow supports websites, videos, lottie animations, PDF and images. With Superflow agencies & marketers deliver more high quality creative assets fast.",
+  },
+  {
+    question: "What formats are supported in Superflow?",
+    answer:
+      "Superflow supports all types of Websites, Videos, Lottie, Images and PDFs.",
+  },
+  {
+    question: "What is counted as a seat?",
+    answer:
+      "Your team member (also called Admin user) that you invite to Superflow will be counted as a seat. Commenter User & Guest users are free.",
   },
   {
     question:
-      "What is the difference between MAR and MAD, and why does it matter for my bill?",
+      "What is the difference between Admin, Commenter & Guest users?",
     answer:
-      "MAR (Monthly Active Room): A room (document) counts as active when a user connects to it during the billing month. A room is also considered active when its content is updated: comments, realtime data storage, etc. MAD (Monthly Active Document): We use this. A more specific metric representing documents where users actively utilize Velt's collaboration features within your application during a month. MAD is a subset of MAR. Typically, about 20% of MARs perform meaningful collaboration actions on average. This varies by product category, with some higher or lower. Velt's MAD-based pricing ensures you're billed only for users who derive value from our collaboration features, offering a more cost-effective and transparent alternative to MAR-based models.",
+      "Admin or team user: Your team members should be added as an admin user. They have full access to the admin panel and get access to all features in your account. Commenter user: Commenter Users can read or write comments but they need to authenticate or sign in to Superflow. You should add external users or your clients as commenters. This is available for all plans. These are free and not counted towards your seats. Guest user: Guest users can read or write comments without authenticating or signing in. You should add external users or your clients as guest users. This is only available on Scale and Enterprise plans. These are free and not counted towards your seats.",
   },
   {
-    question: "Do we charge for just connecting to Velt?",
+    question: "Does Superflow offer a free plan?",
     answer:
-      "No. Billing applies only to Velt SDK CRUD operation usage. You are not billed for users that just connect to Velt.",
-  },
-  {
-    question: "How long does it take to integrate with Velt SDK?",
-    answer:
-      "On average, customers integrate with Velt SDK in under 30 minutes.",
-  },
-  {
-    question: "Which frameworks do you support?",
-    answer: "Velt SDK supports React, Angular, Vanilla JS, Vue, and NextJS.",
-  },
-  {
-    question: "Do you offer any discounts for Startups?",
-    answer:
-      "Yes, we offer special deals for early-stage startups. Apply via our startup discount form.",
+      "Superflow offers a free 10-day trial to new users, no credit card needed. During the trial period, you get full access to all features. We also offer a free forever Starter plan that becomes available after your trial has ended.",
   },
   {
     question: "Do you offer any volume discounts?",
-    answer:
-      "Yes, we offer volume discounts. Contact us via /book-demo to discuss.",
+    answer: "Yes, we offer volume discounts. Contact us to get started.",
   },
   {
-    question: "How secure is Velt SDK?",
+    question: "Do you offer any discounts for startups or education?",
     answer:
-      "Velt provides enterprise grade security. Our products are SOC 2 Type II and HIPAA Compliant. Learn more at https://trust.velt.dev/.",
+      "Yes, we offer discounts for early-stage startups. Contact us to get started.",
   },
   {
-    question: "How reliable and scalable is Velt SDK?",
+    question: "How secure is Superflow?",
     answer:
-      "We provide a 99.999% uptime and highly scaleable infrastructure for our growth and enterprise plans.",
+      "Superflow supports Isolated dedicated storage and encrypts data in transit and at rest using industry standards. We are currently going through SOC2 certification.",
+  },
+  {
+    question: "How reliable and scalable is Superflow?",
+    answer:
+      "We guarantee at least 99.9% uptime and provide highly scalable infrastructure.",
   },
 ];
 
-// Product schema with one Offer per pricing tier. `Hacker` is free
-// (price "0"), Growth and Enterprise are contract-based so we use
-// `priceSpecification` with a free-text description rather than a
-// numeric price (Google permits this for B2B tiers).
+// Product schema with one Offer per pricing tier. Starter is free (price
+// "0"), Growth/Scale carry the annual-per-month price, Enterprise is
+// custom — we use `priceSpecification` with a free-text description for
+// the latter (Google permits this for B2B tiers).
 const PRICING_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Velt Collaboration SDK",
+  name: "Superflow",
   description:
-    "Collaboration SDK plans for Velt — Hacker (free), Growth, and Enterprise. Pay only for meaningful collaboration usage.",
+    "Superflow plans — Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
   brand: { "@id": ORG_ID },
   url: `${SITE_URL}/pricing`,
   offers: TIERS.map((tier) => {
     const offerUrl = tier.cta.href.startsWith("http")
       ? tier.cta.href
       : `${SITE_URL}${tier.cta.href}`;
-    const isFree = tier.id === "hacker";
     const base: Record<string, unknown> = {
       "@type": "Offer",
       name: tier.name,
-      description: tier.blurb,
       url: offerUrl,
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
     };
-    if (isFree) {
-      base.price = "0";
-    } else {
-      // Contract-based tier: omit the numeric `price` entirely (Google
-      // accepts an Offer without a literal price when a
-      // priceSpecification provides the human-readable detail).
+    if (tier.customPrice) {
       base.priceSpecification = {
         "@type": "PriceSpecification",
         priceCurrency: "USD",
         valueAddedTaxIncluded: false,
-        description: "Contract-based — contact sales for a quote",
+        description: "Custom — contact sales for a quote",
+      };
+    } else {
+      base.price = tier.annualPrice;
+      base.priceSpecification = {
+        "@type": "UnitPriceSpecification",
+        price: tier.annualPrice,
+        priceCurrency: "USD",
+        unitText: "per seat per month, billed yearly",
       };
     }
     return base;
@@ -127,9 +127,9 @@ const PRICING_BREADCRUMB = buildBreadcrumbList([
 const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_FOR_SCHEMA);
 
 export const metadata = buildPageMetadata({
-  title: "Velt Pricing: Collaboration SDK Plans",
+  title: "Superflow Pricing — Plans for Agencies & Marketers",
   description:
-    "Pay only for meaningful collaboration usage. Hacker (free), Growth, and Enterprise plans for Velt's collaboration SDK.",
+    "Ship creative assets impossibly fast. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow.",
   path: "/pricing",
   ogImage: "/og/pricing.png",
 });
@@ -145,27 +145,26 @@ export default function PricingPage() {
       >
         <PageHero
           decorated
-          heading="Choose your plan"
-          subheading="Pay only for meaningful collaboration usage."
+          heading="Ship Creative Assets Impossibly Fast"
           primaryCta={{
-            label: "Get Free API Key",
-            href: "https://console.velt.dev/",
+            label: "Start Free Trial",
+            href: APP_URL,
             newTab: true,
           }}
           secondaryCta={{ label: "Book Demo", href: "/book-demo" }}
         />
 
-        <PricingTiers />
+        <BillingProvider>
+          <PricingTiers />
 
-        <PricingYCCallout />
+          <LogoBar />
 
-        <TrustedLogos />
+          <PricingComparisonTable />
+        </BillingProvider>
 
-        <PricingComparisonTable />
+        <CustomerLoveCarousel />
 
-        <FeatureCustomerCarousel />
-
-        <LibraryFAQ items={pricingFAQ} />
+        <DarkSection faqItems={pricingFAQ} />
 
         <Footer />
       </div>

@@ -9,7 +9,8 @@ export default function ProblemSection({
 }: ProblemSectionData) {
   return (
     <section className="bg-white pt-[80px] pb-[40px] lg:pt-[120px]">
-      <div className="container-page flex flex-col items-center gap-[48px]">
+      <div className="container-page flex flex-col items-center gap-[32px] pt-[32px] pb-[32px] mb-[32px] lg:pt-[48px] lg:pb-[48px]">
+ 
         <SectionHeading heading={heading} highlight={highlight} />
 
         <div className="grid w-full max-w-[1080px] grid-cols-1 gap-[16px] sm:grid-cols-2 lg:grid-cols-3">

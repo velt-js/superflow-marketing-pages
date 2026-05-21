@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { Cursor } from "@/components/shared/Cursor";
+
 const IMG = "/images/sections/featurecards";
 
 type CursorDef = {
@@ -108,36 +110,12 @@ function TagPill({ icon }: { icon: React.ReactNode }) {
   );
 }
 
-/** Diagonal "paper-airplane" cursor matching Figma 18:3443. Tinted by the
- *  caller via `color`. Mirrors horizontally on the right side. */
-function CursorGlyph({ color, flipped }: { color: string; flipped: boolean }) {
-  return (
-    <svg
-      width="27"
-      height="30"
-      viewBox="0 0 27 30"
-      aria-hidden
-      style={{ transform: flipped ? "scaleX(-1)" : undefined }}
-    >
-      <g transform="translate(0.837 1.792)">
-        <path
-          d="M 4.866 22.858 L 0.911 2.973 C 0.619 1.501 2.193 0.368 3.496 1.112 L 20.95 11.086 C 22.31 11.863 22.043 13.899 20.529 14.298 L 13.086 16.261 C 12.654 16.375 12.281 16.65 12.045 17.03 L 8.069 23.439 C 7.232 24.788 5.175 24.415 4.866 22.858 Z"
-          fill={color}
-        />
-        <path
-          d="M 0.053 3.144 L 4.008 23.028 C 4.472 25.364 7.557 25.924 8.813 23.9 L 12.789 17.492 C 12.907 17.302 13.093 17.164 13.309 17.107 L 20.752 15.144 C 23.023 14.545 23.424 11.492 21.385 10.327 L 3.93 0.353 C 1.976 -0.764 -0.386 0.936 0.053 3.144 Z"
-          fill="transparent"
-          stroke="#fff"
-          strokeWidth="1.75"
-          strokeLinecap="square"
-          strokeMiterlimit="10"
-        />
-      </g>
-    </svg>
-  );
-}
-
-function CursorTag({
+/**
+ * Renders one of the two card cursors. `side` is the side of the CARD the
+ * badge is anchored to; visually the cursor inside the badge mirrors that
+ * (anchored on left → cursor on right of badge → direction="right", etc.).
+ */
+function CardCursor({
   label,
   color,
   textWhite,
@@ -147,40 +125,18 @@ function CursorTag({
 }: CursorDef & { side: "left" | "right" }) {
   const isLeft = side === "left";
   return (
-    <div
-      className="hidden lg:block absolute"
-      style={
-        {
-          top,
-          [isLeft ? "left" : "right"]: offset,
-        } as React.CSSProperties
-      }
-    >
-      <div className="relative h-[78px] w-[159px]">
-        <div
-          className="absolute top-0 h-[30px] w-[27px]"
-          style={{ [isLeft ? "right" : "left"]: 0 } as React.CSSProperties}
-        >
-          <CursorGlyph color={color} flipped={!isLeft} />
-        </div>
-        <div
-          className="absolute top-[27px] flex items-start rounded-[29px] pt-[7px] pb-[8px] px-4 whitespace-nowrap"
-          style={
-            {
-              background: color,
-              [isLeft ? "right" : "left"]: "21px",
-            } as React.CSSProperties
-          }
-        >
-          <span
-            className="font-semibold text-[18px] leading-[21.6px]"
-            style={{ fontFamily: "var(--font-urbanist)", color: textWhite ? "#fff" : "#000" }}
-          >
-            {label}
-          </span>
-        </div>
-      </div>
-    </div>
+    <Cursor
+      text={label}
+      color={color}
+      textColor={textWhite ? "#fff" : "#000"}
+      direction={isLeft ? "right" : "left"}
+      className="hidden lg:block"
+      style={{
+        position: "absolute",
+        top,
+        ...(isLeft ? { left: offset } : { right: offset }),
+      }}
+    />
   );
 }
 
@@ -330,7 +286,7 @@ const CARD_CHROME: Omit<CardDef, "titleLines" | "subtitle" | "hero">[] = [
   },
   {
     bgGradient: "linear-gradient(109deg, rgb(235,230,255) 0%, rgb(162,139,255) 100%)",
-    height: 832,
+    height: 780,
     tagIcon: <ApproveIcon />,
     subtitleLeading: 30,
     leftCursor: { label: "Client", color: "#b1ff4d", offset: 204, top: 315 },
@@ -354,8 +310,8 @@ const CARD_HERO_LAYOUT: Omit<HeroDef, "src">[] = [
   { w: 736, h: 267, top: 460 },
   // C2: comment card (mask group 25:300, 480×251) centered.
   { w: 488, h: 259, top: 374 },
-  // C3: approval card (mask group 25:379, 708×366) centered.
-  { w: 708, h: 366, top: 414 },
+  // C3: approval card (mask group 25:379, 708×366) centered, flush to bottom.
+  { w: 708, h: 366, bottom: 0 },
   // C4: small comment bubble (400×65) above the pills row.
   { w: 400, h: 65, top: 412 },
 ];
@@ -432,8 +388,8 @@ function Card(c: CardDef & {
           </p>
         </div>
 
-        <CursorTag {...c.leftCursor} side="left" />
-        <CursorTag {...c.rightCursor} side="right" />
+        <CardCursor {...c.leftCursor} side="left" />
+        <CardCursor {...c.rightCursor} side="right" />
 
         <HeroBlock hero={c.hero} />
         <HeroMobile hero={c.hero} />

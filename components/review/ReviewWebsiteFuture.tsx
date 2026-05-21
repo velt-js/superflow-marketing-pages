@@ -103,7 +103,11 @@ export default function ReviewWebsiteFuture({ headingLine1, subheading, tabs }: 
                   boxShadow: isActive ? "0 1px 2px rgba(0,0,0,0.08)" : undefined,
                 }}
               >
-                {t.iconName && ICONS[t.iconName] ? ICONS[t.iconName] : null}
+                {t.iconName && ICONS[t.iconName] ? (
+                  <span style={{ color: isActive ? "#3772fe" : "currentColor", display: "inline-flex" }}>
+                    {ICONS[t.iconName]}
+                  </span>
+                ) : null}
                 <span>{t.label}</span>
               </button>
             );

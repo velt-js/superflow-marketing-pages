@@ -1,14 +1,15 @@
 "use client";
 
-// Three pricing tier cards for /pricing — mirrors velt.dev/pricing #cards.
-// Black-on-black cards with a Tabler icon at the top, title + subtitle,
-// full-width CTA, and a circle-check bullet list. The middle "Growth" card
-// gets a purple→cyan gradient ring, drawn as an absolutely positioned
-// sibling of the card with `inset: -3px` so it shows as a 3px outline.
+// Four pricing tier cards for /pricing — mirrors usesuperflow.com/pricing.
+// Black-on-black cards with the tier name in the tier accent color, the
+// price block (monthly or annual), an outline CTA button, and a bulleted
+// feature list. The Growth tier is the "Most Popular" — it gets a pink
+// "Loved by 100+ Agencies" badge above the card and a gradient ring.
 //
-// Two bullets on the Hacker tier carry a hover tooltip (CSS-only) — these
-// match the info-pop affordance shown on the live site for "100 MADs" and
-// "For Dev Environments Only".
+// A single billing toggle ("Monthly | Annually (2 Months Free)") sits
+// above the cards and is the only client-state driver — when Annual is
+// selected, paid tiers show the discounted per-month price next to the
+// struck-through monthly equivalent.
 //
 // Cards fade-up on viewport enter via IntersectionObserver. Pure CSS
 // transition; no framer-motion.
@@ -17,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { TIERS, type Tier, type TierBullet } from "./pricing-data";
+import { useBilling, type BillingPeriod } from "./BillingContext";
 
 const PRIMARY = "#625df5"; // brand purple — solid CTA fill
 const SECONDARY_BORDER = "#262291"; // dark purple — outlined CTA border
@@ -25,85 +27,10 @@ const CARD_BG = "#000";
 const HIGHLIGHT_GRADIENT =
   "linear-gradient(180deg, rgb(85, 0, 255) 0%, rgb(29, 221, 255) 100%)";
 const BULLET_FILL = "#1DDE84";
+const BADGE_GRADIENT =
+  "linear-gradient(101deg, #ff3c7a 0%, #ff7a4a 100%)";
 
-// Per-tier icon stroke colors — matches the live site (orange / cyan /
-// magenta) instead of the previous all-white treatment.
-const ICON_COLOR: Record<Tier["icon"], string> = {
-  code: "#FFB46E",
-  "trending-up": "#20D4FF",
-  "world-longitude": "#FF74F6",
-};
-
-// --- Tabler icons (inlined) --------------------------------------------------
-
-type IconProps = { size?: number };
-
-function IconCode({ size = 32 }: IconProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M7 8l-4 4l4 4" />
-      <path d="M17 8l4 4l-4 4" />
-      <path d="M14 4l-4 16" />
-    </svg>
-  );
-}
-
-function IconTrendingUp({ size = 32 }: IconProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M3 17l6 -6l4 4l8 -8" />
-      <path d="M14 7l7 0l0 7" />
-    </svg>
-  );
-}
-
-function IconWorldLongitude({ size = 32 }: IconProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3.6 9h16.8" />
-      <path d="M3.6 15h16.8" />
-      <path d="M11.5 3a17 17 0 0 0 0 18" />
-      <path d="M12.5 3a17 17 0 0 1 0 18" />
-    </svg>
-  );
-}
-
-const ICONS: Record<Tier["icon"], (p: IconProps) => React.ReactElement> = {
-  code: IconCode,
-  "trending-up": IconTrendingUp,
-  "world-longitude": IconWorldLongitude,
-};
+// --- Check bullet ------------------------------------------------------------
 
 function CheckBullet() {
   return (
@@ -127,26 +54,13 @@ function CheckBullet() {
   );
 }
 
-function InfoGlyph() {
-  // Subtle "info" affordance shown next to bullets that carry a tooltip,
-  // so users have a hover hint that there's more context.
+function HeartGlyph() {
   return (
-    <svg
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      style={{ flexShrink: 0, opacity: 0.5 }}
-    >
-      <circle cx="12" cy="12" r="9" stroke="#fff" strokeWidth="1.6" />
+    <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden>
       <path
-        d="M12 11v5"
-        stroke="#fff"
-        strokeWidth="1.6"
-        strokeLinecap="round"
+        d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"
+        fill="#fff"
       />
-      <circle cx="12" cy="8.2" r="1" fill="#fff" />
     </svg>
   );
 }
@@ -154,9 +68,29 @@ function InfoGlyph() {
 // --- Bullet ------------------------------------------------------------------
 
 function BulletRow({ bullet }: { bullet: TierBullet }) {
+  if (bullet.divider) {
+    return (
+      <li
+        className="font-urbanist"
+        style={{
+          color: "#fff",
+          opacity: 0.6,
+          fontSize: 13,
+          fontWeight: 500,
+          lineHeight: 1.3,
+          letterSpacing: "-0.02em",
+          listStyle: "none",
+          marginTop: 4,
+          marginBottom: 2,
+        }}
+      >
+        {bullet.text}
+      </li>
+    );
+  }
   return (
     <li
-      className="flex items-start font-urbanist tier-bullet"
+      className="flex items-start font-urbanist"
       style={{
         gap: 10,
         color: "#fff",
@@ -164,22 +98,109 @@ function BulletRow({ bullet }: { bullet: TierBullet }) {
         fontWeight: 500,
         lineHeight: 1.3,
         letterSpacing: "-0.03em",
-        position: "relative",
+        listStyle: "none",
       }}
     >
       <CheckBullet />
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-        {bullet.text}
-        {bullet.tooltip ? (
-          <>
-            <InfoGlyph />
-            <span className="tier-bullet-tooltip" role="tooltip">
-              {bullet.tooltip}
-            </span>
-          </>
-        ) : null}
-      </span>
+      <span>{bullet.text}</span>
     </li>
+  );
+}
+
+// --- Price block -------------------------------------------------------------
+
+function PriceBlock({
+  tier,
+  billing,
+}: {
+  tier: Tier;
+  billing: BillingPeriod;
+}) {
+  if (tier.customPrice) {
+    return (
+      <div className="flex flex-col" style={{ gap: 4 }}>
+        <span
+          className="font-urbanist"
+          style={{
+            color: "#fff",
+            fontSize: "clamp(28px, 3.2vw, 40px)",
+            fontWeight: 700,
+            lineHeight: 1.05,
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {tier.monthlyPrice}
+        </span>
+        <span
+          className="font-urbanist"
+          style={{
+            color: "#fff",
+            opacity: 0.55,
+            fontSize: "clamp(12px, 1.1vw, 14px)",
+            fontWeight: 500,
+            lineHeight: 1.3,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Custom
+        </span>
+      </div>
+    );
+  }
+
+  const isAnnual = billing === "annual";
+  const price = isAnnual ? tier.annualPrice : tier.monthlyPrice;
+  const showStrike = isAnnual && !!tier.annualStrikePrice;
+  const suffix = isAnnual
+    ? "per seat, per month, billed yearly"
+    : "per seat, per month";
+
+  return (
+    <div className="flex flex-col" style={{ gap: 4 }}>
+      <div className="flex items-baseline" style={{ gap: 8 }}>
+        <span
+          className="font-urbanist"
+          style={{
+            color: "#fff",
+            fontSize: "clamp(28px, 3.2vw, 40px)",
+            fontWeight: 700,
+            lineHeight: 1.05,
+            letterSpacing: "-0.03em",
+          }}
+        >
+          ${price}
+        </span>
+        {showStrike ? (
+          <span
+            className="font-urbanist"
+            style={{
+              color: "#fff",
+              opacity: 0.45,
+              fontSize: "clamp(14px, 1.6vw, 20px)",
+              fontWeight: 500,
+              lineHeight: 1.2,
+              textDecoration: "line-through",
+              textDecorationColor: "rgba(255,255,255,0.55)",
+            }}
+          >
+            ${tier.annualStrikePrice}
+          </span>
+        ) : null}
+      </div>
+      <span
+        className="font-urbanist"
+        style={{
+          color: "#fff",
+          opacity: 0.55,
+          fontSize: 13,
+          fontWeight: 500,
+          lineHeight: 1.3,
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {suffix}
+      </span>
+    </div>
   );
 }
 
@@ -189,133 +210,241 @@ function TierCard({
   tier,
   index,
   visible,
+  billing,
 }: {
   tier: Tier;
   index: number;
   visible: boolean;
+  billing: BillingPeriod;
 }) {
   const highlighted = !!tier.highlighted;
-  const Icon = ICONS[tier.icon];
-  const iconColor = ICON_COLOR[tier.icon];
   const external = tier.cta.href.startsWith("http");
 
   return (
     <div
-      className="relative flex w-full"
+      className="relative flex flex-col w-full"
       style={{
         minWidth: 0,
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(24px)",
-        transition: "opacity 520ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1)",
+        transition:
+          "opacity 520ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1)",
         transitionDelay: `${index * 90}ms`,
       }}
     >
-      {highlighted && (
+      {tier.badge ? (
         <div
-          aria-hidden
+          className="flex items-center justify-center font-urbanist"
           style={{
-            position: "absolute",
-            inset: -3,
-            background: HIGHLIGHT_GRADIENT,
-            borderRadius: 27,
-            pointerEvents: "none",
-          }}
-        />
-      )}
-      <article
-        className="relative flex flex-col w-full"
-        style={{
-          background: CARD_BG,
-          border: highlighted
-            ? `2px solid ${CARD_BORDER}`
-            : `1px solid ${CARD_BORDER}`,
-          borderRadius: 24,
-          padding: 32,
-          gap: 36,
-        }}
-      >
-        <div className="flex flex-col" style={{ gap: 24 }}>
-          <div className="flex flex-col" style={{ gap: 16 }}>
-            <span style={{ color: iconColor, width: 32, height: 32 }}>
-              <Icon size={32} />
-            </span>
-            <div className="flex flex-col" style={{ gap: 4 }}>
-              <h3
-                className="font-urbanist"
-                style={{
-                  color: "#fff",
-                  fontSize: "clamp(22px, 2.6vw, 32px)",
-                  fontWeight: 600,
-                  lineHeight: 1.2,
-                  textTransform: "capitalize",
-                  margin: 0,
-                }}
-              >
-                {tier.name}
-              </h3>
-              <p
-                className="font-urbanist"
-                style={{
-                  color: "#fff",
-                  opacity: 0.52,
-                  fontSize: 16,
-                  fontWeight: 500,
-                  lineHeight: 1.2,
-                  letterSpacing: "-0.03em",
-                  margin: 0,
-                }}
-              >
-                {tier.blurb}
-              </p>
-            </div>
-          </div>
-
-          <Link
-            href={tier.cta.href}
-            target={external ? "_blank" : undefined}
-            rel={external ? "noopener" : undefined}
-            className="flex items-center justify-center font-urbanist"
-            style={{
-              width: "100%",
-              padding: "8px 16px",
-              borderRadius: 6,
-              background: highlighted ? PRIMARY : "transparent",
-              border: highlighted
-                ? "1.5px solid transparent"
-                : `1.5px solid ${SECONDARY_BORDER}`,
-              color: "#fff",
-              fontSize: 16,
-              fontWeight: 600,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.2,
-              textDecoration: "none",
-            }}
-          >
-            {tier.cta.label}
-          </Link>
-        </div>
-
-        <ul
-          className="flex flex-col"
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            gap: 12,
+            alignSelf: "center",
+            gap: 6,
+            padding: "6px 14px",
+            borderRadius: 999,
+            background: BADGE_GRADIENT,
+            color: "#fff",
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: "-0.01em",
+            lineHeight: 1.2,
+            marginBottom: 10,
+            whiteSpace: "nowrap",
           }}
         >
-          {tier.bullets.map((bullet) => (
-            <BulletRow key={bullet.text} bullet={bullet} />
-          ))}
-        </ul>
-      </article>
+          <HeartGlyph />
+          {tier.badge}
+        </div>
+      ) : (
+        <div aria-hidden style={{ height: 36 }} />
+      )}
+
+      <div className="relative flex w-full" style={{ flex: 1 }}>
+        {highlighted && (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: -3,
+              background: HIGHLIGHT_GRADIENT,
+              borderRadius: 27,
+              pointerEvents: "none",
+            }}
+          />
+        )}
+        <article
+          className="relative flex flex-col w-full"
+          style={{
+            background: CARD_BG,
+            border: highlighted
+              ? `2px solid ${CARD_BORDER}`
+              : `1px solid ${CARD_BORDER}`,
+            borderRadius: 24,
+            padding: 28,
+            gap: 28,
+          }}
+        >
+          <div className="flex flex-col" style={{ gap: 20 }}>
+            <h3
+              className="font-urbanist"
+              style={{
+                color: tier.accent,
+                fontSize: "clamp(22px, 2.4vw, 28px)",
+                fontWeight: 600,
+                lineHeight: 1.2,
+                letterSpacing: "-0.02em",
+                margin: 0,
+              }}
+            >
+              {tier.name}
+            </h3>
+
+            <PriceBlock tier={tier} billing={billing} />
+
+            {tier.trialLabel ? (
+              <span
+                className="font-urbanist"
+                style={{
+                  color: "#fff",
+                  opacity: 0.55,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  lineHeight: 1.2,
+                }}
+              >
+                {tier.trialLabel}
+              </span>
+            ) : null}
+
+            <Link
+              href={tier.cta.href}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener" : undefined}
+              className="flex items-center justify-center font-urbanist"
+              style={{
+                width: "100%",
+                padding: "10px 16px",
+                borderRadius: 6,
+                background: highlighted ? PRIMARY : "transparent",
+                border: highlighted
+                  ? "1.5px solid transparent"
+                  : `1.5px solid ${SECONDARY_BORDER}`,
+                color: "#fff",
+                fontSize: 16,
+                fontWeight: 600,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.2,
+                textDecoration: "none",
+              }}
+            >
+              {tier.cta.label}
+            </Link>
+          </div>
+
+          <ul
+            className="flex flex-col"
+            style={{
+              padding: 0,
+              margin: 0,
+              gap: 12,
+            }}
+          >
+            {tier.bullets.map((bullet) => (
+              <BulletRow key={bullet.text} bullet={bullet} />
+            ))}
+          </ul>
+        </article>
+      </div>
     </div>
   );
 }
 
+// --- Toggle ------------------------------------------------------------------
+
+function BillingToggle({
+  value,
+  onChange,
+}: {
+  value: BillingPeriod;
+  onChange: (next: BillingPeriod) => void;
+}) {
+  const isAnnual = value === "annual";
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Billing period"
+      className="flex items-center font-urbanist"
+      style={{
+        gap: 6,
+        padding: 4,
+        border: "1px solid #1c1c1c",
+        background: "#0a0a0a",
+        borderRadius: 999,
+      }}
+    >
+      <button
+        type="button"
+        role="radio"
+        aria-checked={!isAnnual}
+        onClick={() => onChange("monthly")}
+        style={{
+          padding: "8px 18px",
+          borderRadius: 999,
+          background: !isAnnual ? "#1c1c1c" : "transparent",
+          color: "#fff",
+          opacity: !isAnnual ? 1 : 0.65,
+          fontSize: 14,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.2,
+          border: 0,
+          cursor: "pointer",
+        }}
+      >
+        Monthly
+      </button>
+      <button
+        type="button"
+        role="radio"
+        aria-checked={isAnnual}
+        onClick={() => onChange("annual")}
+        className="flex items-center"
+        style={{
+          gap: 8,
+          padding: "8px 18px",
+          borderRadius: 999,
+          background: isAnnual ? "#1c1c1c" : "transparent",
+          color: "#fff",
+          opacity: isAnnual ? 1 : 0.65,
+          fontSize: 14,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.2,
+          border: 0,
+          cursor: "pointer",
+        }}
+      >
+        Annually
+        <span
+          style={{
+            color: "#20D4FF",
+            fontSize: 12,
+            fontWeight: 600,
+          }}
+        >
+          (2 Months Free)
+        </span>
+      </button>
+    </div>
+  );
+}
+
+// --- Section -----------------------------------------------------------------
+
 export function PricingTiers() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+  const { billing, setBilling } = useBilling();
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -343,40 +472,17 @@ export function PricingTiers() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col items-center bg-black full-bleed-bg px-6 lg:px-20 pt-5 pb-4"
+      className="flex flex-col items-center bg-black full-bleed-bg px-6 lg:px-20 pt-5 pb-10"
     >
-      <style>{`
-        .tier-bullet .tier-bullet-tooltip {
-          position: absolute;
-          left: 26px;
-          bottom: calc(100% + 8px);
-          background: #111;
-          color: #fff;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.4;
-          letter-spacing: -0.01em;
-          padding: 8px 10px;
-          border-radius: 8px;
-          border: 1px solid #2a2a2a;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-          white-space: normal;
-          width: max-content;
-          max-width: 240px;
-          opacity: 0;
-          transform: translateY(4px);
-          pointer-events: none;
-          transition: opacity 140ms ease, transform 140ms ease;
-          z-index: 5;
-        }
-        .tier-bullet:hover .tier-bullet-tooltip,
-        .tier-bullet:focus-within .tier-bullet-tooltip {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      `}</style>
       <div
-        className="grid grid-cols-1 lg:grid-cols-3 w-full"
+        className="flex justify-center w-full"
+        style={{ marginBottom: 28 }}
+      >
+        <BillingToggle value={billing} onChange={setBilling} />
+      </div>
+
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full"
         style={{
           maxWidth: 1280,
           gap: 10,
@@ -385,7 +491,13 @@ export function PricingTiers() {
         }}
       >
         {TIERS.map((tier, i) => (
-          <TierCard key={tier.id} tier={tier} index={i} visible={visible} />
+          <TierCard
+            key={tier.id}
+            tier={tier}
+            index={i}
+            visible={visible}
+            billing={billing}
+          />
         ))}
       </div>
     </section>

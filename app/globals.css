@@ -90,6 +90,29 @@
   to   { transform: translate3d(-50%, 0, 0); }
 }
 
+@keyframes secure-border-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+.secure-ring {
+  padding: 2px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: secure-border-pulse 2.4s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secure-ring { animation: none; opacity: 1; }
+}
+
 .marquee-track {
   display: flex;
   width: max-content;

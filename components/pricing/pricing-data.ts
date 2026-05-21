@@ -1,29 +1,41 @@
-// Pricing-page data — single source of truth for both the three tier
+// Pricing-page data — single source of truth for both the four tier
 // cards and the long feature comparison table on /pricing.
 //
-// Sourced from velt.dev/pricing (the live production page) and the Figma
-// design `217:5662` in HqWIZdR6ISJmaG2n4o3gr8. Kept as a plain TS module
-// (rather than Sanity content) because the comparison-table shape — 50+
-// rows × 3 tiers × mixed cell kinds — doesn't fit cleanly in CMS arrays
-// and the copy changes infrequently.
+// Sourced verbatim from usesuperflow.com/pricing (the live production
+// page). Kept as a plain TS module rather than Sanity content because
+// the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
+// doesn't fit cleanly in CMS arrays and the copy changes infrequently.
 
 export type TierBullet = {
   text: string;
-  /** Optional hover tooltip on the bullet (matches the info-pop pattern
-   *  on velt.dev/pricing for "100 MADs" and "For Dev Environments Only"). */
-  tooltip?: string;
+  /** Renders the bullet without a check (used for "Everything in X, plus"
+   *  section dividers inside the bullet list). */
+  divider?: boolean;
 };
 
 export type Tier = {
-  id: "hacker" | "growth" | "enterprise";
+  id: "starter" | "growth" | "scale" | "enterprise";
   name: string;
-  blurb: string;
-  /** Tabler icon shown at the top of the card (32×32). Stroke color is
-   *  per-tier and lives in PricingTiers, not here. */
-  icon: "code" | "trending-up" | "world-longitude";
-  /** Headline price shown in the comparison table's sticky tier header
-   *  (the tier cards themselves no longer render this). */
-  price: string;
+  /** Hex accent for the tier name and comparison-table column accents.
+   *  Matches the live site's per-tier color treatment. */
+  accent: string;
+  /** Monthly price label (string so we can carry "$0" and "Let's Talk"). */
+  monthlyPrice: string;
+  /** Annual-per-month price label. */
+  annualPrice: string;
+  /** When set and Annual is selected, this number is rendered with a
+   *  strikethrough next to the annual price — matches the "$24 ~~$29~~"
+   *  treatment on Growth and Scale cards. */
+  annualStrikePrice?: string;
+  /** When true, the price is treated as a custom contract — the card
+   *  shows the price string as-is with a "Custom" sub-label rather than
+   *  the "/seat/mo" suffix. */
+  customPrice?: boolean;
+  /** Small uppercase label above the CTA button ("10 DAY FREE TRIAL"). */
+  trialLabel?: string;
+  /** Pink "Most Popular" pill rendered above the card. Currently only
+   *  Growth ("Loved by 100+ Agencies"). */
+  badge?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -39,17 +51,15 @@ export type Row = {
   label: string;
   /** Optional muted second line under the label. */
   sublabel?: string;
-  /** Optional info-icon hover tooltip on the row label (matches the
-   *  ⓘ on velt.dev/pricing's "MADs" row). */
-  tooltip?: string;
-  values: [CellValue, CellValue, CellValue];
+  /** [Starter, Growth, Scale, Enterprise] */
+  values: [CellValue, CellValue, CellValue, CellValue];
 };
 
 export type Section = {
-  /** Coloured section heading, e.g. "Async Collaboration". */
+  /** Coloured section heading, e.g. "Collaboration". */
   title: string;
   /** Hex color for the section heading text — different per section to
-   *  echo the live site's rainbow-ish category strip. */
+   *  echo the live site's category strip. */
   accent: string;
   rows: Row[];
 };
@@ -62,327 +72,240 @@ const text = (value: string, sub?: string): CellValue => ({
   sub,
 });
 
-// --- Tier cards (Figma 217:8878) ---------------------------------------------
+export const TRIAL_LABEL = "10 DAY FREE TRIAL";
+export const APP_URL = "https://app.usesuperflow.com";
+
+// --- Tier cards --------------------------------------------------------------
 
 export const TIERS: Tier[] = [
   {
-    id: "hacker",
-    name: "Hacker",
-    blurb: "For hackathon or side projects",
-    icon: "code",
-    price: "Free",
-    cta: {
-      label: "Get Free API Key",
-      href: "https://console.velt.dev/",
-    },
+    id: "starter",
+    name: "Starter",
+    accent: "#FF74A8",
+    monthlyPrice: "0",
+    annualPrice: "0",
+    trialLabel: TRIAL_LABEL,
+    cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
-      {
-        text: "100 MADs",
-        tooltip:
-          "Monthly Active Documents are documents which has active collaboration.",
-      },
-      { text: "All Features (15+)" },
-      { text: "Pre-built Components" },
-      { text: "Full Customization" },
-      { text: "Basic Webhooks" },
-      { text: "Real-time infrastructure" },
-      {
-        text: "For Dev Environments Only",
-        tooltip: "No Production Deployment",
-      },
+      { text: "1 Project" },
+      { text: "1 Team Seat" },
+      { text: "Unlimited Guest Seats" },
+      { text: "1GB Storage" },
+      { text: "+2 More Features" },
     ],
   },
   {
     id: "growth",
     name: "Growth",
-    blurb: "Contract-based",
-    icon: "trending-up",
-    price: "Custom",
+    accent: "#20D4FF",
+    monthlyPrice: "29",
+    annualPrice: "24",
+    annualStrikePrice: "29",
+    trialLabel: TRIAL_LABEL,
+    badge: "Loved by 100+ Agencies",
     highlighted: true,
-    cta: { label: "Book Demo", href: "/book-demo" },
+    cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
-      {
-        text: "Contract-based MADs",
-        tooltip:
-          "Monthly Active Documents are documents which has active collaboration.",
-      },
-      { text: "All Features (15+)" },
-      { text: "Pre-built Components" },
-      { text: "Full Customization" },
-      { text: "Basic Webhooks & REST APIs" },
-      { text: "Real-time infrastructure" },
-      { text: "Slack Support" },
-      { text: "99.999% Uptime SLA" },
+      { text: "Everything in Starter, plus", divider: true },
+      { text: "Unlimited Projects" },
+      { text: "Pay Per Team Seat" },
+      { text: "10GB Storage" },
+      { text: "+8 More Features" },
+    ],
+  },
+  {
+    id: "scale",
+    name: "Scale",
+    accent: "#A78BFA",
+    monthlyPrice: "34",
+    annualPrice: "28",
+    annualStrikePrice: "34",
+    trialLabel: TRIAL_LABEL,
+    cta: { label: "Start Free Trial", href: APP_URL },
+    bullets: [
+      { text: "Everything in Growth, plus", divider: true },
+      { text: "30GB Storage" },
+      { text: "Automated Screenshots" },
+      { text: "Private Comments" },
+      { text: "+15 More Features" },
     ],
   },
   {
     id: "enterprise",
     name: "Enterprise",
-    blurb: "Contract-based",
-    icon: "world-longitude",
-    price: "Custom",
+    accent: "#FFB46E",
+    monthlyPrice: "Let's Talk",
+    annualPrice: "Let's Talk",
+    customPrice: true,
+    trialLabel: TRIAL_LABEL,
     cta: { label: "Book Demo", href: "/book-demo" },
     bullets: [
-      {
-        text: "Contract-based MADs",
-        tooltip:
-          "Monthly Active Documents are documents which has active collaboration.",
-      },
-      { text: "All Features (15+)" },
-      { text: "Pre-built Components" },
-      { text: "Full Customization" },
-      { text: "Data Self-hosting" },
-      { text: "Advanced Webhooks & Integrations" },
-      { text: "GDPR APIs" },
-      { text: "Multiple Region Hosting (EU, APAC, NA)" },
-      { text: "Isolated Server and Data Storage" },
-      { text: "Enterprise-grade security (SOC 2 Type 2, HIPAA with BAA)" },
-      { text: "Custom security reviews and DPA" },
-      { text: "Technical Design & Implementation Service" },
-      { text: "Dedicated CSM" },
-      { text: "Priority Support SLAs" },
-      { text: "Real-time infrastructure" },
-      { text: "99.999% Uptime SLA" },
+      { text: "Everything in Scale, plus", divider: true },
+      { text: "SAML based SSO" },
+      { text: "REST API" },
+      { text: "Data Self-Hosting" },
+      { text: "+15 More Features" },
     ],
   },
 ];
 
-// --- Comparison table (Figma 217:8994) ---------------------------------------
-// Order: [hacker, growth, enterprise]. Cell kinds match the live site's
-// rendered icons / text values per row.
+// --- Comparison table --------------------------------------------------------
+// Order: [starter, growth, scale, enterprise]. Cell kinds match the live
+// site's rendered icons / text values per row.
 
 export const SECTIONS: Section[] = [
   {
-    title: "Documents",
-    accent: "#e04161",
+    title: "Core",
+    accent: "#FF74A8",
     rows: [
       {
-        label: "MADs",
-        tooltip:
-          "Monthly Active Documents are documents which has active collaboration.",
-        values: [text("100"), text("Contract Based"), text("Contract Based")],
+        label: "Project",
+        values: [
+          text("1"),
+          text("Unlimited"),
+          text("Unlimited"),
+          text("Unlimited"),
+        ],
+      },
+      {
+        label: "Team Seats",
+        values: [
+          text("1", "(No Additional Seats)"),
+          text("$24 /mo/seat"),
+          text("$28 /mo/seat"),
+          text("Custom"),
+        ],
+      },
+      {
+        label: "Guest Seats",
+        values: [
+          text("Unlimited"),
+          text("Unlimited"),
+          text("Unlimited"),
+          text("Unlimited"),
+        ],
+      },
+      {
+        label: "Storage",
+        values: [text("1 GB"), text("10 GB"), text("30 GB"), text("100 GB")],
       },
     ],
   },
   {
-    title: "Async Collaboration",
-    accent: "#1e9e56",
-    rows: [
-      { label: "Comments (10+ Types)", values: [check, check, check] },
-      { label: "Notifications", values: [check, check, check] },
-      { label: "Recording", values: [check, check, check] },
-      { label: "Video Editor", values: [check, check, check] },
-      { label: "View Analytics", values: [check, check, check] },
-      { label: "Reactions", values: [check, check, check] },
-      {
-        label: "AI Enhancements",
-        sublabel: "(Add-on)",
-        values: [cross, check, check],
-      },
-    ],
-  },
-  {
-    title: "Realtime Features",
-    accent: "#f2a52f",
+    title: "Collaboration",
+    accent: "#20D4FF",
     rows: [
       {
-        label: "Multiplayer Editing",
-        values: [check, check, { kind: "text", value: "✓", sub: "(With custom encryption)" }],
-      },
-      { label: "Single Editor Mode", values: [check, check, check] },
-      { label: "Live State Sync", values: [check, check, check] },
-      { label: "Huddle", values: [check, check, check] },
-      { label: "Presence", values: [check, check, check] },
-      { label: "Adaptive Cursors", values: [check, check, check] },
-      { label: "Follow Mode", values: [check, check, check] },
-      { label: "Live Selection", values: [check, check, check] },
-    ],
-  },
-  {
-    title: "Developer Console",
-    accent: "#3d8bff",
-    rows: [
-      { label: "AI Chat", values: [cross, check, check] },
-      { label: "Analytics", values: [check, check, check] },
-      { label: "Live Debugger", values: [check, check, check] },
-      { label: "DevTools Extension", values: [check, check, check] },
-      { label: "User Activity Logs", values: [check, check, check] },
-      { label: "Data Viewer", values: [check, check, check] },
-      {
-        label: "Data Export",
-        sublabel: "(JSON, CSV)",
-        values: [check, check, check],
+        label: "Supported Assets",
+        sublabel: "Websites, PDFs, Videos, Images and Lottie Files",
+        values: [check, check, check, check],
       },
       {
-        label: "Team Members",
-        values: [text("Only 1"), text("Unlimited"), text("Unlimited")],
+        label: "Recordings",
+        sublabel: "Audio, Video & Screen",
+        values: [cross, check, check, check],
       },
+      { label: "Attachments", values: [cross, check, check, check] },
+      {
+        label: "Automated Screenshot",
+        values: [cross, cross, check, check],
+      },
+      {
+        label: "Live Reviews",
+        sublabel: "Huddle, Follow Me and More",
+        values: [check, check, check, check],
+      },
+      {
+        label: "Smart Notifications",
+        values: [
+          text("Email"),
+          text("Slack and Email"),
+          text("Slack and Email"),
+          text("Slack and Email"),
+        ],
+      },
+      { label: "Private Comments", values: [cross, cross, check, check] },
+      { label: "Anonymous Guest Mode", values: [cross, cross, check, check] },
+      { label: "Access Control", values: [cross, cross, check, check] },
+      { label: "Workspace Management", values: [cross, check, check, check] },
+      { label: "Reporting - Analytics", values: [cross, cross, check, check] },
+      {
+        label: "Dashboard Notifications",
+        values: [check, check, check, check],
+      },
+      { label: "Manage Domains", values: [cross, cross, check, check] },
+      { label: "Export Comments", values: [cross, cross, check, check] },
+      { label: "Custom Statuses", values: [cross, cross, check, check] },
+      { label: "Custom Branding", values: [cross, cross, check, check] },
     ],
   },
   {
     title: "Integrations",
-    accent: "#642feb",
+    accent: "#A78BFA",
     rows: [
-      {
-        label: "All Major Frontend Frameworks",
-        sublabel: "React, Angular, Vue, etc",
-        values: [check, check, check],
-      },
-      {
-        label: "Editors",
-        sublabel: "Lexical, Tiptap, BlockNote, Code Mirror",
-        values: [check, check, check],
-      },
-      {
-        label: "Canvas",
-        sublabel: "React Flow",
-        values: [check, check, check],
-      },
-      {
-        label: "Messaging",
-        sublabel: "Slack, Microsoft Teams, Discord",
-        values: [cross, cross, check],
-      },
-      {
-        label: "Storage",
-        sublabel: "Amazon S3, Azure Blob Storage, Google Cloud Storage",
-        values: [cross, cross, check],
-      },
-      {
-        label: "CRM",
-        sublabel: "Hubspot, CloseCRM",
-        values: [cross, cross, check],
-      },
-      {
-        label: "Analytics",
-        sublabel: "OpenTelemetry, Collector, Segment",
-        values: [cross, cross, check],
-      },
-      {
-        label: "Workflow & Automation",
-        sublabel: "Zapier, Inngest, Windmill",
-        values: [cross, cross, check],
-      },
-      {
-        label: "Email",
-        sublabel: "Resend, Loops, SendGrid, Customer.io",
-        values: [cross, cross, check],
-      },
+      { label: "Email", values: [check, check, check, check] },
+      { label: "Slack", values: [cross, check, check, check] },
+      { label: "ClickUp", values: [cross, check, check, check] },
+      { label: "Asana", values: [cross, check, check, check] },
+      { label: "Monday.com", values: [cross, check, check, check] },
+      { label: "Webhooks", values: [cross, cross, check, check] },
+      { label: "REST APIs", values: [cross, cross, cross, check] },
     ],
   },
   {
-    title: "Backend Infrastructure",
-    accent: "#eb2f96",
+    title: "Security & Privacy",
+    accent: "#FFB46E",
     rows: [
+      { label: "SAML based SSO", values: [cross, cross, cross, check] },
+      { label: "SOC 2 Type 2", values: [cross, cross, check, check] },
+      { label: "HIPAA with BAA", values: [cross, cross, cross, check] },
+      { label: "Pen Testing", values: [cross, cross, check, check] },
       {
-        label: "Basic Webhooks",
-        sublabel: "(With custom encryption)",
-        values: [check, check, check],
+        label: "Custom Security Reviews",
+        values: [cross, cross, cross, check],
       },
+      { label: "DPA", values: [cross, cross, check, check] },
+      { label: "Data Self-hosting", values: [cross, cross, cross, check] },
+      { label: "GDPR APIs", values: [cross, cross, check, check] },
       {
-        label: "Advanced Webhooks",
-        sublabel: "(With custom encryption)",
-        values: [cross, cross, check],
+        label: "Multi Region Hosting",
+        values: [cross, cross, cross, check],
       },
-      { label: "Workflow Builder", values: [cross, cross, check] },
-      { label: "Realtime Server", values: [check, check, check] },
-      { label: "Realtime Database", values: [check, check, check] },
-      { label: "File Storage", values: [check, check, check] },
-      { label: "REST APIs", values: [check, check, check] },
-      {
-        label: "Multiple Region Hosting",
-        sublabel: "(EU, APAC, NA)",
-        values: [cross, cross, check],
-      },
-    ],
-  },
-  {
-    title: "Security & Compliance",
-    accent: "#eb8d2f",
-    rows: [
-      { label: "Data Self-hosting", values: [cross, cross, check] },
-      { label: "GDPR APIs", values: [cross, cross, check] },
-      {
-        label: "Multiple Region Hosting",
-        sublabel: "(EU, APAC, NA)",
-        values: [cross, cross, check],
-      },
-      {
-        label: "Server, Database and Storage",
-        values: [text("Shared"), text("Shared"), text("Dedicated")],
-      },
-      { label: "Data Encryption", values: [check, check, check] },
-      {
-        label: "Custom Data Encryption",
-        sublabel: "(Available for some features)",
-        values: [cross, cross, check],
-      },
-      { label: "SOC 2 Type II", values: [cross, cross, check] },
-      { label: "Pen Testing", values: [cross, cross, check] },
-      { label: "HIPAA with BAA", values: [cross, cross, check] },
-      { label: "Custom Security Reviews", values: [cross, cross, check] },
-      { label: "DPA", values: [cross, cross, check] },
     ],
   },
   {
     title: "Support",
-    accent: "#eb8d2f",
+    accent: "#1DDE84",
     rows: [
       {
-        label: "Channels",
-        values: [cross, text("Slack"), text("Slack and Zoom")],
-      },
-      { label: "Onboarding", values: [check, check, check] },
-      { label: "Dedicated CSM", values: [cross, cross, check] },
-      {
-        label: "Technical Design & Implementation Service",
-        values: [cross, cross, check],
-      },
-      { label: "Priority SLAs", values: [cross, cross, check] },
-      {
-        label: "Uptime SLA",
-        values: [cross, text("99.999% Uptime"), text("99.999% Uptime")],
-      },
-    ],
-  },
-  {
-    title: "Usage Limits",
-    accent: "#422feb",
-    rows: [
-      {
-        label: "Simultaneous Connections",
-        values: [text("Up to 20"), text("Up to 100,000"), text("Up to 200,000")],
-      },
-      {
-        label: "Comments and Notifications",
+        label: "Support Channels",
         values: [
-          text("5,000"),
-          text("Unlimited", "e.g. 200M+"),
-          text("Unlimited", "e.g. 200M+"),
+          text("Community Slack"),
+          text("Email, Community Slack, Chat"),
+          text("Email, Community Slack, Chat"),
+          text("Email, Community Slack, Chat"),
         ],
       },
       {
-        label: "Data Stored per Document",
-        values: [text("2GB"), text("No Hard Limit"), text("No Hard Limit")],
+        label: "Private Slack and Zoom",
+        values: [cross, cross, check, check],
+      },
+      { label: "Onboarding", values: [cross, cross, check, check] },
+      { label: "Dedicated CSM", values: [cross, cross, cross, check] },
+      { label: "Priority SLAs", values: [cross, cross, cross, check] },
+      {
+        label: "Dedicated Implementation + Training",
+        values: [cross, cross, cross, check],
       },
       {
-        label: "Huddle Simultaneous Connections",
-        values: [text("Up to 4"), text("Up to 20"), text("Up to 30")],
+        label: "Uptime SLAs",
+        values: [
+          text("99.9%"),
+          text("99.9%"),
+          text("99.9%"),
+          text("99.999%"),
+        ],
       },
-      {
-        label: "File Storage",
-        values: [text("2GB"), text("2TB"), text("Contract Based")],
-      },
-    ],
-  },
-  {
-    title: "Frontend Components",
-    accent: "#317fd4",
-    rows: [
-      { label: "Pre-built Components", values: [check, check, check] },
-      { label: "UI Customization", values: [check, check, check] },
-      { label: "Functional Customization", values: [check, check, check] },
-      { label: "Dark Mode", values: [check, check, check] },
     ],
   },
 ];

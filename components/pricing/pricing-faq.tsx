@@ -1,90 +1,122 @@
-// /pricing FAQ entries — copied verbatim from velt.dev/pricing's Framer
-// JS bundle (BMzeplFm…CY9NNqmn.mjs). Order, question text, and answer
-// copy match the live site exactly. Three entries carry inline links
-// (Apply here, Contact us, Learn More) — those use the `paragraphs`
-// field on FaqEntry so the link can render as an <a> instead of plain
-// text.
+// /pricing FAQ entries — copied verbatim from usesuperflow.com/pricing.
+// Order, question text, and answer copy match the live site exactly.
+// Shape matches components/home/FAQ.tsx's `FAQItemProps` so the home-page
+// FAQ component can render these directly on /pricing.
 
-import { Fragment } from "react";
 import Link from "next/link";
 
-import type { FaqEntry } from "@/components/library/LibraryFAQ";
+import type { FAQItemProps } from "@/components/home/FAQ";
 
 const linkStyle: React.CSSProperties = {
-  color: "rgba(255, 255, 255, 0.7)",
+  color: "rgba(174, 171, 255, 0.9)",
   textDecoration: "underline",
 };
 
-export const pricingFAQ: FaqEntry[] = [
+export const pricingFAQ: FAQItemProps[] = [
   {
-    question: "What is a MAD (Monthly Active Document)?",
-    answer:
-      "An active document is a unique document which has CRUD operations by any Velt Feature during the month.\n\nNote: This excludes documents which were merely initiated without performing CRUD operations on features like comments, notifications, CRDT, etc.",
+    q: "What is Superflow?",
+    a: (
+      <>
+        Superflow is a collaboration platform for agencies &amp; marketers to
+        review, proof and deliver creative assets fast. Superflow supports
+        websites, videos, lottie animations, PDF and images.
+        <br />
+        <br />
+        With Superflow agencies &amp; marketers deliver more high quality
+        creative assets fast.
+      </>
+    ),
   },
   {
-    question:
-      "What is the difference between MAR and MAD, and why does it matter for my bill?",
-    answer:
-      "MAR (Monthly Active Room): A room (document) counts as active when a user connects to it during the billing month. A room is also considered active when its content is updated: comments, realtime data storage, etc.\n\nMAD (Monthly Active Document): We use this. A more specific metric representing documents where users actively utilize Velt's collaboration features within your application during a month.\n\nMAD is a subset of MAR. Typically, about 20% of MARs perform meaningful collaboration actions on average. This varies by product category, with some higher or lower.\n\nVelt's MAD-based pricing ensures you're billed only for users who derive value from our collaboration features, offering a more cost-effective and transparent alternative to MAR-based models.",
+    q: "What formats are supported in Superflow?",
+    a: "Superflow supports all types of Websites, Videos, Lottie, Images and PDFs.",
   },
   {
-    question: "Do we charge for just connecting to Velt?",
-    answer:
-      "No. Billing applies only to Velt SDK CRUD operation usage. You are not billed for users that just connect to Velt.",
+    q: "What is counted as a seat?",
+    a: (
+      <>
+        Your team member (also called Admin user) that you invite to Superflow
+        will be counted as a seat.
+        <br />
+        <br />
+        Commenter User &amp; Guest users are free.
+      </>
+    ),
   },
   {
-    question: "How long does it take to integrate with Velt SDK?",
-    answer:
-      "On average, customers integrate with Velt SDK in under 30 minutes.",
+    q: "What is the difference between Admin, Commenter & Guest users?",
+    a: (
+      <>
+        <strong>Admin or team user:</strong> Your team members should be added
+        as an admin user. They have full access to the admin panel and get
+        access to all features in your account.
+        <br />
+        <br />
+        <strong>Commenter user:</strong> Commenter Users can read or write
+        comments but they need to authenticate or sign in to Superflow. You
+        should add external users or your clients as commenters. This is
+        available for all plans. These are free and not counted towards your
+        seats.
+        <br />
+        <br />
+        <strong>Guest user:</strong> Guest users can read or write comments
+        without authenticating or signing in. You should add external users or
+        your clients as guest users. This is only available on Scale and
+        Enterprise plans. These are free and not counted towards your seats.
+      </>
+    ),
   },
   {
-    question: "Which frameworks do you support?",
-    answer: "Velt SDK supports React, Angular, Vanilla JS, Vue, and NextJS.",
+    q: "Does Superflow offer a free plan?",
+    a: (
+      <>
+        Superflow offers a free 10-day trial to new users, no credit card
+        needed. During the trial period, you get full access to all features.
+        <br />
+        <br />
+        We also offer a free forever Starter plan that becomes available after
+        your trial has ended.
+      </>
+    ),
   },
   {
-    question: "Do you offer any discounts for Startups?",
-    paragraphs: [
-      <Fragment key="startup">
-        Yes, we offer special deals for early-stage startups.{" "}
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSe3IubfjaQC3nIUqV9lq1XB6MbuW97XD3ryairNzvnML7v5Ag/viewform"
-          target="_blank"
-          rel="noopener"
-          style={linkStyle}
-        >
-          Apply here
-        </a>
-        .
-      </Fragment>,
-    ],
-  },
-  {
-    question: "Do you offer any volume discounts?",
-    paragraphs: [
-      <Fragment key="volume">
+    q: "Do you offer any volume discounts?",
+    a: (
+      <>
         Yes, we offer volume discounts.{" "}
         <Link href="/book-demo" style={linkStyle}>
           Contact us
         </Link>{" "}
-        to discuss.
-      </Fragment>,
-    ],
+        to get started.
+      </>
+    ),
   },
   {
-    question: "How secure is Velt SDK?",
-    paragraphs: [
-      <Fragment key="security">
-        Velt provides enterprise grade security. Our products are SOC 2 Type II
-        and HIPAA Compliant.{" "}
-        <a href="https://trust.velt.dev/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-          Learn More
-        </a>
-      </Fragment>,
-    ],
+    q: "Do you offer any discounts for startups or education?",
+    a: (
+      <>
+        Yes, we offer discounts for early-stage startups.{" "}
+        <Link href="/book-demo" style={linkStyle}>
+          Contact us
+        </Link>{" "}
+        to get started.
+      </>
+    ),
   },
   {
-    question: "How reliable and scalable is Velt SDK?",
-    answer:
-      "We provide a 99.999% uptime and highly scaleable infrastructure for our growth and enterprise plans.",
+    q: "How secure is Superflow?",
+    a: (
+      <>
+        Superflow supports Isolated dedicated storage and encrypts data in
+        transit and at rest using industry standards.
+        <br />
+        <br />
+        We are currently going through SOC2 certification.
+      </>
+    ),
+  },
+  {
+    q: "How reliable and scalable is Superflow?",
+    a: "We guarantee at least 99.9% uptime and provide highly scalable infrastructure.",
   },
 ];

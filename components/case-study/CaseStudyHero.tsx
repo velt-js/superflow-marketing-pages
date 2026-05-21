@@ -1,4 +1,4 @@
-import { CursorBadge } from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 import type { CaseStudyHeroData } from "@/lib/case-study-data";
 
 const DEFAULT_LEFT = { label: "Photographer", color: "#4dd5ff" };
@@ -39,17 +39,19 @@ export default function CaseStudyHero({
             {subtitle}
           </p>
 
-          <CursorBadge
-            side="left"
-            label={leftBadge.label}
+          <Cursor
+            direction="right"
+            text={leftBadge.label}
             color={leftBadge.color}
-            style={{ left: "-72px", top: "calc(100% - 130px)" }}
+            className="pointer-events-none hidden lg:block"
+            style={{ position: "absolute", left: "-110px", top: "calc(100% - 130px)" }}
           />
-          <CursorBadge
-            side="right"
-            label={rightBadge.label}
+          <Cursor
+            direction="left"
+            text={rightBadge.label}
             color={rightBadge.color}
-            style={{ right: "-56px", top: "calc(100% - 90px)" }}
+            className="pointer-events-none hidden lg:block"
+            style={{ position: "absolute", right: "-110px", top: "calc(100% - 90px)" }}
           />
         </div>
 

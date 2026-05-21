@@ -148,9 +148,13 @@ export default function Nav() {
                     <div
                       className="min-w-[180px] rounded-[14px] overflow-hidden transition-all duration-200 origin-top-left"
                       style={{
-                        background: "#000",
-                        border: "1px solid rgba(255,255,255,0.10)",
-                        boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                        background: isDark ? "#000" : "#fff",
+                        border: isDark
+                          ? "1px solid rgba(255,255,255,0.10)"
+                          : "1px solid rgba(0,0,0,0.08)",
+                        boxShadow: isDark
+                          ? "0 8px 24px rgba(0,0,0,0.5)"
+                          : "0 8px 24px rgba(0,0,0,0.12)",
                         opacity: isOpen ? 1 : 0,
                         visibility: isOpen ? "visible" : "hidden",
                         transform: isOpen ? "scale(1) translateY(0)" : "scale(0.97) translateY(-6px)",
@@ -163,7 +167,11 @@ export default function Nav() {
                               role="menuitem"
                               href={item.href}
                               onClick={() => setOpenIndex(null)}
-                              className="block px-4 py-2 text-[13px] font-normal text-white/85 transition-colors hover:text-white hover:bg-white/[0.04]"
+                              className={`block px-4 py-2 text-[13px] font-normal transition-colors ${
+                                isDark
+                                  ? "text-white/85 hover:text-white hover:bg-white/[0.04]"
+                                  : "text-black/75 hover:text-black hover:bg-black/[0.04]"
+                              }`}
                               style={{ fontFamily: "var(--font-poppins)" }}
                             >
                               {item.label}

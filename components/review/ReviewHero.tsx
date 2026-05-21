@@ -8,12 +8,7 @@
 
 import Image from "next/image";
 
-import {
-  CursorBadge,
-  DesignerCursor,
-  DeveloperCursor,
-  PhotographerCursor,
-} from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 
 type CtaLink = {
   label?: string;
@@ -38,16 +33,6 @@ export type ReviewHeroProps = {
   heroMediaSrc?: string | null;
   heroMediaAlt?: string;
 };
-
-// Map a label to its cursor glyph. Falls back to the side default
-// (Developer for left, Designer for right) inside CursorBadge.
-function cursorFor(label: string) {
-  const k = label.toLowerCase();
-  if (k.startsWith("photo")) return <PhotographerCursor />;
-  if (k.startsWith("design")) return <DesignerCursor />;
-  if (k.startsWith("dev")) return <DeveloperCursor />;
-  return undefined;
-}
 
 export function ReviewHero({
   headlineLine1,
@@ -94,24 +79,21 @@ export function ReviewHero({
           </div>
 
           {personaLeft ? (
-            <CursorBadge
-              label={personaLeft.label}
+            <Cursor
+              text={personaLeft.label}
               color={personaLeft.color}
-              side="left"
-              cursor={cursorFor(personaLeft.label)}
-              style={{ left: "-160px", top: "calc(50% + 12px)" }}
+              direction="right"
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", left: "-200px", top: "calc(50% + 12px)" }}
             />
           ) : null}
           {personaRight ? (
-            <CursorBadge
-              label={personaRight.label}
+            <Cursor
+              text={personaRight.label}
               color={personaRight.color}
-              side="right"
-              cursor={cursorFor(personaRight.label)}
-              // CursorBadge bakes a 48px pill-offset asymmetry into its
-              // left/right variants (left pill: -32, right pill: -80).
-              // Compensate so personas are visually equidistant from the H1.
-              style={{ right: "-112px", top: "calc(50% + 12px)" }}
+              direction="left"
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", right: "-200px", top: "calc(50% + 12px)" }}
             />
           ) : null}
 

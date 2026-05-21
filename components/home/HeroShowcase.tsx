@@ -36,15 +36,14 @@ export default function HeroShowcase() {
           {/* Top group: loading cursor + heading + subtitle */}
           <div className="absolute left-[25.55%] right-[25.55%] top-[14%] flex flex-col items-center gap-[40px] lg:gap-[60px]">
             {/* Loading cursor with rainbow spinner */}
-            <div className="relative h-[72px] w-[102px]">
-              <div className="absolute left-[15px] top-0 h-[72px] w-[72px]">
-                <Image src="/images/showcase/cursor.svg" alt="" width={72} height={72} />
+            <div className="relative h-[56px] w-[80px]">
+              <div className="absolute left-[12px] top-0 h-[56px] w-[36px]">
+                <Image src="/images/showcase/cursor.svg" alt="" width={36} height={56} />
               </div>
               <div
-                className="absolute left-[58.3px] top-[28.31px] h-[40px] w-[40px]"
-                style={{ transform: "rotate(-33.22deg)" }}
+                className="absolute left-[45px] top-[22px] h-[31px] w-[31px] animate-[spin_1.6s_linear_infinite]"
               >
-                <Image src="/images/showcase/rainbow-spinner.png" alt="" width={40} height={40} />
+                <Image src="/images/showcase/rainbow-spinner.png" alt="" width={31} height={31} />
               </div>
             </div>
 
@@ -121,7 +120,7 @@ export default function HeroShowcase() {
               </svg>
             </div>
 
-            {/* Tool bar — single tools-slashed image from Figma */}
+            {/* Tool bar — single tools-grouped image from Figma */}
             <div
               className="flex items-center justify-center p-[12px]"
               style={{
@@ -133,7 +132,7 @@ export default function HeroShowcase() {
             >
               <div className="relative w-full h-[48px]">
                 <Image
-                  src="/images/showcase/tools-slashed.png"
+                  src="/images/showcase/tools-grouped.png"
                   alt=""
                   fill
                   sizes="408px"

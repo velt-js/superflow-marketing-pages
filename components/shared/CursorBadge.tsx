@@ -1,8 +1,18 @@
 import type { CSSProperties, ReactNode } from "react";
 
-export function DeveloperCursor() {
+/**
+ * Arrow whose tip points up-RIGHT (tail at lower-left). Pair with a pill
+ * sitting to the LEFT of the cursor — the tail flows into the pill.
+ */
+export function DeveloperCursor({ flipped = false }: { flipped?: boolean } = {}) {
   return (
-    <svg width="27" height="30" viewBox="0 0 27 30" aria-hidden>
+    <svg
+      width="27"
+      height="30"
+      viewBox="0 0 27 30"
+      aria-hidden
+      style={{ transform: flipped ? "scaleX(-1)" : undefined }}
+    >
       <g transform="translate(2.955 1.792)">
         <path
           d="M 17.842 22.858 L 21.797 2.973 C 22.089 1.501 20.515 0.368 19.212 1.112 L 1.758 11.086 C 0.398 11.863 0.665 13.899 2.179 14.298 L 9.622 16.261 C 10.054 16.375 10.427 16.65 10.663 17.03 L 14.639 23.439 C 15.476 24.788 17.533 24.415 17.842 22.858 Z"
@@ -21,9 +31,19 @@ export function DeveloperCursor() {
   );
 }
 
-export function PhotographerCursor() {
+/**
+ * Arrow whose tip points up-LEFT (tail at lower-right). Pair with a pill
+ * sitting to the RIGHT of the cursor — the tail flows into the pill.
+ */
+export function PhotographerCursor({ flipped = false }: { flipped?: boolean } = {}) {
   return (
-    <svg width="27" height="30" viewBox="0 0 27 30" aria-hidden>
+    <svg
+      width="27"
+      height="30"
+      viewBox="0 0 27 30"
+      aria-hidden
+      style={{ transform: flipped ? "scaleX(-1)" : undefined }}
+    >
       <g transform="translate(0.837 1.792)">
         <path
           d="M 4.866 22.858 L 0.911 2.973 C 0.619 1.501 2.193 0.368 3.496 1.112 L 20.95 11.086 C 22.31 11.863 22.043 13.899 20.529 14.298 L 13.086 16.261 C 12.654 16.375 12.281 16.65 12.045 17.03 L 8.069 23.439 C 7.232 24.788 5.175 24.415 4.866 22.858 Z"
@@ -42,9 +62,19 @@ export function PhotographerCursor() {
   );
 }
 
-export function DesignerCursor() {
+/**
+ * Same geometry as PhotographerCursor (tip up-LEFT) but in pink — used for
+ * "Designer" labels on the right side of a layout.
+ */
+export function DesignerCursor({ flipped = false }: { flipped?: boolean } = {}) {
   return (
-    <svg width="27" height="30" viewBox="0 0 27 30" aria-hidden>
+    <svg
+      width="27"
+      height="30"
+      viewBox="0 0 27 30"
+      aria-hidden
+      style={{ transform: flipped ? "scaleX(-1)" : undefined }}
+    >
       <g transform="translate(0.837 1.792)">
         <path
           d="M 4.866 22.858 L 0.911 2.973 C 0.619 1.501 2.193 0.368 3.496 1.112 L 20.95 11.086 C 22.31 11.863 22.043 13.899 20.529 14.298 L 13.086 16.261 C 12.654 16.375 12.281 16.65 12.045 17.03 L 8.069 23.439 C 7.232 24.788 5.175 24.415 4.866 22.858 Z"
@@ -66,31 +96,52 @@ export function DesignerCursor() {
 export interface CursorBadgeProps {
   label: string;
   color: string;
+  /** Which side of the parent the whole badge sits on — also controls
+   *  which side of the badge the pill anchors to. */
   side: "left" | "right";
   className?: string;
   style?: CSSProperties;
+  /** Override the default cursor SVG. The badge will still flip it based
+   *  on `side` so the arrow tail always points toward the pill. */
   cursor?: ReactNode;
 }
 
+/**
+ * Collaborative cursor with a labeled pill. Cursor and pill anchor to the
+ * SAME side so the arrow's tail visually connects into the pill.
+ *
+ * • `side="left"`  → cursor and pill on the LEFT of the wrapper; arrow tip points up-RIGHT (away from pill).
+ * • `side="right"` → cursor and pill on the RIGHT of the wrapper; arrow tip points up-LEFT.
+ */
 export function CursorBadge({ label, color, side, className, style, cursor }: CursorBadgeProps) {
-  const pillSide: CSSProperties = side === "left" ? { left: -32 } : { right: -80 };
-  const cursorSide: CSSProperties = side === "left" ? { left: 0 } : { right: 0 };
-  const defaultCursor = side === "left" ? <DeveloperCursor /> : <DesignerCursor />;
+  const isLeft = side === "left";
+  const cursorPos: CSSProperties = isLeft ? { left: 0 } : { right: 0 };
+  // Pill anchors to the same side as the cursor, slightly inset so the
+  // cursor's tail (which sits in the opposite corner of the SVG) overlaps
+  // the pill's top edge for a continuous flow.
+  const pillPos: CSSProperties = isLeft ? { left: 6 } : { right: 6 };
+
+  // For side="left" the pill is to the RIGHT of the cursor's tail, so we
+  // need an arrow that points up-RIGHT (DeveloperCursor as-is, or another
+  // cursor flipped). For side="right" we want tip up-LEFT.
+  const defaultCursor = isLeft ? <DeveloperCursor /> : <DesignerCursor />;
+  const cursorEl = cursor ?? defaultCursor;
+
   return (
     <div
       className={`pointer-events-none absolute hidden lg:block ${className ?? ""}`}
       style={style}
     >
-      <div className="relative h-[57px] w-[107px] flex items-center justify-end">
-        <div className="absolute top-0 h-[30px] w-[27px]">
-          {cursor ?? defaultCursor}
+      <div className="relative h-[57px] w-[107px]">
+        <div className="absolute top-0 h-[30px] w-[27px]" style={cursorPos}>
+          {cursorEl}
         </div>
         <div
-          className="absolute bottom-0 flex items-center rounded-[29px] px-[9px] pt-[4px] pb-[5px]"
-          style={{ background: color, ...pillSide }}
+          className="absolute bottom-0 flex items-center rounded-[29px] px-[12px] pt-[4px] pb-[5px]"
+          style={{ background: color, ...pillPos }}
         >
           <span
-            className="font-semibold text-black text-center"
+            className="font-semibold text-black text-center whitespace-nowrap"
             style={{
               fontFamily: "var(--font-urbanist)",
               fontSize: 16,

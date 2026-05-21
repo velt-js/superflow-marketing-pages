@@ -67,7 +67,7 @@ function GradientConnector() {
   // Window centered on the Superflow pill: a gradient line with white-fade
   // gradients on both ends so the gradient feels bounded.
   return (
-    <div className="relative w-[180px] h-[70px] flex items-center justify-center shrink-0">
+    <div className="relative w-[184px] h-[56px] flex items-center justify-center shrink-0">
       <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px]">
         <div className="relative w-full h-full" style={{ background: GRADIENT_LINE }}>
           <div
@@ -107,14 +107,37 @@ function GradientConnector() {
   );
 }
 
-function StepTile({ src, alt, small }: { src: string; alt: string; small?: boolean }) {
-  const inner = small ? 37 : 32;
+function StepTile({
+  src,
+  alt,
+  label,
+  small,
+  dim,
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  small?: boolean;
+  dim?: boolean;
+}) {
+  const inner = small ? 30 : 26;
   return (
-    <div
-      className="bg-white rounded-[52px] w-[70px] h-[70px] flex items-center justify-center shrink-0"
-      style={{ boxShadow: "0 0 0 1px #ebebeb" }}
-    >
-      <Image src={src} alt={alt} width={inner} height={inner} className="object-contain" />
+    <div className="relative shrink-0 w-[56px] h-[56px]">
+      <div
+        className="bg-white rounded-[52px] w-[56px] h-[56px] flex items-center justify-center"
+        style={{ boxShadow: "0 0 0 1px #ebebeb" }}
+      >
+        <Image src={src} alt={alt} width={inner} height={inner} className="object-contain" />
+      </div>
+      <span
+        className="absolute left-1/2 -translate-x-1/2 top-[73px] text-[20px] font-medium leading-[24px] whitespace-nowrap text-center"
+        style={{
+          color: dim ? "#c8c8c8" : "#111",
+          fontFamily: "var(--font-poppins)",
+        }}
+      >
+        {label}
+      </span>
     </div>
   );
 }
@@ -146,34 +169,16 @@ export default function WorkflowStats() {
           </span>
         </h2>
 
-        {/* Stepper */}
-        <div className="w-full max-w-[1000px] flex flex-col items-center gap-[17px]">
-          {/* Icon row */}
+        {/* Stepper — labels are anchored under each icon to stay aligned */}
+        <div className="w-full max-w-[720px] pb-[41px]">
           <div className="flex items-center w-full px-10">
-            <StepTile src={steps[0].icon} alt={steps[0].label} />
+            <StepTile src={steps[0].icon} alt={steps[0].label} label={steps[0].label} dim />
             <div className="flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
-            <StepTile src={steps[1].icon} alt={steps[1].label} />
+            <StepTile src={steps[1].icon} alt={steps[1].label} label={steps[1].label} dim />
             <div className="flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
-            <StepTile src={steps[2].icon} alt={steps[2].label} small />
+            <StepTile src={steps[2].icon} alt={steps[2].label} label={steps[2].label} small />
             <GradientConnector />
-            <StepTile src={steps[3].icon} alt={steps[3].label} small />
-          </div>
-
-          {/* Labels row */}
-          <div className="flex items-start gap-[100px]">
-            {steps.map((step, i) => (
-              <div key={step.label} className="w-[150px] flex justify-center">
-                <span
-                  className="text-[20px] font-medium leading-[24px] text-center"
-                  style={{
-                    color: i < 2 ? "#c8c8c8" : "#111",
-                    fontFamily: "var(--font-poppins)",
-                  }}
-                >
-                  {step.label}
-                </span>
-              </div>
-            ))}
+            <StepTile src={steps[3].icon} alt={steps[3].label} label={steps[3].label} small />
           </div>
         </div>
 

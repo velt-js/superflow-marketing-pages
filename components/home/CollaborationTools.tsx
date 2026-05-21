@@ -72,18 +72,14 @@ const DEFAULT_CARDS: Card[] = [
   },
 ];
 
-// Card heights from Figma 18:3783 frames. C3 (Private & Guest Mode) is
-// 27px taller to accommodate the access-permissions dropdown.
-const CARD_HEIGHTS = [508, 508, 535, 508, 508, 508];
-
-function FeatureCard({ card, height }: { card: Card; height: number }) {
+function FeatureCard({ card }: { card: Card }) {
   return (
     <div
-      className="feature-card group relative flex flex-col w-full max-w-[490px] overflow-hidden rounded-[32px] transition-transform duration-300 ease-out hover:scale-[1.05]"
-      style={{ background: "#f8f8fa", border: "2px solid #f5f5f7", height }}
+      className="feature-card group relative flex flex-col w-full h-full max-w-[490px] overflow-hidden rounded-[32px]"
+      style={{ background: "#f8f8fa", border: "2px solid #f5f5f7" }}
     >
       <div className="flex flex-col items-start gap-[15px] p-[32px] lg:p-[52px]">
-        <div className="w-[40px] h-[40px] relative grayscale group-hover:grayscale-0 transition-[filter] duration-300 ease-out">
+        <div className="w-[40px] h-[40px] relative">
           <Image src={card.icon} alt="" width={40} height={40} className="object-contain" />
         </div>
         <h3
@@ -157,13 +153,9 @@ export default function CollaborationTools({
           </span>
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] w-full place-items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] w-full items-stretch justify-items-center">
           {resolved.map((card, i) => (
-            <FeatureCard
-              key={`${card.title}-${i}`}
-              card={card}
-              height={CARD_HEIGHTS[i] ?? 508}
-            />
+            <FeatureCard key={`${card.title}-${i}`} card={card} />
           ))}
         </div>
 

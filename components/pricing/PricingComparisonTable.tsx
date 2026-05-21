@@ -1,12 +1,12 @@
 "use client";
 
-// Long sectioned feature-comparison table for /pricing — Figma 217:8994.
+// Long sectioned feature-comparison table for /pricing.
 //
-// Layout: 1280-wide table with one wide label column on the left + three
-// equal tier columns. The tier-header row pins under the Nav for the
-// whole table via `position: sticky`. Each section label is itself
-// sticky (offset = nav + tier-header height) AND clickable to collapse
-// its rows. Mirrors the live velt.dev/pricing interaction.
+// Layout: 1280-wide table with one label column on the left + four equal
+// tier columns. The tier-header row pins under the Nav for the whole
+// table via `position: sticky`. Each section label is itself sticky
+// (offset = nav + tier-header height) AND clickable to collapse its
+// rows. Mirrors the live usesuperflow.com/pricing interaction.
 //
 // Mobile (<lg): renders a vertical accordion — one <details> per tier
 // listing its feature values. This avoids overflow-x-auto + sticky
@@ -14,23 +14,37 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 
-import { SECTIONS, TIERS, type CellValue, type Tier } from "./pricing-data";
+import { SECTIONS, TIERS, APP_URL, type CellValue, type Tier } from "./pricing-data";
+import { useBilling, type BillingPeriod } from "./BillingContext";
 
-// Per-tier CTA shown ONLY in the comparison-table column headers (matches
-// Figma 217:9637 / 9642 / 9647 — Hacker says "Get Started", Growth and
-// Enterprise say "Book Demo"). Distinct from the tier-card CTAs above
-// (which still use tier.cta.label / tier.cta.href).
+// Per-tier CTA + price label shown ONLY in the comparison-table column
+// headers. Distinct from the tier-card CTAs above (which still use
+// tier.cta.label / tier.cta.href).
 const HEADER_CTA: Record<Tier["id"], { label: string; href: string }> = {
-  hacker: { label: "Get Started", href: "https://console.velt.dev/" },
-  growth: { label: "Book Demo", href: "/book-demo" },
+  starter: { label: "Start Free Trial", href: APP_URL },
+  growth: { label: "Start Free Trial", href: APP_URL },
+  scale: { label: "Start Free Trial", href: APP_URL },
   enterprise: { label: "Book Demo", href: "/book-demo" },
 };
 
 const NAV_OFFSET = 57; // matches components/home/Nav.tsx height
-const LABEL_COL = 420;
-const TIER_COL = 286;
 const ROW_PAD_Y = 18;
 const DIVIDER = "1px solid #f0f0f0";
+
+// Responsive column template — label gets a flexible min-width and the
+// four tier columns split the remaining space equally. Using fr/minmax
+// instead of fixed pixels lets the table fit at any viewport ≥ xl
+// without clipping or horizontal scroll.
+const GRID_TEMPLATE = "minmax(220px, 1.4fr) repeat(4, minmax(0, 1fr))";
+
+function headerPrice(
+  tier: Tier,
+  billing: BillingPeriod,
+): { display: string; suffix?: string } {
+  if (tier.customPrice) return { display: tier.monthlyPrice };
+  const price = billing === "annual" ? tier.annualPrice : tier.monthlyPrice;
+  return { display: `$${price}`, suffix: "/seat/mo" };
+}
 
 // --- Icons -------------------------------------------------------------------
 
@@ -113,43 +127,15 @@ function Chevron({ open, color }: { open: boolean; color: string }) {
   );
 }
 
-function RowInfoGlyph() {
-  // Small ⓘ next to certain row labels (e.g. "MADs"). Mirrors the live
-  // velt.dev/pricing affordance — sits inline with the label, hover
-  // shows the tooltip on the parent <span class="row-label">.
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      style={{ flexShrink: 0, opacity: 0.45 }}
-    >
-      <circle cx="12" cy="12" r="9" stroke="#666" strokeWidth="1.6" />
-      <path d="M12 11v5" stroke="#666" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="12" cy="8.2" r="1" fill="#666" />
-    </svg>
-  );
-}
-
 // --- Desktop header ---------------------------------------------------------
-//
-// Per Figma 217:9637 (Hacker) / 9642 (Growth) / 9647 (Enterprise):
-//   stack of [tier name, price, button], gap 12, items centered.
-//   - Tier name: Urbanist 400, 16px, black
-//   - Price:     Urbanist 700, 20px, black
-//   - Button:    full-width OF an inner 108px content stack, 1px border
-//                rgba(0,0,0,0.08), radius 8, padding 8/12, label
-//                Urbanist 400, 16px, black.
 
-function TierHeaderRow() {
+function TierHeaderRow({ billing }: { billing: BillingPeriod }) {
   return (
     <div
       role="row"
       className="grid"
       style={{
-        gridTemplateColumns: `${LABEL_COL}px repeat(3, ${TIER_COL}px)`,
+        gridTemplateColumns: GRID_TEMPLATE,
         background: "#fff",
         borderBottom: "1px solid #e5e7eb",
         padding: "28px 24px",
@@ -157,45 +143,75 @@ function TierHeaderRow() {
         alignItems: "stretch",
       }}
     >
-      <div />
+      <div
+        className="flex items-center font-urbanist"
+        style={{
+          color: "#111",
+          fontSize: "clamp(14px, 1.2vw, 16px)",
+          fontWeight: 600,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        All Plans
+      </div>
       {TIERS.map((tier) => {
         const cta = HEADER_CTA[tier.id];
         const external = cta.href.startsWith("http");
+        const price = headerPrice(tier, billing);
         return (
           <div
             key={tier.id}
             role="columnheader"
             className="flex flex-col items-center text-center"
-            style={{ width: "100%" }}
+            style={{ minWidth: 0, padding: "0 8px" }}
           >
             <div
               className="flex flex-col items-center"
-              style={{ width: 108, gap: 12 }}
+              style={{ width: "100%", maxWidth: 160, gap: 10 }}
             >
               <span
                 className="font-urbanist"
                 style={{
-                  color: "#000",
-                  fontSize: 18,
-                  fontWeight: 400,
+                  color: tier.accent,
+                  fontSize: "clamp(14px, 1.2vw, 16px)",
+                  fontWeight: 600,
                   lineHeight: 1.2,
                   whiteSpace: "nowrap",
                 }}
               >
                 {tier.name}
               </span>
-              <span
-                className="font-urbanist"
-                style={{
-                  color: "#000",
-                  fontSize: 24,
-                  fontWeight: 700,
-                  lineHeight: 1.2,
-                  whiteSpace: "nowrap",
-                }}
+              <div
+                className="flex items-baseline"
+                style={{ gap: 4 }}
               >
-                {tier.price}
-              </span>
+                <span
+                  className="font-urbanist"
+                  style={{
+                    color: "#000",
+                    fontSize: "clamp(18px, 1.7vw, 22px)",
+                    fontWeight: 700,
+                    lineHeight: 1.2,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {price.display}
+                </span>
+                {price.suffix ? (
+                  <span
+                    className="font-urbanist"
+                    style={{
+                      color: "#6b7280",
+                      fontSize: "clamp(11px, 0.9vw, 12px)",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {price.suffix}
+                  </span>
+                ) : null}
+              </div>
               <a
                 href={cta.href}
                 target={external ? "_blank" : undefined}
@@ -203,13 +219,13 @@ function TierHeaderRow() {
                 className="font-urbanist flex items-center justify-center"
                 style={{
                   width: "100%",
-                  padding: "8px 12px",
-                  border: "1px solid rgba(0,0,0,0.08)",
+                  padding: "8px 10px",
+                  border: "1px solid rgba(0,0,0,0.12)",
                   borderRadius: 8,
                   background: "#fff",
                   color: "#000",
-                  fontSize: 16,
-                  fontWeight: 400,
+                  fontSize: "clamp(12px, 1vw, 13px)",
+                  fontWeight: 500,
                   lineHeight: 1.2,
                   textDecoration: "none",
                   whiteSpace: "nowrap",
@@ -231,12 +247,13 @@ function TierHeaderRow() {
 // by its rows as label + value pairs stacked vertically. First tier open by
 // default so crawlers see content without JS.
 
-function MobileAccordion() {
+function MobileAccordion({ billing }: { billing: BillingPeriod }) {
   return (
     <div className="flex flex-col gap-3 w-full">
       {TIERS.map((tier, tierIdx) => {
         const cta = HEADER_CTA[tier.id];
         const external = cta.href.startsWith("http");
+        const price = headerPrice(tier, billing);
         return (
           <details
             key={tier.id}
@@ -256,7 +273,7 @@ function MobileAccordion() {
               <div className="flex flex-col" style={{ gap: 2 }}>
                 <span
                   className="font-urbanist font-semibold"
-                  style={{ color: "#000", fontSize: 18, lineHeight: 1.2 }}
+                  style={{ color: tier.accent, fontSize: 18, lineHeight: 1.2 }}
                 >
                   {tier.name}
                 </span>
@@ -264,7 +281,9 @@ function MobileAccordion() {
                   className="font-urbanist font-bold"
                   style={{ color: "#000", fontSize: 20, lineHeight: 1.2 }}
                 >
-                  {tier.price}
+                  {price.suffix
+                    ? `${price.display} ${price.suffix}`
+                    : price.display}
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -341,14 +360,6 @@ function MobileAccordion() {
                           style={{ color: "#111", fontSize: 14, lineHeight: 1.4 }}
                         >
                           {row.label}
-                          {row.tooltip ? (
-                            <span
-                              className="font-urbanist"
-                              style={{ color: "#9ca3af", fontSize: 12, display: "block", lineHeight: 1.3 }}
-                            >
-                              {row.tooltip}
-                            </span>
-                          ) : null}
                         </span>
                         {row.sublabel ? (
                           <span
@@ -380,6 +391,7 @@ export function PricingComparisonTable() {
   const tierHeaderRef = useRef<HTMLDivElement>(null);
   const [tierHeaderH, setTierHeaderH] = useState(120);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const { billing } = useBilling();
 
   // Measure the tier-header height so we can offset each section header's
   // sticky `top` and keep them stacked correctly under the Nav.
@@ -412,49 +424,23 @@ export function PricingComparisonTable() {
       // Trust Us" carousel ([data-getstarted]).
       data-outcomes
       className="flex flex-col items-center bg-white full-bleed-bg px-6 lg:px-20 py-16 lg:py-[100px]"
-      style={{ borderRadius: 52 }}
     >
-      <style>{`
-        .row-label-wrap .row-tooltip {
-          position: absolute;
-          left: 0;
-          bottom: calc(100% + 8px);
-          background: #111;
-          color: #fff;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.4;
-          letter-spacing: -0.01em;
-          padding: 8px 10px;
-          border-radius: 8px;
-          border: 1px solid #2a2a2a;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-          width: max-content;
-          max-width: 260px;
-          opacity: 0;
-          transform: translateY(4px);
-          pointer-events: none;
-          transition: opacity 140ms ease, transform 140ms ease;
-          z-index: 20;
-        }
-        .row-label-wrap:hover .row-tooltip {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      `}</style>
-
-      {/* Mobile: per-tier accordion */}
-      <div className="lg:hidden w-full max-w-[600px]">
-        <MobileAccordion />
+      {/* Mobile + tablet + narrow desktop: per-tier accordion. The full
+          4-column comparison table needs enough horizontal room to read
+          comfortably, so we hold the accordion all the way up to `xl`
+          (1280px) — between `lg` (1024) and `xl` the cramped table was
+          breaking. */}
+      <div className="xl:hidden w-full max-w-[600px]">
+        <MobileAccordion billing={billing} />
       </div>
 
-      {/* Desktop: full comparison table */}
+      {/* Desktop (xl+): full comparison table */}
       <div
         // No `overflow: hidden` or `border-radius` here — both would
         // break `position: sticky` for descendants and / or visually
-        // box the table. Live velt.dev/pricing renders the table flat
-        // on the page background, no card chrome.
-        className="relative hidden lg:block w-full max-w-[1280px]"
+        // box the table. Live usesuperflow.com/pricing renders the
+        // table flat on the page background, no card chrome.
+        className="relative hidden xl:block w-full max-w-[1280px]"
       >
         {/* Sticky tier header — pins under the Nav for the whole table. */}
         <div
@@ -466,7 +452,7 @@ export function PricingComparisonTable() {
             background: "#fff",
           }}
         >
-          <TierHeaderRow />
+          <TierHeaderRow billing={billing} />
         </div>
 
         {SECTIONS.map((section) => {
@@ -511,7 +497,7 @@ export function PricingComparisonTable() {
                     className="font-urbanist font-bold"
                     style={{
                       color: section.accent,
-                      fontSize: 22,
+                      fontSize: "clamp(18px, 1.8vw, 22px)",
                       lineHeight: 1.2,
                       letterSpacing: "-0.01em",
                     }}
@@ -529,7 +515,7 @@ export function PricingComparisonTable() {
                     role="row"
                     className="grid items-center"
                     style={{
-                      gridTemplateColumns: `${LABEL_COL}px repeat(3, ${TIER_COL}px)`,
+                      gridTemplateColumns: GRID_TEMPLATE,
                       padding: `${ROW_PAD_Y}px 24px`,
                       borderBottom:
                         i === section.rows.length - 1 ? "none" : DIVIDER,
@@ -538,39 +524,23 @@ export function PricingComparisonTable() {
                       background: "#fff",
                     }}
                   >
-                    <div className="flex flex-col" style={{ gap: 2 }}>
+                    <div className="flex flex-col" style={{ gap: 2, minWidth: 0, paddingRight: 16 }}>
                       <span
-                        className="row-label-wrap font-urbanist font-medium"
+                        className="font-urbanist font-medium"
                         style={{
-                          position: "relative",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
                           color: "#111",
-                          fontSize: 18,
+                          fontSize: "clamp(14px, 1.3vw, 17px)",
                           lineHeight: 1.4,
-                          width: "fit-content",
                         }}
                       >
                         {row.label}
-                        {row.tooltip ? (
-                          <>
-                            <RowInfoGlyph />
-                            <span
-                              className="row-tooltip"
-                              role="tooltip"
-                            >
-                              {row.tooltip}
-                            </span>
-                          </>
-                        ) : null}
                       </span>
                       {row.sublabel ? (
                         <span
                           className="font-urbanist font-medium"
                           style={{
                             color: "#9ca3af",
-                            fontSize: 15,
+                            fontSize: "clamp(12px, 1.1vw, 15px)",
                             lineHeight: 1.3,
                           }}
                         >

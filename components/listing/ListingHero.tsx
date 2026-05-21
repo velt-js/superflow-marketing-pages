@@ -1,4 +1,4 @@
-import { CursorBadge } from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 import LogoBar from "@/components/home/LogoBar";
 
 export interface ListingHeroBadge {
@@ -59,17 +59,19 @@ export default function ListingHero({
               {subheading}
             </p>
 
-            <CursorBadge
-              side="left"
-              label={leftBadge.label}
+            <Cursor
+              direction="right"
+              text={leftBadge.label}
               color={leftBadge.color}
-              style={{ left: "-180px", top: "calc(100% - 12px)" }}
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", left: "-220px", top: "calc(100% - 12px)" }}
             />
-            <CursorBadge
-              side="right"
-              label={rightBadge.label}
+            <Cursor
+              direction="left"
+              text={rightBadge.label}
               color={rightBadge.color}
-              style={{ right: "-180px", top: "calc(100% - 12px)" }}
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", right: "-220px", top: "calc(100% - 12px)" }}
             />
           </div>
 

@@ -1,4 +1,4 @@
-import { CursorBadge } from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 
 export default function SecurityHero() {
   return (
@@ -27,17 +27,19 @@ export default function SecurityHero() {
             at Superflow
           </h1>
 
-          <CursorBadge
-            label="Developer"
+          <Cursor
+            text="Developer"
             color="#4dd5ff"
-            side="left"
-            style={{ left: "-140px", top: "calc(50% + 16px)" }}
+            direction="right"
+            className="pointer-events-none hidden lg:block"
+            style={{ position: "absolute", left: "-180px", top: "calc(50% + 16px)" }}
           />
-          <CursorBadge
-            label="Designer"
+          <Cursor
+            text="Designer"
             color="#fc6cba"
-            side="right"
-            style={{ right: "-140px", top: "calc(50% + 16px)" }}
+            direction="left"
+            className="pointer-events-none hidden lg:block"
+            style={{ position: "absolute", right: "-180px", top: "calc(50% + 16px)" }}
           />
         </div>
       </div>

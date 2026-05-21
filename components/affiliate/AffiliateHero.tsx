@@ -1,4 +1,4 @@
-import { CursorBadge, PhotographerCursor } from "@/components/shared/CursorBadge";
+import { Cursor } from "@/components/shared/Cursor";
 
 export default function AffiliateHero() {
   return (
@@ -19,18 +19,19 @@ export default function AffiliateHero() {
               Affiliate Program
             </h1>
 
-            <CursorBadge
-              label="Designer"
+            <Cursor
+              text="Designer"
               color="#4dd5ff"
-              side="left"
-              style={{ left: "-180px", top: "20px" }}
+              direction="right"
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", left: "-220px", top: "20px" }}
             />
-            <CursorBadge
-              label="Photographer"
+            <Cursor
+              text="Photographer"
               color="#fc6cba"
-              side="right"
-              cursor={<PhotographerCursor />}
-              style={{ right: "-200px", top: "20px" }}
+              direction="left"
+              className="pointer-events-none hidden lg:block"
+              style={{ position: "absolute", right: "-220px", top: "20px" }}
             />
           </div>
 

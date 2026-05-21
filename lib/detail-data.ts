@@ -370,22 +370,21 @@ const SHARED_REASONS: ReasonsGridData = {
   heading: "6 Reasons to choose",
   highlight: "an annotation tool",
   items: [
-    { id: "commenting", label: "Commenting", icon: "/images/hero/icon-world.svg" },
-    { id: "compatibility", label: "Compatibility", icon: "/images/hero/icon-world.svg" },
-    { id: "integrations", label: "Integrations", icon: "/images/hero/icon-world.svg" },
-    { id: "client-management", label: "Client Management", icon: "/images/hero/icon-world.svg" },
-    { id: "team-workflow", label: "Team Workflow", icon: "/images/hero/icon-world.svg" },
-    { id: "ai-copilot", label: "AI Copilot", icon: "/images/hero/icon-world.svg" },
+    { id: "commenting", label: "Commenting", icon: "/images/sections/reasons/commenting.svg" },
+    { id: "compatibility", label: "Compatibility", icon: "/images/sections/reasons/compatibility.svg" },
+    { id: "integrations", label: "Integrations", icon: "/images/sections/reasons/integrations.svg" },
+    { id: "client-management", label: "Client Management", icon: "/images/sections/reasons/client-management.svg" },
+    { id: "team-workflow", label: "Team Workflow", icon: "/images/sections/reasons/team-workflow.svg" },
+    { id: "ai-copilot", label: "AI Copilot", icon: "/images/sections/reasons/ai-copilot.svg" },
   ],
 };
 
 function buildCriteria(competitor: string): ComparisonCriterionData[] {
   const previewImage = "/images/sections/collaboration/comments-in-context.png";
-  const criterionIcon = "/images/hero/icon-world.svg";
   return [
     {
       id: "commenting",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/commenting.svg",
       title: "Commenting",
       description:
         "Stop leaving vague feedback that confuses your teams even more. Drop text, audio, and video comments at all the right places with Superflow.",
@@ -416,7 +415,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
     },
     {
       id: "compatibility",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/compatibility.svg",
       title: "Compatibility",
       description:
         "Your feedback tool should fit into whatever environments you already use — websites, staging, PDFs and images.",
@@ -445,7 +444,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
     },
     {
       id: "integrations",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/integrations.svg",
       title: "Integrations",
       description:
         "Push tasks and threads into the project management tools your team already lives in.",
@@ -474,7 +473,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
     },
     {
       id: "client-management",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/client-management.svg",
       title: "Client Management",
       description:
         "Give clients a frictionless way to leave feedback and approve work without learning a new tool.",
@@ -503,7 +502,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
     },
     {
       id: "team-workflow",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/team-workflow.svg",
       title: "Team Workflow",
       description:
         "Will it considerably increase productivity for your design, engineering and QA teams?",
@@ -532,7 +531,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
     },
     {
       id: "ai-copilot",
-      icon: criterionIcon,
+      icon: "/images/sections/reasons/ai-copilot.svg",
       title: "AI Copilot",
       description:
         "Let AI summarise threads, draft replies and triage comments so your team stays in flow.",
