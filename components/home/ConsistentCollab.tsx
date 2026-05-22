@@ -39,7 +39,7 @@ export default function ConsistentCollab() {
 
       <div className="relative mx-auto max-w-[1162px] mt-[40px] px-4">
         <Image
-          src="/images/sections/consistent-collab.png"
+          src="/images/sections/all-assets-curve.svg"
           alt="Assets in one place"
           width={1162}
           height={254}

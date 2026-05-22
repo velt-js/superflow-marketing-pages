@@ -34,7 +34,7 @@ export default function EliminateRedundant() {
         </div>
         <div className="w-[507px] max-w-full h-[52px] relative">
           <Image
-            src="/images/sections/eliminate-avatars.png"
+            src="/images/sections/eliminate-avatars.svg"
             alt=""
             fill
             sizes="507px"

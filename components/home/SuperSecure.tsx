@@ -1,10 +1,36 @@
+"use client";
+
+import { useRef, useState } from "react";
+
 function LetterTile({ letter }: { letter: string }) {
+  const [up, setUp] = useState(false);
+  const revertTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleEnter = () => {
+    if (revertTimer.current) {
+      clearTimeout(revertTimer.current);
+      revertTimer.current = null;
+    }
+    setUp(true);
+  };
+
+  const handleLeave = () => {
+    if (revertTimer.current) clearTimeout(revertTimer.current);
+    // wait for up-anim (300ms) + hold (1200ms) before flipping back
+    revertTimer.current = setTimeout(() => setUp(false), 1500);
+  };
+
   return (
     <div
-      className="group w-[36px] h-[36px] rounded-[12px] bg-white overflow-hidden transition-colors duration-200 hover:bg-[#ececec]"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      className={`w-[36px] h-[36px] rounded-[12px] overflow-hidden transition-colors duration-200 ${up ? "bg-[#ececec]" : "bg-white"}`}
       style={{ border: "1px solid rgba(34,34,34,0.08)" }}
     >
-      <div className="flex flex-col transition-transform duration-300 ease-out group-hover:-translate-y-[36px]">
+      <div
+        className="flex flex-col transition-transform duration-300 ease-out"
+        style={{ transform: up ? "translateY(-36px)" : "translateY(0)" }}
+      >
         <span
           className="h-[36px] w-[36px] flex items-center justify-center text-[18px] leading-none"
           style={{ fontFamily: "var(--font-poppins)", fontWeight: 700, color: "#5748ff" }}

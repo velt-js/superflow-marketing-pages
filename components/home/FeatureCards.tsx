@@ -70,6 +70,10 @@ export type FeatureCardsProps = {
   /** Replaces the default slot-0 card with a custom node. Used on
    *  /website-review to mount the interactive tabbed WebsiteFirstCard. */
   firstCardOverride?: React.ReactNode;
+  /** Length-4 list of full-card SVG paths. If provided, each card slot
+   *  renders as a single inline SVG (background + content + cursors baked
+   *  in) instead of the composed chrome. Used by the home page. */
+  fullCardSvgs?: string[];
 };
 
 // Tag icons — simple Tabler-style SVGs to avoid extra binary downloads.
@@ -422,9 +426,29 @@ export default function FeatureCards({
   integrationsCtaLabel = "View Integrations",
   integrationsCtaHref = "#integrations",
   firstCardOverride,
+  fullCardSvgs,
 }: FeatureCardsProps = {}) {
   const source = cards && cards.length === 4 ? cards : DEFAULT_CARDS;
   const logos = integrationLogos && integrationLogos.length > 0 ? integrationLogos : DEFAULT_INTEGRATION_LOGOS;
+
+  if (fullCardSvgs && fullCardSvgs.length === 4) {
+    return (
+      <section className="bg-white">
+        {fullCardSvgs.map((src, i) => (
+          <div key={`full-card-${i}`} className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
+            <Image
+              src={src}
+              alt=""
+              width={1436}
+              height={820}
+              className="w-full max-w-[1436px] h-auto"
+              priority={i === 0}
+            />
+          </div>
+        ))}
+      </section>
+    );
+  }
 
   return (
     <section className="bg-white">

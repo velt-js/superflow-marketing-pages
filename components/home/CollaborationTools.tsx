@@ -34,31 +34,31 @@ const DEFAULT_CARDS: Card[] = [
     icon: `${IMG}/icon-comments.png`,
     title: "Comments in context",
     body: <>Pin comments directly to frames &amp; elements for clearer feedback</>,
-    preview: `${IMG}/comments-in-context.png`,
+    preview: "/images/sections/home-collab/comments-in-context.svg",
   },
   {
     icon: `${IMG}/icon-record.png`,
     title: "Record richer feedback",
     body: <>Direct comment with Loom-style recordings without leaving the app</>,
-    preview: `${IMG}/record-richer-feedback.png`,
+    preview: "/images/sections/home-collab/recorder.svg",
   },
   {
     icon: `${IMG}/icon-incognito.png`,
     title: "Private & Guest Mode",
     body: <>Keep wires from crossing: Clients use guest mode while your team goes private</>,
-    preview: `${IMG}/private-guest-mode.png`,
+    preview: "/images/sections/home-collab/private-and-guest-mode.svg",
   },
   {
     icon: `${IMG}/icon-devices.png`,
     title: "Review from wherever",
     body: <>Works across all devices for seamless reviews on your time</>,
-    preview: `${IMG}/review-from-wherever.png`,
+    preview: "/images/sections/home-collab/mobile-review.svg",
   },
   {
     icon: `${IMG}/icon-tasks.png`,
     title: "Who’s doing what?",
     body: <>Free built-in task management with Slack and email notifications</>,
-    preview: `${IMG}/whos-doing-what.png`,
+    preview: "/images/sections/home-collab/task-management.svg",
   },
   {
     icon: `${IMG}/icon-versions.png`,
@@ -68,7 +68,7 @@ const DEFAULT_CARDS: Card[] = [
         Go from <strong>final</strong> to <strong>final final</strong> without losing a single comment
       </>
     ),
-    preview: `${IMG}/versioning.png`,
+    preview: "/images/sections/home-collab/Versioning.svg",
   },
 ];
 

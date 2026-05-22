@@ -81,6 +81,17 @@ export type ReviewPageDoc = {
   metaDescription?: string | null;
 };
 
+// Slug → hero MP4 mapping. Lives in code rather than Sanity since the assets
+// are bundled with the app (public/videos/feature-hero). Returns null if the
+// page is not one of the 5 feature pages.
+const FEATURE_HERO_VIDEOS: Record<string, string> = {
+  "image-review": "/videos/feature-hero/image-review.mp4",
+  "video-review": "/videos/feature-hero/video-review.mp4",
+  "lottie-review": "/videos/feature-hero/lottie-review.mp4",
+  "pdf-review": "/videos/feature-hero/pdf-review.mp4",
+  "website-review": "/videos/feature-hero/website-review.mp4",
+};
+
 export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
   if (!doc?.hero?.headlineLine1) notFound();
 
@@ -100,6 +111,7 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         secondaryCta={doc.hero.secondaryCta ?? undefined}
         heroMediaSrc={doc.hero.heroMediaSrc}
         heroMediaAlt={`${doc.title} preview`}
+        heroVideoSrc={FEATURE_HERO_VIDEOS[doc.slug] ?? null}
       />
       <LogoBar />
       <HeroShowcase />

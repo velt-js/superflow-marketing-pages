@@ -32,6 +32,8 @@ export type ReviewHeroProps = {
   secondaryCta?: CtaLink;
   heroMediaSrc?: string | null;
   heroMediaAlt?: string;
+  /** Optional MP4 hero. When provided, replaces the static `heroMediaSrc` Image with an autoplaying, looping, muted video. */
+  heroVideoSrc?: string | null;
 };
 
 export function ReviewHero({
@@ -44,6 +46,7 @@ export function ReviewHero({
   secondaryCta,
   heroMediaSrc,
   heroMediaAlt = "Product preview",
+  heroVideoSrc,
 }: ReviewHeroProps) {
   const primary = primaryCta ?? { label: "Try Demo", href: "/demo" };
   const secondary = secondaryCta ?? {
@@ -145,7 +148,20 @@ export function ReviewHero({
           </div>
         </div>
 
-        {heroMediaSrc ? (
+        {heroVideoSrc ? (
+          <div className="w-full max-w-[1200px]">
+            <video
+              src={heroVideoSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster={heroMediaSrc ?? undefined}
+              aria-label={heroMediaAlt}
+              className="w-full h-auto block rounded-[20px]"
+            />
+          </div>
+        ) : heroMediaSrc ? (
           <div className="w-full max-w-[1200px]">
             <Image
               src={heroMediaSrc}

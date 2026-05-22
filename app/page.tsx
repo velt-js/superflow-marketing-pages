@@ -32,7 +32,14 @@ export default function HomePage() {
       />
       <ConsistentCollab />
       <WorkflowStats />
-      <FeatureCards />
+      <FeatureCards
+        fullCardSvgs={[
+          "/images/sections/home-cards/capability-1.svg",
+          "/images/sections/home-cards/capability-2.svg",
+          "/images/sections/home-cards/capability-3.svg",
+          "/images/sections/home-cards/capability-4.svg",
+        ]}
+      />
       <Testimonial
         name="Calbie Creative"
         role="Digital Designer @Calbie Creative"
