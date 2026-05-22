@@ -1,7 +1,13 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  // Pin Turbopack to this project so it doesn't walk up to ~/ and scan
+  // the entire home directory (which was causing dev-server lag).
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   images: {
     remotePatterns: [
       {

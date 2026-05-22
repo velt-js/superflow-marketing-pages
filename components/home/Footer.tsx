@@ -43,7 +43,7 @@ const COLUMNS: Column[] = [
     title: "Resources",
     links: [
       { label: "Docs", href: "/docs" },
-      { label: "Case Study", href: "/case-study" },
+      { label: "Case Study", href: "/case-study/writesonic" },
       { label: "SEO Checklist", href: "/seo-checklist" },
       { label: "Blog", href: "/blog" },
       { label: "Cost Calculator", href: "/cost-calculator", dollar: true },
