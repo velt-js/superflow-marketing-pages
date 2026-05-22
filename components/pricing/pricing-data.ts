@@ -153,10 +153,13 @@ export const TIERS: Tier[] = [
 // Order: [starter, growth, scale, enterprise]. Cell kinds match the live
 // site's rendered icons / text values per row.
 
+// Rows + section colors mirror usesuperflow.com/pricing verbatim. Cell
+// values are X/check or text. Section accents match the live category
+// strip per scraped CSS.
 export const SECTIONS: Section[] = [
   {
     title: "Core",
-    accent: "#FF74A8",
+    accent: "#FF5A7A",
     rows: [
       {
         label: "Project",
@@ -193,26 +196,28 @@ export const SECTIONS: Section[] = [
   },
   {
     title: "Collaboration",
-    accent: "#20D4FF",
+    accent: "#2F84D2",
     rows: [
       {
         label: "Supported Assets",
-        sublabel: "Websites, PDFs, Videos, Images and Lottie Files",
+        values: [
+          text("Websites, PDFs, Videos, Images and Lottie Files"),
+          text("Websites, PDFs, Videos, Images and Lottie Files"),
+          text("Websites, PDFs, Videos, Images and Lottie Files"),
+          text("Websites, PDFs, Videos, Images and Lottie Files"),
+        ],
+      },
+      {
+        label: "Recordings (Audio, Video & Screen)",
         values: [check, check, check, check],
       },
-      {
-        label: "Recordings",
-        sublabel: "Audio, Video & Screen",
-        values: [cross, check, check, check],
-      },
-      { label: "Attachments", values: [cross, check, check, check] },
+      { label: "Attachments", values: [check, check, check, check] },
       {
         label: "Automated Screenshot",
-        values: [cross, cross, check, check],
+        values: [cross, check, check, check],
       },
       {
-        label: "Live Reviews",
-        sublabel: "Huddle, Follow Me and More",
+        label: "Live Reviews (Huddle, Follow Me and More)",
         values: [check, check, check, check],
       },
       {
@@ -224,11 +229,22 @@ export const SECTIONS: Section[] = [
           text("Slack and Email"),
         ],
       },
+    ],
+  },
+  {
+    title: "Access Control",
+    accent: "#0C8A58",
+    rows: [
       { label: "Private Comments", values: [cross, cross, check, check] },
       { label: "Anonymous Guest Mode", values: [cross, cross, check, check] },
       { label: "Access Control", values: [cross, cross, check, check] },
-      { label: "Workspace Management", values: [cross, check, check, check] },
-      { label: "Reporting - Analytics", values: [cross, cross, check, check] },
+    ],
+  },
+  {
+    title: "Workspace Management",
+    accent: "#D4840D",
+    rows: [
+      { label: "Reporting - Analytics", values: [check, check, check, check] },
       {
         label: "Dashboard Notifications",
         values: [check, check, check, check],
@@ -241,32 +257,32 @@ export const SECTIONS: Section[] = [
   },
   {
     title: "Integrations",
-    accent: "#A78BFA",
+    accent: "#672FF5",
     rows: [
       { label: "Email", values: [check, check, check, check] },
-      { label: "Slack", values: [cross, check, check, check] },
-      { label: "ClickUp", values: [cross, check, check, check] },
-      { label: "Asana", values: [cross, check, check, check] },
-      { label: "Monday.com", values: [cross, check, check, check] },
+      { label: "Slack", values: [check, check, check, check] },
+      { label: "ClickUp", values: [cross, cross, check, check] },
+      { label: "Asana", values: [cross, cross, check, check] },
+      { label: "Monday.com", values: [cross, cross, check, check] },
       { label: "Webhooks", values: [cross, cross, check, check] },
       { label: "REST APIs", values: [cross, cross, cross, check] },
     ],
   },
   {
     title: "Security & Privacy",
-    accent: "#FFB46E",
+    accent: "#F62F6A",
     rows: [
       { label: "SAML based SSO", values: [cross, cross, cross, check] },
-      { label: "SOC 2 Type 2", values: [cross, cross, check, check] },
+      { label: "SOC 2 Type 2", values: [cross, cross, cross, check] },
       { label: "HIPAA with BAA", values: [cross, cross, cross, check] },
-      { label: "Pen Testing", values: [cross, cross, check, check] },
+      { label: "Pen Testing", values: [cross, cross, cross, check] },
       {
         label: "Custom Security Reviews",
         values: [cross, cross, cross, check],
       },
-      { label: "DPA", values: [cross, cross, check, check] },
+      { label: "DPA", values: [cross, cross, cross, check] },
       { label: "Data Self-hosting", values: [cross, cross, cross, check] },
-      { label: "GDPR APIs", values: [cross, cross, check, check] },
+      { label: "GDPR APIs", values: [cross, cross, cross, check] },
       {
         label: "Multi Region Hosting",
         values: [cross, cross, cross, check],
@@ -275,7 +291,7 @@ export const SECTIONS: Section[] = [
   },
   {
     title: "Support",
-    accent: "#1DDE84",
+    accent: "#625DF5",
     rows: [
       {
         label: "Support Channels",
@@ -283,14 +299,10 @@ export const SECTIONS: Section[] = [
           text("Community Slack"),
           text("Email, Community Slack, Chat"),
           text("Email, Community Slack, Chat"),
-          text("Email, Community Slack, Chat"),
+          text("Private Slack and Zoom"),
         ],
       },
-      {
-        label: "Private Slack and Zoom",
-        values: [cross, cross, check, check],
-      },
-      { label: "Onboarding", values: [cross, cross, check, check] },
+      { label: "Onboarding", values: [cross, cross, cross, check] },
       { label: "Dedicated CSM", values: [cross, cross, cross, check] },
       { label: "Priority SLAs", values: [cross, cross, cross, check] },
       {

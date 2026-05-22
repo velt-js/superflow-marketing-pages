@@ -156,7 +156,10 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         <ReviewWebsiteFuture
           headingLine1={doc.websiteFuture.headingLine1 ?? "Superflow is built for the future"}
           subheading={doc.websiteFuture.subheading ?? undefined}
-          tabs={doc.websiteFuture.tabs}
+          tabs={doc.websiteFuture.tabs.map((t, i) => ({
+            ...t,
+            imageSrc: `/images/website-review/future/tab-${i + 1}.svg`,
+          }))}
         />
       ) : null}
       {isWebsite && doc.websiteInstall?.logosSrc ? (
@@ -164,7 +167,7 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
           headingLine1={doc.websiteInstall.headingLine1 ?? "Install Anywhere."}
           headingLine2={doc.websiteInstall.headingLine2 ?? "In Seconds."}
           subheading={doc.websiteInstall.subheading ?? undefined}
-          logosSrc={doc.websiteInstall.logosSrc}
+          logosSrc="/images/website-review/install-logos.svg"
         />
       ) : null}
       <Testimonial
@@ -177,7 +180,15 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
       <CollaborationTools
         headingLine1={doc.collaborationTools?.headingLine1 ?? undefined}
         headingLine2={doc.collaborationTools?.headingLine2 ?? undefined}
-        cards={doc.collaborationTools?.cards ?? undefined}
+        cards={
+          isWebsite && doc.collaborationTools?.cards?.length
+            ? doc.collaborationTools.cards.map((c, i) =>
+                i === 0
+                  ? { ...c, previewSrc: "/images/website-review/robust-commenting.svg" }
+                  : c,
+              )
+            : doc.collaborationTools?.cards ?? undefined
+        }
         ctaLabel={doc.collaborationTools?.ctaLabel ?? undefined}
         ctaHref={doc.collaborationTools?.ctaHref ?? undefined}
       />
