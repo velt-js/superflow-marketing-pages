@@ -127,11 +127,15 @@ const PRICING_BREADCRUMB = buildBreadcrumbList([
 const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_FOR_SCHEMA);
 
 export const metadata = buildPageMetadata({
-  title: "Superflow Pricing — Plans for Agencies & Marketers",
+  title: "Ship Creative Assets Impossibly Fast",
   description:
     "Ship creative assets impossibly fast. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow.",
   path: "/pricing",
-  ogImage: "/og/pricing.png",
+  // Live usesuperflow.com/pricing reuses the homepage OG image — set
+  // explicitly here so the override is visible at the call-site, even
+  // though it matches DEFAULT_OG_IMAGE.
+  ogImage: "/opengraph-image.png",
+  noBrandSuffix: true,
 });
 
 export default function PricingPage() {

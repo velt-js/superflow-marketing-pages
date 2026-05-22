@@ -61,8 +61,7 @@ export default function IntegrationOverview({
 }) {
   return (
     <section
-      className="bg-white pt-[80px] pb-[120px] lg:pt-[120px] lg:pb-[160px]"
-      style={{ borderBottomLeftRadius: 80, borderBottomRightRadius: 80 }}
+      className="bg-white pt-[80px] pb-[120px] lg:pt-[120px] lg:pb-[160px] rounded-b-[32px] lg:rounded-b-[80px]"
     >
       <div className="container-page">
         <div className="mx-auto flex max-w-[720px] flex-col gap-[64px]">

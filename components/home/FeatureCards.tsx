@@ -1,53 +1,59 @@
 import Image from "next/image";
 
 import { Cursor } from "@/components/shared/Cursor";
+import WebsiteFirstCard from "@/components/review/WebsiteFirstCard";
 
 const IMG = "/images/sections/featurecards";
 
-type CursorDef = {
+// Gradient palette cycles by card index. >4 cards wrap back to slot 0.
+const GRADIENTS = [
+  "linear-gradient(100deg, #C4F0FF 0%, #AFC0FF 100%)",
+  "linear-gradient(99deg, #F8E6FF 0%, #EDA1E0 100%)",
+  "linear-gradient(101deg, #EBE6FF 0%, #A28BFF 100%)",
+  "linear-gradient(109deg, #F9FFB3 0%, #FFC962 100%)",
+] as const;
+
+export type FeatureCardType =
+  | "simple"
+  | "integrationIcons"
+  | "integrationPills"
+  | "websiteTabs";
+
+export type FeatureCardIconType =
+  | "comment"
+  | "prioritize"
+  | "approve"
+  | "integrate";
+
+export type FeatureCardTabVariant = {
+  pillLabel: string;
+  imageSrc: string;
+};
+
+export type FeatureCardCursor = {
+  side: "left" | "right";
   label: string;
   color: string;
-  textWhite?: boolean;
-  /** left/right offset in px (from the relevant side of the card) */
-  offset: number;
-  /** top offset in px */
-  top: number;
+  textColor?: string;
+  /** Vertical position as % of image height (0 = top edge, 100 = bottom). */
+  topPct: number;
 };
 
-type HeroDef = {
-  src: string;
-  w: number;
-  h: number;
-  /** absolute top in px (for top-anchored), or undefined to anchor bottom */
-  top?: number;
-  bottom?: number;
-  /** if undefined, image is centered horizontally */
-  left?: number;
-};
-
-type CardDef = {
-  bgGradient: string;
-  height: number;
-  tagIcon: React.ReactNode;
-  titleLines: [string, string];
-  subtitle: string;
-  subtitleLeading: number;
-  hero: HeroDef;
-  leftCursor: CursorDef;
-  rightCursor: CursorDef;
-  footer?: "integrations-icons" | "integrations-pills";
-};
-
-/**
- * Per-feature override fed by Sanity. Only the editorial bits swap; the
- * 4 gradient backgrounds, cursor labels/colors, tag icon, and footer
- * variant are visual chrome and stay hard-coded per Figma 18:3443.
- */
 export type FeatureCardOverride = {
-  titleLine1: string;
-  titleLine2?: string;
+  type?: FeatureCardType;
+  title: string;
   subtitle: string;
   imageSrc: string;
+  iconType?: FeatureCardIconType;
+  tabVariants?: FeatureCardTabVariant[];
+  cursors?: FeatureCardCursor[];
+  /** Optional aspect-ratio override for the image box, e.g. "740/350" or "7/1".
+   *  Defaults to 740/350. */
+  imageAspectRatio?: string;
+  // Legacy fields kept so a Sanity payload still using the old shape doesn't
+  // crash at runtime — `title` falls back to `${titleLine1}\n${titleLine2}`.
+  titleLine1?: string;
+  titleLine2?: string;
 };
 
 export type IntegrationLogoOverride = {
@@ -57,26 +63,38 @@ export type IntegrationLogoOverride = {
 };
 
 export type FeatureCardsProps = {
-  /** Accepted for backwards compat but NOT rendered — Figma 18:3443 has no
-   *  above-cards section heading. Kept in the Sanity schema so editors can
-   *  re-add later without a migration. */
   eyebrow?: string;
   heading?: string;
-  /** Length-4 override; index aligns with the 4 fixed card slots. */
   cards?: FeatureCardOverride[];
   integrationLogos?: IntegrationLogoOverride[];
   integrationsCtaLabel?: string;
   integrationsCtaHref?: string;
-  /** Replaces the default slot-0 card with a custom node. Used on
-   *  /website-review to mount the interactive tabbed WebsiteFirstCard. */
-  firstCardOverride?: React.ReactNode;
-  /** Length-4 list of full-card SVG paths. Each slot may be a string (SVG
-   *  path → render as full-card image) or null (fall back to composed
-   *  chrome / firstCardOverride). Used by home and feature-review pages. */
-  fullCardSvgs?: (string | null)[];
 };
 
-// Tag icons — simple Tabler-style SVGs to avoid extra binary downloads.
+const DEFAULT_INTEGRATION_LOGOS: IntegrationLogoOverride[] = [
+  { name: "Asana", logoSrc: `${IMG}/asana.png`, href: "/integrations/asana" },
+  { name: "ClickUp", logoSrc: `${IMG}/clickup.png`, href: "/integrations/clickup" },
+  { name: "Monday.com", logoSrc: `${IMG}/monday.png`, href: "/integrations/monday" },
+  { name: "Slack", logoSrc: `${IMG}/slack.png`, href: "/integrations/slack" },
+];
+
+// Default tag icon per slot index. Cycles for >4 cards.
+const DEFAULT_ICON_BY_INDEX: FeatureCardIconType[] = [
+  "comment",
+  "prioritize",
+  "approve",
+  "integrate",
+];
+
+// Default card type per slot index — applied when a CMS payload omits
+// `cardType`. Mirrors the historical 4-slot layout (review/manage/approve/sync).
+const DEFAULT_TYPE_BY_INDEX: FeatureCardType[] = [
+  "simple",
+  "integrationIcons",
+  "simple",
+  "integrationPills",
+];
+
 function CommentIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -100,185 +118,62 @@ function ApproveIcon() {
 }
 function IntegrateIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 15l-4.5 4.5" /><path d="M14.5 4l5.5 5.5" /><path d="M3 13l4 4l11 -11l-4 -4z" /><path d="M14 7l3 3" />
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <g clipPath="url(#feature-card-integrate-clip)">
+        <path
+          d="M2.77783 17.2224L5.93783 14.0624M12.7085 2.77881L9.54855 5.93881M17.2221 7.29238L14.0621 10.4524M7.99997 4.58381L15.4164 11.9995L13.5621 13.8545C13.0795 14.3608 12.5005 14.7655 11.8592 15.0448C11.2179 15.324 10.5273 15.4722 9.82786 15.4806C9.12846 15.4889 8.43443 15.3574 7.78662 15.0936C7.13881 14.8298 6.5503 14.4391 6.05571 13.9445C5.56111 13.4499 5.17043 12.8614 4.90664 12.2136C4.64284 11.5658 4.51127 10.8718 4.51965 10.1723C4.52803 9.47294 4.67621 8.78227 4.95546 8.14097C5.2347 7.49967 5.63938 6.92069 6.14569 6.43809L8.00069 4.58381H7.99997Z"
+          stroke="black"
+          strokeWidth="1.42857"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="feature-card-integrate-clip">
+          <rect width="20" height="20" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }
 
-function TagPill({ icon }: { icon: React.ReactNode }) {
-  return (
-    <div className="absolute left-[24px] lg:left-[52px] top-[24px] lg:top-[52px] flex items-center justify-center rounded-[52px] bg-black/[0.08] w-[52px] h-[52px]">
-      {icon}
-    </div>
-  );
-}
-
-/**
- * Renders one of the two card cursors. `side` is the side of the CARD the
- * badge is anchored to; visually the cursor inside the badge mirrors that
- * (anchored on left → cursor on right of badge → direction="right", etc.).
- */
-function CardCursor({
-  label,
-  color,
-  textWhite,
-  side,
-  offset,
-  top,
-}: CursorDef & { side: "left" | "right" }) {
-  const isLeft = side === "left";
-  return (
-    <Cursor
-      text={label}
-      color={color}
-      textColor={textWhite ? "#fff" : "#000"}
-      direction={isLeft ? "right" : "left"}
-      className="hidden lg:block"
-      style={{
-        position: "absolute",
-        top,
-        ...(isLeft ? { left: offset } : { right: offset }),
-      }}
-    />
-  );
-}
-
-function HeroBlock({ hero }: { hero: HeroDef }) {
-  const style: React.CSSProperties = {
-    position: "absolute",
-    width: hero.w,
-    height: hero.h,
-    maxWidth: "calc(100% - 48px)",
-  };
-  if (hero.left !== undefined) {
-    style.left = hero.left;
-  } else {
-    style.left = "50%";
-    style.transform = "translateX(-50%)";
-  }
-  if (hero.top !== undefined) {
-    style.top = hero.top;
-  } else if (hero.bottom !== undefined) {
-    style.bottom = hero.bottom;
-  }
-  return (
-    <div style={style} className="hidden lg:block">
-      <Image src={hero.src} alt="" width={hero.w} height={hero.h} className="w-full h-full object-contain" />
-    </div>
-  );
-}
-
-function HeroMobile({ hero }: { hero: HeroDef }) {
-  return (
-    <div className="lg:hidden mt-8 px-6">
-      <Image src={hero.src} alt="" width={hero.w} height={hero.h} className="w-full h-auto object-contain" />
-    </div>
-  );
-}
-
-// Order matches the left→right order baked into the full-card SVGs
-// (manage-prioritize.svg / sync-tools.svg): Asana, ClickUp, Monday, Slack.
-// Overlay coordinates per full-card SVG. Each SVG bakes the integration row
-// + "View Integrations" text in as static art at different positions and
-// different intrinsic viewBoxes, so we hard-code positions per file. All
-// numbers are SVG-space (pixels) and converted to % at render time.
-type Overlay =
-  | {
-      kind: "icons";
-      w: number;
-      h: number;
-      iconSize: number;
-      iconY: number;
-      icons: { name: string; x: number }[];
-      link: { x: number; y: number; w: number; h: number };
-    }
-  | {
-      kind: "pills";
-      w: number;
-      h: number;
-      pills: { name: string; x: number; y: number; w: number; h: number }[];
-      link: { x: number; y: number; w: number; h: number };
-    };
-
-const OVERLAY_BY_SVG: Record<string, Overlay> = {
-  // Home page — manage card. Icons left→right: Asana, ClickUp, Monday, Slack.
-  "/images/sections/home-cards/capability-2.svg": {
-    kind: "icons",
-    w: 1436,
-    h: 880,
-    iconSize: 60,
-    iconY: 686,
-    icons: [
-      { name: "Asana", x: 574 },
-      { name: "ClickUp", x: 650 },
-      { name: "Monday.com", x: 726 },
-      { name: "Slack", x: 802 },
-    ],
-    // Wider/taller hit area centered on the "VIEW INTEGRATIONS →" group.
-    // Chevron is at x=787, y=771; text precedes it. Use a generous block.
-    link: { x: 560, y: 755, w: 360, h: 45 },
-  },
-  // Home page — sync card. Pills left→right: Monday, ClickUp, Slack, Asana.
-  "/images/sections/home-cards/capability-4.svg": {
-    kind: "pills",
-    w: 1436,
-    h: 800,
-    pills: [
-      { name: "Monday.com", x: 452.915, y: 603, w: 164.02, h: 48 },
-      { name: "ClickUp", x: 628.935, y: 603, w: 119.17, h: 48 },
-      { name: "Slack", x: 760.105, y: 603, w: 101.2, h: 48 },
-      { name: "Asana", x: 873.305, y: 603, w: 109.78, h: 48 },
-    ],
-    link: { x: 560, y: 687, w: 360, h: 45 },
-  },
-  // Feature pages — manage card. Icons left→right: Asana, ClickUp, Monday, Slack.
-  "/images/sections/feature-cards/manage-prioritize.svg": {
-    kind: "icons",
-    w: 1436,
-    h: 800,
-    iconSize: 60,
-    iconY: 682.342,
-    icons: [
-      { name: "Asana", x: 563.2 },
-      { name: "ClickUp", x: 639.2 },
-      { name: "Monday.com", x: 715.2 },
-      { name: "Slack", x: 791.2 },
-    ],
-    link: { x: 560, y: 755, w: 360, h: 45 },
-  },
-  // Feature pages — sync card. Pills left→right: Monday, ClickUp, Slack, Asana.
-  "/images/sections/feature-cards/sync-tools.svg": {
-    kind: "pills",
-    w: 1436,
-    h: 740,
-    pills: [
-      { name: "Monday.com", x: 452.915, y: 543, w: 164.02, h: 48 },
-      { name: "ClickUp", x: 628.935, y: 543, w: 119.17, h: 48 },
-      { name: "Slack", x: 760.105, y: 543, w: 101.2, h: 48 },
-      { name: "Asana", x: 873.305, y: 543, w: 109.78, h: 48 },
-    ],
-    link: { x: 560, y: 627, w: 360, h: 45 },
-  },
+const TAG_ICON: Record<FeatureCardIconType, React.ReactNode> = {
+  comment: <CommentIcon />,
+  prioritize: <PrioritizeIcon />,
+  approve: <ApproveIcon />,
+  integrate: <IntegrateIcon />,
 };
 
-// Force integration links to /integrations/<slug> regardless of any CMS
-// override on the logo (which may point at the external vendor site).
-function integrationSlugHref(name: string): string {
-  const slug = name
-    .toLowerCase()
-    .replace(/\.com$/, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return `/integrations/${slug}`;
+const TAG_LABEL: Record<FeatureCardIconType, string> = {
+  comment: "Review",
+  prioritize: "Prioritize",
+  approve: "Approve",
+  integrate: "Integrate",
+};
+
+function TagPill({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="absolute left-1/2 -translate-x-1/2 lg:left-[52px] lg:translate-x-0 top-[24px] lg:top-[52px] inline-flex items-center rounded-full bg-black/[0.08] h-[40px] lg:h-[52px] px-[10px] lg:px-[16px] overflow-hidden transition-[gap] duration-300 ease-out gap-0 group-hover:gap-[8px] lg:group-hover:gap-[10px]">
+      <span className="flex items-center justify-center w-[20px] h-[20px] flex-shrink-0">
+        {icon}
+      </span>
+      <span
+        className="overflow-hidden max-w-0 group-hover:max-w-[200px] whitespace-nowrap transition-[max-width] duration-300 ease-out font-semibold text-[14px] lg:text-[16px] text-[#111]"
+        style={{ fontFamily: "var(--font-poppins)" }}
+      >
+        {label}
+      </span>
+    </div>
+  );
 }
 
-const DEFAULT_INTEGRATION_LOGOS: IntegrationLogoOverride[] = [
-  { name: "Asana", logoSrc: `${IMG}/asana.png`, href: "/integrations/asana" },
-  { name: "ClickUp", logoSrc: `${IMG}/clickup.png`, href: "/integrations/clickup" },
-  { name: "Monday.com", logoSrc: `${IMG}/monday.png`, href: "/integrations/monday" },
-  { name: "Slack", logoSrc: `${IMG}/slack.png`, href: "/integrations/slack" },
-];
+function ChevronRight() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M9 6l6 6l-6 6" />
+    </svg>
+  );
+}
 
 function ViewIntegrationsLink({
   label,
@@ -299,12 +194,51 @@ function ViewIntegrationsLink({
       }}
     >
       {label}
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 6l6 6l-6 6" />
-      </svg>
+      <ChevronRight />
     </a>
   );
 }
+
+function AsanaIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path fillRule="evenodd" clipRule="evenodd" d="M21.2906 14.7012C18.191 14.7012 15.6784 17.214 15.6784 20.3137C15.6784 23.4132 18.191 25.926 21.2906 25.926C24.3901 25.926 26.9027 23.4132 26.9027 20.3137C26.9027 17.214 24.3901 14.7012 21.2906 14.7012ZM6.70951 14.7017C3.61 14.7017 1.09729 17.214 1.09729 20.3137C1.09729 23.4132 3.61 25.926 6.70951 25.926C9.80916 25.926 12.322 23.4132 12.322 20.3137C12.322 17.214 9.80916 14.7017 6.70951 14.7017ZM19.6121 7.68582C19.6121 10.7856 17.0995 13.2985 14.0001 13.2985C10.9004 13.2985 8.3878 10.7856 8.3878 7.68582C8.3878 4.58667 10.9004 2.07373 14.0001 2.07373C17.0995 2.07373 19.6121 4.58667 19.6121 7.68582Z" fill="#111111" fillOpacity="0.52" />
+    </svg>
+  );
+}
+function ClickUpIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M3.2478 20.9232L7.21539 17.8825C9.32391 20.6351 11.5636 21.9028 14.0571 21.9028C16.5376 21.9028 18.7128 20.6491 20.7267 17.9201L24.7523 20.8867C21.8471 24.822 18.2375 26.9026 14.0571 26.9026C9.89055 26.9026 6.24553 24.836 3.2478 20.9232ZM14.0431 7.7098L6.98099 13.7956L3.7166 10.0108L14.0592 1.09717L24.3201 10.0172L21.0407 13.7902L14.0431 7.7098Z" fill="#111111" fillOpacity="0.52" />
+    </svg>
+  );
+}
+function MondayIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M4.30678 21.6973C3.73633 21.6986 3.17577 21.5484 2.68237 21.2621C2.18897 20.9758 1.78042 20.5636 1.49845 20.0677C1.22079 19.5753 1.08232 19.0167 1.09786 18.4516C1.1134 17.8866 1.28237 17.3364 1.58667 16.86L7.36996 7.77825C7.66596 7.29016 8.08621 6.88939 8.58778 6.61686C9.08936 6.34433 9.65428 6.20982 10.2249 6.22706C10.795 6.24072 11.3513 6.40561 11.8367 6.70487C12.3222 7.00412 12.7195 7.42698 12.9878 7.93019C13.527 8.94961 13.4596 10.1761 12.8139 11.133L7.03424 20.2148C6.74115 20.6715 6.3375 21.0468 5.86072 21.306C5.38394 21.5652 4.84944 21.6998 4.30678 21.6973Z" fill="#111111" fillOpacity="0.52" />
+      <path d="M14.2267 21.6969C13.0603 21.6969 11.9869 21.0733 11.4233 20.071C11.1463 19.58 11.0081 19.0228 11.0236 18.4592C11.0392 17.8956 11.2078 17.3469 11.5115 16.8718L17.2838 7.81094C17.5754 7.31598 17.9942 6.90807 18.4966 6.62949C18.999 6.35092 19.5668 6.21183 20.1411 6.22666C21.3174 6.25239 22.3834 6.91036 22.9225 7.93959C23.4579 8.96882 23.3795 10.2027 22.7142 11.1572L16.9431 20.218C16.651 20.6728 16.249 21.0467 15.7742 21.3051C15.2995 21.5636 14.7673 21.6984 14.2267 21.6969Z" fill="#111111" fillOpacity="0.52" />
+      <path d="M23.9257 21.7742C25.57 21.7742 26.9031 20.4691 26.9031 18.8593C26.9031 17.2494 25.57 15.9443 23.9257 15.9443C22.2813 15.9443 20.9482 17.2494 20.9482 18.8593C20.9482 20.4691 22.2813 21.7742 23.9257 21.7742Z" fill="#111111" fillOpacity="0.52" />
+    </svg>
+  );
+}
+function SlackIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M5.99674 17.6378C5.99674 19.2472 4.69595 20.548 3.08651 20.548C1.47706 20.548 0.17627 19.2472 0.17627 17.6378C0.17627 16.0283 1.47706 14.7275 3.08651 14.7275H5.99674V17.6378ZM7.45186 17.6378C7.45186 16.0283 8.75265 14.7275 10.3621 14.7275C11.9715 14.7275 13.2723 16.0283 13.2723 17.6378V24.9134C13.2723 26.5228 11.9715 27.8236 10.3621 27.8236C8.75265 27.8236 7.45186 26.5228 7.45186 24.9134V17.6378Z" fill="#111111" fillOpacity="0.52" />
+      <path d="M10.3622 5.9528C8.75272 5.9528 7.45193 4.65201 7.45193 3.04256C7.45193 1.43311 8.75272 0.132324 10.3622 0.132324C11.9716 0.132324 13.2724 1.43311 13.2724 3.04256V5.9528H10.3622ZM10.3622 7.42996C11.9716 7.42996 13.2724 8.73075 13.2724 10.3402C13.2724 11.9496 11.9716 13.2504 10.3622 13.2504H3.06453C1.45508 13.2504 0.154297 11.9496 0.154297 10.3402C0.154297 8.73075 1.45508 7.42996 3.06453 7.42996H10.3622Z" fill="#111111" fillOpacity="0.52" />
+      <path d="M22.0251 10.3402C22.0251 8.73075 23.3259 7.42996 24.9353 7.42996C26.5448 7.42996 27.8456 8.73075 27.8456 10.3402C27.8456 11.9496 26.5448 13.2504 24.9353 13.2504H22.0251V10.3402ZM20.57 10.3402C20.57 11.9496 19.2692 13.2504 17.6597 13.2504C16.0503 13.2504 14.7495 11.9496 14.7495 10.3402V3.04256C14.7495 1.43311 16.0503 0.132324 17.6597 0.132324C19.2692 0.132324 20.57 1.43311 20.57 3.04256V10.3402V10.3402Z" fill="#111111" fillOpacity="0.52" />
+      <path d="M17.6597 22.0031C19.2692 22.0031 20.57 23.3039 20.57 24.9134C20.57 26.5228 19.2692 27.8236 17.6597 27.8236C16.0503 27.8236 14.7495 26.5228 14.7495 24.9134V22.0031H17.6597ZM17.6597 20.548C16.0503 20.548 14.7495 19.2472 14.7495 17.6378C14.7495 16.0283 16.0503 14.7275 17.6597 14.7275H24.9574C26.5668 14.7275 27.8676 16.0283 27.8676 17.6378C27.8676 19.2472 26.5668 20.548 24.9574 20.548H17.6597Z" fill="#111111" fillOpacity="0.52" />
+    </svg>
+  );
+}
+
+const INTEGRATION_INLINE_ICONS: Record<string, React.ReactNode> = {
+  Asana: <AsanaIcon />,
+  ClickUp: <ClickUpIcon />,
+  "Monday.com": <MondayIcon />,
+  Slack: <SlackIcon />,
+};
 
 function IntegrationsIconRow({
   logos,
@@ -316,13 +250,23 @@ function IntegrationsIconRow({
   ctaHref: string;
 }) {
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 bottom-[60px] flex flex-col items-center gap-[24px]">
-      <div className="flex gap-[16px] items-center opacity-50">
-        {logos.map((b) => (
-          <div key={b.name} className="w-[60px] h-[60px] rounded-[80px] border border-black/[0.16] flex items-center justify-center bg-white/0">
-            <Image src={b.logoSrc} alt={b.name} width={28} height={28} className="object-contain" />
-          </div>
-        ))}
+    <div className="flex flex-col items-center gap-[40px] w-full">
+      <div className="flex flex-wrap justify-center gap-[16px] items-center">
+        {logos.map((b) => {
+          const inline = INTEGRATION_INLINE_ICONS[b.name];
+          return (
+            <a
+              key={b.name}
+              href={b.href ?? "#"}
+              aria-label={b.name}
+              className="w-[60px] h-[60px] rounded-full border border-black/[0.16] flex items-center justify-center bg-white/0"
+            >
+              {inline ?? (
+                <Image src={b.logoSrc} alt="" width={28} height={28} className="object-contain opacity-50" />
+              )}
+            </a>
+          );
+        })}
       </div>
       <ViewIntegrationsLink label={ctaLabel} href={ctaHref} dim />
     </div>
@@ -339,23 +283,25 @@ function IntegrationsPillRow({
   ctaHref: string;
 }) {
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 bottom-[60px] flex flex-col items-center gap-[24px] max-w-[600px] w-full px-6">
+    <div className="flex flex-col items-center gap-[40px] max-w-[600px] w-full">
       <div className="flex flex-wrap items-center justify-center gap-[12px] w-full">
         {logos.map((b) => (
-          <div
+          <a
             key={b.name}
-            className="bg-white rounded-[32px] flex items-center gap-[6px] pl-[8px] pr-[12px] py-[8px]"
+            href={b.href ?? "#"}
+            aria-label={b.name}
+            className="bg-white rounded-full flex items-center gap-[6px] pl-[8px] pr-[12px] py-[8px]"
           >
-            <div className="w-[32px] h-[32px] rounded-[24px] overflow-hidden border-2 border-white">
-              <Image src={b.logoSrc} alt={b.name} width={32} height={32} className="w-full h-full object-cover" />
-            </div>
+            <span className="w-[32px] h-[32px] rounded-full overflow-hidden border-2 border-white block">
+              <Image src={b.logoSrc} alt="" width={32} height={32} className="w-full h-full object-cover" />
+            </span>
             <span
               className="text-[16px] leading-[22.4px]"
               style={{ color: "#636363", fontFamily: "var(--font-poppins)", fontWeight: 500 }}
             >
               {b.name}
             </span>
-          </div>
+          </a>
         ))}
       </div>
       <ViewIntegrationsLink label={ctaLabel} href={ctaHref} />
@@ -363,256 +309,155 @@ function IntegrationsPillRow({
   );
 }
 
-// Card visual chrome — fixed per Figma 18:3443. Heights mirror the Figma
-// frame heights; cursor labels/colors mirror nodes 18:3465/18:3491 (C1),
-// 18:3535/18:3521 (C2), 18:3652/18:3638 (C3), 18:3702/18:3688 (C4).
-const CARD_CHROME: Omit<CardDef, "titleLines" | "subtitle" | "hero">[] = [
-  {
-    bgGradient: "linear-gradient(106deg, rgb(196,240,255) 0%, rgb(175,192,255) 100%)",
-    height: 832,
-    tagIcon: <CommentIcon />,
-    subtitleLeading: 36,
-    leftCursor: { label: "Designer", color: "#4dd5ff", offset: 204, top: 336 },
-    rightCursor: { label: "Photographer", color: "#3772ff", textWhite: true, offset: 174, top: 393 },
-  },
-  {
-    bgGradient: "linear-gradient(109deg, rgb(255,224,242) 0%, rgb(248,183,224) 100%)",
-    height: 852,
-    tagIcon: <PrioritizeIcon />,
-    subtitleLeading: 30,
-    leftCursor: { label: "Manager", color: "#ff62a4", textWhite: true, offset: 204, top: 367 },
-    rightCursor: { label: "Team Lead", color: "#ffcd2e", offset: 174, top: 329 },
-    footer: "integrations-icons",
-  },
-  {
-    bgGradient: "linear-gradient(109deg, rgb(235,230,255) 0%, rgb(162,139,255) 100%)",
-    height: 780,
-    tagIcon: <ApproveIcon />,
-    subtitleLeading: 30,
-    leftCursor: { label: "Client", color: "#b1ff4d", offset: 204, top: 315 },
-    rightCursor: { label: "Designer", color: "#ff62a4", offset: 174, top: 367 },
-  },
-  {
-    bgGradient: "linear-gradient(106deg, rgb(255,238,178) 0%, rgb(255,201,97) 100%)",
-    height: 792,
-    tagIcon: <IntegrateIcon />,
-    subtitleLeading: 30,
-    leftCursor: { label: "Manager", color: "#ff9e2c", offset: 204, top: 326 },
-    rightCursor: { label: "Team Lead", color: "#ffcd2e", offset: 174, top: 380 },
-    footer: "integrations-pills",
-  },
-];
+function resolveTitle(card: FeatureCardOverride): string {
+  if (card.title) return card.title;
+  const line1 = card.titleLine1 ?? "";
+  const line2 = card.titleLine2 ?? "";
+  return line2 ? `${line1}\n${line2}` : line1;
+}
 
-// Hero positioning per card slot — must match the chrome above 1:1.
-// Sizes lifted from Figma 18:3443 child group bounding boxes.
-const CARD_HERO_LAYOUT: Omit<HeroDef, "src">[] = [
-  // C1: dashed-rect + comment-card composite (group 25:235, 680×243).
-  { w: 736, h: 267, top: 460 },
-  // C2: comment card (mask group 25:300, 480×251) centered.
-  { w: 488, h: 259, top: 374 },
-  // C3: approval card (mask group 25:379, 708×366) centered, flush to bottom.
-  { w: 708, h: 366, bottom: 0 },
-  // C4: small comment bubble (400×65) above the pills row.
-  { w: 400, h: 65, top: 412 },
-];
-
-const DEFAULT_CARDS: FeatureCardOverride[] = [
-  {
-    titleLine1: "Review pixels",
-    titleLine2: "with precision",
-    subtitle: "Comment directly on elements for clearer feedback",
-    imageSrc: "/images/review/featurecards/c1-hero.png",
-  },
-  {
-    titleLine1: "Manage, prioritize",
-    titleLine2: "& assign",
-    subtitle: "Use our built-in task manager or integrate your own.",
-    imageSrc: "/images/review/featurecards/c2-hero.png",
-  },
-  {
-    titleLine1: "Get approvals",
-    titleLine2: "at hyper speed",
-    subtitle: "Built-in approvals for less back-and-forth-ing.",
-    imageSrc: "/images/review/featurecards/c3-hero.png",
-  },
-  {
-    titleLine1: "Sync with",
-    titleLine2: "your tools",
-    subtitle: "Seamlessly integrate your Slack or favorite task manager",
-    imageSrc: "/images/review/featurecards/c4-hero.png",
-  },
-];
-
-function Card(c: CardDef & {
+function Card({
+  card,
+  index,
+  integrationLogos,
+  integrationsCtaLabel,
+  integrationsCtaHref,
+}: {
+  card: FeatureCardOverride;
+  index: number;
   integrationLogos: IntegrationLogoOverride[];
   integrationsCtaLabel: string;
   integrationsCtaHref: string;
 }) {
+  const gradient = GRADIENTS[index % GRADIENTS.length];
+  const iconKey = card.iconType ?? DEFAULT_ICON_BY_INDEX[index % DEFAULT_ICON_BY_INDEX.length];
+  const tagIcon = TAG_ICON[iconKey];
+  const title = resolveTitle(card);
+  const type: FeatureCardType =
+    card.type ?? DEFAULT_TYPE_BY_INDEX[index % DEFAULT_TYPE_BY_INDEX.length];
+  const hasFooter = type === "integrationIcons" || type === "integrationPills";
+
   return (
-    <div className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
-      <div
-        className="relative w-full max-w-[1436px] rounded-[40px] lg:rounded-[48px] overflow-hidden"
-        style={{ background: c.bgGradient }}
-      >
-        <div className="hidden lg:block" style={{ height: c.height }} aria-hidden />
+    <div
+      className={[
+        "group relative w-full max-w-[1436px] mx-auto rounded-[32px] lg:rounded-[48px] overflow-hidden",
+        "flex flex-col items-center text-center",
+        "px-6 lg:px-12 pt-[88px] lg:pt-[120px]",
+        "gap-8 lg:gap-12",
+        hasFooter ? "pb-12 lg:pb-[60px]" : "pb-0",
+      ].join(" ")}
+      style={{ background: gradient }}
+    >
+      <TagPill icon={tagIcon} label={TAG_LABEL[iconKey]} />
 
-        <TagPill icon={c.tagIcon} />
-
-        <div className="lg:absolute lg:left-0 lg:right-0 lg:top-[120px] flex flex-col items-center gap-[16px] pt-[96px] lg:pt-0 px-6 text-center">
-          <h3
-            className="font-bold tracking-[-1.8px] text-[#111]"
-            style={{
-              fontFamily: "var(--font-poppins)",
-              fontSize: "clamp(36px, 5vw, 60px)",
-              lineHeight: "72px",
-            }}
-          >
-            {c.titleLines[0]}
-            {c.titleLines[1] ? (
-              <>
-                <br />
-                {c.titleLines[1]}
-              </>
-            ) : null}
-          </h3>
-          <p
-            className="text-center"
-            style={{
-              color: "rgba(17,17,17,0.8)",
-              fontFamily: "var(--font-poppins)",
-              fontSize: 20,
-              lineHeight: `${c.subtitleLeading}px`,
-            }}
-          >
-            {c.subtitle}
-          </p>
-        </div>
-
-        <CardCursor {...c.leftCursor} side="left" />
-        <CardCursor {...c.rightCursor} side="right" />
-
-        <HeroBlock hero={c.hero} />
-        <HeroMobile hero={c.hero} />
-
-        {c.footer === "integrations-icons" && (
-          <IntegrationsIconRow
-            logos={c.integrationLogos}
-            ctaLabel={c.integrationsCtaLabel}
-            ctaHref={c.integrationsCtaHref}
-          />
-        )}
-        {c.footer === "integrations-pills" && (
-          <IntegrationsPillRow
-            logos={c.integrationLogos}
-            ctaLabel={c.integrationsCtaLabel}
-            ctaHref={c.integrationsCtaHref}
-          />
-        )}
-
-        <div className="lg:hidden h-[80px]" aria-hidden />
+      <div className="flex flex-col items-center gap-[16px] max-w-[820px]">
+        <h3
+          className="font-bold tracking-[-0.03em] text-[#111] whitespace-pre-line"
+          style={{
+            fontFamily: "var(--font-poppins)",
+            fontSize: "clamp(32px, 5vw, 60px)",
+            lineHeight: 1.2,
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            color: "rgba(17,17,17,0.8)",
+            fontFamily: "var(--font-poppins)",
+            fontSize: "clamp(16px, 1.6vw, 20px)",
+            lineHeight: 1.5,
+          }}
+        >
+          {card.subtitle}
+        </p>
       </div>
+
+      <div className="w-full flex justify-center">
+        <div
+          className="relative w-full max-w-[800px]"
+          style={{ aspectRatio: (card.imageAspectRatio ?? "740/350").replace("/", " / ") }}
+        >
+          <Image
+            src={card.imageSrc}
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 100vw, 800px"
+            className="object-contain"
+          />
+          {card.cursors?.map((cur, idx) => {
+            const isLeft = cur.side === "left";
+            return (
+              <Cursor
+                key={`cursor-${idx}-${cur.label}`}
+                text={cur.label}
+                color={cur.color}
+                textColor={cur.textColor ?? "#000"}
+                direction={isLeft ? "right" : "left"}
+                className="hidden lg:block"
+                style={{
+                  position: "absolute",
+                  top: `${cur.topPct}%`,
+                  ...(isLeft
+                    ? { right: "calc(100% + 32px)" }
+                    : { left: "calc(100% + 32px)" }),
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {type === "integrationIcons" && (
+        <IntegrationsIconRow
+          logos={integrationLogos}
+          ctaLabel={integrationsCtaLabel}
+          ctaHref={integrationsCtaHref}
+        />
+      )}
+      {type === "integrationPills" && (
+        <IntegrationsPillRow
+          logos={integrationLogos}
+          ctaLabel={integrationsCtaLabel}
+          ctaHref={integrationsCtaHref}
+        />
+      )}
     </div>
   );
 }
 
 export default function FeatureCards({
-  // eyebrow + heading deliberately ignored — Figma 18:3443 has no above-cards heading.
   cards,
   integrationLogos,
   integrationsCtaLabel = "View Integrations",
   integrationsCtaHref = "/integrations",
-  firstCardOverride,
-  fullCardSvgs,
 }: FeatureCardsProps = {}) {
-  const source = cards && cards.length === 4 ? cards : DEFAULT_CARDS;
+  if (!cards || cards.length === 0) return null;
   const logos = integrationLogos && integrationLogos.length > 0 ? integrationLogos : DEFAULT_INTEGRATION_LOGOS;
 
   return (
-    <section className="bg-white">
-      {source.map((override, i) => {
-        const svgSrc = fullCardSvgs?.[i];
-        if (svgSrc) {
-          const overlay = OVERLAY_BY_SVG[svgSrc];
+    <section className="bg-white flex flex-col gap-[26px] py-[26px] px-6 lg:px-[52px]">
+      {cards.map((card, i) => {
+        if (card.type === "websiteTabs") {
           return (
-            <div key={`full-card-${i}`} className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
-              <div className="relative w-full max-w-[1436px]">
-                <Image
-                  src={svgSrc}
-                  alt=""
-                  width={1436}
-                  height={820}
-                  className="w-full h-auto"
-                  priority={i === 0}
-                />
-                {overlay ? (
-                  <>
-                    {overlay.kind === "icons"
-                      ? overlay.icons.map((ic) => (
-                          <a
-                            key={`icon-${ic.name}`}
-                            href={integrationSlugHref(ic.name)}
-                            aria-label={ic.name}
-                            className="absolute"
-                            style={{
-                              left: `${(ic.x / overlay.w) * 100}%`,
-                              top: `${(overlay.iconY / overlay.h) * 100}%`,
-                              width: `${(overlay.iconSize / overlay.w) * 100}%`,
-                              height: `${(overlay.iconSize / overlay.h) * 100}%`,
-                              borderRadius: "9999px",
-                            }}
-                          />
-                        ))
-                      : overlay.pills.map((p) => (
-                          <a
-                            key={`pill-${p.name}`}
-                            href={integrationSlugHref(p.name)}
-                            aria-label={p.name}
-                            className="absolute"
-                            style={{
-                              left: `${(p.x / overlay.w) * 100}%`,
-                              top: `${(p.y / overlay.h) * 100}%`,
-                              width: `${(p.w / overlay.w) * 100}%`,
-                              height: `${(p.h / overlay.h) * 100}%`,
-                              borderRadius: "9999px",
-                            }}
-                          />
-                        ))}
-                    <a
-                      href={integrationsCtaHref}
-                      aria-label={integrationsCtaLabel}
-                      className="absolute"
-                      style={{
-                        left: `${(overlay.link.x / overlay.w) * 100}%`,
-                        top: `${(overlay.link.y / overlay.h) * 100}%`,
-                        width: `${(overlay.link.w / overlay.w) * 100}%`,
-                        height: `${(overlay.link.h / overlay.h) * 100}%`,
-                      }}
-                    />
-                  </>
-                ) : null}
-              </div>
-            </div>
+            <WebsiteFirstCard
+              key={`feature-card-${i}`}
+              titleLine1={card.titleLine1}
+              titleLine2={card.titleLine2}
+              subtitle={card.subtitle}
+            />
           );
         }
-        if (i === 0 && firstCardOverride) {
-          return <div key="first-card-override">{firstCardOverride}</div>;
-        }
-        const chrome = CARD_CHROME[i];
-        const heroLayout = CARD_HERO_LAYOUT[i];
-        const card: CardDef & {
-          integrationLogos: IntegrationLogoOverride[];
-          integrationsCtaLabel: string;
-          integrationsCtaHref: string;
-        } = {
-          ...chrome,
-          titleLines: [override.titleLine1, override.titleLine2 ?? ""],
-          subtitle: override.subtitle,
-          hero: { ...heroLayout, src: override.imageSrc },
-          integrationLogos: logos,
-          integrationsCtaLabel,
-          integrationsCtaHref,
-        };
-        return <Card key={`${override.titleLine1}-${i}`} {...card} />;
+        return (
+          <Card
+            key={`feature-card-${i}`}
+            card={card}
+            index={i}
+            integrationLogos={logos}
+            integrationsCtaLabel={integrationsCtaLabel}
+            integrationsCtaHref={integrationsCtaHref}
+          />
+        );
       })}
     </section>
   );

@@ -16,12 +16,13 @@ const urbanist = Urbanist({
   variable: "--font-urbanist",
 });
 
-const DEFAULT_TITLE = "Superflow";
+const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
 const DEFAULT_DESCRIPTION =
-  "Ship more creative assets impossibly fast. Get approved with fewer rounds of reviews.";
+  "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.";
+const DEFAULT_OG_IMAGE = "/opengraph-image.png";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://superflow.com"),
+  metadataBase: new URL("https://usesuperflow.com"),
   title: { default: DEFAULT_TITLE, template: "%s | Superflow" },
   description: DEFAULT_DESCRIPTION,
   openGraph: {
@@ -30,11 +31,13 @@ export const metadata: Metadata = {
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     locale: "en_US",
+    images: [{ url: DEFAULT_OG_IMAGE }],
   },
   twitter: {
     card: "summary_large_image",
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
   robots: { index: true, follow: true },
 };

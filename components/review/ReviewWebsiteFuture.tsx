@@ -122,7 +122,7 @@ export default function ReviewWebsiteFuture({ headingLine1, subheading, tabs }: 
               alt={current.label}
               width={836}
               height={483}
-              className="w-full h-auto max-w-[836px] object-contain rounded-[80px]"
+              className="w-full h-auto max-w-[836px] object-contain rounded-[32px] lg:rounded-[80px]"
             />
           ) : null}
         </div>

@@ -12,16 +12,16 @@ const tools = [
 
 export default function HeroShowcase() {
   return (
-    <section className="bg-black px-4 lg:px-[52px] pb-12 lg:pb-[80px] rounded-b-[80px]">
+    <section className="bg-black px-4 lg:px-[52px] pb-12 lg:pb-[80px] rounded-b-[32px] lg:rounded-b-[80px]">
       {/* Outer black card with white-12% 4px border, rounded-80, 12px inner padding */}
       <div
-        className="relative mx-auto max-w-[1200px] bg-black p-[12px]"
-        style={{ borderRadius: 80, border: "4px solid rgba(255,255,255,0.12)" }}
+        className="relative mx-auto max-w-[1200px] bg-black p-[12px] rounded-[40px] lg:rounded-[80px]"
+        style={{ border: "4px solid rgba(255,255,255,0.12)" }}
       >
-        {/* Inner orange container, aspect 1176/700, rounded-70, overflow-hidden */}
+        {/* Inner orange container — taller portrait aspect on mobile so all
+            content fits; the Figma 1176/700 landscape aspect kicks in at lg. */}
         <div
-          className="relative overflow-hidden"
-          style={{ aspectRatio: "1176 / 700", borderRadius: 70 }}
+          className="relative overflow-hidden aspect-[2/3] lg:aspect-[1176/700] rounded-[32px] lg:rounded-[70px]"
         >
           {/* Orange gradient background */}
           <Image
@@ -34,16 +34,16 @@ export default function HeroShowcase() {
           />
 
           {/* Top group: loading cursor + heading + subtitle */}
-          <div className="absolute left-[25.55%] right-[25.55%] top-[14%] flex flex-col items-center gap-[40px] lg:gap-[60px]">
+          <div className="absolute left-[6%] right-[6%] lg:left-[25.55%] lg:right-[25.55%] top-[8%] lg:top-[14%] flex flex-col items-center gap-[24px] lg:gap-[60px] mt-12">
             {/* Loading cursor with rainbow spinner */}
-            <div className="relative h-[56px] w-[80px]">
-              <div className="absolute left-[12px] top-0 h-[56px] w-[36px]">
-                <Image src="/images/showcase/cursor.svg" alt="" width={36} height={56} />
+            <div className="relative h-[40px] w-[58px] lg:h-[56px] lg:w-[80px]">
+              <div className="absolute left-[8px] lg:left-[12px] top-0 h-[40px] w-[26px] lg:h-[56px] lg:w-[36px]">
+                <Image src="/images/showcase/cursor.svg" alt="" width={36} height={56} className="w-full h-full" />
               </div>
               <div
-                className="absolute left-[45px] top-[22px] h-[31px] w-[31px] animate-[spin_1.6s_linear_infinite]"
+                className="absolute left-[32px] lg:left-[45px] top-[16px] lg:top-[22px] h-[22px] w-[22px] lg:h-[31px] lg:w-[31px] animate-[spin_1.6s_linear_infinite]"
               >
-                <Image src="/images/showcase/rainbow-spinner.png" alt="" width={31} height={31} />
+                <Image src="/images/showcase/rainbow-spinner.png" alt="" width={31} height={31} className="w-full h-full" />
               </div>
             </div>
 
@@ -54,8 +54,8 @@ export default function HeroShowcase() {
                 style={{
                   color: "#420404",
                   fontFamily: "var(--font-poppins)",
-                  fontSize: "clamp(36px, 4.5vw, 60px)",
-                  lineHeight: "72px",
+                  fontSize: "clamp(28px, 4.5vw, 60px)",
+                  lineHeight: 1.15,
                 }}
               >
                 <span className="block">Reviews can move</span>
@@ -71,8 +71,8 @@ export default function HeroShowcase() {
                 style={{
                   color: "#420404",
                   fontFamily: "var(--font-poppins)",
-                  fontSize: "clamp(16px, 1.8vw, 23.6px)",
-                  lineHeight: "28.33px",
+                  fontSize: "clamp(14px, 1.8vw, 23.6px)",
+                  lineHeight: 1.3,
                 }}
               >
                 Screenshots are for memes. Not precise and
@@ -81,6 +81,7 @@ export default function HeroShowcase() {
               </p>
             </div>
           </div>
+     
 
           {/* Bottom: tooltip + tool bar */}
           <div className="absolute bottom-[32px] left-1/2 -translate-x-1/2 w-[432px] max-w-[calc(100%-32px)]">

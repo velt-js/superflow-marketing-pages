@@ -29,45 +29,43 @@ export default function WebsiteFirstCard(_props: WebsiteFirstCardProps = {}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
-      <div className="relative w-full max-w-[1436px]">
-        <Image
-          src={TAB_SVGS[activeIndex]}
-          alt=""
-          width={1436}
-          height={820}
-          className="w-full h-auto"
-          priority
-        />
-        {/* Tab pill row overlay — covers the pills baked into the SVG so
-            clicks switch the displayed variant. Positioned as a percentage
-            of the 1436×820 card so it scales with the responsive image. */}
-        <div
-          className="absolute"
-          style={{
-            top: `${(355.76 / 820) * 100}%`,
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        >
-          <div className="flex items-center gap-1">
-            {TAB_LABELS.map((label, i) => (
-              <button
-                key={label}
-                type="button"
-                aria-label={label}
-                onClick={() => setActiveIndex(i)}
-                className="cursor-pointer"
-                style={{
-                  width: 140,
-                  height: 42,
-                  background: "transparent",
-                  border: 0,
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
+    <div className="relative w-full max-w-[1436px] mx-auto">
+      <Image
+        src={TAB_SVGS[activeIndex]}
+        alt=""
+        width={1436}
+        height={820}
+        className="w-full h-auto"
+        priority
+      />
+      {/* Tab pill row overlay — covers the pills baked into the SVG so
+          clicks switch the displayed variant. Positioned as a percentage
+          of the 1436×820 card so it scales with the responsive image. */}
+      <div
+        className="absolute"
+        style={{
+          top: `${(355.76 / 820) * 100}%`,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
+        <div className="flex items-center gap-1">
+          {TAB_LABELS.map((label, i) => (
+            <button
+              key={label}
+              type="button"
+              aria-label={label}
+              onClick={() => setActiveIndex(i)}
+              className="cursor-pointer"
+              style={{
+                width: 140,
+                height: 42,
+                background: "transparent",
+                border: 0,
+                padding: 0,
+              }}
+            />
+          ))}
         </div>
       </div>
     </div>

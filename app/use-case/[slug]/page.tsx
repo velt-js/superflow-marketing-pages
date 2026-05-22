@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import DetailPage from "@/components/detail/DetailPage";
 import { useCaseDetails } from "@/lib/detail-data";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -11,9 +12,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const detail = useCaseDetails[slug];
   if (!detail) return {};
-  return {
+  return buildPageMetadata({
     title: detail.hero.heading,
-  };
+    description:
+      "See how Superflow simplifies collaboration and creative-asset review for your workflow.",
+    path: `/use-case/${slug}`,
+  });
 }
 
 export function generateStaticParams() {

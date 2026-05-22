@@ -17,10 +17,12 @@ const BLOG_BREADCRUMB = buildBreadcrumbList([
   { name: "Blog", url: `${SITE_URL}/blog` },
 ]);
 
+const BLOG_DESCRIPTION =
+  "Guides, comparisons, and insights from Superflow on creative-asset review, collaboration workflows, and shipping faster.";
+
 const BLOG_WEBPAGE = buildWebPageSchema({
-  name: "Blog | Velt",
-  description:
-    "Guides, comparisons, and insights on collaboration SDKs, real-time features, and building better products.",
+  name: "Blog | Superflow",
+  description: BLOG_DESCRIPTION,
   url: `${SITE_URL}/blog`,
   breadcrumb: BLOG_BREADCRUMB,
 });
@@ -29,10 +31,8 @@ export const revalidate = 60;
 
 export const metadata = buildPageMetadata({
   title: "Blog",
-  description:
-    "Guides, comparisons, and insights on collaboration SDKs, real-time features, and building better products.",
+  description: BLOG_DESCRIPTION,
   path: "/blog",
-  ogImage: "/og/blog.png",
 });
 
 type BlogPost = {

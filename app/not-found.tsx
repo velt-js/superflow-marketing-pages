@@ -6,14 +6,18 @@
 
 import Nav from "@/components/home/Nav";
 import { NotFoundContent } from "@/components/NotFoundContent";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-// Bare title — the root layout's title.template ("%s | Velt") appends
-// the suffix. A pre-suffixed string here would render "Page not found | Velt | Velt".
-export const metadata = {
+// Bare title — the root layout's title.template ("%s | Superflow") appends
+// the suffix. A pre-suffixed string here would render
+// "Page not found | Superflow | Superflow".
+export const metadata = buildPageMetadata({
   title: "Page not found",
   description:
-    "The page you're looking for doesn't exist. Head back home or jump into the Velt docs.",
-};
+    "The page you're looking for doesn't exist. Head back to the Superflow home page.",
+  path: "/404",
+  noindex: true,
+});
 
 export default function NotFound() {
   return (

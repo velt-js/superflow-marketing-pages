@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Nav from "@/components/home/Nav";
 import LogoBar from "@/components/home/LogoBar";
 import Footer from "@/components/home/Footer";
@@ -9,12 +8,14 @@ import FoundationalPrinciples from "@/components/security/FoundationalPrinciples
 import DataProtection from "@/components/security/DataProtection";
 import EnterpriseSecurity from "@/components/security/EnterpriseSecurity";
 import DataPrivacy from "@/components/security/DataPrivacy";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Security and Privacy",
   description:
     "Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors.",
-};
+  path: "/security",
+});
 
 export default function SecurityPage() {
   return (

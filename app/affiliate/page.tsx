@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import Nav from "@/components/home/Nav";
 import LogoBar from "@/components/home/LogoBar";
 import DarkSection from "@/components/home/DarkSection";
@@ -11,12 +9,14 @@ import WhyJoinUs from "@/components/affiliate/WhyJoinUs";
 import ThreeSteps from "@/components/affiliate/ThreeSteps";
 import RevenueShareBanner from "@/components/affiliate/RevenueShareBanner";
 import DosAndDonts from "@/components/affiliate/DosAndDonts";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-export const metadata: Metadata = {
-  title: "Affiliate Program | Superflow",
+export const metadata = buildPageMetadata({
+  title: "Affiliate Program",
   description:
     "Join the Superflow Affiliate Program. Earn 30% revenue share by sharing Superflow with your audience.",
-};
+  path: "/affiliate",
+});
 
 const AFFILIATE_FAQS = [
   {

@@ -26,7 +26,6 @@ import WhatElse from "@/components/home/WhatElse";
 import WorkflowStats from "@/components/home/WorkflowStats";
 
 import { ReviewHero, type ReviewHeroPersona } from "./ReviewHero";
-import WebsiteFirstCard from "./WebsiteFirstCard";
 import ReviewWebsiteFuture, { type WebsiteFutureTab } from "./ReviewWebsiteFuture";
 import ReviewWebsiteInstall from "./ReviewWebsiteInstall";
 
@@ -79,24 +78,7 @@ export type ReviewPageDoc = {
   faqFormatsAnswer?: string | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
-};
-
-// Slug → hero MP4 mapping. Lives in code rather than Sanity since the assets
-// are bundled with the app (public/videos/feature-hero). Returns null if the
-// page is not one of the 5 feature pages.
-const SHARED_FEATURE_CARD_SVGS = {
-  manage: "/images/sections/feature-cards/manage-prioritize.svg",
-  approvals: "/images/sections/feature-cards/get-approvals.svg",
-  sync: "/images/sections/feature-cards/sync-tools.svg",
-} as const;
-
-const REVIEW_PIXELS_SVG: Record<ReviewPageDoc["feature"], string | null> = {
-  image: "/images/sections/feature-cards/review-pixels-image.svg",
-  video: "/images/sections/feature-cards/review-pixels-video.svg",
-  lottie: "/images/sections/feature-cards/review-pixels-lottie.svg",
-  pdf: "/images/sections/feature-cards/review-pixels-pdf.svg",
-  // null → website-review uses the interactive WebsiteFirstCard with tab-switched SVGs
-  website: null,
+  ogImage?: string | null;
 };
 
 const FEATURE_HERO_VIDEOS: Record<string, string> = {
@@ -111,8 +93,6 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
   if (!doc?.hero?.headlineLine1) notFound();
 
   const isWebsite = doc.feature === "website";
-  const showWebsiteFirstCard = isWebsite && (doc.featureCards?.cards?.[0] != null);
-  const firstFeatureCard = doc.featureCards?.cards?.[0];
 
   return (
     <main>
@@ -136,21 +116,6 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         integrationLogos={doc.featureCards?.integrationLogos ?? undefined}
         integrationsCtaLabel={doc.featureCards?.integrationsCtaLabel ?? undefined}
         integrationsCtaHref={doc.featureCards?.integrationsCtaHref ?? undefined}
-        fullCardSvgs={[
-          REVIEW_PIXELS_SVG[doc.feature],
-          SHARED_FEATURE_CARD_SVGS.manage,
-          SHARED_FEATURE_CARD_SVGS.approvals,
-          SHARED_FEATURE_CARD_SVGS.sync,
-        ]}
-        firstCardOverride={
-          showWebsiteFirstCard && firstFeatureCard ? (
-            <WebsiteFirstCard
-              titleLine1={firstFeatureCard.titleLine1}
-              titleLine2={firstFeatureCard.titleLine2 ?? undefined}
-              subtitle={firstFeatureCard.subtitle}
-            />
-          ) : undefined
-        }
       />
       {isWebsite && doc.websiteFuture?.tabs?.length ? (
         <ReviewWebsiteFuture

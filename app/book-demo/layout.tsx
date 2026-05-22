@@ -8,13 +8,12 @@ import {
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 const BOOK_DEMO_DESCRIPTION =
-  "See Velt in action. Get a personalized walkthrough of our collaboration SDK — comments, cursors, notifications, and more.";
+  "See Superflow in action. Get a personalized walkthrough of how agencies and marketers review and ship creative assets 10x faster.";
 
 export const metadata = buildPageMetadata({
   title: "Book a demo",
   description: BOOK_DEMO_DESCRIPTION,
   path: "/book-demo",
-  ogImage: "/og/book-demo.png",
 });
 
 const BOOK_DEMO_BREADCRUMB = buildBreadcrumbList([
@@ -23,7 +22,7 @@ const BOOK_DEMO_BREADCRUMB = buildBreadcrumbList([
 ]);
 
 const BOOK_DEMO_WEBPAGE = buildWebPageSchema({
-  name: "Book a demo | Velt",
+  name: "Book a demo | Superflow",
   description: BOOK_DEMO_DESCRIPTION,
   url: `${SITE_URL}/book-demo`,
   breadcrumb: BOOK_DEMO_BREADCRUMB,

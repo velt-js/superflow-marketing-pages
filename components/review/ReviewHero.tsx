@@ -8,7 +8,6 @@
 
 import Image from "next/image";
 
-import { Cursor } from "@/components/shared/Cursor";
 
 type CtaLink = {
   label?: string;
@@ -40,8 +39,6 @@ export function ReviewHero({
   headlineLine1,
   headlineLine2 = "Impossibly Fast",
   subheading = "Get approved with fewer rounds of reviews. Get back to creating.",
-  personaLeft,
-  personaRight,
   primaryCta,
   secondaryCta,
   heroMediaSrc,
@@ -58,7 +55,7 @@ export function ReviewHero({
     <section className="relative w-full overflow-hidden bg-black pt-[120px] pb-[60px] lg:pt-[160px] lg:pb-[80px]">
       <div className="container-page relative flex flex-col items-center gap-[40px] lg:gap-[52px]">
         <div className="relative flex flex-col items-center gap-[24px]">
-          <div className="relative flex flex-col items-center gap-[10px]">
+          <div className="relative flex flex-col items-center gap-[0px]">
             <h1
               className="text-center text-white font-semibold tracking-[-0.03em]"
               style={{
@@ -81,25 +78,6 @@ export function ReviewHero({
             </h1>
           </div>
 
-          {personaLeft ? (
-            <Cursor
-              text={personaLeft.label}
-              color={personaLeft.color}
-              direction="right"
-              className="pointer-events-none hidden lg:block"
-              style={{ position: "absolute", left: "-200px", top: "calc(50% + 12px)" }}
-            />
-          ) : null}
-          {personaRight ? (
-            <Cursor
-              text={personaRight.label}
-              color={personaRight.color}
-              direction="left"
-              className="pointer-events-none hidden lg:block"
-              style={{ position: "absolute", right: "-200px", top: "calc(50% + 12px)" }}
-            />
-          ) : null}
-
           <p
             className="text-center text-white max-w-[720px]"
             style={{
@@ -112,13 +90,13 @@ export function ReviewHero({
             {subheading}
           </p>
 
-          <div className="flex items-center gap-[17px]">
+          <div className="flex flex-col sm:flex-row items-center gap-[12px] sm:gap-[17px] w-full sm:w-auto">
             {primary?.label ? (
               <a
                 href={primary.href ?? "#"}
                 target={primary.newTab ? "_blank" : undefined}
                 rel={primary.newTab ? "noopener" : undefined}
-                className="flex items-center justify-center rounded-[32px] bg-white/[0.08] px-6 py-3 text-white transition-colors hover:bg-white/[0.14]"
+                className="flex items-center justify-center rounded-[32px] bg-white/[0.08] px-6 py-3 text-white transition-colors hover:bg-white/[0.14] whitespace-nowrap w-full sm:w-auto"
                 style={{
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,
@@ -134,7 +112,7 @@ export function ReviewHero({
                 href={secondary.href ?? "#"}
                 target={secondary.newTab ? "_blank" : undefined}
                 rel={secondary.newTab ? "noopener" : undefined}
-                className="flex items-center justify-center rounded-[32px] bg-white px-6 py-3 text-black transition-colors hover:bg-white/90"
+                className="flex items-center justify-center rounded-[32px] bg-white px-6 py-3 text-black transition-colors hover:bg-white/90 whitespace-nowrap w-full sm:w-auto"
                 style={{
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,

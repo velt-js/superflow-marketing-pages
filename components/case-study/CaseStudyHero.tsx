@@ -13,8 +13,7 @@ export default function CaseStudyHero({
 }: CaseStudyHeroData) {
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#010001]"
-      style={{ borderBottomLeftRadius: 80, borderBottomRightRadius: 80 }}
+      className="relative w-full overflow-hidden bg-[#010001] rounded-b-[32px] lg:rounded-b-[80px]"
     >
       <div className="container-page relative flex flex-col items-center gap-[40px] pt-[140px] pb-[52px] lg:pt-[180px]">
         <div className="relative flex flex-col items-center gap-[20px] max-w-[920px] py-[40px] text-center">

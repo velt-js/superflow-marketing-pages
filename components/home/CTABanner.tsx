@@ -7,14 +7,14 @@ export default function CTABanner() {
         className="relative mx-auto overflow-hidden rounded-[40px] lg:rounded-[80px] p-[12px]"
         style={{ border: "4px solid rgba(255,255,255,0.12)" }}
       >
-        <div className="relative aspect-[1176/600] overflow-hidden rounded-[32px] lg:rounded-[70px]">
+        <div className="relative aspect-[3/4] lg:aspect-[1176/600] overflow-hidden rounded-[32px] lg:rounded-[70px]">
           <Image
             src="/images/sections/cta-orange-bg.png"
             alt=""
             fill
             className="object-cover"
           />
-          <div className="relative z-10 flex flex-col items-center gap-[32px] pt-[120px] px-6 text-center">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-[24px] lg:gap-[32px] lg:justify-start lg:pt-[120px] px-6 text-center">
             <div className="h-[52px] w-[52px] rounded-[26px] bg-white flex items-center justify-center">
               <Image src="/images/sections/cta-icon.png" alt="" width={25} height={22} />
             </div>

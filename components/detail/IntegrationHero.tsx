@@ -16,8 +16,7 @@ export default function IntegrationHero({
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#010001]"
-      style={{ borderBottomLeftRadius: 80, borderBottomRightRadius: 80 }}
+      className="relative w-full overflow-hidden bg-[#010001] rounded-b-[32px] lg:rounded-b-[80px]"
     >
       <div className="container-page relative flex flex-col items-center gap-[44px] pt-[140px] pb-[80px] lg:pt-[180px] lg:pb-[120px]">
         <div className="flex max-w-[840px] flex-col items-center gap-[20px] text-center">

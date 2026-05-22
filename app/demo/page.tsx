@@ -1,14 +1,17 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import Nav from "@/components/home/Nav";
 import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-export const metadata: Metadata = {
-  title: "Try Demo — Superflow",
-  description: "Click an asset for a live demo of Superflow.",
-};
+export const metadata = buildPageMetadata({
+  title: "Ship Creative Assets Impossibly Fast",
+  description:
+    "Click an asset for a live demo of Superflow. Review and collaborate on websites, videos, PDFs, Lottie files, and images.",
+  path: "/demo",
+  noBrandSuffix: true,
+});
 
 interface AssetType {
   id: string;

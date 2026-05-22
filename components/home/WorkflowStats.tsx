@@ -65,10 +65,11 @@ const GRADIENT_LINE =
 
 function GradientConnector() {
   // Window centered on the Superflow pill: a gradient line with white-fade
-  // gradients on both ends so the gradient feels bounded.
+  // gradients on both ends so the gradient feels bounded. The line itself
+  // is desktop-only; on mobile we only render the centered pill.
   return (
-    <div className="relative w-[184px] h-[56px] flex items-center justify-center shrink-0">
-      <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px]">
+    <div className="relative lg:w-[184px] lg:h-[56px] flex items-center justify-center shrink-0">
+      <div className="hidden lg:block absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px]">
         <div className="relative w-full h-full" style={{ background: GRADIENT_LINE }}>
           <div
             className="absolute inset-y-0 left-0 w-[40px]"
@@ -122,7 +123,7 @@ function StepTile({
 }) {
   const inner = small ? 30 : 26;
   return (
-    <div className="relative shrink-0 w-[56px] h-[56px]">
+    <div className="shrink-0 flex flex-col items-center gap-2 lg:gap-0 lg:block lg:relative lg:w-[56px] lg:h-[56px]">
       <div
         className="bg-white rounded-[52px] w-[56px] h-[56px] flex items-center justify-center"
         style={{ boxShadow: "0 0 0 1px #ebebeb" }}
@@ -130,7 +131,7 @@ function StepTile({
         <Image src={src} alt={alt} width={inner} height={inner} className="object-contain" />
       </div>
       <span
-        className="absolute left-1/2 -translate-x-1/2 top-[73px] text-[20px] font-medium leading-[24px] whitespace-nowrap text-center"
+        className="text-[20px] font-medium leading-[24px] whitespace-nowrap text-center lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-[73px]"
         style={{
           color: dim ? "#c8c8c8" : "#111",
           fontFamily: "var(--font-poppins)",
@@ -169,13 +170,15 @@ export default function WorkflowStats() {
           </span>
         </h2>
 
-        {/* Stepper — labels are anchored under each icon to stay aligned */}
-        <div className="w-full max-w-[720px] pb-[41px]">
-          <div className="flex items-center w-full px-10">
+        {/* Stepper — labels are anchored under each icon to stay aligned on
+            desktop. On mobile the row stacks vertically; horizontal connector
+            lines are hidden because the icons themselves communicate the flow. */}
+        <div className="w-full max-w-[720px] lg:pb-[41px]">
+          <div className="flex flex-col items-center gap-[32px] w-full lg:flex-row lg:gap-0 lg:px-10">
             <StepTile src={steps[0].icon} alt={steps[0].label} label={steps[0].label} dim />
-            <div className="flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
+            <div className="hidden lg:block flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
             <StepTile src={steps[1].icon} alt={steps[1].label} label={steps[1].label} dim />
-            <div className="flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
+            <div className="hidden lg:block flex-1 h-[2px] bg-[#ebebeb] min-w-[20px]" />
             <StepTile src={steps[2].icon} alt={steps[2].label} label={steps[2].label} small />
             <GradientConnector />
             <StepTile src={steps[3].icon} alt={steps[3].label} label={steps[3].label} small />

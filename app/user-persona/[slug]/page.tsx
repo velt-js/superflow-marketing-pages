@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import DetailPage from "@/components/detail/DetailPage";
 import { userPersonaDetails } from "@/lib/detail-data";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -11,9 +12,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const detail = userPersonaDetails[slug];
   if (!detail) return {};
-  return {
+  return buildPageMetadata({
     title: detail.hero.heading,
-  };
+    description:
+      "Are you a designer, developer, PM? Superflow integrates seamlessly for everyone.",
+    path: `/user-persona/${slug}`,
+  });
 }
 
 export function generateStaticParams() {

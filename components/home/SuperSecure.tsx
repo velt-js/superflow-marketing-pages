@@ -71,19 +71,19 @@ export default function SuperSecure() {
     >
       <div className="relative w-full max-w-[1440px]">
         <div
-          className="absolute inset-0 rounded-[60px] lg:rounded-[80px] secure-ring"
+          className="absolute inset-0 rounded-[40px] lg:rounded-[80px] secure-ring"
           style={{ background: GRADIENT_BG, animationDelay: "0s" }}
         />
         <div
-          className="absolute inset-[12px] lg:inset-[14px] rounded-[55px] lg:rounded-[75px] secure-ring"
+          className="absolute inset-[12px] lg:inset-[14px] rounded-[36px] lg:rounded-[75px] secure-ring"
           style={{ background: SOFT_GRADIENT_BG, animationDelay: "0.8s" }}
         />
         <div
-          className="absolute inset-[24px] lg:inset-[28px] rounded-[50px] lg:rounded-[70px] secure-ring"
+          className="absolute inset-[24px] lg:inset-[28px] rounded-[28px] lg:rounded-[70px] secure-ring"
           style={{ background: MID_GRADIENT_BG, animationDelay: "1.6s" }}
         />
 
-        <div className="absolute inset-[26px] lg:inset-[30px] bg-white rounded-[48px] lg:rounded-[68px] flex flex-col items-center justify-center gap-[40px] lg:gap-[52px] py-[40px] pb-[80px] px-6 lg:py-[60px] lg:pb-[80px] lg:px-[120px]">
+        <div className="absolute inset-[26px] lg:inset-[30px] bg-white rounded-[26px] lg:rounded-[68px] flex flex-col items-center justify-center gap-[40px] lg:gap-[52px] py-[40px] pb-[80px] px-6 lg:py-[60px] lg:pb-[80px] lg:px-[120px]">
           <div className="flex items-center justify-center gap-[10px]">
             {["S", "E", "C", "U", "R", "E"].map((l, i) => (
               <LetterTile key={`${l}-${i}`} letter={l} />

@@ -54,21 +54,21 @@ const COLUMNS: Column[] = [
   {
     title: "Competition",
     links: [
-      { label: "Markup Alternative", href: "/alternative/markup" },
-      { label: "Pastel Alternative", href: "/alternative/pastel" },
-      { label: "Bugherd Alternative", href: "/alternative/bugherd" },
-      { label: "Ruttl Alternative", href: "/alternative/ruttl" },
-      { label: "Vercel Comments", href: "/alternative/vercel-comments" },
-      { label: "Webflow Comments", href: "/alternative/webflow-comments" },
-      { label: "Marker.io Comments", href: "/alternative/marker-io" },
-      { label: "Use Bubbles", href: "/alternative/bubbles" },
+      { label: "Markup Alternative", href: "/alternative/markup-alternative" },
+      { label: "Pastel Alternative", href: "/alternative/pastel-alternative" },
+      { label: "Bugherd Alternative", href: "/alternative/bugherd-alternative" },
+      { label: "Ruttl Alternative", href: "/alternative/ruttl-alternative" },
+      { label: "Vercel Comments", href: "/alternative/vercel-comments-alternative" },
+      { label: "Webflow Comments", href: "/alternative/webflow-comments-alternative" },
+      { label: "Marker.io Comments", href: "/alternative/marker-io-alternative" },
+      { label: "Use Bubbles", href: "/alternative/use-bubbles-alternative" },
     ],
   },
   {
     title: "Comparison",
     links: [
-      { label: "MarkUp vs Pastel", href: "/comparison/markup-vs-pastel" },
-      { label: "MarkUp vs Ruttl", href: "/comparison/markup-vs-ruttl" },
+      { label: "MarkUp vs Pastel", href: "/comparisons/markup-vs-pastel" },
+      { label: "MarkUp vs Ruttl", href: "/comparisons/markup-vs-ruttl" },
     ],
   },
   {
@@ -84,12 +84,12 @@ const COLUMNS: Column[] = [
   {
     title: "User Persona",
     links: [
-      { label: "QA team", href: "/user-persona/qa-team" },
+      { label: "QA team", href: "/user-persona/qa-teams" },
       { label: "Project Managers", href: "/user-persona/project-managers" },
       { label: "Founder", href: "/user-persona/founders" },
       { label: "Developer", href: "/user-persona/developers" },
-      { label: "product company", href: "/user-persona/product-managers" },
-      { label: "marketing agency", href: "/user-persona/agencies" },
+      { label: "product company", href: "/user-persona/product-companies" },
+      { label: "marketing agency", href: "/user-persona/marketing-agencies" },
       { label: "Designer", href: "/user-persona/designers" },
       { label: "Product Manager", href: "/user-persona/product-managers" },
       { label: "Marketer", href: "/user-persona/marketers" },
@@ -191,13 +191,8 @@ function SocialIcon({ name }: { name: string }) {
 export default function Footer({ roundedTop = false }: { roundedTop?: boolean }) {
   return (
     <footer
-      className="text-white"
-      style={{
-        background: "#0a0a0a",
-        ...(roundedTop
-          ? { borderTopLeftRadius: 80, borderTopRightRadius: 80 }
-          : null),
-      }}
+      className={`text-white ${roundedTop ? "rounded-t-[32px] lg:rounded-t-[80px]" : ""}`}
+      style={{ background: "#0a0a0a" }}
     >
       <div className="mx-auto max-w-[1200px] px-6 lg:px-[80px] pt-[80px] lg:pt-[120px] pb-[80px]">
         <div className="flex flex-col lg:flex-row gap-[60px] lg:gap-[40px]">

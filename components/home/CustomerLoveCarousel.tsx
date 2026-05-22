@@ -74,8 +74,8 @@ function Card({ t }: { t: Testimonial }) {
 export default function CustomerLoveCarousel() {
   const items = [...TESTIMONIALS, ...TESTIMONIALS];
   return (
-    <section className="bg-white px-6 lg:px-[30px] pb-[80px] rounded-b-[80px]">
-      <div className="bg-[#f5f5f7] rounded-[60px] lg:rounded-[80px] pt-[80px] pb-[52px] flex flex-col items-center gap-[48px]">
+    <section className="bg-white px-6 lg:px-[30px] pb-[80px] rounded-b-[32px] lg:rounded-b-[80px]">
+      <div className="bg-[#f5f5f7] rounded-[40px] lg:rounded-[80px] pt-[80px] pb-[52px] flex flex-col items-center gap-[48px]">
         <div className="flex flex-col items-center gap-[16px] px-6 text-center">
           <p
             className="uppercase"

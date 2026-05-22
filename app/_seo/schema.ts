@@ -3,8 +3,8 @@
 // FAQ shapes in sync — important because Google ties duplicates back
 // to a single entity only when the `@id` and `url` match exactly.
 
-export const SITE_URL = "https://velt.dev";
-export const ORG_NAME = "Velt";
+export const SITE_URL = "https://usesuperflow.com";
+export const ORG_NAME = "Superflow";
 // PNG wordmark served from /public — Google's Knowledge Graph and
 // structured-data guidelines prefer raster (PNG/JPG) over SVG for the
 // Organization logo, even though both validate. SVG variant is still
@@ -14,7 +14,7 @@ export const ORG_LOGO_WIDTH = 1200;
 export const ORG_LOGO_HEIGHT = 512;
 export const ORG_OG_IMAGE = `${SITE_URL}/opengraph-image.png`;
 export const ORG_DESCRIPTION =
-  "Velt is a collaboration SDK for B2B SaaS — add real-time multiplayer features like comments, live cursors, notifications, and presence to your product in minutes.";
+  "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.";
 
 // Stable `@id` URIs. Schema.org recommends a hash fragment so the
 // identifier is namespaced under the canonical URL.
@@ -22,10 +22,8 @@ export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
 export const ORG_SAME_AS: string[] = [
-  "https://github.com/velt-js",
-  "https://www.ycombinator.com/companies/velt",
-  "https://x.com/velt_dev",
-  "https://www.linkedin.com/company/velt-dev",
+  "https://www.linkedin.com/company/usesuperflow",
+  "https://x.com/usesuperflow",
 ];
 
 /**

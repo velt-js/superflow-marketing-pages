@@ -76,23 +76,98 @@ export const reviewHero = defineType({
 
 // ---- FeatureCards (4-card capability grid, Figma 18:3443) ----
 
+export const reviewFeatureCardCursor = defineType({
+  name: "reviewFeatureCardCursor",
+  title: "Feature card cursor",
+  type: "object",
+  fields: [
+    defineField({
+      name: "side",
+      title: "Side",
+      type: "string",
+      options: {
+        list: [
+          { title: "Left of image", value: "left" },
+          { title: "Right of image", value: "right" },
+        ],
+        layout: "radio",
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "label",
+      title: "Label",
+      type: "string",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "color",
+      title: "Fill color (hex, e.g. #4dd5ff)",
+      type: "string",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "textColor",
+      title: "Text color (hex, default #000)",
+      type: "string",
+    }),
+    defineField({
+      name: "topPct",
+      title: "Vertical position (% of image height, 0–100)",
+      type: "number",
+      validation: (r) => r.required().min(0).max(100),
+    }),
+  ],
+  preview: {
+    select: { title: "label", subtitle: "side" },
+  },
+});
+
 export const reviewFeatureCard = defineType({
   name: "reviewFeatureCard",
   title: "Feature card",
   type: "object",
   fields: [
     defineField({
-      name: "titleLine1",
-      title: "Title — line 1",
-      description: 'e.g. "Review pixels"',
+      name: "cardType",
+      title: "Card type",
+      description:
+        "simple = text + image (no bottom buttons). integrationIcons / integrationPills add the integrations footer. websiteTabs renders the interactive tabbed first card (website-review only).",
       type: "string",
+      options: {
+        list: [
+          { title: "Simple (text + image)", value: "simple" },
+          { title: "With integrations — icon row", value: "integrationIcons" },
+          { title: "With integrations — pill row", value: "integrationPills" },
+          { title: "Website — interactive tabs", value: "websiteTabs" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "simple",
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "titleLine2",
-      title: "Title — line 2",
-      description: 'e.g. "with precision"',
+      name: "iconType",
+      title: "Tag icon (top-left)",
       type: "string",
+      options: {
+        list: [
+          { title: "Comment", value: "comment" },
+          { title: "Prioritize", value: "prioritize" },
+          { title: "Approve", value: "approve" },
+          { title: "Integrate", value: "integrate" },
+        ],
+        layout: "radio",
+      },
+    }),
+    defineField({
+      name: "title",
+      title: "Title",
+      description:
+        'Single field. Press Enter to add a line break — e.g. "Review pixels\\nwith precision".',
+      type: "text",
+      rows: 2,
+      validation: (r) => r.required(),
     }),
     defineField({
       name: "subtitle",
@@ -108,9 +183,28 @@ export const reviewFeatureCard = defineType({
       options: { hotspot: false },
       validation: (r) => r.required(),
     }),
+    defineField({
+      name: "imageAspectRatio",
+      title: "Image aspect ratio (e.g. \"740/350\" or \"7/1\")",
+      description:
+        "Optional override for the image container's aspect ratio. Leave blank to use the default (740/350). Use a tall ratio for compact, wide images.",
+      type: "string",
+    }),
+    defineField({
+      name: "cursors",
+      title: "Cursors (0 or 2)",
+      description: "Floating cursor badges around the image. Hidden below the desktop breakpoint.",
+      type: "array",
+      of: [{ type: "reviewFeatureCardCursor" }],
+      validation: (r) =>
+        r.custom((v) => {
+          if (!v || v.length === 0 || v.length === 2) return true;
+          return "Provide either 0 or exactly 2 cursors.";
+        }),
+    }),
   ],
   preview: {
-    select: { title: "titleLine1", subtitle: "titleLine2", media: "image" },
+    select: { title: "title", subtitle: "subtitle", media: "image" },
   },
 });
 
@@ -146,10 +240,12 @@ export const reviewFeatureCards = defineType({
     }),
     defineField({
       name: "cards",
-      title: "Cards (exactly 4)",
+      title: "Cards",
+      description:
+        "Variable length. Gradient backgrounds cycle by index across 4 colors (blue → pink → purple → yellow → wrap).",
       type: "array",
       of: [{ type: "reviewFeatureCard" }],
-      validation: (r) => r.required().length(4),
+      validation: (r) => r.required().min(1),
     }),
     defineField({
       name: "integrationLogos",
@@ -165,32 +261,7 @@ export const reviewFeatureCards = defineType({
       initialValue: "View Integrations",
     }),
     defineField({ name: "integrationsCtaHref", title: "Integrations CTA URL", type: "url" }),
-    defineField({
-      name: "firstCardVariants",
-      title: "First card — tabbed variants (website only)",
-      description:
-        "When populated, the first FeatureCard renders an interactive pill row that swaps the inner mock between variants. Used only on /website-review.",
-      type: "array",
-      of: [{ type: "reviewWebsiteFirstCardVariant" }],
-    }),
   ],
-});
-
-export const reviewWebsiteFirstCardVariant = defineType({
-  name: "reviewWebsiteFirstCardVariant",
-  title: "Website first-card variant",
-  type: "object",
-  fields: [
-    defineField({ name: "pillLabel", title: "Pill label", type: "string", validation: (r) => r.required() }),
-    defineField({
-      name: "image",
-      title: "Variant mock image",
-      type: "image",
-      options: { hotspot: false },
-      validation: (r) => r.required(),
-    }),
-  ],
-  preview: { select: { title: "pillLabel", media: "image" } },
 });
 
 // ---- CollaborationTools (6-card grid, Figma 18:3783) ----

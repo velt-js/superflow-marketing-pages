@@ -70,7 +70,7 @@ const PROTECTION_GRADIENT =
 export default function DataProtection() {
   return (
     <section
-      className="bg-white pt-[80px] pb-[80px] lg:pt-[133px] lg:pb-[133px] rounded-bl-[60px] rounded-br-[60px] lg:rounded-bl-[80px] lg:rounded-br-[80px]"
+      className="bg-white pt-[80px] pb-[80px] lg:pt-[133px] lg:pb-[133px] rounded-bl-[32px] rounded-br-[32px] lg:rounded-bl-[80px] lg:rounded-br-[80px]"
     >
       <div className="container-page max-w-[1080px] flex flex-col items-center gap-[60px] lg:gap-[80px]">
         <h2

@@ -230,10 +230,21 @@ export async function getReviewPageBySlug(slug: string) {
         eyebrow,
         heading,
         cards[] {
+          "type": cardType,
+          iconType,
+          title,
           titleLine1,
           titleLine2,
           subtitle,
-          "imageSrc": image.asset->url
+          "imageSrc": image.asset->url,
+          imageAspectRatio,
+          cursors[] {
+            side,
+            label,
+            color,
+            textColor,
+            topPct
+          }
         },
         integrationLogos[] {
           name,
@@ -241,11 +252,7 @@ export async function getReviewPageBySlug(slug: string) {
           "logoSrc": logo.asset->url
         },
         integrationsCtaLabel,
-        integrationsCtaHref,
-        firstCardVariants[] {
-          pillLabel,
-          "imageSrc": image.asset->url
-        }
+        integrationsCtaHref
       },
       websiteFuture {
         headingLine1,

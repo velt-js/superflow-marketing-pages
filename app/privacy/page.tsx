@@ -1,10 +1,13 @@
-import type { Metadata } from "next";
 import LegalPage from "@/components/legal/LegalPage";
 import { privacyHtml } from "@/lib/legal-content";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Privacy Policy",
-};
+  description:
+    "Read the Superflow privacy policy: what data we collect, how it's used, and the controls you have over it.",
+  path: "/privacy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

@@ -11,7 +11,7 @@
 import type { Metadata } from "next";
 import { SITE_URL } from "./schema";
 
-const SITE_NAME = "Velt";
+const SITE_NAME = "Superflow";
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
 
 export type BuildPageMetadataInput = {
@@ -29,6 +29,14 @@ export type BuildPageMetadataInput = {
   ogImage?: string;
   /** Override the og/twitter title. Defaults to `${title} | ${SITE_NAME}`. */
   socialTitle?: string;
+  /**
+   * Skip the "| Superflow" suffix the helper otherwise appends — the
+   * provided `title` is used verbatim for the browser tab, og:title, and
+   * twitter:title. Use this when the title already includes the brand
+   * (e.g. "Superflow Alternatives") so the rendered tab title doesn't read
+   * "Superflow Alternatives | Superflow".
+   */
+  noBrandSuffix?: boolean;
   /** Set true on /thank-you, success pages, etc. */
   noindex?: boolean;
 };
@@ -47,23 +55,26 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
       path,
       ogImage = DEFAULT_OG_IMAGE,
       socialTitle,
+      noBrandSuffix = false,
       noindex = false,
     } = input;
 
-    // Strip any pre-existing " | Velt" or " — Velt" suffix before building
-    // the social title — Sanity metaTitle values arrive with either form
-    // attached. Without this normalization og/twitter titles render
-    // "Foo | Velt | Velt" or "Foo — Velt | Velt".
-    const SUFFIX_RE = /\s*[—|]\s*Velt\s*$/i;
+    // Strip any pre-existing " | Superflow" or " — Superflow" suffix before
+    // building the social title — Sanity metaTitle values arrive with either
+    // form attached. Without this normalization og/twitter titles render
+    // "Foo | Superflow | Superflow" or "Foo — Superflow | Superflow".
+    const SUFFIX_RE = /\s*[—|]\s*Superflow\s*$/i;
     const bareTitle = title.replace(SUFFIX_RE, "");
-    const social = socialTitle ?? `${bareTitle} | ${SITE_NAME}`;
+    const social =
+      socialTitle ?? (noBrandSuffix ? bareTitle : `${bareTitle} | ${SITE_NAME}`);
     const absoluteUrl = `${SITE_URL}${path === "/" ? "" : path}`;
 
     // Skip the title template (set in app/layout.tsx) when the caller has
-    // already included the "| Velt" suffix — using `absolute` bypasses the
-    // template so the page title in the browser tab stays exactly as
-    // authored.
-    const titleNode = SUFFIX_RE.test(title) ? { absolute: title } : title;
+    // already included the "| Superflow" suffix, or has opted out via
+    // `noBrandSuffix` — using `absolute` bypasses the template so the page
+    // title in the browser tab stays exactly as authored.
+    const titleNode =
+      noBrandSuffix || SUFFIX_RE.test(title) ? { absolute: title } : title;
 
     return {
       title: titleNode,

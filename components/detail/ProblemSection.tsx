@@ -19,7 +19,7 @@ export default function ProblemSection({
               key={card.title}
               className="flex flex-col gap-[14px] rounded-[24px] border border-[#ececec] bg-[#fafafa] p-[24px]"
             >
-              <div className="relative h-[120px] w-full overflow-hidden rounded-[16px] bg-white">
+              <div className="relative h-[200px] w-full overflow-hidden rounded-[16px] bg-white">
                 <Image
                   src={card.image}
                   alt=""

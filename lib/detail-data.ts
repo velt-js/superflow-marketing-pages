@@ -327,7 +327,7 @@ export const useCaseDetails: Record<string, DetailPageConfig> = {
 };
 
 export const userPersonaDetails: Record<string, DetailPageConfig> = {
-  "qa-team": {
+  "qa-teams": {
     hero: {
       eyebrow: "Built for",
       heading: "Built for QA teams that hate guessing what “doesn’t work” means",
@@ -664,7 +664,7 @@ function buildFAQ(competitor: string): FAQItem[] {
 }
 
 export const alternativeDetails: Record<string, ComparisonDetailConfig> = {
-  "google-docs": {
+  "google-docs-alternative": {
     hero: {
       eyebrow: "Alternative",
       heading: "Google Docs Alternative",
@@ -683,10 +683,10 @@ export const alternativeDetails: Record<string, ComparisonDetailConfig> = {
 };
 
 export const comparisonDetails: Record<string, ComparisonDetailConfig> = {
-  "superflow-vs-markup": {
+  "markup-vs-pastel": {
     hero: {
       eyebrow: "Comparison",
-      heading: "Superflow vs Markup",
+      heading: "Markup vs Pastel",
       ctaText: "Try Superflow for Free",
       ctaHref: "https://app.usesuperflow.com/signup",
       leftBadge: { label: "Developer", color: "#4dd5ff" },
@@ -708,9 +708,6 @@ const ALL_INTEGRATIONS: OtherIntegrationItem[] = [
   { name: "Webflow", icon: "/images/hero/icon-world.svg", href: "/integrations/webflow" },
   { name: "Monday.com", icon: "/images/hero/icon-world.svg", href: "/integrations/monday" },
   { name: "Google Tag Manager", icon: "/images/hero/icon-world.svg", href: "/integrations/google-tag-manager" },
-  { name: "Jira", icon: "/images/hero/icon-world.svg", href: "/integrations/jira" },
-  { name: "Linear", icon: "/images/hero/icon-world.svg", href: "/integrations/linear" },
-  { name: "GitHub", icon: "/images/hero/icon-world.svg", href: "/integrations/github" },
 ];
 
 function otherIntegrationsExcluding(slug: string): OtherIntegrationItem[] {
@@ -826,30 +823,6 @@ const INTEGRATION_SEEDS: IntegrationSeed[] = [
     unitOne: "Account",
     unitTwo: "Container",
     unitThree: "Tag",
-  },
-  {
-    slug: "jira",
-    name: "Jira",
-    subtitle: "Turn Superflow feedback into Jira issues without leaving the page.",
-    unitOne: "Site",
-    unitTwo: "Project",
-    unitThree: "Issue",
-  },
-  {
-    slug: "linear",
-    name: "Linear",
-    subtitle: "Sync Superflow comments to Linear issues and keep engineering in the loop.",
-    unitOne: "Workspace",
-    unitTwo: "Team",
-    unitThree: "Issue",
-  },
-  {
-    slug: "github",
-    name: "GitHub",
-    subtitle: "Open GitHub issues straight from Superflow review threads.",
-    unitOne: "Organization",
-    unitTwo: "Repository",
-    unitThree: "Issue",
   },
 ];
 

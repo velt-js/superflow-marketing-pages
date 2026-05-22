@@ -17,12 +17,9 @@ export default function DetailHero({
 }: DetailHeroData) {
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#010001]"
-      style={
-        roundedBottom
-          ? { borderBottomLeftRadius: 80, borderBottomRightRadius: 80 }
-          : undefined
-      }
+      className={`relative w-full overflow-hidden bg-[#010001] ${
+        roundedBottom ? "rounded-b-[32px] lg:rounded-b-[80px]" : ""
+      }`}
     >
       <div className="container-page relative flex flex-col items-center gap-[60px] pt-[140px] pb-[40px] lg:pt-[180px] lg:gap-[80px]">
         <div className="relative flex flex-col items-center gap-[32px] w-full">

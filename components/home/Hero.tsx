@@ -1,4 +1,3 @@
-import { Cursor } from "@/components/shared/Cursor";
 
 const assetPills = [
   { label: "Websites", icon: "/images/hero/icon-world.svg", href: "/website-review" },
@@ -35,26 +34,9 @@ export default function Hero() {
     <section
       className="relative w-full overflow-hidden bg-black pt-[120px] pb-[60px] lg:pt-[160px] lg:pb-[80px]"
     >
-      {/* Section-edge anchored cursors — 5% in from each side, vertically aligned
-          with the gradient ("Assets Impossibly Fast") title line. */}
-      <Cursor
-        text="Developer"
-        color="#4dd5ff"
-        direction="right"
-        className="pointer-events-none hidden lg:block"
-        style={{ position: "absolute", left: "5%", top: "270px" }}
-      />
-      <Cursor
-        text="Designer"
-        color="#fc6cba"
-        direction="left"
-        className="pointer-events-none hidden lg:block"
-        style={{ position: "absolute", right: "5%", top: "330px" }}
-      />
-
       <div className="container-page relative flex flex-col items-center gap-[40px] lg:gap-[52px]">
         <div className="relative flex flex-col items-center gap-[24px]">
-          <div className="relative flex flex-col items-center gap-[10px]">
+          <div className="relative flex flex-col items-center gap-[0px]">
             <h1
               className="text-center text-white font-semibold tracking-[-0.03em]"
               style={{
@@ -113,7 +95,7 @@ export default function Hero() {
         <div className="marquee-viewport w-full overflow-hidden" style={{ height: 60 }}>
           <div
             className="marquee-track items-center"
-            style={{ ["--marquee-duration" as string]: "12s", gap: 10, padding: "10px 0" }}
+            style={{ ["--marquee-duration" as string]: "40s", gap: 10, padding: "10px 0" }}
           >
             {track.map((p, i) => (
               <MarqueePill key={`${p.label}-${i}`} icon={p.icon} label={p.label} href={p.href} />

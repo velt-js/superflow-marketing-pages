@@ -12,8 +12,20 @@ import {
   getAllReviewSlugs,
   getReviewPageBySlug,
 } from "@/sanity/lib/queries";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 export const revalidate = 60;
+
+// Per-slug OG image fallbacks for review pages — used when the Sanity
+// `ogImage` field isn't populated. Mirrors the original usesuperflow.com
+// images (lottie-review reuses the site-wide default since the live site
+// 404s on that route and so has no unique image).
+const REVIEW_OG_IMAGE_FALLBACKS: Record<string, string> = {
+  "image-review": "/og/image-review.png",
+  "video-review": "/og/video-review.png",
+  "pdf-review": "/og/pdf-review.png",
+  "website-review": "/og/website-review.png",
+};
 
 export async function generateStaticParams() {
   const slugs = await getAllReviewSlugs();
@@ -28,11 +40,18 @@ export async function generateMetadata({
   const { slug } = await params;
   const doc = (await getReviewPageBySlug(slug)) as ReviewPageDoc | null;
   if (!doc) return {};
-  return {
-    title: doc.metaTitle ?? `${doc.title} | Superflow`,
+  const rawTitle = doc.metaTitle ?? doc.title;
+  return buildPageMetadata({
+    title: rawTitle,
     description:
-      doc.metaDescription ?? doc.hero.subheading ?? undefined,
-  };
+      doc.metaDescription ??
+      doc.hero.subheading ??
+      "Review and collaborate on creative assets with Superflow.",
+    path: `/${slug}`,
+    ogImage: doc.ogImage ?? REVIEW_OG_IMAGE_FALLBACKS[slug],
+    // Sanity metaTitle is often already brand-suffixed — let the helper
+    // detect and bypass the layout template so we never double-suffix.
+  });
 }
 
 export default async function ReviewPage({

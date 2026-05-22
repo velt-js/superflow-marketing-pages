@@ -1,142 +1,174 @@
 @import "tailwindcss";
 
 @theme {
-  --color-superflow-ink: #0a0a0a;
-  --color-superflow-charcoal: #111111;
-  --color-superflow-muted: rgba(255, 255, 255, 0.75);
-  --color-superflow-muted-2: rgba(255, 255, 255, 0.5);
+    --color-superflow-ink: #0a0a0a;
+    --color-superflow-charcoal: #111111;
+    --color-superflow-muted: rgba(255, 255, 255, 0.75);
+    --color-superflow-muted-2: rgba(255, 255, 255, 0.5);
 
-  --color-superflow-cyan: #4dd5ff;
-  --color-superflow-pink: #fc6cba;
-  --color-superflow-blue: #2d9aff;
-  --color-superflow-purple: #8480ff;
-  --color-superflow-rose: #ff6bc4;
-  --color-superflow-orange: #ffad61;
+    --color-superflow-cyan: #4dd5ff;
+    --color-superflow-pink: #fc6cba;
+    --color-superflow-blue: #2d9aff;
+    --color-superflow-purple: #8480ff;
+    --color-superflow-rose: #ff6bc4;
+    --color-superflow-orange: #ffad61;
 
-  --radius-pill: 9999px;
-  --radius-card: 24px;
+    --radius-pill: 9999px;
+    --radius-card: 24px;
 
-  --font-poppins: "Poppins", system-ui, sans-serif;
-  --font-urbanist: "Urbanist", system-ui, sans-serif;
+    --font-poppins: "Poppins", system-ui, sans-serif;
+    --font-urbanist: "Urbanist", system-ui, sans-serif;
 }
 
 @utility container-page {
-  width: 100%;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
 }
+
 @media (min-width: 1024px) {
-  .container-page {
-    padding-left: 52px;
-    padding-right: 52px;
-  }
+    .container-page {
+        padding-left: 52px;
+        padding-right: 52px;
+    }
 }
 
 @utility section-pad-y {
-  padding-top: 64px;
-  padding-bottom: 64px;
+    padding-top: 64px;
+    padding-bottom: 64px;
 }
+
 @media (min-width: 1024px) {
-  .section-pad-y {
-    padding-top: 120px;
-    padding-bottom: 120px;
-  }
+    .section-pad-y {
+        padding-top: 120px;
+        padding-bottom: 120px;
+    }
 }
 
 @utility text-gradient-superflow {
-  background-image: linear-gradient(
-    90deg,
-    rgb(45, 154, 255) 0%,
-    rgb(132, 128, 255) 36%,
-    rgb(255, 107, 196) 70%,
-    rgb(255, 173, 97) 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+    background-image: linear-gradient(90deg,
+            rgb(45, 154, 255) 0%,
+            rgb(132, 128, 255) 36%,
+            rgb(255, 107, 196) 70%,
+            rgb(255, 173, 97) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 @utility no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
+
 .no-scrollbar::-webkit-scrollbar {
-  display: none;
+    display: none;
+}
+
+/* Any marquee-style viewport (shared `.marquee-viewport` or per-component
+   variants like `.trust-marquee-viewport`) must allow itself to shrink
+   below its content size when nested in a flex parent. Without this the
+   `width: max-content` track blows out the page on mobile. */
+[class*="marquee-viewport"] {
+    min-width: 0;
+    max-width: 100%;
 }
 
 /* Marquee viewport fade — same pattern as velt TrustedLogos. */
 .marquee-viewport {
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 12.5%,
-    rgba(0, 0, 0, 1) 87.5%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 12.5%,
-    rgba(0, 0, 0, 1) 87.5%,
-    rgba(0, 0, 0, 0) 100%
-  );
+    overflow: hidden;
+    /* Flex parents give children `min-width: auto`, which equals the
+       child's intrinsic content size. The track is `width: max-content`
+       (thousands of px), so without these we'd push the page wider on
+       mobile. */
+    min-width: 0;
+    max-width: 100%;
+    mask-image: linear-gradient(to right,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 12.5%,
+            rgba(0, 0, 0, 1) 87.5%,
+            rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 12.5%,
+            rgba(0, 0, 0, 1) 87.5%,
+            rgba(0, 0, 0, 0) 100%);
 }
 
 @keyframes marquee-x {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
 }
 
 @keyframes secure-border-pulse {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 .secure-ring {
-  padding: 2px;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  animation: secure-border-pulse 2.4s ease-in-out infinite;
-  will-change: opacity;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: secure-border-pulse 2.4s ease-in-out infinite;
+    will-change: opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .secure-ring { animation: none; opacity: 1; }
+    .secure-ring {
+        animation: none;
+        opacity: 1;
+    }
 }
 
 .marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-x var(--marquee-duration, 40s) linear infinite;
-  will-change: transform;
+    display: flex;
+    width: max-content;
+    animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
 }
+
 .marquee-track:hover {
-  animation-play-state: paused;
+    animation-play-state: paused;
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
+    .marquee-track {
+        animation: none;
+    }
 }
 
 body {
-  background: #ffffff;
-  color: #fff;
-  margin: 0;
-  font-family: var(--font-poppins);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+    background: #ffffff;
+    color: #fff;
+    margin: 0;
+    font-family: var(--font-poppins);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 img {
-  image-rendering: -webkit-optimize-contrast;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }

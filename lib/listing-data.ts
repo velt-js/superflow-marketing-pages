@@ -83,7 +83,7 @@ export const userPersonaListing: ListingPageConfig = {
         title: "QA Team",
         subtitle:
           "Get faster bug feedback across testing, staging and production. End communication breakdowns. Stop bugs before they even happen.",
-        href: "/user-persona/qa-team",
+        href: "/user-persona/qa-teams",
       },
       {
         title: "Project Managers",
@@ -116,9 +116,14 @@ export const userPersonaListing: ListingPageConfig = {
         href: "/user-persona/marketers",
       },
       {
-        title: "Agencies",
+        title: "Marketing Agencies",
         subtitle: "Give clients a frictionless way to approve work.",
-        href: "/user-persona/agencies",
+        href: "/user-persona/marketing-agencies",
+      },
+      {
+        title: "Product Companies",
+        subtitle: "Ship features faster with feedback baked into every review.",
+        href: "/user-persona/product-companies",
       },
     ],
   },
@@ -163,21 +168,6 @@ export const integrationsListing: ListingPageConfig = {
         icon: "/images/hero/icon-world.svg",
         href: "/integrations/google-tag-manager",
       },
-      {
-        title: "Jira",
-        icon: "/images/hero/icon-world.svg",
-        href: "/integrations/jira",
-      },
-      {
-        title: "Linear",
-        icon: "/images/hero/icon-world.svg",
-        href: "/integrations/linear",
-      },
-      {
-        title: "GitHub",
-        icon: "/images/hero/icon-world.svg",
-        href: "/integrations/github",
-      },
     ],
   },
 };
@@ -191,17 +181,17 @@ export const alternativeListing: ListingPageConfig = {
   grid: {
     variant: "icon-centered",
     items: [
-      { title: "Google Docs", icon: "/images/hero/icon-world.svg", href: "/alternative/google-docs" },
-      { title: "Markup", icon: "/images/hero/icon-world.svg", href: "/alternative/markup" },
-      { title: "Pastel", icon: "/images/hero/icon-world.svg", href: "/alternative/pastel" },
-      { title: "BugHerd", icon: "/images/hero/icon-world.svg", href: "/alternative/bugherd" },
-      { title: "Ruttl", icon: "/images/hero/icon-world.svg", href: "/alternative/ruttl" },
-      { title: "Userback", icon: "/images/hero/icon-world.svg", href: "/alternative/userback" },
-      { title: "Marker.io", icon: "/images/hero/icon-world.svg", href: "/alternative/marker-io" },
-      { title: "Writesonic", icon: "/images/hero/icon-world.svg", href: "/alternative/writesonic" },
-      { title: "Filestage", icon: "/images/hero/icon-world.svg", href: "/alternative/filestage" },
-      { title: "ReviewStudio", icon: "/images/hero/icon-world.svg", href: "/alternative/reviewstudio" },
-      { title: "Frame.io", icon: "/images/hero/icon-world.svg", href: "/alternative/frame-io" },
+      { title: "Google Docs", icon: "/images/hero/icon-world.svg", href: "/alternative/google-docs-alternative" },
+      { title: "Loom", icon: "/images/hero/icon-world.svg", href: "/alternative/loom-alternative" },
+      { title: "Markup", icon: "/images/hero/icon-world.svg", href: "/alternative/markup-alternative" },
+      { title: "Pastel", icon: "/images/hero/icon-world.svg", href: "/alternative/pastel-alternative" },
+      { title: "BugHerd", icon: "/images/hero/icon-world.svg", href: "/alternative/bugherd-alternative" },
+      { title: "Ruttl", icon: "/images/hero/icon-world.svg", href: "/alternative/ruttl-alternative" },
+      { title: "Marker.io", icon: "/images/hero/icon-world.svg", href: "/alternative/marker-io-alternative" },
+      { title: "ReviewStudio", icon: "/images/hero/icon-world.svg", href: "/alternative/reviewstudio-alternative" },
+      { title: "Use Bubbles", icon: "/images/hero/icon-world.svg", href: "/alternative/use-bubbles-alternative" },
+      { title: "Vercel Comments", icon: "/images/hero/icon-world.svg", href: "/alternative/vercel-comments-alternative" },
+      { title: "Webflow Comments", icon: "/images/hero/icon-world.svg", href: "/alternative/webflow-comments-alternative" },
     ],
   },
 };
@@ -216,34 +206,19 @@ export const comparisonListing: ListingPageConfig = {
     variant: "text-only",
     items: [
       {
-        title: "Superflow vs Markup",
-        subtitle: "Real-time review on websites and creatives, side by side.",
-        href: "/comparison/superflow-vs-markup",
-      },
-      {
-        title: "Superflow vs Pastel",
+        title: "Markup vs Pastel",
         subtitle: "Compare workflows, integrations, and pricing.",
-        href: "/comparison/superflow-vs-pastel",
+        href: "/comparisons/markup-vs-pastel",
       },
       {
-        title: "Superflow vs BugHerd",
-        subtitle: "Which one fits your QA team better?",
-        href: "/comparison/superflow-vs-bugherd",
-      },
-      {
-        title: "Superflow vs Ruttl",
+        title: "Markup vs Ruttl",
         subtitle: "Side-by-side: features, speed, and team fit.",
-        href: "/comparison/superflow-vs-ruttl",
+        href: "/comparisons/markup-vs-ruttl",
       },
       {
-        title: "Superflow vs Marker.io",
-        subtitle: "Pick the right tool for visual feedback.",
-        href: "/comparison/superflow-vs-marker-io",
-      },
-      {
-        title: "Superflow vs Userback",
-        subtitle: "How they differ for client feedback flows.",
-        href: "/comparison/superflow-vs-userback",
+        title: "Pastel vs BugHerd",
+        subtitle: "Which one fits your QA team better?",
+        href: "/comparisons/pastel-vs-bugherd",
       },
     ],
   },

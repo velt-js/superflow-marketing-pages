@@ -39,6 +39,8 @@ export default function Nav() {
   const theme = useNavTheme();
   const isDark = theme === "dark";
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<number | null>(null);
 
@@ -51,13 +53,30 @@ export default function Nav() {
     setOpenIndex(i);
   }
 
+  function closeMobile() {
+    setMobileOpen(false);
+    setMobileExpanded(null);
+  }
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpenIndex(null);
+      if (e.key === "Escape") {
+        setOpenIndex(null);
+        closeMobile();
+      }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
 
   return (
     <nav
@@ -72,8 +91,8 @@ export default function Nav() {
           : "1px solid rgba(0,0,0,0.06)",
       }}
     >
-      <div className="container-page flex h-[68px] items-center justify-between gap-10">
-        <Link href="/" className="flex items-center gap-4 shrink-0">
+      <div className="flex h-[68px] items-center justify-between gap-4 lg:gap-10 px-6 lg:px-10">
+        <Link href="/" className="flex items-center gap-4 shrink-0" onClick={closeMobile}>
           <Image
             src="/images/nav/logo.svg"
             alt="Superflow"
@@ -199,7 +218,7 @@ export default function Nav() {
           })}
         </ul>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
           <Link
             href="/book-demo"
             className="rounded-pill px-4 py-2 text-[14px] font-medium border transition-colors"
@@ -220,6 +239,162 @@ export default function Nav() {
           >
             Try Now for Free
           </a>
+        </div>
+
+        <button
+          type="button"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav-panel"
+          onClick={() => setMobileOpen((v) => !v)}
+          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors"
+          style={{
+            color: isDark ? "#fff" : "#0a0a0a",
+            border: isDark
+              ? "1px solid rgba(255,255,255,0.12)"
+              : "1px solid rgba(0,0,0,0.12)",
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            {mobileOpen ? (
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+              />
+            ) : (
+              <>
+                <path d="M4 7h16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+                <path d="M4 12h16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+                <path d="M4 17h16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+              </>
+            )}
+          </svg>
+        </button>
+      </div>
+
+      <div
+        id="mobile-nav-panel"
+        className="lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out"
+        style={{
+          maxHeight: mobileOpen ? "calc(100vh - 68px)" : "0px",
+          opacity: mobileOpen ? 1 : 0,
+          overflowY: mobileOpen ? "auto" : "hidden",
+          background: isDark ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.98)",
+          borderTop: mobileOpen
+            ? isDark
+              ? "1px solid rgba(255,255,255,0.06)"
+              : "1px solid rgba(0,0,0,0.06)"
+            : "1px solid transparent",
+        }}
+      >
+        <div className="px-6 lg:px-10 py-4">
+          <ul className="flex flex-col">
+            {navLinks.map((link, i) => {
+              const expanded = mobileExpanded === i;
+              const itemColor = isDark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.8)";
+
+              if (link.dropdown) {
+                return (
+                  <li key={link.label} className="border-b" style={{
+                    borderColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                  }}>
+                    <button
+                      type="button"
+                      aria-expanded={expanded}
+                      onClick={() => setMobileExpanded(expanded ? null : i)}
+                      className="w-full flex items-center justify-between py-4 text-[14px] uppercase tracking-[1.8px] font-normal"
+                      style={{ color: itemColor }}
+                    >
+                      {link.label}
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden
+                        style={{
+                          transition: "transform 200ms",
+                          transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                        }}
+                      >
+                        <path
+                          d="M4 6l4 4 4-4"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      className="overflow-hidden transition-[max-height] duration-200 ease-out"
+                      style={{ maxHeight: expanded ? `${link.dropdown.length * 44 + 16}px` : "0px" }}
+                    >
+                      <ul className="pb-3 pl-2">
+                        {link.dropdown.map((item) => (
+                          <li key={item.label}>
+                            <Link
+                              href={item.href}
+                              onClick={closeMobile}
+                              className="block py-2 text-[14px] font-normal"
+                              style={{
+                                color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.65)",
+                                fontFamily: "var(--font-poppins)",
+                              }}
+                            >
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={link.label} className="border-b" style={{
+                  borderColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                }}>
+                  <Link
+                    href={link.href}
+                    onClick={closeMobile}
+                    className="block py-4 text-[14px] uppercase tracking-[1.8px] font-normal"
+                    style={{ color: itemColor }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="flex flex-col gap-3 mt-6 pb-4">
+            <Link
+              href="/book-demo"
+              onClick={closeMobile}
+              className="rounded-pill px-4 py-3 text-[14px] font-medium border text-center transition-colors"
+              style={{
+                color: isDark ? "#fff" : "#0a0a0a",
+                borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+              }}
+            >
+              Book Demo
+            </Link>
+            <a
+              href="https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU."
+              onClick={closeMobile}
+              className="rounded-pill px-4 py-3 text-[14px] font-medium text-center transition-colors"
+              style={{
+                background: isDark ? "#fff" : "#0a0a0a",
+                color: isDark ? "#0a0a0a" : "#fff",
+              }}
+            >
+              Try Now for Free
+            </a>
+          </div>
         </div>
       </div>
     </nav>
