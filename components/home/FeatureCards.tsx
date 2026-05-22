@@ -70,10 +70,10 @@ export type FeatureCardsProps = {
   /** Replaces the default slot-0 card with a custom node. Used on
    *  /website-review to mount the interactive tabbed WebsiteFirstCard. */
   firstCardOverride?: React.ReactNode;
-  /** Length-4 list of full-card SVG paths. If provided, each card slot
-   *  renders as a single inline SVG (background + content + cursors baked
-   *  in) instead of the composed chrome. Used by the home page. */
-  fullCardSvgs?: string[];
+  /** Length-4 list of full-card SVG paths. Each slot may be a string (SVG
+   *  path → render as full-card image) or null (fall back to composed
+   *  chrome / firstCardOverride). Used by home and feature-review pages. */
+  fullCardSvgs?: (string | null)[];
 };
 
 // Tag icons — simple Tabler-style SVGs to avoid extra binary downloads.
@@ -177,11 +177,107 @@ function HeroMobile({ hero }: { hero: HeroDef }) {
   );
 }
 
+// Order matches the left→right order baked into the full-card SVGs
+// (manage-prioritize.svg / sync-tools.svg): Asana, ClickUp, Monday, Slack.
+// Overlay coordinates per full-card SVG. Each SVG bakes the integration row
+// + "View Integrations" text in as static art at different positions and
+// different intrinsic viewBoxes, so we hard-code positions per file. All
+// numbers are SVG-space (pixels) and converted to % at render time.
+type Overlay =
+  | {
+      kind: "icons";
+      w: number;
+      h: number;
+      iconSize: number;
+      iconY: number;
+      icons: { name: string; x: number }[];
+      link: { x: number; y: number; w: number; h: number };
+    }
+  | {
+      kind: "pills";
+      w: number;
+      h: number;
+      pills: { name: string; x: number; y: number; w: number; h: number }[];
+      link: { x: number; y: number; w: number; h: number };
+    };
+
+const OVERLAY_BY_SVG: Record<string, Overlay> = {
+  // Home page — manage card. Icons left→right: Asana, ClickUp, Monday, Slack.
+  "/images/sections/home-cards/capability-2.svg": {
+    kind: "icons",
+    w: 1436,
+    h: 880,
+    iconSize: 60,
+    iconY: 686,
+    icons: [
+      { name: "Asana", x: 574 },
+      { name: "ClickUp", x: 650 },
+      { name: "Monday.com", x: 726 },
+      { name: "Slack", x: 802 },
+    ],
+    // Wider/taller hit area centered on the "VIEW INTEGRATIONS →" group.
+    // Chevron is at x=787, y=771; text precedes it. Use a generous block.
+    link: { x: 560, y: 755, w: 360, h: 45 },
+  },
+  // Home page — sync card. Pills left→right: Monday, ClickUp, Slack, Asana.
+  "/images/sections/home-cards/capability-4.svg": {
+    kind: "pills",
+    w: 1436,
+    h: 800,
+    pills: [
+      { name: "Monday.com", x: 452.915, y: 603, w: 164.02, h: 48 },
+      { name: "ClickUp", x: 628.935, y: 603, w: 119.17, h: 48 },
+      { name: "Slack", x: 760.105, y: 603, w: 101.2, h: 48 },
+      { name: "Asana", x: 873.305, y: 603, w: 109.78, h: 48 },
+    ],
+    link: { x: 560, y: 687, w: 360, h: 45 },
+  },
+  // Feature pages — manage card. Icons left→right: Asana, ClickUp, Monday, Slack.
+  "/images/sections/feature-cards/manage-prioritize.svg": {
+    kind: "icons",
+    w: 1436,
+    h: 800,
+    iconSize: 60,
+    iconY: 682.342,
+    icons: [
+      { name: "Asana", x: 563.2 },
+      { name: "ClickUp", x: 639.2 },
+      { name: "Monday.com", x: 715.2 },
+      { name: "Slack", x: 791.2 },
+    ],
+    link: { x: 560, y: 755, w: 360, h: 45 },
+  },
+  // Feature pages — sync card. Pills left→right: Monday, ClickUp, Slack, Asana.
+  "/images/sections/feature-cards/sync-tools.svg": {
+    kind: "pills",
+    w: 1436,
+    h: 740,
+    pills: [
+      { name: "Monday.com", x: 452.915, y: 543, w: 164.02, h: 48 },
+      { name: "ClickUp", x: 628.935, y: 543, w: 119.17, h: 48 },
+      { name: "Slack", x: 760.105, y: 543, w: 101.2, h: 48 },
+      { name: "Asana", x: 873.305, y: 543, w: 109.78, h: 48 },
+    ],
+    link: { x: 560, y: 627, w: 360, h: 45 },
+  },
+};
+
+// Force integration links to /integrations/<slug> regardless of any CMS
+// override on the logo (which may point at the external vendor site).
+function integrationSlugHref(name: string): string {
+  const slug = name
+    .toLowerCase()
+    .replace(/\.com$/, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `/integrations/${slug}`;
+}
+
 const DEFAULT_INTEGRATION_LOGOS: IntegrationLogoOverride[] = [
-  { name: "Monday.com", logoSrc: `${IMG}/monday.png` },
-  { name: "ClickUp", logoSrc: `${IMG}/clickup.png` },
-  { name: "Slack", logoSrc: `${IMG}/slack.png` },
-  { name: "Asana", logoSrc: `${IMG}/asana.png` },
+  { name: "Asana", logoSrc: `${IMG}/asana.png`, href: "/integrations/asana" },
+  { name: "ClickUp", logoSrc: `${IMG}/clickup.png`, href: "/integrations/clickup" },
+  { name: "Monday.com", logoSrc: `${IMG}/monday.png`, href: "/integrations/monday" },
+  { name: "Slack", logoSrc: `${IMG}/slack.png`, href: "/integrations/slack" },
 ];
 
 function ViewIntegrationsLink({
@@ -424,35 +520,80 @@ export default function FeatureCards({
   cards,
   integrationLogos,
   integrationsCtaLabel = "View Integrations",
-  integrationsCtaHref = "#integrations",
+  integrationsCtaHref = "/integrations",
   firstCardOverride,
   fullCardSvgs,
 }: FeatureCardsProps = {}) {
   const source = cards && cards.length === 4 ? cards : DEFAULT_CARDS;
   const logos = integrationLogos && integrationLogos.length > 0 ? integrationLogos : DEFAULT_INTEGRATION_LOGOS;
 
-  if (fullCardSvgs && fullCardSvgs.length === 4) {
-    return (
-      <section className="bg-white">
-        {fullCardSvgs.map((src, i) => (
-          <div key={`full-card-${i}`} className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
-            <Image
-              src={src}
-              alt=""
-              width={1436}
-              height={820}
-              className="w-full max-w-[1436px] h-auto"
-              priority={i === 0}
-            />
-          </div>
-        ))}
-      </section>
-    );
-  }
-
   return (
     <section className="bg-white">
       {source.map((override, i) => {
+        const svgSrc = fullCardSvgs?.[i];
+        if (svgSrc) {
+          const overlay = OVERLAY_BY_SVG[svgSrc];
+          return (
+            <div key={`full-card-${i}`} className="w-full flex justify-center px-[24px] lg:px-[52px] py-[26px]">
+              <div className="relative w-full max-w-[1436px]">
+                <Image
+                  src={svgSrc}
+                  alt=""
+                  width={1436}
+                  height={820}
+                  className="w-full h-auto"
+                  priority={i === 0}
+                />
+                {overlay ? (
+                  <>
+                    {overlay.kind === "icons"
+                      ? overlay.icons.map((ic) => (
+                          <a
+                            key={`icon-${ic.name}`}
+                            href={integrationSlugHref(ic.name)}
+                            aria-label={ic.name}
+                            className="absolute"
+                            style={{
+                              left: `${(ic.x / overlay.w) * 100}%`,
+                              top: `${(overlay.iconY / overlay.h) * 100}%`,
+                              width: `${(overlay.iconSize / overlay.w) * 100}%`,
+                              height: `${(overlay.iconSize / overlay.h) * 100}%`,
+                              borderRadius: "9999px",
+                            }}
+                          />
+                        ))
+                      : overlay.pills.map((p) => (
+                          <a
+                            key={`pill-${p.name}`}
+                            href={integrationSlugHref(p.name)}
+                            aria-label={p.name}
+                            className="absolute"
+                            style={{
+                              left: `${(p.x / overlay.w) * 100}%`,
+                              top: `${(p.y / overlay.h) * 100}%`,
+                              width: `${(p.w / overlay.w) * 100}%`,
+                              height: `${(p.h / overlay.h) * 100}%`,
+                              borderRadius: "9999px",
+                            }}
+                          />
+                        ))}
+                    <a
+                      href={integrationsCtaHref}
+                      aria-label={integrationsCtaLabel}
+                      className="absolute"
+                      style={{
+                        left: `${(overlay.link.x / overlay.w) * 100}%`,
+                        top: `${(overlay.link.y / overlay.h) * 100}%`,
+                        width: `${(overlay.link.w / overlay.w) * 100}%`,
+                        height: `${(overlay.link.h / overlay.h) * 100}%`,
+                      }}
+                    />
+                  </>
+                ) : null}
+              </div>
+            </div>
+          );
+        }
         if (i === 0 && firstCardOverride) {
           return <div key="first-card-override">{firstCardOverride}</div>;
         }

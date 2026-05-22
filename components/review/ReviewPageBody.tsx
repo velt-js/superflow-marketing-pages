@@ -84,6 +84,21 @@ export type ReviewPageDoc = {
 // Slug → hero MP4 mapping. Lives in code rather than Sanity since the assets
 // are bundled with the app (public/videos/feature-hero). Returns null if the
 // page is not one of the 5 feature pages.
+const SHARED_FEATURE_CARD_SVGS = {
+  manage: "/images/sections/feature-cards/manage-prioritize.svg",
+  approvals: "/images/sections/feature-cards/get-approvals.svg",
+  sync: "/images/sections/feature-cards/sync-tools.svg",
+} as const;
+
+const REVIEW_PIXELS_SVG: Record<ReviewPageDoc["feature"], string | null> = {
+  image: "/images/sections/feature-cards/review-pixels-image.svg",
+  video: "/images/sections/feature-cards/review-pixels-video.svg",
+  lottie: "/images/sections/feature-cards/review-pixels-lottie.svg",
+  pdf: "/images/sections/feature-cards/review-pixels-pdf.svg",
+  // null → website-review uses the interactive WebsiteFirstCard with tab-switched SVGs
+  website: null,
+};
+
 const FEATURE_HERO_VIDEOS: Record<string, string> = {
   "image-review": "/videos/feature-hero/image-review.mp4",
   "video-review": "/videos/feature-hero/video-review.mp4",
@@ -121,6 +136,12 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         integrationLogos={doc.featureCards?.integrationLogos ?? undefined}
         integrationsCtaLabel={doc.featureCards?.integrationsCtaLabel ?? undefined}
         integrationsCtaHref={doc.featureCards?.integrationsCtaHref ?? undefined}
+        fullCardSvgs={[
+          REVIEW_PIXELS_SVG[doc.feature],
+          SHARED_FEATURE_CARD_SVGS.manage,
+          SHARED_FEATURE_CARD_SVGS.approvals,
+          SHARED_FEATURE_CARD_SVGS.sync,
+        ]}
         firstCardOverride={
           showWebsiteFirstCard && firstFeatureCard ? (
             <WebsiteFirstCard
