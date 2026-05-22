@@ -162,6 +162,7 @@ async function upsertPosts() {
       category: p.category,
       categoryLabel: p.categoryLabel,
       readTime: p.readTime,
+      featured: p.featured,
       tags: p.tags,
       ...(authorRef ? { author: authorRef } : {}),
       ...(featuredImage ? { featuredImage } : {}),

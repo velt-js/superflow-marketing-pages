@@ -62,6 +62,13 @@ export const blogPost = defineType({
       },
     }),
     defineField({
+      name: "featured",
+      title: "Featured",
+      description: "Highlight as the blog listing hero.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
       name: "categoryLabel",
       title: "Category Label",
       description: "Display label (Framer-original, e.g. 'Feature Release').",

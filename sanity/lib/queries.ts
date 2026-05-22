@@ -21,6 +21,9 @@ export async function getAllBlogPosts(): Promise<BlogPostListItem[]> {
       description,
       publishedAt,
       category,
+      categoryLabel,
+      readTime,
+      featured,
       tags,
       "author": author->{ name, role },
       "featuredImage": featuredImage.asset->url
