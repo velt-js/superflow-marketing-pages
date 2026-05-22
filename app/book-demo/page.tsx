@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/home/Footer";
-import { FeatureCustomerCarousel } from "@/components/feature/FeatureCustomerCarousel";
+import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
 import { PageHero } from "@/components/library/PageHero";
 import Script from "next/script";
 
@@ -60,7 +60,7 @@ export default function BookDemoPage() {
           </div>
         </section>
 
-        <FeatureCustomerCarousel />
+        <CustomerLoveCarousel />
 
         <Footer />
       </div>
