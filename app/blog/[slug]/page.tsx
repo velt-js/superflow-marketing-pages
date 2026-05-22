@@ -16,20 +16,29 @@ import {
 } from "@/app/_seo/schema";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
+type PostShape = {
+  title?: string;
+  description?: string;
+  publishedAt?: string;
+  _updatedAt?: string;
+  category?: string;
+  categoryLabel?: string;
+  readTime?: number;
+  author?: { name?: string; role?: string; avatar?: string };
+  featuredImage?: string;
+  ogImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  faqSchema?: string;
+  blogPostingSchema?: string;
+  body?: Parameters<typeof PortableTextRenderer>[0]["value"];
+};
+
 function buildBlogPostingSchema({
   post,
   slug,
 }: {
-  post: {
-    title?: string;
-    description?: string;
-    publishedAt?: string;
-    _updatedAt?: string;
-    author?: { name?: string };
-    featuredImage?: string;
-    ogImage?: string;
-    metaDescription?: string;
-  };
+  post: PostShape;
   slug: string;
 }): Record<string, unknown> | null {
   if (!post?.title) return null;
@@ -92,7 +101,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const post: PostShape | null = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -105,67 +114,103 @@ export default async function BlogPostPage({
     { name: post.title ?? slug, url: `${SITE_URL}/blog/${slug}` },
   ]);
 
+  const dateLabel = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : null;
+
   return (
-    <div className="min-h-screen bg-white text-black font-urbanist" style={{ paddingTop: 80 }}>
+    <div className="min-h-screen bg-black text-white font-urbanist">
       {blogPostingSchema ? (
         <JsonLd id="ld-blog-post" data={blogPostingSchema} />
       ) : null}
       <JsonLd id="ld-blog-post-breadcrumb" data={blogBreadcrumb} />
-      <article className="max-w-3xl mx-auto px-6 py-16">
-        <div className="mb-12">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">{post.title}</h1>
-          {post.description && (
-            <p className="text-lg text-black/60 mb-6">{post.description}</p>
-          )}
-          <div className="flex items-center gap-4 text-sm text-black/40">
-            {post.author?.name && <span>{post.author.name}</span>}
-            {post.publishedAt && (
-              <>
-                <span>&middot;</span>
-                <time>
-                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-              </>
-            )}
-          </div>
-        </div>
 
-        {post.featuredImage && (
-          <div className="relative aspect-[16/9] mb-12 overflow-hidden rounded-xl bg-black/5">
+      {/* Hero */}
+      <header className="pt-32 pb-12 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          {post.categoryLabel && (
+            <div className="inline-block rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 p-px mb-10">
+              <div className="rounded-full bg-black px-5 py-2">
+                <span className="uppercase tracking-[0.18em] text-xs font-semibold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+                  {post.categoryLabel}
+                </span>
+              </div>
+            </div>
+          )}
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#C6B8FF] tracking-[-0.02em] leading-[1.05]">
+            {post.title}
+          </h1>
+
+          {post.author?.name && (
+            <div className="flex items-center justify-center gap-3 mt-12">
+              {post.author.avatar && (
+                <div className="relative w-9 h-9 rounded-full overflow-hidden bg-white/10">
+                  <Image
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    fill
+                    sizes="36px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <span className="text-white/85 text-base">{post.author.name}</span>
+            </div>
+          )}
+
+          {(dateLabel || post.readTime) && (
+            <div className="flex items-center justify-center gap-3 text-white/40 text-sm mt-3">
+              {dateLabel && <time>{dateLabel}</time>}
+              {dateLabel && post.readTime ? <span>&mdash;</span> : null}
+              {post.readTime ? <span>{post.readTime} min read</span> : null}
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Hero image */}
+      {post.featuredImage && (
+        <div className="px-6">
+          <div className="relative aspect-[16/9] max-w-5xl mx-auto rounded-3xl overflow-hidden bg-white/5">
             <Image
               src={post.featuredImage}
-              alt={post.title}
+              alt={post.title ?? ""}
               fill
-              sizes="(min-width: 768px) 768px, 100vw"
+              sizes="(min-width: 1024px) 1024px, 100vw"
               priority
               className="object-cover"
             />
           </div>
-        )}
+        </div>
+      )}
 
-        {post.body && (
-          <div className="prose max-w-none">
+      {/* Body */}
+      {post.body && (
+        <article className="max-w-3xl mx-auto px-6 py-16">
+          <div className="prose-invert max-w-none">
             <PortableTextRenderer value={post.body} />
           </div>
-        )}
 
-        {post.blogPostingSchema && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: post.blogPostingSchema }}
-          />
-        )}
-        {post.faqSchema && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: post.faqSchema }}
-          />
-        )}
-      </article>
+          {post.blogPostingSchema && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: post.blogPostingSchema }}
+            />
+          )}
+          {post.faqSchema && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: post.faqSchema }}
+            />
+          )}
+        </article>
+      )}
+
       <Footer />
     </div>
   );

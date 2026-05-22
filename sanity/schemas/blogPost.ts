@@ -62,6 +62,17 @@ export const blogPost = defineType({
       },
     }),
     defineField({
+      name: "categoryLabel",
+      title: "Category Label",
+      description: "Display label (Framer-original, e.g. 'Feature Release').",
+      type: "string",
+    }),
+    defineField({
+      name: "readTime",
+      title: "Read Time (minutes)",
+      type: "number",
+    }),
+    defineField({
       name: "tags",
       title: "Tags",
       type: "array",

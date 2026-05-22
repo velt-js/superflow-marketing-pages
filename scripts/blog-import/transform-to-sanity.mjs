@@ -319,6 +319,8 @@ for (const item of raw) {
   const authorImage = getField(item, "Author Image");
   const framerCategory = getField(item, "Category");
   const category = CATEGORY_MAP[framerCategory] || CATEGORY_DEFAULT;
+  const categoryLabel = framerCategory || undefined;
+  const readTime = getField(item, "Read Time");
   const tagsRaw = [
     getField(item, "tag__1"),
     getField(item, "tag__2"),
@@ -349,6 +351,8 @@ for (const item of raw) {
     description: metaDescription || undefined,
     publishedAt: publishedAt || undefined,
     category,
+    categoryLabel,
+    readTime: typeof readTime === "number" ? readTime : undefined,
     tags: tagsRaw.length ? tagsRaw : undefined,
     authorName: authorName || undefined, // resolved → reference by importer
     framerHeroImageUrl: heroImage || undefined, // resolved by importer

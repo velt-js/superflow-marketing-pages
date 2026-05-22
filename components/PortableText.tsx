@@ -18,7 +18,7 @@ function renderBodyImage({ value }: { value: SanityImageValue }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={value.alt || ""} className="rounded-lg w-full" />
       {value.caption && (
-        <figcaption className="text-sm text-black/40 mt-2 text-center">
+        <figcaption className="text-sm text-white/40 mt-2 text-center">
           {value.caption}
         </figcaption>
       )}
@@ -29,56 +29,56 @@ function renderBodyImage({ value }: { value: SanityImageValue }) {
 const components: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="text-4xl font-bold mt-12 mb-4">{children}</h1>
+      <h1 className="text-4xl font-bold mt-12 mb-4 text-white">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-3xl font-bold mt-10 mb-4">{children}</h2>
+      <h2 className="text-3xl font-bold mt-10 mb-4 text-white">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-2xl font-semibold mt-8 mb-3">{children}</h3>
+      <h3 className="text-2xl font-semibold mt-8 mb-3 text-white">{children}</h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-xl font-semibold mt-6 mb-2">{children}</h4>
+      <h4 className="text-xl font-semibold mt-6 mb-2 text-white">{children}</h4>
     ),
     normal: ({ children }) => (
-      <p className="text-black/70 leading-relaxed mb-4">{children}</p>
+      <p className="text-white/70 leading-relaxed mb-4">{children}</p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-[#625DF5] pl-4 my-6 text-black/60 italic">
+      <blockquote className="border-l-4 border-[#625DF5] pl-4 my-6 text-white/60 italic">
         {children}
       </blockquote>
     ),
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
+      <ul className="list-disc pl-6 mb-4 space-y-1 text-white/70">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal pl-6 mb-4 space-y-1">{children}</ol>
+      <ol className="list-decimal pl-6 mb-4 space-y-1 text-white/70">{children}</ol>
     ),
   },
   listItem: {
     bullet: ({ children }) => (
-      <li className="text-black/70">{children}</li>
+      <li className="text-white/70">{children}</li>
     ),
     number: ({ children }) => (
-      <li className="text-black/70">{children}</li>
+      <li className="text-white/70">{children}</li>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <strong className="font-semibold text-black">{children}</strong>
+      <strong className="font-semibold text-white">{children}</strong>
     ),
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => (
-      <code className="bg-black/10 px-1.5 py-0.5 rounded text-sm font-mono">
+      <code className="bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono">
         {children}
       </code>
     ),
     link: ({ children, value }) => (
       <a
         href={value?.href}
-        className="text-[#625DF5] hover:underline"
+        className="text-[#A89BFF] hover:underline"
         target={value?.href?.startsWith("http") ? "_blank" : undefined}
         rel={value?.href?.startsWith("http") ? "noopener noreferrer" : undefined}
       >
@@ -88,8 +88,8 @@ const components: PortableTextComponents = {
   },
   types: {
     code: ({ value }) => (
-      <pre className="bg-black/5 border border-black/10 rounded-lg p-4 my-6 overflow-x-auto">
-        <code className="text-sm font-mono text-black/80">{value.code}</code>
+      <pre className="bg-white/5 border border-white/10 rounded-lg p-4 my-6 overflow-x-auto">
+        <code className="text-sm font-mono text-white/80">{value.code}</code>
       </pre>
     ),
     image: renderBodyImage,
@@ -100,14 +100,14 @@ const components: PortableTextComponents = {
       const [headerRow, ...bodyRows] = rows;
       return (
         <div className="my-8 overflow-x-auto">
-          <table className="w-full border-collapse text-sm text-black/70">
+          <table className="w-full border-collapse text-sm text-white/70">
             {headerRow?.cells && (
               <thead>
                 <tr>
                   {headerRow.cells.map((cell, i) => (
                     <th
                       key={i}
-                      className="border-b border-black/20 px-4 py-2 text-left font-semibold text-black"
+                      className="border-b border-white/20 px-4 py-2 text-left font-semibold text-white"
                     >
                       {cell}
                     </th>
@@ -121,7 +121,7 @@ const components: PortableTextComponents = {
                   {(row.cells ?? []).map((cell, cellIdx) => (
                     <td
                       key={cellIdx}
-                      className="border-b border-black/10 px-4 py-2 align-top"
+                      className="border-b border-white/10 px-4 py-2 align-top"
                     >
                       {cell}
                     </td>
