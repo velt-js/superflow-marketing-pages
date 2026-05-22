@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import CaseStudyPage from "@/components/case-study/CaseStudyPage";
 import { caseStudyDetails } from "@/lib/case-study-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { SITE_URL } from "@/app/_seo/schema";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -27,5 +29,18 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const detail = caseStudyDetails[slug];
   if (!detail) notFound();
-  return <CaseStudyPage config={detail} />;
+  return (
+    <>
+      <PageJsonLd
+        name={detail.hero.heading}
+        description={detail.hero.subtitle}
+        path={`/case-study/${slug}`}
+        trail={[
+          { name: "Case Studies", url: `${SITE_URL}/case-study` },
+          { name: detail.hero.heading, url: `${SITE_URL}/case-study/${slug}` },
+        ]}
+      />
+      <CaseStudyPage config={detail} />
+    </>
+  );
 }

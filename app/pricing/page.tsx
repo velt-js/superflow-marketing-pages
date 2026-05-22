@@ -14,6 +14,7 @@ import { pricingFAQ } from "@/components/pricing/pricing-faq";
 import { TIERS, APP_URL } from "@/components/pricing/pricing-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import {
   ORG_ID,
   SITE_URL,
@@ -141,6 +142,14 @@ export const metadata = buildPageMetadata({
 export default function PricingPage() {
   return (
     <>
+      {/* Breadcrumb emitted by the hand-rolled PRICING_BREADCRUMB block
+          below, so PageJsonLd is called without a trail to avoid a
+          duplicate BreadcrumbList. */}
+      <PageJsonLd
+        name="Ship Creative Assets Impossibly Fast"
+        description="Ship creative assets impossibly fast. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow."
+        path="/pricing"
+      />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />
       <JsonLd id="ld-pricing-faq" data={PRICING_FAQ_SCHEMA} />
       <JsonLd id="ld-pricing-breadcrumb" data={PRICING_BREADCRUMB} />

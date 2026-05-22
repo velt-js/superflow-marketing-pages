@@ -15,6 +15,9 @@ import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
 import DarkSection from "@/components/home/DarkSection";
 import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { ORG_ID, SITE_URL } from "@/app/_seo/schema";
 
 // Title, description, openGraph, and twitter all inherited from the root
 // layout (app/layout.tsx) which already encodes the usesuperflow.com home-
@@ -72,9 +75,32 @@ const HOME_CARDS: FeatureCardOverride[] = [
   },
 ];
 
+const SOFTWARE_APPLICATION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Superflow",
+  url: SITE_URL,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description:
+    "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  creator: { "@id": ORG_ID },
+};
+
 export default function HomePage() {
   return (
     <main>
+      <PageJsonLd
+        name="Superflow: Creative Assets Review & Collaboration Tool"
+        description="With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more."
+        path="/"
+      />
+      <JsonLd id="ld-software-application" data={SOFTWARE_APPLICATION_SCHEMA} />
       <Nav />
       <Hero />
       <LogoBar />

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import ComparisonDetailPage from "@/components/detail/ComparisonDetailPage";
 import { comparisonDetails } from "@/lib/detail-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { SITE_URL } from "@/app/_seo/schema";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -28,5 +30,18 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
   const { slug } = await params;
   const detail = comparisonDetails[slug];
   if (!detail) notFound();
-  return <ComparisonDetailPage config={detail} />;
+  return (
+    <>
+      <PageJsonLd
+        name={detail.hero.heading}
+        description="Compare collaboration apps for reviewing creative assets — see how Superflow stacks up."
+        path={`/comparisons/${slug}`}
+        trail={[
+          { name: "Comparisons", url: `${SITE_URL}/comparisons` },
+          { name: detail.hero.heading, url: `${SITE_URL}/comparisons/${slug}` },
+        ]}
+      />
+      <ComparisonDetailPage config={detail} />
+    </>
+  );
 }

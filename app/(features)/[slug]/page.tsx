@@ -13,6 +13,9 @@ import {
   getReviewPageBySlug,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { SITE_URL, ORG_ID } from "@/app/_seo/schema";
 
 export const revalidate = 60;
 
@@ -62,5 +65,29 @@ export default async function ReviewPage({
   const { slug } = await params;
   const doc = (await getReviewPageBySlug(slug)) as ReviewPageDoc | null;
   if (!doc) notFound();
-  return <ReviewPageBody doc={doc} />;
+  const name = doc.metaTitle ?? doc.title;
+  const description =
+    doc.metaDescription ?? doc.hero.subheading ?? undefined;
+  const softwareSchema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: doc.title,
+    url: `${SITE_URL}/${slug}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    description,
+    creator: { "@id": ORG_ID },
+  };
+  return (
+    <>
+      <PageJsonLd
+        name={name}
+        description={description}
+        path={`/${slug}`}
+        trail={[{ name, url: `${SITE_URL}/${slug}` }]}
+      />
+      <JsonLd id={`ld-software-${slug}`} data={softwareSchema} />
+      <ReviewPageBody doc={doc} />
+    </>
+  );
 }

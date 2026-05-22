@@ -4,6 +4,8 @@ import Nav from "@/components/home/Nav";
 import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
   title: "Ship Creative Assets Impossibly Fast",
@@ -154,6 +156,12 @@ export default function DemoPage() {
 
   return (
     <main style={{ background: "#000" }}>
+      <PageJsonLd
+        name="Ship Creative Assets Impossibly Fast"
+        description="Click an asset for a live demo of Superflow. Review and collaborate on websites, videos, PDFs, Lottie files, and images."
+        path="/demo"
+        trail={[{ name: "Demo", url: `${SITE_URL}/demo` }]}
+      />
       <Nav />
 
       <section className="relative overflow-hidden pt-[140px] pb-[80px] lg:pt-[180px] lg:pb-[100px]">

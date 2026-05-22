@@ -3,6 +3,8 @@ import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
 import Calculator from "@/components/calculator/Calculator";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
   title: "Cost Calculator",
@@ -14,6 +16,12 @@ export const metadata = buildPageMetadata({
 export default function CalculatorPage() {
   return (
     <main>
+      <PageJsonLd
+        name="Cost Calculator | Superflow"
+        description="See how much money your team loses on slow feedback loops. Drag the slider, pick the roles, watch the number climb."
+        path="/calculator"
+        trail={[{ name: "Cost Calculator", url: `${SITE_URL}/calculator` }]}
+      />
       <Nav />
       <Calculator />
       <Footer />

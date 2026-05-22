@@ -10,6 +10,9 @@ import ThreeSteps from "@/components/affiliate/ThreeSteps";
 import RevenueShareBanner from "@/components/affiliate/RevenueShareBanner";
 import DosAndDonts from "@/components/affiliate/DosAndDonts";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { buildFaqPageSchema, SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
   title: "Affiliate Program",
@@ -33,9 +36,20 @@ const AFFILIATE_FAQS = [
   },
 ];
 
+const AFFILIATE_FAQ_SCHEMA = buildFaqPageSchema(
+  AFFILIATE_FAQS.map(({ q, a }) => ({ question: q, answer: a })),
+);
+
 export default function AffiliatePage() {
   return (
     <main>
+      <PageJsonLd
+        name="Affiliate Program | Superflow"
+        description="Join the Superflow Affiliate Program. Earn 30% revenue share by sharing Superflow with your audience."
+        path="/affiliate"
+        trail={[{ name: "Affiliate", url: `${SITE_URL}/affiliate` }]}
+      />
+      <JsonLd id="ld-affiliate-faq" data={AFFILIATE_FAQ_SCHEMA} />
       <Nav />
       <AffiliateHero />
       <LogoBar />

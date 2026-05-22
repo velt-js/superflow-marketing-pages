@@ -1,6 +1,8 @@
 import LegalPage from "@/components/legal/LegalPage";
 import { termsHtml } from "@/lib/legal-content";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
   title: "Terms of Service",
@@ -11,8 +13,16 @@ export const metadata = buildPageMetadata({
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" lastUpdated="9th Sept 2022">
-      <div dangerouslySetInnerHTML={{ __html: termsHtml }} />
-    </LegalPage>
+    <>
+      <PageJsonLd
+        name="Terms of Service | Superflow"
+        description="The terms of service that govern your use of Superflow's collaboration platform for reviewing creative assets."
+        path="/terms"
+        trail={[{ name: "Terms", url: `${SITE_URL}/terms` }]}
+      />
+      <LegalPage title="Terms of Service" lastUpdated="9th Sept 2022">
+        <div dangerouslySetInnerHTML={{ __html: termsHtml }} />
+      </LegalPage>
+    </>
   );
 }

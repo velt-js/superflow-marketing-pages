@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Poppins, Urbanist } from "next/font/google";
 import "./globals.css";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+} from "@/app/_seo/schema";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -42,10 +47,19 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// Site-wide JSON-LD — emitted once at the root so every page advertises
+// the same Organization + WebSite identity. Per-page schemas (WebPage,
+// BreadcrumbList, FAQPage, Product, etc.) are emitted by individual
+// routes and reference the Organization / WebSite by @id.
+const ORGANIZATION_SCHEMA = buildOrganizationSchema();
+const WEBSITE_SCHEMA = buildWebSiteSchema();
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${poppins.variable} ${urbanist.variable}`}>
       <body className={poppins.className} style={{ overflowX: "hidden" }}>
+        <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />
+        <JsonLd id="ld-website" data={WEBSITE_SCHEMA} />
         {children}
       </body>
     </html>
