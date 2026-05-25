@@ -120,6 +120,8 @@ export interface OverviewTableData {
   heading: string;
   highlight?: string;
   competitorName: string;
+  /** Label for the c1 column. Defaults to "Superflow" for alternative pages. */
+  superflowName?: string;
   superflowLogo?: string;
   competitorLogo?: string;
   rows: OverviewRow[];

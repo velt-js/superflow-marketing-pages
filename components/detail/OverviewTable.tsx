@@ -36,6 +36,7 @@ export default function OverviewTable({
   highlight,
   rows,
   competitorName,
+  superflowName = "Superflow",
   superflowLogo,
   competitorLogo,
   ctaText,
@@ -76,7 +77,7 @@ export default function OverviewTable({
                   letterSpacing: "-0.01em",
                 }}
               >
-                Superflow
+                {superflowName}
               </span>
             </div>
             <div className="flex items-center justify-center gap-[10px]">

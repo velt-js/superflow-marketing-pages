@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ListingPage from "@/components/listing/ListingPage";
 import { getAllComparisonPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -14,7 +15,7 @@ interface SanityComparisonListItem {
   competitor1Name?: string;
   competitor2Name?: string;
   thumbnail?: string;
-  heroImage?: string;
+  competitor1Logo?: string;
   competitor2Logo?: string;
 }
 
@@ -31,6 +32,48 @@ export const metadata = buildPageMetadata({
   noBrandSuffix: true,
 });
 
+function LogoPair({
+  c1Logo,
+  c1Name,
+  c2Logo,
+  c2Name,
+}: {
+  c1Logo?: string;
+  c1Name?: string;
+  c2Logo?: string;
+  c2Name?: string;
+}) {
+  const Item = ({ src, name }: { src?: string; name?: string }) =>
+    src ? (
+      <Image
+        src={src}
+        alt={name ?? ""}
+        width={48}
+        height={48}
+        className="object-contain"
+      />
+    ) : (
+      <span
+        className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-md bg-black/5 text-[14px] font-semibold uppercase text-black/60"
+      >
+        {name?.slice(0, 1) ?? "?"}
+      </span>
+    );
+
+  return (
+    <div className="flex items-center gap-3">
+      <Item src={c1Logo} name={c1Name} />
+      <span
+        className="text-[14px] font-semibold uppercase tracking-[0.1em]"
+        style={{ color: "rgba(17,17,17,0.4)" }}
+      >
+        vs
+      </span>
+      <Item src={c2Logo} name={c2Name} />
+    </div>
+  );
+}
+
 export default async function ComparisonIndexPage() {
   const docs = (await getAllComparisonPages()) as SanityComparisonListItem[];
 
@@ -42,15 +85,17 @@ export default async function ComparisonIndexPage() {
         .filter((d) => d.slug)
         .map((d) => ({
           title:
-            d.title ??
-            (d.competitor1Name && d.competitor2Name
+            d.competitor1Name && d.competitor2Name
               ? `${d.competitor1Name} vs ${d.competitor2Name}`
-              : d.slug!),
-          icon:
-            d.thumbnail ||
-            d.heroImage ||
-            d.competitor2Logo ||
-            "/images/hero/icon-world.svg",
+              : d.title ?? d.slug!,
+          iconNode: (
+            <LogoPair
+              c1Logo={d.competitor1Logo}
+              c1Name={d.competitor1Name}
+              c2Logo={d.competitor2Logo}
+              c2Name={d.competitor2Name}
+            />
+          ),
           href: `/comparisons/${d.slug}`,
         })),
     },

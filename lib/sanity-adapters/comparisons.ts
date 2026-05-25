@@ -181,6 +181,7 @@ export function mapComparisonDocToConfig(
       heading: `How they stack up`,
       highlight: `${c1Name} vs ${c2Name}`,
       competitorName: c2Name,
+      superflowName: c1Name,
       superflowLogo: doc.competitor1Logo,
       competitorLogo: doc.competitor2Logo,
       rows: criteria.map((c) => ({

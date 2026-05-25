@@ -224,7 +224,7 @@ export async function getAllComparisonPages() {
       _id, title, "slug": slug.current,
       competitor1Name, competitor2Name,
       "thumbnail": thumbnail.asset->url,
-      "heroImage": heroImage.asset->url,
+      "competitor1Logo": competitor1Logo.asset->url,
       "competitor2Logo": competitor2Logo.asset->url
     }`
   );
