@@ -138,7 +138,7 @@ function ProductColumn({
       <ProductHeader card={card} variant={variant} />
 
       {card.video ? (
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] bg-[#0E0E18]">
+        <div className="w-full overflow-hidden rounded-[16px]">
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             src={card.video}
@@ -148,7 +148,7 @@ function ProductColumn({
             playsInline
             preload="metadata"
             aria-label={card.imageAlt}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="block w-full h-auto"
           />
         </div>
       ) : card.image ? (
