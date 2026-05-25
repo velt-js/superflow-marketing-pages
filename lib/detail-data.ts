@@ -87,6 +87,7 @@ export interface ComparisonProductCard {
   score: string;
   image: string;
   imageAlt?: string;
+  video?: string;
   summary?: string;
   bullets: ComparisonBullet[];
 }

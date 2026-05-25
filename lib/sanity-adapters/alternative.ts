@@ -107,6 +107,7 @@ function makeProductCard(
     score: block?.score ?? "",
     image: "", // see note above
     imageAlt: block?.title,
+    video: block?.video,
     summary: block?.title,
     bullets: bulletsFromTags(block?.tags),
   };
@@ -158,7 +159,14 @@ export function mapAlternativeDocToConfig(
     },
   ];
 
-  const testimonial = doc.testimonial ?? doc.layout2Testimonial;
+  // Prefer whichever testimonial actually has a body. The Framer CSV
+  // splits `sub_copy` (layout 1) and `sub_text` (layout 2) — sometimes
+  // only one is populated.
+  const testimonial =
+    (doc.testimonial?.subCopy && doc.testimonial) ||
+    (doc.layout2Testimonial?.subCopy && doc.layout2Testimonial) ||
+    doc.testimonial ||
+    doc.layout2Testimonial;
 
   return {
     hero: {

@@ -151,16 +151,19 @@ export default function WhyChooseSection({
           </div>
         )}
 
+        {(quote?.quote || quote?.headline || quote?.authorName) && (
         <div className="flex w-full max-w-[920px] flex-col gap-[18px] rounded-[24px] border border-[#ECECEC] bg-white px-[28px] py-[28px] lg:flex-row lg:gap-[32px] lg:px-[40px] lg:py-[36px]">
           <div className="flex flex-col items-center gap-[10px] text-center lg:w-[180px] lg:shrink-0 lg:border-r lg:border-[#ECECEC] lg:pr-[24px]">
             <div className="relative h-[64px] w-[64px] overflow-hidden rounded-full bg-[#F4F4F6]">
-              <Image
-                src={quote.avatar}
-                alt={quote.authorName}
-                width={64}
-                height={64}
-                className="object-cover"
-              />
+              {quote.avatar ? (
+                <Image
+                  src={quote.avatar}
+                  alt={quote.authorName}
+                  width={64}
+                  height={64}
+                  className="object-cover"
+                />
+              ) : null}
             </div>
             <p
               style={{
@@ -198,18 +201,21 @@ export default function WhyChooseSection({
                 {quote.headline}
               </p>
             )}
-            <p
-              style={{
-                fontFamily: "var(--font-poppins)",
-                fontSize: 15,
-                lineHeight: 1.6,
-                color: "rgba(17,17,17,0.75)",
-              }}
-            >
-              &ldquo;{quote.quote}&rdquo;
-            </p>
+            {quote.quote && (
+              <p
+                style={{
+                  fontFamily: "var(--font-poppins)",
+                  fontSize: 15,
+                  lineHeight: 1.6,
+                  color: "rgba(17,17,17,0.75)",
+                }}
+              >
+                &ldquo;{quote.quote}&rdquo;
+              </p>
+            )}
           </div>
         </div>
+        )}
       </div>
     </section>
   );

@@ -137,15 +137,31 @@ function ProductColumn({
     <div className="flex flex-1 flex-col gap-[16px]">
       <ProductHeader card={card} variant={variant} />
 
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] bg-[#0E0E18]">
-        <Image
-          src={card.image}
-          alt={card.imageAlt ?? ""}
-          fill
-          sizes="(min-width: 1024px) 480px, 100vw"
-          className="object-cover"
-        />
-      </div>
+      {card.video ? (
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] bg-[#0E0E18]">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src={card.video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-label={card.imageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      ) : card.image ? (
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] bg-[#0E0E18]">
+          <Image
+            src={card.image}
+            alt={card.imageAlt ?? ""}
+            fill
+            sizes="(min-width: 1024px) 480px, 100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : null}
 
       {card.summary && (
         <p
