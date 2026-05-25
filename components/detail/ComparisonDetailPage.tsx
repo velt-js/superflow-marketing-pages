@@ -20,7 +20,7 @@ export default function ComparisonDetailPage({
       <Nav />
       <DetailHero {...config.hero} roundedBottom={false} />
       <ReasonsGrid {...config.reasons} />
-      <div className="bg-[#030219]">
+      <div className="bg-white">
         {config.criteria.map((criterion) => (
           <ComparisonCriterion key={criterion.id} {...criterion} />
         ))}

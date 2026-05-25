@@ -42,18 +42,18 @@ export default function OverviewTable({
   ctaHref,
 }: OverviewTableData) {
   return (
-    <section className="bg-[#030219] pt-[80px] pb-[100px] lg:pt-[120px] lg:pb-[140px]">
+    <section className="bg-white pt-[80px] pb-[100px] lg:pt-[120px] lg:pb-[140px]">
       <div className="container-page flex flex-col items-center gap-[56px]">
         <SectionHeading heading={heading} highlight={highlight} size="lg" />
 
-        <div className="w-full max-w-[1080px] rounded-[28px] border border-white/10 bg-[#0b0a21] px-[28px] py-[28px] lg:px-[48px] lg:py-[40px]">
+        <div className="w-full max-w-[1080px] rounded-[28px] border border-[#ECECEC] bg-white px-[28px] py-[28px] lg:px-[48px] lg:py-[40px]">
           <div className="grid grid-cols-[1.6fr_1fr_1fr] items-center gap-2 pb-[20px]">
             <span
               style={{
                 fontFamily: "var(--font-poppins)",
                 fontSize: 18,
                 fontWeight: 400,
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(17,17,17,0.45)",
                 letterSpacing: "-0.01em",
               }}
             >
@@ -72,7 +72,7 @@ export default function OverviewTable({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,
                   fontWeight: 500,
-                  color: "#fff",
+                  color: "#111",
                   letterSpacing: "-0.01em",
                 }}
               >
@@ -92,7 +92,7 @@ export default function OverviewTable({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,
                   fontWeight: 500,
-                  color: "#fff",
+                  color: "#111",
                   letterSpacing: "-0.01em",
                 }}
               >
@@ -101,7 +101,7 @@ export default function OverviewTable({
             </div>
           </div>
 
-          <div className="h-px w-full" style={{ background: "rgba(255,255,255,0.08)" }} />
+          <div className="h-px w-full" style={{ background: "#ECECEC" }} />
 
           <div className="flex flex-col">
             {rows.map((row) => (
@@ -137,7 +137,7 @@ export default function OverviewTable({
                     fontFamily: "var(--font-poppins)",
                     fontSize: 22,
                     fontWeight: 500,
-                    color: "#0DCF82",
+                    color: "#22C55E",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -149,7 +149,7 @@ export default function OverviewTable({
                     fontFamily: "var(--font-poppins)",
                     fontSize: 22,
                     fontWeight: 500,
-                    color: "#FF7162",
+                    color: "#F05252",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -163,7 +163,7 @@ export default function OverviewTable({
         {ctaText && ctaHref && (
           <a
             href={ctaHref}
-            className="inline-flex items-center justify-center rounded-[40px] bg-[#625DF5] px-[32px] py-[18px] text-white transition-colors hover:bg-[#7672FF]"
+            className="inline-flex items-center justify-center rounded-[40px] bg-black px-[32px] py-[18px] text-white transition-colors hover:bg-black/80"
             style={{
               fontFamily: "var(--font-poppins)",
               fontSize: 16,
