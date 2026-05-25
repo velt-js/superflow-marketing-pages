@@ -663,24 +663,9 @@ function buildFAQ(competitor: string): FAQItem[] {
   ];
 }
 
-export const alternativeDetails: Record<string, ComparisonDetailConfig> = {
-  "google-docs-alternative": {
-    hero: {
-      eyebrow: "Alternative",
-      heading: "Google Docs Alternative",
-      ctaText: "Try Superflow for Free",
-      ctaHref: "https://app.usesuperflow.com/signup",
-      leftBadge: { label: "Developer", color: "#4dd5ff" },
-      rightBadge: { label: "Designer", color: "#fc6cba" },
-    },
-    reasons: SHARED_REASONS,
-    criteria: buildCriteria("Google Docs"),
-    overview: buildOverview("Google Docs"),
-    pricing: buildPricing("Google Docs"),
-    whyChoose: buildWhyChoose("Google Docs"),
-    faq: buildFAQ("Google Docs"),
-  },
-};
+// alternativeDetails moved to Sanity (see app/alternative/[slug]/page.tsx
+// + lib/sanity-adapters/alternative.ts). The hardcoded shape lived here
+// previously; removed during the Framer → Sanity migration.
 
 export const comparisonDetails: Record<string, ComparisonDetailConfig> = {
   "markup-vs-pastel": {

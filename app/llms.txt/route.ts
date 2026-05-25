@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 import {
-  alternativeDetails,
   comparisonDetails,
   integrationDetails,
   useCaseDetails,
@@ -100,10 +99,10 @@ export async function GET() {
     ...userPersonaSlugsCms,
   ]).map((slug) => ({ path: `/user-persona/${slug}`, title: toTitle(slug) }));
 
-  const alternatives = unique([
-    ...Object.keys(alternativeDetails),
-    ...alternativeSlugsCms,
-  ]).map((slug) => ({ path: `/alternative/${slug}`, title: toTitle(slug) }));
+  const alternatives = unique(alternativeSlugsCms).map((slug) => ({
+    path: `/alternative/${slug}`,
+    title: toTitle(slug),
+  }));
 
   const comparisons = unique([
     ...Object.keys(comparisonDetails),

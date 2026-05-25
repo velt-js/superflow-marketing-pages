@@ -162,6 +162,16 @@ export async function getAllAlternativeSlugs(): Promise<string[]> {
     `*[_type == "alternativePage" && defined(slug.current)].slug.current`
   );
 }
+export async function getAllAlternativePages() {
+  return client.fetch(
+    `*[_type == "alternativePage" && hidden != true] | order(publishedDate desc, title asc){
+      _id, title, "slug": slug.current, description,
+      competitor1Name, competitor2Name,
+      "thumbnail": thumbnail.asset->url,
+      "competitor2Logo": competitor2Logo.asset->url
+    }`
+  );
+}
 export async function getAlternativePageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "alternativePage" && slug.current == $slug][0]{
@@ -170,12 +180,32 @@ export async function getAlternativePageBySlug(slug: string) {
       "thumbnail": thumbnail.asset->url,
       competitor1Name, "competitor1Logo": competitor1Logo.asset->url,
       competitor2Name, "competitor2Logo": competitor2Logo.asset->url,
-      criteria, pricing,
+      criteria[]{
+        _key, title, description, winnerC1, result,
+        competitor1{
+          score, title, "video": video.asset->url, youtubeUrl,
+          tags[]{ label, color }
+        },
+        competitor2{
+          score, title, "video": video.asset->url, youtubeUrl,
+          tags[]{ label, color }
+        }
+      },
+      pricing[]{ c1Name, c1Price, c1Users, c2Name, c2Price, c2Users },
       showOverview, overview, summaryPointers,
       testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
       faq[]{ question, answer },
-      choices, features, highlights,
-      caseStudy, layout2Testimonial,
+      choices[]{
+        title, subText, "image": image.asset->url,
+        videoLink, "videoFile": videoFile.asset->url
+      },
+      features[]{ title, c1Text, c2Text },
+      highlights[]{
+        title, subText, "image": image.asset->url,
+        videoLink, "videoFile": videoFile.asset->url
+      },
+      caseStudy{ title, challenges, link },
+      layout2Testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
       metaTitle, metaDescription
     }`,
     { slug }

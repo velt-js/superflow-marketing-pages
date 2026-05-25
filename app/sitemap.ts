@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
 import {
-  alternativeDetails,
   comparisonDetails,
   integrationDetails,
   useCaseDetails,
@@ -82,9 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique([...Object.keys(userPersonaDetails), ...userPersonaSlugsCms]).map(
       (slug) => `/user-persona/${slug}`,
     ),
-    ...unique([...Object.keys(alternativeDetails), ...alternativeSlugsCms]).map(
-      (slug) => `/alternative/${slug}`,
-    ),
+    ...unique(alternativeSlugsCms).map((slug) => `/alternative/${slug}`),
     ...unique([...Object.keys(comparisonDetails), ...comparisonSlugsCms]).map(
       (slug) => `/comparisons/${slug}`,
     ),

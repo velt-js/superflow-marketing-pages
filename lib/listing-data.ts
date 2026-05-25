@@ -172,29 +172,7 @@ export const integrationsListing: ListingPageConfig = {
   },
 };
 
-export const alternativeListing: ListingPageConfig = {
-  hero: {
-    heading: "Superflow alternatives",
-    subheading:
-      "Superflow, while being an excellent way to give feedback, just like with any software, for some, there can be a better fit due to their needs or specific issues.",
-  },
-  grid: {
-    variant: "icon-centered",
-    items: [
-      { title: "Google Docs", icon: "/images/hero/icon-world.svg", href: "/alternative/google-docs-alternative" },
-      { title: "Loom", icon: "/images/hero/icon-world.svg", href: "/alternative/loom-alternative" },
-      { title: "Markup", icon: "/images/hero/icon-world.svg", href: "/alternative/markup-alternative" },
-      { title: "Pastel", icon: "/images/hero/icon-world.svg", href: "/alternative/pastel-alternative" },
-      { title: "BugHerd", icon: "/images/hero/icon-world.svg", href: "/alternative/bugherd-alternative" },
-      { title: "Ruttl", icon: "/images/hero/icon-world.svg", href: "/alternative/ruttl-alternative" },
-      { title: "Marker.io", icon: "/images/hero/icon-world.svg", href: "/alternative/marker-io-alternative" },
-      { title: "ReviewStudio", icon: "/images/hero/icon-world.svg", href: "/alternative/reviewstudio-alternative" },
-      { title: "Use Bubbles", icon: "/images/hero/icon-world.svg", href: "/alternative/use-bubbles-alternative" },
-      { title: "Vercel Comments", icon: "/images/hero/icon-world.svg", href: "/alternative/vercel-comments-alternative" },
-      { title: "Webflow Comments", icon: "/images/hero/icon-world.svg", href: "/alternative/webflow-comments-alternative" },
-    ],
-  },
-};
+// alternativeListing moved to Sanity (see app/alternative/page.tsx).
 
 export const comparisonListing: ListingPageConfig = {
   hero: {
