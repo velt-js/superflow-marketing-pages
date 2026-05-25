@@ -1,0 +1,5347 @@
+[
+  {
+    "_id": "cmp-markup-vs-pastel",
+    "_type": "comparisonPage",
+    "slug": "markup-vs-pastel",
+    "title": "Markup.io vs Pastel",
+    "description": "Evaluate Markup.io and Pastel to decide which website feedback tool is best for your business. Fast-track design changes and sync effortlessly with your team and clients.",
+    "metaTitle": "Markup.io vs Pastel: Comparing website feedback tools",
+    "metaDescription": "Assess Markup.io vs Pastel to pick the perfect website feedback tool for your business. Simplify design changes and effortlessly sync with your team.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-21",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/DMl4Eetk3Chg887elppLfmiXiM.png",
+      "alt": "Markup.io vs Pastel"
+    },
+    "competitor1Name": "Markup.io",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/DupT27TxfKOFndrdYMDO5TaM74.png",
+      "alt": "Markup.io"
+    },
+    "competitor2Name": "Pastel",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/4mIHVdRa4tQCeCDwtiZOjxYR73k.png",
+      "alt": "UsePastel"
+    },
+    "overviewC1Text": "Markup, where rich text style feedback and simplicity thrive, empowering users to have real-time commenting on any URL.",
+    "overviewC2Text": "Much similar to MarkUp, this annotation tool (UsePastel) also helps with website feedback & review but also provides additional features.",
+    "namedCriteria": [
+      {
+        "_key": "6b7f06161603",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Markup"
+        },
+        "c1ImageAlt": "Commenting on Markup",
+        "c1Video": "https://www.youtube.com/embed/ypLpesMLa70",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on UsePastel"
+        },
+        "c2ImageAlt": "Commenting on UsePastel",
+        "c2Video": "https://www.youtube.com/embed/IBs3Wxcd0l8"
+      },
+      {
+        "_key": "26e2abea389b",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen—vary on browsers, desktops, or mobile devices.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/tVygAfh9jiyVT1ypnaQyv58pTck.png",
+          "alt": "Mobile commenting with MarkUp,io"
+        },
+        "c1ImageAlt": "Mobile commenting with MarkUp,io",
+        "c1Video": "https://www.youtube.com/embed/r9r8plaLC2U",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8kvkyMEvN8pjuzLZCIKMDOQYzUY.png",
+          "alt": "Mobile commenting with Pastel"
+        },
+        "c2ImageAlt": "Mobile commenting with Pastel",
+        "c2Video": "https://www.youtube.com/embed/-s4saJ_FqmU"
+      },
+      {
+        "_key": "c7f1e17a1686",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/6B73gQEXj6aqO3s5xlKOaF598.png",
+          "alt": "Illustrating that Markup can't access authenticated pages"
+        },
+        "c1ImageAlt": "Illustrating that Markup can't access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/bCqnmml5LJQbzsXYodTVVpCBCw.png",
+          "alt": "Illustrating that Pastel can't access authenticated pages"
+        },
+        "c2ImageAlt": "Illustrating that Pastel can't access authenticated pages"
+      },
+      {
+        "_key": "f669221a9a7f",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SnJIwWFVH3Z7YzBCuF2AEwIDxFc.png",
+          "alt": "Markup.io integrations"
+        },
+        "c1ImageAlt": "Markup.io integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/UVCYwVEhWbzfN0l4bTRtxg8zpa8.png",
+          "alt": "UsePastel integrations"
+        },
+        "c2ImageAlt": "UsePastel integrations"
+      },
+      {
+        "_key": "1c10d6238112",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Ai copywriting not available on Markup"
+        },
+        "c1ImageAlt": "Ai copywriting not available on Markup",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Ai copywriting not available on Pastel"
+        },
+        "c2ImageAlt": "Ai copywriting not available on Pastel"
+      },
+      {
+        "_key": "5dbe543cb1bb",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting not available on Markup"
+        },
+        "c1ImageAlt": "Private commenting not available on Markup",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/2C4Z6Jkk6V8QzohfNS7DZEozxY.png",
+          "alt": "Private commenting not available on Pastel"
+        },
+        "c2ImageAlt": "Private commenting not available on Pastel"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "83f4870c28ab",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "Unlimited seats: 20 Markups",
+        "c2Price": "$0",
+        "c2Seats": "1 seat: 3-day edit access"
+      },
+      {
+        "_key": "188bc8488afa",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$29",
+        "c1Seats": "Unlimited seats: 1 Workspace",
+        "c2Price": "$29",
+        "c2Seats": "1 Seat: 3 Premium canvases"
+      },
+      {
+        "_key": "3140a0417b8a",
+        "_type": "comparisonPricingTier",
+        "c1Price": "Custom",
+        "c1Seats": "Unlimited seats & workspaces",
+        "c2Price": "$350",
+        "c2Seats": "Up to 10 seats: $35/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "03f2996adbb4",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "5d58264926e6",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "b5512299cd3f",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "a90fd6592c27",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "12b3a902e13e",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "5d9c9c6954b5",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "67440847fea2",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "5a104c22be50",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "e7603ddbda20",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "cef55797c74c",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": false
+          },
+          {
+            "_key": "b0693b2be2ad",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": false
+          },
+          {
+            "_key": "2696795712b3",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "6c4893e06d90",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "859ee075de5b",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "e44598f17ff0",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "714ff8a835e0",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "b977005b2999",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "16dc4876f2b5",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Uses Chrome sandbox",
+            "c2Available": true,
+            "c2Text": "Uses Chrome sandbox"
+          },
+          {
+            "_key": "f981cb98694b",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "4caa3bf3a5a6",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "76d38f757b11",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "No installation",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "e2d3ffcd8e79",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "4607a1dfdce7",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "be78551c6f48",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "1afeb720878f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "2078581ccfe3",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "7723517d4d67",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "fb2efd8b45d5",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "3372d5c82d0c",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "bd014401061e",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "3058d2b5c33f",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "292358ed61fe",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "e8e2205c220f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "109e33a9c3a1",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "cfac3e02832b",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "fe471afa66cc",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "32d450fed8cc",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "960c18b5e419",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8TXlYhEbTwlPKpOYfHBDeYLGK8s.png"
+        },
+        "name": "Abhishek Phukan",
+        "rating": "4",
+        "title": "\"Markup.io does not support .fig files from Figma\"",
+        "content": "<p>I have to go through the <strong>extra step of exporting my designs as a PDF </strong>before being able to use them in Markup.io. It's an extra hassle that I would prefer not to have to deal with.</p>"
+      },
+      {
+        "_key": "43146d74cb90",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/GleDqrYr6hrq5qKn8YsmAVJbmBM.png"
+        },
+        "name": "Mikael Brunnberg",
+        "rating": "4",
+        "title": "\"Has bugs like comments dissapearing\"",
+        "content": "<p>The tool still has some minor bugs, comments disappearing and the <strong>text-area appearing outside the screen </strong>when viewing the mobile screen size, but apart from this flawless.</p>"
+      },
+      {
+        "_key": "52d3dfdfbc3b",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vyMTZPvUufVCTGhLVJ83x4o4eU.png"
+        },
+        "name": "Fedieson Landicho",
+        "rating": "4",
+        "title": "“Clients can’t understand Pastel”",
+        "content": "<p>When I send a Pastel board to some clients, they can't understand how to use it and just send me an email anyway.</p>"
+      },
+      {
+        "_key": "bfba6fde1d05",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Z9N4rsrUpgnwlbZ5sQRiFGA7U.png"
+        },
+        "name": "Aamir Mursleen",
+        "rating": "4",
+        "title": "“Lack of clear comparison between different plans”",
+        "content": "<p>It would be helpful to have a detailed breakdown of the features included in each plan, and a comparison chart to easily compare the different options and select the plan that best fits their needs.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "0e7973b0f781",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "be265f160cbb",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "4972e3aaeb8d",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between annotation tool and design feedback tool?"
+      },
+      {
+        "_key": "0f5b0ebe1126",
+        "_type": "comparisonFaqItem",
+        "question": "What are the alternatives to MarkUp.io?"
+      },
+      {
+        "_key": "c1a1e164a782",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Markup.io or Pastel?",
+        "answer": "<p><br></p>"
+      },
+      {
+        "_key": "65ee1c93ae7c",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Usepastel?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-bugherd-vs-ruttl",
+    "_type": "comparisonPage",
+    "slug": "bugherd-vs-ruttl",
+    "title": "BugHerd vs Ruttl",
+    "description": "Choosing the right website feedback tool for seamless design collaborations. BugHerd or Ruttl: find out which annotation tool is best for your business.",
+    "metaTitle": "BugHerd vs Ruttl: Choose the Ultimate Website Feedback Tool",
+    "metaDescription": "Find the perfect annotation tool for design collaboration - BugHerd or Ruttl. Discover which website feedback tool suits your business needs best.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/OuQSDVzAMygS1Ins8v1z8yCeyNg.png",
+      "alt": "BugHerd vs Ruttl"
+    },
+    "competitor1Name": "BugHerd",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/b0XH6F28PBQ471dB2Jt0itJRpJs.png",
+      "alt": "BugHerd"
+    },
+    "competitor2Name": "Ruttl",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/80vgizm8JIndqzRh0JxJV7s.png",
+      "alt": "Ruttl"
+    },
+    "overviewC1Text": "BugHerd is a bug-tracking software that simplifies bug tracking and reporting for you and your teams.",
+    "overviewC2Text": "Ruttl is a collection of tools that range from bug reporting to customer support chat to website editing.",
+    "namedCriteria": [
+      {
+        "_key": "a913dc669f07",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on BugHerd"
+        },
+        "c1ImageAlt": "Commenting on BugHerd",
+        "c1Video": "https://www.youtube.com/embed/UxuoIaxDTSk",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Ruttl"
+        },
+        "c2ImageAlt": "Commenting on Ruttl",
+        "c2Video": "https://www.youtube.com/embed/QLv3KvuYzUo"
+      },
+      {
+        "_key": "a06239604818",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen varying on browser, desktop, or  mobile device.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "BugHerd on mobile"
+        },
+        "c1ImageAlt": "BugHerd on mobile",
+        "c1Video": "https://www.youtube.com/embed/jIp_fg7MqEg",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Ruttl on mobile"
+        },
+        "c2ImageAlt": "Ruttl on mobile",
+        "c2Video": "https://www.youtube.com/embed/9lE0NxYoHDs"
+      },
+      {
+        "_key": "e6a8709d4c63",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SYd7THlXbWJBhfG9zQ5EAx3SBJ4.png",
+          "alt": "Markup can access authenticated pages"
+        },
+        "c1ImageAlt": "Markup can access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vFRooRv2q8rwzRyL6ITFziyem4.png",
+          "alt": "Ruttl can't access authenticated pages"
+        },
+        "c2ImageAlt": "Ruttl can't access authenticated pages"
+      },
+      {
+        "_key": "ae497f306c29",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz7E3xoXlKADSUimMLxdWTrOTsE.png",
+          "alt": "BugHerd Integration"
+        },
+        "c1ImageAlt": "BugHerd Integration",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/LWyy8iKGlYY1b68X2PAzTtupU.png",
+          "alt": "Ruttl Integration"
+        },
+        "c2ImageAlt": "Ruttl Integration"
+      },
+      {
+        "_key": "316bce49e996",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in BugHerd"
+        },
+        "c1ImageAlt": "AI copywriting in BugHerd",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Ruttl"
+        },
+        "c2ImageAlt": "AI copywriting in Ruttl"
+      },
+      {
+        "_key": "ca5ce8eff7b2",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/c9qlYdF2kQAOwOomSBu6oBr9PM.png",
+          "alt": "Private commenting on BugHerd"
+        },
+        "c1ImageAlt": "Private commenting on BugHerd",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting on Ruttl"
+        },
+        "c2ImageAlt": "Private commenting on Ruttl"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "8e189770d0e3",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$39",
+        "c1Seats": "5 seats: $8/user approx.",
+        "c2Price": "$0",
+        "c2Seats": "5 seats: $0/user"
+      },
+      {
+        "_key": "6eddb5cd69c8",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$129",
+        "c1Seats": "25 seats: $5/user approx.",
+        "c2Price": "$4",
+        "c2Seats": "50 seats: $0.08/user"
+      },
+      {
+        "_key": "6dda7ea0f904",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$229",
+        "c1Seats": "50 seats: $4.5/user approx.",
+        "c2Price": "$12",
+        "c2Seats": "50 seats: $0.24/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "77b3ac524c0b",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "d94df0ee94e2",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "862a5ec8c961",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "a148faba1c01",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "ce95073bedfc",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "a7afcab57995",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "0d3265b5caa7",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "84cb8036267e",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "667d1973cebf",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "230f50e437df",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "8c230cefbab4",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "6bf511a0ba02",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "c4a9dcb3d818",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "4b857b12a5ff",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "3dc5ebe14cc6",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "10ce7ba16253",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "6a2f22a2c90a",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "bc7e226cd3c3",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "All",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "6710bcb7231d",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "dc9ade853bfd",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "ff4d2bdc8e44",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "Requires script",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "c028b192876f",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "f1252ce7f8e7",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "071ddd525660",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "1d6a737aee1b",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "c682ff6a1f0a",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "abe9d6265cc4",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "eb7071f3f39d",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "618c93de5b6a",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "71674770e9b9",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "2f94d1b4f04b",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Assign task, set status"
+          }
+        ]
+      },
+      {
+        "_key": "ecc6ece8ef09",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "bdeeb23db61a",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "b23f7b24cc12",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "9e1269046b1f",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "248c193c9dfe",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "6fc22a70aade",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "950b9466d33a",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8zIBXKqAKmzH3trVlCPnxiu6eOs.png"
+        },
+        "name": "Sherif Neamatalla",
+        "rating": "4",
+        "title": "\"Screenshot capability does not work”",
+        "content": "<p>The screenshot capability <strong>does not work when a modal/dialog is open</strong>. Screenshots can be dragged/dropped instead of just browsing the directory structure.</p>"
+      },
+      {
+        "_key": "37b3c486c08a",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/qy3jznSshuZtJGoxRQnhS43N1U.png"
+        },
+        "name": "Zack Carlson",
+        "rating": "4",
+        "title": "I wish that it had a better method to integrate",
+        "content": "<p>I wish that it had a better method to integrate into 3rd party project management systems. Bugherd should be an add-on for every project management tool that could be used to run web development.</p>"
+      },
+      {
+        "_key": "4bd0a902df50",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MYzwveT4Pn5Z9IczF3mZM3poaw.png"
+        },
+        "name": "VJ Bhadula",
+        "rating": "4",
+        "title": "“Glitches during collaboration”",
+        "content": "<p>We've experienced occasional glitches during collaboration, which can be frustrating and<strong> hinders our workflow.</strong></p>"
+      },
+      {
+        "_key": "4e7aef82c4ba",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/snpybGJmmtNiV3XJgzkWTwFX8.png"
+        },
+        "name": "Cristopher G.",
+        "rating": "4",
+        "title": "\"Email notifications never arrives\"",
+        "content": "<p>When someone comments, practically nothing ever arrives and you have to check the panel. It <strong>does not have integrations</strong> with platforms like Pabbly or others.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "c11264430751",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "144ee43ff6db",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "ba2ad99a8817",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between an annotation tool and a design feedback tool?"
+      },
+      {
+        "_key": "3d98144f97ba",
+        "_type": "comparisonFaqItem",
+        "question": "Is there any alternative to BugHerd?"
+      },
+      {
+        "_key": "e85ba94f8017",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Bugherd or Ruttl?"
+      },
+      {
+        "_key": "0c9d1297a249",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Ruttl?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-markup-vs-bugherd",
+    "_type": "comparisonPage",
+    "slug": "markup-vs-bugherd",
+    "title": "MarkUp.io vs BugHerd",
+    "description": "Trying to decide between BugHerd and MarkUp.io for optimal website feedback? Discover the best annotation tool that aligns perfectly with your team's needs.",
+    "metaTitle": "MarkUp vs BugHerd: Which Website Feedback Tool is Better",
+    "metaDescription": "Choosing between BugHerd and MarkUp.io for website feedback? Find the ideal annotation tool to suit your team's requirements with this comparison.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/OWI7zOSzqhrW050oEEw973ujI5A.png",
+      "alt": "MarkUp.io vs BugHerd"
+    },
+    "competitor1Name": "MarkUp.io",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/DupT27TxfKOFndrdYMDO5TaM74.png",
+      "alt": "Markup"
+    },
+    "competitor2Name": "BugHerd",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/b0XH6F28PBQ471dB2Jt0itJRpJs.png",
+      "alt": "BugHerd"
+    },
+    "overviewC1Text": "MarkUp allows users to leave comments on any URL, featuring a user-friendly interface with advanced text styling options.",
+    "overviewC2Text": "BugHerd is a user-friendly bug-tracking tool used for streamlining the tracking of bugs and managing feedback on websites.",
+    "namedCriteria": [
+      {
+        "_key": "a4f820c02bf0",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Markup"
+        },
+        "c1ImageAlt": "Commenting on Markup",
+        "c1Video": "https://youtu.be/ypLpesMLa70",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on BugHerd"
+        },
+        "c2ImageAlt": "Commenting on BugHerd",
+        "c2Video": "https://youtu.be/UxuoIaxDTSk"
+      },
+      {
+        "_key": "b0938d0c5a9d",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen varying on browser, desktop, or  mobile device.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/tVygAfh9jiyVT1ypnaQyv58pTck.png",
+          "alt": "Mobile commenting in Markup"
+        },
+        "c1ImageAlt": "Mobile commenting in Markup",
+        "c1Video": "https://www.youtube.com/embed/r9r8plaLC2U",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting mode for BugHerd"
+        },
+        "c2ImageAlt": "Mobile commenting mode for BugHerd",
+        "c2Video": "https://www.youtube.com/embed/jIp_fg7MqEg"
+      },
+      {
+        "_key": "a48db783af74",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/6B73gQEXj6aqO3s5xlKOaF598.png",
+          "alt": "Markup can't access authenticated pages"
+        },
+        "c1ImageAlt": "Markup can't access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SYd7THlXbWJBhfG9zQ5EAx3SBJ4.png",
+          "alt": "Bugherd can access authenticated pages"
+        },
+        "c2ImageAlt": "Bugherd can access authenticated pages"
+      },
+      {
+        "_key": "a31f20ae2c09",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SnJIwWFVH3Z7YzBCuF2AEwIDxFc.png",
+          "alt": "Markup.io integrations"
+        },
+        "c1ImageAlt": "Markup.io integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz7E3xoXlKADSUimMLxdWTrOTsE.png",
+          "alt": "BugHerd integrations"
+        },
+        "c2ImageAlt": "BugHerd integrations"
+      },
+      {
+        "_key": "0724400c6d39",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Markup.io"
+        },
+        "c1ImageAlt": "AI copywriting in Markup.io",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in BugHerd"
+        },
+        "c2ImageAlt": "AI copywriting in BugHerd"
+      },
+      {
+        "_key": "17e96a21e1df",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting in Markup"
+        },
+        "c1ImageAlt": "Private commenting in Markup",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/CbKvSVs8XlyPmjaoNvz5GN97Chk.png",
+          "alt": "private commenting in bugherd"
+        },
+        "c2ImageAlt": "private commenting in bugherd"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "71d1942b6d42",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "Unlimited seats: 20 Markups",
+        "c2Price": "$39",
+        "c2Seats": "5 seats: $8/user approx."
+      },
+      {
+        "_key": "55d9c1146160",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$29",
+        "c1Seats": "Unlimited seats: 1 Workspace",
+        "c2Price": "$129",
+        "c2Seats": "25 seats: $5/user approx."
+      },
+      {
+        "_key": "8d2b1ae61eeb",
+        "_type": "comparisonPricingTier",
+        "c1Price": "Custom",
+        "c1Seats": "Unlimited seats & workspaces",
+        "c2Price": "Enterprise",
+        "c2Seats": "Custom seats"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "ec18e2a2f022",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "d7695f6dcb88",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "6536eb4fe946",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "d42cec169dd9",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "e95b9aab4ebb",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "d04c4858fae7",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "038c8bf6cbd7",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "f1c36323791a",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "736fea88d25b",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "f0601c77f31d",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": true
+          },
+          {
+            "_key": "0a28f7b6493f",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": true
+          },
+          {
+            "_key": "3dc5b305a556",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "f5cdf7191533",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "fbf21fe77ecd",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "5db4133fd3a3",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "2d04a7d3b019",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "55b8aa842be8",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "ff816ec26440",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Uses Chrome sandbox",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "c4a15255f826",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": true
+          }
+        ]
+      },
+      {
+        "_key": "3b2c4039027c",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "6346dab6f054",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "No installation",
+            "c2Available": true,
+            "c2Text": "Requires script"
+          },
+          {
+            "_key": "c836ab8986ab",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Hard",
+            "c2Available": true,
+            "c2Text": "Easy"
+          },
+          {
+            "_key": "2220dbcbc52d",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Easy"
+          }
+        ]
+      },
+      {
+        "_key": "0b24eb949446",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "09e705c4c90c",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "dc2e47826268",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "0faa3cd3cb2a",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "a0adcfafc6fb",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "73897ac41503",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "3f7620e8af11",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "221d74f1ecec",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "7c29d692d087",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "a5ecf1bc711f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "6b31b27ed9e8",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "c5c76a7f7a2a",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "43815761fa80",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "c07b00bb3139",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "1a8d4c56e027",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/GleDqrYr6hrq5qKn8YsmAVJbmBM.png"
+        },
+        "name": "Mikael Brunnberg",
+        "rating": "4",
+        "title": "\"Has bugs like comments dissapearing”",
+        "content": "<p>The tool still has some minor bugs, comments disappearing and the text-area appearing outside the screen when viewing the mobile screen size, but apart from this flawless.</p>"
+      },
+      {
+        "_key": "d6eb6dd58f41",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8TXlYhEbTwlPKpOYfHBDeYLGK8s.png"
+        },
+        "name": "Abhishek Phukan",
+        "rating": "4",
+        "title": "\"Markup.io does not support .fig files from Figma\"",
+        "content": "<p>I have to go through the extra step of exporting my designs as a PDF before being able to use them in Markup.io. It's an extra hassle that I would prefer not to have to deal with.</p>"
+      },
+      {
+        "_key": "253d060dc4eb",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/qy3jznSshuZtJGoxRQnhS43N1U.png"
+        },
+        "name": "Zack Carlson",
+        "rating": "4",
+        "title": "I wish that it had a better method to integrate",
+        "content": "<p>I wish it had a better method to integrate into 3rd party project management systems. Bugherd should be an add-on for every project management tool that could be used to run web development.</p>"
+      },
+      {
+        "_key": "6a11e61738a9",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8zIBXKqAKmzH3trVlCPnxiu6eOs.png"
+        },
+        "name": "Sherif Neamatalla",
+        "rating": "4",
+        "title": "\"Screenshot capability does not work”",
+        "content": "<p>The screenshot capability does not work when a modal/dialog is open. Screenshots can be dragged/dropped instead of just browsing the directory structure.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "a8d1a2f150a1",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "498ec0a368c7",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "4d1c273b31ea",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between an annotation tool and a design feedback tool?"
+      },
+      {
+        "_key": "d3311dab5fa1",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to MarkUp.io?"
+      },
+      {
+        "_key": "2a12f9f83d29",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Markup.io or BugHerd?"
+      },
+      {
+        "_key": "0e867b3cd9f6",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to BugHerd?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-markup-vs-ruttl",
+    "_type": "comparisonPage",
+    "slug": "markup-vs-ruttl",
+    "title": "MarkUp.io vs Ruttl",
+    "description": "Want to make your website feedback process efficient via annotation tools (MarkUp or Ruttl) but can’t decide which one to go for? Let’s find out!",
+    "metaTitle": "MarkUp vs Ruttl: Choose the Right Website Feedback Tool",
+    "metaDescription": "Improve your website feedback with annotation tools like MarkUp or Ruttl. Discover which website design feedback tool suits your needs best!",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/JugZ3gK2LHpOraLma4K5SGM.png",
+      "alt": "MarkUp.io vs Ruttl"
+    },
+    "competitor1Name": "MarkUp.io",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/DupT27TxfKOFndrdYMDO5TaM74.png",
+      "alt": "Markup"
+    },
+    "competitor2Name": "Ruttl",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/80vgizm8JIndqzRh0JxJV7s.png",
+      "alt": "Ruttl"
+    },
+    "overviewC1Text": "Markup enables users to engage in live commenting on any URL, fostering ease of use with rich text style feedback options.",
+    "overviewC2Text": "Ruttl is a collection of web-based tools (from customer support chat to website feedback) crafted to simplify your feedback process.",
+    "namedCriteria": [
+      {
+        "_key": "3e19e861c430",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Markup"
+        },
+        "c1ImageAlt": "Commenting on Markup",
+        "c1Video": "https://www.youtube.com/embed/ypLpesMLa70",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Ruttl"
+        },
+        "c2ImageAlt": "Commenting on Ruttl",
+        "c2Video": "https://www.youtube.com/embed/QLv3KvuYzUo"
+      },
+      {
+        "_key": "3a7c75b46da3",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen varying on browser, desktop, or  mobile device.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/tVygAfh9jiyVT1ypnaQyv58pTck.png",
+          "alt": "Mobile commenting on Markup"
+        },
+        "c1ImageAlt": "Mobile commenting on Markup",
+        "c1Video": "https://www.youtube.com/embed/r9r8plaLC2U",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting on Ruttl"
+        },
+        "c2ImageAlt": "Mobile commenting on Ruttl",
+        "c2Video": "https://www.youtube.com/embed/9lE0NxYoHDs"
+      },
+      {
+        "_key": "7ca9eadaf123",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/6B73gQEXj6aqO3s5xlKOaF598.png",
+          "alt": "Markup can't access authenticated pages"
+        },
+        "c1ImageAlt": "Markup can't access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vFRooRv2q8rwzRyL6ITFziyem4.png",
+          "alt": "Ruttl can't access authenticated pages"
+        },
+        "c2ImageAlt": "Ruttl can't access authenticated pages"
+      },
+      {
+        "_key": "b21ae77d5bc2",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SnJIwWFVH3Z7YzBCuF2AEwIDxFc.png",
+          "alt": "Markup integrations"
+        },
+        "c1ImageAlt": "Markup integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/LWyy8iKGlYY1b68X2PAzTtupU.png",
+          "alt": "Ruttl integrations"
+        },
+        "c2ImageAlt": "Ruttl integrations"
+      },
+      {
+        "_key": "2064890f355a",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Markup"
+        },
+        "c1ImageAlt": "AI copywriting in Markup",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Ruttl"
+        },
+        "c2ImageAlt": "AI copywriting in Ruttl"
+      },
+      {
+        "_key": "526e23226dff",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png"
+        },
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png"
+        }
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "51415ccea6d7",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "Unlimited seats: $0/user",
+        "c2Price": "$0",
+        "c2Seats": "5 seats: $0/user"
+      },
+      {
+        "_key": "42d4aab97ac8",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$29",
+        "c1Seats": "Unlimited seats: 1 Workspace",
+        "c2Price": "$4",
+        "c2Seats": "50 seats: $0.08/user"
+      },
+      {
+        "_key": "e29e24c6508b",
+        "_type": "comparisonPricingTier",
+        "c1Price": "Custom",
+        "c1Seats": "Unlimited seats & workspaces",
+        "c2Price": "$12",
+        "c2Seats": "50 seats: $0.24/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "d29a3892aea5",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "723ad03e6d20",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "668b5fa13f14",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "c230e9764d88",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "46963e589c98",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "76447485dada",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "da4b0502a82c",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "fd35101e4761",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "09c68da0b308",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "1f4142f1e071",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": false
+          },
+          {
+            "_key": "7a4a3ec99da6",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c1Text": "Requires Loom",
+            "c2Available": false
+          },
+          {
+            "_key": "00290c269889",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "883b04ea53ff",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "f0015611ab6f",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "5d3795811c30",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "2ca0f4509dbb",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "c0bec5782d95",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "47d1f866af0f",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Uses Chrome sandbox",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "95d8ed2465ae",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "4df7364bd677",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "318eaf348eb1",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "No installation",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "fc47e3c2ce7c",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Hard",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "4f3fb2436a8a",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "cf86d1783481",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "b17a96c9e9e8",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "586bdad65b4d",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "a085934bf082",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "9d71e2f16f24",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "39155c6ade0a",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "8a132f2f9fc4",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "ba2f5ec443de",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Assign task, set status"
+          }
+        ]
+      },
+      {
+        "_key": "ecd44479f0fb",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "f53f3d4a52a8",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "8dca80ade51c",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "695255e8a60a",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "021b26acdd35",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "388cf5adaf7d",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "2c96ec93c823",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8TXlYhEbTwlPKpOYfHBDeYLGK8s.png"
+        },
+        "name": "Abhishek Phukan",
+        "rating": "4",
+        "title": "\"Markup.io does not support .fig files from Figma\"",
+        "content": "<p>I have to go through the <strong>extra step of exporting my designs as a PDF</strong> before being able to use them in Markup.io. It's an extra hassle that I would prefer not to have to deal with.</p>"
+      },
+      {
+        "_key": "4db7fe0ddeea",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/GleDqrYr6hrq5qKn8YsmAVJbmBM.png"
+        },
+        "name": "Mikael Brunnberg",
+        "rating": "4",
+        "title": "\"Has bugs like comments dissapearing”",
+        "content": "<p>The tool still has some minor bugs, comments disappearing and the <strong>text-area appearing outside the screen</strong> when viewing the mobile screen size, but apart from this flawless.</p>"
+      },
+      {
+        "_key": "4229c0eb0a8f",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MYzwveT4Pn5Z9IczF3mZM3poaw.png"
+        },
+        "name": "VJ Bhadula",
+        "rating": "4",
+        "title": "“Glitches during collaboration”",
+        "content": "<p>We've experienced occasional glitches during collaboration, which can be frustrating and hinder our workflow.</p>"
+      },
+      {
+        "_key": "e90bee7578f4",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/snpybGJmmtNiV3XJgzkWTwFX8.png"
+        },
+        "name": "Cristopher G.",
+        "rating": "4",
+        "title": "\"Email notifications never arrives\"",
+        "content": "<p>When someone comments, practically nothing ever arrives and you have to check the panel. It does not have integrations with platforms like Pabbly or others.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "83b54c57db2d",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "703f4181f3e1",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "cb3c9cd4ec3e",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between an annotation tool and a design feedback tool?"
+      },
+      {
+        "_key": "91216c22e68f",
+        "_type": "comparisonFaqItem",
+        "question": "Does Markup.io have any alternative?"
+      },
+      {
+        "_key": "57fb33773e91",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Markup.io or Ruttl?"
+      },
+      {
+        "_key": "fa67b1bbe52b",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Ruttl?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-pastel-vs-bugherd",
+    "_type": "comparisonPage",
+    "slug": "pastel-vs-bugherd",
+    "title": "Pastel vs BugHerd",
+    "description": "Discover the right annotation tool for seamless design collaborations. Pastel or BugHerd: find out which website feedback tool is best for your team.",
+    "metaTitle": "Pastel vs BugHerd: Comparing Website Feedback Tools",
+    "metaDescription": "Explore the best annotation tool for design collaborations. Compare Pastel & BugHerd to decide the ideal website feedback tool for your team.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/urs46dkh2ZtMonWN5kgN6SfTfrg.png",
+      "alt": "MarkUp.io vs Ruttl"
+    },
+    "competitor1Name": "Pastel",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/4mIHVdRa4tQCeCDwtiZOjxYR73k.png",
+      "alt": "Pastel"
+    },
+    "competitor2Name": "BugHerd",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/b0XH6F28PBQ471dB2Jt0itJRpJs.png",
+      "alt": "Bugherd"
+    },
+    "overviewC1Text": "Supports streamlined review and approval of marketing assets ranging from live websites to PDFs and images.",
+    "overviewC2Text": "Manages bug reporting and bug tracking. Streamlines the process of website feedback and monitoring.",
+    "namedCriteria": [
+      {
+        "_key": "206a3e33bd25",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Pastel"
+        },
+        "c1ImageAlt": "Commenting on Pastel",
+        "c1Video": "https://www.youtube.com/embed/IBs3Wxcd0l8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Bugherd"
+        },
+        "c2ImageAlt": "Commenting on Bugherd",
+        "c2Video": "https://www.youtube.com/embed/UxuoIaxDTSk"
+      },
+      {
+        "_key": "9ab0613dbe77",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen varying on browser, desktop, or  mobile device.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with Pastel"
+        },
+        "c1ImageAlt": "Mobile commenting with Pastel",
+        "c1Video": "https://www.youtube.com/embed/-s4saJ_FqmU",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with bugherd"
+        },
+        "c2ImageAlt": "Mobile commenting with bugherd",
+        "c2Video": "https://www.youtube.com/embed/jIp_fg7MqEg"
+      },
+      {
+        "_key": "8dc709e9097e",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/bCqnmml5LJQbzsXYodTVVpCBCw.png",
+          "alt": "Pastel can't access authenticated pages"
+        },
+        "c1ImageAlt": "Pastel can't access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SYd7THlXbWJBhfG9zQ5EAx3SBJ4.png",
+          "alt": "Bugherd can access authenticated pages"
+        },
+        "c2ImageAlt": "Bugherd can access authenticated pages"
+      },
+      {
+        "_key": "b92fc08480e0",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/UVCYwVEhWbzfN0l4bTRtxg8zpa8.png",
+          "alt": "Pastel integrations"
+        },
+        "c1ImageAlt": "Pastel integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz7E3xoXlKADSUimMLxdWTrOTsE.png",
+          "alt": "Bugherd integrations"
+        },
+        "c2ImageAlt": "Bugherd integrations"
+      },
+      {
+        "_key": "2bc52c5930c9",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with pastel"
+        },
+        "c1ImageAlt": "AI copywriting with pastel",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with bugherd"
+        },
+        "c2ImageAlt": "AI copywriting with bugherd"
+      },
+      {
+        "_key": "9dbdef1ea10e",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/2C4Z6Jkk6V8QzohfNS7DZEozxY.png",
+          "alt": "private commenting in usepastel"
+        },
+        "c1ImageAlt": "private commenting in usepastel",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/c9qlYdF2kQAOwOomSBu6oBr9PM.png",
+          "alt": "private commenting in bugherd"
+        },
+        "c2ImageAlt": "private commenting in bugherd"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "26e80e203e7d",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "1 seat: 3-day edit access",
+        "c2Price": "$39",
+        "c2Seats": "5 seats: $8/user approx."
+      },
+      {
+        "_key": "c4fa88e6c297",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$29",
+        "c1Seats": "1 Seat: 3 Premium canvases",
+        "c2Price": "$129",
+        "c2Seats": "25 seats: $5/user approx."
+      },
+      {
+        "_key": "2a7787ee4e30",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$350",
+        "c1Seats": "Up to 10 seats: $35/user",
+        "c2Price": "$229",
+        "c2Seats": "50 seats: $4.5/user approx."
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "3e1f84a251e5",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "92ff65c1daf0",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "36639d97d2da",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "ab52613d741a",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "16dc01d2d075",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "0652ded062e8",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "f040514de758",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "e2d56f244d1f",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "5f8dc8265d6a",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "e6662f5901f5",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "f11792117e3f",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "a710dc793326",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "c8b64d1b063f",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "1efe092d0e25",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "c9adc9aedc71",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "67fa5d410196",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "7c2ab8a75cf9",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "43402b2a116c",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Uses Chrome sandbox",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "bcfe90eba0c3",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": true
+          }
+        ]
+      },
+      {
+        "_key": "3ef7d3df5f38",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "d165ccb87f9f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "No installation",
+            "c2Available": true,
+            "c2Text": "Requires script"
+          },
+          {
+            "_key": "be0180a05820",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Hard",
+            "c2Available": true,
+            "c2Text": "Easy"
+          },
+          {
+            "_key": "cf9f46d08bb9",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Easy"
+          }
+        ]
+      },
+      {
+        "_key": "62e3f7022c5e",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "4c748d8e60b5",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "3c1482181a36",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "7c245e4b9f13",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "d82863bdc09a",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "fcc7320ff450",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "315204098c47",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "2e0c662948c4",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "3cbe2da13b34",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "316f11bd69c9",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "4be50ce8123c",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "e1d28b33674b",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "1534a7f1de88",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "e8eed2b20c60",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "e45de01d6b82",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vyMTZPvUufVCTGhLVJ83x4o4eU.png"
+        },
+        "name": "Fedieson Landicho",
+        "rating": "4",
+        "title": "“Clients can’t understand Pastel”",
+        "content": "<p>When I send a Pastel board to some clients, they can't understand how to use it and just send me an email anyway.</p>"
+      },
+      {
+        "_key": "99f2dc23ab5d",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Z9N4rsrUpgnwlbZ5sQRiFGA7U.png"
+        },
+        "name": "Aamir Mursleen",
+        "rating": "4",
+        "title": "“Lack of a clear comparison between the different plans”",
+        "content": "<p>It would be helpful to have a detailed breakdown of the features included in each plan, and a comparison chart to easily compare the different options to select the plan.</p>"
+      },
+      {
+        "_key": "ba26e5766504",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8zIBXKqAKmzH3trVlCPnxiu6eOs.png"
+        },
+        "name": "Sherif Neamatalla",
+        "rating": "4",
+        "title": "\"Screenshot capability does not work”",
+        "content": "<p>The screenshot capability <strong>does not work when a modal/dialog is open</strong>. Screenshots can be dragged/dropped instead of just browsing the directory structure.</p>"
+      },
+      {
+        "_key": "e653409390dc",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/qy3jznSshuZtJGoxRQnhS43N1U.png"
+        },
+        "name": "Zack Carlson",
+        "rating": "4",
+        "title": "\"I wish that it had a better method to integrate\"",
+        "content": "<p>I wish it had a better integration method into 3rd party project management systems. Bugherd should be an add-on for every project management tool that could be used to run web development.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "ad811bf90d42",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "ac3f733351a5",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "53e4137e83e5",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between an annotation tool and a design feedback tool?"
+      },
+      {
+        "_key": "f2ff547658e8",
+        "_type": "comparisonFaqItem",
+        "question": "Is there any alternative to BugHerd?"
+      },
+      {
+        "_key": "8a0d229bad04",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Pastel or BugHerd?"
+      },
+      {
+        "_key": "0517d3813855",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Pastel or UsePastel?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-pastel-vs-ruttl",
+    "_type": "comparisonPage",
+    "slug": "pastel-vs-ruttl",
+    "title": "Pastel vs Ruttl",
+    "description": "Website feedback tools like Pastel & Ruttl make it easier to iterate and revise designs with your team and clients. But how do you decide which one is best for your team?",
+    "metaTitle": "Pastel vs Ruttl: Pick the Right Feedback Tool for Your Team",
+    "metaDescription": "Explore Pastel & Ruttl - website feedback tools simplifying design iteration with your team and clients. Find out what's best for you.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/GiMt43tqUIPAdBReEdZ5voPSkw.png",
+      "alt": "Pastel vs Ruttl"
+    },
+    "competitor1Name": "Pastel",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/4mIHVdRa4tQCeCDwtiZOjxYR73k.png",
+      "alt": "UsePastel"
+    },
+    "competitor2Name": "Ruttl",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/80vgizm8JIndqzRh0JxJV7s.png",
+      "alt": "Ruttl"
+    },
+    "overviewC1Text": "Seamlessly provide feedback on marketing assets - ranging from live web pages to PDFs and images.",
+    "overviewC2Text": "Simplifies the process of gathering and accounting for bugs on websites. Bug tracking & reporting at its best.",
+    "namedCriteria": [
+      {
+        "_key": "3b1f7ed80223",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting in UsePastel"
+        },
+        "c1ImageAlt": "Commenting in UsePastel",
+        "c1Video": "https://www.youtube.com/embed/IBs3Wxcd0l8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting in Ruttl"
+        },
+        "c2ImageAlt": "Commenting in Ruttl",
+        "c2Video": "https://www.youtube.com/embed/QLv3KvuYzUo"
+      },
+      {
+        "_key": "e6c0ee51d219",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Friendliness: Rendering issues happen varying on browser, desktop, or  mobile device.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with Pastel"
+        },
+        "c1ImageAlt": "Mobile commenting with Pastel",
+        "c1Video": "https://www.youtube.com/embed/-s4saJ_FqmU",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with Ruttl"
+        },
+        "c2ImageAlt": "Mobile commenting with Ruttl",
+        "c2Video": "https://www.youtube.com/embed/9lE0NxYoHDs"
+      },
+      {
+        "_key": "847873c36cba",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/bCqnmml5LJQbzsXYodTVVpCBCw.png",
+          "alt": "Patel can't access authenticated pages"
+        },
+        "c1ImageAlt": "Patel can't access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vFRooRv2q8rwzRyL6ITFziyem4.png",
+          "alt": "Ruttl can't access authenticated pages"
+        },
+        "c2ImageAlt": "Ruttl can't access authenticated pages"
+      },
+      {
+        "_key": "2170145a1a7b",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/UVCYwVEhWbzfN0l4bTRtxg8zpa8.png",
+          "alt": "Pastel integrations"
+        },
+        "c1ImageAlt": "Pastel integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/LWyy8iKGlYY1b68X2PAzTtupU.png",
+          "alt": "Ruttl integrations"
+        },
+        "c2ImageAlt": "Ruttl integrations"
+      },
+      {
+        "_key": "da1cea1da9cd",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "ai copywriting in pastel"
+        },
+        "c1ImageAlt": "ai copywriting in pastel",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "ai copywriting in ruttl"
+        },
+        "c2ImageAlt": "ai copywriting in ruttl"
+      },
+      {
+        "_key": "56dd5fe39238",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/2C4Z6Jkk6V8QzohfNS7DZEozxY.png",
+          "alt": "private commenting in pastel"
+        },
+        "c1ImageAlt": "private commenting in pastel",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "private commenting in ruttl"
+        },
+        "c2ImageAlt": "private commenting in ruttl"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "ed74db48210f",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "1 seat: 3-day edit access",
+        "c2Price": "$0",
+        "c2Seats": "5 seats: $0/user"
+      },
+      {
+        "_key": "6bb7da0382a7",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$29",
+        "c1Seats": "1 Seat: 3 Premium canvases",
+        "c2Price": "$4",
+        "c2Seats": "50 seats: $0.08/user"
+      },
+      {
+        "_key": "c4890be48a9d",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$350",
+        "c1Seats": "Up to 10 seats: $35/user",
+        "c2Price": "$12",
+        "c2Seats": "50 seats: $0.24/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "7bf8c21cbd7f",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "ef99e99e1be9",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "b81cdc293756",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "665ad4573a92",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "3ee49e254fbb",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "c158eed19627",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "a61a6da95d93",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "7fe19aaf73dd",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "300fd75290e3",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "4dbf847cfef6",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "4db2af415da0",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "144af0be8d94",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "55fc4c4553c5",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "091c2490b52a",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "dd3cf9764aef",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "60d5904b02dd",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "dde1c2fa3884",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "e5665201a70f",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Uses Chrome sandbox",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "014de1e2cd01",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "68693008e9b1",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "3a6611a5a932",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "No installation",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "b2f7c5a74390",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Hard",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "3e0e50011e3b",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Medium",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "ae3ef78010f6",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "2c89cc989e17",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "051aa97864e9",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": true
+          },
+          {
+            "_key": "325d508bd783",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "185add23aeea",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "8f6f3bd21ace",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "4b030a7768ea",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "03419adc919f",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c1Text": "Can only assign task",
+            "c2Available": true,
+            "c2Text": "Assign task, set status"
+          }
+        ]
+      },
+      {
+        "_key": "fc8d6a6eca25",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "5b81472ecd10",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": false,
+            "c2Available": false
+          },
+          {
+            "_key": "77d003605178",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": false,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "aef92fffd15c",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x More Time",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time compared to traditional methods. Experience streamlined collaboration and faster project completion, all while delivering exceptional results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "247bda498258",
+        "_type": "comparisonHighlightBlock",
+        "title": "Boost Productivity by 4x",
+        "subText": "Say goodbye to endless revisions and boost your team's productivity by 4x with Superflow. Our annotation tool eliminates communication bottlenecks, reducing revisions and enabling your team to accomplish more in less time, leading to significant growth in productivity.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "1a62bd5ccc02",
+        "_type": "comparisonHighlightBlock",
+        "title": "5X your Design Process",
+        "subText": "Unlock the true potential of your design process with Superflow, enabling you to develop websites 5x faster compared to traditional methods. Experience streamlined collaboration, efficient feedback, and faster turnaround times, resulting in a competitive edge and delighted clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "f94eef17f3a6",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vyMTZPvUufVCTGhLVJ83x4o4eU.png"
+        },
+        "name": "Fedieson Landicho",
+        "rating": "4",
+        "title": "“Clients can’t understand Pastel”",
+        "content": "<p>Maybe this has less to do with Pastel, but when I send a Pastel board to some clients, they can't understand how to use it and just send me an email anyway.</p>"
+      },
+      {
+        "_key": "10e4300884af",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Z9N4rsrUpgnwlbZ5sQRiFGA7U.png"
+        },
+        "name": "Aamir Mursleen",
+        "rating": "4",
+        "title": "“Lack of a clear comparison between the different plans”",
+        "content": "<p>It would be helpful to have a detailed breakdown of the features included in each plan, and a comparison chart to easily compare the different options and select the plan that best fits their needs.</p>"
+      },
+      {
+        "_key": "e35cb02276ba",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MYzwveT4Pn5Z9IczF3mZM3poaw.png"
+        },
+        "name": "VJ Bhadula",
+        "rating": "4",
+        "title": "“Glitches during collaboration”",
+        "content": "<p>We've experienced occasional glitches during collaboration, which can be frustrating and hinder our workflow.</p>"
+      },
+      {
+        "_key": "0adbd7e25472",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/snpybGJmmtNiV3XJgzkWTwFX8.png"
+        },
+        "name": "Cristopher G.",
+        "rating": "4",
+        "title": "\"Email notifications never arrives\"",
+        "content": "<p>When someone comments, practically nothing ever arrives and you have to check the panel. It does not have integrations with platforms like Pabbly or others.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "b258d31a4421",
+        "_type": "comparisonFaqItem",
+        "question": "What is an annotation tool?"
+      },
+      {
+        "_key": "f995bcb9638a",
+        "_type": "comparisonFaqItem",
+        "question": "What is a design feedback tool?"
+      },
+      {
+        "_key": "032341831bc8",
+        "_type": "comparisonFaqItem",
+        "question": "What’s the difference between an annotation tool and a design feedback tool?"
+      },
+      {
+        "_key": "bdcee1915698",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Usepastel?"
+      },
+      {
+        "_key": "dd4be20c17a4",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Pastel or Ruttl?"
+      },
+      {
+        "_key": "23f0eceea079",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Ruttl?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-superflow-vs-markup",
+    "_type": "comparisonPage",
+    "slug": "superflow-vs-markup",
+    "title": "Superflow vs Markup.io",
+    "description": "Superflow makes your web design feedback process 10x faster than Markup. Achieve 200% quicker results, and accomplish way more tasks.",
+    "metaTitle": "Superflow Vs MarkUp: Comparing website feedback tools",
+    "metaDescription": "With Superflow, your feedback process becomes 10x faster compared to Markup. Superflow or Markup, find out which website feedback tool is best for you?",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/GgI70fPRgwytwwtYO1y0GUrfL0M.png",
+      "alt": "Superflow vs Markup.io"
+    },
+    "competitor1Name": "Superflow",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/e0xlRWLeQzuFtByp0k8qYI80sU0.png",
+      "alt": "Superflow"
+    },
+    "competitor2Name": "Markup",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/U0SbynJ3mMDSYGHD3RYTd9Wwwc.png",
+      "alt": "Markup"
+    },
+    "overviewC1Text": "Superflow allows teams comment and collaborate without leaving their live website. Users are equipped with a growing set of features to leave clear & concise feedback.",
+    "overviewC2Text": "Markup only allows users to give feedback on an URL that you can enter on their platform. You can enjoy rich-style commenting but not on live websites.",
+    "namedCriteria": [
+      {
+        "_key": "eb079d64c889",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Superflow"
+        },
+        "c1ImageAlt": "Commenting on Superflow",
+        "c1Video": "https://www.youtube.com/embed/1JYVyivB6tM",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "commenting on Markup"
+        },
+        "c2ImageAlt": "commenting on Markup",
+        "c2Video": "https://www.youtube.com/embed/03OFa2B00BA"
+      },
+      {
+        "_key": "41bf8e603cd1",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Excellence: No rendering issues here. Seamlessly access and use our platform on any mobile device for ultimate convenience.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with Superflow"
+        },
+        "c1ImageAlt": "Mobile commenting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/4ZQ1apWLx1A",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting with Markup"
+        },
+        "c2ImageAlt": "Mobile commenting with Markup",
+        "c2Video": "https://www.youtube.com/embed/r9r8plaLC2U"
+      },
+      {
+        "_key": "7ee208b4b4b2",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/00Z3tVqwudPg2dcRsWYb7glKmQ.png",
+          "alt": "Superflow can access authenticated pages"
+        },
+        "c1ImageAlt": "Superflow can access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/6B73gQEXj6aqO3s5xlKOaF598.png",
+          "alt": "Markup can't access authenticated pages"
+        },
+        "c2ImageAlt": "Markup can't access authenticated pages"
+      },
+      {
+        "_key": "581e178c249a",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/fi5QkxiHs88AQ5eGF4V0bHGc9U.png",
+          "alt": "Superflow integrations"
+        },
+        "c1ImageAlt": "Superflow integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SnJIwWFVH3Z7YzBCuF2AEwIDxFc.png",
+          "alt": "markup integrations"
+        },
+        "c2ImageAlt": "markup integrations"
+      },
+      {
+        "_key": "1d60f2dcb9a0",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Superflow"
+        },
+        "c1ImageAlt": "AI copywriting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/U3zAfluoG54",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Markup.io"
+        },
+        "c2ImageAlt": "AI copywriting with Markup.io"
+      },
+      {
+        "_key": "2d357c7d3f77",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting with Superflow"
+        },
+        "c1ImageAlt": "Private commenting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/F05BylZXxg8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting with Markup"
+        },
+        "c2ImageAlt": "Private commenting with Markup"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "7a60b48a49c5",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$24",
+        "c1Seats": "5 seats: $5/user",
+        "c2Price": "$0",
+        "c2Seats": "Unlimited seats"
+      },
+      {
+        "_key": "e07424d48fed",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$49",
+        "c1Seats": "5 seats: $10/user",
+        "c2Price": "$29",
+        "c2Seats": "Unlimited seats"
+      },
+      {
+        "_key": "16f472cb74a1",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$99",
+        "c1Seats": "10 seats: $10/user",
+        "c2Price": "Custom",
+        "c2Seats": "Unlimited seats"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "b388858e489b",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "08f18854ae80",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "e668e89ff41f",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "a696ecc31fbb",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "ade47b768c77",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "0a11f23bb40c",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "dfaf1598c083",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "d7d16ed3d4a8",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "1e310a101d9b",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "eba079d5eb45",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Requires Loom"
+          },
+          {
+            "_key": "8091af352e3a",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Requires Loom"
+          },
+          {
+            "_key": "60afe4bfb9d1",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "adcd6f072d43",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "1b64de04a075",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "1b27b73c085a",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "38790379043b",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "d9c741e73863",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "c7ba9fd96c07",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "All",
+            "c2Available": true,
+            "c2Text": "Uses Chrome sandbox"
+          },
+          {
+            "_key": "95e7f205e4f6",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "38a9f31c5f20",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "0511bf85c961",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "Requires script",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "7180728fd820",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          },
+          {
+            "_key": "f15d67619bba",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "f74b279f87d5",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "b1e62fb45a0a",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "966ea1a09f38",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "0461216396ee",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "2814ad8e595b",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "7fcb835659c4",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "242975658261",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "1d4d53441a16",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "339ba4bbbc9b",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "14e15e61c095",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "cdbea7122cfe",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "9b06dcb78bb2",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x more time giving feedback",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time than traditional methods. Deliver exceptional results to your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "85a5d7a07896",
+        "_type": "comparisonHighlightBlock",
+        "title": "Slash revisions & boost productivity by 40%",
+        "subText": "Say goodbye to lengthy revision cycles. Our annotation tool reduces revisions by 40%, enabling your team to accomplish more in less time.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "df57e65b0406",
+        "_type": "comparisonHighlightBlock",
+        "title": "Accelerate your website design process 3x faster",
+        "subText": "Experience a 3x reduction in turnaround time. Deliver projects ahead of schedule while maintaining the highest quality standards.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "alternativeHighlights": [
+      {
+        "_key": "86690ddb6baa",
+        "_type": "comparisonHighlightBlock",
+        "title": "Are rich comments enough?",
+        "subText": "MarkUp falls short of providing the necessary tools for achieving in-depth clarity in feedback. While it aims to enhance communication for website feedback, users often find themselves needing additional steps or external tools to meet their needs.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/urPoe4zDrbmzjCWypvDWmq8t8.png",
+          "alt": "Markup alternative"
+        },
+        "imageAlt": "Markup alternative"
+      },
+      {
+        "_key": "5c4b68b225d2",
+        "_type": "comparisonHighlightBlock",
+        "title": "Where is my comment?",
+        "subText": "One of the major drawbacks of Markup.io is the inconsistent rendering of websites across different browsers, screen sizes, and devices. This inconsistency results in comment pins being misplaced or even missing altogether, leading to confusion and a lack of accuracy.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/VjzHGpSQFXOVjeGzAX1nwzxg.png",
+          "alt": "Markup alternative"
+        },
+        "imageAlt": "Markup alternative"
+      },
+      {
+        "_key": "a069cb025417",
+        "_type": "comparisonHighlightBlock",
+        "title": "Do I need to pay extra?",
+        "subText": "With Markup.io, enabling video feedback requires subscribing to external services like Loom, resulting in an additional financial burden for users. Also, at its price point, the tool lacks the comprehensive functionalities necessary to elevate the overall website experience.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/lQl863ZzXhvZqifMGbJ4Wz8hf64.png",
+          "alt": "Markup alternative"
+        },
+        "imageAlt": "Markup alternative"
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "0376282bdc62",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/WKaKdg0zTsnLei9Qmuc5q8NfYFU.png"
+        },
+        "name": "Riley Hennigh",
+        "rating": "5",
+        "title": "“Love how easy it is to get started leaving comments”",
+        "content": "<p>Superflow’s ability to work flawlessly on mobile and just <strong>load directly on the existing site</strong> makes it really powerful.</p>"
+      },
+      {
+        "_key": "876ba6116227",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7jH67QtCzKjvn3QMOh8jEXuiLQ.png"
+        },
+        "name": "Nick Winter",
+        "rating": "5",
+        "title": "“Fastest way to iterate on our apps & marketing pages”",
+        "content": "<p>The UX is easy, the tech is brilliant, the team is like lightning–<strong>it's everything I've wanted</strong> and tried to build into our websites myself for 15 years. Finally!</p>"
+      },
+      {
+        "_key": "71575f10742e",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8TXlYhEbTwlPKpOYfHBDeYLGK8s.png"
+        },
+        "name": "Abhishek Phukan",
+        "rating": "4",
+        "title": "\"Markup.io does not support .fig files from Figma\"",
+        "content": "<p>I have to go through the <strong>extra step of exporting my designs as a PDF</strong> before being able to use them in markup.io. It's an extra hassle that I would prefer not to have to deal with.</p>"
+      },
+      {
+        "_key": "572f79791101",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/GleDqrYr6hrq5qKn8YsmAVJbmBM.png"
+        },
+        "name": "Mikael Brunnberg",
+        "rating": "4",
+        "title": "\"Has bugs like comments dissapearing”",
+        "content": "<p>The tool still has some minor bugs, comments disappearing and the <strong>text-area appearing outside the screen</strong> when viewing the mobile screen size, but apart from this flawless.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "daf36bb50743",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow any good?",
+        "answer": "<p>Superflow is highly regarded as a website feedback tool that offers comprehensive annotation and collaboration capabilities. It allows users to provide precise comments, collaborate effectively, and even incorporates AI-powered features like the AI Copilot for rewriting suggestions. However, the perception of whether Superflow is \"good\" can vary based on individual needs and preferences. It's recommended to try out the tool or read reviews to determine if it aligns with your specific requirements.</p>"
+      },
+      {
+        "_key": "70efce662668",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow free?",
+        "answer": "<p>Superflow offers pricing plans tailored to different user needs but does not have a completely free plan. They provide a range of features and benefits at different price points to enhance collaboration and workflow efficiency.</p>"
+      },
+      {
+        "_key": "f6180dc394cb",
+        "_type": "comparisonFaqItem",
+        "question": "Do I need a credit card to try Superflow?",
+        "answer": "<p>To try Superflow, you would typically need to provide payment information, including a credit card, as part of the registration process. This is common practice for many software services that offer free trials or paid plans. However, it's advisable to check the specific details and requirements on the Superflow website.</p>"
+      },
+      {
+        "_key": "519695bfbd76",
+        "_type": "comparisonFaqItem",
+        "question": "Superflow vs Markup - Which one's better in 2023?",
+        "answer": "<p>Determining which tool is better, Superflow or Markup, in 2023 depends on specific requirements and preferences. Superflow offers comprehensive annotation and collaboration capabilities, AI-powered features, task management, and integrations. Markup may lack some additional tools for in-depth clarity and may have limitations in rendering websites consistently across different devices. It's recommended to evaluate both tools based on their features, user feedback, and pricing to determine which one best suits your needs.</p>"
+      },
+      {
+        "_key": "e455261faf4e",
+        "_type": "comparisonFaqItem",
+        "question": "Does Markup offer a free trial?",
+        "answer": "<p>The information provided does not indicate whether Markup offers a free trial. It's recommended to visit the Markup website or contact their support team to inquire about any available free trial options.</p>"
+      },
+      {
+        "_key": "6df8f72c7d5c",
+        "_type": "comparisonFaqItem",
+        "question": "How is Superflow priced?",
+        "answer": "<p>Superflow offers three pricing plans: Freelancer, Agency, and Agency Pro. The Freelancer plan is priced at $24 per month, the Agency plan at $49 per month, and the Agency Pro plan at $99 per month. Each plan provides different levels of features, storage, and collaboration capabilities to cater to different user needs.</p>"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-superflow-vs-pastel",
+    "_type": "comparisonPage",
+    "slug": "superflow-vs-pastel",
+    "title": "Superflow vs Pastel",
+    "description": "Unlock the power of Superflow, the ultimate tool for web design feedback. 50% fewer revisions compared to Pastel. Experience 3x less time spent on unnecessary discussions.",
+    "metaTitle": "Superflow vs Pastel: Choose the Best Website Feedback Tool",
+    "metaDescription": "Superflow or Pastel - find out which one is better for faster web design feedback. Experience 3x less back & forth in feedback process with the right tool.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/wRypPpvzanwi5QLrjM4wP90R0.png",
+      "alt": "Superflow vs Pastel"
+    },
+    "competitor1Name": "Superflow",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/e0xlRWLeQzuFtByp0k8qYI80sU0.png",
+      "alt": "Superflow"
+    },
+    "competitor2Name": "Pastel",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/4mIHVdRa4tQCeCDwtiZOjxYR73k.png",
+      "alt": "Pastel"
+    },
+    "overviewC1Text": "An innovative platform for team collaboration and commenting directly on your live website. Gain access to an expanding suite of tools for delivering straightforward and effective feedback.",
+    "overviewC2Text": "Effortlessly review and authorize marketing assets—from live websites to PDFs and image files. An annotation tool with basic feature support for simple feedback management.",
+    "namedCriteria": [
+      {
+        "_key": "53b0d7865d0d",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Superflow"
+        },
+        "c1ImageAlt": "Commenting on Superflow",
+        "c1Video": "https://www.youtube.com/embed/1JYVyivB6tM",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Pastel"
+        },
+        "c2ImageAlt": "Commenting on Pastel",
+        "c2Video": "https://www.youtube.com/embed//pOLZvVorNwE"
+      },
+      {
+        "_key": "256851114cbe",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Excellence: No rendering issues here. Seamlessly access and use our platform on any mobile device for ultimate convenience.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "mobile commenting with superflow"
+        },
+        "c1ImageAlt": "mobile commenting with superflow",
+        "c1Video": "https://www.youtube.com/embed/4ZQ1apWLx1A",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "mobile commenting with pastel"
+        },
+        "c2ImageAlt": "mobile commenting with pastel",
+        "c2Video": "https://www.youtube.com/embed/-s4saJ_FqmU"
+      },
+      {
+        "_key": "58eef5e01c7e",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/00Z3tVqwudPg2dcRsWYb7glKmQ.png",
+          "alt": "Superflow can access authenticated pages"
+        },
+        "c1ImageAlt": "Superflow can access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/bCqnmml5LJQbzsXYodTVVpCBCw.png",
+          "alt": "Pastel can't access authenticated pages"
+        },
+        "c2ImageAlt": "Pastel can't access authenticated pages"
+      },
+      {
+        "_key": "ea1f5499b7e9",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/fi5QkxiHs88AQ5eGF4V0bHGc9U.png",
+          "alt": "Superflow integrations"
+        },
+        "c1ImageAlt": "Superflow integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/UVCYwVEhWbzfN0l4bTRtxg8zpa8.png",
+          "alt": "Pastel integrations"
+        },
+        "c2ImageAlt": "Pastel integrations"
+      },
+      {
+        "_key": "c55aa9a3e093",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Superflow"
+        },
+        "c1ImageAlt": "AI copywriting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/U3zAfluoG54",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Pastel"
+        },
+        "c2ImageAlt": "AI copywriting with Pastel"
+      },
+      {
+        "_key": "c960fade1b89",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting with Superflow"
+        },
+        "c1ImageAlt": "Private commenting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/F05BylZXxg8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/2C4Z6Jkk6V8QzohfNS7DZEozxY.png",
+          "alt": "Private commenting with pastel"
+        },
+        "c2ImageAlt": "Private commenting with pastel"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "d2d789236717",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$0",
+        "c1Seats": "5 seats: $5/user",
+        "c2Price": "$24",
+        "c2Seats": "1 seat"
+      },
+      {
+        "_key": "a50311f50240",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$49",
+        "c1Seats": "5 seats: $10/user",
+        "c2Price": "$29",
+        "c2Seats": "1 Seat"
+      },
+      {
+        "_key": "061146f4ed00",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$99",
+        "c1Seats": "10 seats: $10/user",
+        "c2Price": "$350",
+        "c2Seats": "10 seats: $35/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "e9b6fc5935d8",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "7b23f3020be4",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "ef3dcedfa0e1",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "79e8cb47d8e1",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "b73dc24dc5cd",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "3d5cd53bc0c2",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "b194592d2530",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "8f5f77514629",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "f3198e8d8748",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "9841ad7c668e",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "409b2ca7133d",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "16e32df1384c",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "b2f034e23634",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "926640378ff3",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "1c5ae7b66b7d",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "5e3c41642803",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "24913fcf382d",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "3944e67f53ed",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "All",
+            "c2Available": true,
+            "c2Text": "Uses Chrome sandbox"
+          },
+          {
+            "_key": "1ac80dcd0992",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "8fda700554f6",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "02862baff3e2",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "Requires script",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "37d398f49497",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "96f08760a123",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "73ae8d38707a",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "ac156f76b74c",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "4c089d3374af",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "fa3649671b97",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "4cd692205f25",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "ae1f46fe90b3",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "0db9e4213f6f",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "1791c711aa5a",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "1122ab2fc2cd",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "8359406e506f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "8429344d6d04",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "ecee546b5bff",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x more time giving feedback",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time than traditional methods. Deliver exceptional results to your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "8afad4a20219",
+        "_type": "comparisonHighlightBlock",
+        "title": "Slash revisions & boost productivity by 40%",
+        "subText": "Say goodbye to lengthy revision cycles. Our annotation tool reduces revisions by 40%, enabling your team to accomplish more in less time.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "51afbf4aaa4a",
+        "_type": "comparisonHighlightBlock",
+        "title": "Accelerate your website design process 3x faster",
+        "subText": "Experience a 3x reduction in turnaround time. Deliver projects ahead of schedule while maintaining the highest quality standards.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "alternativeHighlights": [
+      {
+        "_key": "0dcae339fb74",
+        "_type": "comparisonHighlightBlock",
+        "title": "Why can’t I move my comments?",
+        "subText": "Pastel restricts users from moving around pinpoint comments once they are placed. This lack of flexibility limits the iterative feedback process, hindering efficient collaboration and making it challenging to refine website elements.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/OFJSs5INWc8TS6H7CT7JWw7vw.png",
+          "alt": "Pastel alternative"
+        },
+        "imageAlt": "Pastel alternative"
+      },
+      {
+        "_key": "8cfcc95c6444",
+        "_type": "comparisonHighlightBlock",
+        "title": "How else can I give feedback?",
+        "subText": "Beyond text comments or text change suggestions, Pastel falls short in providing additional commenting and annotation tools. This limitation prevents users from expressing feedback in a rich and comprehensive manner, missing opportunities for clearer communication.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/yDFuVAODjX1mBKoHyrbr0FV9XeA.png",
+          "alt": "Pastel alternative"
+        },
+        "imageAlt": "Pastel alternative"
+      },
+      {
+        "_key": "b14b284db148",
+        "_type": "comparisonHighlightBlock",
+        "title": "Clunky viewing experience!",
+        "subText": "Users may find it inconvenient and disruptive to switch between mobile and desktop views based on the comment they click. Moreover, comment pins tend to move inconsistently when viewed on different browsers, screen sizes, or mobile devices, leading to a lack of rendering consistency for all users",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QABhBfNKLFTE2Imzu803kML31pc.png",
+          "alt": "Pastel alternative"
+        },
+        "imageAlt": "Pastel alternative"
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "efa3c129a7e0",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7jH67QtCzKjvn3QMOh8jEXuiLQ.png"
+        },
+        "name": "Nick Winter",
+        "rating": "5",
+        "title": "“Fastest way to iterate on our apps & marketing pages”",
+        "content": "<p>The UX is easy, the tech is brilliant, the team is like lightning–<strong>it's everything I've wanted</strong> and tried to build into our websites myself for 15 years. Finally!</p>"
+      },
+      {
+        "_key": "d0a63d1dce1a",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/WKaKdg0zTsnLei9Qmuc5q8NfYFU.png"
+        },
+        "name": "Riley Hennigh",
+        "rating": "5",
+        "title": "“Love how easy it is to get started leaving comments”",
+        "content": "<p>Superflow’s ability to work flawlessly on mobile and<strong> just load directly on the existing site </strong>makes it really powerful.</p>"
+      },
+      {
+        "_key": "473f16aba886",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vyMTZPvUufVCTGhLVJ83x4o4eU.png"
+        },
+        "name": "Fedieson Landicho",
+        "rating": "4",
+        "title": "“Clients can’t understand Pastel”",
+        "content": "<p>Maybe this has less to do with Pastel, but when I send a Pastel board to some clients, they can't understand how to use it and just send me an email anyway.</p>"
+      },
+      {
+        "_key": "1daba952531e",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Z9N4rsrUpgnwlbZ5sQRiFGA7U.png"
+        },
+        "name": "Aamir Mursleen",
+        "rating": "4",
+        "title": "“Lack of a clear comparison between the different plans”",
+        "content": "<p>It would be helpful to have a detailed breakdown of the features included in each plan, and a comparison chart to easily compare the different options and select the plan that best fits their needs.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "8c88d0fdc6c5",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow good?",
+        "answer": "<p>Superflow is highly regarded as a website feedback tool that offers comprehensive annotation and collaboration capabilities. It allows users to provide precise comments, collaborate effectively, and even incorporates AI-powered features like the AI Copilot for rewriting suggestions. However, the perception of whether Superflow is \"good\" can vary based on individual needs and preferences. It's recommended to try out the tool or read reviews to determine if it aligns with your specific requirements.</p>"
+      },
+      {
+        "_key": "68a163e90962",
+        "_type": "comparisonFaqItem",
+        "question": "Superflow vs. Pastel: What's the difference?"
+      },
+      {
+        "_key": "5a5abfab51af",
+        "_type": "comparisonFaqItem",
+        "question": "How does Superflow compare to Pastel?"
+      },
+      {
+        "_key": "c902509f5315",
+        "_type": "comparisonFaqItem",
+        "question": "How does Superflow's pricing and value compare to Pastel?"
+      },
+      {
+        "_key": "70d5b13c5833",
+        "_type": "comparisonFaqItem",
+        "question": "What makes Superflow unique compared to Pastel?"
+      },
+      {
+        "_key": "944d4f5eac17",
+        "_type": "comparisonFaqItem",
+        "question": "Which is better for content creation and collaboration: Superflow or Pastel?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-superflow-vs-ruttl",
+    "_type": "comparisonPage",
+    "slug": "superflow-vs-ruttl",
+    "title": "Superflow vs Ruttl",
+    "description": "Superflow, the swiftest annotation tool for web design feedback. Experience a transformative feedback process that results in 40% fewer revisions compared to Ruttl.",
+    "metaTitle": "Superflow vs Ruttl: Choose the Right Website Feedback Tool",
+    "metaDescription": "Collaborate with your team 2x faster with the right website feedback tool. Superflow or Ruttl—find out which tool provides laser-sharp clarity & feedback.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/zryt7UADlsSiNFnn69prd8ZbqXE.png",
+      "alt": "Superflow vs Ruttl"
+    },
+    "competitor1Name": "Superflow",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/e0xlRWLeQzuFtByp0k8qYI80sU0.png",
+      "alt": "Superflow"
+    },
+    "competitor2Name": "Ruttl",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/80vgizm8JIndqzRh0JxJV7s.png",
+      "alt": "Ruttl"
+    },
+    "overviewC1Text": "Comment & collaborate with your team in real time on live websites. Equipped with an expanding set of features, Superflow fastens the feedback process.",
+    "overviewC2Text": "Get access to an arbitrary collection of tools, from bug reporting to customer support chat to intuitive website editing.",
+    "namedCriteria": [
+      {
+        "_key": "1e83b1da6077",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting in Superflow"
+        },
+        "c1ImageAlt": "Commenting in Superflow",
+        "c1Video": "https://www.youtube.com/embed/1JYVyivB6tM",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting in Ruttl"
+        },
+        "c2ImageAlt": "Commenting in Ruttl",
+        "c2Video": "https://www.youtube.com/embed/LWjotVUlfwk"
+      },
+      {
+        "_key": "884e46a28da3",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Excellence: No rendering issues here. Seamlessly access and use our platform on any mobile device for ultimate convenience.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting in Superflow"
+        },
+        "c1ImageAlt": "Mobile commenting in Superflow",
+        "c1Video": "https://www.youtube.com/embed/4ZQ1apWLx1A",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting in Ruttl"
+        },
+        "c2ImageAlt": "Mobile commenting in Ruttl",
+        "c2Video": "https://www.youtube.com/embed/9lE0NxYoHDs"
+      },
+      {
+        "_key": "064d461906bc",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/00Z3tVqwudPg2dcRsWYb7glKmQ.png",
+          "alt": "Superflow can access authenticated pages"
+        },
+        "c1ImageAlt": "Superflow can access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/vFRooRv2q8rwzRyL6ITFziyem4.png",
+          "alt": "Ruttl can't access authenticated pages"
+        },
+        "c2ImageAlt": "Ruttl can't access authenticated pages"
+      },
+      {
+        "_key": "82cd83a1d87d",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/fi5QkxiHs88AQ5eGF4V0bHGc9U.png",
+          "alt": "Superflow integration"
+        },
+        "c1ImageAlt": "Superflow integration",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/LWyy8iKGlYY1b68X2PAzTtupU.png",
+          "alt": "Ruttl integration"
+        },
+        "c2ImageAlt": "Ruttl integration"
+      },
+      {
+        "_key": "50e0c3fcccad",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Superflow"
+        },
+        "c1ImageAlt": "AI copywriting in Superflow",
+        "c1Video": "https://www.youtube.com/embed/U3zAfluoG54",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting in Ruttl"
+        },
+        "c2ImageAlt": "AI copywriting in Ruttl"
+      },
+      {
+        "_key": "545e3bb828db",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting in Superflow"
+        },
+        "c1ImageAlt": "Private commenting in Superflow",
+        "c1Video": "https://www.youtube.com/embed/F05BylZXxg8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Private commenting in Ruttl"
+        },
+        "c2ImageAlt": "Private commenting in Ruttl"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "a0b513be4a40",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$24",
+        "c1Seats": "5 seats: $5/user",
+        "c2Price": "$0",
+        "c2Seats": "5 seats: $0/user"
+      },
+      {
+        "_key": "cea1934ff786",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$49",
+        "c1Seats": "5 seats: $10/user",
+        "c2Price": "$4",
+        "c2Seats": "50 seats: $0.08/user"
+      },
+      {
+        "_key": "af3b10eb2847",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$99",
+        "c1Seats": "10 seats: $10/user",
+        "c2Price": "$12",
+        "c2Seats": "50 seats: $0.24/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "1d7444da3742",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "9d9ceaf41ed1",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "3e23516c1db5",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "844dbdf445fa",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "0ffa38884ba4",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "000e37a8d74a",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "2089194a9e33",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "4f3474932e84",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "b92ed21a315b",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "063c3a2c248a",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "7a3e8a7c9b20",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "4d3ed04f668f",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "363dc4e23590",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "3b0757d7cff9",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "27101acff6df",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "ef09ed9e9613",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "b88be18c6664",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "578c250b5168",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "All",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "8b4d2896320b",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "720635936467",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "e59a7e902ba0",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "Requires script",
+            "c2Available": true,
+            "c2Text": "No installation"
+          },
+          {
+            "_key": "12b71bfc6240",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Hard"
+          },
+          {
+            "_key": "c9953de2c027",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "d7404a62bc3d",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "202c05e3eb73",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "cf801e202d51",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "811883783099",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "9b8d4901896c",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "3d54ad6ed1dc",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "2dd578996c24",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "c00b4a6d42a4",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Assign task, set status"
+          }
+        ]
+      },
+      {
+        "_key": "3976890ef700",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "c1167c18d11f",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "f5606d315dc2",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "71c3172af8e8",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x more time giving feedback",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time than traditional methods. Deliver exceptional results to your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "750dcdd95ea9",
+        "_type": "comparisonHighlightBlock",
+        "title": "Slash revisions & boost productivity by 40%",
+        "subText": "Say goodbye to lengthy revision cycles. Our annotation tool reduces revisions by 40%, enabling your team to accomplish more in less time.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "fbaec381f51c",
+        "_type": "comparisonHighlightBlock",
+        "title": "Accelerate your website design process 3x faster",
+        "subText": "Experience a 3x reduction in turnaround time. Deliver projects ahead of schedule while maintaining the highest quality standards.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "alternativeHighlights": [
+      {
+        "_key": "27a428208163",
+        "_type": "comparisonHighlightBlock",
+        "title": "Stiff comment placement?",
+        "subText": "Ruttl restricts users from moving comments around once they are placed, limiting the flexibility and adaptability of the feedback process. This lack of control hampers collaboration and makes it difficult to fine-tune website elements.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/GB1z4jK0YzettB5ih9GX1jYsw.png",
+          "alt": "Ruttl alternative"
+        },
+        "imageAlt": "Ruttl alternative"
+      },
+      {
+        "_key": "b3b008775f3e",
+        "_type": "comparisonHighlightBlock",
+        "title": "No video attachments or screen recording?",
+        "subText": "Ruttl falls short in allowing users to attach videos or record their screen during the feedback process. This limitation prevents users from providing comprehensive multimedia feedback, missing out on the valuable insights that audiovisual elements can offer.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/paOfJ9s1897Dwp6TYCUbovxUus8.png",
+          "alt": "Ruttl alternative"
+        },
+        "imageAlt": "Ruttl alternative"
+      },
+      {
+        "_key": "7139fb3cf50e",
+        "_type": "comparisonHighlightBlock",
+        "title": "Can’t do revisions on my phone?",
+        "subText": "While Ruttl offers mobile and desktop viewing toggles, the tool does not run on mobile devices, limiting accessibility and convenience for users on the go. Additionally, comment pins do not remain in place when changing screen sizes, resulting in an inconsistent experience and rendering variations for different users.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8ltGdDEN70pcr1ec3s3x0BKg38.png",
+          "alt": "Ruttl alternative"
+        },
+        "imageAlt": "Ruttl alternative"
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "52319ffa5dde",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/WKaKdg0zTsnLei9Qmuc5q8NfYFU.png"
+        },
+        "name": "Riley Hennigh",
+        "rating": "5",
+        "title": "“Love how easy it is to get started leaving comments”",
+        "content": "<p>Superflow’s ability to work flawlessly on mobile and just <strong>load directly on the existing site</strong> makes it really powerful.</p>"
+      },
+      {
+        "_key": "ae7aa83288eb",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7jH67QtCzKjvn3QMOh8jEXuiLQ.png"
+        },
+        "name": "Nick Winter",
+        "rating": "5",
+        "title": "“Fastest way to iterate on our apps & marketing pages”",
+        "content": "<p>The UX is easy, the tech is brilliant, the team is like lightning–<strong>it's everything I've wanted</strong> and tried to build into our websites myself for 15 years. Finally!</p>"
+      },
+      {
+        "_key": "04ec87ee835a",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MYzwveT4Pn5Z9IczF3mZM3poaw.png"
+        },
+        "name": "VJ Bhadula",
+        "rating": "4",
+        "title": "“Glitches during collaboration”",
+        "content": "<p>We've experienced occasional glitches during collaboration, which can be frustrating and hinder our workflow.</p>"
+      },
+      {
+        "_key": "af42dd6a76a2",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/snpybGJmmtNiV3XJgzkWTwFX8.png"
+        },
+        "name": "Cristopher G.",
+        "rating": "4",
+        "title": "\"Email notifications never arrives\"",
+        "content": "<p>When someone comments, practically nothing ever arrives and you have to check the panel. It does not have integrations with platforms like Pabbly or others.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "a34dc1ff90d5",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow worth it?"
+      },
+      {
+        "_key": "16e8a6885df2",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow free to use?"
+      },
+      {
+        "_key": "8c981cfcce38",
+        "_type": "comparisonFaqItem",
+        "question": "Does Ruttl offer a free plan?"
+      },
+      {
+        "_key": "53a47cf89d45",
+        "_type": "comparisonFaqItem",
+        "question": "How does Superflow's pricing work?"
+      },
+      {
+        "_key": "503db9acb2f4",
+        "_type": "comparisonFaqItem",
+        "question": "Superflow vs Ruttl - which one is better in 2023?"
+      },
+      {
+        "_key": "327de0cc013a",
+        "_type": "comparisonFaqItem",
+        "question": "Does Ruttl offer something like Superflow?"
+      }
+    ]
+  },
+  {
+    "_id": "cmp-superflow-vs-bugherd",
+    "_type": "comparisonPage",
+    "slug": "superflow-vs-bugherd",
+    "title": "Superflow vs BugHerd",
+    "description": "Experience lightning-fast issue resolution with Superflow's efficient bug tracking and task management system, resolving issues 3x quicker than BugHerd",
+    "metaTitle": "Superflow vs BugHerd: Comparing Website Feedback Tools",
+    "metaDescription": "Superflow or Bugherd? Discover the best annotation tool. Superflow can give you a feedback process with 60% fewer revisions compared to BugHerd.",
+    "hidden": false,
+    "noIndex": "noindex",
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-08-22",
+    "publishedDateText": "2023-08-22",
+    "heroImage": {
+      "framerImageUrl": "https://framerusercontent.com/images/vDj6hmOyp0Ry9Asfy4kZEiGtxs.png",
+      "alt": "Superflow vs Bugherd"
+    },
+    "competitor1Name": "Superflow",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/e0xlRWLeQzuFtByp0k8qYI80sU0.png",
+      "alt": "Superflow"
+    },
+    "competitor2Name": "BugHerd",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/b0XH6F28PBQ471dB2Jt0itJRpJs.png",
+      "alt": "Bugherd"
+    },
+    "overviewC1Text": "Superflow lets teams comment and work together on their live website, without having to leave it. Users have a range of helpful features to provide clear and brief feedback.",
+    "overviewC2Text": "A bug tracker tool plays a vital role in the process of feedback management on websites. It simplifies the reporting and tracking of bugs by providing a streamlined approach.",
+    "namedCriteria": [
+      {
+        "_key": "21c8c1858a0a",
+        "_type": "comparisonNamedCriterion",
+        "key": "pure_comments",
+        "summary": "Enhance understanding and context by facilitating discussions within specific areas of content.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Superflow"
+        },
+        "c1ImageAlt": "Commenting on Superflow",
+        "c1Video": "https://www.youtube.com/embed/1JYVyivB6tM",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Commenting on Bugherd"
+        },
+        "c2ImageAlt": "Commenting on Bugherd",
+        "c2Video": "https://youtu.be/0pDhYFm5mns"
+      },
+      {
+        "_key": "d0950dcdd504",
+        "_type": "comparisonNamedCriterion",
+        "key": "viewing_modes",
+        "summary": "Mobile Excellence: No rendering issues here. Seamlessly access and use our platform on any mobile device for ultimate convenience.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting on Superflow"
+        },
+        "c1ImageAlt": "Mobile commenting on Superflow",
+        "c1Video": "https://www.youtube.com/embed/4ZQ1apWLx1A",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "Mobile commenting on Bugherd"
+        },
+        "c2ImageAlt": "Mobile commenting on Bugherd",
+        "c2Video": "https://www.youtube.com/embed/jIp_fg7MqEg"
+      },
+      {
+        "_key": "fb2530a934f0",
+        "_type": "comparisonNamedCriterion",
+        "key": "authenticated_page",
+        "summary": "Ensure privacy and control access to exclusive content through authenticated pages.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/00Z3tVqwudPg2dcRsWYb7glKmQ.png",
+          "alt": "Superflow can access authenticated pages"
+        },
+        "c1ImageAlt": "Superflow can access authenticated pages",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/SYd7THlXbWJBhfG9zQ5EAx3SBJ4.png",
+          "alt": "Bugherd can access authenticated pages"
+        },
+        "c2ImageAlt": "Bugherd can access authenticated pages"
+      },
+      {
+        "_key": "8a6339f7da76",
+        "_type": "comparisonNamedCriterion",
+        "key": "integrations",
+        "summary": "Integrate and manage projects with your favorite task manager.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/fi5QkxiHs88AQ5eGF4V0bHGc9U.png",
+          "alt": "Superflow integrations"
+        },
+        "c1ImageAlt": "Superflow integrations",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz7E3xoXlKADSUimMLxdWTrOTsE.png",
+          "alt": "Bugherd integrations"
+        },
+        "c2ImageAlt": "Bugherd integrations"
+      },
+      {
+        "_key": "ec09cd4073ac",
+        "_type": "comparisonNamedCriterion",
+        "key": "ai_copywriting",
+        "summary": "Amplify creativity and collaboration with an AI copilot assistant.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Superflow"
+        },
+        "c1ImageAlt": "AI copywriting with Superflow",
+        "c1Video": "https://www.youtube.com/embed/U3zAfluoG54",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "AI copywriting with Bugherd"
+        },
+        "c2ImageAlt": "AI copywriting with Bugherd"
+      },
+      {
+        "_key": "b257d710e34c",
+        "_type": "comparisonNamedCriterion",
+        "key": "private_commenting",
+        "summary": "Safeguard sensitive discussions with secure and confidential commenting.",
+        "c1Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/QIsFwT2S9eqZjEDFX7gtrrdvc.png",
+          "alt": "private commenting in Superflow"
+        },
+        "c1ImageAlt": "private commenting in Superflow",
+        "c1Video": "https://www.youtube.com/embed/F05BylZXxg8",
+        "c2Image": {
+          "framerImageUrl": "https://framerusercontent.com/images/c9qlYdF2kQAOwOomSBu6oBr9PM.png",
+          "alt": "private commenting in bugherd"
+        },
+        "c2ImageAlt": "private commenting in bugherd"
+      }
+    ],
+    "pricingTiers": [
+      {
+        "_key": "d91196209162",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$24",
+        "c1Seats": "5 seats: $5/user",
+        "c2Price": "$39",
+        "c2Seats": "5 seats: $8/user"
+      },
+      {
+        "_key": "709c1238e4a2",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$49",
+        "c1Seats": "5 seats: $10/user",
+        "c2Price": "$129",
+        "c2Seats": "25 seats: $5/user"
+      },
+      {
+        "_key": "c9a19df677ce",
+        "_type": "comparisonPricingTier",
+        "c1Price": "$99",
+        "c1Seats": "10 seats: $10/user",
+        "c2Price": "$229",
+        "c2Seats": "50 seats: $4.5/user"
+      }
+    ],
+    "featureTable": [
+      {
+        "_key": "35a749d6e10f",
+        "_type": "comparisonFeatureGroup",
+        "key": "A",
+        "rows": [
+          {
+            "_key": "620d190b06be",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "a3636346c9bb",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "278dc3583a8d",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "e89696949ea8",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "2e3d1981ee86",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "a68e84126f16",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "564bafa34976",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "78864928eeab",
+            "_type": "comparisonTableRow",
+            "rowKey": "8",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "760053cd18c5",
+            "_type": "comparisonTableRow",
+            "rowKey": "9",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "6825ad24a34b",
+            "_type": "comparisonTableRow",
+            "rowKey": "10",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "f4801734e185",
+            "_type": "comparisonTableRow",
+            "rowKey": "11",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "1ed308cdd7a6",
+            "_type": "comparisonTableRow",
+            "rowKey": "12",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "71064426b94c",
+            "_type": "comparisonTableRow",
+            "rowKey": "13",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      },
+      {
+        "_key": "a2041d5bbb1c",
+        "_type": "comparisonFeatureGroup",
+        "key": "B",
+        "rows": [
+          {
+            "_key": "af73915e4cc2",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "c37bbf5ea44b",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "c964d8ef0024",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "All",
+            "c2Available": true,
+            "c2Text": "All"
+          },
+          {
+            "_key": "967c384ab7d9",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          }
+        ]
+      },
+      {
+        "_key": "201758e2ad0a",
+        "_type": "comparisonFeatureGroup",
+        "key": "C",
+        "rows": [
+          {
+            "_key": "78cf61182dcd",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c1Text": "Requires script",
+            "c2Available": true,
+            "c2Text": "Requires script"
+          },
+          {
+            "_key": "b36af3fa6afa",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          },
+          {
+            "_key": "42f8dd53be1a",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c1Text": "Easy",
+            "c2Available": true,
+            "c2Text": "Medium"
+          }
+        ]
+      },
+      {
+        "_key": "ded5c21e9a61",
+        "_type": "comparisonFeatureGroup",
+        "key": "D",
+        "rows": [
+          {
+            "_key": "e3fcdc9da4f7",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "ad1c2b673666",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "93680aac7eae",
+            "_type": "comparisonTableRow",
+            "rowKey": "3",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "55735e70687f",
+            "_type": "comparisonTableRow",
+            "rowKey": "4",
+            "c1Available": true,
+            "c2Available": true
+          },
+          {
+            "_key": "c6bd19676cd9",
+            "_type": "comparisonTableRow",
+            "rowKey": "5",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "91b47faf4896",
+            "_type": "comparisonTableRow",
+            "rowKey": "6",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "0ac9fc4381b7",
+            "_type": "comparisonTableRow",
+            "rowKey": "7",
+            "c1Available": true,
+            "c2Available": true,
+            "c2Text": "Can only assign task"
+          }
+        ]
+      },
+      {
+        "_key": "92282999a223",
+        "_type": "comparisonFeatureGroup",
+        "key": "E",
+        "rows": [
+          {
+            "_key": "434ccde99f4a",
+            "_type": "comparisonTableRow",
+            "rowKey": "1",
+            "c1Available": true,
+            "c2Available": false
+          },
+          {
+            "_key": "f0f79d0a42df",
+            "_type": "comparisonTableRow",
+            "rowKey": "2",
+            "c1Available": true,
+            "c2Available": false
+          }
+        ]
+      }
+    ],
+    "superflowHighlights": [
+      {
+        "_key": "a40754e09c7a",
+        "_type": "comparisonHighlightBlock",
+        "title": "Save 2x more time giving feedback",
+        "subText": "Superflow's powerful annotation tool supercharges your web design feedback process, saving you 2x more time than traditional methods. Deliver exceptional results to your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/pYT53YpROMVIpAZsD4Pec2on3w.png"
+        }
+      },
+      {
+        "_key": "1f6e3c794ef4",
+        "_type": "comparisonHighlightBlock",
+        "title": "Slash revisions & boost productivity by 40%",
+        "subText": "Say goodbye to lengthy revision cycles. Our annotation tool reduces revisions by 40%, enabling your team to accomplish more in less time.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7emO92lDDiKbdbFjXusaPx99Y.png"
+        }
+      },
+      {
+        "_key": "5c46d89e42c6",
+        "_type": "comparisonHighlightBlock",
+        "title": "Accelerate your website design process 3x faster",
+        "subText": "Experience a 3x reduction in turnaround time. Deliver projects ahead of schedule while maintaining the highest quality standards.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/BH3euLnn3FzloOFjmFEuYjIXfA.png"
+        }
+      }
+    ],
+    "alternativeHighlights": [
+      {
+        "_key": "b90103dd7478",
+        "_type": "comparisonHighlightBlock",
+        "title": "Where’s the new commenting features?",
+        "subText": "Beyond basic commenting, Bugherd lacks essential features like area commenting or the ability to highlight text and comment on specific sections. This limitation hinders users' ability to provide detailed and context-specific feedback, potentially leading to confusion and misinterpretation.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/i3Wg1yQ4rNckfOgg5afxNYdikc.png",
+          "alt": "Bugherd alternative"
+        },
+        "imageAlt": "Bugherd alternative"
+      },
+      {
+        "_key": "c40dcbb7bda6",
+        "_type": "comparisonHighlightBlock",
+        "title": "Need annotation tools?",
+        "subText": "Bugherd falls short in providing built-in annotation tools. Instead, users are required to draw on a screenshot within the tool to annotate and highlight areas of interest. This extra step adds complexity and hampers the efficiency of the feedback process.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g10HQy68IKrAQu3lO506QQgRslA.jpg",
+          "alt": "Bugherd alternative"
+        },
+        "imageAlt": "Bugherd alternative"
+      },
+      {
+        "_key": "4a73d2aa208b",
+        "_type": "comparisonHighlightBlock",
+        "title": "Too much of task management?",
+        "subText": "While Bugherd offers a high degree of task management customization, it can feel overwhelming and not user-friendly due to its complexity. This complexity may hinder users from easily navigating and utilizing the tool to its full potential, resulting in a less intuitive experience.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/J9zfHsrNZdo7BaBRQKXVgoTLe5s.jpg",
+          "alt": "Bugherd alternative"
+        },
+        "imageAlt": "Bugherd alternative"
+      }
+    ],
+    "reviews": [
+      {
+        "_key": "2549557a6f9c",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7jH67QtCzKjvn3QMOh8jEXuiLQ.png"
+        },
+        "name": "Nick Winter",
+        "rating": "5",
+        "title": "“Fastest way to iterate on our apps & marketing pages”",
+        "content": "<p>The UX is easy, the tech is brilliant, the team is like lightning–<strong>it's everything I've wanted</strong> and tried to build into our websites myself for 15 years. Finally!</p>"
+      },
+      {
+        "_key": "2718cba1df16",
+        "_type": "comparisonReview",
+        "side": "c1",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/WKaKdg0zTsnLei9Qmuc5q8NfYFU.png"
+        },
+        "name": "Riley Hennigh",
+        "rating": "5",
+        "title": "“Love how easy it is to get started leaving comments”",
+        "content": "<p>Superflow’s ability to work flawlessly on mobile and just <strong>load directly on the existing site</strong> makes it really powerful.</p>"
+      },
+      {
+        "_key": "78ebb8c569dd",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/8zIBXKqAKmzH3trVlCPnxiu6eOs.png"
+        },
+        "name": "Sherif Neamatalla",
+        "rating": "4",
+        "title": "\"Screenshot capability does not work”",
+        "content": "<p>The screenshot capability does not work when a modal/dialog is open. Screenshots can be dragged/dropped instead of just browsing the directory structure.</p>"
+      },
+      {
+        "_key": "cd87ce755b9d",
+        "_type": "comparisonReview",
+        "side": "c2",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/qy3jznSshuZtJGoxRQnhS43N1U.png"
+        },
+        "name": "Zack Carlson",
+        "rating": "4",
+        "title": "I wish that it had a better method to integrate",
+        "content": "<p>I wish it had a better method to integrate into 3rd party project management systems. Bugherd should be an add-on for every project management tool that could be used to run web development.</p>"
+      }
+    ],
+    "faq": [
+      {
+        "_key": "c9015b34478d",
+        "_type": "comparisonFaqItem",
+        "question": "Is Superflow useful?"
+      },
+      {
+        "_key": "5de99bb2eddd",
+        "_type": "comparisonFaqItem",
+        "question": "Is it worth it to invest in Superflow?"
+      },
+      {
+        "_key": "f2efe8f283ac",
+        "_type": "comparisonFaqItem",
+        "question": "How much does Superflow cost?"
+      },
+      {
+        "_key": "a1e7a35c3ef9",
+        "_type": "comparisonFaqItem",
+        "question": "How is Superflow better than Bugherd?"
+      },
+      {
+        "_key": "8418d2da2c82",
+        "_type": "comparisonFaqItem",
+        "question": "Does BugHerd support AI rewriting?"
+      },
+      {
+        "_key": "924cbcbc9b74",
+        "_type": "comparisonFaqItem",
+        "question": "How is Superflow better than BugHerd?"
+      }
+    ]
+  }
+]

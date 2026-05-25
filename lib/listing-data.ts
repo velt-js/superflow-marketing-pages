@@ -174,30 +174,4 @@ export const integrationsListing: ListingPageConfig = {
 
 // alternativeListing moved to Sanity (see app/alternative/page.tsx).
 
-export const comparisonListing: ListingPageConfig = {
-  hero: {
-    heading: "How Superflow stacks up",
-    subheading:
-      "See how Superflow compares to other review and feedback tools — pricing, integrations, and where each one fits best.",
-  },
-  grid: {
-    variant: "text-only",
-    items: [
-      {
-        title: "Markup vs Pastel",
-        subtitle: "Compare workflows, integrations, and pricing.",
-        href: "/comparisons/markup-vs-pastel",
-      },
-      {
-        title: "Markup vs Ruttl",
-        subtitle: "Side-by-side: features, speed, and team fit.",
-        href: "/comparisons/markup-vs-ruttl",
-      },
-      {
-        title: "Pastel vs BugHerd",
-        subtitle: "Which one fits your QA team better?",
-        href: "/comparisons/pastel-vs-bugherd",
-      },
-    ],
-  },
-};
+// comparisonListing moved to Sanity (see app/comparisons/page.tsx).

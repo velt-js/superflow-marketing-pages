@@ -218,19 +218,47 @@ export async function getAllComparisonSlugs(): Promise<string[]> {
     `*[_type == "comparisonPage" && defined(slug.current)].slug.current`
   );
 }
+export async function getAllComparisonPages() {
+  return client.fetch(
+    `*[_type == "comparisonPage" && hidden != true] | order(title asc){
+      _id, title, "slug": slug.current,
+      competitor1Name, competitor2Name,
+      "thumbnail": thumbnail.asset->url,
+      "heroImage": heroImage.asset->url,
+      "competitor2Logo": competitor2Logo.asset->url
+    }`
+  );
+}
 export async function getComparisonPageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "comparisonPage" && slug.current == $slug][0]{
       _id, title, "slug": slug.current, description, hidden, author,
       publishedDate, publishedDateText, enableLayout2,
       "thumbnail": thumbnail.asset->url,
+      "heroImage": heroImage.asset->url,
       competitor1Name, "competitor1Logo": competitor1Logo.asset->url,
       competitor2Name, "competitor2Logo": competitor2Logo.asset->url,
-      criteria, pricing,
-      overview, summaryPointers,
-      testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
+      overviewC1Text, overviewC2Text,
+      namedCriteria[]{
+        _key, key, summary,
+        "c1Image": c1Image.asset->url, c1ImageAlt, c1Video,
+        "c2Image": c2Image.asset->url, c2ImageAlt, c2Video
+      },
+      pricingTiers[]{ _key, c1Price, c1Seats, c2Price, c2Seats },
+      featureTable[]{
+        _key, key,
+        rows[]{ _key, rowKey, c1Available, c1Text, c2Available, c2Text }
+      },
+      superflowHighlights[]{
+        _key, title, subText, "image": image.asset->url, imageAlt, videoUrl
+      },
+      alternativeHighlights[]{
+        _key, title, subText, "image": image.asset->url, imageAlt, videoUrl
+      },
+      reviews[]{
+        _key, side, "image": image.asset->url, imageAlt, name, rating, title, content
+      },
       faq[]{ question, answer },
-      highlights, caseStudy,
       metaTitle, metaDescription, noIndex
     }`,
     { slug }

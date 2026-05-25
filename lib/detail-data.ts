@@ -668,24 +668,9 @@ function buildFAQ(competitor: string): FAQItem[] {
 // + lib/sanity-adapters/alternative.ts). The hardcoded shape lived here
 // previously; removed during the Framer → Sanity migration.
 
-export const comparisonDetails: Record<string, ComparisonDetailConfig> = {
-  "markup-vs-pastel": {
-    hero: {
-      eyebrow: "Comparison",
-      heading: "Markup vs Pastel",
-      ctaText: "Try Superflow for Free",
-      ctaHref: "https://app.usesuperflow.com/signup",
-      leftBadge: { label: "Developer", color: "#4dd5ff" },
-      rightBadge: { label: "Designer", color: "#fc6cba" },
-    },
-    reasons: SHARED_REASONS,
-    criteria: buildCriteria("Markup"),
-    overview: buildOverview("Markup"),
-    pricing: buildPricing("Markup"),
-    whyChoose: buildWhyChoose("Markup"),
-    faq: buildFAQ("Markup"),
-  },
-};
+// comparisonDetails moved to Sanity (see app/comparisons/[slug]/page.tsx
+// + components/comparisons/ComparisonsPage.tsx). The hardcoded stub lived
+// here previously; removed during the Framer → Sanity migration.
 
 const ALL_INTEGRATIONS: OtherIntegrationItem[] = [
   { name: "Asana", icon: "/images/hero/icon-world.svg", href: "/integrations/asana" },
