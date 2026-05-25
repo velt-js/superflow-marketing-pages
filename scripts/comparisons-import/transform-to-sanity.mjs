@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 /**
- * Transform Framer Comp v/s Comp raw JSON → Sanity comparisonPage shape.
+ * Transform Framer Comparisons raw JSON → Sanity comparisonPage shape.
  *
- * Input:  scripts/comparisons-import/framer-cmp-raw.json
- * Output: scripts/comparisons-import/framer-cmp-sanity.json
+ * Input:  scripts/alternative-import/framer-cmp-raw.json
+ * Output: scripts/alternative-import/framer-cmp-sanity.json
  *
- * Asset-marker convention (same as the alternative pipeline): every image
- * field becomes `{ framerImageUrl, alt? }` so the importer can fetch +
- * upload + rewrite into a Sanity asset reference. YouTube embed URLs stay
- * as plain strings on the `c1Video` / `c2Video` fields.
+ * Asset marker convention (mirrors the blog importer): every image / file
+ * field is emitted as { framerImageUrl: "<url>", alt?: "<alt>" } or
+ * { framerFileUrl: "<url>" }. The import step resolves the marker into a
+ * Sanity asset reference after uploading.
  *
  * No network — pure transform.
  *
- * Usage: node scripts/comparisons-import/transform-to-sanity.mjs
+ * Usage: node scripts/alternative-import/transform-to-sanity.mjs
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
+import { JSDOM } from "jsdom";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const here = (rel) => resolve(__dirname, rel);
@@ -26,13 +27,15 @@ const raw = JSON.parse(readFileSync(here("framer-cmp-raw.json"), "utf8"));
 
 const key = () => randomUUID().replace(/-/g, "").slice(0, 12);
 
-const bool = (v) => {
+function bool(v) {
   if (v === true || v === "true" || v === "TRUE") return true;
   if (v === false || v === "false" || v === "FALSE") return false;
   return undefined;
-};
-const nonEmpty = (v) =>
-  typeof v === "string" && v.trim() !== "" ? v.trim() : undefined;
+}
+
+function nonEmpty(v) {
+  return typeof v === "string" && v.trim() !== "" ? v : undefined;
+}
 
 function imageMarker(url, alt) {
   url = nonEmpty(url);
@@ -40,166 +43,175 @@ function imageMarker(url, alt) {
   return { framerImageUrl: url, ...(nonEmpty(alt) ? { alt } : {}) };
 }
 
-// Named criteria keys live in Framer as static column-name segments.
-const NAMED_CRITERIA = [
-  "pure_comments",
-  "viewing_modes",
-  "authenticated_page",
-  "integrations",
-  "ai_copywriting",
-  "private_commenting",
-];
-
-function buildNamedCriteria(row) {
-  const out = [];
-  for (const k of NAMED_CRITERIA) {
-    const summary = nonEmpty(row[`criteria__${k}__both__summary`]);
-    const c1Image = imageMarker(
-      row[`criteria__${k}__c1__image`],
-      row[`criteria__${k}__c1__image:alt`],
-    );
-    const c1Video = nonEmpty(row[`criteria__${k}__c1__video`]);
-    const c2Image = imageMarker(
-      row[`criteria__${k}__c2__image`],
-      row[`criteria__${k}__c2__image:alt`],
-    );
-    const c2Video = nonEmpty(row[`criteria__${k}__c2__video`]);
-    if (!summary && !c1Image && !c1Video && !c2Image && !c2Video) continue;
-    out.push({
-      _key: key(),
-      _type: "comparisonNamedCriterion",
-      key: k,
-      ...(summary ? { summary } : {}),
-      ...(c1Image ? { c1Image } : {}),
-      ...(nonEmpty(row[`criteria__${k}__c1__image:alt`])
-        ? { c1ImageAlt: row[`criteria__${k}__c1__image:alt`].trim() }
-        : {}),
-      ...(c1Video ? { c1Video } : {}),
-      ...(c2Image ? { c2Image } : {}),
-      ...(nonEmpty(row[`criteria__${k}__c2__image:alt`])
-        ? { c2ImageAlt: row[`criteria__${k}__c2__image:alt`].trim() }
-        : {}),
-      ...(c2Video ? { c2Video } : {}),
-    });
-  }
-  return out.length ? out : undefined;
+function fileMarker(url) {
+  url = nonEmpty(url);
+  if (!url) return undefined;
+  return { framerFileUrl: url };
 }
 
-function buildPricingTiers(row) {
-  const out = [];
-  for (let n = 1; n <= 3; n++) {
-    const c1Price = nonEmpty(row[`pricing__tier_${n}__c1__price`]);
-    const c1Seats = nonEmpty(row[`pricing__tier_${n}__c1__seats`]);
-    const c2Price = nonEmpty(row[`pricing__tier_${n}__c2__price`]);
-    const c2Seats = nonEmpty(row[`pricing__tier_${n}__c2__seats`]);
-    if (!c1Price && !c2Price && !c1Seats && !c2Seats) continue;
-    out.push({
-      _key: key(),
-      _type: "comparisonPricingTier",
-      ...(c1Price ? { c1Price } : {}),
-      ...(c1Seats ? { c1Seats } : {}),
-      ...(c2Price ? { c2Price } : {}),
-      ...(c2Seats ? { c2Seats } : {}),
-    });
-  }
-  return out.length ? out : undefined;
-}
+// ---- HTML → Portable Text (subset used by summary_pointers) --------------
 
-function buildFeatureTable(row) {
-  const groups = ["A", "B", "C", "D", "E"];
-  const groupOut = [];
-  for (const g of groups) {
-    const rows = [];
-    for (let n = 1; n <= 20; n++) {
-      const c1A = bool(row[`table__${g}__${n}__c1__is_available`]);
-      const c2A = bool(row[`table__${g}__${n}__c2__is_available`]);
-      const c1T = nonEmpty(row[`table__${g}__${n}__c1__text`]);
-      const c2T = nonEmpty(row[`table__${g}__${n}__c2__text`]);
-      // A row exists in the CSV if any of its 4 fields is non-empty.
-      const exists =
-        c1A !== undefined ||
-        c2A !== undefined ||
-        c1T !== undefined ||
-        c2T !== undefined;
-      if (!exists) continue;
-      rows.push({
-        _key: key(),
-        _type: "comparisonTableRow",
-        rowKey: String(n),
-        ...(c1A !== undefined ? { c1Available: c1A } : {}),
-        ...(c1T ? { c1Text: c1T } : {}),
-        ...(c2A !== undefined ? { c2Available: c2A } : {}),
-        ...(c2T ? { c2Text: c2T } : {}),
-      });
+function span(text, marks = []) {
+  return { _type: "span", _key: key(), text, marks };
+}
+function block(children, style = "normal", listItem, level) {
+  const b = { _type: "block", _key: key(), style, markDefs: [], children };
+  if (listItem) {
+    b.listItem = listItem;
+    b.level = level ?? 1;
+  }
+  return b;
+}
+function walkInline(node, activeMarks, markDefs) {
+  const spans = [];
+  if (node.nodeType === 3) {
+    const text = node.textContent;
+    if (text) spans.push(span(text, [...activeMarks]));
+    return spans;
+  }
+  if (node.nodeType !== 1) return spans;
+  const tag = node.tagName.toLowerCase();
+  if (tag === "br") {
+    spans.push(span("\n", [...activeMarks]));
+    return spans;
+  }
+  let next = activeMarks;
+  if (tag === "strong" || tag === "b") next = [...activeMarks, "strong"];
+  else if (tag === "em" || tag === "i") next = [...activeMarks, "em"];
+  else if (tag === "a") {
+    const href = node.getAttribute("href") || "";
+    const markKey = key();
+    markDefs.push({ _type: "link", _key: markKey, href });
+    next = [...activeMarks, markKey];
+  }
+  for (const child of node.childNodes) {
+    spans.push(...walkInline(child, next, markDefs));
+  }
+  return spans;
+}
+function blockFromInline(node, style = "normal", listItem, level) {
+  const markDefs = [];
+  const children = [];
+  for (const child of node.childNodes) {
+    children.push(...walkInline(child, [], markDefs));
+  }
+  if (children.length === 0) return null;
+  const b = block(children, style, listItem, level);
+  b.markDefs = markDefs;
+  return b;
+}
+function htmlToPortableText(html) {
+  if (!nonEmpty(html)) return undefined;
+  const dom = new JSDOM(`<!doctype html><body>${html}</body>`);
+  const body = dom.window.document.body;
+  const out = [];
+  function emit(el) {
+    if (el.nodeType === 3) {
+      const t = el.textContent.trim();
+      if (t) out.push(block([span(t)]));
+      return;
     }
-    if (rows.length === 0) continue;
-    groupOut.push({
-      _key: key(),
-      _type: "comparisonFeatureGroup",
-      key: g,
-      rows,
-    });
+    if (el.nodeType !== 1) return;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "p") {
+      const b = blockFromInline(el, "normal");
+      if (b) out.push(b);
+    } else if (["h1", "h2", "h3", "h4"].includes(tag)) {
+      const b = blockFromInline(el, tag === "h1" ? "h2" : tag);
+      if (b) out.push(b);
+    } else if (tag === "blockquote") {
+      const b = blockFromInline(el, "blockquote");
+      if (b) out.push(b);
+    } else if (tag === "ul" || tag === "ol") {
+      const kind = tag === "ul" ? "bullet" : "number";
+      for (const li of el.children) {
+        if (li.tagName !== "LI") continue;
+        let inner = li;
+        if (li.children.length === 1 && li.children[0].tagName === "P") {
+          inner = li.children[0];
+        }
+        const b = blockFromInline(inner, "normal", kind, 1);
+        if (b) out.push(b);
+      }
+    } else {
+      for (const child of el.childNodes) emit(child);
+    }
   }
-  return groupOut.length ? groupOut : undefined;
+  for (const child of body.childNodes) emit(child);
+  return out.length ? out : undefined;
 }
 
-const HIGHLIGHT_SLOTS = ["one", "two", "three"];
+// ---- Per-record transform --------------------------------------------------
 
-function buildHighlights(row, prefix) {
+function buildCompetitorBlock(row, n, c) {
+  const score = nonEmpty(row[`criteria__${n}__c${c}__score`]);
+  const title = nonEmpty(row[`criteria__${n}__c${c}__title`]);
+  const video = fileMarker(row[`criteria__${n}__c${c}__video`]);
+  const youtubeUrl = nonEmpty(row[`criteria__${n}__c${c}__youtube_url`]);
+  const tags = [1, 2, 3]
+    .map((t) => {
+      const label = nonEmpty(row[`criteria__${n}__c${c}__${t}_tag`]);
+      const color = nonEmpty(row[`criteria__${n}__c${c}__${t}_tag_color`]);
+      if (!label) return null;
+      return { _key: key(), _type: "comparisonTag", label, ...(color ? { color } : {}) };
+    })
+    .filter(Boolean);
+  if (!score && !title && !video && !youtubeUrl && tags.length === 0) {
+    return undefined;
+  }
+  return {
+    _type: "comparisonCompetitorBlock",
+    ...(score ? { score } : {}),
+    ...(title ? { title } : {}),
+    ...(video ? { video } : {}),
+    ...(youtubeUrl ? { youtubeUrl } : {}),
+    ...(tags.length ? { tags } : {}),
+  };
+}
+
+function buildCriteria(row) {
   const out = [];
-  for (const slot of HIGHLIGHT_SLOTS) {
-    const title = nonEmpty(row[`${prefix}__highlight_${slot}__title`]);
-    const subText = nonEmpty(row[`${prefix}__highlight_${slot}__sub_text`]);
-    const image = imageMarker(
-      row[`${prefix}__highlight_${slot}__image`],
-      row[`${prefix}__highlight_${slot}__image:alt`],
-    );
-    const imageAlt = nonEmpty(row[`${prefix}__highlight_${slot}__image:alt`]);
-    const videoUrl = nonEmpty(row[`${prefix}__highlight_${slot}__video_url`]);
-    if (!title && !subText && !image && !videoUrl) continue;
+  for (let n = 1; n <= 7; n++) {
+    const title = nonEmpty(row[`criteria__${n}__title`]);
+    const description = nonEmpty(row[`criteria__${n}__description`]);
+    const winnerC1 = bool(row[`criteria__${n}__winner__c1?`]);
+    const result = nonEmpty(row[`criteria__${n}__result`]);
+    const competitor1 = buildCompetitorBlock(row, n, 1);
+    const competitor2 = buildCompetitorBlock(row, n, 2);
+    if (!title && !description && !competitor1 && !competitor2) continue;
     out.push({
       _key: key(),
-      _type: "comparisonHighlightBlock",
+      _type: "comparisonCriterion",
       ...(title ? { title } : {}),
-      ...(subText ? { subText } : {}),
-      ...(image ? { image } : {}),
-      ...(imageAlt ? { imageAlt } : {}),
-      ...(videoUrl ? { videoUrl } : {}),
+      ...(description ? { description } : {}),
+      ...(winnerC1 !== undefined ? { winnerC1 } : {}),
+      ...(result ? { result } : {}),
+      ...(competitor1 ? { competitor1 } : {}),
+      ...(competitor2 ? { competitor2 } : {}),
     });
   }
   return out.length ? out : undefined;
 }
 
-function buildReviews(row) {
+function buildPricing(row) {
   const out = [];
-  // Reviews 1, 2 = c1; 3, 4 = c2 (per Framer column layout).
-  const reviewSpecs = [
-    { idx: 1, side: "c1" },
-    { idx: 2, side: "c1" },
-    { idx: 3, side: "c2" },
-    { idx: 4, side: "c2" },
-  ];
-  for (const { idx, side } of reviewSpecs) {
-    const image = imageMarker(
-      row[`review__${idx}__${side}__image`],
-      row[`review__${idx}__${side}__image:alt`],
-    );
-    const imageAlt = nonEmpty(row[`review__${idx}__${side}__image:alt`]);
-    const name = nonEmpty(row[`review__${idx}__${side}__name`]);
-    const rating = nonEmpty(row[`review__${idx}__${side}__rating`]);
-    const title = nonEmpty(row[`review__${idx}__${side}__title`]);
-    const content = nonEmpty(row[`review__${idx}__${side}__content`]);
-    if (!name && !title && !content) continue;
+  for (let n = 1; n <= 5; n++) {
+    const c1Name = nonEmpty(row[`pricing__${n}__name__c1`]);
+    const c1Price = nonEmpty(row[`pricing__${n}__price__c1`]);
+    const c1Users = nonEmpty(row[`pricing__${n}__users__c1`]);
+    const c2Name = nonEmpty(row[`pricing__${n}__name__c2`]);
+    const c2Price = nonEmpty(row[`pricing__${n}__price__c2`]);
+    const c2Users = nonEmpty(row[`pricing__${n}__users__c2`]);
+    if (!c1Name && !c1Price && !c2Name && !c2Price) continue;
     out.push({
       _key: key(),
-      _type: "comparisonReview",
-      side,
-      ...(image ? { image } : {}),
-      ...(imageAlt ? { imageAlt } : {}),
-      ...(name ? { name } : {}),
-      ...(rating ? { rating } : {}),
-      ...(title ? { title } : {}),
-      ...(content ? { content } : {}),
+      _type: "comparisonPricingRow",
+      ...(c1Name ? { c1Name } : {}),
+      ...(c1Price ? { c1Price } : {}),
+      ...(c1Users ? { c1Users } : {}),
+      ...(c2Name ? { c2Name } : {}),
+      ...(c2Price ? { c2Price } : {}),
+      ...(c2Users ? { c2Users } : {}),
     });
   }
   return out.length ? out : undefined;
@@ -208,24 +220,161 @@ function buildReviews(row) {
 function buildFaq(row) {
   const out = [];
   for (let n = 1; n <= 6; n++) {
-    const q = nonEmpty(row[`faq_${n}_question`]);
-    const a = nonEmpty(row[`faq_${n}_answer`]);
-    if (!q) continue;
+    const question = nonEmpty(row[`FAQ__${n}__question`]);
+    const answer = nonEmpty(row[`FAQ__${n}__answer`]);
+    if (!question) continue;
     out.push({
       _key: key(),
       _type: "comparisonFaqItem",
-      question: q,
-      ...(a ? { answer: a } : {}),
+      question,
+      ...(answer ? { answer } : {}),
     });
   }
   return out.length ? out : undefined;
 }
 
+function buildChoices(row) {
+  const out = [];
+  for (let n = 1; n <= 3; n++) {
+    const title = nonEmpty(row[`choice__${n}__title`]);
+    const subText = nonEmpty(row[`choice__${n}__sub_text`]);
+    const image = imageMarker(row[`choice__${n}__image`], row[`choice__${n}__image:alt`]);
+    const videoLink = nonEmpty(row[`choice__${n}__video_link`]);
+    const videoFile = fileMarker(row[`choice__${n}__video_file`]);
+    if (!title && !subText && !image && !videoLink && !videoFile) continue;
+    out.push({
+      _key: key(),
+      _type: "comparisonChoice",
+      ...(title ? { title } : {}),
+      ...(subText ? { subText } : {}),
+      ...(image ? { image } : {}),
+      ...(videoLink ? { videoLink } : {}),
+      ...(videoFile ? { videoFile } : {}),
+    });
+  }
+  return out.length ? out : undefined;
+}
+
+function buildFeatures(row) {
+  const out = [];
+  for (let n = 1; n <= 6; n++) {
+    const title = nonEmpty(row[`feature__${n}__title`]);
+    const c1Text = nonEmpty(row[`feature__${n}__c1__text`]);
+    const c2Text = nonEmpty(row[`feature__${n}__c2__text`]);
+    if (!title && !c1Text && !c2Text) continue;
+    out.push({
+      _key: key(),
+      _type: "comparisonFeatureRow",
+      ...(title ? { title } : {}),
+      ...(c1Text ? { c1Text } : {}),
+      ...(c2Text ? { c2Text } : {}),
+    });
+  }
+  return out.length ? out : undefined;
+}
+
+function buildHighlights(row) {
+  const out = [];
+  for (let n = 1; n <= 3; n++) {
+    const title = nonEmpty(row[`highlight__${n}__title`]);
+    const subText = nonEmpty(row[`highlight__${n}__sub_text`]);
+    const image = imageMarker(row[`highlight__${n}__image`], row[`highlight__${n}__image:alt`]);
+    const videoLink = nonEmpty(row[`highlight__${n}__video_link`]);
+    const videoFile = fileMarker(row[`highlight__${n}__video_file`]);
+    if (!title && !subText && !image && !videoLink && !videoFile) continue;
+    out.push({
+      _key: key(),
+      _type: "comparisonHighlight",
+      ...(title ? { title } : {}),
+      ...(subText ? { subText } : {}),
+      ...(image ? { image } : {}),
+      ...(videoLink ? { videoLink } : {}),
+      ...(videoFile ? { videoFile } : {}),
+    });
+  }
+  return out.length ? out : undefined;
+}
+
+function buildCaseStudy(row) {
+  const title = nonEmpty(row["case_study__title"]);
+  const link = nonEmpty(row["case_study__link"]);
+  const challenges = htmlToPortableText(row["case_study_challenges"]);
+  if (!title && !link && !challenges) return undefined;
+  return {
+    _type: "comparisonCaseStudy",
+    ...(title ? { title } : {}),
+    ...(link ? { link } : {}),
+    ...(challenges ? { challenges } : {}),
+  };
+}
+
+function buildTestimonial(row, suffix = "") {
+  // `suffix` lets us collect layout-2 testimonial fields that share the
+  // base name `testimonial__*` but use `_text` instead of `_copy` for body
+  // (per the Framer CSV column oddity).
+  const name = nonEmpty(row[`testimonial__name${suffix}`]);
+  const role = nonEmpty(row[`testimonial__role${suffix}`]);
+  const company = nonEmpty(row[`testimonial__company${suffix}`]);
+  const title = nonEmpty(row[`testimonial__title${suffix}`]);
+  const profileImage = imageMarker(
+    row[`testimonial__profile_image${suffix}`],
+    row[`testimonial__profile_image${suffix}:alt`],
+  );
+  if (!name && !title && !profileImage) return undefined;
+  return {
+    _type: "comparisonTestimonial",
+    ...(profileImage ? { profileImage } : {}),
+    ...(name ? { name } : {}),
+    ...(role ? { role } : {}),
+    ...(company ? { company } : {}),
+    ...(title ? { title } : {}),
+  };
+}
+
 function transform(row) {
-  const slug = nonEmpty(row["Slug"]);
+  const slug = row["Slug"];
   if (!slug) return null;
-  const dateRaw = nonEmpty(row["date_published"]);
-  const publishedDate = dateRaw ? dateRaw.slice(0, 10) : undefined;
+
+  const thumbnail = imageMarker(row["Thumbnail"], row["Thumbnail:alt"]);
+  const competitor1Logo = imageMarker(row["for_all__c1_logo"], row["for_all__c1_logo:alt"]);
+  const competitor2Logo = imageMarker(row["for_all__c2_logo"], row["for_all__c2_logo:alt"]);
+
+  // Two testimonials in the CSV: one with sub_copy (layout 1) and one with
+  // sub_text (layout 2). Keep layout 1 in `testimonial`, layout 2 in
+  // `layout2Testimonial`, mirroring the schema.
+  const testimonial = (() => {
+    const base = buildTestimonial(row);
+    const subCopy = nonEmpty(row["testimonial__sub_copy"]);
+    if (!base && !subCopy) return undefined;
+    return {
+      ...(base || { _type: "comparisonTestimonial" }),
+      ...(subCopy ? { subCopy } : {}),
+    };
+  })();
+  const layout2Testimonial = (() => {
+    const subText = nonEmpty(row["testimonial__sub_text"]);
+    const profileImage = imageMarker(
+      row["testimonial__profile_image"],
+      row["testimonial__profile_image:alt"],
+    );
+    if (!subText) return undefined;
+    return {
+      _type: "comparisonTestimonial",
+      ...(profileImage ? { profileImage } : {}),
+      // For Layout 2 we reuse the same testimonial name/role/company; the
+      // Framer CSV only differs by the body field name.
+      ...(nonEmpty(row["testimonial__name"]) ? { name: row["testimonial__name"] } : {}),
+      ...(nonEmpty(row["testimonial__role"]) ? { role: row["testimonial__role"] } : {}),
+      ...(nonEmpty(row["testimonial__company"]) ? { company: row["testimonial__company"] } : {}),
+      ...(nonEmpty(row["testimonial__title"]) ? { title: row["testimonial__title"] } : {}),
+      subCopy: subText,
+    };
+  })();
+
+  const publishedDate = nonEmpty(row["Published Date"]);
+  const publishedDateStr = publishedDate
+    ? publishedDate.slice(0, 10) // YYYY-MM-DD; Sanity `date` type
+    : undefined;
 
   return {
     _id: `cmp-${slug}`,
@@ -236,48 +385,27 @@ function transform(row) {
     metaTitle: nonEmpty(row["Meta Title"]),
     metaDescription: nonEmpty(row["Meta Description"]),
     hidden: bool(row["Hidden"]) ?? false,
-    noIndex: nonEmpty(row["NoIndex"]),
     author: nonEmpty(row["Author"]),
-    publishedDate,
+    publishedDate: publishedDateStr,
     publishedDateText: nonEmpty(row["Published Date Text"]),
-
-    // Hero + thumbnail
-    heroImage: imageMarker(row["hero__image"], row["hero__image:alt"]),
-
-    // Competitors
+    enableLayout2: bool(row["Enable Layout 2"]) ?? false,
+    thumbnail,
     competitor1Name: nonEmpty(row["for_all__c1_name"]),
-    competitor1Logo: imageMarker(
-      row["for_all__c1_logo"],
-      row["for_all__c1_logo:alt"],
-    ),
+    competitor1Logo,
     competitor2Name: nonEmpty(row["for_all__c2_name"]),
-    competitor2Logo: imageMarker(
-      row["for_all__c2_logo"],
-      row["for_all__c2_logo:alt"],
-    ),
-
-    // Overview (two-column)
-    overviewC1Text: nonEmpty(row["overview__c1__text"]),
-    overviewC2Text: nonEmpty(row["overview__c2__text"]),
-
-    // Named criteria
-    namedCriteria: buildNamedCriteria(row),
-
-    // Pricing
-    pricingTiers: buildPricingTiers(row),
-
-    // Feature table
-    featureTable: buildFeatureTable(row),
-
-    // Highlights
-    superflowHighlights: buildHighlights(row, "for_superflow"),
-    alternativeHighlights: buildHighlights(row, "for_superflow__alternative"),
-
-    // Reviews
-    reviews: buildReviews(row),
-
-    // FAQ
+    competitor2Logo,
+    criteria: buildCriteria(row),
+    pricing: buildPricing(row),
+    overview: nonEmpty(row["Overview"]),
+    showOverview: bool(row["Show Overview?"]) ?? true,
+    summaryPointers: htmlToPortableText(row["summary_pointers"]),
+    testimonial,
     faq: buildFaq(row),
+    choices: buildChoices(row),
+    features: buildFeatures(row),
+    highlights: buildHighlights(row),
+    caseStudy: buildCaseStudy(row),
+    layout2Testimonial,
   };
 }
 

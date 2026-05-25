@@ -46,12 +46,6 @@ import {
   comparisonTestimonial,
   comparisonCaseStudy,
   comparisonFaqItem,
-  comparisonNamedCriterion,
-  comparisonPricingTier,
-  comparisonTableRow,
-  comparisonFeatureGroup,
-  comparisonHighlightBlock,
-  comparisonReview,
 } from "./shared/comparison";
 import { alternativePage } from "./alternativePage";
 import { comparisonPage } from "./comparisonPage";
@@ -135,12 +129,6 @@ export const schemaTypes = [
   comparisonTestimonial,
   comparisonCaseStudy,
   comparisonFaqItem,
-  comparisonNamedCriterion,
-  comparisonPricingTier,
-  comparisonTableRow,
-  comparisonFeatureGroup,
-  comparisonHighlightBlock,
-  comparisonReview,
 
   // reviewPage sub-types
   reviewCta,

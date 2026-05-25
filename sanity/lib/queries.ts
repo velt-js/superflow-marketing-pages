@@ -235,30 +235,29 @@ export async function getComparisonPageBySlug(slug: string) {
       _id, title, "slug": slug.current, description, hidden, author,
       publishedDate, publishedDateText, enableLayout2,
       "thumbnail": thumbnail.asset->url,
-      "heroImage": heroImage.asset->url,
       competitor1Name, "competitor1Logo": competitor1Logo.asset->url,
       competitor2Name, "competitor2Logo": competitor2Logo.asset->url,
-      overviewC1Text, overviewC2Text,
-      namedCriteria[]{
-        _key, key, summary,
-        "c1Image": c1Image.asset->url, c1ImageAlt, c1Video,
-        "c2Image": c2Image.asset->url, c2ImageAlt, c2Video
+      criteria[]{
+        _key, title, description, winnerC1, result,
+        competitor1{
+          score, title, "video": video.asset->url, youtubeUrl,
+          tags[]{ label, color }
+        },
+        competitor2{
+          score, title, "video": video.asset->url, youtubeUrl,
+          tags[]{ label, color }
+        }
       },
-      pricingTiers[]{ _key, c1Price, c1Seats, c2Price, c2Seats },
-      featureTable[]{
-        _key, key,
-        rows[]{ _key, rowKey, c1Available, c1Text, c2Available, c2Text }
-      },
-      superflowHighlights[]{
-        _key, title, subText, "image": image.asset->url, imageAlt, videoUrl
-      },
-      alternativeHighlights[]{
-        _key, title, subText, "image": image.asset->url, imageAlt, videoUrl
-      },
-      reviews[]{
-        _key, side, "image": image.asset->url, imageAlt, name, rating, title, content
-      },
+      pricing[]{ c1Name, c1Price, c1Users, c2Name, c2Price, c2Users },
+      overview, summaryPointers,
+      testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
       faq[]{ question, answer },
+      highlights[]{
+        title, subText, "image": image.asset->url,
+        videoLink, "videoFile": videoFile.asset->url
+      },
+      caseStudy{ title, challenges, link },
+      layout2Testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
       metaTitle, metaDescription, noIndex
     }`,
     { slug }

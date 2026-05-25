@@ -2,7 +2,7 @@
 /**
  * Parse Framer's `Alternative.csv` export into raw JSON.
  *
- * Input:  /Users/yoenzhang/Downloads/Comp v_s Comp.csv (~11 rows, 267 cols).
+ * Input:  /Users/yoenzhang/Downloads/Comparisons.csv (~11 rows, 267 cols).
  * Output: scripts/alternative-import/framer-cmp-raw.json (array of objects).
  *
  * No transformation here — we keep Framer's column names verbatim so the
@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const here = (rel) => resolve(__dirname, rel);
 
 const CSV_PATH =
-  process.argv[2] || "/Users/yoenzhang/Downloads/Comp v_s Comp.csv";
+  process.argv[2] || "/Users/yoenzhang/Downloads/Comparisons.csv";
 const text = readFileSync(CSV_PATH, "utf8");
 
 // RFC4180-ish parser: handles quoted fields with embedded commas, newlines,

@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import ComparisonsPage from "@/components/comparisons/ComparisonsPage";
+import ComparisonDetailPage from "@/components/detail/ComparisonDetailPage";
 import {
   getComparisonPageBySlug,
   getAllComparisonSlugs,
 } from "@/sanity/lib/queries";
-import type { SanityComparisonDoc } from "@/lib/sanity-adapters/comparisons";
+import {
+  mapComparisonDocToConfig,
+  type SanityComparisonDoc,
+} from "@/lib/sanity-adapters/comparisons";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -39,10 +42,13 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
   const { slug } = await params;
   const doc = (await getComparisonPageBySlug(slug)) as SanityComparisonDoc | null;
   if (!doc) notFound();
+
+  const config = mapComparisonDocToConfig(doc);
+
   return (
     <>
       <PageJsonLd
-        name={doc.title ?? slug}
+        name={config.hero.heading}
         description={
           doc.metaDescription ??
           doc.description ??
@@ -51,10 +57,10 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
         path={`/comparisons/${slug}`}
         trail={[
           { name: "Comparisons", url: `${SITE_URL}/comparisons` },
-          { name: doc.title ?? slug, url: `${SITE_URL}/comparisons/${slug}` },
+          { name: config.hero.heading, url: `${SITE_URL}/comparisons/${slug}` },
         ]}
       />
-      <ComparisonsPage doc={doc} />
+      <ComparisonDetailPage config={config} />
     </>
   );
 }

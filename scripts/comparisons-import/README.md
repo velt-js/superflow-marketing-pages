@@ -1,17 +1,19 @@
-# Comparisons (Comp v/s Comp) → Sanity Import
+# Comparisons → Sanity Import
 
-One-shot migration that pulls Framer's `Comp v/s Comp` collection (10
-records, 256 columns) into Sanity as `comparisonPage` documents.
+One-shot migration that pulls Framer's `Comparisons` collection (3
+records: markup-vs-pastel, markup-vs-ruttl, pastel-vs-bugherd) into
+Sanity as `comparisonPage` documents. Schema and pipeline mirror the
+Alternative migration exactly.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `framer-cmp-raw.json` | Output of `parse-csv.mjs` — verbatim CSV → JSON. |
-| `framer-cmp-sanity.json` | Output of `transform-to-sanity.mjs` — Sanity-shaped docs with `framerImageUrl` markers for uploads. |
-| `parse-csv.mjs` | RFC4180 CSV → raw JSON. Source: `/Users/yoenzhang/Downloads/Comp v_s Comp.csv`. |
-| `transform-to-sanity.mjs` | Pure transform. Maps 6 named criteria, 3 pricing tiers, A/B/C/D/E feature groups, Superflow + alternative highlights, 4 reviews, 6 FAQs. |
-| `import-to-sanity.mjs` | Walks the JSON tree, uploads every asset (filename extension preserved), createOrReplace docs keyed `cmp-<slug>`. |
+| `framer-cmp-raw.json` | RFC4180 CSV → JSON. |
+| `framer-cmp-sanity.json` | Sanity-shaped docs with `framerImageUrl` markers. |
+| `parse-csv.mjs` | Source: `/Users/yoenzhang/Downloads/Comparisons.csv`. |
+| `transform-to-sanity.mjs` | Same shape as the Alternative transform. |
+| `import-to-sanity.mjs` | Walks the tree, uploads every asset, `createOrReplace` keyed `cmp-<slug>`. |
 
 ## Run
 
@@ -22,24 +24,20 @@ cd superflow-marketing-pages
 node scripts/comparisons-import/parse-csv.mjs
 node scripts/comparisons-import/transform-to-sanity.mjs
 
-# 2. Spot-check one
+# 2. Spot-check
 SANITY_API_TOKEN=<token> LIMIT=1 node scripts/comparisons-import/import-to-sanity.mjs
 
 # 3. Full import
 SANITY_API_TOKEN=<token> node scripts/comparisons-import/import-to-sanity.mjs
 ```
 
-`SANITY_API_TOKEN` needs Editor+ on `sckr62cw/production`.
-
 ## Notes
 
-- The smaller `Comparisons.csv` is intentionally ignored — its 3 slugs
-  are duplicates that already exist in Comp v/s Comp (different
-  shape, less complete data).
-- YouTube embed URLs are kept as plain strings on
-  `namedCriteria[].c1Video` / `c2Video`. The renderer wraps them in
-  `<iframe>`. No file upload.
-- Feature-table row labels are not in the CSV — they live in
-  `lib/comparisons/feature-table-labels.ts`. Until that map is
-  filled, the table renders `A.1`, `A.2`, etc. as placeholder labels.
-- Idempotent: `createOrReplace` on `cmp-<slug>`. Reruns overwrite.
+- The other Framer collection ("Comp v/s Comp", 10 rows) is NOT
+  imported here. Only 3 of those 10 slugs are published on the live
+  `usesuperflow.com/comparisons/<slug>`, and those 3 overlap with this
+  Comparisons.csv. Source-of-truth is therefore Comparisons.csv.
+- Renderer = `components/detail/ComparisonDetailPage.tsx` via the
+  adapter at `lib/sanity-adapters/comparisons.ts` —
+  exactly the same as the Alternative route.
+- Idempotent: rerun anytime.
