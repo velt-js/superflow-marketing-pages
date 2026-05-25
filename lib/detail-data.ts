@@ -1,8 +1,10 @@
 import type { ListingHeroBadge } from "@/components/listing/ListingHero";
 
 export interface DetailHeroData {
+  variant?: "default" | "alternative";
   eyebrow?: string;
   heading: string;
+  subheading?: string;
   ctaText?: string;
   ctaHref?: string;
   leftBadge?: ListingHeroBadge;

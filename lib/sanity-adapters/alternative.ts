@@ -115,11 +115,6 @@ function makeProductCard(
 
 const DEFAULT_OVERVIEW_ICON: OverviewIconKey = "commenting";
 
-const SUPERFLOW_HERO_BADGES = {
-  leftBadge: { label: "Developer", color: "#4dd5ff" },
-  rightBadge: { label: "Designer", color: "#fc6cba" },
-};
-
 export function mapAlternativeDocToConfig(
   doc: SanityAlternativeDoc,
 ): ComparisonDetailConfig {
@@ -170,11 +165,12 @@ export function mapAlternativeDocToConfig(
 
   return {
     hero: {
+      variant: "alternative",
       eyebrow: "Alternative",
       heading: doc.title ?? `${c2Name} Alternative`,
+      subheading: doc.description,
       ctaText: "Try Superflow for Free",
       ctaHref: "https://app.usesuperflow.com/signup",
-      ...SUPERFLOW_HERO_BADGES,
     },
     reasons: {
       heading: `Why teams pick Superflow over`,

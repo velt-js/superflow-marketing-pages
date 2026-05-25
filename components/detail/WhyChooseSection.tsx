@@ -55,9 +55,9 @@ export default function WhyChooseSection({
   quote,
 }: WhyChooseData) {
   return (
-    <section className="bg-white pt-[60px] pb-[80px] lg:pt-[80px] lg:pb-[120px]">
+    <section className="bg-[#030219] pt-[60px] pb-[80px] lg:pt-[80px] lg:pb-[120px]">
       <div className="container-page flex flex-col items-center gap-[28px]">
-        <article className="w-full max-w-[920px] rounded-[28px] border border-[#ECECEC] bg-white px-[28px] py-[48px] lg:px-[64px] lg:py-[80px]">
+        <article className="w-full max-w-[920px] rounded-[28px] border border-white/10 bg-[#0b0a21] px-[28px] py-[48px] lg:px-[64px] lg:py-[80px]">
           <div className="flex items-center justify-center gap-[28px]">
             <span className="flex h-[32px] items-center justify-center">{SUPERFLOW_LOGO}</span>
             <span className="flex h-[32px] items-center justify-center">{LIGHTNING}</span>
@@ -71,7 +71,7 @@ export default function WhyChooseSection({
           </div>
 
           <h2
-            className="mt-[32px] text-center text-[#111]"
+            className="mt-[32px] text-center text-white"
             style={{
               fontFamily: "var(--font-poppins)",
               fontWeight: 700,
@@ -97,14 +97,14 @@ export default function WhyChooseSection({
                 style={{
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,
-                  color: "#111",
+                  color: "rgba(255,255,255,0.9)",
                   letterSpacing: "-0.01em",
                 }}
               >
                 <span
                   aria-hidden="true"
                   className="inline-block h-[6px] w-[6px] rounded-full"
-                  style={{ background: "#111" }}
+                  style={{ background: "#A89BFF" }}
                 />
                 <span>{bullet}</span>
               </li>
@@ -114,7 +114,7 @@ export default function WhyChooseSection({
           <div className="mt-[36px] flex justify-center">
             <a
               href={ctaHref}
-              className="inline-flex items-center justify-center rounded-[40px] bg-black px-[28px] py-[16px] text-white transition-colors hover:bg-black/80"
+              className="inline-flex items-center justify-center rounded-[40px] bg-[#625DF5] px-[28px] py-[16px] text-white transition-colors hover:bg-[#7672FF]"
               style={{
                 fontFamily: "var(--font-poppins)",
                 fontSize: 15,
@@ -130,7 +130,7 @@ export default function WhyChooseSection({
         {compliance && (
           <div
             className="flex w-full max-w-[920px] items-center gap-[18px] rounded-[20px] px-[24px] py-[20px] lg:px-[32px]"
-            style={{ background: "#EEEBFF" }}
+            style={{ background: "rgba(98, 93, 245, 0.15)", border: "1px solid rgba(98, 93, 245, 0.3)" }}
           >
             <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">
               {LOCK_ICON}
@@ -140,21 +140,21 @@ export default function WhyChooseSection({
                 fontFamily: "var(--font-poppins)",
                 fontSize: 18,
                 fontWeight: 600,
-                color: "#111",
+                color: "#fff",
                 letterSpacing: "-0.01em",
               }}
             >
               {compliance.prefix}
-              <span style={{ color: "#7B5EFF" }}>{compliance.highlight}</span>
+              <span style={{ color: "#A89BFF" }}>{compliance.highlight}</span>
               {compliance.suffix}
             </p>
           </div>
         )}
 
         {(quote?.quote || quote?.headline || quote?.authorName) && (
-        <div className="flex w-full max-w-[920px] flex-col gap-[18px] rounded-[24px] border border-[#ECECEC] bg-white px-[28px] py-[28px] lg:flex-row lg:gap-[32px] lg:px-[40px] lg:py-[36px]">
-          <div className="flex flex-col items-center gap-[10px] text-center lg:w-[180px] lg:shrink-0 lg:border-r lg:border-[#ECECEC] lg:pr-[24px]">
-            <div className="relative h-[64px] w-[64px] overflow-hidden rounded-full bg-[#F4F4F6]">
+        <div className="flex w-full max-w-[920px] flex-col gap-[18px] rounded-[24px] border border-white/10 bg-[#0b0a21] px-[28px] py-[28px] lg:flex-row lg:gap-[32px] lg:px-[40px] lg:py-[36px]">
+          <div className="flex flex-col items-center gap-[10px] text-center lg:w-[180px] lg:shrink-0 lg:border-r lg:border-white/10 lg:pr-[24px]">
+            <div className="relative h-[64px] w-[64px] overflow-hidden rounded-full bg-white/10">
               {quote.avatar ? (
                 <Image
                   src={quote.avatar}
@@ -170,7 +170,7 @@ export default function WhyChooseSection({
                 fontFamily: "var(--font-poppins)",
                 fontSize: 15,
                 fontWeight: 700,
-                color: "#111",
+                color: "#fff",
                 letterSpacing: "-0.01em",
               }}
             >
@@ -180,7 +180,7 @@ export default function WhyChooseSection({
               style={{
                 fontFamily: "var(--font-poppins)",
                 fontSize: 13,
-                color: "rgba(17,17,17,0.55)",
+                color: "rgba(255,255,255,0.55)",
               }}
             >
               {quote.authorRole}
@@ -194,7 +194,7 @@ export default function WhyChooseSection({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 18,
                   fontWeight: 700,
-                  color: "#111",
+                  color: "#fff",
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -207,7 +207,7 @@ export default function WhyChooseSection({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 15,
                   lineHeight: 1.6,
-                  color: "rgba(17,17,17,0.75)",
+                  color: "rgba(255,255,255,0.75)",
                 }}
               >
                 &ldquo;{quote.quote}&rdquo;

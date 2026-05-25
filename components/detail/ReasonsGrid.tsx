@@ -9,7 +9,7 @@ export default function ReasonsGrid({
 }: ReasonsGridData) {
   return (
     <section
-      className="bg-[#010001] pt-[80px] pb-[120px] lg:pt-[120px] lg:pb-[160px] rounded-b-[32px] lg:rounded-b-[80px]"
+      className="bg-[#030219] pt-[80px] pb-[120px] lg:pt-[120px] lg:pb-[160px] rounded-b-[32px] lg:rounded-b-[80px]"
     >
       <div className="container-page flex flex-col items-center gap-[48px]">
         <div className="text-center">

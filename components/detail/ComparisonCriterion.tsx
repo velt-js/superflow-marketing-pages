@@ -47,7 +47,7 @@ function BulletPill({
   return (
     <span
       className="inline-flex items-center gap-[8px] rounded-full px-[12px] py-[6px]"
-      style={{ background: "#F4F4F6" }}
+      style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}
     >
       <span
         className="h-[8px] w-[8px] shrink-0 rounded-full"
@@ -58,7 +58,7 @@ function BulletPill({
           fontFamily: "var(--font-poppins)",
           fontSize: 13,
           lineHeight: 1.4,
-          color: "#111",
+          color: "rgba(255,255,255,0.9)",
         }}
       >
         {text}
@@ -76,8 +76,8 @@ function ProductHeader({
 }) {
   const palette =
     variant === "superflow"
-      ? { bg: "#E6F5EC", text: "#0F8A4D", score: "#0F8A4D" }
-      : { bg: "#FFEAE0", text: "#C0522D", score: "#C0522D" };
+      ? { bg: "rgba(31, 255, 143, 0.12)", text: "#0DCF82", score: "#0DCF82" }
+      : { bg: "rgba(255, 113, 98, 0.12)", text: "#FF7162", score: "#FF7162" };
 
   return (
     <div
@@ -105,7 +105,7 @@ function ProductHeader({
             fontFamily: "var(--font-poppins)",
             fontWeight: 600,
             fontSize: 15,
-            color: "#111",
+            color: "#fff",
             letterSpacing: "-0.01em",
           }}
         >
@@ -169,7 +169,7 @@ function ProductColumn({
             fontFamily: "var(--font-poppins)",
             fontWeight: 600,
             fontSize: 16,
-            color: "#111",
+            color: "#fff",
             letterSpacing: "-0.02em",
           }}
         >
@@ -197,7 +197,7 @@ export default function ComparisonCriterion({
   competitor,
 }: ComparisonCriterionData) {
   return (
-    <section id={id} className="bg-white py-[28px] lg:py-[40px]">
+    <section id={id} className="bg-[#030219] py-[28px] lg:py-[40px]">
       <div className="container-page">
         <article
           className="relative mx-auto max-w-[1080px] rounded-[32px] p-[1.5px]"
@@ -206,7 +206,7 @@ export default function ComparisonCriterion({
               "linear-gradient(135deg, rgba(252,108,186,0.45), rgba(132,128,255,0.45) 50%, rgba(45,154,255,0.35))",
           }}
         >
-          <div className="rounded-[31px] bg-white px-[28px] py-[36px] lg:px-[56px] lg:py-[56px]">
+          <div className="rounded-[31px] bg-[#0b0a21] px-[28px] py-[36px] lg:px-[56px] lg:py-[56px]">
             <div className="flex flex-col items-center gap-[12px] text-center">
               {icon && (
                 <div className="relative h-[36px] w-[36px] overflow-hidden">
@@ -220,7 +220,7 @@ export default function ComparisonCriterion({
                 </div>
               )}
               <h3
-                className="text-[#111]"
+                className="text-white"
                 style={{
                   fontFamily: "var(--font-poppins)",
                   fontWeight: 700,
@@ -237,7 +237,7 @@ export default function ComparisonCriterion({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 14,
                   lineHeight: 1.55,
-                  color: "rgba(17,17,17,0.55)",
+                  color: "rgba(255,255,255,0.6)",
                 }}
               >
                 {description}

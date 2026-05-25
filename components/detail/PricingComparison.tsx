@@ -57,7 +57,7 @@ function ProductPricing({
             fontFamily: "var(--font-poppins)",
             fontSize: 20,
             fontWeight: 600,
-            color: "#111",
+            color: "#fff",
             letterSpacing: "-0.02em",
           }}
         >
@@ -65,7 +65,7 @@ function ProductPricing({
         </p>
       </div>
 
-      <div className="rounded-[20px] border border-[#ECECEC] px-[20px] py-[28px] lg:px-[32px] lg:py-[40px]">
+      <div className="rounded-[20px] border border-white/10 bg-[#0b0a21] px-[20px] py-[28px] lg:px-[32px] lg:py-[40px]">
         <div
           className="grid gap-[24px]"
           style={{ gridTemplateColumns: `repeat(${product.tiers.length}, minmax(0, 1fr))` }}
@@ -82,7 +82,7 @@ function ProductPricing({
                   fontWeight: 600,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "rgba(17,17,17,0.55)",
+                  color: "rgba(255,255,255,0.55)",
                 }}
               >
                 {tier.planName}
@@ -92,7 +92,7 @@ function ProductPricing({
                   fontFamily: "var(--font-poppins)",
                   fontSize: 28,
                   fontWeight: 500,
-                  color: "#111",
+                  color: "#fff",
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -103,7 +103,7 @@ function ProductPricing({
                   style={{
                     fontFamily: "var(--font-poppins)",
                     fontSize: 14,
-                    color: "rgba(17,17,17,0.5)",
+                    color: "rgba(255,255,255,0.55)",
                   }}
                 >
                   {tier.billing}
@@ -124,7 +124,7 @@ export default function PricingComparison({
   products,
 }: PricingComparisonData) {
   return (
-    <section className="bg-white pt-[40px] pb-[80px] lg:pt-[60px] lg:pb-[120px]">
+    <section className="bg-[#030219] pt-[40px] pb-[80px] lg:pt-[60px] lg:pb-[120px]">
       <div className="container-page flex flex-col items-center gap-[48px]">
         <div className="flex flex-col items-center gap-[12px] text-center">
           {DOLLAR_ICON}
@@ -136,7 +136,7 @@ export default function PricingComparison({
                 fontFamily: "var(--font-poppins)",
                 fontSize: 15,
                 lineHeight: 1.55,
-                color: "rgba(17,17,17,0.65)",
+                color: "rgba(255,255,255,0.7)",
               }}
             >
               {description}
