@@ -70,9 +70,9 @@ function ProductPricing({
           className="grid gap-[24px]"
           style={{ gridTemplateColumns: `repeat(${product.tiers.length}, minmax(0, 1fr))` }}
         >
-          {product.tiers.map((tier) => (
+          {product.tiers.map((tier, i) => (
             <div
-              key={tier.planName}
+              key={`${product.name}-${i}-${tier.planName}`}
               className="flex flex-col items-center gap-[8px] text-center"
             >
               <span

@@ -1,10 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import {
-  alternativeDetails,
-  comparisonDetails,
-  userPersonaDetails,
-} from "@/lib/detail-data";
+import { useCaseDetails } from "@/lib/detail-data";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
@@ -76,16 +72,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const dynamicPaths: string[] = [
     ...unique(integrationSlugsCms).map((slug) => `/integrations/${slug}`),
-    ...unique(useCaseSlugsCms).map((slug) => `/use-case/${slug}`),
-    ...unique([...Object.keys(userPersonaDetails), ...userPersonaSlugsCms]).map(
-      (slug) => `/user-persona/${slug}`,
+    ...unique([...Object.keys(useCaseDetails), ...useCaseSlugsCms]).map(
+      (slug) => `/use-case/${slug}`,
     ),
-    ...unique([...Object.keys(alternativeDetails), ...alternativeSlugsCms]).map(
-      (slug) => `/alternative/${slug}`,
-    ),
-    ...unique([...Object.keys(comparisonDetails), ...comparisonSlugsCms]).map(
-      (slug) => `/comparisons/${slug}`,
-    ),
+    ...unique(userPersonaSlugsCms).map((slug) => `/user-persona/${slug}`),
+    ...unique(alternativeSlugsCms).map((slug) => `/alternative/${slug}`),
+    ...unique(comparisonSlugsCms).map((slug) => `/comparisons/${slug}`),
     ...unique(caseStudySlugsCms).map((slug) => `/case-study/${slug}`),
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),

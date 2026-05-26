@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 
 import {
-  alternativeDetails,
-  comparisonDetails,
-  userPersonaDetails,
-} from "@/lib/detail-data";
-import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
   getAllCaseStudySlugs,
@@ -92,20 +87,20 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
-  const personas = unique([
-    ...Object.keys(userPersonaDetails),
-    ...userPersonaSlugsCms,
-  ]).map((slug) => ({ path: `/user-persona/${slug}`, title: toTitle(slug) }));
+  const personas = unique(userPersonaSlugsCms).map((slug) => ({
+    path: `/user-persona/${slug}`,
+    title: toTitle(slug),
+  }));
 
-  const alternatives = unique([
-    ...Object.keys(alternativeDetails),
-    ...alternativeSlugsCms,
-  ]).map((slug) => ({ path: `/alternative/${slug}`, title: toTitle(slug) }));
+  const alternatives = unique(alternativeSlugsCms).map((slug) => ({
+    path: `/alternative/${slug}`,
+    title: toTitle(slug),
+  }));
 
-  const comparisons = unique([
-    ...Object.keys(comparisonDetails),
-    ...comparisonSlugsCms,
-  ]).map((slug) => ({ path: `/comparisons/${slug}`, title: toTitle(slug) }));
+  const comparisons = unique(comparisonSlugsCms).map((slug) => ({
+    path: `/comparisons/${slug}`,
+    title: toTitle(slug),
+  }));
 
   const caseStudies = unique(caseStudySlugsCms).map((slug) => ({
     path: `/case-study/${slug}`,

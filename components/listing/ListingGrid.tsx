@@ -57,7 +57,9 @@ function CardIcon({
   invert?: boolean;
 }) {
   if (item.iconNode) {
-    return <div style={{ width: size, height: size }}>{item.iconNode}</div>;
+    // Let composite nodes (e.g. two competitor logos) decide their own
+    // dimensions instead of constraining to the single-icon box.
+    return <>{item.iconNode}</>;
   }
   if (item.icon) {
     return (

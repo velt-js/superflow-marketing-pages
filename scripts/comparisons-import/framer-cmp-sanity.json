@@ -1,0 +1,1879 @@
+[
+  {
+    "_id": "cmp-markup-vs-pastel",
+    "_type": "comparisonPage",
+    "slug": "markup-vs-pastel",
+    "title": "MarkUp or Pastel?",
+    "description": "Compare MarkUp.io and Pastel to find the right website feedback tool for you. Execute feedback quickly and stay in sync with your team and clients.",
+    "metaTitle": "MarkUp Vs Pastel: Which Web Feedback Tool is Better?",
+    "metaDescription": "Both Pastel and MarkUp help you create mockups to leave feedback. But MarkUp offers video comments apart from text or images. Here's a detailed comparison",
+    "hidden": false,
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-09-29",
+    "publishedDateText": "2023-08-28",
+    "enableLayout2": false,
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/oRc8LjhloFuF7dkinUx2NbcndQ.png",
+      "alt": "Markup.io vs Usepastel"
+    },
+    "competitor1Name": "MarkUp",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/RUsN3HhDVFJ7OosM18jlUbdn4xQ.png",
+      "alt": "Markup logo"
+    },
+    "competitor2Name": "Pastel",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/5pFQujV506LfowtzvZEeOucZDE.png",
+      "alt": "Pastel logo"
+    },
+    "criteria": [
+      {
+        "_key": "248ae206e083",
+        "_type": "comparisonCriterion",
+        "title": "Commenting",
+        "description": "MarkUp offers text, image, & video comments, while Pastel sticks to text & image attachments only.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Standard commenting features",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/RfKSa6Rbjrl7IVfuVtMyIRHcHNM.mp4"
+          },
+          "tags": [
+            {
+              "_key": "42aa01963506",
+              "_type": "comparisonTag",
+              "label": "Image attachments ",
+              "color": "Green"
+            },
+            {
+              "_key": "b34c66db4f31",
+              "_type": "comparisonTag",
+              "label": "Loom recording (requires subscription) ",
+              "color": "Green"
+            },
+            {
+              "_key": "6ddcace0e831",
+              "_type": "comparisonTag",
+              "label": "Movable comment pins",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "1/3",
+          "title": "Basic commenting features",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/mq3uEU2KfSqNGq5AutTs7S9A.mp4"
+          },
+          "tags": [
+            {
+              "_key": "30e8d0694b09",
+              "_type": "comparisonTag",
+              "label": "Image attachments",
+              "color": "Green"
+            },
+            {
+              "_key": "75c296da4e4e",
+              "_type": "comparisonTag",
+              "label": "Video recording unavailable",
+              "color": "Red"
+            },
+            {
+              "_key": "98c40957c681",
+              "_type": "comparisonTag",
+              "label": "Immovable comment pins",
+              "color": "Red"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "17f342c30068",
+        "_type": "comparisonCriterion",
+        "title": "Compatibility",
+        "description": "Pastel & MarkUp’s website feedback tools work on all browsers but not on password-protected pages.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Mediocre feedback experience",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/buk7ju5GStX0efrHnwrB8CZ7lY.mp4"
+          },
+          "tags": [
+            {
+              "_key": "4e6b2c94066d",
+              "_type": "comparisonTag",
+              "label": "Collaborate on MarkUps ",
+              "color": "Green"
+            },
+            {
+              "_key": "b26ebf530c1d",
+              "_type": "comparisonTag",
+              "label": "Review on desktop ",
+              "color": "Green"
+            },
+            {
+              "_key": "57f12ab43bd7",
+              "_type": "comparisonTag",
+              "label": "Poor comment stickiness",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Passable feedback experience",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/6wDW4OGoqj1HIRLiTKktSpUiMc.mp4"
+          },
+          "tags": [
+            {
+              "_key": "d5b92ba1e40e",
+              "_type": "comparisonTag",
+              "label": "Collaborate on canvases ",
+              "color": "Green"
+            },
+            {
+              "_key": "802c6e1262fb",
+              "_type": "comparisonTag",
+              "label": "Review on desktop",
+              "color": "Green"
+            },
+            {
+              "_key": "26ac330fad43",
+              "_type": "comparisonTag",
+              "label": "Decent comment stickiness",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "e419aa9287a3",
+        "_type": "comparisonCriterion",
+        "title": "Integrations",
+        "description": "Connect your website feedback tool with other apps in your existing workflow.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "1/3",
+          "title": "Inefficient project management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/vRbDmpoYs9Bt2pdwNByy6uswhs.mp4"
+          },
+          "tags": [
+            {
+              "_key": "330609e32330",
+              "_type": "comparisonTag",
+              "label": "Slack & Zapier integration",
+              "color": "Green"
+            },
+            {
+              "_key": "322ba503fc37",
+              "_type": "comparisonTag",
+              "label": "No in-built task manager  ",
+              "color": "Red"
+            },
+            {
+              "_key": "8bd49a8acbbf",
+              "_type": "comparisonTag",
+              "label": "Lengthy integration process",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Conventional project management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/SQ1NPX0e09JqIAlhaH7giGmVck.mp4"
+          },
+          "tags": [
+            {
+              "_key": "04921d56ed85",
+              "_type": "comparisonTag",
+              "label": "Jira, Trello, Asana, & Zapier  ",
+              "color": "Green"
+            },
+            {
+              "_key": "b249e5c99381",
+              "_type": "comparisonTag",
+              "label": "No in-built task manager ",
+              "color": "Red"
+            },
+            {
+              "_key": "e5f8b0dd15fa",
+              "_type": "comparisonTag",
+              "label": "Export feedback in a click",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "ae2e6cc8e92c",
+        "_type": "comparisonCriterion",
+        "title": "Client Management",
+        "description": "Invite your client to collaborate on your canvas or markup via sharing link or through email.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Effortless client communication",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/MxCH4ZH9vOOUAj6X94wzuvk.mp4"
+          },
+          "tags": [
+            {
+              "_key": "f29d044e0d79",
+              "_type": "comparisonTag",
+              "label": "Shareable MarkUp link  ",
+              "color": "Green"
+            },
+            {
+              "_key": "52305b08de3a",
+              "_type": "comparisonTag",
+              "label": "Moderate learning curve  ",
+              "color": "Green"
+            },
+            {
+              "_key": "defcfc6a19ab",
+              "_type": "comparisonTag",
+              "label": "Guest mode  ",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Complex client communication",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/6Jv7TPWzRxNkhORH7xVDs7mMY.mp4"
+          },
+          "tags": [
+            {
+              "_key": "96da708870fe",
+              "_type": "comparisonTag",
+              "label": "Shareable canvas link  ",
+              "color": "Green"
+            },
+            {
+              "_key": "3572350e14cb",
+              "_type": "comparisonTag",
+              "label": "Steep learning curve",
+              "color": "Red"
+            },
+            {
+              "_key": "955935be2091",
+              "_type": "comparisonTag",
+              "label": "Guest mode  ",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "24ffbd2a8539",
+        "_type": "comparisonCriterion",
+        "title": "Team Workflow",
+        "description": "Assign tasks and resolve them to facilitate effective feedback within your teams.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Slow team coordination",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/YA1IktNOEJE0CTYcwoXCxm8EUz4.mp4"
+          },
+          "tags": [
+            {
+              "_key": "cf4d2bb28377",
+              "_type": "comparisonTag",
+              "label": "Assign & resolve tasks",
+              "color": "Green"
+            },
+            {
+              "_key": "24dd0e20edff",
+              "_type": "comparisonTag",
+              "label": "Pause commenting unavailable",
+              "color": "Red"
+            },
+            {
+              "_key": "7c671dcd9a77",
+              "_type": "comparisonTag",
+              "label": "Receive email notifications",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Better team coordination",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/iHIhQQFQXz4B1VSKIZZuJmGmTkQ.mp4"
+          },
+          "tags": [
+            {
+              "_key": "a1710e62af6c",
+              "_type": "comparisonTag",
+              "label": "Assign & resolve tasks ",
+              "color": "Green"
+            },
+            {
+              "_key": "fbfcf132c32b",
+              "_type": "comparisonTag",
+              "label": "Pause commenting ",
+              "color": "Green"
+            },
+            {
+              "_key": "90e477d36171",
+              "_type": "comparisonTag",
+              "label": "Email notifications available",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "c5cb71eef94f",
+        "_type": "comparisonCriterion",
+        "title": "AI Copilot",
+        "description": "Leverage the power of AI to write irresistible UI/UX copy for websites & web apps.",
+        "winnerC1": true,
+        "result": "Draw",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "0/3",
+          "title": "Unchanged website quality",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/rNQSiXQmyqmUpFG1V8OEPfjZgA.mp4"
+          },
+          "tags": [
+            {
+              "_key": "8583a7249993",
+              "_type": "comparisonTag",
+              "label": "No AI rewriter  ",
+              "color": "Red"
+            },
+            {
+              "_key": "563debdb1897",
+              "_type": "comparisonTag",
+              "label": "Can’t write using prompts  ",
+              "color": "Red"
+            },
+            {
+              "_key": "ec46cb0aa66c",
+              "_type": "comparisonTag",
+              "label": "No copy recommendations",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "0/3",
+          "title": "Same old website quality ",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/zSDiPpCRVt7PZHVw5p0vEjOkmI.mp4"
+          },
+          "tags": [
+            {
+              "_key": "90d3a5f1f78e",
+              "_type": "comparisonTag",
+              "label": "No AI rewriter",
+              "color": "Red"
+            },
+            {
+              "_key": "8eabca0a59dd",
+              "_type": "comparisonTag",
+              "label": "Can’t write using prompts",
+              "color": "Red"
+            },
+            {
+              "_key": "1d3dd462e39c",
+              "_type": "comparisonTag",
+              "label": "No copy recommendations",
+              "color": "Red"
+            }
+          ]
+        }
+      }
+    ],
+    "pricing": [
+      {
+        "_key": "caefc79f0455",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Free Forever",
+        "c1Price": "$0",
+        "c1Users": "Unlimited users",
+        "c2Name": "Free",
+        "c2Price": "$0",
+        "c2Users": "1 User"
+      },
+      {
+        "_key": "9429203d44f0",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Pro",
+        "c1Price": "$25",
+        "c1Users": "Unlimited users",
+        "c2Name": "Solo",
+        "c2Price": "$24",
+        "c2Users": "1 User"
+      },
+      {
+        "_key": "b29f6b8f13ac",
+        "_type": "comparisonPricingRow",
+        "c1Name": "NA",
+        "c1Price": "--",
+        "c1Users": "--",
+        "c2Name": "Studio",
+        "c2Price": "$83",
+        "c2Users": "5 Users"
+      },
+      {
+        "_key": "8a9b13f3eea0",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Enterprise",
+        "c1Price": "Custom",
+        "c1Users": "Unlimited users",
+        "c2Name": "Enterprise",
+        "c2Price": "$350",
+        "c2Users": "10 Users"
+      }
+    ],
+    "overview": "Comparing the two web feedback tools, here's a quick scorecard showing Pastel being the better one.",
+    "showOverview": true,
+    "summaryPointers": [
+      {
+        "_type": "block",
+        "_key": "0da4309c484c",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "01c24567ad83",
+            "text": "Collaborate on live websites",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "13600c04102a",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "3ceddb142607",
+            "text": "Native video recorder",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "8273aae387cc",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "1a2a173dd002",
+            "text": "Access authenticated pages",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "68fd362effb2",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "8e98e4858be7",
+            "text": "In-built task manager ",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      }
+    ],
+    "testimonial": {
+      "_type": "comparisonTestimonial",
+      "name": "Simon Smallchua",
+      "role": "COO @ ",
+      "company": "Harvey",
+      "title": "Commenting directly on websites has transformed how we design and build.",
+      "subCopy": "It saves time clarifying feedback, resolving actions, and assigning tasks for review. We've used tools like Superflow for a few years, and we like Superflow because its interface is extremely intuitive, and comments are correctly assigned and tagged to the right panel and device."
+    },
+    "faq": [
+      {
+        "_key": "5d96be62763b",
+        "_type": "comparisonFaqItem",
+        "question": "What is a website feedback tool?",
+        "answer": "A website feedback tool (like Superflow) enables users to add comments, suggestions, and feedback directly on web content, such as websites and web apps, allowing for interactive collaboration and faster decision-making."
+      },
+      {
+        "_key": "d8efcc60a10f",
+        "_type": "comparisonFaqItem",
+        "question": "Which is the best alternative to MarkUp.io?",
+        "answer": "Markup is no doubt a really good website annotation tool out there but it comes with its own drawbacks. If you are looking for a Markup io alternative that supports rich comments, and media feedback, has AI Copilot, and can help you manage tasks in one place, then try Superflow now! "
+      },
+      {
+        "_key": "c418fe646763",
+        "_type": "comparisonFaqItem",
+        "question": "Is MarkUp free?",
+        "answer": "MarkUp offers a free plan limited to only one workspace and 5 MarkUps."
+      },
+      {
+        "_key": "78fb0aed7988",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Usepastel?",
+        "answer": "One of the best alternatives to Pastel or Usepastel is Superflow—a website feedback tool that offers more features than Pastel. Try it out now to experience the difference yourself. "
+      },
+      {
+        "_key": "edb56abdd1d1",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Markup.io or Pastel?",
+        "answer": "Yes, Superflow is a website annotation tool that can help you overcome various feature limitations of Markup.io and Pastel. "
+      },
+      {
+        "_key": "c3182844356f",
+        "_type": "comparisonFaqItem",
+        "question": "How does Markup's granular access control compare to other collaboration tools?",
+        "answer": "While Markup offers basic user permission settings, it has been noted that its granular access controls are somewhat limited. This can be a concern for projects that require intricate user permissions or restricted access to certain annotations or content."
+      }
+    ],
+    "highlights": [
+      {
+        "_key": "8b06bd4059c9",
+        "_type": "comparisonHighlight",
+        "title": "Save 2x more time",
+        "subText": "Superflow speeds up your web feedback process. Work together smoothly. Finish projects faster with top-notch results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/D0ya6cvIOwQeHsMBdg5qhPQNrHw.png",
+          "alt": "highlight 1"
+        }
+      },
+      {
+        "_key": "8c06ad6d66f1",
+        "_type": "comparisonHighlight",
+        "title": "Enhance productivity by 4x",
+        "subText": "Ditch endless edits. Enhance your teamwork. Superflow cuts communication hiccups and ramps up productivity",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MyNEVXJsjrfyhgG8QCkESC6Nl4.png",
+          "alt": "highlight 2"
+        }
+      },
+      {
+        "_key": "8b9ff2d120be",
+        "_type": "comparisonHighlight",
+        "title": "5X your feedback process",
+        "subText": "Design, iterate, & ship websites faster. Team up easily, get quick feedback, and impress your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/kxzFOwjscsHtHnpMN43pSf5Qet4.png",
+          "alt": "highlight 3"
+        }
+      }
+    ],
+    "caseStudy": {
+      "_type": "comparisonCaseStudy",
+      "title": "See how Writesonic saved $2000/week on overhead costs using Superflow ",
+      "challenges": [
+        {
+          "_type": "block",
+          "_key": "a3ac26fd540f",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "d3ccc7977da4",
+              "text": "Async team communication ",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        },
+        {
+          "_type": "block",
+          "_key": "21e50f04a338",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "ce7e294c451b",
+              "text": "Longer QA cycles and approvals",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        },
+        {
+          "_type": "block",
+          "_key": "1150aca7d168",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "2914677a1a05",
+              "text": "Operational inefficiency within the Markops team",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        }
+      ]
+    }
+  },
+  {
+    "_id": "cmp-markup-vs-ruttl",
+    "_type": "comparisonPage",
+    "slug": "markup-vs-ruttl",
+    "title": "MarkUp or Ruttl?",
+    "description": "Make your website feedback process efficient with annotation tools like MarkUp and Ruttl. Can’t decide which one to go for? Let’s find out!",
+    "metaTitle": "MarkUp Vs Ruttl: Which Web Feedback Tool is Better?",
+    "metaDescription": "Ruttl and MarkUp, both website feedback tool allows text and video commenting. But, Ruttl also offers reviews from mobile. Here's a detailed comparison.",
+    "hidden": false,
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-09-29",
+    "publishedDateText": "2023-08-28",
+    "enableLayout2": false,
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/s0qU0udQfiTsCRg0E2ZA8fLPC0.png",
+      "alt": "MarkUp.io Vs Ruttl"
+    },
+    "competitor1Name": "MarkUp",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/RUsN3HhDVFJ7OosM18jlUbdn4xQ.png",
+      "alt": "Markup logo"
+    },
+    "competitor2Name": "Ruttl",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/uIuSYIFVpwvDQ2VZIhN0nHEOxZU.png",
+      "alt": "Ruttl Logo"
+    },
+    "criteria": [
+      {
+        "_key": "b1b59f4ed66b",
+        "_type": "comparisonCriterion",
+        "title": "Commenting",
+        "description": "Leave in-context comments with video notes and screen recordings for clear feedback.",
+        "winnerC1": true,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Standard commenting features",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/RfKSa6Rbjrl7IVfuVtMyIRHcHNM.mp4"
+          },
+          "tags": [
+            {
+              "_key": "dfa72273e7ec",
+              "_type": "comparisonTag",
+              "label": "Image attachments",
+              "color": "Green"
+            },
+            {
+              "_key": "6204bfc32d47",
+              "_type": "comparisonTag",
+              "label": "Loom recording (requires subscription)  ",
+              "color": "Yellow"
+            },
+            {
+              "_key": "6f0b401942fc",
+              "_type": "comparisonTag",
+              "label": "Movable comment pins ",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Advanced commenting features",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/ZHDC6d3vbZA8FL4kd43gTlX3gU.mp4"
+          },
+          "tags": [
+            {
+              "_key": "15a4710d8c8a",
+              "_type": "comparisonTag",
+              "label": "Image attachments",
+              "color": "Green"
+            },
+            {
+              "_key": "06c33554d596",
+              "_type": "comparisonTag",
+              "label": "Screen & video recording  ",
+              "color": "Green"
+            },
+            {
+              "_key": "d78cce81a35f",
+              "_type": "comparisonTag",
+              "label": "Movable comment pins",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "31f32738c308",
+        "_type": "comparisonCriterion",
+        "title": "Compatibility",
+        "description": "Ruttl & MarkUp’s website feedback tools work on all browsers but not on password-protected pages.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "1/3",
+          "title": "Mediocre feedback experience",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/buk7ju5GStX0efrHnwrB8CZ7lY.mp4"
+          },
+          "tags": [
+            {
+              "_key": "5dcc8afb563e",
+              "_type": "comparisonTag",
+              "label": "Collaborate on MarkUps",
+              "color": "Green"
+            },
+            {
+              "_key": "5288ecdb5938",
+              "_type": "comparisonTag",
+              "label": "Review on desktop",
+              "color": "Red"
+            },
+            {
+              "_key": "fbc2b63339be",
+              "_type": "comparisonTag",
+              "label": "Poor comment stickiness",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Satisfactory feedback process",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/hEJgRVI9C4jrsNzMnsYhgbmE94.mp4"
+          },
+          "tags": [
+            {
+              "_key": "12a880f3e5fe",
+              "_type": "comparisonTag",
+              "label": "Collaborate on project panel  ",
+              "color": "Green"
+            },
+            {
+              "_key": "4dbbe75fa068",
+              "_type": "comparisonTag",
+              "label": "Review on mobile & desktop  ",
+              "color": "Green"
+            },
+            {
+              "_key": "c9da50a08da1",
+              "_type": "comparisonTag",
+              "label": "Decent comment stickiness",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "496660e931c4",
+        "_type": "comparisonCriterion",
+        "title": "Integrations",
+        "description": "Connect your website feedback tool with other apps in your existing workflow.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "1/3",
+          "title": "Inefficient project management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/vRbDmpoYs9Bt2pdwNByy6uswhs.mp4"
+          },
+          "tags": [
+            {
+              "_key": "f48cad3023ff",
+              "_type": "comparisonTag",
+              "label": "Slack & Zapier integration",
+              "color": "Green"
+            },
+            {
+              "_key": "727eb5bf71a7",
+              "_type": "comparisonTag",
+              "label": "No in-built task manager  ",
+              "color": "Red"
+            },
+            {
+              "_key": "665efdae5df2",
+              "_type": "comparisonTag",
+              "label": "Lengthy integration process  ",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Simplified Project Management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/8kdUw6weHuaalYBSaq0cFtQeno4.mp4"
+          },
+          "tags": [
+            {
+              "_key": "fb52ab0f33c5",
+              "_type": "comparisonTag",
+              "label": "Slack, Jira, Trello, & Asana",
+              "color": "Green"
+            },
+            {
+              "_key": "a733dd6d75af",
+              "_type": "comparisonTag",
+              "label": "No in-built task manager",
+              "color": "Red"
+            },
+            {
+              "_key": "1facf4973108",
+              "_type": "comparisonTag",
+              "label": "Export feedback in a click",
+              "color": "Red"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "cf61e5305ec5",
+        "_type": "comparisonCriterion",
+        "title": "Client Management",
+        "description": "Invite your client to collaborate on your project panel or markup via sharing link or email invite.",
+        "winnerC1": true,
+        "result": "Draw",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Effortless client communication",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/MxCH4ZH9vOOUAj6X94wzuvk.mp4"
+          },
+          "tags": [
+            {
+              "_key": "28297afabd3c",
+              "_type": "comparisonTag",
+              "label": "Shareable MarkUp link",
+              "color": "Green"
+            },
+            {
+              "_key": "95b58b6b035c",
+              "_type": "comparisonTag",
+              "label": "Moderate learning curve",
+              "color": "Yellow"
+            },
+            {
+              "_key": "5f8cc53f6e56",
+              "_type": "comparisonTag",
+              "label": "Guest mode  ",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Easy client commenting  ",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/P3jWrIusJQ76JWvI7cGOF2dtxE.mp4"
+          },
+          "tags": [
+            {
+              "_key": "c01ad580c027",
+              "_type": "comparisonTag",
+              "label": "Shareable project link  ",
+              "color": "Green"
+            },
+            {
+              "_key": "a85c5803a0b0",
+              "_type": "comparisonTag",
+              "label": "Moderate learning curve",
+              "color": "Yellow"
+            },
+            {
+              "_key": "a1268fadbd1d",
+              "_type": "comparisonTag",
+              "label": "Guest mode available",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "1fce29f165f5",
+        "_type": "comparisonCriterion",
+        "title": "Team Workflow",
+        "description": "Assign tasks and resolve them to facilitate effective feedback within your teams.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Slow team coordination",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/YA1IktNOEJE0CTYcwoXCxm8EUz4.mp4"
+          },
+          "tags": [
+            {
+              "_key": "b3d274f3e38c",
+              "_type": "comparisonTag",
+              "label": "Assign & resolve tasks",
+              "color": "Green"
+            },
+            {
+              "_key": "23ca00e71cbf",
+              "_type": "comparisonTag",
+              "label": "No real-time chats  ",
+              "color": "Red"
+            },
+            {
+              "_key": "9485c01f75b5",
+              "_type": "comparisonTag",
+              "label": "Receive email notifications",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Better team coordination  ",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/yFyYIkMvI17rDVRHDoZt8vOQ.mp4"
+          },
+          "tags": [
+            {
+              "_key": "29861f5d0878",
+              "_type": "comparisonTag",
+              "label": "Assign & resolve tasks  ",
+              "color": "Green"
+            },
+            {
+              "_key": "87e6f5eb7eed",
+              "_type": "comparisonTag",
+              "label": "Real-time chats",
+              "color": "Green"
+            },
+            {
+              "_key": "e9e0d4f491f0",
+              "_type": "comparisonTag",
+              "label": "Email notifications available",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "8f8679d89289",
+        "_type": "comparisonCriterion",
+        "title": "AI Copilot",
+        "description": "Superflow’s AI writer supercharges your feedback process by suggesting irresistible UI/UX copy for your Webflow projects.",
+        "winnerC1": false,
+        "result": "C2",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "0/3",
+          "title": "Same old website quality",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/rNQSiXQmyqmUpFG1V8OEPfjZgA.mp4"
+          },
+          "tags": [
+            {
+              "_key": "a29231623392",
+              "_type": "comparisonTag",
+              "label": "AI rewriter",
+              "color": "Red"
+            },
+            {
+              "_key": "bfd5fb3a95ea",
+              "_type": "comparisonTag",
+              "label": "Write using prompts",
+              "color": "Red"
+            },
+            {
+              "_key": "9616b025d378",
+              "_type": "comparisonTag",
+              "label": "Get copy recommendations",
+              "color": "Red"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "1/3",
+          "title": "Improved website quality",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/zSDiPpCRVt7PZHVw5p0vEjOkmI.mp4"
+          },
+          "tags": [
+            {
+              "_key": "f6232cc9ee76",
+              "_type": "comparisonTag",
+              "label": "Regenerate with GPT",
+              "color": "Green"
+            },
+            {
+              "_key": "88c48bdb2a11",
+              "_type": "comparisonTag",
+              "label": "Can’t write using prompts",
+              "color": "Red"
+            },
+            {
+              "_key": "906b63060b32",
+              "_type": "comparisonTag",
+              "label": "No copy recommendations",
+              "color": "Red"
+            }
+          ]
+        }
+      }
+    ],
+    "pricing": [
+      {
+        "_key": "49809c54b82c",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Free",
+        "c1Price": "$0",
+        "c1Users": "Unlimited users",
+        "c2Name": "Free",
+        "c2Price": "$0",
+        "c2Users": "5 Users"
+      },
+      {
+        "_key": "11a2ed33131a",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Pro",
+        "c1Price": "$25",
+        "c1Users": "Unlimited users",
+        "c2Name": "Pro",
+        "c2Price": "$3",
+        "c2Users": "50 Users"
+      },
+      {
+        "_key": "dc80e9a65039",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Enterprise",
+        "c1Price": "Custom",
+        "c1Users": "Custom users",
+        "c2Name": "Team",
+        "c2Price": "$10",
+        "c2Users": "50 Users"
+      }
+    ],
+    "overview": "Comparing the two web feedback tools, here's a quick scorecard showing Ruttl is the better one.",
+    "showOverview": true,
+    "summaryPointers": [
+      {
+        "_type": "block",
+        "_key": "74f831cfc0ab",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "c872c7884e52",
+            "text": "Collaborate on live websites",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "9ee4144e335a",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "1c1bfc2c0836",
+            "text": "Built-in video recorder",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "0001f45f5c2c",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "baa510902724",
+            "text": "Access authenticated pages",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "a4706043fac9",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "4e2b5be1ee0c",
+            "text": "Native task manager ",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      }
+    ],
+    "faq": [
+      {
+        "_key": "bdf7414a3cbc",
+        "_type": "comparisonFaqItem",
+        "question": "What is a website feedback tool?",
+        "answer": "A website feedback tool (like Superflow) allows you to add comments, explanations, or suggestions to various web pages like websites or web apps. It's used to highlight specific parts of the content or design to give & receive feedback. A website feedback tool improves your feedback process, helping you iterate and ship faster."
+      },
+      {
+        "_key": "7e03e7d291e9",
+        "_type": "comparisonFaqItem",
+        "question": "Does Markup.io have any alternative?",
+        "answer": "While Markup.io offers reliable website annotation, it doesn't come without limitations. Meet Superflow, a Markup.io alternative that offers enhanced features such as live website commenting, web app commenting, audio feedback, an AI Copilot, and centralized task management."
+      },
+      {
+        "_key": "80853e34422e",
+        "_type": "comparisonFaqItem",
+        "question": "Is Markup and Ruttl free?",
+        "answer": "Yes! MarkUp and Ruttl, both website feedback tool offer a free plan."
+      },
+      {
+        "_key": "9deca539526e",
+        "_type": "comparisonFaqItem",
+        "question": "What is the alternative to Ruttl?",
+        "answer": "One of the best alternatives to Ruttl is Superflow—a website feedback tool that offers more features than Ruttl. Try it out now to experience the difference yourself. "
+      },
+      {
+        "_key": "e8d2696587d0",
+        "_type": "comparisonFaqItem",
+        "question": "Is there a website feedback tool better than Markup.io or Ruttl?",
+        "answer": "Yes, if you are looking for an annotation tool better than Markup.io and Ruttl, then you are at the right place. Check out Superflow—a website annotation tool that can help you overcome various feature limitations of your run-of-the-mill website feedback tools."
+      },
+      {
+        "_key": "094ee323568a",
+        "_type": "comparisonFaqItem",
+        "question": "Which tool is considered the best for website collaboration?",
+        "answer": "Superflow is widely recognized as the leading website collaboration tool. It boasts a suite of exceptional features, including the ability to comment on specific areas, attach audio and video notes, and initiate live huddles. These capabilities not only streamline the collaboration process but also lead to significant time savings, making website collaboration both faster and more efficient."
+      }
+    ],
+    "highlights": [
+      {
+        "_key": "c7e55a9032cc",
+        "_type": "comparisonHighlight",
+        "title": "Save 2x more time",
+        "subText": "Superflow speeds up your web feedback process. Work together smoothly. Finish projects faster with top-notch results.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/D0ya6cvIOwQeHsMBdg5qhPQNrHw.png",
+          "alt": "webflow comment alternative"
+        }
+      },
+      {
+        "_key": "f05561d7bcfd",
+        "_type": "comparisonHighlight",
+        "title": "Enhance productivity by 4x",
+        "subText": "Ditch endless edits. Enhance your teamwork. Superflow cuts communication hiccups and ramps up productivity",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/MyNEVXJsjrfyhgG8QCkESC6Nl4.png",
+          "alt": "webflow comment alternative"
+        }
+      },
+      {
+        "_key": "a0ddcedf9a6b",
+        "_type": "comparisonHighlight",
+        "title": "5X your feedback process",
+        "subText": "Design, iterate, & ship websites faster. Team up easily, get quick feedback, and impress your clients.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/kxzFOwjscsHtHnpMN43pSf5Qet4.png",
+          "alt": "webflow comments alternative"
+        }
+      }
+    ],
+    "caseStudy": {
+      "_type": "comparisonCaseStudy",
+      "title": "See how Writesonic saved $2000/week on overhead costs using Superflow ",
+      "challenges": [
+        {
+          "_type": "block",
+          "_key": "8fab6e23d011",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "504b28ae7268",
+              "text": "Async team communication ",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        },
+        {
+          "_type": "block",
+          "_key": "b8b8d5b1751e",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "3219647cf203",
+              "text": "Longer QA cycles and approvals",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        },
+        {
+          "_type": "block",
+          "_key": "9c872418bdb5",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "48e15d2fdc65",
+              "text": "Operational inefficiency within the Markops team",
+              "marks": []
+            }
+          ],
+          "listItem": "bullet",
+          "level": 1
+        }
+      ]
+    }
+  },
+  {
+    "_id": "cmp-pastel-vs-bugherd",
+    "_type": "comparisonPage",
+    "slug": "pastel-vs-bugherd",
+    "title": "Pastel or BugHerd?",
+    "metaTitle": "Pastel or Bugherd: Which Web Feedback Tool Is Better?",
+    "hidden": true,
+    "author": "Shrutika Joshi",
+    "publishedDate": "2023-09-30",
+    "publishedDateText": "2023-08-28",
+    "enableLayout2": false,
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/xp9VwLWA83aUPaCIaFqoHJCpU.png",
+      "alt": "Pastel vs Bugherd"
+    },
+    "competitor1Name": "Pastel",
+    "competitor1Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/iKlQPl9qgxWaKy7xDyP72CT3Ue0.png",
+      "alt": "Pastel logo"
+    },
+    "competitor2Name": "Bugherd",
+    "competitor2Logo": {
+      "framerImageUrl": "https://framerusercontent.com/images/tTLF01PZZqzp9mIAlvCVqmItoPo.png",
+      "alt": "BughHerd logo"
+    },
+    "criteria": [
+      {
+        "_key": "b72b247c3988",
+        "_type": "comparisonCriterion",
+        "title": "Commenting",
+        "description": "Track bugs faster by pointing them out precisely. Superflow’s web feedback tool simplifies bug resolution.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Context-specific feedback",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/rc9F7A4DIMtXgDBFbzzC2GHMFbQ.mp4"
+          },
+          "tags": [
+            {
+              "_key": "2a03a990cca3",
+              "_type": "comparisonTag",
+              "label": "Comment on an area",
+              "color": "Green"
+            },
+            {
+              "_key": "44362aa76ee4",
+              "_type": "comparisonTag",
+              "label": "Text, audio, & video comments",
+              "color": "Green"
+            },
+            {
+              "_key": "a15b336949b7",
+              "_type": "comparisonTag",
+              "label": "Accurate comment placement",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Misinterpreted feedback",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/5s811luVNax9CMg1W0YZA3BxZ54.mp4"
+          },
+          "tags": [
+            {
+              "_key": "fa50b93b0c09",
+              "_type": "comparisonTag",
+              "label": "Click & drop comments only",
+              "color": "Yellow"
+            },
+            {
+              "_key": "4ebf30ef55b6",
+              "_type": "comparisonTag",
+              "label": "Text  & video comments",
+              "color": "Yellow"
+            },
+            {
+              "_key": "7b6a9cafe2fb",
+              "_type": "comparisonTag",
+              "label": "Inaccurate comment placement",
+              "color": "Red"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "e02b33a92347",
+        "_type": "comparisonCriterion",
+        "title": "Compatibility",
+        "description": "Comment directly on your staging & live websites. Manage feedback on any browser or device.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Streamlined feedback process",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/hRLsSzU0ZUrew45AeTqQC40huY.mp4"
+          },
+          "tags": [
+            {
+              "_key": "dcaf5b67fc8e",
+              "_type": "comparisonTag",
+              "label": "Collaborate in staging or production",
+              "color": "Green"
+            },
+            {
+              "_key": "9a74dd30bdd6",
+              "_type": "comparisonTag",
+              "label": "Review on mobile or desktop",
+              "color": "Green"
+            },
+            {
+              "_key": "792e230bd8da",
+              "_type": "comparisonTag",
+              "label": "Access authenticated web pages",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Simplified feedback process",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/9jRCt3SMHV5m0TouVwc8Gcsv8Qk.mp4"
+          },
+          "tags": [
+            {
+              "_key": "6e188c6f4d7a",
+              "_type": "comparisonTag",
+              "label": "Collaborate in staging or production",
+              "color": "Green"
+            },
+            {
+              "_key": "611305f9753b",
+              "_type": "comparisonTag",
+              "label": "Review on mobile or desktop",
+              "color": "Green"
+            },
+            {
+              "_key": "49a4670503a2",
+              "_type": "comparisonTag",
+              "label": "Access authenticated web pages",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "08b249a9df8f",
+        "_type": "comparisonCriterion",
+        "title": "Integrations",
+        "description": "Connect Superflow's web feedback tool with 20+ project management applications. ",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Effortless project coordination",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/0WOArzaN8TcMk9MJy15I2vbiUU.mp4"
+          },
+          "tags": [
+            {
+              "_key": "cfdd30de86f3",
+              "_type": "comparisonTag",
+              "label": "Integrate with Slack, Asana, or ClickUp ",
+              "color": "Green"
+            },
+            {
+              "_key": "5a19c834d4f4",
+              "_type": "comparisonTag",
+              "label": "Native task manager ",
+              "color": "Green"
+            },
+            {
+              "_key": "5ae9f9034a03",
+              "_type": "comparisonTag",
+              "label": "Quick & easy integration process",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Decent project coordination",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/QdOpv6wwABdqK3CQcUyE05o8g.mp4"
+          },
+          "tags": [
+            {
+              "_key": "48eadf631b9c",
+              "_type": "comparisonTag",
+              "label": "Zap for Slack, ClicUp, & Asana",
+              "color": "Yellow"
+            },
+            {
+              "_key": "8ea24cacd337",
+              "_type": "comparisonTag",
+              "label": "In-built task manager",
+              "color": "Green"
+            },
+            {
+              "_key": "ee212142a7a5",
+              "_type": "comparisonTag",
+              "label": "Lengthy integration process",
+              "color": "Red"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "ce48ca01fa9a",
+        "_type": "comparisonCriterion",
+        "title": "Client Management",
+        "description": "Invite your clients to collaborate on your live web projects (websites or web apps) using Superflow.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Seamless client communication",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/Pvo5UOme4Wj0SjcoBBe30z3C0.mp4"
+          },
+          "tags": [
+            {
+              "_key": "150c5f09b855",
+              "_type": "comparisonTag",
+              "label": "Simple invite process  ",
+              "color": "Green"
+            },
+            {
+              "_key": "41ecf707c3d0",
+              "_type": "comparisonTag",
+              "label": "No learning curve ",
+              "color": "Green"
+            },
+            {
+              "_key": "57edb23bbfa9",
+              "_type": "comparisonTag",
+              "label": "Private commenting",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Complex client communication",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/MaN3NldEoO8RTjf5rD0KtJUPPo.mp4"
+          },
+          "tags": [
+            {
+              "_key": "0d7078df64d3",
+              "_type": "comparisonTag",
+              "label": "Easy invite process",
+              "color": "Green"
+            },
+            {
+              "_key": "d64fe0bb65cf",
+              "_type": "comparisonTag",
+              "label": "Moderate learning curve",
+              "color": "Yellow"
+            },
+            {
+              "_key": "e74ef16de454",
+              "_type": "comparisonTag",
+              "label": "No private comments",
+              "color": "Red"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "deaca53f6c13",
+        "_type": "comparisonCriterion",
+        "title": "Team Workflow",
+        "description": "Keep your tasks in check, make sure everyone’s on the same page, and get real talk from your team.",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Efficient task management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/wjUUhMq4hdM4zWwXaR2j1wEH6y4.mp4"
+          },
+          "tags": [
+            {
+              "_key": "c30e6dc9f81f",
+              "_type": "comparisonTag",
+              "label": "Assign tasks, set priority & status",
+              "color": "Green"
+            },
+            {
+              "_key": "663b45f10b98",
+              "_type": "comparisonTag",
+              "label": "Automatic categorization ",
+              "color": "Green"
+            },
+            {
+              "_key": "a91761950614",
+              "_type": "comparisonTag",
+              "label": "Receive email notifications",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "2/3",
+          "title": "Overwhelming task management",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/5rOgz2Ynel3w6QPCsT5IX9ifCQA.mp4"
+          },
+          "tags": [
+            {
+              "_key": "66c93bf7aacc",
+              "_type": "comparisonTag",
+              "label": "Assign tasks, set priority & status",
+              "color": "Green"
+            },
+            {
+              "_key": "e18e8b627792",
+              "_type": "comparisonTag",
+              "label": "No auto categorization ",
+              "color": "Red"
+            },
+            {
+              "_key": "7ca4f73b29b5",
+              "_type": "comparisonTag",
+              "label": "Email notifications available",
+              "color": "Green"
+            }
+          ]
+        }
+      },
+      {
+        "_key": "638f46a1b9d2",
+        "_type": "comparisonCriterion",
+        "title": "AI Copilot",
+        "description": "Write or rewrite any content on your website or web app. Superflow's AI-powered writer suggests engaging website & UI content. ",
+        "winnerC1": true,
+        "result": "C1",
+        "competitor1": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "3/3",
+          "title": "Improved website quality",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/zuhnBP23mIfeHjbBir7DhzxU6bc.mp4"
+          },
+          "tags": [
+            {
+              "_key": "e919f4c26f15",
+              "_type": "comparisonTag",
+              "label": "AI rewriter",
+              "color": "Green"
+            },
+            {
+              "_key": "3054fe71143d",
+              "_type": "comparisonTag",
+              "label": "Write using prompts",
+              "color": "Green"
+            },
+            {
+              "_key": "ef9d57703d91",
+              "_type": "comparisonTag",
+              "label": " Get copy recommendations",
+              "color": "Green"
+            }
+          ]
+        },
+        "competitor2": {
+          "_type": "comparisonCompetitorBlock",
+          "score": "0/3",
+          "title": "Same website quality",
+          "video": {
+            "framerFileUrl": "https://framerusercontent.com/assets/zSDiPpCRVt7PZHVw5p0vEjOkmI.mp4"
+          },
+          "tags": [
+            {
+              "_key": "2c4af23a237c",
+              "_type": "comparisonTag",
+              "label": "No AI rewriter",
+              "color": "Red"
+            },
+            {
+              "_key": "151a1b9ee6c9",
+              "_type": "comparisonTag",
+              "label": "Can’t write using prompts",
+              "color": "Red"
+            },
+            {
+              "_key": "571a1a52813f",
+              "_type": "comparisonTag",
+              "label": "No copy recommendations",
+              "color": "Red"
+            }
+          ]
+        }
+      }
+    ],
+    "pricing": [
+      {
+        "_key": "4ffc664ac541",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Free forever",
+        "c1Price": "$0",
+        "c1Users": "2 Users",
+        "c2Name": "Standard",
+        "c2Price": "$39",
+        "c2Users": "5 Users"
+      },
+      {
+        "_key": "aa9be8fedbf7",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Freelancer",
+        "c1Price": "$29",
+        "c1Users": "5 Users",
+        "c2Name": "Studio",
+        "c2Price": "$69",
+        "c2Users": "10 users"
+      },
+      {
+        "_key": "58030b6c6e4b",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Agency",
+        "c1Price": "$59",
+        "c1Users": "7 Users",
+        "c2Name": "Premium",
+        "c2Price": "$129",
+        "c2Users": "25 Users"
+      },
+      {
+        "_key": "97f427bdba33",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Agency Pro",
+        "c1Price": "$99",
+        "c1Users": "10 Users",
+        "c2Name": "Deluxe",
+        "c2Price": "$229",
+        "c2Users": "50 Users"
+      },
+      {
+        "_key": "f2f36e4122df",
+        "_type": "comparisonPricingRow",
+        "c1Name": "Enterprise",
+        "c1Price": "Custom",
+        "c1Users": "Custom users"
+      }
+    ],
+    "overview": "Comparing the two website feedback tools, here's a quick run-through of how Superflow performs 10x better than BugHerd",
+    "showOverview": true,
+    "summaryPointers": [
+      {
+        "_type": "block",
+        "_key": "f4dc7eadaf52",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "3c0bb1c9b670",
+            "text": "Leave comments on an area & start live huddles",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "df091a05b05b",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "ffc90a89d9fb",
+            "text": "Write and rewrite content with AI assistant",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "0632d56e17ae",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "724a70fb5df5",
+            "text": "Drop audio comments apart from text and video",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "cf3ed427b461",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "a245776feba2",
+            "text": "Integrate directly with 20+ applications (no zaps!)",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      },
+      {
+        "_type": "block",
+        "_key": "e61ffdb29c7c",
+        "style": "normal",
+        "markDefs": [],
+        "children": [
+          {
+            "_type": "span",
+            "_key": "1bfd555c15bd",
+            "text": "Budget-friendly subscription plans with a 10-day free trial",
+            "marks": []
+          }
+        ],
+        "listItem": "bullet",
+        "level": 1
+      }
+    ],
+    "faq": [
+      {
+        "_key": "1f3375b0ec86",
+        "_type": "comparisonFaqItem",
+        "question": "Superflow vs. BugHerd: Which is a better website feedback tool? ",
+        "answer": "Both BugHerd and Superflow enable collaboration on live websites and web apps. However, Superflow offers distinctive features like commenting on an area, highlighting a text to comment, private comments, live huddles, and more, which makes it a better web feedback tool compared to BugHerd. "
+      },
+      {
+        "_key": "49367f81935a",
+        "_type": "comparisonFaqItem",
+        "question": "Is BugHerd free? ",
+        "answer": "Although BugHerd is not completely free, it does offer a 14-day trial. If you are looking to try out a BugHerd alternative that offers a free plan—go for Superflow. "
+      },
+      {
+        "_key": "0cccdcc48c55",
+        "_type": "comparisonFaqItem",
+        "question": "Does Superflow offer a free plan? ",
+        "answer": "Yes, Superflow offers a “free forever plan” at $0 with two users and one active project every month. You can also try out the 10-day free trial available on every paid subscription. "
+      },
+      {
+        "_key": "74d510e3eb16",
+        "_type": "comparisonFaqItem",
+        "question": "Do I need a credit card while signing up for Superflow? ",
+        "answer": "No, you do not need a credit card to sign up on Superflow or while going for the free plan."
+      },
+      {
+        "_key": "6044b761f516",
+        "_type": "comparisonFaqItem",
+        "question": "Which is the best BugHerd alternative? ",
+        "answer": "BugHerd is a decent bug tracking tool but it doesn’t provide a lot of options for annotating live websites and web apps. This is where Superflow comes in helping you leave private comments, start live huddles for clear discussions,  and more—making Superflow the best BugHerd alternative out there."
+      },
+      {
+        "_key": "981ced0463fe",
+        "_type": "comparisonFaqItem",
+        "question": "Does BugHerd offer something like Superflow?",
+        "answer": "Just like Superflow, BugHerd enables you to comment on live websites and web apps; however, it doesn’t provide features like private commenting, live huddles, commenting on area, and more. If you’re looking to try out a BugHerd alternative which provides better feedback experience, then try Superflow now!"
+      }
+    ]
+  }
+]

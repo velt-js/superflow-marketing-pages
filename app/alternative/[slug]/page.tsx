@@ -1,10 +1,19 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ComparisonDetailPage from "@/components/detail/ComparisonDetailPage";
-import { alternativeDetails } from "@/lib/detail-data";
+import {
+  getAlternativePageBySlug,
+  getAllAlternativeSlugs,
+} from "@/sanity/lib/queries";
+import {
+  mapAlternativeDocToConfig,
+  type SanityAlternativeDoc,
+} from "@/lib/sanity-adapters/alternative";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -12,36 +21,47 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const detail = alternativeDetails[slug];
-  if (!detail) return {};
+  const doc = (await getAlternativePageBySlug(slug)) as SanityAlternativeDoc | null;
+  if (!doc) return {};
   return buildPageMetadata({
-    title: detail.hero.heading,
+    title: doc.metaTitle ?? doc.title ?? "Alternative",
     description:
-      "Compare Superflow against this alternative for reviewing and shipping creative assets.",
+      doc.metaDescription ??
+      doc.description ??
+      `See how Superflow compares to ${doc.competitor2Name ?? "this alternative"}.`,
     path: `/alternative/${slug}`,
   });
 }
 
-export function generateStaticParams() {
-  return Object.keys(alternativeDetails).map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getAllAlternativeSlugs();
+  return slugs.map((slug: string) => ({ slug }));
 }
 
 export default async function AlternativeSlugPage({ params }: PageProps) {
   const { slug } = await params;
-  const detail = alternativeDetails[slug];
-  if (!detail) notFound();
+  const doc = (await getAlternativePageBySlug(slug)) as SanityAlternativeDoc | null;
+  if (!doc) notFound();
+
+  const config = mapAlternativeDocToConfig(doc);
+
   return (
     <>
       <PageJsonLd
-        name={detail.hero.heading}
-        description="Compare Superflow against this alternative for reviewing and shipping creative assets."
+        name={config.hero.heading}
+        description={
+          doc.metaDescription ??
+          doc.description ??
+          `Compare Superflow against ${doc.competitor2Name ?? "this alternative"}.`
+        }
         path={`/alternative/${slug}`}
         trail={[
           { name: "Alternatives", url: `${SITE_URL}/alternative` },
-          { name: detail.hero.heading, url: `${SITE_URL}/alternative/${slug}` },
+          { name: config.hero.heading, url: `${SITE_URL}/alternative/${slug}` },
         ]}
       />
-      <ComparisonDetailPage config={detail} />
+      <ComparisonDetailPage config={config} />
     </>
   );
 }
+

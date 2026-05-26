@@ -45,6 +45,7 @@ export interface RelatedWayItem {
   title: string;
   description?: string;
   icon?: string;
+  iconNode?: import("react").ReactNode;
   href: string;
 }
 
@@ -60,6 +61,8 @@ export interface DetailPageConfig {
   showcase: ShowcaseMediaData;
   features: FeatureRowData[];
   related: RelatedWaysData;
+  /** Render the body sections dark (cards/wells/text) to match live persona pages. Defaults to light. */
+  theme?: "light" | "dark";
 }
 
 export interface ReasonItem {
@@ -87,6 +90,7 @@ export interface ComparisonProductCard {
   score: string;
   image: string;
   imageAlt?: string;
+  video?: string;
   summary?: string;
   bullets: ComparisonBullet[];
 }
@@ -119,6 +123,8 @@ export interface OverviewTableData {
   heading: string;
   highlight?: string;
   competitorName: string;
+  /** Label for the c1 column. Defaults to "Superflow" for alternative pages. */
+  superflowName?: string;
   superflowLogo?: string;
   competitorLogo?: string;
   rows: OverviewRow[];
@@ -244,45 +250,47 @@ const SHARED_FEATURES: FeatureRowData[] = [
   },
 ];
 
-export const userPersonaDetails: Record<string, DetailPageConfig> = {
-  "qa-teams": {
+export const useCaseDetails: Record<string, DetailPageConfig> = {
+  "uat-qa-testing": {
     hero: {
-      eyebrow: "Built for",
-      heading: "Built for QA teams that hate guessing what “doesn’t work” means",
+      eyebrow: "Use Case",
+      heading: "Faster QA bug fixing collaboration. Ship EOD instead of EOW, EOM or EOY",
       ctaText: "Try Superflow for Free",
       ctaHref: "https://app.usesuperflow.com/signup",
       leftBadge: { label: "QA Lead", color: "#4dd5ff" },
-      rightBadge: { label: "Engineer", color: "#fc6cba" },
+      rightBadge: { label: "Developer", color: "#fc6cba" },
     },
     problem: SHARED_PROBLEM,
     showcase: SHARED_SHOWCASE,
     features: SHARED_FEATURES,
     related: {
-      heading: "Other roles that",
+      heading: "Other ways in which",
       highlight: "Superflow can help",
       items: [
         {
-          title: "Developers",
-          description: "Resolve issues in code context.",
+          title: "Client feedback",
+          description: "Collect approvals in one place.",
           icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/developers",
+          href: "/use-case/client-feedback",
         },
         {
-          title: "Project Managers",
-          description: "Keep every review on track.",
+          title: "Design reviews",
+          description: "Pin feedback right on the canvas.",
           icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/project-managers",
+          href: "/use-case/design-reviews",
         },
         {
-          title: "Product Managers",
-          description: "Track every comment from spec to ship.",
+          title: "Reporting bugs",
+          description: "Capture context with every report.",
           icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/product-managers",
+          href: "/use-case/reporting-bugs",
         },
       ],
     },
   },
 };
+
+// userPersonaDetails moved to Sanity (see app/user-persona/[slug]/page.tsx).
 
 const SHARED_REASONS: ReasonsGridData = {
   heading: "6 Reasons to choose",
@@ -581,41 +589,11 @@ function buildFAQ(competitor: string): FAQItem[] {
   ];
 }
 
-export const alternativeDetails: Record<string, ComparisonDetailConfig> = {
-  "google-docs-alternative": {
-    hero: {
-      eyebrow: "Alternative",
-      heading: "Google Docs Alternative",
-      ctaText: "Try Superflow for Free",
-      ctaHref: "https://app.usesuperflow.com/signup",
-      leftBadge: { label: "Developer", color: "#4dd5ff" },
-      rightBadge: { label: "Designer", color: "#fc6cba" },
-    },
-    reasons: SHARED_REASONS,
-    criteria: buildCriteria("Google Docs"),
-    overview: buildOverview("Google Docs"),
-    pricing: buildPricing("Google Docs"),
-    whyChoose: buildWhyChoose("Google Docs"),
-    faq: buildFAQ("Google Docs"),
-  },
-};
+// alternativeDetails moved to Sanity (see app/alternative/[slug]/page.tsx
+// + lib/sanity-adapters/alternative.ts). The hardcoded shape lived here
+// previously; removed during the Framer → Sanity migration.
 
-export const comparisonDetails: Record<string, ComparisonDetailConfig> = {
-  "markup-vs-pastel": {
-    hero: {
-      eyebrow: "Comparison",
-      heading: "Markup vs Pastel",
-      ctaText: "Try Superflow for Free",
-      ctaHref: "https://app.usesuperflow.com/signup",
-      leftBadge: { label: "Developer", color: "#4dd5ff" },
-      rightBadge: { label: "Designer", color: "#fc6cba" },
-    },
-    reasons: SHARED_REASONS,
-    criteria: buildCriteria("Markup"),
-    overview: buildOverview("Markup"),
-    pricing: buildPricing("Markup"),
-    whyChoose: buildWhyChoose("Markup"),
-    faq: buildFAQ("Markup"),
-  },
-};
+// comparisonDetails moved to Sanity (see app/comparisons/[slug]/page.tsx
+// + components/comparisons/ComparisonsPage.tsx). The hardcoded stub lived
+// here previously; removed during the Framer → Sanity migration.
 

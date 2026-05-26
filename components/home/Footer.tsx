@@ -69,6 +69,7 @@ const COLUMNS: Column[] = [
     links: [
       { label: "MarkUp vs Pastel", href: "/comparisons/markup-vs-pastel" },
       { label: "MarkUp vs Ruttl", href: "/comparisons/markup-vs-ruttl" },
+      { label: "Pastel vs BugHerd", href: "/comparisons/pastel-vs-bugherd" },
     ],
   },
   {

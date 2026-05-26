@@ -1,0 +1,2035 @@
+[
+  {
+    "_id": "up-qa-teams",
+    "_type": "userPersonaPage",
+    "slug": "qa-teams",
+    "title": "Faster QA bug fixing collaboration. Ship EOD instead of EOW, EOM or EOY",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/V7j2lT08dUzcOSv1FbcUNhl6g.png",
+      "alt": "QA Team Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/xXmwJUkeC2wZKUPoVgM20ojE.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Accelerate Feedback Loops,Capture Bugs and Elevate Bug Fixing",
+    "metaDescription": "Capture, track, and resolve bugs to maintain great product quality and deliver a seamless user experience. Superflow helps streamline testing and elicit crystal-clear feedback.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "QA team",
+      "description": "Get faster bug feedback across testing, staging and production. End communication breakdowns. Stop bugs before they even happen.",
+      "heroCtaText": "Try Superflow For Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow"
+    },
+    "jobs": [
+      {
+        "_key": "78b15e546052",
+        "_type": "userPersonaJob",
+        "title1": "Is finding feedback a guessing game",
+        "title2": "between Slack, Gmail and Jira?",
+        "features": [
+          {
+            "_key": "80adb15bc2b9",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Multiple feedback channels means no one is on the same page",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/1NyhRczRLVDHGFtIrOsrKXKm6ow.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "4b9c073443d4",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Managing Figma and other task management tools becomes an impossible task",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "4c25c1df7a8d",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Bug backlog snowballing higher than Mt. Everest",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/xGDQLzKT4Ru6TgJ8Tr6HqngeQ.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "f89ca4271150",
+        "_type": "userPersonaJob",
+        "title1": "Sync your coordination between Web Developers & Testers",
+        "features": [
+          {
+            "_key": "463cde855400",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Centralize communication",
+            "highlightSubText": "Why toggle between platforms? Keep everyone informed on your live website or web app itself.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "ai co-pilot"
+            }
+          },
+          {
+            "_key": "d588f3d94e87",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Categorize automatically",
+            "highlightSubText": "Superflow classifies feedback under different labels for you.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/AIiCXLFWKWXa3nVSRTau9jPyZgY.png",
+              "alt": "live huddle"
+            }
+          },
+          {
+            "_key": "6d34dbd4f1ec",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Prioritize bug fixes",
+            "highlightSubText": "Analyze reported bugs & decide priorities for your teams.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/mmNTrbpxEguCczQ7J4m1XLRZXA.png",
+              "alt": "Prioritize Feature"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "e3bc45e6ebe5",
+        "_type": "userPersonaJob",
+        "title1": "Streamline cross browser testing on multiple devices",
+        "features": [
+          {
+            "_key": "f2743d46a52c",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comment on any browser",
+            "highlightSubText": "Point out bugs on Chrome, Safari, or other browsers while testing.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/nCLsdrsGyo25k3HNK36tXxrq0Qk.png",
+              "alt": "Browser Logos"
+            }
+          },
+          {
+            "_key": "57300d2b7e42",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Annotate via any device",
+            "highlightSubText": "Use Superflow on desktop, mobile, and even tablets.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/5ruw5HJRmxyPsDcn0Z6l7mvKZIU.png",
+              "alt": "Devices"
+            }
+          },
+          {
+            "_key": "e2af8a318f35",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Access authenticated pages",
+            "highlightSubText": "Give & receive feedback on password-protected web apps.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SRFpHgXP9YFrLtP75KdhLsMniQ8.png",
+              "alt": "Superflow working on authenticated pages"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Bulletproof your QA.",
+    "solutionTitle2": "Exterminate your bug backlog with a better feedback process",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "tracking & resolving bugs on your web apps & websites",
+    "features": [
+      {
+        "_key": "5e867c61afc3",
+        "_type": "userPersonaFeatureItem",
+        "title": "Collaboration in context",
+        "subText": "Precisely pin comments to areas or web elements. Have more to say? Record your screen, voice or a video.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/foMEFBVIZDCYQ7JU4xBBJCbAv4.png",
+          "alt": "Area Comment"
+        }
+      },
+      {
+        "_key": "b944dcccbe6a",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention your team, set tasks and priorities all in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Mention"
+        }
+      },
+      {
+        "_key": "5fa15d1d0671",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect Slack, Asana, Clickup or your favorite collaboration tool.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g60bpxp2r2CKmTd968nZd2S8k.png",
+          "alt": "Task App"
+        }
+      }
+    ],
+    "othersTitle1": "Other ways in which",
+    "othersTitle2": "Superflow can help",
+    "outcomeOneLiner": "60% faster bug fixes for QA teams",
+    "testimonials": [
+      {
+        "_key": "2151dba0327e",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz1WX2fHDukr0AKt1uPlqNkCnjg.jpg",
+          "alt": "Nick headshot"
+        },
+        "name": "Nick Winter",
+        "role": "CEO",
+        "company": "CodeCombat",
+        "title": "It's everything I've wanted",
+        "subCopy": "\"Superflow is the fastest, easiest way to iterate on our apps and marketing pages. The UX is easy, the tech is brilliant, the team is like lightning-it's everything I've wanted and tried to build onto our websites for 15 years. Finally!\""
+      },
+      {
+        "_key": "480bca55957e",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "c4569917c1d1",
+        "_type": "userPersonaFaqItem",
+        "question": "What is the biggest challenge in QA?",
+        "answer": "Think bug tracking is your main hurdle? Reconsider. The true obstacle is efficient bug detection and resolution. Say goodbye to cluttered email chains and disorganized feedback loops. Introducing Superflow: the transformative solution for QA teams, big fixers, and developers in product-focused companies. Streamline your QA process, enhance collaboration, and drive product excellence with Superflow. Optimize your workflow, reduce inefficiencies, and ensure product quality with our leading-edge tool"
+      },
+      {
+        "_key": "a30ae4cdc410",
+        "_type": "userPersonaFaqItem",
+        "question": "What are the methods of QA feedback?",
+        "answer": "Traditional QA techniques, like manual and automated testing, have limitations in our fast-paced world. Challenges such as communication gaps can impact product quality. Superflow is the gold standard in QA feedback, offering real-time annotations and interactive bug tracking. Elevate your QA approach, streamline workflows, and enhance product excellence with Superflow"
+      },
+      {
+        "_key": "e5005fb4312f",
+        "_type": "userPersonaFaqItem",
+        "question": "Which tools are used for QA testing?",
+        "answer": "Superflow stands out in the saturated QA landscape as the premier choice. Boasting a comprehensive set of features and a user-friendly interface, we transform the traditionally complex QA journey into a smooth and engaging process. Why compromise on quality? Opt for Superflow and transition your QA approach from 'adequate' to 'outstanding"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Start zapping bugs lightning fast without sacrificing quality",
+      "subText": "See how easy it is to revise, iterate and ship websites faster."
+    }
+  },
+  {
+    "_id": "up-project-managers",
+    "_type": "userPersonaPage",
+    "slug": "project-managers",
+    "title": "Cruise past deadlines with streamlined project management",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/oqEhSgkjoKPQZ2CXRbbncqlHaI.png",
+      "alt": "Project Managers Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/ZUdk08o0vqJWBX2FC3GLUCh8.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Cruise past deadlines with streamlined project management",
+    "metaDescription": "Your website is the one-stop-shop for feedback. End the multi-channel messages and screenshots. Iterate 10x faster.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Project Managers",
+      "description": "Your website is the one-stop-shop for feedback. End the multi-channel messages and screenshots. Iterate 10x faster.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9,000+ marketing agencies, design firms and software teams rely on Superflow"
+    },
+    "jobs": [
+      {
+        "_key": "c8c5ff609c4a",
+        "_type": "userPersonaJob",
+        "title1": "As stakeholders multiply, it gets",
+        "title2": "harder to keep everyone on the same page",
+        "features": [
+          {
+            "_key": "ae2c35fb1a51",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comments without context lead to confusion",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/ClL1cXOfAY6Jbi8n9M5Afowg4CM.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "91a99bb42f27",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Hard to know which task needs eyes",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/YxhICQXOo9WpathIEv3hMakxhY0.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "483e1e6eb5e1",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Unclear who is doing what and if crucial bugs are prioritized",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/d8DLL0f43MKG7veLtmBkQbocM6w.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "6c1d537a7fca",
+        "_type": "userPersonaJob",
+        "title1": "Avoid scope creep by setting well-defined goals",
+        "features": [
+          {
+            "_key": "ce8b7f63430e",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Connect with apps",
+            "highlightSubText": "Integrate Superflow with your client’s existing Project management workflow",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/T9MZHui0wwFD1t19rdatBEIjIUs.png",
+              "alt": "Superflow integrations"
+            }
+          },
+          {
+            "_key": "9c914055aa37",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Kick Off Real -Time Chats",
+            "highlightSubText": "Host live audio, video, or screen huddles for clear discussions",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/qeFnHWvZhln3aghvQ6FufXQICY4.png",
+              "alt": "Huddle Feature"
+            }
+          },
+          {
+            "_key": "5eff094d98fb",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Centralize communication",
+            "highlightSubText": "Keep everyone informed on live website or web app itself",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "save time"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "1cb709b321ce",
+        "_type": "userPersonaJob",
+        "title1": "Experience Project Flexibility: Access,View and Edit from Any Device",
+        "features": [
+          {
+            "_key": "d6071317d599",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comment on any browser",
+            "highlightSubText": "Be it Chrome, Safari, or other browsers—annotate anywhere",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/nCLsdrsGyo25k3HNK36tXxrq0Qk.png",
+              "alt": "Browsers thumbnails"
+            }
+          },
+          {
+            "_key": "b2f8a385f1a0",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Annotate via any device",
+            "highlightSubText": "Use Superflow on desktop, mobile, and even tablets",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/5ruw5HJRmxyPsDcn0Z6l7mvKZIU.png",
+              "alt": "Devices thumbnails"
+            }
+          },
+          {
+            "_key": "4589360b5995",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Access authenticated pages",
+            "highlightSubText": "Give & receive feedback on password-protected web apps",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SRFpHgXP9YFrLtP75KdhLsMniQ8.png",
+              "alt": "Authenticated Thumbnail"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Keep your team literally on the",
+    "solutionTitle2": "same page with all feedback in one place",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "tracking and managing feedback on multiple projects",
+    "features": [
+      {
+        "_key": "d4078e8c8480",
+        "_type": "userPersonaFeatureItem",
+        "title": "Manage all your projects, yes all of them",
+        "subText": "Assign tasks, set priorities, and track all project progress in Kanban view.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/VMqLZlRJXy68knzrGmLCJxpQc7U.png",
+          "alt": "Kanban"
+        }
+      },
+      {
+        "_key": "74e54b61e45c",
+        "_type": "userPersonaFeatureItem",
+        "title": "Guest Mode is the best mode",
+        "subText": "Clients can leave feedback immediately without having to even sign up.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/DLw0we38wgOXoiYcYsZmAI9GhI.png",
+          "alt": "Guest Mode"
+        }
+      },
+      {
+        "_key": "086b7b752341",
+        "_type": "userPersonaFeatureItem",
+        "title": "Powerful analytics in a simple UI",
+        "subText": "Easy to use analytics so you can track progress or search comments by keyword.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Qcxi0cDf5BusXvrUDpP0fENtj8.png",
+          "alt": "Analytics"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "outcomeOneLiner": "60% faster collaboration for Project Managers",
+    "testimonials": [
+      {
+        "_key": "ca20f8a8a283",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/i5vCv8Mn45c6SJnVLDSnwRJ0c40.png",
+          "alt": "Ana Headshot"
+        },
+        "name": "Ana Wegbreit",
+        "role": "Head of BD",
+        "company": "ECOM Dept",
+        "title": "Saves our team a ton of time!",
+        "subCopy": "\"Thanks for creating a tool that helps us streamline communication with clients, it's great to have everything in one place and saves our team a ton of time when collaborating.\""
+      },
+      {
+        "_key": "f3e9d44ce6b0",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "e59c88079fbb",
+        "_type": "userPersonaFaqItem",
+        "question": "What is feedback in project management?",
+        "answer": "Feedback in project management is your compass in the sea of task execution and team coordination. It's not just about pointing out what went wrong or patting backs for jobs well done - it's a critical function that helps you steer your project in the right direction. PM feedback involves an open and ongoing dialogue between project stakeholders, clients, and team members. And with an intuitive tool like Superflow, managing feedback becomes more than just a basic necessity—it transforms into a strategic advantage, powering efficient workflows and robust client relationships."
+      },
+      {
+        "_key": "2d2414b3fd8a",
+        "_type": "userPersonaFaqItem",
+        "question": "How do you track project feedback?",
+        "answer": "Tracking project feedback is part art, part science. The goal is to seamlessly integrate constructive observations, suggestions, and critiques into your project workflow without derailing your momentum. This means stepping away from cluttered inboxes and disjointed messaging platforms. Instead, lean on the capabilities of a dedicated tool like Superflow—a unified solution for collecting client feedback in an organized, streamlined fashion. With this web annotation tool, you're not just tracking feedback—you're curating a database of insights that you can use to refine and perfect your web project."
+      },
+      {
+        "_key": "c00e6ecf3cbd",
+        "_type": "userPersonaFaqItem",
+        "question": "Which tools are used for managing project feedback?",
+        "answer": "Managing project feedback demands more than just traditional tools like email or instant messaging—they often lead to misunderstandings and miscommunications. That's why it's essential to have a specialized feedback tool like Superflow in your toolbox. Designed specifically for handling project feedback, Superflow amplifies your communication efficiency by organizing every piece of feedback received into one tidy, accessible dashboard. Not just that, it also enables you to visualize, prioritize, and act on your feedback in real-time."
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Ready for web projects so smooth they almost manage themselves?",
+      "subText": "Crush website deadlines with faster revising, iterating and shipping."
+    }
+  },
+  {
+    "_id": "up-founders",
+    "_type": "userPersonaPage",
+    "slug": "founders",
+    "title": "Your company website is your baby. That doesn't mean progress should crawl",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/j4P66Eryw56tj2DCh2gUCwZds00.png",
+      "alt": "Founders Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/2XMaWwpqcgjg6m31ukyMRcxoh8w.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Your company website is your baby. That doesn't mean progress should crawl",
+    "metaDescription": "Superflow keeps collaboration directly on live landing pages. Eliminate back-and-forth delays, and start shipping faster today.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Founder",
+      "description": "Superflow keeps collaboration directly on live landing pages. Eliminate back-and-forth delays, and start shipping faster today.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9,000+ marketing agencies, design firms and software teams rely on Superflow"
+    },
+    "jobs": [
+      {
+        "_key": "38e7a0ffde27",
+        "_type": "userPersonaJob",
+        "title1": "Does more people working on your",
+        "title2": "website mean more headaches?",
+        "features": [
+          {
+            "_key": "f4ef5e4e2fb1",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Feedback is left in emails, on Slack, or somewhere your team may not find it",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/1NyhRczRLVDHGFtIrOsrKXKm6ow.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "a3d5531ae679",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Updating a landing page can call for 11PM calls with the offshore engineers",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Q02QNy0dECTOr8u98Dclo71qaw.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "04dc9fc83a92",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Scrum becomes a scramble with unclear next steps",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/xGDQLzKT4Ru6TgJ8Tr6HqngeQ.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "93099e49bfdb",
+        "_type": "userPersonaJob",
+        "title1": "No More Silos,Seamless Communication & Faster Deliverables",
+        "features": [
+          {
+            "_key": "7b15a713fb9e",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Clear roles, no overlaps",
+            "highlightSubText": "Let your teams tag & assign feedback, so everyone knows their part",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/DC626cF6ZrYOwz2NDWctu1W9JU.png",
+              "alt": "Tag people"
+            }
+          },
+          {
+            "_key": "07756eca6142",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Optimize team synergy",
+            "highlightSubText": "No more working in the dark. Give all teams a bird's-eye view of priorities",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/mmNTrbpxEguCczQ7J4m1XLRZXA.png",
+              "alt": "Priority feature image"
+            }
+          },
+          {
+            "_key": "ff9f1c0b2971",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Minimize oversights",
+            "highlightSubText": "Timely email notifications to keep all your teams on track and in sync",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "34475bdf40af",
+        "_type": "userPersonaJob",
+        "title1": "Dive into Next-Level Feedback: Boost ROI, Stay Ahead, and Keep that Budget in Check.",
+        "features": [
+          {
+            "_key": "175cf817caac",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Elevate your ROI",
+            "highlightSubText": "Embrace One Unified Platform, Ditch the Tool Clutter. It's Time to Collaborate, Streamline, and Elevate Together!",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/UNLgjxuGqyd48dvPM8FRVwyiC4.png",
+              "alt": "presence mode"
+            }
+          },
+          {
+            "_key": "fd3e32d9c07b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Gear Up for Growth",
+            "highlightSubText": "Tool That's Built for Our Expansion. No Roadblocks, Just Future-Proofed Ops",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/PtsBkN09tkA0Zf8eYhzolwR23A.png",
+              "alt": "Comment Cataegory"
+            }
+          },
+          {
+            "_key": "a003fd5ed07b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Flexible Pricing",
+            "highlightSubText": "Tailored Pricing for Every Stage of Growth. Kick Off with a No-Cost Trial",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Wf54Mye004Sz8kXl5A6rsREtrrU.png",
+              "alt": "Trial image"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Move your end of year ship date to end of month,",
+    "solutionTitle2": "by ending the eternal feedback confusion",
+    "featureText1": "Fuel Growth and Revenue by Streamlining",
+    "featureText2": "Cycle Time, Minimizing Bugs, and Accelerating PR Reviews",
+    "features": [
+      {
+        "_key": "7f35ccd3334a",
+        "_type": "userPersonaFeatureItem",
+        "title": "A live feed for feedback, on your live website",
+        "subText": "Pin comments to specific areas or elements. Record screen, voice or video for deeper, more personal collaboration. All in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Izg0wCoH7qsbVvgUhre6QCEB4.png",
+          "alt": "Record"
+        }
+      },
+      {
+        "_key": "4cacd39539f2",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention your team, set status and  task priority all on your live site.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Mentions"
+        }
+      },
+      {
+        "_key": "5404c413b640",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect to 3rd party apps like Slack, Asana, or your favorite collaboration tool.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g60bpxp2r2CKmTd968nZd2S8k.png",
+          "alt": "Task App"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "outcomeOneLiner": "Collaborate with your team on a single canvas",
+    "testimonials": [
+      {
+        "_key": "71b6264d3fe7",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/XReV9o9LDa7bc9e5ei7ZU1EcmA.png",
+          "alt": "Eric Headshot"
+        },
+        "name": "Eric Lessman",
+        "role": "Co-Founder & CEO",
+        "company": "BlueCap",
+        "title": "Eliminating time wasted on vague instruction",
+        "subCopy": "\"Superflow streamlines front-end design coordination, eliminating time wasted on vague instructions. Clicking comments highlights specific website areas instantly. The receptive team implements feedback promptly, making collaboration effortless.\""
+      },
+      {
+        "_key": "556bb4e9afde",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "3e20df803b92",
+        "_type": "userPersonaFaqItem",
+        "question": "How do you improve collaboration between teams?",
+        "answer": "Developers in one corner, marketers in another, and a bunch of talented folks in between. It's like trying to get a rock band and an orchestra to play in harmony. The outcome? Mixed signals, lost hours, and missed shots. That's why we built Superflow. It's more than just a tool; it's our answer to transforming how our teams vibe together. Let's get everyone on the same wavelength and make magic happen."
+      },
+      {
+        "_key": "56dd02cc94f0",
+        "_type": "userPersonaFaqItem",
+        "question": "How do you track and manage feedback within your team?",
+        "answer": "We get it – feedback's everywhere. In emails, on different platforms, or sometimes even forgotten in the day's hustle. It's not just a mess; it's a roadblock to progress and seizing opportunities. Enter Superflow. It's not just another app on the block; it's our crafted solution to organize feedback and turn it into actionable insights. Let's ditch the chaos and get everyone on the same page.\""
+      },
+      {
+        "_key": "fb5f8a974e63",
+        "_type": "userPersonaFaqItem",
+        "question": "Which feedback tool is best for large teams?",
+        "answer": "Standard tools just don't cut it for the demands of larger teams. Superflow stands out as a top-tier choice, especially for those juggling multiple web projects. By centralizing feedback and fostering collaboration, it's tailor-made for teams aiming for seamless web project management."
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Get your landing page team on the same page",
+      "subText": "See how much better revising, iterating and shipping websites can be."
+    }
+  },
+  {
+    "_id": "up-developers",
+    "_type": "userPersonaPage",
+    "slug": "developers",
+    "title": "Exterminate bugs fast. Ship 10x faster",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/85IYBZsK1kHMlQ3iT6jLWtsmc.png",
+      "alt": "Developer Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/AyRT9DeHsw12VXOrtbvkdKuXNo.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Exterminate bugs fast. Ship 10x faster",
+    "metaDescription": "Superflow helps you spot and report bugs so they don't go undocumented. Streamline feedback and start improving your product experience today",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Developer",
+      "description": "Superflow helps you spot and report bugs so they don't go undocumented. Streamline feedback and start improving your product experience today.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow."
+    },
+    "jobs": [
+      {
+        "_key": "c2d557af3365",
+        "_type": "userPersonaJob",
+        "title1": "Disorganized bug reporting can",
+        "title2": "bring product development to a crawl",
+        "features": [
+          {
+            "_key": "fed9d827ca66",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comments without context lead to confusion",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/ClL1cXOfAY6Jbi8n9M5Afowg4CM.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "1241ef164836",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Bug feedback is scattered across Slack and other channels",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "b580cef0e8b5",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Developers set and forget smaller tasks without tracking them",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Q02QNy0dECTOr8u98Dclo71qaw.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "e06d2b6f42d7",
+        "_type": "userPersonaJob",
+        "title1": "Simplify, Collaborate, Deliver: Superflow's Promise to Developers!",
+        "features": [
+          {
+            "_key": "2169cce50c83",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Centralize communication",
+            "highlightSubText": "Seamlessly Collaborate Across Staging, Production, and Live Apps with Superflow!",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "integrations"
+            }
+          },
+          {
+            "_key": "5f0c7066e36f",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Automatic categorization",
+            "highlightSubText": "Automatically Sort & Monitor Every Bug, Making Sure No Detail Slips Through",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/AIiCXLFWKWXa3nVSRTau9jPyZgY.png",
+              "alt": "centralized workflow"
+            }
+          },
+          {
+            "_key": "3c5b72160a70",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Prioritize bug fixes",
+            "highlightSubText": "Analyze reported bugs & decide priorities for your teams",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/mmNTrbpxEguCczQ7J4m1XLRZXA.png",
+              "alt": "better communication with Superflow"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "bc590d4fa748",
+        "_type": "userPersonaJob",
+        "title1": "Navigate cross-browser testing with confidence",
+        "features": [
+          {
+            "_key": "39f659abaefd",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comment on any browser",
+            "highlightSubText": "Point out bugs on Chrome, Safari, or other browsers while testing",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/nCLsdrsGyo25k3HNK36tXxrq0Qk.png",
+              "alt": "browser logos"
+            }
+          },
+          {
+            "_key": "2cc25d7c168c",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Annotate via any device",
+            "highlightSubText": "Use Superflow on desktop, mobile, and even tablets",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/5ruw5HJRmxyPsDcn0Z6l7mvKZIU.png",
+              "alt": "devices image"
+            }
+          },
+          {
+            "_key": "4ebd233e50a8",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Access authenticated pages",
+            "highlightSubText": "Give & receive feedback on password-protected web apps",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SRFpHgXP9YFrLtP75KdhLsMniQ8.png",
+              "alt": "image indicating authenticated pages"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Keeping bug reports on the same page keeps your",
+    "solutionTitle2": "team on the same page. Letting you ship super fast",
+    "featureText1": "Slash bug tracking time by 50%",
+    "featureText2": "and boost collaboration with Superflow!",
+    "features": [
+      {
+        "_key": "2814957060a8",
+        "_type": "userPersonaFeatureItem",
+        "title": "Collaboration in context",
+        "subText": "Pin comments to elements or device details for quicker fixes.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/TaREaXHrmo3i8kupB5vNXk9wP20.png",
+          "alt": "Mobile Comment"
+        }
+      },
+      {
+        "_key": "5d26cd629db0",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention users, set priorities and statues with the click of a button.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Mentions"
+        }
+      },
+      {
+        "_key": "bc5e3f4ef4aa",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect to Slack, Asana or your favorite task management app.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g60bpxp2r2CKmTd968nZd2S8k.png",
+          "alt": "Task App"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "outcomeOneLiner": "75% Optimized Development Time for devs",
+    "testimonials": [
+      {
+        "_key": "c69736adceee",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz1WX2fHDukr0AKt1uPlqNkCnjg.jpg"
+        },
+        "name": "Nick Winter",
+        "role": "CEO",
+        "company": "CodeCombat",
+        "title": "Simplifies Bug Fixes in our complex product",
+        "subCopy": "“Superflow is a boon to my team, it saves me critical  time managing and fixing bugs in our  complicated product.”"
+      },
+      {
+        "_key": "d008f9f4b948",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "ede77f8334c6",
+        "_type": "userPersonaFaqItem",
+        "question": "How do I streamline communication within my dev team effectively?",
+        "answer": "Ditch the endless emails and group chats. With Superflow, centralize and streamline your team discussions. Capture all feedback, keep everyone in the loop with the latest updates, and enhance coordination and productivity. Experience easy access and organized conversations all in one place."
+      },
+      {
+        "_key": "c54186613fd3",
+        "_type": "userPersonaFaqItem",
+        "question": "How do I give feedback to a web developer?",
+        "answer": "For clear and impactful communication, stay organized and concise. Leverage tools like Superflow for structured feedback. Aim for actionable insights linked to specific web components. Prioritize clarity, relevance, and actionable steps to improve the development  process"
+      },
+      {
+        "_key": "b237e22efdce",
+        "_type": "userPersonaFaqItem",
+        "question": "Which is the best web feedback tool for web developers?",
+        "answer": "If you're scouting for a tool that's not just another annotation gimmick but a real game-changer, check out Superflow. It's like the Swiss Army knife for web devs. Instead of drowning in scattered feedback, Superflow gives you a clean, organized dashboard. If you're all about leveling up without the fuss, Superflow's your jam."
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Start developing a faster way to ship your websites",
+      "subText": "See how much better revising, iterating and shipping websites can be today."
+    }
+  },
+  {
+    "_id": "up-product-companies",
+    "_type": "userPersonaPage",
+    "slug": "product-companies",
+    "title": "Streamlined teamwork that gets you back to work. Review and leave feedback directly on your landing pages",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/YaZV6dvG1390cPQn1WY4yJxNM.png",
+      "alt": "Product Companies Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/8dcS0a2NtOCT3YsL2Dgxjk6LjQ.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Streamlined teamwork that gets you back to work. Review and leave feedback directly on your landing pages",
+    "metaDescription": "Keep your feedback all in one place. Leave text, voice and video comments. All without ever having to sign in.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "product company",
+      "description": "Keep your feedback all in one place. Leave text, voice and video comments. All without ever having to sign in.",
+      "heroCtaText": "Try Superflow For Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow"
+    },
+    "jobs": [
+      {
+        "_key": "f5be0d95eb11",
+        "_type": "userPersonaJob",
+        "title1": "Multi-channel feedback can",
+        "title2": "drive you multi-crazy",
+        "features": [
+          {
+            "_key": "bc77dcfb4aa6",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Feedback is left in emails, on Slack, or somewhere your team may not find it.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "a850e7205080",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comments without context lead to confusion",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/ClL1cXOfAY6Jbi8n9M5Afowg4CM.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "1f25a0f3df74",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Tracking who's doing what is a wild goose chase",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/boOsX4jGE34GVp1yzIgFzyop31U.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "c9d866432b97",
+        "_type": "userPersonaJob",
+        "title1": "Streamline task management",
+        "features": [
+          {
+            "_key": "abe5c6d143d5",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Connect with your apps",
+            "highlightSubText": "Integrate with platforms like ClickUp, Slack, and Asana for streamlined task management",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/T9MZHui0wwFD1t19rdatBEIjIUs.png",
+              "alt": "integrations on Superflow"
+            }
+          },
+          {
+            "_key": "93b3e38aab56",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Assign & resolve",
+            "highlightSubText": "Manage product development tasks across platforms effortlessly.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/pzHoA5RWQqHWS2BBMIoivi7wIk.png",
+              "alt": "Assign and resolve tasks on Superflow"
+            }
+          },
+          {
+            "_key": "222d671a1790",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "All in one place",
+            "highlightSubText": "Keep track of feedback & revisions in one place. No more confusing & scattered communication.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "Task management for product companies"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "d30171e8da5c",
+        "_type": "userPersonaJob",
+        "title1": "Enhance design collaboration",
+        "features": [
+          {
+            "_key": "1987ddd47d6a",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "AI copywriter",
+            "highlightSubText": "Rewrite with AI or give commands to create compelling website copy.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/9A9QbQ7p8ApvgxbNIvBcKzahGYw.png",
+              "alt": "ai copywriting"
+            }
+          },
+          {
+            "_key": "6ed82a38fe5c",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Live huddles",
+            "highlightSubText": "Start live huddles for real-time collaborative design sessions.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/qeFnHWvZhln3aghvQ6FufXQICY4.png",
+              "alt": "live huddles"
+            }
+          },
+          {
+            "_key": "76574abb20fd",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Flock mode",
+            "highlightSubText": "Guide team members using flock mode for a unified design approach.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/sEsslprfAl1xQbORvuUN1bxeFk.png",
+              "alt": "flock mode"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Get your landing page team on the",
+    "solutionTitle2": "same page. Ship up to 10x faster.",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "consumed by scattered communication",
+    "features": [
+      {
+        "_key": "77565374a43a",
+        "_type": "userPersonaFeatureItem",
+        "title": "Collaboration in context",
+        "subText": "Pin comments to specific areas or elements. Record screen, voice or video for deeper, more personal collaboration.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/foMEFBVIZDCYQ7JU4xBBJCbAv4.png",
+          "alt": "Area Comment"
+        }
+      },
+      {
+        "_key": "a9e6585925c1",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention your team, set tasks and priorities all in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Mentions"
+        }
+      },
+      {
+        "_key": "bba397e12717",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect to Clickup, Asana, Slack or your favorite task manager to keep everyone in the loop.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g60bpxp2r2CKmTd968nZd2S8k.png",
+          "alt": "Task App"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "testimonials": [
+      {
+        "_key": "a78c17209d0b",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/7TBZKqp4lifdpLl6Qq5YJQmfE.png",
+          "alt": "Riley Headshot"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Easy to use and seamlessly compatible",
+        "subCopy": "Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows."
+      },
+      {
+        "_key": "763d6ab5e094",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "c8f6ee9c1c81",
+        "_type": "userPersonaFaqItem",
+        "question": "What is an annotation tool?",
+        "answer": "Annotation tools let users comment and suggest feedback directly on digital content like WIP websites. They allow interactive collaboration, faster decision-making, simplified reviews and better brainstorming with an easy to use interface."
+      },
+      {
+        "_key": "13b77f06e837",
+        "_type": "userPersonaFaqItem",
+        "question": "What is a design feedback tool?",
+        "answer": "A design feedback tool makes the team feedback process ten times smoother by allowing collaborators to comment directly on design drafts. It keeps feedback in one easy-to-track place for all of your projects."
+      },
+      {
+        "_key": "0fc01c751478",
+        "_type": "userPersonaFaqItem",
+        "question": "What's the difference between an annotation tool and a design tool?"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Super charge your companies website builds today",
+      "subText": "See how much better revising, iterating and shipping websites can be."
+    }
+  },
+  {
+    "_id": "up-marketing-agencies",
+    "_type": "userPersonaPage",
+    "slug": "marketing-agencies",
+    "title": "Fewer, clearer client reviews. Need we say more? Get precise feedback, ship your websites up to 10x faster.",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/7zIYURaCBHnHnqpZmuA2bYyA38.png",
+      "alt": "Marketing Agencies Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/aaAas7UlWPeobovLfkIiRndWvs.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "marketing agency",
+      "description": "Superflow puts everyone's feedback directly on your live website. No comment is left behind.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow."
+    },
+    "jobs": [
+      {
+        "_key": "89f3fa7402a0",
+        "_type": "userPersonaJob",
+        "title1": "Getting stuck in a feedback loop",
+        "title2": "eats away at your bottom line",
+        "features": [
+          {
+            "_key": "5ec757db5e46",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Feedback can be hard to find. Is it somewhere on Slack? Or buried deep down a long email chain?",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "317c1bf66c74",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Getting everyone on the same page requires a time-wasting meeting.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/boOsX4jGE34GVp1yzIgFzyop31U.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "96fc8872d88b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Tracking task progress and assignment is a wild goose chase",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/xGDQLzKT4Ru6TgJ8Tr6HqngeQ.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "a16e0c466da3",
+        "_type": "userPersonaJob",
+        "title1": "Untangle agency workflow",
+        "features": [
+          {
+            "_key": "61ec1dd6c685",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Connect with apps",
+            "highlightSubText": "Integrate Superflow with platforms like ClickUp, Slack, and Asana to streamline your agency workflow.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/T9MZHui0wwFD1t19rdatBEIjIUs.png",
+              "alt": "integrations"
+            }
+          },
+          {
+            "_key": "31cc27c642e2",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Manage client tasks",
+            "highlightSubText": "Manage your client's tasks across platforms effortlessly.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/KW3QsALUHUXDRybDS15LXzBYqg.png",
+              "alt": "task management"
+            }
+          },
+          {
+            "_key": "3a181fce5b5b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Centralized feedback",
+            "highlightSubText": "Keep track of all client feedback and revisions in one place.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "save time"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "3e082d656071",
+        "_type": "userPersonaJob",
+        "title1": "Facilitate agency collaboration",
+        "features": [
+          {
+            "_key": "8e8accf20d97",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "AI Copilot",
+            "highlightSubText": "Leverage AI to create compelling website copy or suggest content edits using prompts.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/9A9QbQ7p8ApvgxbNIvBcKzahGYw.png",
+              "alt": "ai co-pilot"
+            }
+          },
+          {
+            "_key": "4eb5298b4f32",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Flock mode",
+            "highlightSubText": "Guide team members using flock mode for a unified campaign vision.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/sEsslprfAl1xQbORvuUN1bxeFk.png",
+              "alt": "flock-mode"
+            }
+          },
+          {
+            "_key": "be76adc83380",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Live huddles",
+            "highlightSubText": "Start live huddles for real-time brainstorming and strategy planning.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/qeFnHWvZhln3aghvQ6FufXQICY4.png",
+              "alt": "live huddles"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Do your best work at lightning speed",
+    "solutionTitle2": "by same-page-ifying the whole process",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "consumed by scattered communication",
+    "features": [
+      {
+        "_key": "ed039b837177",
+        "_type": "userPersonaFeatureItem",
+        "title": "Collaboration in context",
+        "subText": "Precisely pin comments to areas or web elements. Have more to say? Record your screen, voice or a video.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Izg0wCoH7qsbVvgUhre6QCEB4.png",
+          "alt": "Recorder"
+        }
+      },
+      {
+        "_key": "8d02fb3fb99a",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention your team, set tasks and priorities all in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Mentions"
+        }
+      },
+      {
+        "_key": "decea70b0fe6",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect Slack, Asana, Clickup or your favorite collaboration tool.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/K9Kee86VXkvVPmLp7XdLlEVlF8.png",
+          "alt": "Task App"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "testimonials": [
+      {
+        "_key": "930bac8d9eaa",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/oP0Jp5CkCZNRJcbzqErhrFsk9bo.png",
+          "alt": "Manvi Headshot"
+        },
+        "name": "Manvi Agarwal",
+        "role": "Head of Content",
+        "company": "Writesonic",
+        "title": "Empowers non-tech users like me",
+        "subCopy": "\"Superflow revolutionized how my team works with Webflow. Streamlining collaboration and communication, it saves time, empowers non-tech users like me, and delivers high-quality results fast. I highly recommend it for simplified web development and enhanced collboration.\""
+      },
+      {
+        "_key": "8dbaf34e1431",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "66144b680236",
+        "_type": "userPersonaFaqItem",
+        "question": "What is an annotation tool?",
+        "answer": "Annotation tools let users comment and suggest feedback directly on digital content like WIP websites. They allow interactive collaboration, faster decision-making, simplified reviews and better brainstorming with an easy to use interface."
+      },
+      {
+        "_key": "7dd7c54f3769",
+        "_type": "userPersonaFaqItem",
+        "question": "What is a design feedback tool?",
+        "answer": "A design feedback tool makes the team feedback process ten times smoother by allowing collaborators to comment directly on design drafts. It keeps feedback in one easy-to-track place for all of your projects."
+      },
+      {
+        "_key": "86405453e134",
+        "_type": "userPersonaFaqItem",
+        "question": "What's the difference between an annotation tool and a design tool?"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Ready to collaborate like it's your job?",
+      "subText": "See how much better revising, iterating and shipping websites can be today."
+    }
+  },
+  {
+    "_id": "up-designers",
+    "_type": "userPersonaPage",
+    "slug": "designers",
+    "title": "Get stakeholder design approval up to 10x faster with a super simplified feedback process",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/0lCLlVA965pMDIWyWgVBliZLs.png",
+      "alt": "Designer Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/98WBSeFHWlP3VTFdkB1XBxUVV8.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Get stakeholder design approval up to 10x faster with a super simplified feedback process",
+    "metaDescription": "Contextual comments eliminate confusion, so you can focus on your craft.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Designer",
+      "description": "Contextual comments eliminate confusion, so you can focus on your craft.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow."
+    },
+    "jobs": [
+      {
+        "_key": "10e99c943864",
+        "_type": "userPersonaJob",
+        "title1": "Following feedback across hundreds of",
+        "title2": "landing pages isn't why you became a designer",
+        "features": [
+          {
+            "_key": "92ae5bc55761",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Wading through all of the feedback wastes countless hours",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/ClL1cXOfAY6Jbi8n9M5Afowg4CM.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "f2cc58f24632",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Getting everyone on the same page often requires a time-wasting meeting",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/boOsX4jGE34GVp1yzIgFzyop31U.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "1288477f3227",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Finding feedback becomes a scavenger hunt across Slack, email and other channels",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "b902840eca74",
+        "_type": "userPersonaJob",
+        "title1": "Integrate design process",
+        "features": [
+          {
+            "_key": "2d60ca353912",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Fits Your workflow",
+            "highlightSubText": "Keep your design and revision process in one place with Superflow's integration with web building platforms.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/T9MZHui0wwFD1t19rdatBEIjIUs.png",
+              "alt": "Integrations"
+            }
+          },
+          {
+            "_key": "bcd1ca2c2901",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Works everywhere",
+            "highlightSubText": "Superflow's versatile website feedback tool works on any web-building platform.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/bnUcm2OPEpqw5jEXbtPNbUimPY.png",
+              "alt": "All Available Platforms"
+            }
+          },
+          {
+            "_key": "4536cd8723f8",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "One-time install",
+            "highlightSubText": "Requires just a simple code snippet input. Superflow is extremely easy to implement.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/1ENS9okCzDS0l5YDanpp6xzKOEA.png",
+              "alt": "Single Install"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "6b7bb3c1d2a2",
+        "_type": "userPersonaJob",
+        "title1": "Initiate effective design collaboration",
+        "features": [
+          {
+            "_key": "4dc98caed19a",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Enhances teamwork",
+            "highlightSubText": "Work together with your team or client on any project.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/S30dc38EvbxdCh8uQByaFe1zg.png",
+              "alt": "enhanced teamwork"
+            }
+          },
+          {
+            "_key": "a02966df5101",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Live huddles",
+            "highlightSubText": "Start live huddles for collaborative design sessions with your client or teams.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/LdVSxpBwGExaAoTNcD9nNGRd2A.png",
+              "alt": "Live huddles"
+            }
+          },
+          {
+            "_key": "f4c77eab3f7c",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Real-time collaboration",
+            "highlightSubText": "Guide team members using flock mode for a unified design approach",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gd99OOub9xEQ7sdPOBj3Cko.png",
+              "alt": "save time"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Spend more time designing, and less",
+    "solutionTitle2": "time sifting through client feedback",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "consumed by scattered communication",
+    "features": [
+      {
+        "_key": "081d2f0c2814",
+        "_type": "userPersonaFeatureItem",
+        "title": "Collaboration in context",
+        "subText": "Precisely pin comments to areas or web elements. Have more to say? Record your screen, voice or a video.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/foMEFBVIZDCYQ7JU4xBBJCbAv4.png",
+          "alt": "Highlight Image"
+        }
+      },
+      {
+        "_key": "691d0c9c96e3",
+        "_type": "userPersonaFeatureItem",
+        "title": "More designing, less task managing",
+        "subText": "@mention your team, set tasks and priorities all in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/VMqLZlRJXy68knzrGmLCJxpQc7U.png",
+          "alt": "Task App"
+        }
+      },
+      {
+        "_key": "f705083ef412",
+        "_type": "userPersonaFeatureItem",
+        "title": "Simple design testing that scales",
+        "subText": "With mobile and tablet support, you can test new designs across any platform.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/TaREaXHrmo3i8kupB5vNXk9wP20.png",
+          "alt": "Mobile Comments"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "testimonials": [
+      {
+        "_key": "a65b7fbe9a02",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz1WX2fHDukr0AKt1uPlqNkCnjg.jpg",
+          "alt": "Nick winter profile photo"
+        },
+        "name": "DeAndre Holland",
+        "role": "Designer",
+        "company": "Lenus",
+        "title": "This is an investment that I’m so grateful for!",
+        "subCopy": "I'm incredibly grateful for this investment! Superflow with Webflow has made client feedback seamless. No more back and forth calls or messages, or using tools like Bubbles. It's a great time-saver!"
+      },
+      {
+        "_key": "bc7ad28caf8e",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "26643b697892",
+        "_type": "userPersonaFaqItem",
+        "question": "What is an annotation tool?",
+        "answer": "Annotation tools let users comment and suggest feedback directly on digital content like WIP websites. They allow interactive collaboration, faster decision-making, simplified reviews and better brainstorming with an easy to use interface."
+      },
+      {
+        "_key": "1d739f9af470",
+        "_type": "userPersonaFaqItem",
+        "question": "What is a design feedback tool?",
+        "answer": "A design feedback tool makes the team feedback process ten times smoother by allowing collaborators to comment directly on design drafts. It keeps feedback in one easy-to-track place for all of your projects."
+      },
+      {
+        "_key": "957cba7f94a8",
+        "_type": "userPersonaFaqItem",
+        "question": "What's the difference between an annotation tool and a design tool?"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Do your best work by upgrading your teamwork",
+      "subText": "See how much better designing, iterating and shipping websites can be."
+    }
+  },
+  {
+    "_id": "up-product-managers",
+    "_type": "userPersonaPage",
+    "slug": "product-managers",
+    "title": "Manage product feedback with Superflow—built for agile Product Managers",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/An4RE82ToJT5e15NeLtIDCY2nE.png",
+      "alt": "Product Managers Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/mG6KBvrrEJk8VjQ3VNmk9QAKIk.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "noIndex": "noindex",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Product Manager",
+      "description": "Take control of product management - Simplify feedback, enhance teamwork, and fast-track success with Superflow's Innovative web feedback tool.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow."
+    },
+    "jobs": [
+      {
+        "_key": "7cf2ca9f4d59",
+        "_type": "userPersonaJob",
+        "title1": "As stakeholders multiply, it gets harder",
+        "title2": "to keep everyone on the same page",
+        "features": [
+          {
+            "_key": "3c5705023aba",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comments without context lead to confusion",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/ClL1cXOfAY6Jbi8n9M5Afowg4CM.png",
+              "alt": "pin-point comments"
+            }
+          },
+          {
+            "_key": "c1a4a691f78f",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Hard to know which task needs eyes",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/boOsX4jGE34GVp1yzIgFzyop31U.png",
+              "alt": "comment on area"
+            }
+          },
+          {
+            "_key": "5cb2c39a900a",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Unclear who is doing what and if crucial bugs are prioritized",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/xGDQLzKT4Ru6TgJ8Tr6HqngeQ.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "99d6979b7ba6",
+        "_type": "userPersonaJob",
+        "title1": "Enhance task management:",
+        "features": [
+          {
+            "_key": "8393cb3d6ba3",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Connect with other apps",
+            "highlightSubText": "Integrate with task management tools like ClickUp, Slack, and Asana.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/T9MZHui0wwFD1t19rdatBEIjIUs.png",
+              "alt": "integrations"
+            }
+          },
+          {
+            "_key": "48875e6a9688",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Manage product tasks",
+            "highlightSubText": "Seamlessly manage tasks across various platforms and teams.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/KW3QsALUHUXDRybDS15LXzBYqg.png",
+              "alt": "manage your workflow"
+            }
+          },
+          {
+            "_key": "cd13cddbcbf7",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Centralize communication",
+            "highlightSubText": "Keep track of all your product-related feedback and revisions in one place.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/SNhpTlUuVZToMvGnQxUL87X2qE.png",
+              "alt": "single source of truth"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "45169a532d48",
+        "_type": "userPersonaJob",
+        "title1": "Fasten revision process",
+        "features": [
+          {
+            "_key": "d04164f6d8be",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Comment on live websites",
+            "highlightSubText": "Annotate live web pages throughout the staging and production phases.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/aq39mKZzCOfDEUN5kiC6RtdluNs.png",
+              "alt": "annotate on staging and prod"
+            }
+          },
+          {
+            "_key": "fecf7eb2e02f",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Improve communication",
+            "highlightSubText": "Clear communication related to product feedback for faster revisions.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gd99OOub9xEQ7sdPOBj3Cko.png"
+            }
+          },
+          {
+            "_key": "8f5ae2f3f5ad",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Intuitive tools",
+            "highlightSubText": "Streamline design revisions with an intuitive toolkit.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/sl3Shy0rcjJyfyKdUBxv49Fyw.png",
+              "alt": "intuitive tools"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Keep your team literally on the same",
+    "solutionTitle2": "page with all feedback in one place",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "consumed by scattered communication",
+    "features": [
+      {
+        "_key": "1fd198ae972f",
+        "_type": "userPersonaFeatureItem",
+        "title": "Manage all your projects, yes all of them",
+        "subText": "Assign tasks, set priorities, and track all project progress in Kanban view.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Ora5WseyniK1byOwFcwQme2jPcY.png",
+          "alt": "Image 1"
+        }
+      },
+      {
+        "_key": "6c43325a4f1c",
+        "_type": "userPersonaFeatureItem",
+        "title": "Guest Mode is the best mode",
+        "subText": "Clients can leave feedback immediately without having to even sign up.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ttudJFClGySLeSGSpyHshRYi4VM.png",
+          "alt": "Image 2"
+        }
+      },
+      {
+        "_key": "e8b385d27bd6",
+        "_type": "userPersonaFeatureItem",
+        "title": "Powerful analytics in a simple UI",
+        "subText": "Easy to use analytics so you can track progress or search comments by keyword.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Qcxi0cDf5BusXvrUDpP0fENtj8.png",
+          "alt": "Image 3"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "testimonials": [
+      {
+        "_key": "4ad198b738b0",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/jz1WX2fHDukr0AKt1uPlqNkCnjg.jpg",
+          "alt": "Nick Winter Profile Photo"
+        },
+        "name": "Nick Winter",
+        "role": "CEO",
+        "company": "CodeCombat",
+        "title": "It's everything I've wanted",
+        "subCopy": "\"Superflow is the fastest, easiest way to iterate on our apps and marketing pages. The UX is easy, the tech is brilliant, the team is like lightning–it's everything I've wanted and tried to build into our websites myself for 15 years. Finally!\""
+      },
+      {
+        "_key": "e251189aad39",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "fe59e3709ae8",
+        "_type": "userPersonaFaqItem",
+        "question": "What is an annotation tool?",
+        "answer": "Annotation tools let users comment and suggest feedback directly on digital content like WIP websites. They allow interactive collaboration, faster decision-making, simplified reviews and better brainstorming with an easy to use interface."
+      },
+      {
+        "_key": "31b697b68949",
+        "_type": "userPersonaFaqItem",
+        "question": "What is a design feedback tool?",
+        "answer": "A design feedback tool makes the team feedback process ten times smoother by allowing collaborators to comment directly on design drafts. It keeps feedback in one easy-to-track place for all of your projects."
+      },
+      {
+        "_key": "2efefc50b7fb",
+        "_type": "userPersonaFaqItem",
+        "question": "What's the difference between an annotation tool and a design tool?"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Ready to track & resolve bugs 10x faster?"
+    }
+  },
+  {
+    "_id": "up-marketers",
+    "_type": "userPersonaPage",
+    "slug": "marketers",
+    "title": "Stick the landing with your landing pages. Get a live feed of feedback on your live website.",
+    "thumbnail": {
+      "framerImageUrl": "https://framerusercontent.com/images/mWS0D0RJ6HFQSKuUSvi9rfitEbk.png",
+      "alt": "Marketers Preview Image"
+    },
+    "icon": {
+      "framerImageUrl": "https://framerusercontent.com/images/XtFfFLGH0s4R7P4hvvLvvxjCEy4.png",
+      "alt": "Icon"
+    },
+    "hidden": false,
+    "metaTitle": "Stick the landing with your landing pages. Get a live feed of feedback on your live website.",
+    "metaDescription": "Superflow lets everyone collaborate directly on your live landing pages. That means smooth sailing, helping you ship faster.",
+    "noIndex": "index",
+    "hero": {
+      "_type": "userPersonaHero",
+      "role": "Marketer",
+      "description": "Superflow lets everyone collaborate directly on your live landing pages. That means smooth sailing, helping you ship faster.",
+      "heroCtaText": "Try Superflow for Free",
+      "trustLine": "9000+ marketing agencies, design firms and software teams rely on Superflow."
+    },
+    "jobs": [
+      {
+        "_key": "62d8cb0aa39b",
+        "_type": "userPersonaJob",
+        "title1": "Collaborating across 100s of landing",
+        "title2": "pages can feel like being lost at sea",
+        "features": [
+          {
+            "_key": "e7bab0456288",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Tracking projects across different apps leads to lag and guessing games",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/1NyhRczRLVDHGFtIrOsrKXKm6ow.png",
+              "alt": "Problem 1"
+            }
+          },
+          {
+            "_key": "777a3348424e",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Getting everyone on the same page requires a time-wasting meeting",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/boOsX4jGE34GVp1yzIgFzyop31U.png",
+              "alt": "Problem 2"
+            }
+          },
+          {
+            "_key": "b6d0513e9694",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Feedback can be hard to find across Slack, email and other channels",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/Gl5JWl8HbVLaDgdP2Wz6Diy3N8.png",
+              "alt": "Problem 3"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "0ff709487fa8",
+        "_type": "userPersonaJob",
+        "title1": "Create highly collaborative environment",
+        "features": [
+          {
+            "_key": "a6a23d258a0b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Efficient teamwork",
+            "highlightSubText": "Encourage teamwork and boost productivity through real-time commenting on live web pages.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/aq39mKZzCOfDEUN5kiC6RtdluNs.png",
+              "alt": "efficent teamwork"
+            }
+          },
+          {
+            "_key": "63cb69704a23",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Live Huddles",
+            "highlightSubText": "Start live huddles for real-time brainstorming and problem-solving",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/qeFnHWvZhln3aghvQ6FufXQICY4.png",
+              "alt": "huddle"
+            }
+          },
+          {
+            "_key": "a21e401ff31a",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Flock Mode",
+            "highlightSubText": "Guide users on the page with flock mode for a unified vision",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/sEsslprfAl1xQbORvuUN1bxeFk.png",
+              "alt": "flock mode"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "89e54f16b9b6",
+        "_type": "userPersonaJob",
+        "title1": "Leverage AI-powered copywriting",
+        "features": [
+          {
+            "_key": "8ca54bdfbf67",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Rewrite with AI",
+            "highlightSubText": "Rewrite copy with AI assistance for optimized messaging",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/9A9QbQ7p8ApvgxbNIvBcKzahGYw.png",
+              "alt": "ai co-pilot"
+            }
+          },
+          {
+            "_key": "181b9793f74b",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Creative suggestions",
+            "highlightSubText": "Get suggestions and share it with your team in an instance directly on your site",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/u0UQZeG2B9nDKfVzkcYjMKLg.png",
+              "alt": "rewrite"
+            }
+          },
+          {
+            "_key": "2902eeadb019",
+            "_type": "userPersonaJobFeature",
+            "highlightTitle": "Save more time",
+            "highlightSubText": "Give copy feedback or rewrite directly on live web pages to save time.",
+            "highlightImage": {
+              "framerImageUrl": "https://framerusercontent.com/images/eOiiI5qWbOxM2HNjHLpHSQeU2nI.png"
+            }
+          }
+        ]
+      }
+    ],
+    "solutionTitle1": "Ship polished landing pages lightning fast",
+    "solutionTitle2": "by getting everyone on the same page",
+    "featureText1": "Save 100 hours a month",
+    "featureText2": "consumed by scattered communication",
+    "features": [
+      {
+        "_key": "fdf6c3bb0186",
+        "_type": "userPersonaFeatureItem",
+        "title": "A live feed for feedback, on your live website",
+        "subText": "Pin comments to areas, elements or device details. Have more to say? Record your screen, voice or a video.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/TaREaXHrmo3i8kupB5vNXk9wP20.png",
+          "alt": "Mobile Comment"
+        }
+      },
+      {
+        "_key": "c614cdf5d88d",
+        "_type": "userPersonaFeatureItem",
+        "title": "Task management made manageable",
+        "subText": "@mention your team, set tasks and priorities all in one place.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/VMqLZlRJXy68knzrGmLCJxpQc7U.png",
+          "alt": "Task App"
+        }
+      },
+      {
+        "_key": "c9c14e76d9c1",
+        "_type": "userPersonaFeatureItem",
+        "title": "Let Superflow supercharge your workflow",
+        "subText": "Seamlessly connect Slack, Asana, Clickup or your favorite collaboration tool.",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/g60bpxp2r2CKmTd968nZd2S8k.png",
+          "alt": "Integrations Image"
+        }
+      }
+    ],
+    "othersTitle1": "How can Superflow",
+    "othersTitle2": "supersize your output",
+    "testimonials": [
+      {
+        "_key": "0c1a0e5d030c",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/Zcz8CYt5FsyXKznEACLMGQoLcM.png",
+          "alt": "Simon Headshot"
+        },
+        "name": "Simon Smallchua",
+        "role": "COO",
+        "company": "Harvey",
+        "title": "Clear, Simple & Saves time for everyone involved",
+        "subCopy": "\"Collaborating on websites is transformed with Superflow. It saves time clarifying feedback, assigning tasks, and resolving actions in real-time. The intuitive interface, image/screen recording support, and responsive team make it our top choice. Efficient and user-friendly!\""
+      },
+      {
+        "_key": "e083a2979b4f",
+        "_type": "userPersonaTestimonial",
+        "image": {
+          "framerImageUrl": "https://framerusercontent.com/images/ocq9qAtBqIJgzO3QZXIASFfKc.jpg",
+          "alt": "Riley Profile Photo"
+        },
+        "name": "Riley Hennigh",
+        "role": "Product Designer",
+        "company": "Headway.io",
+        "title": "Everybody has loved how easy it is to get started",
+        "subCopy": "\"Superflow simplifies collaboration, enabling fast feedback from stakeholders during website design and development. Easy to use, loved by all, and seamlessly compatible with mobile, it's a powerful tool for efficient project workflows.\""
+      }
+    ],
+    "faq": [
+      {
+        "_key": "2c90b29efc03",
+        "_type": "userPersonaFaqItem",
+        "question": "What is an annotation tool?",
+        "answer": "Annotation tools let users comment and suggest feedback directly on digital content like WIP websites. They allow interactive collaboration, faster decision-making, simplified reviews and better brainstorming with an easy to use interface."
+      },
+      {
+        "_key": "2326e0deda7b",
+        "_type": "userPersonaFaqItem",
+        "question": "What is a design feedback tool?",
+        "answer": "A design feedback tool makes the team feedback process ten times smoother by allowing collaborators to comment directly on design drafts. It keeps feedback in one easy-to-track place for all of your projects."
+      },
+      {
+        "_key": "498c82d0a358",
+        "_type": "userPersonaFaqItem",
+        "question": "What's the difference between an annotation tool and a design tool?"
+      }
+    ],
+    "finalCta": {
+      "_type": "userPersonaFinalCta",
+      "title": "Ready to upgrade collaboration and move up your ship date?",
+      "subText": "See how much better revising, iterating and shipping websites can be today."
+    }
+  }
+]

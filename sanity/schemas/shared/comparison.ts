@@ -195,3 +195,4 @@ export const comparisonFaqItem = defineType({
   ],
   preview: { select: { title: "question" } },
 });
+

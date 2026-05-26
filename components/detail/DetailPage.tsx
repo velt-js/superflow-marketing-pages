@@ -11,18 +11,19 @@ import RelatedWays from "./RelatedWays";
 import type { DetailPageConfig } from "@/lib/detail-data";
 
 export default function DetailPage({ config }: { config: DetailPageConfig }) {
+  const dark = config.theme === "dark";
   return (
-    <main>
+    <main className={dark ? "bg-[#010001]" : undefined}>
       <Nav />
       <DetailHero {...config.hero} />
-      <ProblemSection {...config.problem} />
-      <ShowcaseMedia {...config.showcase} />
+      <ProblemSection {...config.problem} dark={dark} />
+      <ShowcaseMedia {...config.showcase} dark={dark} />
       {config.features.map((feature, index) => (
-        <FeatureRow key={feature.title} {...feature} reverse={index % 2 === 1} />
+        <FeatureRow key={feature.title} {...feature} reverse={index % 2 === 1} dark={dark} />
       ))}
-      <RelatedWays {...config.related} />
+      <RelatedWays {...config.related} dark={dark} />
       <div className="bg-[#121212]">
-        <CustomerLoveCarousel />
+        <CustomerLoveCarousel roundedTop={dark} />
         <DarkSection />
       </div>
       <Footer />

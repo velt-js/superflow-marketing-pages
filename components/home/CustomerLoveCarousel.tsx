@@ -71,10 +71,18 @@ function Card({ t }: { t: Testimonial }) {
   );
 }
 
-export default function CustomerLoveCarousel() {
+export default function CustomerLoveCarousel({
+  roundedTop = false,
+}: {
+  roundedTop?: boolean;
+}) {
   const items = [...TESTIMONIALS, ...TESTIMONIALS];
   return (
-    <section className="bg-white px-6 lg:px-[30px] pb-[80px] rounded-b-[32px] lg:rounded-b-[80px]">
+    <section
+      className={`bg-white px-6 lg:px-[30px] pb-[80px] rounded-b-[32px] lg:rounded-b-[80px] ${
+        roundedTop ? "rounded-t-[32px] lg:rounded-t-[80px]" : ""
+      }`}
+    >
       <div className="bg-[#f5f5f7] rounded-[40px] lg:rounded-[80px] pt-[80px] pb-[52px] flex flex-col items-center gap-[48px]">
         <div className="flex flex-col items-center gap-[16px] px-6 text-center">
           <p
