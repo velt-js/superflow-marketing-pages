@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import {
   integrationDetails,
   useCaseDetails,
-  userPersonaDetails,
 } from "@/lib/detail-data";
 import { caseStudyDetails } from "@/lib/case-study-data";
 import {
@@ -93,10 +92,10 @@ export async function GET() {
     ...useCaseSlugsCms,
   ]).map((slug) => ({ path: `/use-case/${slug}`, title: toTitle(slug) }));
 
-  const personas = unique([
-    ...Object.keys(userPersonaDetails),
-    ...userPersonaSlugsCms,
-  ]).map((slug) => ({ path: `/user-persona/${slug}`, title: toTitle(slug) }));
+  const personas = unique(userPersonaSlugsCms).map((slug) => ({
+    path: `/user-persona/${slug}`,
+    title: toTitle(slug),
+  }));
 
   const alternatives = unique(alternativeSlugsCms).map((slug) => ({
     path: `/alternative/${slug}`,

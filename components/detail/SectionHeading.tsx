@@ -3,6 +3,7 @@ export interface SectionHeadingProps {
   highlight?: string;
   align?: "center" | "left";
   size?: "md" | "lg";
+  dark?: boolean;
 }
 
 export default function SectionHeading({
@@ -10,6 +11,7 @@ export default function SectionHeading({
   highlight,
   align = "center",
   size = "md",
+  dark = false,
 }: SectionHeadingProps) {
   const fontSize =
     size === "lg" ? "clamp(36px, 5vw, 60px)" : "clamp(28px, 4vw, 44px)";
@@ -17,7 +19,7 @@ export default function SectionHeading({
     <h2
       className={`font-semibold tracking-[-0.03em] ${align === "center" ? "text-center" : "text-left"}`}
       style={{
-        color: "#111",
+        color: dark ? "#fff" : "#111",
         fontFamily: "var(--font-poppins)",
         fontSize,
         lineHeight: 1.25,

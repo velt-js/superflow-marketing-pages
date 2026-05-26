@@ -45,6 +45,7 @@ export interface RelatedWayItem {
   title: string;
   description?: string;
   icon?: string;
+  iconNode?: import("react").ReactNode;
   href: string;
 }
 
@@ -60,6 +61,8 @@ export interface DetailPageConfig {
   showcase: ShowcaseMediaData;
   features: FeatureRowData[];
   related: RelatedWaysData;
+  /** Render the body sections dark (cards/wells/text) to match live persona pages. Defaults to light. */
+  theme?: "light" | "dark";
 }
 
 export interface ReasonItem {
@@ -329,45 +332,7 @@ export const useCaseDetails: Record<string, DetailPageConfig> = {
   },
 };
 
-export const userPersonaDetails: Record<string, DetailPageConfig> = {
-  "qa-teams": {
-    hero: {
-      eyebrow: "Built for",
-      heading: "Built for QA teams that hate guessing what “doesn’t work” means",
-      ctaText: "Try Superflow for Free",
-      ctaHref: "https://app.usesuperflow.com/signup",
-      leftBadge: { label: "QA Lead", color: "#4dd5ff" },
-      rightBadge: { label: "Engineer", color: "#fc6cba" },
-    },
-    problem: SHARED_PROBLEM,
-    showcase: SHARED_SHOWCASE,
-    features: SHARED_FEATURES,
-    related: {
-      heading: "Other roles that",
-      highlight: "Superflow can help",
-      items: [
-        {
-          title: "Developers",
-          description: "Resolve issues in code context.",
-          icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/developers",
-        },
-        {
-          title: "Project Managers",
-          description: "Keep every review on track.",
-          icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/project-managers",
-        },
-        {
-          title: "Product Managers",
-          description: "Track every comment from spec to ship.",
-          icon: "/images/hero/icon-world.svg",
-          href: "/user-persona/product-managers",
-        },
-      ],
-    },
-  },
-};
+// userPersonaDetails moved to Sanity (see app/user-persona/[slug]/page.tsx).
 
 const SHARED_REASONS: ReasonsGridData = {
   heading: "6 Reasons to choose",

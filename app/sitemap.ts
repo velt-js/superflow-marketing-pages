@@ -3,7 +3,6 @@ import type { MetadataRoute } from "next";
 import {
   integrationDetails,
   useCaseDetails,
-  userPersonaDetails,
 } from "@/lib/detail-data";
 import { caseStudyDetails } from "@/lib/case-study-data";
 import {
@@ -77,9 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique([...Object.keys(useCaseDetails), ...useCaseSlugsCms]).map(
       (slug) => `/use-case/${slug}`,
     ),
-    ...unique([...Object.keys(userPersonaDetails), ...userPersonaSlugsCms]).map(
-      (slug) => `/user-persona/${slug}`,
-    ),
+    ...unique(userPersonaSlugsCms).map((slug) => `/user-persona/${slug}`),
     ...unique(alternativeSlugsCms).map((slug) => `/alternative/${slug}`),
     ...unique(comparisonSlugsCms).map((slug) => `/comparisons/${slug}`),
     ...unique([...Object.keys(caseStudyDetails), ...caseStudySlugsCms]).map(

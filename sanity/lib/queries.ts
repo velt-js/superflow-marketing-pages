@@ -138,6 +138,17 @@ export async function getAllUserPersonaSlugs(): Promise<string[]> {
     `*[_type == "userPersonaPage" && defined(slug.current)].slug.current`
   );
 }
+export async function getAllUserPersonaPages() {
+  return client.fetch(
+    `*[_type == "userPersonaPage" && hidden != true] | order(title asc){
+      _id, title, "slug": slug.current,
+      "role": hero.role,
+      "description": hero.description,
+      "thumbnail": thumbnail.asset->url,
+      "icon": icon.asset->url
+    }`
+  );
+}
 export async function getUserPersonaPageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "userPersonaPage" && slug.current == $slug][0]{

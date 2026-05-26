@@ -70,64 +70,7 @@ export const useCaseListing: ListingPageConfig = {
   },
 };
 
-export const userPersonaListing: ListingPageConfig = {
-  hero: {
-    heading: "Built for every role on the team",
-    subheading:
-      "Whoever owns the work, Superflow keeps feedback grounded in the asset itself — fewer threads, faster approvals, no context lost between tools.",
-  },
-  grid: {
-    variant: "text-only",
-    items: [
-      {
-        title: "QA Team",
-        subtitle:
-          "Get faster bug feedback across testing, staging and production. End communication breakdowns. Stop bugs before they even happen.",
-        href: "/user-persona/qa-teams",
-      },
-      {
-        title: "Project Managers",
-        subtitle: "Keep every review on track without chasing status updates.",
-        href: "/user-persona/project-managers",
-      },
-      {
-        title: "Founders",
-        subtitle: "Give precise feedback without slowing your team down.",
-        href: "/user-persona/founders",
-      },
-      {
-        title: "Developers",
-        subtitle: "Resolve issues directly in the code context they live in.",
-        href: "/user-persona/developers",
-      },
-      {
-        title: "Designers",
-        subtitle: "Collect contextual feedback right on the canvas.",
-        href: "/user-persona/designers",
-      },
-      {
-        title: "Product Managers",
-        subtitle: "Track every comment from spec to ship in one place.",
-        href: "/user-persona/product-managers",
-      },
-      {
-        title: "Marketers",
-        subtitle: "Review landing pages and creatives without screenshots.",
-        href: "/user-persona/marketers",
-      },
-      {
-        title: "Marketing Agencies",
-        subtitle: "Give clients a frictionless way to approve work.",
-        href: "/user-persona/marketing-agencies",
-      },
-      {
-        title: "Product Companies",
-        subtitle: "Ship features faster with feedback baked into every review.",
-        href: "/user-persona/product-companies",
-      },
-    ],
-  },
-};
+// userPersonaListing moved to Sanity (see app/user-persona/page.tsx).
 
 export const integrationsListing: ListingPageConfig = {
   hero: {
