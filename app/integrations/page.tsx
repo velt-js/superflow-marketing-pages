@@ -1,25 +1,44 @@
 import ListingPage from "@/components/listing/ListingPage";
-import { integrationsListing } from "@/lib/listing-data";
+import { getAllIntegrationListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
+export const revalidate = 60;
+
+const HERO_HEADING = "Superflow integrations";
+const HERO_SUBHEADING =
+  "Plug Superflow into the tools your team already lives in. Push tasks, sync threads, and keep every conversation in context.";
+
 export const metadata = buildPageMetadata({
   title: "Integrations",
-  description: integrationsListing.hero.subheading,
+  description: HERO_SUBHEADING,
   path: "/integrations",
 });
 
-export default function IntegrationsIndexPage() {
+export default async function IntegrationsIndexPage() {
+  const items = await getAllIntegrationListItems();
   return (
     <>
       <PageJsonLd
         name="Integrations | Superflow"
-        description={integrationsListing.hero.subheading}
+        description={HERO_SUBHEADING}
         path="/integrations"
         trail={[{ name: "Integrations", url: `${SITE_URL}/integrations` }]}
       />
-      <ListingPage config={integrationsListing} />
+      <ListingPage
+        config={{
+          hero: { heading: HERO_HEADING, subheading: HERO_SUBHEADING },
+          grid: {
+            variant: "icon-horizontal",
+            items: items.map((item) => ({
+              title: item.appName || item.title,
+              icon: item.appLogo || "/images/hero/icon-world.svg",
+              href: `/integrations/${item.slug}`,
+            })),
+          },
+        }}
+      />
     </>
   );
 }

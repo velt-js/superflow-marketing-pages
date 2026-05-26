@@ -25,8 +25,8 @@ export default function CaseStudyTestimonial({
                 className="text-[#111] font-semibold text-center whitespace-nowrap"
                 style={{
                   fontFamily: "var(--font-poppins)",
-                  fontSize: "clamp(28px, 3.5vw, 40px)",
-                  lineHeight: 1.2,
+                  fontSize: "clamp(24px, 3vw, 36px)",
+                  lineHeight: 1.15,
                 }}
               >
                 {`“${headline}”`}
@@ -36,9 +36,9 @@ export default function CaseStudyTestimonial({
               className="text-[#111] opacity-75 text-center"
               style={{
                 fontFamily: "var(--font-poppins)",
-                fontSize: "clamp(18px, 2vw, 24px)",
-                lineHeight: 2,
-                maxWidth: 1028,
+                fontSize: 16,
+                lineHeight: 1.6,
+                maxWidth: 600,
               }}
             >
               {`"${quote}"`}

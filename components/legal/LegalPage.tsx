@@ -24,7 +24,7 @@ export default function LegalPage({
               className="text-[#111]"
               style={{
                 fontFamily: "var(--font-poppins)",
-                fontWeight: 700,
+                fontWeight: 600,
                 fontSize: "clamp(36px, 5vw, 56px)",
                 lineHeight: 1.15,
                 letterSpacing: "-0.03em",

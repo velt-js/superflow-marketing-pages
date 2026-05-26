@@ -3,15 +3,13 @@ import type { MetadataRoute } from "next";
 import {
   alternativeDetails,
   comparisonDetails,
-  integrationDetails,
-  useCaseDetails,
   userPersonaDetails,
 } from "@/lib/detail-data";
-import { caseStudyDetails } from "@/lib/case-study-data";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
   getAllCaseStudySlugs,
+  getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllIntegrationSlugs,
   getAllReviewSlugs,
@@ -28,6 +26,8 @@ const STATIC_PATHS = [
   "/blog",
   "/book-demo",
   "/calculator",
+  "/case-study",
+  "/checklist",
   "/comparisons",
   "/demo",
   "/integrations",
@@ -61,6 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternativeSlugsCms,
     comparisonSlugsCms,
     reviewSlugs,
+    checklistSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationSlugs),
@@ -70,15 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllAlternativeSlugs),
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
+    safeFetch(getAllChecklistSlugs),
   ]);
 
   const dynamicPaths: string[] = [
-    ...unique([...Object.keys(integrationDetails), ...integrationSlugsCms]).map(
-      (slug) => `/integrations/${slug}`,
-    ),
-    ...unique([...Object.keys(useCaseDetails), ...useCaseSlugsCms]).map(
-      (slug) => `/use-case/${slug}`,
-    ),
+    ...unique(integrationSlugsCms).map((slug) => `/integrations/${slug}`),
+    ...unique(useCaseSlugsCms).map((slug) => `/use-case/${slug}`),
     ...unique([...Object.keys(userPersonaDetails), ...userPersonaSlugsCms]).map(
       (slug) => `/user-persona/${slug}`,
     ),
@@ -88,11 +86,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique([...Object.keys(comparisonDetails), ...comparisonSlugsCms]).map(
       (slug) => `/comparisons/${slug}`,
     ),
-    ...unique([...Object.keys(caseStudyDetails), ...caseStudySlugsCms]).map(
-      (slug) => `/case-study/${slug}`,
-    ),
+    ...unique(caseStudySlugsCms).map((slug) => `/case-study/${slug}`),
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),
+    ...unique(checklistSlugs).map((slug) => `/checklist/${slug}`),
   ];
 
   const lastModified = new Date();

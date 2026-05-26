@@ -1,0 +1,160 @@
+{
+  "caseStudies": [
+    {
+      "_id": "case-study-writesonic",
+      "_type": "caseStudyPage",
+      "title": "How Writesonic saved $5000 every week on overhead costs using Superflow?",
+      "slug": {
+        "_type": "slug",
+        "current": "writesonic"
+      },
+      "description": "Writesonic is a generative AI startup that help teams with copywriting",
+      "author": "Shrutika Joshi",
+      "publishedDateText": "2023-08-28",
+      "hero": {
+        "_type": "caseStudyHero",
+        "industry": "SaaS - AI",
+        "teams": "Designer, Developers & Marketing",
+        "teamSize": "50 - 60"
+      },
+      "overview": {
+        "_type": "caseStudyOverview",
+        "description": "These are the barriers that were faced by the Writesonic team",
+        "problem": "Feedback-to-solution time is significantly high",
+        "solution": "Give contextual feedback and to track progress"
+      },
+      "problemSection": {
+        "_type": "caseStudyProblemSection",
+        "description": "These are the barriers that were faced by the Writesonic team",
+        "items": [
+          {
+            "_type": "caseStudyProblemItem",
+            "_key": "1c5799a73151",
+            "framerImageUrl": "https://framerusercontent.com/images/KRbReEegZrm84GIHDLfgXOP8EY.png",
+            "framerImageAlt": "Ctrl+C and Ctrl+V"
+          },
+          {
+            "_type": "caseStudyProblemItem",
+            "_key": "314fe740325b",
+            "framerImageUrl": "https://framerusercontent.com/images/J8RXGChAxYXcJBBrt4jrUUmHRg.png",
+            "framerImageAlt": "Message"
+          },
+          {
+            "_type": "caseStudyProblemItem",
+            "_key": "12546d630cb0",
+            "framerImageUrl": "https://framerusercontent.com/images/UY3jybBHnMJySsXh1e1rDAaGE.png",
+            "framerImageAlt": "Open task iamge"
+          }
+        ]
+      },
+      "solutionSection": {
+        "_type": "caseStudySolutionSection",
+        "description": "These are the barriers that were faced by the Writesonic team",
+        "items": [
+          {
+            "_type": "caseStudySolutionItem",
+            "_key": "b18673014376",
+            "tag": "Comment",
+            "title": "Feedback directly on site",
+            "subText": "Share and Receive Feedback Instantly on Your Website",
+            "framerVideoUrl": "https://framerusercontent.com/assets/xEhEfuAG30KOSERnsWNus8NeV0.mp4"
+          },
+          {
+            "_type": "caseStudySolutionItem",
+            "_key": "2122a4edd713",
+            "tag": "Comment",
+            "title": "Clear feedback with Screen Recording",
+            "subText": "Share and View Feedback with Screen Recordings Instantly",
+            "framerVideoUrl": "https://framerusercontent.com/assets/AyRgKxkgvQc8cZoOc2ijCbrkU.mp4"
+          },
+          {
+            "_type": "caseStudySolutionItem",
+            "_key": "fcf7b831c326",
+            "tag": "Comment",
+            "title": "Assign comments to your team",
+            "subText": "Assign tasks effortlessly with a click or utilize your preferred method, @name.",
+            "framerVideoUrl": "https://framerusercontent.com/assets/xbyplvdABg20Az8opdfLr8M7410.mp4"
+          }
+        ]
+      },
+      "resultsSection": {
+        "_type": "caseStudyResultsSection",
+        "items": [
+          {
+            "_type": "caseStudyResultItem",
+            "_key": "ea21b5c4f2a6",
+            "value": "15X",
+            "text": "Quicker feedback loops"
+          },
+          {
+            "_type": "caseStudyResultItem",
+            "_key": "bc93f755d8d2",
+            "value": "$5000",
+            "text": "Saved on overhead cost"
+          },
+          {
+            "_type": "caseStudyResultItem",
+            "_key": "0c0b5bb30dd1",
+            "value": "250%",
+            "text": "quicker campagin delivery"
+          }
+        ]
+      },
+      "testimonial": {
+        "_type": "caseStudyTestimonial",
+        "name": "Manvi Agarwal",
+        "role": "Head of Content",
+        "company": "Writesonic",
+        "title": "We iterated and shipped 10x faster with Superflow!",
+        "subText": "Superflow transformed Writesonic's marketing strategy, slashing our monthly expenses by $5,000 and tripling the speed of our campaign rollouts. Their assistance was crucial in greatly enhancing our website design and streamlining our content review.",
+        "framerProfileImageUrl": "https://framerusercontent.com/images/L1MaLphJ1RIWGvB7tn6A5FxgYc.jpg",
+        "framerProfileImageAlt": "Manvi profile photo"
+      },
+      "showFaq": false,
+      "faq": [
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "ed404f47ce95",
+          "question": "Is Superflow any good?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        },
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "89137f1a7469",
+          "question": "Is Superflow free?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        },
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "08d8f7322189",
+          "question": "Do I need a credit card to try Superflow?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        },
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "cb077a613213",
+          "question": "Is Superflow any good?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        },
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "c16a42a46255",
+          "question": "Is Superflow any good?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        },
+        {
+          "_type": "caseStudyFaqItem",
+          "_key": "0aba48c0e7d6",
+          "question": "Is Superflow any good?",
+          "answer": "Annotation tools enable users to add comments, suggestions, and feedback directly on digital content, such as website projects, allowing for interactive collaboration, faster decision-making, and simplified reviewing, brainstorming, and sharing of insights through intuitive click-and-type interactions."
+        }
+      ],
+      "metaTitle": "Writesonic saves $5000",
+      "metaDescription": "Writesonic is a generative AI startup that help teams with copywriting",
+      "framerThumbnailUrl": "https://framerusercontent.com/images/zPXTIJDeHCuuxBsinZYV8943Uk.png",
+      "framerThumbnailAlt": "Thumbnail for case study",
+      "framerLogoUrl": "https://framerusercontent.com/images/CZ2N5KH5LJlxAVGp1JANX9wrX4.svg",
+      "framerLogoAlt": "Writesonic logo"
+    }
+  ]
+}

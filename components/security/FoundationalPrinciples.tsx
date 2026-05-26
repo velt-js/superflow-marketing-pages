@@ -48,7 +48,7 @@ export default function FoundationalPrinciples() {
             className="text-black max-w-[860px]"
             style={{
               fontFamily: "var(--font-poppins)",
-              fontWeight: 700,
+              fontWeight: 600,
               fontSize: "clamp(24px, 3.2vw, 36px)",
               lineHeight: 1.3,
               letterSpacing: "-0.02em",

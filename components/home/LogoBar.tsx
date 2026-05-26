@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const logos = [
+export const LOGO_BAR_LOGOS = [
   { src: "/images/logos/lbe.png", alt: "LBE", w: 110, h: 18 },
   { src: "/images/logos/xyt.png", alt: "XYT", w: 47, h: 28 },
   { src: "/images/logos/cox.png", alt: "Cox Automotive", w: 74, h: 24 },
@@ -22,29 +22,35 @@ const logos = [
   { src: "/images/logos/sylvan.png", alt: "Sylvan Learning", w: 46, h: 46 },
 ];
 
+export function LogoMarquee() {
+  const track = [...LOGO_BAR_LOGOS, ...LOGO_BAR_LOGOS];
+  return (
+    <div className="marquee-viewport w-full overflow-hidden">
+      <div
+        className="marquee-track items-center gap-[64px] opacity-40"
+        style={{ ["--marquee-duration" as string]: "60s" }}
+      >
+        {track.map((logo, i) => (
+          <div key={`${logo.src}-${i}`} className="shrink-0 flex items-center justify-center" style={{ height: 40 }}>
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              width={logo.w}
+              height={logo.h}
+              className="object-contain"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function LogoBar() {
-  const track = [...logos, ...logos];
   return (
     <section className="bg-black py-[60px]">
-      <div className="marquee-viewport w-full overflow-hidden">
-        <div
-          className="marquee-track items-center gap-[64px] opacity-40"
-          style={{ ["--marquee-duration" as string]: "60s" }}
-        >
-          {track.map((logo, i) => (
-            <div key={`${logo.src}-${i}`} className="shrink-0 flex items-center justify-center" style={{ height: 40 }}>
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={logo.w}
-                height={logo.h}
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <LogoMarquee />
     </section>
   );
 }

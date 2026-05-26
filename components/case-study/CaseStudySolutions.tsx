@@ -94,13 +94,24 @@ function SolutionRow({ row }: { row: CaseStudySolutionRow }) {
       className="relative shrink-0 rounded-[24px] overflow-hidden w-full md:w-[580px] h-[326px]"
       style={{ background: "#0b0a23" }}
     >
-      <Image
-        src={row.image}
-        alt={row.title}
-        fill
-        className="object-cover"
-        sizes="580px"
-      />
+      {row.video ? (
+        <video
+          src={row.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
+      ) : row.image ? (
+        <Image
+          src={row.image}
+          alt={row.title}
+          fill
+          className="object-cover"
+          sizes="580px"
+        />
+      ) : null}
     </div>
   );
 

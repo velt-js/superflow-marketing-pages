@@ -21,6 +21,16 @@ export interface ListingGridProps {
   variant: ListingVariant;
   items: ListingItem[];
   defaultCta?: string;
+  // Inverts raster/SVG icons (e.g. Framer use-case icons whose strokes
+  // ship light/white). Off by default so brand logos (integrations) stay
+  // full-color.
+  iconInvert?: boolean;
+  // Optional header rendered inside the same section as the grid, so the
+  // caller doesn't have to stack two sections and double up section-pad-y.
+  header?: ReactNode;
+  // Override the outer section's vertical padding (defaults to the global
+  // `section-pad-y` 120px helper).
+  sectionClassName?: string;
 }
 
 const COLS: Record<ListingVariant, string> = {
@@ -37,14 +47,29 @@ const MIN_HEIGHT: Record<ListingVariant, string> = {
   "icon-centered": "min-h-[180px]",
 };
 
-function CardIcon({ item, size }: { item: ListingItem; size: number }) {
+function CardIcon({
+  item,
+  size,
+  invert,
+}: {
+  item: ListingItem;
+  size: number;
+  invert?: boolean;
+}) {
   if (item.iconNode) {
     return <div style={{ width: size, height: size }}>{item.iconNode}</div>;
   }
   if (item.icon) {
     return (
       <div className="relative shrink-0 overflow-hidden rounded-[8px]" style={{ width: size, height: size }}>
-        <Image src={item.icon} alt="" width={size} height={size} className="object-contain" />
+        <Image
+          src={item.icon}
+          alt=""
+          width={size}
+          height={size}
+          className="object-contain"
+          style={invert ? { filter: "invert(1)" } : undefined}
+        />
       </div>
     );
   }
@@ -88,11 +113,11 @@ function CardShell({
   );
 }
 
-function CardIconVertical({ item, cta }: { item: ListingItem; cta: string }) {
+function CardIconVertical({ item, cta, invert }: { item: ListingItem; cta: string; invert?: boolean }) {
   return (
     <CardShell href={item.href} cta={cta}>
       <div className="flex flex-col items-center gap-4 transition-transform duration-200 group-hover:-translate-y-2">
-        <CardIcon item={item} size={28} />
+        <CardIcon item={item} size={28} invert={invert} />
         <div className="flex flex-col gap-1 text-center" style={{ letterSpacing: "-0.03em" }}>
           <p
             className="text-black"
@@ -149,11 +174,11 @@ function CardTextOnly({ item, cta }: { item: ListingItem; cta: string }) {
   );
 }
 
-function CardIconHorizontal({ item, cta }: { item: ListingItem; cta: string }) {
+function CardIconHorizontal({ item, cta, invert }: { item: ListingItem; cta: string; invert?: boolean }) {
   return (
     <CardShell href={item.href} cta={cta}>
       <div className="flex items-center justify-center gap-3 transition-transform duration-200 group-hover:-translate-y-2">
-        <CardIcon item={item} size={32} />
+        <CardIcon item={item} size={32} invert={invert} />
         <p
           className="text-black"
           style={{
@@ -171,11 +196,11 @@ function CardIconHorizontal({ item, cta }: { item: ListingItem; cta: string }) {
   );
 }
 
-function CardIconCentered({ item, cta }: { item: ListingItem; cta: string }) {
+function CardIconCentered({ item, cta, invert }: { item: ListingItem; cta: string; invert?: boolean }) {
   return (
     <CardShell href={item.href} cta={cta}>
       <div className="flex flex-col items-center gap-3 transition-transform duration-200 group-hover:-translate-y-2">
-        <CardIcon item={item} size={40} />
+        <CardIcon item={item} size={40} invert={invert} />
         <p
           className="text-black"
           style={{
@@ -193,28 +218,51 @@ function CardIconCentered({ item, cta }: { item: ListingItem; cta: string }) {
   );
 }
 
-function CardFor({ variant, item, cta }: { variant: ListingVariant; item: ListingItem; cta: string }) {
+function CardFor({
+  variant,
+  item,
+  cta,
+  invert,
+}: {
+  variant: ListingVariant;
+  item: ListingItem;
+  cta: string;
+  invert?: boolean;
+}) {
   switch (variant) {
     case "icon-vertical":
-      return <CardIconVertical item={item} cta={cta} />;
+      return <CardIconVertical item={item} cta={cta} invert={invert} />;
     case "text-only":
       return <CardTextOnly item={item} cta={cta} />;
     case "icon-horizontal":
-      return <CardIconHorizontal item={item} cta={cta} />;
+      return <CardIconHorizontal item={item} cta={cta} invert={invert} />;
     case "icon-centered":
-      return <CardIconCentered item={item} cta={cta} />;
+      return <CardIconCentered item={item} cta={cta} invert={invert} />;
   }
 }
 
-export default function ListingGrid({ variant, items, defaultCta = "Learn More" }: ListingGridProps) {
+export default function ListingGrid({
+  variant,
+  items,
+  defaultCta = "Learn More",
+  iconInvert,
+  header,
+  sectionClassName = "section-pad-y",
+}: ListingGridProps) {
   return (
-    <section className="bg-white section-pad-y">
+    <section className={`bg-white ${sectionClassName}`}>
       <div className="container-page">
+        {header && <div className="mb-[40px] lg:mb-[56px]">{header}</div>}
         <div className={`grid gap-3 ${COLS[variant]}`}>
           {items.map((item) => (
             <div key={item.href} className={MIN_HEIGHT[variant]}>
               <div className="h-full [&>a]:h-full">
-                <CardFor variant={variant} item={item} cta={item.cta ?? defaultCta} />
+                <CardFor
+                  variant={variant}
+                  item={item}
+                  cta={item.cta ?? defaultCta}
+                  invert={iconInvert}
+                />
               </div>
             </div>
           ))}

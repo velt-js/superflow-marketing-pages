@@ -207,7 +207,7 @@ export default function ComparisonCriterion({
                 className="text-[#111]"
                 style={{
                   fontFamily: "var(--font-poppins)",
-                  fontWeight: 700,
+                  fontWeight: 600,
                   fontSize: "clamp(24px, 2.6vw, 32px)",
                   lineHeight: 1.2,
                   letterSpacing: "-0.03em",

@@ -4,6 +4,17 @@ import { defineType, defineField } from "sanity";
 // Framer's repeating steps__1..6__title|text slots collapse into typed
 // `integrationStep` array. Named sub-types only, no inline objects.
 
+export const integrationBodyImage = defineType({
+  name: "integrationBodyImage",
+  title: "Body Image",
+  type: "image",
+  options: { hotspot: true },
+  fields: [
+    defineField({ name: "alt", title: "Alt Text", type: "string" }),
+    defineField({ name: "caption", title: "Caption", type: "string" }),
+  ],
+});
+
 export const integrationStep = defineType({
   name: "integrationStep",
   title: "Installation Step",
@@ -19,7 +30,20 @@ export const integrationStep = defineType({
       name: "body",
       title: "Step Body",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        {
+          type: "block",
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+              { title: "Code", value: "code" },
+            ],
+            annotations: [{ type: "link" }],
+          },
+        },
+        { type: "integrationBodyImage" },
+      ],
     }),
   ],
   preview: { select: { title: "title" } },
@@ -89,13 +113,35 @@ export const integrationPage = defineType({
       name: "description",
       title: "Description",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        {
+          type: "block",
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [{ type: "link" }],
+          },
+        },
+      ],
     }),
     defineField({
       name: "overview",
       title: "Overview",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        {
+          type: "block",
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [{ type: "link" }],
+          },
+        },
+      ],
     }),
     defineField({
       name: "steps",

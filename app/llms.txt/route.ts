@@ -3,15 +3,13 @@ import { NextResponse } from "next/server";
 import {
   alternativeDetails,
   comparisonDetails,
-  integrationDetails,
-  useCaseDetails,
   userPersonaDetails,
 } from "@/lib/detail-data";
-import { caseStudyDetails } from "@/lib/case-study-data";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
   getAllCaseStudySlugs,
+  getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllIntegrationSlugs,
   getAllReviewSlugs,
@@ -58,6 +56,7 @@ export async function GET() {
     alternativeSlugsCms,
     comparisonSlugsCms,
     reviewSlugs,
+    checklistSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationSlugs),
@@ -67,6 +66,7 @@ export async function GET() {
     safeFetch(getAllAlternativeSlugs),
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
+    safeFetch(getAllChecklistSlugs),
   ]);
 
   const core = [
@@ -82,18 +82,15 @@ export async function GET() {
     { path: "/terms", title: "Terms of service" },
   ];
 
-  const integrations = unique([
-    ...Object.keys(integrationDetails),
-    ...integrationSlugsCms,
-  ]).map((slug) => ({
+  const integrations = unique(integrationSlugsCms).map((slug) => ({
     path: `/integrations/${slug}`,
     title: `${toTitle(slug)} integration`,
   }));
 
-  const useCases = unique([
-    ...Object.keys(useCaseDetails),
-    ...useCaseSlugsCms,
-  ]).map((slug) => ({ path: `/use-case/${slug}`, title: toTitle(slug) }));
+  const useCases = unique(useCaseSlugsCms).map((slug) => ({
+    path: `/use-case/${slug}`,
+    title: toTitle(slug),
+  }));
 
   const personas = unique([
     ...Object.keys(userPersonaDetails),
@@ -110,10 +107,10 @@ export async function GET() {
     ...comparisonSlugsCms,
   ]).map((slug) => ({ path: `/comparisons/${slug}`, title: toTitle(slug) }));
 
-  const caseStudies = unique([
-    ...Object.keys(caseStudyDetails),
-    ...caseStudySlugsCms,
-  ]).map((slug) => ({ path: `/case-study/${slug}`, title: toTitle(slug) }));
+  const caseStudies = unique(caseStudySlugsCms).map((slug) => ({
+    path: `/case-study/${slug}`,
+    title: toTitle(slug),
+  }));
 
   const reviews = unique(reviewSlugs).map((slug) => ({
     path: `/${slug}`,
@@ -122,6 +119,11 @@ export async function GET() {
 
   const blogs = unique(blogSlugs).map((slug) => ({
     path: `/blog/${slug}`,
+    title: toTitle(slug),
+  }));
+
+  const checklists = unique(checklistSlugs).map((slug) => ({
+    path: `/checklist/${slug}`,
     title: toTitle(slug),
   }));
 
@@ -139,6 +141,7 @@ export async function GET() {
     section("Alternatives", alternatives),
     section("Comparisons", comparisons),
     section("Case studies", caseStudies),
+    section("Checklists", checklists),
     section("Blog", blogs),
   ]
     .filter(Boolean)

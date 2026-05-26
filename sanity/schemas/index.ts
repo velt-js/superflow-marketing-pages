@@ -1,7 +1,11 @@
 import { placeholder } from "./placeholder";
 import { author } from "./author";
 import { blogPost, blogBodyImage } from "./blogPost";
-import { integrationPage, integrationStep } from "./integrationPage";
+import {
+  integrationPage,
+  integrationStep,
+  integrationBodyImage,
+} from "./integrationPage";
 import {
   useCasePage,
   useCaseHero,
@@ -65,6 +69,15 @@ import {
   reviewWebsiteInstall,
   reviewPage,
 } from "./reviewPage";
+import {
+  checklistPage,
+  checklistHero,
+  checklistMainSection,
+  checklistSection,
+  checklistTip,
+  checklistEndNote,
+  checklistSuggested,
+} from "./checklistPage";
 
 export const schemaTypes = [
   // Documents
@@ -78,6 +91,7 @@ export const schemaTypes = [
   alternativePage,
   comparisonPage,
   reviewPage,
+  checklistPage,
 
   // Inline annotations
   linkAnnotation,
@@ -87,6 +101,7 @@ export const schemaTypes = [
 
   // integrationPage
   integrationStep,
+  integrationBodyImage,
 
   // useCasePage
   useCaseHero,
@@ -143,4 +158,12 @@ export const schemaTypes = [
   reviewWebsiteFutureTab,
   reviewWebsiteFuture,
   reviewWebsiteInstall,
+
+  // checklistPage sub-types
+  checklistHero,
+  checklistMainSection,
+  checklistSection,
+  checklistTip,
+  checklistEndNote,
+  checklistSuggested,
 ];

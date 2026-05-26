@@ -3,22 +3,24 @@ import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
 import IntegrationHero from "./IntegrationHero";
 import IntegrationOverview from "./IntegrationOverview";
-import type { IntegrationDetailConfig } from "@/lib/detail-data";
+import type {
+  IntegrationDoc,
+  OtherIntegrationItem,
+} from "@/lib/integration-types";
 
 export default function IntegrationDetailPage({
-  config,
+  doc,
+  otherIntegrations,
 }: {
-  config: IntegrationDetailConfig;
+  doc: IntegrationDoc;
+  otherIntegrations: OtherIntegrationItem[];
 }) {
   return (
     <main>
       <Nav />
-      <IntegrationHero
-        hero={config.hero}
-        otherIntegrations={config.otherIntegrations}
-      />
+      <IntegrationHero doc={doc} otherIntegrations={otherIntegrations} />
       <div style={{ background: "#0a0a0a" }}>
-        <IntegrationOverview overview={config.overview} steps={config.steps} />
+        <IntegrationOverview doc={doc} />
       </div>
       <Footer />
       <IntercomButton />

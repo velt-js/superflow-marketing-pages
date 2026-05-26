@@ -171,7 +171,7 @@ export default function DemoPage() {
               className="text-white"
               style={{
                 fontFamily: "var(--font-poppins)",
-                fontWeight: 700,
+                fontWeight: 600,
                 fontSize: "clamp(36px, 5.5vw, 60px)",
                 lineHeight: 1.15,
                 letterSpacing: "-0.045em",

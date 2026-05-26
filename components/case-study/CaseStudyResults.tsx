@@ -102,11 +102,11 @@ export default function CaseStudyResults({
     const tone = TONES[metric.tone];
     return (
       <div
-        className="flex flex-col items-center justify-center flex-1 p-[24px] rounded-[24px]"
+        className="flex flex-col items-start justify-center flex-1 p-[24px] rounded-[24px]"
         style={{ background: "#f7f7f7" }}
       >
         <span
-          className="uppercase"
+          className="uppercase text-left"
           style={{
             fontFamily: "var(--font-poppins)",
             fontWeight: 500,
@@ -121,7 +121,7 @@ export default function CaseStudyResults({
           {metric.value}
         </span>
         <span
-          className="capitalize text-[#111]"
+          className="capitalize text-[#111] text-left"
           style={{
             fontFamily: "var(--font-poppins)",
             fontWeight: 500,

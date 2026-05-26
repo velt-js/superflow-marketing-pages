@@ -1,0 +1,1218 @@
+{
+  "integrations": [
+    {
+      "_id": "integration-google-tag-manager",
+      "_type": "integrationPage",
+      "title": "Google Tag Manager Integration",
+      "slug": {
+        "_type": "slug",
+        "current": "google-tag-manager"
+      },
+      "metaTitle": "Google Tag Manager Integration",
+      "metaDescription": "Connect your websites using Google Tag Manager",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "Google Tag Manager",
+      "isTaskApp": false,
+      "linkToApp": "https://tagmanager.google.com/gallery/#/owners/snippyly/templates/superflow-gtm-template",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "da3d4eafce6f",
+          "style": "normal",
+          "markDefs": [
+            {
+              "_type": "link",
+              "_key": "1d09fb8f206e",
+              "href": "https://tagmanager.google.com/"
+            }
+          ],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "fc46e078897f",
+              "text": "Connect your websites using ",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "99c010a23752",
+              "text": "Google Tag Manager",
+              "marks": [
+                "1d09fb8f206e"
+              ]
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "bd5c5cc0d7c5",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "c3cd74f59a30",
+              "text": "Connect Superflow with your sites within minutes using Google Tag Manager",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "431ca255f32d",
+          "title": "Start by adding your website URL",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "56d40527b11f",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "14d16fac6058",
+                  "text": "If Google Tag Manager is detected with the site URL you entered, you will see a banner at the top recommending that you install with Google Tag Manager.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "5d293276e85c",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "a2ee836963e8",
+                  "text": "Click Start Setup inside the banner to install Superflow with Google Tag Manager.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "integrationBodyImage",
+              "_key": "a115efd00dfb",
+              "framerImageUrl": "https://framerusercontent.com/images/3Pgf7ptcVK3RTuhW18nrQ43FcjI.png",
+              "alt": "onboarding image"
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "fa5434c7b9b4",
+          "title": "Authenticate with your Google Tag Manager account",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "e3a16773bc00",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "a41a13b7a209",
+                  "text": "You will be asked to authenticate with the email associated with your Google Tag Manager account.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "b7c4a2a355e6",
+          "title": "Choose an Account and Tag Container",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "fa17cd04d31e",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "111c99915c7c",
+                  "text": "Choose the Google Tag Manager Account and Tag Container that you will be using to install Superflow within.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "integrationBodyImage",
+              "_key": "9ed3104d0f12",
+              "framerImageUrl": "https://framerusercontent.com/images/IvgV8RL31BA00JUc0bmIB4mIuTM.png",
+              "alt": "GTM onboarding image"
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "a967c6f6a546",
+          "title": "Create and Publish Tag",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "5022d4920ff4",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "4fbe019b44b8",
+                  "text": "We will now create and publish a tag on your Google Tag Manager Account and Tag Container.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "9723168ed587",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "f015cd8c7137",
+                  "text": "Click on Create and Publish Tag to authorize this.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "2a439e16dcd4",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "d42ad9977394",
+                  "text": "\n",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "_type": "integrationBodyImage",
+              "_key": "9990e4deb7fe",
+              "framerImageUrl": "https://framerusercontent.com/images/3WCLhct7B7vPx6OCxF2UlUIX48Y.png",
+              "alt": "GTM  onboarding image"
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/fJxWZ4XNkSemY9iXVW0JqE4SgHI.png",
+      "framerThumbnailAlt": "GTM integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/IGgl4hWnCXFXsJrWMHxgmsj358.png",
+      "framerAppLogoAlt": "GTM Logo",
+      "framerInstallationVideoUrl": "https://framerusercontent.com/assets/Q0gNNGYeMUj1vGSvIJuwXU2OtlQ.mp4"
+    },
+    {
+      "_id": "integration-monday",
+      "_type": "integrationPage",
+      "title": "Monday.com Integration with Superflow",
+      "slug": {
+        "_type": "slug",
+        "current": "monday"
+      },
+      "metaTitle": "Monday.com Integration with Superflow",
+      "metaDescription": "Turn your Superflow comments into Monday.com tasks or subtasks.",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "Monday.com",
+      "isTaskApp": true,
+      "linkToApp": "https://app.usesuperflow.com/dashboard/integrations",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "e8128810d9f6",
+          "style": "normal",
+          "markDefs": [
+            {
+              "_type": "link",
+              "_key": "8057629446bb",
+              "href": "https://monday.com/"
+            }
+          ],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "ff559a0306bd",
+              "text": "Turn your Superflow comments into ",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "fa723fba3242",
+              "text": "Monday.com",
+              "marks": [
+                "8057629446bb"
+              ]
+            },
+            {
+              "_type": "span",
+              "_key": "838f7e36f803",
+              "text": " tasks or subtasks.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "b288ad85039e",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "d9b7f27aa2b8",
+              "text": "The integration of Superflow with Monday.com facilitates the seamless transition of Superflow comments into Monday.com tasks. ",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "_type": "block",
+          "_key": "249cd3a658e7",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "5c953f84c017",
+              "text": "This integration is designed to optimize your workflow, minimizing the time and resources required for task management.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "8272cea4d856",
+          "title": "Install Superflow app on Monday",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "1e365933f4bc",
+              "style": "normal",
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "7c6c038306da",
+                  "href": "https://app.usesuperflow.com/dashboard/integrations/monday"
+                }
+              ],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "fca28fc22298",
+                  "text": "Go to your ",
+                  "marks": []
+                },
+                {
+                  "_type": "span",
+                  "_key": "8bbaf254cb1a",
+                  "text": "Superflow Integrations tab",
+                  "marks": [
+                    "7c6c038306da"
+                  ]
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "1c8a232af2d5",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "b29fee5ff61c",
+                  "text": "Click on \"Install App\" to authorize the Superflow and Monday.com",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "e36a39df49fd",
+          "title": "Connect to Monday to turn Superflow comments into tasks",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "5de0979f8781",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8966606b5c0f",
+                  "text": "You will be redirected to Monday.com and you can authorize the app",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "46e4c6ca9d19",
+          "title": "Choose an Monday workspace",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "7a8f30e89891",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "b4390194ad61",
+                  "text": "This is where all the Superflow comments will be exported.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "bebdc97104ea",
+          "title": "Connect a Superflow project to an Monday Project or Task",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "cfb4c29fc3f8",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "eb974b11292d",
+                  "text": "All Superflow comments will be created as Tasks under the selected Monday Board or you can connect to a specific Monday task to create subtasks",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/9oZXcaNfiA1s1fB6yOd26HlHuU.png",
+      "framerThumbnailAlt": "Monday.com integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/oyrv8P9RnuoKXAjEiKKmNpedZQ.png",
+      "framerAppLogoAlt": "Monday.com Logo"
+    },
+    {
+      "_id": "integration-webflow",
+      "_type": "integrationPage",
+      "title": "Superflow Installation Guide for Webflow",
+      "slug": {
+        "_type": "slug",
+        "current": "webflow"
+      },
+      "metaTitle": "Superflow Installation Guide for Webflow",
+      "metaDescription": "Give feedback within your webflow sites",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "Webflow",
+      "isTaskApp": false,
+      "linkToApp": "https://webflow.com/apps/detail/superflow",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "1456dc15b1e0",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "7c3a69da5b2a",
+              "text": "Give feedback within your webflow sites",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "2fe482aa0ec8",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "a28142552375",
+              "text": "Whether you're a designer, developer, or project manager, Superflow will streamline your web design process and communication with your team.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "7df2ffe938cf",
+          "title": "Access the Webflow Marketplace",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "feb4b85a8dbb",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "1c4ab6d5324d",
+                  "text": "Begin by navigating to the Webflow marketplace and installing the Superflow application",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "1a160a3bcdcd",
+          "title": "Link Your Initial Project:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "359b74ee40fe",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "83a17cb0c3ca",
+                  "text": "After granting the necessary authorizations, select the specific Webflow project you wish to integrate with Superflow",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "7e2c3d1022f9",
+          "title": "Integrate the Script",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "fa64c4289c8a",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "eef115d49ce9",
+                  "text": "Proceed to the custom code section within Webflow and insert the provided line of script to ensure proper functionality",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "965e8cbed36c",
+          "title": "Team Collaboration",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "e4e86441b9ec",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "3a90a09c54c1",
+                  "text": "For enhanced workflow, invite your team members. This will allow you to efficiently tag and assign them to specific tasks",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "1157937dece5",
+          "title": "Initiate Feedback",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "083e6ff05e2f",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "fc99734724a3",
+                  "text": "Access your project via the review link. A toolbar will be present at the bottom right corner. Utilize the comment icon to input your inaugural feedback",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/RPjxMQFGxhkqnXze5eehO8iFYkY.png",
+      "framerThumbnailAlt": "Webflow integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/HPzZKz9pXJbCJU13p69FVmgwg50.png",
+      "framerAppLogoAlt": "Webflow Logo",
+      "framerInstallationVideoUrl": "https://framerusercontent.com/assets/nLw5jQLHkqk695PHuwZK3Pyc.mp4"
+    },
+    {
+      "_id": "integration-clickup",
+      "_type": "integrationPage",
+      "title": "ClickUp Integration with Superflow",
+      "slug": {
+        "_type": "slug",
+        "current": "clickup"
+      },
+      "metaTitle": "ClickUp Integration with Superflow",
+      "metaDescription": "Turn your Superflow comments into ClickUp tasks or subtasks.",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "ClickUp",
+      "isTaskApp": true,
+      "linkToApp": "https://app.usesuperflow.com/dashboard/integrations",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "0ac6b688cbc0",
+          "style": "normal",
+          "markDefs": [
+            {
+              "_type": "link",
+              "_key": "90a0152d1769",
+              "href": "https://clickup.com/"
+            }
+          ],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "cccfaab59031",
+              "text": "Turn your Superflow comments into ",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "3b189a50ad3c",
+              "text": "ClickUp",
+              "marks": [
+                "90a0152d1769"
+              ]
+            },
+            {
+              "_type": "span",
+              "_key": "fdf067ba28d8",
+              "text": " tasks or subtasks.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "30c1b9c9b406",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "7bd2470bb52e",
+              "text": "The integration of Superflow with ClickUp facilitates the seamless transition of Superflow comments into ClickUp tasks. ",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "_type": "block",
+          "_key": "653dbeffab7e",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "6ba0bb66c98a",
+              "text": "This integration is designed to optimize your workflow, minimizing the time and resources required for task management.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "8471a5e693ab",
+          "title": "Link to a ClickUp Space:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "273f2fe31124",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "c32b968ca7ce",
+                  "text": "Proceed to the integrations page within the Superflow portal.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "896056a88ddc",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8dd88820706e",
+                  "text": "Identify and select the appropriate ClickUp Space. This will be the repository for Superflow comments and associated tasks.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "9a3c5d33d59e",
+          "title": "Associate a Superflow Project with a ClickUp List:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "5ef0069247dc",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "911172eb0c5e",
+                  "text": "Subsequently, establish a linkage between your Superflow project and a specific ClickUp List.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "590496ef0e35",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "e699fe06dd18",
+                  "text": "All comments originating from Superflow will be automatically converted into tasks within the chosen ClickUp List.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "9992789d6f53",
+          "title": "Connect to a Specific ClickUp Task (Optional):",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "7d092535cac3",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "35bf2d7ec2f8",
+                  "text": "For those seeking enhanced specificity, there's the option to connect your Superflow project directly to a task within a ClickUp List.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "2eb8a5bc3ddb",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "fe40e03f6ccb",
+                  "text": "With this setup, all Superflow comments will be manifested as subtasks under the selected ClickUp task.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/Godfiorij2Wfx6wMDOLUaEwrgm8.png",
+      "framerThumbnailAlt": "Clickup integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/Rjx2OJ2RZVrave1UDmGBT0xqM.png",
+      "framerAppLogoAlt": "ClickUp Logo",
+      "framerInstallationVideoUrl": "https://framerusercontent.com/assets/N2lIskS0A0YPcw85oKumkSVFkHw.mp4"
+    },
+    {
+      "_id": "integration-slack",
+      "_type": "integrationPage",
+      "title": "Slack and Superflow: A Quick Look",
+      "slug": {
+        "_type": "slug",
+        "current": "slack"
+      },
+      "metaTitle": "Slack and Superflow: A Quick Look",
+      "metaDescription": "Want to get Superflow updates in Slack? This setup lets you know about new comments, replies, and mentions right in your Slack channels.",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "Slack",
+      "isTaskApp": true,
+      "linkToApp": "https://app.usesuperflow.com/dashboard/integrations",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "5b150b1f07f7",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "7f28895fa1d6",
+              "text": "Want to get Superflow updates in Slack?",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "11237c90cd7b",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "0f9ced7e8a72",
+              "text": "This setup lets you know about new comments, replies, and mentions right in your Slack channels.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "7cfd0aadca75",
+          "title": "Connect in SuperFlow:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "bc38ba2e816e",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "673604576d9c",
+                  "text": "Go to your Superflow account.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "029068e1491b",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "d071c53f73f0",
+                  "text": "Click on 'integrations' and pick 'Slack'.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "c78fbc6cf078",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "2795a31a6131",
+                  "text": "Follow the steps to link Superflow with Slack.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "c910550a5822",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "1eead3db0175",
+                  "text": "Choose a Slack channel where you want updates.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "08d96c62857b",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "315f592e64de",
+                  "text": "Now, when someone comments in Superflow, you'll see it in Slack!",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "e26c8a62f364",
+          "title": "Workspace Alerts:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "5e83df0531aa",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "a68f738fd74a",
+                  "text": "Once linked, you'll get alerts in Slack for comments and mentions in Superflow.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "f15b45f4f7e8",
+          "title": "Project Alerts:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "450713b52200",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "821697cce1b4",
+                  "text": "Want updates from a specific Superflow project in a Slack channel? Just pick the project and channel.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "8e58a2db6e2c",
+          "title": "Direct Alerts",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "414432c83a82",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "f561e3ff542c",
+                  "text": "Get messages only when someone mentions you or talks to you in a comment.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/Wk3fnL7wk7lp2asqWJvyeVX0ps.png",
+      "framerThumbnailAlt": "Slack integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/FwztvNob3AjdIwSvxqecsBCfKi0.png",
+      "framerAppLogoAlt": "Slack Logo",
+      "framerInstallationVideoUrl": "https://framerusercontent.com/assets/xaSKdRUyvAdSd7TZYMj9AsMnko.mp4"
+    },
+    {
+      "_id": "integration-asana",
+      "_type": "integrationPage",
+      "title": "Asana Integration with Superflow",
+      "slug": {
+        "_type": "slug",
+        "current": "asana"
+      },
+      "metaTitle": "Asana Integration with Superflow",
+      "metaDescription": "Turn your Superflow comments into Asana tasks or subtasks.",
+      "authorName": "Vivek Khakhkhar",
+      "publishedDateText": "2023-10-01",
+      "publishedAtIso": "2023-10-01T00:00:00.000Z",
+      "appName": "Asana",
+      "isTaskApp": true,
+      "linkToApp": "https://app.usesuperflow.com/dashboard/integrations",
+      "installationVideoLink": "https://www.youtube.com/watch?v=d9NBSX9y6zE&list=PL1MR1SokI-MCZzTl7XvTwXiKVw_EDzkHq&index=4",
+      "description": [
+        {
+          "_type": "block",
+          "_key": "c1a3c6490464",
+          "style": "normal",
+          "markDefs": [
+            {
+              "_type": "link",
+              "_key": "111cfd1b5f5b",
+              "href": "https://asana.com/"
+            }
+          ],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "e91999918550",
+              "text": "Turn your Superflow comments into ",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "3d2663c72d0f",
+              "text": "Asana",
+              "marks": [
+                "111cfd1b5f5b"
+              ]
+            },
+            {
+              "_type": "span",
+              "_key": "99220ae803e1",
+              "text": " tasks or subtasks.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "overview": [
+        {
+          "_type": "block",
+          "_key": "787c40af10f0",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "7b9dbe579fa1",
+              "text": "The integration of Asana with Superflow streamlines the process of converting Superflow comments into Asana tasks or subtasks. ",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "2b9561fc225f",
+              "text": "\n",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "d4597500b67f",
+              "text": "\n",
+              "marks": []
+            },
+            {
+              "_type": "span",
+              "_key": "8769b3d517d3",
+              "text": "This seamless integration ensures that Superflow aligns perfectly with your pre-existing workflow, allowing you to centralize website feedback and tasks within your current Asana projects.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "_type": "integrationStep",
+          "_key": "9d84ae68eaa8",
+          "title": "Link to an Asana Workspace",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "636f80824fae",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "c72de3cbef3f",
+                  "text": "Navigate to the integrations page within the Superflow portal.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "37f9d5ffcc98",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "83fb09be2f02",
+                  "text": "Choose the desired Asana Workspace. This will serve as the destination for exported Superflow comments.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "d600d7379480",
+          "title": "Associate a SuperFlow Project with an Asana Project:",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "629a0eadd58d",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "cb4c5c386e3f",
+                  "text": "Subsequently, establish a connection between a specific Superflow project and an Asana project.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "2ade63ff796b",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "3e1de09cbe78",
+                  "text": "All comments from Superflow will be automatically transformed into tasks within the designated Asana project.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "_type": "integrationStep",
+          "_key": "7d528984813b",
+          "title": "Connect to a Specific Asana Task (Optional):",
+          "body": [
+            {
+              "_type": "block",
+              "_key": "298994cb34c4",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "f84bcc37cc93",
+                  "text": "For more granular control, you have the option to link your Superflow project to a particular task within an Asana project.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            },
+            {
+              "_type": "block",
+              "_key": "c87fd45d3eca",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "1bdcbe8223fe",
+                  "text": "In this configuration, all Superflow comments will materialize as subtasks beneath the chosen Asana task.",
+                  "marks": []
+                }
+              ],
+              "listItem": "bullet",
+              "level": 1
+            }
+          ]
+        }
+      ],
+      "framerThumbnailUrl": "https://framerusercontent.com/images/PhGFpuU9fA7UfZ2vHtoxObEMs.png",
+      "framerThumbnailAlt": "Asana integration",
+      "framerAppLogoUrl": "https://framerusercontent.com/images/RRHqEoMA3S582gEQaOqI20bwdS4.png",
+      "framerAppLogoAlt": "Asana Logo",
+      "framerInstallationVideoUrl": "https://framerusercontent.com/assets/DHvjAGo68RJFWnOnPIUBLtWdgnc.mp4"
+    }
+  ]
+}

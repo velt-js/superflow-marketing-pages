@@ -6,12 +6,22 @@ import ListingHero from "./ListingHero";
 import ListingGrid from "./ListingGrid";
 import type { ListingPageConfig } from "@/lib/listing-data";
 
-export default function ListingPage({ config }: { config: ListingPageConfig }) {
+export default function ListingPage({
+  config,
+  iconInvert,
+}: {
+  config: ListingPageConfig;
+  iconInvert?: boolean;
+}) {
   return (
     <main>
       <Nav />
       <ListingHero {...config.hero} />
-      <ListingGrid variant={config.grid.variant} items={config.grid.items} />
+      <ListingGrid
+        variant={config.grid.variant}
+        items={config.grid.items}
+        iconInvert={iconInvert}
+      />
       <DarkSection withTopCurve />
       <Footer />
       <IntercomButton />

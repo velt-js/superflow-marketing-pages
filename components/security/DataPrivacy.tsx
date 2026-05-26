@@ -40,7 +40,7 @@ export default function DataPrivacy() {
             className="flex flex-wrap items-baseline justify-center gap-x-[12px] text-center"
             style={{
               fontFamily: "var(--font-urbanist)",
-              fontWeight: 700,
+              fontWeight: 600,
               fontSize: "clamp(36px, 4.8vw, 52px)",
               lineHeight: 1.2,
               letterSpacing: "-0.02em",

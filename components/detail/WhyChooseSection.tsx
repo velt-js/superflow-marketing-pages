@@ -74,7 +74,7 @@ export default function WhyChooseSection({
             className="mt-[32px] text-center text-[#111]"
             style={{
               fontFamily: "var(--font-poppins)",
-              fontWeight: 700,
+              fontWeight: 600,
               fontSize: "clamp(28px, 4vw, 44px)",
               lineHeight: 1.2,
               letterSpacing: "-0.03em",

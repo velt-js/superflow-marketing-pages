@@ -66,11 +66,36 @@ export async function getBlogPostBySlug(slug: string) {
 }
 
 // Integration page queries
+export type IntegrationListItem = {
+  _id: string;
+  slug: string;
+  title: string;
+  appName?: string;
+  appLogo?: string;
+  metaDescription?: string;
+};
+
 export async function getAllIntegrationSlugs(): Promise<string[]> {
   return client.fetch(
     `*[_type == "integrationPage" && defined(slug.current)].slug.current`
   );
 }
+
+export async function getAllIntegrationListItems(): Promise<
+  IntegrationListItem[]
+> {
+  return client.fetch(
+    `*[_type == "integrationPage" && defined(slug.current)] | order(appName asc) {
+      _id,
+      "slug": slug.current,
+      title,
+      appName,
+      "appLogo": appLogo.asset->url,
+      metaDescription
+    }`
+  );
+}
+
 export async function getIntegrationPageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "integrationPage" && slug.current == $slug][0]{
@@ -87,9 +112,33 @@ export async function getIntegrationPageBySlug(slug: string) {
 }
 
 // Use case page queries
+export type UseCaseListItem = {
+  _id: string;
+  slug: string;
+  title: string;
+  useCase?: string;
+  description?: string;
+  icon?: string;
+  thumbnail?: string;
+};
+
 export async function getAllUseCaseSlugs(): Promise<string[]> {
   return client.fetch(
     `*[_type == "useCasePage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getAllUseCaseListItems(): Promise<UseCaseListItem[]> {
+  return client.fetch(
+    `*[_type == "useCasePage" && defined(slug.current) && hidden != true] | order(title asc) {
+      _id,
+      "slug": slug.current,
+      title,
+      "useCase": hero.useCase,
+      description,
+      "icon": icon.asset->url,
+      "thumbnail": thumbnail.asset->url
+    }`
   );
 }
 export async function getUseCasePageBySlug(slug: string) {
@@ -110,9 +159,31 @@ export async function getUseCasePageBySlug(slug: string) {
 }
 
 // Case study page queries
+export type CaseStudyListItem = {
+  _id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  logo?: string;
+  thumbnail?: string;
+};
+
 export async function getAllCaseStudySlugs(): Promise<string[]> {
   return client.fetch(
     `*[_type == "caseStudyPage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getAllCaseStudyListItems(): Promise<CaseStudyListItem[]> {
+  return client.fetch(
+    `*[_type == "caseStudyPage" && defined(slug.current)] | order(title asc) {
+      _id,
+      "slug": slug.current,
+      title,
+      description,
+      "logo": logo.asset->url,
+      "thumbnail": thumbnail.asset->url
+    }`
   );
 }
 export async function getCaseStudyPageBySlug(slug: string) {
@@ -201,6 +272,52 @@ export async function getComparisonPageBySlug(slug: string) {
       testimonial{ name, role, company, title, subCopy, "profileImage": profileImage.asset->url },
       faq[]{ question, answer },
       highlights, caseStudy,
+      metaTitle, metaDescription, noIndex
+    }`,
+    { slug }
+  );
+}
+
+// Checklist page queries (/checklist/[slug])
+export type ChecklistListItem = {
+  _id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  category?: string;
+  thumbnail?: string;
+};
+
+export async function getAllChecklistSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "checklistPage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getAllChecklistListItems(): Promise<ChecklistListItem[]> {
+  return client.fetch(
+    `*[_type == "checklistPage" && defined(slug.current) && hidden != true] | order(title asc) {
+      _id,
+      "slug": slug.current,
+      title,
+      description,
+      category,
+      "thumbnail": thumbnail.asset->url
+    }`
+  );
+}
+
+export async function getChecklistPageBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "checklistPage" && slug.current == $slug][0]{
+      _id, title, "slug": slug.current, description, category, hidden,
+      "thumbnail": thumbnail.asset->url,
+      hero,
+      mainSection{ "image": image.asset->url, subText, caption },
+      whatTitle, whatDescription, howTitle, howDescription,
+      sections[]{ title, description, buttonText, buttonAction, tips[]{ title, description } },
+      endNote,
+      suggestedChecklists[]{ name, bgColor, href },
       metaTitle, metaDescription, noIndex
     }`,
     { slug }
