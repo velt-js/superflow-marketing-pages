@@ -6,6 +6,7 @@ import type {
   OverviewIconKey,
   PricingProduct,
 } from "@/lib/detail-data";
+import { SHARED_REASONS } from "@/lib/detail-data";
 
 // Shape returned by `getAlternativePageBySlug` after GROQ deref. Keep this
 // loose — Sanity content evolves; the adapter pulls only the fields the
@@ -126,8 +127,10 @@ export function mapAlternativeDocToConfig(
   const c1Name = doc.competitor1Name ?? "Superflow";
   const c2Name = doc.competitor2Name ?? "Alternative";
 
-  const criteria = (doc.criteria ?? []).map((c, i) => ({
-    id: c._key ?? `criterion-${i}`,
+  // Cap to the 6 canonical factors; Sanity docs carry a stray 7th entry the
+  // live site excludes. Anchor ids match the tile hrefs (#criteria-N).
+  const criteria = (doc.criteria ?? []).slice(0, 6).map((c, i) => ({
+    id: `criteria-${i + 1}`,
     title: c.title ?? "",
     description: c.description ?? "",
     superflow: makeProductCard(c.competitor1, c1Name, doc.competitor1Logo),
@@ -176,15 +179,7 @@ export function mapAlternativeDocToConfig(
       ctaHref: "https://app.usesuperflow.com/signup",
       ...SUPERFLOW_HERO_BADGES,
     },
-    reasons: {
-      heading: `Why teams pick Superflow over`,
-      highlight: c2Name,
-      items: [
-        { id: "speed", label: "10× faster reviews", icon: "/images/hero/icon-world.svg" },
-        { id: "context", label: "Comments on the live site", icon: "/images/hero/icon-world.svg" },
-        { id: "integrations", label: "Connects to Slack, Asana, ClickUp", icon: "/images/hero/icon-world.svg" },
-      ],
-    },
+    reasons: SHARED_REASONS,
     criteria,
     overview: {
       heading: `How Superflow stacks up against`,
@@ -192,9 +187,9 @@ export function mapAlternativeDocToConfig(
       competitorName: c2Name,
       superflowLogo: doc.competitor1Logo,
       competitorLogo: doc.competitor2Logo,
-      rows: criteria.map((c) => ({
+      rows: criteria.map((c, i) => ({
         criterion: c.title,
-        iconKey: DEFAULT_OVERVIEW_ICON,
+        iconKey: (SHARED_REASONS.items[i]?.id as OverviewIconKey) ?? DEFAULT_OVERVIEW_ICON,
         superflowScore: c.superflow.score,
         competitorScore: c.competitor.score,
       })),

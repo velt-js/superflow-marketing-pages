@@ -20,6 +20,10 @@
     --font-urbanist: "Urbanist", system-ui, sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @utility container-page {
     width: 100%;
     max-width: 1280px;

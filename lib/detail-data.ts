@@ -69,11 +69,13 @@ export interface ReasonItem {
   id: string;
   label: string;
   icon: string;
+  description?: string;
 }
 
 export interface ReasonsGridData {
   heading: string;
   highlight?: string;
+  subtitle?: string;
   items: ReasonItem[];
 }
 
@@ -292,16 +294,48 @@ export const useCaseDetails: Record<string, DetailPageConfig> = {
 
 // userPersonaDetails moved to Sanity (see app/user-persona/[slug]/page.tsx).
 
-const SHARED_REASONS: ReasonsGridData = {
-  heading: "6 Reasons to choose",
-  highlight: "an annotation tool",
+export const SHARED_REASONS: ReasonsGridData = {
+  heading: "Choosing an annotation tool:",
+  highlight: "6 key factors",
+  subtitle:
+    "Wondering how to decide which web feedback tool is best for you and your teams? Consider the following six criteria…",
   items: [
-    { id: "commenting", label: "Commenting", icon: "/images/sections/reasons/commenting.svg" },
-    { id: "compatibility", label: "Compatibility", icon: "/images/sections/reasons/compatibility.svg" },
-    { id: "integrations", label: "Integrations", icon: "/images/sections/reasons/integrations.svg" },
-    { id: "client-management", label: "Client Management", icon: "/images/sections/reasons/client-management.svg" },
-    { id: "team-workflow", label: "Team Workflow", icon: "/images/sections/reasons/team-workflow.svg" },
-    { id: "ai-copilot", label: "AI Copilot", icon: "/images/sections/reasons/ai-copilot.svg" },
+    {
+      id: "commenting",
+      label: "Commenting",
+      icon: "/images/sections/reasons/commenting.svg",
+      description: "will this help us iterate the site lightening fast?",
+    },
+    {
+      id: "compatibility",
+      label: "Compatibility",
+      icon: "/images/sections/reasons/compatibility.svg",
+      description: "Does this work on real phones and browsers?",
+    },
+    {
+      id: "integrations",
+      label: "Integrations",
+      icon: "/images/sections/reasons/integrations.svg",
+      description: "Does this connect to my existing tools and workflows?",
+    },
+    {
+      id: "client-management",
+      label: "Client management",
+      icon: "/images/sections/reasons/client-management.svg",
+      description: "How easy is it for my team and clients to use",
+    },
+    {
+      id: "team-workflow",
+      label: "Team Workflow",
+      icon: "/images/sections/reasons/team-workflow.svg",
+      description: "Will this 10X my team's productivity",
+    },
+    {
+      id: "ai-copilot",
+      label: "AI Copilot",
+      icon: "/images/sections/reasons/ai-copilot.svg",
+      description: "Can it assist you in improving web project's quality?",
+    },
   ],
 };
 

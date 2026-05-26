@@ -197,7 +197,7 @@ export default function ComparisonCriterion({
   competitor,
 }: ComparisonCriterionData) {
   return (
-    <section id={id} className="bg-white py-[28px] lg:py-[40px]">
+    <section id={id} className="scroll-mt-[100px] bg-white py-[28px] lg:py-[40px]">
       <div className="container-page">
         <article
           className="relative mx-auto max-w-[1080px] rounded-[32px] p-[1.5px]"
