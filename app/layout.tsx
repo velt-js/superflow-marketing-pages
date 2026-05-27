@@ -6,6 +6,10 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
+import {
+  GtmNoScript,
+  ThirdPartyScripts,
+} from "@/components/scripts/ThirdPartyScripts";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -64,8 +68,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${poppins.variable} ${urbanist.variable}`}>
       <body className={poppins.className} style={{ overflowX: "hidden" }}>
+        <GtmNoScript />
         <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />
         <JsonLd id="ld-website" data={WEBSITE_SCHEMA} />
+        <ThirdPartyScripts />
         {children}
       </body>
     </html>

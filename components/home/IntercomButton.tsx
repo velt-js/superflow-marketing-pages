@@ -1,7 +1,29 @@
+"use client";
+
+// Custom Intercom launcher. The Intercom widget script is loaded site-wide
+// from components/scripts/ThirdPartyScripts.tsx with `hide_default_launcher:
+// true`, so this button is the only entry-point to the messenger.
+
+type IntercomFn = (action: string) => void;
+type WindowWithIntercom = Window & { Intercom?: IntercomFn };
+
 export default function IntercomButton() {
+  const handleClick = () => {
+    try {
+      const intercom = (window as WindowWithIntercom).Intercom;
+      if (typeof intercom === "function") {
+        intercom("show");
+      }
+    } catch (err) {
+      console.error("Intercom show failed:", err);
+    }
+  };
+
   return (
     <button
+      type="button"
       aria-label="Open chat"
+      onClick={handleClick}
       className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105"
       style={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.12)" }}
     >
