@@ -2,6 +2,7 @@ import ListingPage from "@/components/listing/ListingPage";
 import { getAllIntegrationListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
 export const revalidate = 60;
@@ -25,6 +26,23 @@ export default async function IntegrationsIndexPage() {
         description={HERO_SUBHEADING}
         path="/integrations"
         trail={[{ name: "Integrations", url: `${SITE_URL}/integrations` }]}
+      />
+      <JsonLd
+        id="ld-integrations-itemlist"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Superflow Integrations",
+          url: `${SITE_URL}/integrations`,
+          numberOfItems: items.length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: items.map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE_URL}/integrations/${item.slug}`,
+            name: item.appName ?? item.title,
+          })),
+        }}
       />
       <ListingPage
         config={{

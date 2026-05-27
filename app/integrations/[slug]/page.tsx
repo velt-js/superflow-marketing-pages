@@ -8,7 +8,26 @@ import {
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { SITE_URL } from "@/app/_seo/schema";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { ORG_ID, SITE_URL } from "@/app/_seo/schema";
+
+/**
+ * Strip HTML tags so rich-text Sanity fields serialise as plain text in
+ * JSON-LD payloads.
+ *
+ * @param html - Raw HTML or plain text string.
+ * @returns Plain text with HTML tags removed and whitespace normalised.
+ */
+function stripHtml(html: string): string {
+  try {
+    return html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  } catch {
+    return html;
+  }
+}
 
 export const revalidate = 60;
 
@@ -22,10 +41,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!doc) return {};
   const title = doc.metaTitle || doc.title;
   const description = doc.metaDescription || "";
+  const ogImage = doc.appLogo ?? doc.thumbnail;
   return buildPageMetadata({
     title,
     description,
     path: `/integrations/${slug}`,
+    ...(ogImage ? { ogImage } : {}),
   });
 }
 
@@ -43,6 +64,7 @@ export default async function IntegrationSlugPage({ params }: PageProps) {
   if (!doc) notFound();
 
   const heading = doc.title;
+  const canonicalUrl = `${SITE_URL}/integrations/${slug}`;
   const otherIntegrations = all
     .filter((item) => item.slug !== slug)
     .map((item) => ({
@@ -50,6 +72,32 @@ export default async function IntegrationSlugPage({ params }: PageProps) {
       icon: item.appLogo || "/images/hero/icon-world.svg",
       href: `/integrations/${item.slug}`,
     }));
+
+  const softwareAppNode: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: doc.appName ?? heading,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: canonicalUrl,
+    creator: { "@id": ORG_ID },
+  };
+
+  type IntegrationStep = { title?: string; body?: string };
+  const steps: IntegrationStep[] = Array.isArray(doc.steps) ? doc.steps : [];
+  const howToNode: Record<string, unknown> | null = steps.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: `How to connect ${doc.appName ?? heading} with Superflow`,
+        step: steps.map((step, index) => ({
+          "@type": "HowToStep",
+          position: index + 1,
+          name: step.title ?? "",
+          text: stripHtml(step.body ?? ""),
+        })),
+      }
+    : null;
 
   return (
     <>
@@ -62,6 +110,10 @@ export default async function IntegrationSlugPage({ params }: PageProps) {
           { name: heading, url: `${SITE_URL}/integrations/${slug}` },
         ]}
       />
+      <JsonLd id="ld-integration-software" data={softwareAppNode} />
+      {howToNode && (
+        <JsonLd id="ld-integration-howto" data={howToNode} />
+      )}
       <IntegrationDetailPage doc={doc} otherIntegrations={otherIntegrations} />
     </>
   );

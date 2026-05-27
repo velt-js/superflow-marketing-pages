@@ -7,9 +7,9 @@ import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
-  title: "Cost Calculator",
+  title: "Creative Review ROI Calculator",
   description:
-    "See how much money your team loses on slow feedback loops. Drag the slider, pick the roles, watch the number climb.",
+    "Calculate the cost of slow feedback loops on your creative team. Drag the slider, pick the roles, watch the number climb.",
   path: "/calculator",
 });
 
@@ -17,10 +17,10 @@ export default function CalculatorPage() {
   return (
     <main>
       <PageJsonLd
-        name="Cost Calculator | Superflow"
-        description="See how much money your team loses on slow feedback loops. Drag the slider, pick the roles, watch the number climb."
+        name="Creative Review ROI Calculator | Superflow"
+        description="Calculate the cost of slow feedback loops on your creative team. Drag the slider, pick the roles, watch the number climb."
         path="/calculator"
-        trail={[{ name: "Cost Calculator", url: `${SITE_URL}/calculator` }]}
+        trail={[{ name: "Creative Review ROI Calculator", url: `${SITE_URL}/calculator` }]}
       />
       <Nav />
       <Calculator />

@@ -10,7 +10,7 @@ export const ORG_NAME = "Superflow";
 // Organization logo, even though both validate. SVG variant is still
 // served as the favicon via app/icon.svg.
 export const ORG_LOGO_URL = `${SITE_URL}/logo.png`;
-export const ORG_LOGO_WIDTH = 1200;
+export const ORG_LOGO_WIDTH = 512;
 export const ORG_LOGO_HEIGHT = 512;
 export const ORG_OG_IMAGE = `${SITE_URL}/opengraph-image.png`;
 export const ORG_DESCRIPTION =

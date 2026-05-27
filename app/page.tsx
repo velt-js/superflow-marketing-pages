@@ -17,7 +17,7 @@ import Footer from "@/components/home/Footer";
 import IntercomButton from "@/components/home/IntercomButton";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { ORG_ID, SITE_URL } from "@/app/_seo/schema";
+import { ORG_ID, ORG_OG_IMAGE, ORG_SAME_AS, SITE_URL } from "@/app/_seo/schema";
 
 // Title, description, openGraph, and twitter all inherited from the root
 // layout (app/layout.tsx) which already encodes the usesuperflow.com home-
@@ -84,11 +84,18 @@ const SOFTWARE_APPLICATION_SCHEMA = {
   operatingSystem: "Web",
   description:
     "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.",
+  image: ORG_OG_IMAGE,
+  // Tiers: Starter ($0), Growth ($24/seat/mo annual), Scale ($28/seat/mo annual),
+  // Enterprise (custom — excluded from highPrice per schema best-practice).
+  // offerCount = 4 (all four published tiers including Enterprise).
   offers: {
-    "@type": "Offer",
-    price: "0",
+    "@type": "AggregateOffer",
     priceCurrency: "USD",
+    lowPrice: "0",
+    highPrice: "28",
+    offerCount: 4,
   },
+  sameAs: ORG_SAME_AS,
   creator: { "@id": ORG_ID },
 };
 

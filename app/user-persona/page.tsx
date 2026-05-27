@@ -3,6 +3,7 @@ import { titleCase } from "@/lib/user-persona/format";
 import { getAllUserPersonaPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import type { ListingPageConfig } from "@/lib/listing-data";
 
@@ -26,7 +27,8 @@ const HERO = {
 
 export const metadata = buildPageMetadata({
   title: "See if Superflow is right for you and your team",
-  description: "Are you a designer, developer, PM? Superflow integrates seamlessly for everyone.",
+  description:
+    "Explore every role — designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works.",
   path: "/user-persona",
   noBrandSuffix: true,
 });
@@ -56,9 +58,28 @@ export default async function UserPersonaIndexPage() {
     <>
       <PageJsonLd
         name="See if Superflow is right for you and your team"
-        description="Are you a designer, developer, PM? Superflow integrates seamlessly for everyone."
+        description="Explore every role — designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works."
         path="/user-persona"
         trail={[{ name: "User Persona", url: `${SITE_URL}/user-persona` }]}
+      />
+      <JsonLd
+        id="ld-user-persona-itemlist"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "User Personas",
+          url: `${SITE_URL}/user-persona`,
+          numberOfItems: docs.filter((d) => d.slug).length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: docs
+            .filter((d) => d.slug)
+            .map((d, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/user-persona/${d.slug}`,
+              name: titleCase(d.role ?? d.title ?? d.slug!),
+            })),
+        }}
       />
       <ListingPage config={config} iconInvert />
     </>

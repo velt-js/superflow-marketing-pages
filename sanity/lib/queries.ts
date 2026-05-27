@@ -190,6 +190,7 @@ export async function getCaseStudyPageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "caseStudyPage" && slug.current == $slug][0]{
       _id, title, "slug": slug.current, description, author, publishedDateText,
+      _updatedAt,
       "thumbnail": thumbnail.asset->url, "logo": logo.asset->url,
       hero, overview,
       problemSection{ description, items[]{ text, "image": image.asset->url } },

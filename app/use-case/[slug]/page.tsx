@@ -8,7 +8,26 @@ import {
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { SITE_URL } from "@/app/_seo/schema";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
+
+/**
+ * Strip HTML tags so rich-text Sanity fields serialise as plain text in
+ * JSON-LD payloads.
+ *
+ * @param html - Raw HTML or plain text string.
+ * @returns Plain text with HTML tags removed and whitespace normalised.
+ */
+function stripHtml(html: string): string {
+  try {
+    return html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  } catch {
+    return html;
+  }
+}
 
 export const revalidate = 60;
 
@@ -26,6 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     path: `/use-case/${slug}`,
+    ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
   });
   if (doc.noIndex && doc.noIndex.toLowerCase() === "noindex") {
     metadata.robots = { index: false, follow: false };
@@ -56,6 +76,16 @@ export default async function UseCaseSlugPage({ params }: PageProps) {
       href: `/use-case/${item.slug}`,
     }));
 
+  const faqEntries = (doc.faq?.length)
+    ? (doc.faq as Array<{ question?: string; answer?: string }>)
+        .filter((item) => item?.question)
+        .map((item) => ({
+          question: item.question!,
+          answer: stripHtml(item.answer ?? ""),
+        }))
+        .filter((item) => item.answer)
+    : [];
+
   return (
     <>
       <PageJsonLd
@@ -67,6 +97,9 @@ export default async function UseCaseSlugPage({ params }: PageProps) {
           { name: doc.title, url: `${SITE_URL}/use-case/${slug}` },
         ]}
       />
+      {faqEntries.length > 0 && (
+        <JsonLd id="ld-use-case-faq" data={buildFaqPageSchema(faqEntries)} />
+      )}
       <UseCaseDetailPage doc={doc} related={related} />
     </>
   );

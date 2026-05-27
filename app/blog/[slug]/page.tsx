@@ -48,7 +48,10 @@ function buildBlogPostingSchema({
     "@type": "BlogPosting",
     headline: post.title,
     url: pageUrl,
-    mainEntityOfPage: pageUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     publisher: { "@id": ORG_ID },
   };
   const description = post.metaDescription ?? post.description;

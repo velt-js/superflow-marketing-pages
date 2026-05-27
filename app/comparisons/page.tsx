@@ -3,6 +3,7 @@ import ListingPage from "@/components/listing/ListingPage";
 import { getAllComparisonPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import type { ListingPageConfig } from "@/lib/listing-data";
 
@@ -108,6 +109,28 @@ export default async function ComparisonIndexPage() {
         description={HERO.subheading}
         path="/comparisons"
         trail={[{ name: "Comparisons", url: `${SITE_URL}/comparisons` }]}
+      />
+      <JsonLd
+        id="ld-comparisons-itemlist"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Comparison Pages",
+          url: `${SITE_URL}/comparisons`,
+          numberOfItems: docs.filter((d) => d.slug).length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: docs
+            .filter((d) => d.slug)
+            .map((d, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/comparisons/${d.slug}`,
+              name:
+                d.competitor1Name && d.competitor2Name
+                  ? `${d.competitor1Name} vs ${d.competitor2Name}`
+                  : d.title ?? d.slug,
+            })),
+        }}
       />
       <ListingPage config={config} />
     </>

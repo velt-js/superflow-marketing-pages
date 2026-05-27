@@ -128,9 +128,9 @@ const PRICING_BREADCRUMB = buildBreadcrumbList([
 const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_FOR_SCHEMA);
 
 export const metadata = buildPageMetadata({
-  title: "Ship Creative Assets Impossibly Fast",
+  title: "Pricing — Ship Creative Assets Impossibly Fast",
   description:
-    "Ship creative assets impossibly fast. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow.",
+    "Transparent per-seat pricing with a free trial. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow.",
   path: "/pricing",
   // Live usesuperflow.com/pricing reuses the homepage OG image — set
   // explicitly here so the override is visible at the call-site, even
@@ -146,8 +146,8 @@ export default function PricingPage() {
           below, so PageJsonLd is called without a trail to avoid a
           duplicate BreadcrumbList. */}
       <PageJsonLd
-        name="Ship Creative Assets Impossibly Fast"
-        description="Ship creative assets impossibly fast. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow."
+        name="Pricing — Ship Creative Assets Impossibly Fast"
+        description="Transparent per-seat pricing with a free trial. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow."
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />

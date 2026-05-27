@@ -11,7 +11,26 @@ import {
 } from "@/lib/sanity-adapters/alternative";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { SITE_URL } from "@/app/_seo/schema";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
+
+/**
+ * Strip HTML tags so rich-text Sanity fields serialise as plain text in
+ * JSON-LD payloads.
+ *
+ * @param html - Raw HTML or plain text string.
+ * @returns Plain text with HTML tags removed and whitespace normalised.
+ */
+function stripHtml(html: string): string {
+  try {
+    return html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  } catch {
+    return html;
+  }
+}
 
 export const revalidate = 60;
 
@@ -23,6 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const doc = (await getAlternativePageBySlug(slug)) as SanityAlternativeDoc | null;
   if (!doc) return {};
+  const ogImage = doc.thumbnail ?? doc.competitor2Logo;
   return buildPageMetadata({
     title: doc.metaTitle ?? doc.title ?? "Alternative",
     description:
@@ -30,6 +50,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       doc.description ??
       `See how Superflow compares to ${doc.competitor2Name ?? "this alternative"}.`,
     path: `/alternative/${slug}`,
+    ...(ogImage ? { ogImage } : {}),
   });
 }
 
@@ -44,6 +65,16 @@ export default async function AlternativeSlugPage({ params }: PageProps) {
   if (!doc) notFound();
 
   const config = mapAlternativeDocToConfig(doc);
+
+  const faqEntries = (doc.faq?.length)
+    ? doc.faq
+        .filter((item) => item?.question)
+        .map((item) => ({
+          question: item.question!,
+          answer: stripHtml(item.answer ?? ""),
+        }))
+        .filter((item) => item.answer)
+    : [];
 
   return (
     <>
@@ -60,6 +91,9 @@ export default async function AlternativeSlugPage({ params }: PageProps) {
           { name: config.hero.heading, url: `${SITE_URL}/alternative/${slug}` },
         ]}
       />
+      {faqEntries.length > 0 && (
+        <JsonLd id="ld-alternative-faq" data={buildFaqPageSchema(faqEntries)} />
+      )}
       <ComparisonDetailPage config={config} />
     </>
   );

@@ -7,7 +7,8 @@ import {
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { SITE_URL } from "@/app/_seo/schema";
+import { JsonLd } from "@/app/_seo/JsonLd";
+import { ORG_ID, SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 import type {
   CaseStudyConfig,
   CaseStudyResultMetric,
@@ -47,6 +48,9 @@ type SanityCaseStudy = {
   metaDescription?: string;
   thumbnail?: string;
   logo?: string;
+  author?: string;
+  publishedDateText?: string;
+  _updatedAt?: string;
   hero?: { industry?: string; teams?: string; teamSize?: string };
   overview?: { description?: string; problem?: string; solution?: string };
   problemSection?: {
@@ -77,6 +81,24 @@ type SanityCaseStudy = {
   showFaq?: boolean;
   faq?: Array<{ question: string; answer?: string }>;
 };
+
+/**
+ * Strip HTML tags from a string so rich-text Sanity fields serialise as
+ * plain text in JSON-LD payloads.
+ *
+ * @param html - Raw HTML string from Sanity (or plain text — safe either way).
+ * @returns Plain text with HTML tags removed and whitespace normalised.
+ */
+function stripHtml(html: string): string {
+  try {
+    return html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  } catch {
+    return html;
+  }
+}
 
 function pad(n: number): string {
   return n.toString().padStart(2, "0");
@@ -172,6 +194,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     path: `/case-study/${slug}`,
+    ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
   });
 }
 
@@ -185,6 +208,34 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
   const doc = (await getCaseStudyPageBySlug(slug)) as SanityCaseStudy | null;
   if (!doc) notFound();
   const config = toConfig(doc);
+  const canonicalUrl = `${SITE_URL}/case-study/${slug}`;
+  const title = doc.metaTitle || doc.title || config.hero.heading;
+  const description = doc.metaDescription || doc.description || config.hero.subtitle;
+
+  const articleNode: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    publisher: { "@id": ORG_ID },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+  };
+  if (description) articleNode.description = description;
+  if (doc.thumbnail) articleNode.image = [doc.thumbnail];
+  if (doc.publishedDateText) articleNode.datePublished = doc.publishedDateText;
+  if (doc._updatedAt) articleNode.dateModified = doc._updatedAt;
+  if (doc.author) {
+    articleNode.author = { "@type": "Person", name: doc.author };
+  } else {
+    articleNode.author = { "@id": ORG_ID };
+  }
+
+  const faqEntries = (doc.showFaq !== false && doc.faq?.length)
+    ? doc.faq.map((item) => ({
+        question: item.question,
+        answer: stripHtml(item.answer ?? ""),
+      })).filter((item) => item.question && item.answer)
+    : [];
+
   return (
     <>
       <PageJsonLd
@@ -196,6 +247,10 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
           { name: config.hero.heading, url: `${SITE_URL}/case-study/${slug}` },
         ]}
       />
+      <JsonLd id="ld-case-study-article" data={articleNode} />
+      {faqEntries.length > 0 && (
+        <JsonLd id="ld-case-study-faq" data={buildFaqPageSchema(faqEntries)} />
+      )}
       <CaseStudyPage config={config} />
     </>
   );

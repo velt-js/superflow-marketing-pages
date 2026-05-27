@@ -2,6 +2,7 @@ import ListingPage from "@/components/listing/ListingPage";
 import { getAllAlternativePages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import type { ListingPageConfig } from "@/lib/listing-data";
 
@@ -21,7 +22,7 @@ interface SanityAlternativeListItem {
 const HERO = {
   heading: "Superflow alternatives",
   subheading:
-    "Superflow, while being an excellent way to give feedback, just like with any software, for some, there can be a better fit due to their needs or specific issues.",
+    "Looking for something different? Browse every tool we stack up against — compare pricing, features, and fit for your creative review workflow.",
 };
 
 export const metadata = buildPageMetadata({
@@ -55,6 +56,25 @@ export default async function AlternativeIndexPage() {
         description={HERO.subheading}
         path="/alternative"
         trail={[{ name: "Alternatives", url: `${SITE_URL}/alternative` }]}
+      />
+      <JsonLd
+        id="ld-alternative-itemlist"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Superflow Alternatives",
+          url: `${SITE_URL}/alternative`,
+          numberOfItems: docs.filter((d) => d.slug).length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: docs
+            .filter((d) => d.slug)
+            .map((d, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/alternative/${d.slug}`,
+              name: d.competitor2Name ?? d.title ?? d.slug,
+            })),
+        }}
       />
       <ListingPage config={config} />
     </>

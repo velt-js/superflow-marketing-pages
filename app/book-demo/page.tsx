@@ -20,7 +20,7 @@ export default function BookDemoPage() {
         <PageHero
           decorated
           heading="Book a demo"
-          subheading="See how Velt can help you add powerful collaboration features to your app."
+          subheading="Select a date and time to get on a call with Superflow for a demo"
         />
 
         {/* Calendly embed */}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins, Urbanist } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -25,6 +25,12 @@ const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
 const DEFAULT_DESCRIPTION =
   "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.";
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://usesuperflow.com"),

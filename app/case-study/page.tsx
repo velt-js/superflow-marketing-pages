@@ -2,6 +2,7 @@ import ListingPage from "@/components/listing/ListingPage";
 import { getAllCaseStudyListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
+import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
 export const revalidate = 60;
@@ -25,6 +26,23 @@ export default async function CaseStudyIndexPage() {
         description={HERO_SUBHEADING}
         path="/case-study"
         trail={[{ name: "Case Studies", url: `${SITE_URL}/case-study` }]}
+      />
+      <JsonLd
+        id="ld-case-study-itemlist"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Case Studies",
+          url: `${SITE_URL}/case-study`,
+          numberOfItems: items.length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: items.map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE_URL}/case-study/${item.slug}`,
+            name: item.title,
+          })),
+        }}
       />
       <ListingPage
         config={{
