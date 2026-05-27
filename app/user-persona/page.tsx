@@ -1,5 +1,4 @@
 import ListingPage from "@/components/listing/ListingPage";
-import IconBadge from "@/components/user-persona/IconBadge";
 import { titleCase } from "@/lib/user-persona/format";
 import { getAllUserPersonaPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -46,7 +45,7 @@ export default async function UserPersonaIndexPage() {
           return {
             title: label,
             subtitle: d.description,
-            iconNode: <IconBadge src={d.icon} name={label} />,
+            icon: d.icon,
             href: `/user-persona/${d.slug}`,
           };
         }),
@@ -61,7 +60,7 @@ export default async function UserPersonaIndexPage() {
         path="/user-persona"
         trail={[{ name: "User Persona", url: `${SITE_URL}/user-persona` }]}
       />
-      <ListingPage config={config} />
+      <ListingPage config={config} iconInvert />
     </>
   );
 }

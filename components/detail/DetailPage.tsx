@@ -13,7 +13,7 @@ import type { DetailPageConfig } from "@/lib/detail-data";
 export default function DetailPage({ config }: { config: DetailPageConfig }) {
   const dark = config.theme === "dark";
   return (
-    <main className={dark ? "bg-[#010001]" : undefined}>
+    <main>
       <Nav />
       <DetailHero {...config.hero} />
       <ProblemSection {...config.problem} dark={dark} />
@@ -23,7 +23,7 @@ export default function DetailPage({ config }: { config: DetailPageConfig }) {
       ))}
       <RelatedWays {...config.related} dark={dark} />
       <div className="bg-[#121212]">
-        <CustomerLoveCarousel roundedTop={dark} />
+        <CustomerLoveCarousel />
         <DarkSection />
       </div>
       <Footer />

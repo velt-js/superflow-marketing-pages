@@ -17,7 +17,7 @@ export default function FeatureRow({
   dark = false,
 }: FeatureRowProps) {
   return (
-    <section className={`${dark ? "bg-[#010001]" : "bg-white"} py-[40px] lg:py-[60px]`}>
+    <section className="bg-white py-[40px] lg:py-[60px]">
       <div className="container-page">
         <div
           className={`mx-auto grid max-w-[1080px] grid-cols-1 items-center gap-[40px] lg:grid-cols-2 lg:gap-[80px] ${
@@ -28,7 +28,7 @@ export default function FeatureRow({
             <h3
               className="font-semibold"
               style={{
-                color: dark ? "#fff" : "#111",
+                color: "#111",
                 fontFamily: "var(--font-poppins)",
                 fontSize: "clamp(24px, 3vw, 32px)",
                 lineHeight: 1.25,
@@ -42,7 +42,7 @@ export default function FeatureRow({
                 fontFamily: "var(--font-poppins)",
                 fontSize: 16,
                 lineHeight: 1.6,
-                color: dark ? "rgba(255,255,255,0.6)" : "rgba(17,17,17,0.6)",
+                color: "rgba(17,17,17,0.6)",
               }}
             >
               {description}

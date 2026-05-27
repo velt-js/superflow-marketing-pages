@@ -38,7 +38,6 @@ export function LogoMarquee() {
               width={logo.w}
               height={logo.h}
               className="object-contain"
-              style={{ filter: "brightness(0) invert(1)" }}
             />
           </div>
         ))}

@@ -9,17 +9,17 @@ export default function ProblemSection({
   dark = false,
 }: ProblemSectionData & { dark?: boolean }) {
   return (
-    <section className={`${dark ? "bg-[#010001]" : "bg-white"} pt-[80px] pb-[40px] lg:pt-[120px]`}>
+    <section className="bg-white pt-[80px] pb-[40px] lg:pt-[120px]">
       <div className="container-page flex flex-col items-center gap-[32px] pt-[32px] pb-[32px] mb-[32px] lg:pt-[48px] lg:pb-[48px]">
 
-        <SectionHeading heading={heading} highlight={highlight} dark={dark} />
+        <SectionHeading heading={heading} highlight={highlight} />
 
         <div className="grid w-full max-w-[1080px] grid-cols-1 gap-[16px] sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card) => (
             <article
               key={card.title}
               className={`flex flex-col gap-[14px] rounded-[24px] border p-[24px] ${
-                dark ? "border-white/10 bg-white/5" : "border-[#ececec] bg-[#fafafa]"
+                dark ? "border-white/10 bg-[#0b0b16]" : "border-[#ececec] bg-[#fafafa]"
               }`}
             >
               <div

@@ -40,7 +40,7 @@ export default function UseCaseSolution({
                 }`}
               >
                 {item.image && (
-                  <div className="relative w-full overflow-hidden rounded-[20px] bg-[#F7F7F7] lg:flex-1">
+                  <div className="relative w-full overflow-hidden rounded-[20px] border border-white/10 bg-[#0b0b16] lg:flex-1">
                     <div className="relative aspect-[4/3] w-full">
                       <Image
                         src={item.image}

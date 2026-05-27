@@ -12,9 +12,9 @@ export default function ShowcaseMedia({
   dark = false,
 }: ShowcaseMediaData & { dark?: boolean }) {
   return (
-    <section className={`${dark ? "bg-[#010001]" : "bg-white"} pt-[40px] pb-[80px] lg:pb-[120px]`}>
+    <section className="bg-white pt-[40px] pb-[80px] lg:pb-[120px]">
       <div className="container-page flex flex-col items-center gap-[48px]">
-        <SectionHeading heading={heading} highlight={highlight} dark={dark} />
+        <SectionHeading heading={heading} highlight={highlight} />
 
         <div
           className={`relative mx-auto w-full max-w-[1200px] overflow-hidden rounded-[32px] lg:rounded-[48px] ${

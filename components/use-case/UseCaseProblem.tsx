@@ -53,7 +53,7 @@ export default function UseCaseProblem({
             {items.map((item, i) => (
               <div key={i} className="flex flex-col gap-[16px]">
                 {item.image && (
-                  <div className="rounded-[20px] border border-black/8 bg-white p-[20px] lg:p-[24px]">
+                  <div className="rounded-[20px] border border-white/10 bg-[#0b0b16] p-[20px] lg:p-[24px]">
                     <div className="relative aspect-[4/3] w-full">
                       <Image
                         src={item.image}

@@ -30,7 +30,7 @@ function BarrierCard({ card }: { card: CaseStudyBarrierCard }) {
   return (
     <div
       className="flex flex-col items-center justify-between flex-1 p-[32px] rounded-[28px] h-[401px]"
-      style={{ border: "2px solid rgba(255,113,98,0.16)" }}
+      style={{ border: "2px solid rgba(255,113,98,0.16)", background: "#0b0b16" }}
     >
       <div
         className="flex items-center justify-center rounded-[32px] p-[12px]"
@@ -64,7 +64,7 @@ function BarrierCard({ card }: { card: CaseStudyBarrierCard }) {
       </div>
 
       <p
-        className="text-[#111] font-medium text-center"
+        className="text-white font-medium text-center"
         style={{
           fontFamily: "var(--font-poppins)",
           fontSize: 24,

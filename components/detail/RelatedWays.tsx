@@ -14,9 +14,9 @@ export default function RelatedWays({
   const featured = TESTIMONIALS[0];
 
   return (
-    <section className={`${dark ? "bg-[#010001]" : "bg-white"} pt-[80px] pb-[100px] lg:pt-[120px] lg:pb-[140px]`}>
+    <section className="bg-white pt-[80px] pb-[100px] lg:pt-[120px] lg:pb-[140px]">
       <div className="flex flex-col items-center gap-[48px]">
-        <SectionHeading heading={heading} highlight={highlight} dark={dark} />
+        <SectionHeading heading={heading} highlight={highlight} />
 
         <div className="grid w-full max-w-[1000px] grid-cols-1 gap-[20px] sm:grid-cols-2 lg:grid-cols-3 px-6 lg:px-0">
           {items.map((item) => (
@@ -25,7 +25,7 @@ export default function RelatedWays({
               href={item.href}
               className={`group flex flex-col items-center gap-[16px] rounded-[28px] border-2 px-8 py-[40px] text-center transition-colors ${
                 dark
-                  ? "border-white/10 bg-white/5 hover:border-white/40 hover:bg-white/10"
+                  ? "border-white/10 bg-[#0b0b16] hover:border-white/40 hover:bg-[#15151f]"
                   : "border-[#f7f7f7] bg-[#f7f7f7] hover:border-[#111] hover:bg-white"
               }`}
             >
@@ -74,7 +74,6 @@ export default function RelatedWays({
               headline={featured.headline}
               quote={featured.quote}
               avatar={featured.avatar}
-              dark={dark}
             />
           </div>
         )}

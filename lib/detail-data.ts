@@ -61,7 +61,11 @@ export interface DetailPageConfig {
   showcase: ShowcaseMediaData;
   features: FeatureRowData[];
   related: RelatedWaysData;
-  /** Render the body sections dark (cards/wells/text) to match live persona pages. Defaults to light. */
+  /**
+   * "dark" = persona pages: white section backgrounds + black headings/text, but
+   * keep the tiles/cards and image wells dark so transparent white-art assets stay
+   * visible. Defaults to the fully-light theme (use-case pages).
+   */
   theme?: "light" | "dark";
 }
 
