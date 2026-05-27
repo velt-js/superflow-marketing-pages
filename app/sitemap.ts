@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique(caseStudySlugsCms).map((slug) => `/case-study/${slug}`),
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),
-    ...unique(checklistSlugs).map((slug) => `/checklist/${slug}`),
+    ...unique(checklistSlugs).map((slug) => `/${slug}`),
   ];
 
   const lastModified = new Date();

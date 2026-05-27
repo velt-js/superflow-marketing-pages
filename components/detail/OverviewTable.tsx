@@ -12,12 +12,7 @@ const CRITERION_ICONS: Record<OverviewIconKey, string> = {
 };
 
 const SUPERFLOW_LOGO = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <circle cx="9" cy="8" r="4" fill="#FFB800" />
-    <circle cx="15" cy="9" r="4" fill="#F05252" />
-    <circle cx="9" cy="15" r="4" fill="#8B5CF6" />
-    <circle cx="15" cy="16" r="4" fill="#22C55E" />
-  </svg>
+  <Image src="/images/nav/logo.svg" alt="Superflow" width={20} height={20} />
 );
 
 const GOOGLE_DOCS_LOGO = (

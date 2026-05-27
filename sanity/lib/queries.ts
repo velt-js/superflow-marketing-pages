@@ -346,7 +346,7 @@ export async function getComparisonPageBySlug(slug: string) {
   );
 }
 
-// Checklist page queries (/checklist/[slug])
+// Checklist page queries (root-level /[slug], handled by app/(features)/[slug])
 export type ChecklistListItem = {
   _id: string;
   slug: string;

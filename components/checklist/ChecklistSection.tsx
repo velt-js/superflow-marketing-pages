@@ -59,7 +59,10 @@ function CheckboxIcon() {
 }
 
 export default function ChecklistSection({ section }: { section: Section }) {
-  const tips = section.tips ?? [];
+  // Drop tips with no title — Sanity carries a few empty placeholders
+  // (e.g. the 3 trailing entries in "Visual Content") that the live site
+  // filters out. Description-only tips are never intentional.
+  const tips = (section.tips ?? []).filter((tip) => Boolean(tip.title));
   if (!section.title && !section.description && tips.length === 0) return null;
 
   return (

@@ -13,12 +13,7 @@ const TONE_DOT_COLOR: Record<ComparisonBulletTone, string> = {
 };
 
 const SUPERFLOW_LOGO = (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <circle cx="9" cy="8" r="4" fill="#FFB800" />
-    <circle cx="15" cy="9" r="4" fill="#F05252" />
-    <circle cx="9" cy="15" r="4" fill="#8B5CF6" />
-    <circle cx="15" cy="16" r="4" fill="#22C55E" />
-  </svg>
+  <Image src="/images/nav/logo.svg" alt="Superflow" width={22} height={22} />
 );
 
 const COMPETITOR_LOGO_DEFAULT = (

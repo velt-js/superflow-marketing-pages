@@ -44,7 +44,7 @@ const COLUMNS: Column[] = [
     links: [
       { label: "Docs", href: "/docs" },
       { label: "Case Study", href: "/case-study/writesonic" },
-      { label: "SEO Checklist", href: "/seo-checklist" },
+      { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "Blog", href: "/blog" },
       { label: "Cost Calculator", href: "/cost-calculator", dollar: true },
       { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },

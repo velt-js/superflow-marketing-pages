@@ -35,7 +35,7 @@ export default async function ChecklistIndexPage() {
               title: item.title,
               subtitle: item.description,
               icon: item.thumbnail || "/images/hero/icon-world.svg",
-              href: `/checklist/${item.slug}`,
+              href: `/${item.slug}`,
               cta: "Open checklist",
             })),
           },

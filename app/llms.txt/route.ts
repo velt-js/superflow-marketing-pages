@@ -118,7 +118,7 @@ export async function GET() {
   }));
 
   const checklists = unique(checklistSlugs).map((slug) => ({
-    path: `/checklist/${slug}`,
+    path: `/${slug}`,
     title: toTitle(slug),
   }));
 
