@@ -291,13 +291,13 @@ function CompetitorsGrid() {
         ))}
       </div>
 
-      {/* Row 3 — Compare Velt / Migration Guide CTAs */}
+      {/* Row 3 — Compare Velt CTA */}
       <div className="flex" style={{ width: 1280 }}>
         <a
           href="/comparisons"
           className="group flex items-center justify-center gap-2 font-urbanist whitespace-nowrap"
           style={{
-            width: 640,
+            width: 1280,
             height: 72,
             border: "0.9px solid #171717",
             fontSize: 15,
@@ -307,26 +307,6 @@ function CompetitorsGrid() {
           }}
         >
           <span>Compare Velt</span>
-          <span style={{ display: "inline-block", width: 14, height: 14 }} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="14" height="14">
-              <path d="M5 3l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </a>
-        <a
-          href="/migrate/liveblocks"
-          className="group flex items-center justify-center gap-2 font-urbanist whitespace-nowrap"
-          style={{
-            width: 640,
-            height: 72,
-            border: "0.9px solid #171717",
-            fontSize: 15,
-            color: "rgb(245,245,245)",
-            opacity: 0.5,
-            textDecoration: "none",
-          }}
-        >
-          <span>Migration Guide</span>
           <span style={{ display: "inline-block", width: 14, height: 14 }} aria-hidden="true">
             <svg viewBox="0 0 16 16" width="14" height="14">
               <path d="M5 3l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

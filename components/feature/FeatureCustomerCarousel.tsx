@@ -47,11 +47,6 @@ const DEFAULT_PRIMARY_CTA: CtaLink = {
   href: "https://console.velt.dev/",
   newTab: true,
 };
-const DEFAULT_SECONDARY_CTA: CtaLink = {
-  label: "View Customers",
-  href: "/customers",
-};
-
 // Card sizing matches the live site (510 tall, 400 wide, 10px gap, 32px radius).
 const CARD_W = 400;
 const CARD_H = 510;
@@ -165,7 +160,7 @@ export function FeatureCustomerCarousel({
   heading = DEFAULT_HEADING,
   subheading = DEFAULT_SUBHEADING,
   primaryCta = DEFAULT_PRIMARY_CTA,
-  secondaryCta = DEFAULT_SECONDARY_CTA,
+  secondaryCta,
   cards,
 }: FeatureCustomerCarouselProps = {}) {
   // Always use the canonical TRUST_DEFAULTS for now — the live homepage
