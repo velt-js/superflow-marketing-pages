@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, Urbanist } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
+import { PageviewTracker } from "@/components/scripts/PageviewTracker";
 import {
   GtmNoScript,
   ThirdPartyScripts,
@@ -72,6 +74,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />
         <JsonLd id="ld-website" data={WEBSITE_SCHEMA} />
         <ThirdPartyScripts />
+        <Suspense fallback={null}>
+          <PageviewTracker />
+        </Suspense>
         {children}
       </body>
     </html>
