@@ -103,33 +103,37 @@ const DEMO_CARDS: DemoCard[] = [
     id: "websites",
     image: "/images/demo/website.png",
     imageAlt: "Website demo",
-    href: "https://app.usesuperflow.com/signup",
+    href: "https://demo.usesuperflow.com",
   },
   {
     id: "video",
     image: "/images/demo/video.png",
     imageAlt: "Video demo",
-    href: "https://app.usesuperflow.com/signup",
+    href: "https://drive.usesuperflow.com/video?id=YVUxTXhLUDByY2EyVVh3S2k4YmxfXzhlYWExNjc5NWQ5YWJlYjBlOGNhZmE1NjdjMTg3ZTI2X192aWRlbw%3D%3D&version=v1",
   },
   {
     id: "lottie",
     image: "/images/demo/lottie.png",
     imageAlt: "Lottie demo",
-    href: "https://app.usesuperflow.com/signup",
+    href: "https://drive.usesuperflow.com/lottie?id=YVUxTXhLUDByY2EyVVh3S2k4YmxfXzQ2MTIxN2NlYTAxZDJkOTk0YjMwMmQwZjllMTA4YjMyX19sb3R0aWU%3D&version=v1",
   },
   {
     id: "pdf",
     image: "/images/demo/pdf.png",
     imageAlt: "PDF demo",
-    href: "https://app.usesuperflow.com/signup",
+    href: "https://drive.usesuperflow.com/pdf?id=YVUxTXhLUDByY2EyVVh3S2k4YmxfXzRkYjdiZGU1MzQ5NjNjOWQ0NDRmZGUyODgxYWFiMjE4X19wZGY%3D&review=true&version=v1",
   },
   {
     id: "image",
     image: "/images/demo/image.png",
     imageAlt: "Image demo",
-    href: "https://app.usesuperflow.com/signup",
+    href: "https://drive.usesuperflow.com/image?id=YVUxTXhLUDByY2EyVVh3S2k4YmxfX2JjYzYwZjFiM2NkZDVlMzNmYjRlOGQ3NTlmMDhkMmVlX19pbWFnZQ%3D%3D&review=true&version=v1",
   },
 ];
+
+const DEMO_HREF_BY_ID = Object.fromEntries(
+  DEMO_CARDS.map((card) => [card.id, card.href]),
+) as Record<string, string>;
 
 function DemoTile({ card }: { card: DemoCard }) {
   return (
@@ -197,7 +201,7 @@ export default function DemoPage() {
             {ASSET_TYPES.map((type) => (
               <a
                 key={type.id}
-                href={`#${type.id}`}
+                href={DEMO_HREF_BY_ID[type.id]}
                 className="inline-flex items-center gap-[8px] rounded-[32px] border border-white/10 bg-white/5 px-[18px] py-[10px] text-white transition-colors hover:border-white/25 hover:bg-white/10"
               >
                 <span style={{ color: type.iconColor }} className="flex items-center">
