@@ -78,6 +78,7 @@ import {
   checklistEndNote,
   checklistSuggested,
 } from "./checklistPage";
+import { launchWeek, launchWeekFeature } from "./launchWeek";
 
 export const schemaTypes = [
   // Documents
@@ -92,6 +93,7 @@ export const schemaTypes = [
   comparisonPage,
   reviewPage,
   checklistPage,
+  launchWeek,
 
   // Inline annotations
   linkAnnotation,
@@ -166,4 +168,7 @@ export const schemaTypes = [
   checklistTip,
   checklistEndNote,
   checklistSuggested,
+
+  // launchWeek sub-types
+  launchWeekFeature,
 ];

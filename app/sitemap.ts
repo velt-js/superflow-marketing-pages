@@ -8,6 +8,7 @@ import {
   getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllIntegrationSlugs,
+  getAllLaunchWeekSlugs,
   getAllReviewSlugs,
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
@@ -27,6 +28,7 @@ const STATIC_PATHS = [
   "/comparisons",
   "/demo",
   "/integrations",
+  "/launch-week",
   "/pricing",
   "/privacy",
   "/security",
@@ -58,6 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     comparisonSlugsCms,
     reviewSlugs,
     checklistSlugs,
+    launchWeekSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationSlugs),
@@ -68,6 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
     safeFetch(getAllChecklistSlugs),
+    safeFetch(getAllLaunchWeekSlugs),
   ]);
 
   const dynamicPaths: string[] = [
@@ -82,6 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),
     ...unique(checklistSlugs).map((slug) => `/${slug}`),
+    ...unique(launchWeekSlugs).map((slug) => `/launch-week/${slug}`),
   ];
 
   const lastModified = new Date();

@@ -481,3 +481,64 @@ export async function getReviewPageBySlug(slug: string) {
     { slug }
   );
 }
+
+export type LaunchWeekFeature = {
+  _key: string;
+  title: string;
+  date: string;
+  image?: string;
+  blogSlug?: string;
+};
+
+export type LaunchWeek = {
+  _id: string;
+  title: string;
+  slug: string;
+  startDate: string;
+  endDate: string;
+  subtitle?: string;
+  features?: LaunchWeekFeature[];
+};
+
+const LAUNCH_WEEK_PROJECTION = `
+  _id,
+  title,
+  "slug": slug.current,
+  startDate,
+  endDate,
+  subtitle,
+  features[] {
+    _key,
+    title,
+    date,
+    "image": image.asset->url,
+    "blogSlug": blog->slug.current
+  }
+`;
+
+export async function getAllLaunchWeeks(): Promise<LaunchWeek[]> {
+  return client.fetch(`
+    *[_type == "launchWeek" && defined(slug.current)] | order(startDate asc) {
+      ${LAUNCH_WEEK_PROJECTION}
+    }
+  `);
+}
+
+export async function getAllLaunchWeekSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "launchWeek" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getLaunchWeekBySlug(
+  slug: string
+): Promise<LaunchWeek | null> {
+  return client.fetch(
+    `
+    *[_type == "launchWeek" && slug.current == $slug][0] {
+      ${LAUNCH_WEEK_PROJECTION}
+    }
+  `,
+    { slug }
+  );
+}

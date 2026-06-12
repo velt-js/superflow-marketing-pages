@@ -7,6 +7,7 @@ import {
   getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllIntegrationSlugs,
+  getAllLaunchWeekSlugs,
   getAllReviewSlugs,
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
@@ -52,6 +53,7 @@ export async function GET() {
     comparisonSlugsCms,
     reviewSlugs,
     checklistSlugs,
+    launchWeekSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationSlugs),
@@ -62,6 +64,7 @@ export async function GET() {
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
     safeFetch(getAllChecklistSlugs),
+    safeFetch(getAllLaunchWeekSlugs),
   ]);
 
   const core = [
@@ -72,6 +75,7 @@ export async function GET() {
     { path: "/demo", title: "Product demo" },
     { path: "/calculator", title: "ROI calculator" },
     { path: "/affiliate", title: "Affiliate program" },
+    { path: "/launch-week", title: "Launch weeks" },
     { path: "/blog", title: "Blog" },
     { path: "/privacy", title: "Privacy policy" },
     { path: "/terms", title: "Terms of service" },
@@ -122,6 +126,11 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
+  const launchWeeks = unique(launchWeekSlugs).map((slug) => ({
+    path: `/launch-week/${slug}`,
+    title: `Launch Week ${slug}`,
+  }));
+
   const body = [
     "# Superflow",
     "> Superflow is a website and creative-asset review tool. Teams leave contextual feedback, record videos, sync tasks to PM tools, and ship faster with fewer review rounds.",
@@ -137,6 +146,7 @@ export async function GET() {
     section("Comparisons", comparisons),
     section("Case studies", caseStudies),
     section("Checklists", checklists),
+    section("Launch weeks", launchWeeks),
     section("Blog", blogs),
   ]
     .filter(Boolean)
