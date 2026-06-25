@@ -16,6 +16,7 @@ const INTERCOM_APP_ID = "gkjq60px";
 const SUPERFLOW_TOOLBAR_API_KEY = "aU1MxKP0rca2UXwKi8bl";
 const SUPERFLOW_TOOLBAR_PROJECT_ID = "3024977291570041";
 const TERMLY_ID = "2bc67d1d-a9a0-4aab-8562-dcd9c354bff2";
+const RB2B_KEY = "Q6J2RHMPWQ6D";
 
 export function ThirdPartyScripts() {
   return (
@@ -74,6 +75,11 @@ mixpanel.init('${MIXPANEL_TOKEN}', {track_pageview: "full-url", persistence: 'lo
         src={`https://app.termly.io/resource-blocker/${TERMLY_ID}?autoBlock=off`}
         strategy="afterInteractive"
       />
+
+      {/* RB2B — visitor de-anonymization / person-level identification */}
+      <Script id="rb2b" strategy="afterInteractive">
+        {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://b2bjsstore.s3.us-west-2.amazonaws.com/b/"+key+"/"+key+".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s,document.getElementsByTagName("script")[0]);}("${RB2B_KEY}");`}
+      </Script>
     </>
   );
 }
