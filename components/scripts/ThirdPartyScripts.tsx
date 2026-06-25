@@ -16,7 +16,6 @@ const INTERCOM_APP_ID = "gkjq60px";
 const SUPERFLOW_TOOLBAR_API_KEY = "aU1MxKP0rca2UXwKi8bl";
 const SUPERFLOW_TOOLBAR_PROJECT_ID = "3024977291570041";
 const TERMLY_ID = "2bc67d1d-a9a0-4aab-8562-dcd9c354bff2";
-const CLAYDAR_ID = "cgBo1m1XAw";
 
 export function ThirdPartyScripts() {
   return (
@@ -73,13 +72,6 @@ mixpanel.init('${MIXPANEL_TOKEN}', {track_pageview: "full-url", persistence: 'lo
       <Script
         id="termly"
         src={`https://app.termly.io/resource-blocker/${TERMLY_ID}?autoBlock=off`}
-        strategy="afterInteractive"
-      />
-
-      {/* Clay (Claydar) — web intent / visitor tracking */}
-      <Script
-        id="claydar"
-        src={`https://static.claydar.com/init.v1.js?id=${CLAYDAR_ID}`}
         strategy="afterInteractive"
       />
     </>
