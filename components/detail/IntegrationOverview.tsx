@@ -4,6 +4,7 @@ import {
   type PortableTextBlock,
 } from "@portabletext/react";
 import { urlFor } from "@/sanity/imageUrl";
+import { isExternalHref, toInternalHref } from "@/lib/links";
 import type { IntegrationDoc, IntegrationStepDoc } from "@/lib/integration-types";
 
 type ImageValue = {
@@ -121,18 +122,20 @@ const lightComponents: PortableTextComponents = {
         {children}
       </code>
     ),
-    link: ({ children, value }) => (
-      <a
-        href={value?.href}
-        className="text-[#6366F1] hover:underline"
-        target={value?.href?.startsWith("http") ? "_blank" : undefined}
-        rel={
-          value?.href?.startsWith("http") ? "noopener noreferrer" : undefined
-        }
-      >
-        {children}
-      </a>
-    ),
+    link: ({ children, value }) => {
+      const isExternal = isExternalHref(value?.href);
+      const normalizedHref = toInternalHref(value?.href);
+      return (
+        <a
+          href={normalizedHref}
+          className="text-[#6366F1] hover:underline"
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {children}
+        </a>
+      );
+    },
   },
   types: {
     image: renderBodyImage,

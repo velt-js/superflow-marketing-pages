@@ -8,6 +8,7 @@
 
 import Image from "next/image";
 
+import { toInternalHref } from "@/lib/links";
 
 type CtaLink = {
   label?: string;
@@ -93,7 +94,7 @@ export function ReviewHero({
           <div className="flex flex-col sm:flex-row items-center gap-[12px] sm:gap-[17px] w-full sm:w-auto">
             {primary?.label ? (
               <a
-                href={primary.href ?? "#"}
+                href={toInternalHref(primary.href) ?? "#"}
                 target={primary.newTab ? "_blank" : undefined}
                 rel={primary.newTab ? "noopener" : undefined}
                 className="flex items-center justify-center rounded-[32px] bg-white/[0.08] px-6 py-3 text-white transition-colors hover:bg-white/[0.14] whitespace-nowrap w-full sm:w-auto"
@@ -109,7 +110,7 @@ export function ReviewHero({
             ) : null}
             {secondary?.label ? (
               <a
-                href={secondary.href ?? "#"}
+                href={toInternalHref(secondary.href) ?? "#"}
                 target={secondary.newTab ? "_blank" : undefined}
                 rel={secondary.newTab ? "noopener" : undefined}
                 className="flex items-center justify-center rounded-[32px] bg-white px-6 py-3 text-black transition-colors hover:bg-white/90 whitespace-nowrap w-full sm:w-auto"

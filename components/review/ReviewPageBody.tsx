@@ -25,6 +25,8 @@ import Testimonial from "@/components/home/Testimonial";
 import WhatElse from "@/components/home/WhatElse";
 import WorkflowStats from "@/components/home/WorkflowStats";
 
+import { toInternalHref } from "@/lib/links";
+
 import { ReviewHero, type ReviewHeroPersona } from "./ReviewHero";
 import ReviewWebsiteFuture, { type WebsiteFutureTab } from "./ReviewWebsiteFuture";
 import ReviewWebsiteInstall from "./ReviewWebsiteInstall";
@@ -115,7 +117,7 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
         cards={doc.featureCards?.cards ?? undefined}
         integrationLogos={doc.featureCards?.integrationLogos ?? undefined}
         integrationsCtaLabel={doc.featureCards?.integrationsCtaLabel ?? undefined}
-        integrationsCtaHref={doc.featureCards?.integrationsCtaHref ?? undefined}
+        integrationsCtaHref={toInternalHref(doc.featureCards?.integrationsCtaHref) ?? undefined}
       />
       {isWebsite && doc.websiteFuture?.tabs?.length ? (
         <ReviewWebsiteFuture
@@ -155,7 +157,7 @@ export function ReviewPageBody({ doc }: { doc: ReviewPageDoc | null }) {
             : doc.collaborationTools?.cards ?? undefined
         }
         ctaLabel={doc.collaborationTools?.ctaLabel ?? undefined}
-        ctaHref={doc.collaborationTools?.ctaHref ?? undefined}
+        ctaHref={toInternalHref(doc.collaborationTools?.ctaHref) ?? undefined}
       />
       <Testimonial
         name="Simon Smallchua"

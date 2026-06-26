@@ -1,6 +1,7 @@
 import { PortableText as SanityPortableText } from "@portabletext/react";
 import type { PortableTextComponents, PortableTextBlock } from "@portabletext/react";
 import { urlFor } from "@/sanity/imageUrl";
+import { isExternalHref, toInternalHref } from "@/lib/links";
 
 type SanityImageValue = {
   asset?: { _ref?: string; url?: string };
@@ -75,16 +76,20 @@ const components: PortableTextComponents = {
         {children}
       </code>
     ),
-    link: ({ children, value }) => (
-      <a
-        href={value?.href}
-        className="text-[#A89BFF] hover:underline"
-        target={value?.href?.startsWith("http") ? "_blank" : undefined}
-        rel={value?.href?.startsWith("http") ? "noopener noreferrer" : undefined}
-      >
-        {children}
-      </a>
-    ),
+    link: ({ children, value }) => {
+      const isExternal = isExternalHref(value?.href);
+      const normalizedHref = toInternalHref(value?.href);
+      return (
+        <a
+          href={normalizedHref}
+          className="text-[#A89BFF] hover:underline"
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {children}
+        </a>
+      );
+    },
   },
   types: {
     code: ({ value }) => (

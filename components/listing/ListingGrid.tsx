@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { toInternalHref } from "@/lib/links";
+
 export type ListingVariant =
   | "icon-vertical"
   | "text-only"
@@ -106,7 +108,7 @@ function CardShell({
 }) {
   return (
     <Link
-      href={href}
+      href={toInternalHref(href) ?? href}
       className="group relative flex flex-col items-center justify-center overflow-hidden rounded-[24px] border-2 border-[#f7f7f7] bg-[#f7f7f7] px-6 py-6 text-center transition-colors hover:border-[#111] hover:bg-white lg:px-8"
     >
       {children}

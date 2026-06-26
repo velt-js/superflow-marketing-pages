@@ -1,11 +1,12 @@
 import type { ChecklistDoc } from "@/lib/checklist-types";
+import { toInternalHref } from "@/lib/links";
 
 const SIGNUP_FALLBACK = "https://app.usesuperflow.com/signup";
 
 export default function ChecklistHero({ doc }: { doc: ChecklistDoc }) {
   const hero = doc.hero ?? {};
   const ctaText = hero.primaryCtaText || "Get Google Doc";
-  const ctaHref = hero.primaryCtaLink || SIGNUP_FALLBACK;
+  const ctaHref = toInternalHref(hero.primaryCtaLink) ?? SIGNUP_FALLBACK;
   const docName = hero.docName || doc.title;
 
   return (

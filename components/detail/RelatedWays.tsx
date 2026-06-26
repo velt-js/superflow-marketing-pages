@@ -3,6 +3,7 @@ import Link from "next/link";
 import SectionHeading from "./SectionHeading";
 import Testimonial from "@/components/home/Testimonial";
 import { TESTIMONIALS } from "@/lib/testimonials";
+import { toInternalHref } from "@/lib/links";
 import type { RelatedWaysData } from "@/lib/detail-data";
 
 export default function RelatedWays({
@@ -22,7 +23,7 @@ export default function RelatedWays({
           {items.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={toInternalHref(item.href) ?? item.href}
               className={`group flex flex-col items-center gap-[16px] rounded-[28px] border-2 px-8 py-[40px] text-center transition-colors ${
                 dark
                   ? "border-white/10 bg-[#0b0b16] hover:border-white/40 hover:bg-[#15151f]"

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { toInternalHref } from "@/lib/links";
 import type {
   IntegrationDoc,
   OtherIntegrationItem,
@@ -121,7 +122,7 @@ export default function IntegrationHero({
               {otherIntegrations.map((item) => (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={toInternalHref(item.href) ?? item.href}
                   aria-label={item.name}
                   className="flex h-[40px] w-[40px] items-center justify-center rounded-full border border-white/15 bg-white/5 transition-colors hover:border-white/30 hover:bg-white/10"
                 >
