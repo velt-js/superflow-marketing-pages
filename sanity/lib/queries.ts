@@ -386,6 +386,8 @@ export async function getChecklistPageBySlug(slug: string) {
       whatTitle, whatDescription, howTitle, howDescription,
       sections[]{ title, description, buttonText, buttonAction, tips[]{ title, description } },
       endNote,
+      // NOTE: href is CMS-authored and may be relative; any future renderer
+      // MUST normalize it via toInternalHref (see lib/links.ts).
       suggestedChecklists[]{ name, bgColor, href },
       metaTitle, metaDescription, noIndex
     }`,

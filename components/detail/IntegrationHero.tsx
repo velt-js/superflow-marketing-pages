@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { toInternalHref } from "@/lib/links";
+import { isExternalHref, toInternalHref } from "@/lib/links";
 import type {
   IntegrationDoc,
   OtherIntegrationItem,
@@ -15,9 +15,11 @@ export default function IntegrationHero({
 }) {
   const appName = doc.appName || doc.title;
   const subtitle = doc.metaDescription || "";
-  const primaryHref = doc.linkToApp;
+  const primaryHref = toInternalHref(doc.linkToApp);
+  const primaryIsExternal = isExternalHref(doc.linkToApp);
   const primaryLabel = `Install ${appName} App`;
-  const secondaryHref = doc.installationVideoLink;
+  const secondaryHref = toInternalHref(doc.installationVideoLink);
+  const secondaryIsExternal = isExternalHref(doc.installationVideoLink);
 
   return (
     <section
@@ -67,8 +69,8 @@ export default function IntegrationHero({
           {secondaryHref && (
             <a
               href={secondaryHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={secondaryIsExternal ? "_blank" : undefined}
+              rel={secondaryIsExternal ? "noopener noreferrer" : undefined}
               className="inline-flex items-center justify-center gap-[8px] rounded-[32px] bg-[#1a1a1a] px-[24px] py-[12px] text-white transition-colors hover:bg-[#2a2a2a]"
               style={{
                 fontFamily: "var(--font-poppins)",
@@ -91,8 +93,8 @@ export default function IntegrationHero({
           {primaryHref && (
             <a
               href={primaryHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={primaryIsExternal ? "_blank" : undefined}
+              rel={primaryIsExternal ? "noopener noreferrer" : undefined}
               className="inline-flex items-center justify-center rounded-[32px] bg-white px-[24px] py-[12px] text-black transition-colors hover:bg-white/90"
               style={{
                 fontFamily: "var(--font-poppins)",
