@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { toInternalHref } from "@/lib/links";
+
 const IMG = "/images/sections/collaboration";
 const SIGNUP_URL =
   "https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU.";
@@ -160,7 +162,7 @@ export default function CollaborationTools({
         </div>
 
         <a
-          href={ctaHref}
+          href={toInternalHref(ctaHref) ?? ctaHref}
           className="rounded-[32px] bg-black px-[32px] py-[16px] text-white"
           style={{ fontFamily: "var(--font-poppins)", fontSize: 16, fontWeight: 500, lineHeight: "1.5em" }}
         >

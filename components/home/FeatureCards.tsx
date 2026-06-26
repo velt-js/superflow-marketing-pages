@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Cursor } from "@/components/shared/Cursor";
 import WebsiteFirstCard from "@/components/review/WebsiteFirstCard";
+import { toInternalHref } from "@/lib/links";
 
 const IMG = "/images/sections/featurecards";
 
@@ -186,7 +187,7 @@ function ViewIntegrationsLink({
 }) {
   return (
     <a
-      href={href}
+      href={toInternalHref(href) ?? href}
       className="flex items-center gap-[10px] uppercase font-semibold text-[12px] tracking-[1.8px] leading-[14.4px]"
       style={{
         color: dim ? "rgba(0,0,0,0.52)" : "#111",
@@ -257,7 +258,7 @@ function IntegrationsIconRow({
           return (
             <a
               key={b.name}
-              href={b.href ?? "#"}
+              href={toInternalHref(b.href) ?? "#"}
               aria-label={b.name}
               className="w-[60px] h-[60px] rounded-full border border-black/[0.16] flex items-center justify-center bg-white/0"
             >
@@ -288,7 +289,7 @@ function IntegrationsPillRow({
         {logos.map((b) => (
           <a
             key={b.name}
-            href={b.href ?? "#"}
+            href={toInternalHref(b.href) ?? "#"}
             aria-label={b.name}
             className="bg-white rounded-full flex items-center gap-[6px] pl-[8px] pr-[12px] py-[8px]"
           >

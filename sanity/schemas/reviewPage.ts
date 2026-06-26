@@ -1,5 +1,7 @@
 import { defineType, defineField } from "sanity";
 
+import { warnOnRelativeInternalHref } from "./shared/linkAnnotation";
+
 // Inlined CTA shape (this repo doesn't have a top-level `ctaLink` type).
 export const reviewCta = defineType({
   name: "reviewCta",
@@ -7,7 +9,14 @@ export const reviewCta = defineType({
   type: "object",
   fields: [
     defineField({ name: "label", title: "Label", type: "string" }),
-    defineField({ name: "href", title: "URL", type: "string" }),
+    // Non-breaking warning: nudge editors to author root-absolute internal
+    // links so they don't compound onto the current route at render time.
+    defineField({
+      name: "href",
+      title: "URL",
+      type: "string",
+      validation: (rule) => rule.custom(warnOnRelativeInternalHref).warning(),
+    }),
     defineField({ name: "newTab", title: "Open in new tab", type: "boolean" }),
   ],
 });

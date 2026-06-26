@@ -1,4 +1,5 @@
 import { PortableTextRenderer } from "@/components/PortableText";
+import { toInternalHref } from "@/lib/links";
 import type { ChecklistSection as Section } from "@/lib/checklist-types";
 
 function ArrowIcon() {
@@ -98,7 +99,7 @@ export default function ChecklistSection({ section }: { section: Section }) {
             )}
             {section.buttonText && section.buttonAction && (
               <a
-                href={section.buttonAction}
+                href={toInternalHref(section.buttonAction)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[28px] inline-flex items-center gap-[10px] rounded-[40px] border px-[22px] py-[12px] transition-colors hover:bg-black/5"
