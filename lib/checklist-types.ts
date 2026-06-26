@@ -33,6 +33,9 @@ export interface ChecklistEndNote {
 export interface ChecklistSuggested {
   name?: string;
   bgColor?: string;
+  // CMS-authored, may be relative without a leading slash. Any future renderer
+  // MUST pass this through `toInternalHref` (and key target/rel off
+  // `isExternalHref`) to avoid compounding paths against the current route.
   href?: string;
 }
 
