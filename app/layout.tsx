@@ -7,6 +7,7 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
+import { AmplitudePageView } from "@/components/scripts/AmplitudePageView";
 import { PageviewTracker } from "@/components/scripts/PageviewTracker";
 import {
   GtmNoScript,
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThirdPartyScripts />
         <Suspense fallback={null}>
           <PageviewTracker />
+          <AmplitudePageView />
         </Suspense>
         {children}
         {/* Clay (Claydar) web intent tracking. Rendered as a native <script>
