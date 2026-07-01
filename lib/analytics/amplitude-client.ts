@@ -76,8 +76,14 @@ export function initAmplitude(): void {
         sessions: true,
         formInteractions: false,
         fileDownloads: false,
-        elementInteractions: false,
-        pageUrlEnrichment: false,
+        // Required for Amplitude Heatmaps: captures "Element clicked"/"Element
+        // changed" events carrying the CSS `Element Selector`, which powers
+        // click + selector heatmaps. Note this increases event volume (every
+        // click on a/button/input/etc becomes an event).
+        elementInteractions: true,
+        // Required for Amplitude Heatmaps: adds the `[Amplitude] Page URL`
+        // property to events so heatmaps can match/filter by page URL.
+        pageUrlEnrichment: true,
         frustrationInteractions: true,
         webVitals: true,
         networkTracking: {
