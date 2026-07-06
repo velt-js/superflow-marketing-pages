@@ -1,0 +1,293 @@
+/* 09 / FAQ — 2026 homepage redesign.
+   Tokens extracted from Figma node 582:6439 (file aVubXS2jMWMDlRK42zvgoy). */
+
+.section {
+  display: flex;
+  justify-content: center;
+  background-color: #feffff;
+  padding: 96px 24px;
+}
+
+.card {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 60px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 52px;
+  border-radius: 52px;
+  /* Exact Figma fill stack: an opaque solid on top of a subtle vertical gradient. */
+  background-image:
+    linear-gradient(90deg, #f7f7f7 0%, #f7f7f7 100%),
+    linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+}
+
+/* ---- Left / intro column ---- */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  flex: 1 1 360px;
+  min-width: 0;
+}
+
+.introTop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Decorative question-mark illustration exported from Figma. */
+.doodle {
+  width: 117px;
+  height: 89px;
+  object-fit: contain;
+  object-position: left top;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  color: #1e1e1f;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contactLabel {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.42px;
+  color: #1e1e1f;
+  opacity: 0.75;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Emma avatar headshot exported from Figma. */
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.contactEmail {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.42px;
+  color: #1e1e1f;
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.contactEmail:hover,
+.contactEmail:focus-visible {
+  opacity: 1;
+}
+
+/* ---- Right / accordion column ---- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 600px;
+  max-width: 600px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border-radius: 20px;
+  transition: background-color 0.25s ease;
+}
+
+.itemOpen {
+  background-color: #ffffff;
+}
+
+.headingWrapper {
+  margin: 0;
+  font: inherit;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  padding: 24px;
+  border: none;
+  border-radius: 20px;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  /* Buttons don't inherit font-family; without this the button would fall
+     back to the system UI font instead of the page typography. */
+  font: inherit;
+  transition: background-color 0.25s ease;
+}
+
+.item:not(.itemOpen) .trigger:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid #1e1e1f;
+  outline-offset: -2px;
+}
+
+.itemOpen .trigger {
+  padding-bottom: 12px;
+}
+
+.question {
+  flex: 1 1 0;
+  min-width: 0;
+  font-family: var(--font-urbanist), sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #1e1e1f;
+  word-break: break-word;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: #1e1e1f;
+  transition: transform 0.25s ease;
+}
+
+/* Plus rotates 45° into an "×" when the item expands. */
+.itemOpen .icon {
+  transform: rotate(45deg);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.panelOpen {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  overflow: hidden;
+  /* visibility:hidden keeps collapsed answers out of the accessibility tree. */
+  visibility: hidden;
+  transition: visibility 0.3s ease;
+}
+
+.panelOpen .panelInner {
+  visibility: visible;
+}
+
+.answer {
+  margin: 0;
+  padding: 0 24px 24px;
+  /* Figma uses "Inter"; inherits the app body font (Poppins) per project rules. */
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1e1e1f;
+}
+
+/* ---- Responsive: tablet ---- */
+
+@media (max-width: 900px) {
+  .section {
+    padding: 64px 20px;
+  }
+
+  .card {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px;
+    border-radius: 36px;
+  }
+
+  .intro {
+    gap: 32px;
+  }
+
+  .heading {
+    font-size: 44px;
+    letter-spacing: -1.32px;
+  }
+
+  .list {
+    max-width: none;
+  }
+}
+
+/* ---- Responsive: mobile ---- */
+
+@media (max-width: 600px) {
+  .section {
+    padding: 48px 16px;
+  }
+
+  .card {
+    gap: 32px;
+    padding: 28px 24px;
+    border-radius: 28px;
+  }
+
+  .heading {
+    font-size: 34px;
+    letter-spacing: -1.02px;
+  }
+
+  .trigger {
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .question {
+    font-size: 18px;
+  }
+
+  .answer {
+    padding: 0 20px 20px;
+  }
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .trigger,
+  .icon,
+  .panel,
+  .panelInner {
+    transition: none;
+  }
+}

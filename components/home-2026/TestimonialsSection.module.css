@@ -1,0 +1,335 @@
+/* 07 / Testimonial — 2026 homepage redesign.
+   Desktop-first (1440px Figma frame), degrades to tablet/mobile via
+   max-width media queries. Colors/typography sourced from Figma; fonts
+   fall back to the layout-inherited stacks (see component notes). */
+
+.section {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 120px 24px;
+  background: #ffffff;
+  color: #1e1e1f;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+  column-gap: 48px;
+  align-items: start;
+}
+
+/* ---------- Left column: heading + agency metrics ---------- */
+
+.intro {
+  /* Pins the heading + metrics while the taller testimonial stack scrolls by;
+     released automatically once the section's grid row ends. */
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.badge {
+  display: block;
+  flex: none;
+  width: 60px;
+  height: 60px;
+  /* The wink glyph's soft shadow extends past the 60x60 viewBox; without
+     this the SVG viewport clips it to a hard square edge. */
+  overflow: visible;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  color: #1e1e1f;
+}
+
+.metrics {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 36px 0;
+}
+
+.metric + .metric {
+  border-top: 1px solid rgba(30, 30, 31, 0.1);
+}
+
+.metricValueGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.metricIcon {
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+.metricValue {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  color: #1e1e1f;
+  white-space: nowrap;
+}
+
+.metricLabel {
+  font-size: 20px;
+  line-height: 1;
+  color: #1e1e1f;
+  opacity: 0.52;
+  white-space: nowrap;
+}
+
+/* ---------- Right column: featured + compact testimonials ---------- */
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.featured {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 32px;
+  min-height: 642px;
+  padding: 44px 32px;
+  border-radius: 40px;
+  overflow: hidden;
+  /* Solid teal fallback behind the brand photo (matches the Figma image tone). */
+  background: #236768;
+  color: #ffffff;
+}
+
+/* Brand photo exported from Figma (already carries a teal wash). */
+.featuredPhoto {
+  z-index: 0;
+  object-fit: cover;
+}
+
+/* Extra bottom scrim so the white copy stays readable over the photo. */
+.featuredScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 55, 55, 0) 30%,
+    rgba(15, 45, 45, 0.55) 100%
+  );
+}
+
+.featuredLogo {
+  position: relative;
+  z-index: 1;
+  width: auto;
+  height: 34px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.featuredContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.featuredText {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0;
+}
+
+.featuredHeading {
+  margin: 0;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.05;
+  color: #ffffff;
+}
+
+.featuredBody {
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ffffff;
+  opacity: 0.75;
+}
+
+.featuredStats {
+  display: flex;
+  align-items: stretch;
+}
+
+.featuredStat {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.featuredStat + .featuredStat {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.featuredStatValue {
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 20px;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.featuredStatLabel {
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff;
+  opacity: 0.78;
+}
+
+/* ---------- Reusable compact testimonial card ---------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 24px;
+  /* Per-card tint injected via inline CSS variable. */
+  background: var(--testimonial-tint, rgba(85, 85, 85, 0.06));
+}
+
+.cardLogo {
+  display: block;
+  width: auto;
+  height: 24px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.cardQuote {
+  margin: 32px 0 0;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #1e1e1f;
+}
+
+.cardRole {
+  margin: 12px 0 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1e1e1f;
+  opacity: 0.75;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 64px;
+  }
+
+  .intro {
+    position: static;
+  }
+
+  .heading {
+    font-size: 44px;
+    letter-spacing: -1.2px;
+  }
+
+  .featured {
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 72px 20px;
+  }
+
+  .heading {
+    font-size: 34px;
+    letter-spacing: -0.8px;
+  }
+
+  .metric {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 24px 0;
+  }
+
+  .metricValue,
+  .metricLabel {
+    font-size: 17px;
+    white-space: normal;
+  }
+
+  .featured {
+    gap: 24px;
+    min-height: 460px;
+    padding: 28px 24px;
+    border-radius: 28px;
+  }
+
+  .featuredContent {
+    gap: 28px;
+  }
+
+  .featuredHeading {
+    font-size: 26px;
+  }
+
+  .featuredStatValue {
+    font-size: 18px;
+  }
+
+  .featuredStatLabel {
+    font-size: 13px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .cardQuote {
+    margin-top: 24px;
+    font-size: 20px;
+  }
+}

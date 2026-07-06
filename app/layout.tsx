@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Urbanist } from "next/font/google";
+import { Adamina, Poppins, Urbanist } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -26,6 +26,14 @@ const urbanist = Urbanist({
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-urbanist",
+});
+
+// Serif display face for the 2026 homepage headings (single weight).
+const adamina = Adamina({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-adamina",
 });
 
 const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
@@ -69,7 +77,10 @@ const WEBSITE_SCHEMA = buildWebSiteSchema();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${urbanist.variable}`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${urbanist.variable} ${adamina.variable}`}
+    >
       <body className={poppins.className} style={{ overflowX: "hidden" }}>
         <GtmNoScript />
         <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />

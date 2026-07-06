@@ -1,0 +1,1110 @@
+/*
+ * "04 / Feature Set" — 2026 homepage redesign.
+ *
+ * Desktop-first (Figma card is 1200×700). Each block card clips an app-window
+ * mock that bleeds off its right and bottom edges, with a browser/folder-style
+ * tab strip merging into the window frame. Text colours are set explicitly
+ * because the global `body` colour is white. Fonts are inherited from the app
+ * layout (Poppins); tab and mock labels use the already-loaded Urbanist
+ * variable to echo the Figma design.
+ */
+
+.section {
+  --mono-font: ui-monospace, "SF Mono", "Geist Mono", Menlo, Consolas, monospace;
+  box-sizing: border-box;
+  width: 100%;
+  padding-block: 96px;
+  background: #ffffff;
+  color: #111111;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* ------------------------------------------------------------------ header */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+.headerTitle {
+  margin: 0;
+  color: #1e1e1f;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+}
+
+.journey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.journeyPill {
+  --pill-pad-y: 15px;
+  --pill-pad-start: 18px;
+  --pill-pad-end: 25px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: var(--pill-pad-y) var(--pill-pad-end) var(--pill-pad-y) var(--pill-pad-start);
+  border-radius: 9999px;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.2px;
+}
+
+/* Label wrapper: 1fr↔0fr column is what animates the pill growth. */
+.journeyLabel {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.journeyLabelText {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.journeyPillDraft {
+  background: rgba(52, 85, 221, 0.08);
+  color: #3455dd;
+}
+
+.journeyPillReview {
+  background: rgba(42, 123, 75, 0.08);
+  color: #2a7b4b;
+}
+
+.journeyPillIcon {
+  flex-shrink: 0;
+}
+
+.journeyArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border: 1.5px solid rgba(1, 0, 1, 0.12);
+  border-radius: 9999px;
+  color: #111111;
+}
+
+/*
+ * Journey reveal (play-once, driven by FeatureSetJourney): pills start as
+ * icon-only circles (side paddings equal the vertical padding, label column
+ * collapsed to 0fr) and grow to uncover their labels; the arrow pops in
+ * between the two pill reveals. The static/SSR state is the final layout,
+ * and none of this applies under prefers-reduced-motion. Row height never
+ * changes, so nothing below shifts.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .journeyPill {
+    transition:
+      gap 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--journey-delay, 0s),
+      padding 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--journey-delay, 0s);
+  }
+
+  .journeyLabel {
+    transition: grid-template-columns 0.5s cubic-bezier(0.22, 1, 0.36, 1)
+      var(--journey-delay, 0s);
+  }
+
+  .journeyLabelText {
+    transition: opacity 0.35s ease calc(var(--journey-delay, 0s) + 0.15s);
+  }
+
+  .journeyArrow {
+    --journey-delay: 0.3s;
+    transition:
+      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) var(--journey-delay, 0s),
+      opacity 0.3s ease var(--journey-delay, 0s);
+  }
+
+  .journeyPillDraft {
+    --journey-delay: 0s;
+  }
+
+  .journeyPillReview {
+    --journey-delay: 0.5s;
+  }
+
+  .journeyCollapsed .journeyPill {
+    gap: 0;
+    padding-left: var(--pill-pad-y);
+    padding-right: var(--pill-pad-y);
+  }
+
+  .journeyCollapsed .journeyLabel {
+    grid-template-columns: 0fr;
+  }
+
+  .journeyCollapsed .journeyLabelText {
+    opacity: 0;
+  }
+
+  .journeyCollapsed .journeyArrow {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ blocks */
+
+.blocks {
+  /* Positioned so slot offsetTop measurements resolve against this box. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/*
+ * Per-card slot for the scroll "deck stacking" effect. On desktop the slot
+ * itself pins via position: sticky — its containing block is the tall
+ * .blocks container, so it stays pinned while every later slot scrolls up
+ * and covers it. `--stack-index` is set inline per slot; `--stack-scale` /
+ * `--stack-opacity` are written by FeatureSetStack's scroll handler as the
+ * card recedes into the deck.
+ */
+.blockSlot {
+  min-width: 0;
+}
+
+/*
+ * Card. `--feature-dark` (accent at 30% over black) is the window-frame and
+ * active-tab colour, exactly as layered in Figma. Right/bottom padding is
+ * intentionally 0 so the window mock can bleed off the card edges.
+ */
+.block {
+  --feature-dark: color-mix(in srgb, var(--feature-accent) 30%, #000000);
+  --feature-fade: color-mix(in srgb, var(--feature-accent) 6%, #f2f2f2);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(300px, 405px) minmax(0, 1fr);
+  column-gap: clamp(48px, 7vw, 92px);
+  padding: 72px 0 0 72px;
+  border-radius: 52px;
+  background:
+    linear-gradient(var(--feature-tint), var(--feature-tint)),
+    linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------- block: text col */
+
+.blockText {
+  display: flex;
+  flex-direction: column;
+  /* Figma: the features list ends 62px above the card's bottom edge. */
+  padding-bottom: 62px;
+}
+
+.blockIcon {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: var(--feature-accent);
+}
+
+.blockTitle {
+  margin: 0 0 12px;
+  color: #111111;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.2px;
+}
+
+.blockDescription {
+  margin: 0;
+  max-width: 42ch;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+}
+
+.blockFeatures {
+  margin-top: auto;
+  padding-top: 48px;
+}
+
+.blockFeaturesLabel {
+  margin: 0 0 14px;
+  color: #111111;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  opacity: 0.52;
+}
+
+.blockFeatureList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blockFeatureItem {
+  color: #111111;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+}
+
+.blockFeatureItem::before {
+  content: "\2192";
+  margin-right: 8px;
+}
+
+/* Fades the clipped window bottom into the card, as in Figma (Rectangle 78). */
+.blockFade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 631px;
+  max-width: 60%;
+  height: 162px;
+  background: linear-gradient(180deg, rgba(247, 247, 246, 0) 0%, var(--feature-fade) 100%);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------- panel: tabbed app window */
+
+.panel {
+  margin-top: 8px;
+  min-width: 0;
+}
+
+/*
+ * Tab strip. Figma tucks every tab's bottom 8px behind the window frame
+ * (the frame paints over them), so the strip pulls itself under the window
+ * with a negative margin. The active tab merges invisibly (same colour);
+ * inactive tab bottoms are cropped by the frame's top edge.
+ */
+.panelTabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin-bottom: -8px;
+}
+
+/* Active tab: dark folder tab merging seamlessly into the window frame. */
+.panelTabActive {
+  position: relative;
+  /* Paints above the window frame and the neighbouring inactive tabs so the
+     concave flares stay visible, exactly as layered in Figma. */
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 24px 0 12px;
+  border: 0;
+  border-radius: 16px 16px 0 0;
+  background: var(--feature-dark);
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    height 0.2s ease,
+    padding 0.2s ease;
+}
+
+/* Concave flare joining the tab's right edge to the window top (Vector 56).
+   It rests on the window's top edge and tucks under the next tab's corner. */
+.panelTabActive::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  bottom: 8px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 100% 0%, transparent 19.5px, var(--feature-dark) 20px);
+  /* Flares can't transition with the class swap, so they fade in instead. */
+  animation: panelFadeIn 0.2s ease;
+}
+
+/*
+ * Non-first active tab: raised slightly above the inactive tabs, with a
+ * mirrored concave flare on its left side so the dark surface curves out
+ * over both neighbours' bottom corners before merging into the window.
+ */
+.panelTabActiveRaised {
+  height: 48px;
+  padding-inline: 16px 24px;
+}
+
+.panelTabActiveRaised::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: 8px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 0% 0%, transparent 19.5px, var(--feature-dark) 20px);
+  animation: panelFadeIn 0.2s ease;
+}
+
+.panelTabActiveIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  background: var(--feature-accent);
+  animation: panelFadeIn 0.2s ease;
+}
+
+/*
+ * Inactive tabs: slightly taller than the active tab (Figma: 46 vs 42), with
+ * their bottom 8px tucked behind the window frame via the strip's negative
+ * margin so they rest on the caption bar with no gap.
+ */
+.panelTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 16px 16px 0 0;
+  background: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(3px);
+  color: rgba(17, 17, 17, 0.52);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    height 0.2s ease,
+    padding 0.2s ease;
+}
+
+.panelTab:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/*
+ * Window frame: dark accent shell whose top-left corner is square so the
+ * active tab merges into it. Fixed design width — the card clips the bleed.
+ */
+.panelWindow {
+  /* Positioned so it paints over the tucked inactive-tab bottoms while the
+     z-indexed active tab still sits above the frame. */
+  position: relative;
+  width: 1204px;
+  border-radius: 0 16px 16px 16px;
+  padding: 2px;
+  background: var(--feature-dark);
+  transition: border-top-left-radius 0.2s ease;
+}
+
+/* When the active tab is not the first, the window's top-left corner is free
+   and rounds itself like the rest of the top edge. */
+.panelWindowRounded {
+  border-top-left-radius: 16px;
+}
+
+/*
+ * Header band hugging the tabs, sitting directly on the dark accent window
+ * frame (as the original caption did): the active tab's statement line over
+ * its "Without it…" loss line, both in light text against the accent.
+ */
+.panelCaption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  margin: 0;
+  padding: 8px 12px;
+  letter-spacing: -0.14px;
+}
+
+/* Primary statement line: sans in light near-white, like the old caption. */
+.panelOneLiner {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+}
+
+/* "Without it…" line: light coral, legible on every band accent (navy,
+   plum, green, umber) unlike a dark rust-red. */
+.panelLoss {
+  margin: 0;
+  color: #ffbfae;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.13px;
+}
+
+.panelScreen {
+  height: 602px;
+  border-radius: 14px;
+  background: #feffff;
+  overflow: hidden;
+}
+
+/* Remount target for the tab-switch entrance; fills the fixed-height screen
+   so the animation never shifts layout. */
+.panelScreenInner {
+  height: 100%;
+}
+
+/* Micro-entrance for content swapped in on tab change (caption line + screen):
+   a short fade with a slight upward drift and blur-to-sharp settle. */
+.panelSwapIn {
+  animation: panelSwapIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes panelSwapIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------ mock: workflow app window */
+
+.wfScreen {
+  display: flex;
+  height: 100%;
+}
+
+.wfSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 34px;
+  margin: 14px 0 0 14px;
+  flex-shrink: 0;
+}
+
+.wfSidebarItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 32px;
+  color: rgba(17, 17, 17, 0.55);
+}
+
+.wfSidebarItemActive {
+  background: #4093ee;
+  color: #ffffff;
+}
+
+.wfMain {
+  flex: 1;
+  min-width: 0;
+  padding: 32px 57px 0 43px;
+}
+
+.wfHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  width: 1052px;
+}
+
+.wfTitle {
+  margin: 0 0 8px;
+  color: #000000;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.54px;
+}
+
+.wfMeta {
+  margin: 0;
+  color: #000000;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.52;
+}
+
+.wfMetaStrong {
+  font-weight: 600;
+}
+
+.wfActions {
+  display: flex;
+  gap: 8px;
+}
+
+.wfButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 10px 10px;
+  border-radius: 32px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.42px;
+  white-space: nowrap;
+}
+
+.wfButtonGhost {
+  border: 1px solid #000001;
+  color: #000000;
+}
+
+.wfButtonDark {
+  background: #000001;
+  color: #ffffff;
+}
+
+/* Dot-grid workflow canvas (image 16 in Figma), drawn in CSS. */
+.wfCanvas {
+  position: relative;
+  width: 1052px;
+  height: 494px;
+  margin-top: 22px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 16px;
+  background-image: radial-gradient(rgba(17, 17, 17, 0.16) 1.3px, transparent 1.4px);
+  background-size: 26px 26px;
+}
+
+/* Fade the canvas bottom into white, matching the Figma gradient overlay. */
+.wfCanvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  pointer-events: none;
+}
+
+.wfNode {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.53px;
+  white-space: nowrap;
+}
+
+.wfNodeDark {
+  left: 124px;
+  top: 211px;
+  background: #010001;
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+.wfNodeDomainSuffix {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.wfNodeLight {
+  left: 364px;
+  top: 211px;
+  border: 1px solid #000000;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--mono-font);
+}
+
+.wfNodeGlobe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #66b6ff 0%, #2d6ae3 100%);
+  color: #ffffff;
+}
+
+.wfConnector {
+  position: absolute;
+  left: 284px;
+  top: 235px;
+  width: 80px;
+  border-top: 2px dashed rgba(17, 17, 17, 0.3);
+}
+
+.wfBranch {
+  position: absolute;
+  left: 525px;
+  top: 133px;
+  color: rgba(17, 17, 17, 0.3);
+}
+
+.wfCheck {
+  position: absolute;
+  z-index: 1;
+  left: 661px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 32px;
+  background: color-mix(in srgb, #ffffff 90%, var(--wf-check-color));
+  color: var(--wf-check-color);
+  font-family: var(--mono-font);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.53px;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------ mock: agent gallery window */
+
+.agGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 458px);
+  gap: 29px;
+  padding: 32px 33px;
+}
+
+.agCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 458px;
+  height: 155px;
+  padding: 27px 25px 20px 24px;
+  border: 1.2px solid #f1f1f0;
+  border-radius: 17px;
+  background: #ffffff;
+}
+
+.agCardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.agIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49px;
+  height: 49px;
+  border-radius: 10px;
+  background: #109534;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.agCardText {
+  flex: 1;
+  min-width: 0;
+}
+
+.agCardTitle {
+  margin: 0 0 6px;
+  color: #111111;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.agCardSub {
+  margin: 0;
+  overflow: hidden;
+  color: rgba(17, 17, 17, 0.6);
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agKebab {
+  color: rgba(17, 17, 17, 0.45);
+  flex-shrink: 0;
+}
+
+.agCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.agMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: rgba(17, 17, 17, 0.6);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.agMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agMetaIconBlue {
+  color: #4093ee;
+}
+
+.agMetaIconOrange {
+  color: #ff5744;
+}
+
+.agActions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.agCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+}
+
+.agCircleGhost {
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  color: rgba(17, 17, 17, 0.7);
+}
+
+.agCircleDark {
+  background: #111111;
+  color: #ffffff;
+}
+
+/* Skeleton shapes standing in for not-yet-final agent cards (as in Figma). */
+.agSkeleton {
+  border-color: #f1f1f0;
+}
+
+.agSkelShape {
+  background: #f1f1f0;
+  border-radius: 39px;
+  flex-shrink: 0;
+}
+
+.agSkelIcon {
+  width: 49px;
+  height: 49px;
+  border-radius: 10px;
+}
+
+.agSkelTitle {
+  width: 181px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+.agSkelSub {
+  width: 299px;
+  height: 20px;
+}
+
+.agSkelKebab {
+  width: 24px;
+  height: 27px;
+  margin-left: auto;
+}
+
+.agSkelBarShort {
+  width: 87px;
+  height: 20px;
+}
+
+.agSkelBarLong {
+  width: 136px;
+  height: 20px;
+}
+
+.agSkelCircle {
+  width: 32px;
+  height: 32px;
+}
+
+/* ------------------------------------------------------- desktop constraint */
+
+@media (min-width: 1150px) {
+  /* Fixed card height so the window mock is cut by the bottom edge (Figma).
+     The row is pinned to the content-box height so the taller window mock
+     cannot stretch it — otherwise the bottom-anchored features list would be
+     pushed below the card's clipped edge. */
+  .block {
+    height: 700px;
+    grid-template-rows: 100%;
+  }
+
+}
+
+/*
+ * Deck stacking (desktop only, motion allowed — smaller viewports and
+ * reduced-motion users scroll normally since none of these rules apply).
+ * Each SLOT pins with a staggered top offset (the 24px stagger is what lets
+ * the covered card's top edge peek above the card on top); increasing
+ * z-index makes later slots paint over earlier ones (and contains the
+ * cards' internal z-indexes). The base offset adapts to the viewport so the
+ * 700px card stays visible. Because the slots' sticky containing block is
+ * the tall .blocks container, a pinned card stays put until the section
+ * ends — it never scrolls off on its own.
+ *
+ * Depth visuals are scrubbed by FeatureSetStack onto the card inside:
+ * --stack-scale shrinks the covered card subtly (~0.96 per level) and
+ * --stack-opacity fades it out entirely once a second card has stacked on
+ * top — at most the active and one previous card show.
+ */
+@media (min-width: 1150px) and (prefers-reduced-motion: no-preference) {
+  .blockSlot {
+    position: sticky;
+    top: calc(min(96px, max(24px, (100vh - 700px) / 2)) + var(--stack-index, 0) * 24px);
+    z-index: calc(var(--stack-index, 0) + 1);
+  }
+
+  .blockSlot .block {
+    transform-origin: top center;
+    transform: scale(var(--stack-scale, 1));
+    opacity: var(--stack-opacity, 1);
+    will-change: transform, opacity;
+  }
+}
+
+/* ----------------------------------------------------------- tablet (wide) */
+
+@media (max-width: 1149px) {
+  .section {
+    padding-block: 72px;
+  }
+
+  .headerTitle {
+    font-size: 40px;
+    letter-spacing: -1.2px;
+  }
+
+  .journeyPill {
+    --pill-pad-y: 12px;
+    --pill-pad-start: 14px;
+    --pill-pad-end: 20px;
+    gap: 12px;
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+
+  .journeyPillIcon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .journeyArrow {
+    padding: 12px;
+  }
+
+  .journeyArrow svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Stack: text on top, window mock below, still bleeding right + bottom. */
+  .block {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 48px 0 0 48px;
+    border-radius: 40px;
+  }
+
+  .blockText {
+    padding-right: 48px;
+    padding-bottom: 0;
+  }
+
+  .blockTitle {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  .blockFeatures {
+    padding-top: 32px;
+  }
+
+  .panel {
+    margin-top: 40px;
+    height: 460px;
+    overflow: hidden;
+  }
+
+  .blockFade {
+    height: 120px;
+  }
+}
+
+/* ------------------------------------------------------------------ mobile */
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .headerTitle {
+    font-size: 30px;
+    letter-spacing: -0.9px;
+  }
+
+  .journeyPill {
+    --pill-pad-y: 10px;
+    --pill-pad-start: 12px;
+    --pill-pad-end: 16px;
+    gap: 10px;
+    font-size: 22px;
+    letter-spacing: -0.66px;
+  }
+
+  .journeyPillIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .journeyArrow {
+    padding: 10px;
+  }
+
+  .journeyArrow svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .block {
+    padding: 32px 0 0 24px;
+    border-radius: 28px;
+  }
+
+  .blockText {
+    padding-right: 24px;
+  }
+
+  .blockTitle {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+
+  .blockFeatures {
+    padding-top: 24px;
+  }
+
+  .panel {
+    margin-top: 32px;
+    height: 360px;
+  }
+
+  .panelTabActive {
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .panelTabActiveRaised {
+    height: 42px;
+  }
+
+  .panelTab {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .panelCaption {
+    padding: 6px 10px;
+  }
+
+  .panelOneLiner {
+    font-size: 14px;
+  }
+
+  .panelLoss {
+    font-size: 12px;
+  }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .panelTab,
+  .panelTabActive,
+  .panelWindow {
+    transition: none;
+  }
+
+  .panelSwapIn,
+  .panelTabActiveIcon,
+  .panelTabActive::after,
+  .panelTabActiveRaised::before {
+    animation: none;
+  }
+}

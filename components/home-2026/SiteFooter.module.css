@@ -1,0 +1,496 @@
+/*
+ * 10 / Footer — 2026 homepage redesign.
+ * Desktop-first (1440px Figma frame), degrading to tablet/mobile via media queries.
+ *
+ * Font note: Figma specifies Adamina (serif heading, loaded via --font-adamina),
+ * Inter (body/links) and Geist Mono (column titles). Inter/Geist Mono are not
+ * loaded, so body text inherits Poppins and column titles use a system monospace
+ * stack while matching Figma's size/weight/line-height/tracking.
+ */
+
+.footer {
+    --sf-ink: #1e1e1f;
+    --sf-card: #feffff;
+    --sf-badge-pink: #d935a8;
+    --sf-badge-cyan: #47dcf6;
+    --sf-link: rgba(255, 255, 255, 0.75);
+    --sf-link-hover: #ffffff;
+    --sf-muted: rgba(255, 255, 255, 0.52);
+    --sf-divider: rgba(255, 255, 255, 0.16);
+    --sf-content-width: 1200px;
+
+    position: relative;
+    width: 100%;
+    color: #ffffff;
+    /* White base; the blue comes from the wave asset layered above the card. */
+    background: #feffff;
+    overflow: hidden;
+}
+
+/* Gradient wave exported from Figma (node 582:6761). Layered ABOVE the CTA
+   card so its blurred crest washes over the card's lower portion, but BELOW
+   the footer nav content. The asset is transparent above the crest, so the
+   card dissolves into the flow instead of being hard-clipped; pointer-events
+   is disabled so the CTA buttons stay clickable underneath. The crest band
+   keeps a fixed height (matching the 707px-tall export) so its opacity ramp
+   lands predictably; ::before back-fills everything below it with the
+   asset's own bottom colors, keeping nav text on fully opaque blue. */
+.waveLayer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* Card spans 96px..576px (96px section padding + 480px min-height); the
+       crest's fade band sits at ~90px..340px into the asset, so a 300px
+       offset makes the wash begin ~60% down the card and turn fully opaque
+       just past the card's bottom edge — mirroring Figma's 413/1120 ratio. */
+    top: 300px;
+    bottom: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image: url("/images/home-2026/footer/wave-gradient.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 707px;
+    background-position: top center;
+}
+
+/* Fades in over the asset's already-deep region and reaches full opacity
+   before the 707px asset bottom, so there is never a visible seam and the
+   footer nav always sits on opaque blue regardless of section height. */
+.waveLayer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 560px;
+    bottom: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(80, 143, 230, 0) 0,
+        #4a8ee4 140px,
+        #4489e2 100%
+    );
+}
+
+/* ---------- CTA card ---------- */
+
+.ctaSection {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    padding: 96px 24px 40px;
+}
+
+.ctaCard {
+    position: relative;
+    width: 100%;
+    max-width: 1204px;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 48px;
+    border: 2px solid #000000;
+    border-radius: 28px;
+    background: var(--sf-card);
+    overflow: hidden;
+}
+
+/* App dashboard screenshot (Figma node 582:6697) anchored to the card's
+   bottom-left corner and clipped by the card's rounded frame. */
+.appPreview {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    height: 82%;
+    overflow: hidden;
+    border-top-left-radius: 52px;
+    border-top-right-radius: 12px;
+    background: #f1f2f4;
+    border-right: 1px solid #e6e7ea;
+}
+
+.appPreviewImage {
+    object-fit: cover;
+    object-position: top left;
+}
+
+.ctaContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    max-width: 640px;
+    text-align: center;
+}
+
+.ctaHeadings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.ctaHeading {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.2;
+    letter-spacing: -1.56px;
+    color: var(--sf-ink);
+}
+
+.ctaSubtitle {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -0.54px;
+    color: var(--sf-ink);
+    opacity: 0.78;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14.4px 24px;
+    border-radius: 32px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 19.2px;
+    line-height: 24px;
+    letter-spacing: 0.192px;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.btnOutline {
+    border: 1.5px solid var(--sf-ink);
+    color: var(--sf-ink);
+    background: transparent;
+}
+
+.btnOutline:hover {
+    background: var(--sf-ink);
+    color: var(--sf-card);
+}
+
+.btnFilled {
+    border: 1.5px solid var(--sf-ink);
+    background: var(--sf-ink);
+    color: #ffffff;
+}
+
+.btnFilled:hover {
+    transform: translateY(-1px);
+    background: #000000;
+    border-color: #000000;
+}
+
+/* ---------- Decorative persona badges ---------- */
+
+.badge {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6.4px 12.8px;
+    border-radius: 25.6px;
+    border: 1.6px solid #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.48px;
+    white-space: nowrap;
+    box-shadow: 0 2.97px 4.45px rgba(0, 0, 0, 0.16);
+    pointer-events: none;
+}
+
+.badgePink {
+    left: 16%;
+    bottom: 18%;
+    background: var(--sf-badge-pink);
+    color: #fefeff;
+}
+
+.badgeCyan {
+    right: 6%;
+    bottom: 24%;
+    background: var(--sf-badge-cyan);
+    color: var(--sf-ink);
+}
+
+/* Pointer geometry from Figma: the 32px glyph box sits 24.55px above the
+   badge top; the SVG viewBox (43.2×46) adds the drop-shadow spill margins
+   (6.82px left, 5.19px top). Figma mirrors the Designers pointer
+   horizontally (rotate-180 + flip-Y = scaleX(-1)) so it points up-right. */
+.badgePointerRight,
+.badgePointerLeft {
+    position: absolute;
+    top: -29.7px;
+    width: 43.2px;
+    height: 46px;
+}
+
+.badgePointerRight {
+    right: -45.6px;
+    transform: scaleX(-1);
+}
+
+.badgePointerLeft {
+    left: -30.8px;
+}
+
+/* ---------- Footer nav band ---------- */
+
+.footerMain {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    padding: 24px 24px 64px;
+}
+
+.footerInner {
+    width: 100%;
+    max-width: var(--sf-content-width);
+}
+
+.footerTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 64px;
+    padding-bottom: 56px;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 260px;
+    flex-shrink: 0;
+}
+
+.brandRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brandMark {
+    width: 22px;
+    height: 20px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.brandName {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.6px;
+    color: #ffffff;
+}
+
+.brandDesc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.42px;
+    color: var(--sf-muted);
+}
+
+.footerNav {
+    display: flex;
+    gap: clamp(48px, 6vw, 100px);
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.columnTitle {
+    margin: 0;
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--sf-muted);
+}
+
+.columnLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footerLink {
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.42px;
+    color: var(--sf-link);
+    text-decoration: none;
+    transition: color 0.18s ease;
+}
+
+.footerLink:hover {
+    color: var(--sf-link-hover);
+}
+
+/* ---------- Bottom bar ---------- */
+
+.footerBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--sf-divider);
+}
+
+.copyright {
+    margin: 0;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: -0.39px;
+    color: var(--sf-muted);
+}
+
+.legalLinks {
+    display: flex;
+    gap: 32px;
+}
+
+.legalLink {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: -0.39px;
+    color: var(--sf-muted);
+    text-decoration: none;
+    transition: color 0.18s ease;
+}
+
+.legalLink:hover {
+    color: var(--sf-link-hover);
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1024px) {
+    .ctaSection {
+        padding: 72px 24px 32px;
+    }
+
+    .ctaCard {
+        min-height: 0;
+        padding: 64px 32px;
+    }
+
+    .appPreview,
+    .badge {
+        display: none;
+    }
+
+    .ctaHeading {
+        font-size: 44px;
+        letter-spacing: -1.32px;
+    }
+
+    /* Fixed offset (the card geometry is px-based) with a compressed crest
+       band, so the blue is fully opaque before the stacked nav begins. */
+    .waveLayer {
+        top: 230px;
+        background-size: 100% 360px;
+    }
+
+    .waveLayer::before {
+        top: 200px;
+    }
+
+    .footerTop {
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    .brand {
+        max-width: 420px;
+    }
+
+    .footerNav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 40px;
+        width: 100%;
+    }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+    .ctaSection {
+        padding: 56px 16px 24px;
+    }
+
+    .ctaCard {
+        padding: 48px 24px;
+        border-radius: 24px;
+    }
+
+    .ctaHeading {
+        font-size: 34px;
+        letter-spacing: -1.02px;
+    }
+
+    .ctaSubtitle {
+        font-size: 16px;
+        letter-spacing: -0.48px;
+    }
+
+    .ctaButtons {
+        flex-direction: column;
+        align-self: stretch;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .waveLayer {
+        top: 200px;
+    }
+
+    .footerMain {
+        padding: 16px 16px 48px;
+    }
+
+    .footerNav {
+        gap: 32px 24px;
+    }
+
+    .footerBottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}

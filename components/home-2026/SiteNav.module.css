@@ -1,0 +1,168 @@
+/* Sticky site header for the 2026 homepage.
+   Transparent over the hero at the top; solid white once scrolled. Fixed +
+   high z-index keeps it above every section's sticky/pinned scroll stages. */
+
+.header {
+  --nav-gutter: 40px;
+  --nav-content-width: 1204px;
+  /* Floating-island tuning (only applied once scrolled). */
+  --nav-edge-gap: 16px; /* min side inset from the viewport edges */
+  --nav-top-gap: 14px; /* gap above the island so it floats */
+  --nav-radius: 18px; /* island corner curvature (matches reference) */
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  /* Transparent positioning wrapper; the visible surface lives on .inner so it
+     can morph into an inset rounded island. Padding (added when scrolled) is
+     what lifts the island off the top and in from the side edges. */
+  padding: 0;
+  transition: padding 0.25s ease;
+}
+
+/* Scrolled: lift the island down from the top and in from the edges. */
+.scrolled {
+  padding: var(--nav-top-gap) var(--nav-edge-gap) 0;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--nav-content-width) + var(--nav-gutter) * 2);
+  margin: 0 auto;
+  padding: 16px var(--nav-gutter);
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    border-radius 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* The floating white island: rounded, hairline border, soft lift shadow. */
+.scrolled .inner {
+  background-color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  border-radius: var(--nav-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.scrolled .brand {
+  color: #101012;
+}
+
+.brandMark {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.14px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.25s ease;
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.scrolled .navLink {
+  color: #101012;
+}
+
+.scrolled .navLink:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.navChevron {
+  opacity: 0.85;
+}
+
+/* Dark pill CTA — legible on both the blue hero and the white scrolled bar,
+   so its colors stay constant across states. (#1e1e1f mirrors --hero-ink.) */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 32px;
+  background-color: #1e1e1f;
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.ctaButton:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.ctaButton:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+@media (max-width: 860px) {
+  .navLinks {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    --nav-gutter: 20px;
+  }
+}
+
+/* Reduced motion: keep the accessible color/background swap, drop the eased
+   transition so it flips instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .inner,
+  .brand,
+  .navLink,
+  .ctaButton {
+    transition: none;
+  }
+}

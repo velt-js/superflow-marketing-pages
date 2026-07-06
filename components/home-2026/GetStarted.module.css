@@ -1,0 +1,400 @@
+/* 05 / Get Started — 2026 homepage redesign.
+   Figma node 582:5284 (file aVubXS2jMWMDlRK42zvgoy). Desktop-first: base rules
+   target the 1440px frame, media queries degrade to tablet/mobile. */
+
+.section {
+    /* Local tokens extracted from Figma so literal values are not repeated. */
+    --gs-ink: #1e1e1f;
+    --gs-bg: #feffff;
+    --gs-border: rgba(0, 0, 0, 0.12);
+    --gs-placeholder: #e5e5e5;
+    --gs-pill-bg: #f4f4f4;
+    --gs-pill-bg-hover: #ececec;
+
+    background: var(--gs-bg);
+    color: var(--gs-ink);
+    padding: 100px 24px;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 52px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---- Header ---- */
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+}
+
+.headerTop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Anchors the electric arcs to the bolt's center without affecting layout. */
+.boltWrap {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+}
+
+.bolt {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 60px;
+    height: 60px;
+    animation: gs-bolt-flicker 3.4s ease-in-out infinite;
+}
+
+/* Jagged lightning filaments that crackle around the bolt; an SVG turbulence +
+   displacement filter distorts them so they read as live electric current. */
+.boltArcs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 2px rgba(245, 166, 35, 0.3));
+}
+
+.boltArcs polyline {
+    fill: none;
+    stroke: #ffd75e;
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Each group sparks on its own cadence so filaments flicker independently. */
+.arcGroup1 {
+    animation: gs-arc-flicker 1.1s steps(1, end) infinite;
+}
+
+.arcGroup2 {
+    animation: gs-arc-flicker 1.4s steps(1, end) 0.2s infinite;
+}
+
+.arcGroup3 {
+    animation: gs-arc-flicker 0.95s steps(1, end) 0.45s infinite;
+}
+
+@keyframes gs-arc-flicker {
+    0%, 100% {
+        opacity: 0.42;
+    }
+
+    18% {
+        opacity: 0.08;
+    }
+
+    34% {
+        opacity: 0.5;
+    }
+
+    52% {
+        opacity: 0.16;
+    }
+
+    68% {
+        opacity: 0.4;
+    }
+
+    84% {
+        opacity: 0.05;
+    }
+}
+
+/* Faint brightness jitter to sell the "surge" without looking broken. */
+@keyframes gs-bolt-flicker {
+    0%, 46%, 52%, 70%, 76%, 100% {
+        filter: brightness(1);
+    }
+
+    49% {
+        filter: brightness(1.12);
+    }
+
+    73% {
+        filter: brightness(1.07);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bolt {
+        animation: none;
+    }
+
+    .boltArcs {
+        display: none;
+    }
+}
+
+.headingGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.heading {
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.2;
+    letter-spacing: -1.56px;
+    margin: 0;
+}
+
+.subhead {
+    font-size: 18px;
+    line-height: 1.5;
+    opacity: 0.78;
+    max-width: 509px;
+    margin: 0;
+}
+
+/* ---- Step cards ---- */
+
+.cards {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 350px;
+    padding: 31px;
+    border: 1px solid var(--gs-border);
+    border-radius: 32px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.stepIcon {
+    width: 32px;
+    height: 32px;
+}
+
+.stepIcon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.stepIconInstall {
+    color: #db52b9;
+}
+
+.stepIconReview {
+    color: #423df3;
+}
+
+.stepIconShip {
+    color: #119434;
+}
+
+.stepText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stepTitle {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.stepDesc {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.78;
+    margin: 0;
+}
+
+/* Holds the product-UI illustration that bleeds off the bottom of each card.
+   The exported asset is the full card; object-position:bottom crops it to the
+   illustration strip so the live heading/description above stay authoritative. */
+.stepMedia {
+    position: relative;
+    margin-top: auto;
+    margin-inline: -31px;
+    margin-bottom: -31px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+}
+
+.stepMediaImage {
+    object-fit: cover;
+    object-position: bottom center;
+}
+
+/* ---- Footer: plugin note + platform pills ---- */
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+}
+
+.footerNote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footerNote svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    color: var(--gs-ink);
+}
+
+.footerNoteText {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.platforms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.platformPill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 24px;
+    background: var(--gs-pill-bg);
+    border-radius: 24px;
+    transition: background-color 0.2s ease;
+}
+
+.platformPill:hover {
+    background: var(--gs-pill-bg-hover);
+}
+
+/* Logos rest in a muted grayscale state and regain full color when the
+   surrounding pill (not just the image) is hovered. */
+.platformLogo {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+    /* The global `img { backface-visibility: hidden }` rule forces these logos
+       onto their own composited layer; combined with the grayscale filter,
+       Safari flattens that layer without alpha and paints an opaque white box
+       behind the transparent PNGs. Restore the defaults so the layer keeps
+       its transparency. */
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+}
+
+/* `grayscale(0)` instead of `none` keeps the filter list interpolable so the
+   hover transition lands on true full color in Safari as well. */
+.platformPill:hover .platformLogo {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .platformLogo {
+        transition: none;
+    }
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 960px) {
+    .heading {
+        font-size: 44px;
+        letter-spacing: -1.2px;
+    }
+}
+
+@media (max-width: 720px) {
+    .section {
+        padding: 72px 20px;
+    }
+
+    .inner {
+        gap: 40px;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+
+    .card {
+        height: auto;
+        min-height: 260px;
+    }
+
+    .heading {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .subhead {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        padding: 56px 16px;
+    }
+
+    .heading {
+        font-size: 30px;
+        letter-spacing: -0.6px;
+    }
+
+    .platformPill {
+        padding: 6px 18px;
+    }
+}

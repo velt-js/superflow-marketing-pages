@@ -1,0 +1,729 @@
+/*
+ * 03 / Solution Section — 2026 homepage redesign.
+ * Colors, type sizes and radii mirror Figma node 582:3943.
+ * Layout is rebuilt with flex/grid (Figma absolute coords are not copied).
+ */
+
+.section {
+    /* Design tokens local to this section (values extracted from Figma). */
+    --sol-bg: #feffff;
+    --sol-ink: #1e1e1f;
+    --sol-card-dark: #010001;
+    --sol-green: #2b7a4a;
+    --sol-green-bright: #2fae66;
+    --sol-blue: #3555dd;
+    --sol-red: #ff5744;
+    --sol-orange: #b26d0a;
+    --sol-frame-line: #e5e5e4;
+    --sol-guide: #c9c9c9;
+
+    /* Frame-line placement: horizontal rules sit this far from the section's
+       top/bottom edges; vertical rules sit at the edges of the 1200px content
+       zone (120px from the viewport edge on the 1440px Figma frame), clamped
+       so they never leave the viewport on narrower screens. */
+    --sol-frame-inset-y: 88px;
+    --sol-frame-inset-x: max(20px, calc(50% - 600px));
+
+    /* Font stacks — Adamina and Urbanist are provided by the root layout;
+       Inter / Geist Mono are not loaded, so those degrade to the closest
+       inherited or system faces. */
+    --sol-font-serif: var(--font-adamina), Georgia, serif;
+    --sol-font-body: Inter, var(--font-poppins), system-ui, sans-serif;
+    --sol-font-display: var(--font-urbanist), system-ui, sans-serif;
+    --sol-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    /* 88px line inset + ~92px gap between line and content, per Figma. */
+    padding: 180px 24px;
+    background: var(--sol-bg);
+    color: var(--sol-ink);
+    overflow: hidden;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+/* Decorative "blueprint" frame: two horizontal rules bleeding the full
+   viewport width and two vertical rules bleeding the full section height,
+   crossing each other with registration marks at the four intersections
+   (matches Figma — the lines are not a closed box). Purely visual. */
+.frame {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* The rules dissolve toward their ends (transparent → line color →
+   transparent) instead of terminating hard at the section edges.
+   Entrance: lines draw outward from center (scale transform), then the
+   corner bolts fade/scale in once `.revealVisible` is set by the
+   IntersectionObserver in SolutionSectionReveal. */
+.frameLineHorizontal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right,
+            transparent 0%,
+            var(--sol-frame-line) 18%,
+            var(--sol-frame-line) 82%,
+            transparent 100%);
+    transform: scaleX(0);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frameLineTop {
+    top: var(--sol-frame-inset-y);
+}
+
+.frameLineBottom {
+    bottom: var(--sol-frame-inset-y);
+}
+
+.frameLineVertical {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            var(--sol-frame-line) 18%,
+            var(--sol-frame-line) 82%,
+            transparent 100%);
+    transform: scaleY(0);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frameLineLeft {
+    left: var(--sol-frame-inset-x);
+}
+
+.frameLineRight {
+    right: var(--sol-frame-inset-x);
+}
+
+.revealVisible .frameLineHorizontal {
+    transform: scaleX(1);
+}
+
+.revealVisible .frameLineVertical {
+    transform: scaleY(1);
+}
+
+/* Registration marks ("bolts"), centered on each line intersection. The
+   16px squares are offset by inset − 7px so their centers land on the
+   middle of the 2px rules (inset + 1px). Positioning is done with
+   top/left/right/bottom only, keeping `transform` free for the entrance
+   scale animation. Bolts fade in after the lines finish drawing, with a
+   small per-corner stagger via --sol-bolt-delay. */
+.corner {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 2px solid #e5e5e5;
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+        opacity 350ms ease-out calc(650ms + var(--sol-bolt-delay, 0ms)),
+        transform 350ms cubic-bezier(0.22, 1, 0.36, 1) calc(650ms + var(--sol-bolt-delay, 0ms));
+}
+
+.revealVisible .corner {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.corner::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #000000;
+    border-radius: 6px;
+}
+
+.cornerTopLeft {
+    --sol-bolt-delay: 0ms;
+    top: calc(var(--sol-frame-inset-y) - 7px);
+    left: calc(var(--sol-frame-inset-x) - 7px);
+}
+
+.cornerTopRight {
+    --sol-bolt-delay: 80ms;
+    top: calc(var(--sol-frame-inset-y) - 7px);
+    right: calc(var(--sol-frame-inset-x) - 7px);
+}
+
+.cornerBottomLeft {
+    --sol-bolt-delay: 160ms;
+    bottom: calc(var(--sol-frame-inset-y) - 7px);
+    left: calc(var(--sol-frame-inset-x) - 7px);
+}
+
+.cornerBottomRight {
+    --sol-bolt-delay: 240ms;
+    bottom: calc(var(--sol-frame-inset-y) - 7px);
+    right: calc(var(--sol-frame-inset-x) - 7px);
+}
+
+/* ---- Diagram entrance ----
+   Elements tagged .revealItem / .revealConnector hide until the reveal
+   wrapper gains .revealVisible, then play a one-shot entrance staggered by
+   the per-element --sol-reveal-delay (set inline from the component).
+   Keyframes end at the elements' natural styles and the animations use
+   `backwards` fill (not `forwards`) so hover transitions — e.g. the pill
+   lift — regain control of `transform` once the entrance finishes. */
+@keyframes sol-reveal-rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes sol-reveal-wipe {
+    from {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.reveal .revealItem,
+.reveal .revealConnector {
+    opacity: 0;
+}
+
+.revealVisible .revealItem {
+    opacity: 1;
+    animation: sol-reveal-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--sol-reveal-delay, 0ms);
+}
+
+.revealVisible .revealConnector {
+    opacity: 1;
+    animation: sol-reveal-wipe 400ms ease-out backwards;
+    animation-delay: var(--sol-reveal-delay, 0ms);
+}
+
+/* Foreground content sits above the decorative frame. */
+.inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 72px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---- Header ---- */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+}
+
+.headerIcons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.headerIconTable {
+    color: var(--sol-green);
+}
+
+.headerIconArrow {
+    color: var(--sol-guide);
+}
+
+.headerIconRobot {
+    color: var(--sol-blue);
+}
+
+.headingGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--sol-font-serif);
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.2;
+    letter-spacing: -1.56px;
+    color: var(--sol-ink);
+}
+
+.subheading {
+    margin: 0;
+    font-family: var(--sol-font-body);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -0.54px;
+    color: var(--sol-ink);
+    opacity: 0.78;
+}
+
+/* ---- Flow diagram ---- */
+.flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.connector {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    color: var(--sol-guide);
+}
+
+.connector svg {
+    width: 100%;
+    height: auto;
+}
+
+/* ---- File card (source checklist) ---- */
+.fileCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 0 0 auto;
+    width: 240px;
+    height: 210px;
+    padding: 28px;
+    border-radius: 24px;
+    background: var(--sol-card-dark);
+    color: #ffffff;
+}
+
+.fileCardIcon {
+    color: var(--sol-green-bright);
+}
+
+.fileCardText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fileCardTitle {
+    margin: 0;
+    font-family: var(--sol-font-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.6px;
+    color: #ffffff;
+}
+
+.fileCardMeta {
+    margin: 0;
+    font-family: var(--sol-font-display);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: -0.54px;
+    color: #ffffff;
+    opacity: 0.52;
+}
+
+/* ---- Agent team column ---- */
+.agentTeam {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex: 0 0 auto;
+    width: 290px;
+    height: 196px;
+    overflow: hidden;
+}
+
+.agentTeamLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    color: var(--sol-green);
+}
+
+.agentTeamLabel span {
+    font-family: var(--sol-font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.agentPills {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Each pill is wrapped so the entrance reveal lives on this outer element
+   while the activation bounce lives on the inner `.pill`. Keeping the two
+   animations on separate elements stops the bounce's class toggle from
+   re-running (and momentarily re-hiding) the opacity-based reveal. */
+.pillReveal {
+    display: inline-flex;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7.5px;
+    padding: 12.5px;
+    border-radius: 40px;
+    font-family: var(--sol-font-mono);
+    font-weight: 500;
+    font-size: 17.5px;
+    line-height: 1;
+    letter-spacing: -0.525px;
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+}
+
+.pill:hover {
+    transform: translateY(-1px);
+}
+
+.pillPerformance {
+    background: #ffeeec;
+    color: var(--sol-red);
+}
+
+.pillLink {
+    background: #e6f4ea;
+    color: #038e31;
+}
+
+.pillGrammar {
+    background: #ebeefc;
+    color: var(--sol-blue);
+}
+
+.pillSeo {
+    background: #f7f0e7;
+    color: var(--sol-orange);
+}
+
+/* Activation bounce: fired on a pill when its finding toast lands — a quick
+   transform-only scale bounce with a slight undershoot before settling for a
+   springy feel. No ring/glow. transform-origin stays centered so the scale
+   never reflows siblings. Runs on the inner `.pill` (the reveal lives on the
+   outer `.pillReveal`), so toggling this class only ever swaps a
+   transform animation on/off and never disturbs the entrance opacity. */
+@keyframes sol-pill-bounce {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.1);
+    }
+
+    75% {
+        transform: scale(0.98);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.agentPills .pillPulse {
+    transform-origin: center;
+    animation: sol-pill-bounce 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Bottom fade suggesting the checklist continues beyond the frame. */
+.agentFade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 88px;
+    background: linear-gradient(to bottom, rgba(254, 255, 255, 0), var(--sol-bg));
+    pointer-events: none;
+}
+
+/* ---- Review card (result) ---- */
+.reviewCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    flex: 0 0 auto;
+    width: 302px;
+}
+
+.reviewLabel {
+    font-family: var(--sol-font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--sol-ink);
+    opacity: 0.52;
+}
+
+.reviewStack {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.reviewCardBack {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 82%;
+    height: 44px;
+    border-radius: 16px;
+    background: #f2f2f2;
+    z-index: 1;
+}
+
+.reviewCardFront {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 270px;
+    max-width: 100%;
+    height: 56px;
+    padding: 0 19px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+}
+
+.reviewCardIcon {
+    color: var(--sol-red);
+    flex: 0 0 auto;
+}
+
+.reviewCardText {
+    margin: 0;
+    font-family: var(--sol-font-display);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: -0.48px;
+    color: var(--sol-ink);
+}
+
+/* ---- Toast cycling ----
+   The outgoing toast recedes toward the back-card slot (down + shrink +
+   fade) while the incoming one drops in from above. The outgoing card is
+   absolutely positioned over the front slot so the stack never changes
+   size; `translate` handles centering, leaving `transform` free for the
+   keyframes. */
+@keyframes sol-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes sol-toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px) scale(0.85);
+    }
+}
+
+.toastIncoming {
+    animation: sol-toast-in 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.toastOutgoing {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1;
+    pointer-events: none;
+    animation: sol-toast-out 500ms ease forwards;
+}
+
+.reviewButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 24px;
+    background: var(--sol-ink);
+    color: #fefeff;
+    font-family: var(--sol-font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.reviewButton:hover {
+    opacity: 0.88;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .flow {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Point the dashed connectors downward when the flow stacks. */
+    .connector {
+        width: 40px;
+        transform: rotate(90deg);
+    }
+
+    .agentTeam {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Keep clear of the 88px frame-line inset while scaling the gap down. */
+    .section {
+        padding: 136px 20px;
+    }
+
+    .inner {
+        gap: 48px;
+    }
+
+    .heading {
+        font-size: 40px;
+        letter-spacing: -1.2px;
+    }
+
+    /* On small screens the vertical rules and registration marks would sit
+       right at the content edge — keep only the horizontal rules. */
+    .frameLineVertical,
+    .corner {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .heading {
+        font-size: 32px;
+        letter-spacing: -0.96px;
+    }
+
+    .subheading {
+        font-size: 16px;
+    }
+
+    .fileCard {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .reviewCard {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pill,
+    .reviewButton {
+        transition: none;
+    }
+
+    /* Entrance animations: skip them and show the static final state,
+       independent of whether the IntersectionObserver has fired. */
+    .frameLineHorizontal,
+    .frameLineVertical,
+    .corner,
+    .reveal .revealItem,
+    .reveal .revealConnector {
+        transition: none;
+        animation: none;
+        transform: none;
+        opacity: 1;
+        filter: none;
+        clip-path: none;
+    }
+
+    /* Toast cycling is already disabled in JS under reduced motion; this
+       is a belt-and-braces static state should a swap ever be mid-flight. */
+    .toastIncoming {
+        animation: none;
+    }
+
+    .toastOutgoing {
+        display: none;
+    }
+
+    .agentPills .pillPulse {
+        animation: none;
+    }
+}

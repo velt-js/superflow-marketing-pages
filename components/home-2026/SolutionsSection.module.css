@@ -1,0 +1,277 @@
+/* Solutions — "Built for the work you already ship." 2026 homepage redesign.
+   Specs mirrored from Figma node 638:8167. Postage-stamp "tickets": each
+   near-square ticket (aspect 232 / 246, padding 40) has a pale pastel fill
+   clipped by a single-path SVG stamp mask — a rounded rectangle with
+   semicircular notches punched along every edge and clean rounded corners.
+   Icon sits top-left, label bottom-left. Adjacent tickets OVERLAP horizontally
+   (negative margin) with a subtle vertical zig-zag; later tickets stack over
+   earlier ones. Hovering brings a ticket to the front with a soft scale +
+   shadow. All motion is CSS, so the component stays a server component. On
+   narrow widths the overlapped flex row becomes a plain 3 -> 2 -> 1 grid. */
+
+.section {
+    --sols-ink: #1e1e1f;
+    --sols-bg: #feffff;
+    /* Warm accent within the site family; still used as the icon fallback color. */
+    --sols-accent: #c9502a;
+
+    background: var(--sols-bg);
+    color: var(--sols-ink);
+    padding: 100px 24px;
+    /* Clip horizontally so hover-scaled edge tickets never add a scrollbar,
+       while leaving vertical shadows free to render. */
+    overflow-x: clip;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---- Header (centered) ---- */
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 52px;
+    max-width: 640px;
+}
+
+/* Heading: Adamina serif, matching every sibling section title. */
+.heading {
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.2;
+    letter-spacing: -1.56px;
+    color: var(--sols-ink);
+    margin: 0;
+}
+
+/* Supporting line: inherits the global body face, 18px, muted via opacity. */
+.subhead {
+    margin: 16px 0 0;
+    font-size: 18px;
+    line-height: 1.5;
+    opacity: 0.78;
+    max-width: 560px;
+}
+
+/* ---- Overlapping ticket row ---- */
+
+.grid {
+    /* Adjacent tickets overlap their left neighbour by --overlap. */
+    --overlap: 56px;
+    display: flex;
+    width: 100%;
+    list-style: none;
+    padding: 22px 6px;
+    margin: 0;
+}
+
+/* The cell carries the overlap, vertical zig-zag, hover lift and stacking.
+   flex-grow (1 1 0) redistributes width accounting for the negative margins, so
+   the six tucked tickets stay equal-width and span the row. Later cells paint
+   over earlier ones, matching Figma's stack order. Tickets are flat at rest
+   (the drop-shadow is transparent, so it's absent but interpolates smoothly);
+   the shadow only appears on the hovered/focused ticket. The shadow uses
+   filter: drop-shadow on this UNmasked cell so it follows the notched stamp
+   silhouette of the masked .ticket child. */
+.cell {
+    --dy: 6px;
+    /* Shared stamp silhouette (lifted from .ticket) so both the pastel ticket
+       and its white separation rim (::before) can reference the same shape. */
+    --stamp: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20232%20246%22%3E%3Cpath%20d%3D%22M6%2C0L10%2C0A6%2C6%200%200%200%2022%2C0L25.38%2C0A6%2C6%200%200%200%2037.38%2C0L40.77%2C0A6%2C6%200%200%200%2052.77%2C0L56.15%2C0A6%2C6%200%200%200%2068.15%2C0L71.54%2C0A6%2C6%200%200%200%2083.54%2C0L86.92%2C0A6%2C6%200%200%200%2098.92%2C0L102.31%2C0A6%2C6%200%200%200%20114.31%2C0L117.69%2C0A6%2C6%200%200%200%20129.69%2C0L133.08%2C0A6%2C6%200%200%200%20145.08%2C0L148.46%2C0A6%2C6%200%200%200%20160.46%2C0L163.85%2C0A6%2C6%200%200%200%20175.85%2C0L179.23%2C0A6%2C6%200%200%200%20191.23%2C0L194.62%2C0A6%2C6%200%200%200%20206.62%2C0L210%2C0A6%2C6%200%200%200%20222%2C0L226%2C0A6%2C6%200%200%201%20232%2C6L232%2C10A6%2C6%200%200%200%20232%2C22L232%2C25.29A6%2C6%200%200%200%20232%2C37.29L232%2C40.57A6%2C6%200%200%200%20232%2C52.57L232%2C55.86A6%2C6%200%200%200%20232%2C67.86L232%2C71.14A6%2C6%200%200%200%20232%2C83.14L232%2C86.43A6%2C6%200%200%200%20232%2C98.43L232%2C101.71A6%2C6%200%200%200%20232%2C113.71L232%2C117A6%2C6%200%200%200%20232%2C129L232%2C132.29A6%2C6%200%200%200%20232%2C144.29L232%2C147.57A6%2C6%200%200%200%20232%2C159.57L232%2C162.86A6%2C6%200%200%200%20232%2C174.86L232%2C178.14A6%2C6%200%200%200%20232%2C190.14L232%2C193.43A6%2C6%200%200%200%20232%2C205.43L232%2C208.71A6%2C6%200%200%200%20232%2C220.71L232%2C224A6%2C6%200%200%200%20232%2C236L232%2C240A6%2C6%200%200%201%20226%2C246L222%2C246A6%2C6%200%200%200%20210%2C246L206.62%2C246A6%2C6%200%200%200%20194.62%2C246L191.23%2C246A6%2C6%200%200%200%20179.23%2C246L175.85%2C246A6%2C6%200%200%200%20163.85%2C246L160.46%2C246A6%2C6%200%200%200%20148.46%2C246L145.08%2C246A6%2C6%200%200%200%20133.08%2C246L129.69%2C246A6%2C6%200%200%200%20117.69%2C246L114.31%2C246A6%2C6%200%200%200%20102.31%2C246L98.92%2C246A6%2C6%200%200%200%2086.92%2C246L83.54%2C246A6%2C6%200%200%200%2071.54%2C246L68.15%2C246A6%2C6%200%200%200%2056.15%2C246L52.77%2C246A6%2C6%200%200%200%2040.77%2C246L37.38%2C246A6%2C6%200%200%200%2025.38%2C246L22%2C246A6%2C6%200%200%200%2010%2C246L6%2C246A6%2C6%200%200%201%200%2C240L0%2C236A6%2C6%200%200%200%200%2C224L0%2C220.71A6%2C6%200%200%200%200%2C208.71L0%2C205.43A6%2C6%200%200%200%200%2C193.43L0%2C190.14A6%2C6%200%200%200%200%2C178.14L0%2C174.86A6%2C6%200%200%200%200%2C162.86L0%2C159.57A6%2C6%200%200%200%200%2C147.57L0%2C144.29A6%2C6%200%200%200%200%2C132.29L0%2C129A6%2C6%200%200%200%200%2C117L0%2C113.71A6%2C6%200%200%200%200%2C101.71L0%2C98.43A6%2C6%200%200%200%200%2C86.43L0%2C83.14A6%2C6%200%200%200%200%2C71.14L0%2C67.86A6%2C6%200%200%200%200%2C55.86L0%2C52.57A6%2C6%200%200%200%200%2C40.57L0%2C37.29A6%2C6%200%200%200%200%2C25.29L0%2C22A6%2C6%200%200%200%200%2C10L0%2C6A6%2C6%200%200%201%206%2C0Z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E");
+    flex: 1 1 0;
+    min-width: 0;
+    margin-left: calc(-1 * var(--overlap));
+    position: relative;
+    z-index: 0;
+    transform: translateY(var(--dy));
+    transform-origin: center;
+    filter: drop-shadow(0 0 0 rgba(31, 26, 20, 0));
+    transition: transform 0.28s ease-out, filter 0.28s ease-out;
+}
+
+/* White separation rim: a white-filled copy of the stamp silhouette, inset a
+   few px larger than the ticket and painted behind it (z-index -1, so under the
+   pastel fill + content). Because sibling cells paint in DOM order, each cell's
+   rim sits over the neighbour it overlaps, drawing an even ~3px white outline
+   that traces the notched edge — so adjacent pastel tickets never merge at the
+   seam. It's separation, not a shadow, so it's present at rest; decorative, so
+   pointer events are off. Over the white section background (top/bottom edges,
+   and the whole rim in the stacked grid) it's invisible and harmless. */
+.cell::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
+    background: #fff;
+    -webkit-mask: var(--stamp) center / 100% 100% no-repeat;
+    mask: var(--stamp) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+.cell:first-child {
+    margin-left: 0;
+}
+
+.cell:nth-child(even) {
+    --dy: -6px;
+}
+
+.cell:hover,
+.cell:focus-within {
+    z-index: 5;
+    transform: translateY(var(--dy)) scale(1.06);
+    filter: drop-shadow(0 16px 30px rgba(31, 26, 20, 0.18));
+}
+
+/* The ticket: pale pastel fill clipped by a single-path SVG stamp silhouette.
+   The SVG is a rounded rectangle with evenly-spaced semicircular notches punched
+   along every edge, and the notch rows stop short of the corners so each corner
+   renders as a clean rounded arc (no ragged half-circle collisions). It is an
+   alpha mask (the path is filled solid), so it needs no mask-mode and the ticket
+   stays fully opaque between notches — which keeps the horizontal overlaps clean.
+   The mask scales via mask-size:100% 100%; because the ticket keeps the 232/246
+   aspect ratio at every breakpoint, the notches stay perfectly circular. */
+.ticket {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    aspect-ratio: 232 / 246;
+    padding: 40px;
+    /* Reserve the covered strip on the right so the label (and its wrapping)
+       clears the neighbour tucked on top, mirroring Figma's constrained text box. */
+    padding-inline-end: var(--overlap, 40px);
+    color: inherit;
+    text-decoration: none;
+    box-sizing: border-box;
+    background: var(--ticket-tint, #f5f2ec);
+    -webkit-mask: var(--stamp) center / 100% 100% no-repeat;
+    mask: var(--stamp) center / 100% 100% no-repeat;
+}
+
+/* Bare per-industry icon at the top-left (color set per ticket). */
+.icon {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    color: var(--ticket-icon, var(--sols-accent));
+}
+
+.icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Label pinned to the bottom-left, 1-2 lines (Figma: Urbanist SemiBold 18px). */
+.label {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.54px;
+    color: #111;
+    word-break: break-word;
+}
+
+/* ---- Responsive: overlapped row -> plain 3 -> 2 -> 1 grid ---- */
+
+@media (max-width: 1000px) {
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        padding: 12px 4px;
+    }
+
+    /* Drop the overlap + zig-zag so the stacked grid reads cleanly. */
+    .cell,
+    .cell:first-child,
+    .cell:nth-child(even) {
+        --dy: 0px;
+        margin-left: 0;
+        transform: none;
+    }
+
+    .cell:hover,
+    .cell:focus-within {
+        transform: scale(1.05);
+    }
+
+    /* No overlap when stacked, so the label can use the full width again. */
+    .ticket {
+        padding-inline-end: 40px;
+    }
+
+    .heading {
+        font-size: 44px;
+        letter-spacing: -1.2px;
+    }
+}
+
+@media (max-width: 720px) {
+    .section {
+        padding: 72px 20px;
+    }
+
+    .header {
+        margin-bottom: 40px;
+    }
+
+    .heading {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+}
+
+@media (max-width: 680px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 460px) {
+    .section {
+        padding: 56px 16px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heading {
+        font-size: 30px;
+        letter-spacing: -0.6px;
+    }
+
+    .subhead {
+        font-size: 16px;
+    }
+}
+
+/* ---- Reduced motion: drop the hover scale/transition, keep lift cues ---- */
+
+@media (prefers-reduced-motion: reduce) {
+    .cell {
+        transition: none;
+    }
+
+    .cell:hover,
+    .cell:focus-within {
+        transform: translateY(var(--dy));
+        z-index: 5;
+        filter: drop-shadow(0 14px 24px rgba(31, 26, 20, 0.16));
+    }
+}
