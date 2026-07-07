@@ -37,6 +37,9 @@ interface CostSliderConfig {
   formatValue: (value: number) => string;
 }
 
+/** Map of every slider id to its current numeric value. */
+type CostInputs = Record<CostSliderConfig["id"], number>;
+
 /** Ranges/steps mirror the Framer site's range inputs exactly. */
 const COST_SLIDERS: CostSliderConfig[] = [
   {
@@ -67,12 +70,39 @@ const COST_SLIDERS: CostSliderConfig[] = [
   },
 ];
 
-/** Default slider values (the Framer "10-person agency" preset). */
-const DEFAULT_INPUTS: Record<CostSliderConfig["id"], number> = {
-  assets: 300,
-  minutes: 20,
-  rate: 125,
-};
+/**
+ * A named starting point for the calculator. Selecting a preset fills the
+ * three sliders with representative numbers for that kind of team.
+ * Values mirror the `presets` array in the exported Framer home.html.
+ */
+interface CostPreset {
+  key: string;
+  label: string;
+  inputs: CostInputs;
+}
+
+/** Preset teams offered above the sliders (order matches the Framer site). */
+const COST_PRESETS: CostPreset[] = [
+  { key: "solo", label: "Solo studio", inputs: { assets: 40, minutes: 15, rate: 75 } },
+  {
+    key: "agency10",
+    label: "10-person agency",
+    inputs: { assets: 300, minutes: 20, rate: 125 },
+  },
+  {
+    key: "scale50",
+    label: "50+ / in-house QA",
+    inputs: { assets: 1500, minutes: 25, rate: 150 },
+  },
+];
+
+/** Preset selected on first render (the Framer default active preset). */
+const DEFAULT_PRESET_KEY = "agency10";
+
+/** Default slider values, sourced from the default preset. */
+const DEFAULT_INPUTS: CostInputs =
+  COST_PRESETS.find((preset) => preset.key === DEFAULT_PRESET_KEY)?.inputs ??
+  COST_PRESETS[0].inputs;
 
 /**
  * Rounds and formats a number with US thousands separators, matching the
@@ -108,7 +138,10 @@ function toTrackPercent(value: number, min: number, max: number): number {
  * whole screen area and hosts the live values.
  */
 export default function CostSection() {
-  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [inputs, setInputs] = useState<CostInputs>(DEFAULT_INPUTS);
+  const [activePreset, setActivePreset] = useState<string | null>(
+    DEFAULT_PRESET_KEY,
+  );
 
   // Framer reference math: hours the AI hands back, reviewer FTE equivalent,
   // and yearly billings recovered ("billings" mode of the original toggle).
@@ -119,6 +152,17 @@ export default function CostSection() {
 
   const handleSliderChange = (id: CostSliderConfig["id"], rawValue: string) => {
     setInputs((previous) => ({ ...previous, [id]: Number(rawValue) }));
+    // A manual drag no longer matches a named preset, so drop the highlight.
+    setActivePreset(null);
+  };
+
+  /**
+   * Fills the three sliders with a preset's numbers and marks it as the
+   * active selection (mirrors applyPreset in the Framer home.html).
+   */
+  const applyPreset = (preset: CostPreset) => {
+    setInputs(preset.inputs);
+    setActivePreset(preset.key);
   };
 
   return (
@@ -129,7 +173,33 @@ export default function CostSection() {
             {SECTION_HEADING}
           </h2>
 
-          <div className={styles.metrics}>
+          <div className={styles.calculator}>
+            <div
+              className={styles.presets}
+              role="group"
+              aria-label="Team size presets"
+            >
+              {COST_PRESETS.map((preset) => {
+                const isActive = activePreset === preset.key;
+                const buttonClassName = isActive
+                  ? `${styles.presetButton} ${styles.presetButtonActive}`
+                  : styles.presetButton;
+
+                return (
+                  <button
+                    key={preset.key}
+                    type="button"
+                    className={buttonClassName}
+                    aria-pressed={isActive}
+                    onClick={() => applyPreset(preset)}
+                  >
+                    {preset.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className={styles.metrics}>
             {COST_SLIDERS.map((slider) => {
               const value = inputs[slider.id];
               const percent = toTrackPercent(value, slider.min, slider.max);
@@ -181,6 +251,7 @@ export default function CostSection() {
                 </div>
               );
             })}
+            </div>
           </div>
         </div>
 

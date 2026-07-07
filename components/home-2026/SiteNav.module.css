@@ -7,7 +7,7 @@
   --nav-content-width: 1204px;
   /* Floating-island tuning (only applied once scrolled). */
   --nav-edge-gap: 16px; /* min side inset from the viewport edges */
-  --nav-top-gap: 14px; /* gap above the island so it floats */
+  --nav-top-gap: 12px; /* gap above the island so it floats (14px + 40px lower) */
   --nav-radius: 18px; /* island corner curvature (matches reference) */
 
   position: fixed;

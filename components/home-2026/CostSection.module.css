@@ -43,6 +43,59 @@
   color: #ffffff;
 }
 
+/* Wraps the preset selector + sliders so they sit tighter together than the
+   heading-to-controls gap set by .content. */
+.calculator {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* Preset team buttons (Solo studio / 10-person agency / 50+ in-house QA). */
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.presetButton {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: 1px solid rgba(217, 217, 217, 0.24);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+
+.presetButton:hover {
+  color: #ffffff;
+  border-color: rgba(217, 217, 217, 0.45);
+}
+
+.presetButton:focus-visible {
+  outline: 2px solid #e17a15;
+  outline-offset: 2px;
+}
+
+/* Active preset reads as a filled accent chip against the dark section. */
+.presetButtonActive,
+.presetButtonActive:hover {
+  color: #111111;
+  background: #e17a15;
+  border-color: #e17a15;
+}
+
 .metrics {
   display: flex;
   flex-direction: column;
