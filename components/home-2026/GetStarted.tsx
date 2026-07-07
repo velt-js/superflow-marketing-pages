@@ -1,11 +1,20 @@
 import Image from "next/image";
-import type { ReactElement } from "react";
+import type { CSSProperties, ReactElement } from "react";
 import styles from "./GetStarted.module.css";
 
 const SECTION_HEADING = "Get Started in a minute";
 const SECTION_SUBHEADING = "Install, review and approve";
 const PLATFORMS_NOTE = "Website plugins to install Superflow in 30 seconds";
 const HEADING_ID = "get-started-heading";
+
+/** Fallback badge accent for numbered steps that omit an explicit color. */
+const DEFAULT_STEP_ACCENT = "#433df3";
+/** Length the 1-based step index is zero-padded to (e.g. 1 → "01"). */
+const STEP_BADGE_PAD_LENGTH = 2;
+/** Character used to left-pad the numbered-step badge label. */
+const STEP_BADGE_PAD_CHAR = "0";
+/** CSS custom property that carries a numbered step's accent into the badge. */
+const STEP_ACCENT_VAR = "--gs-step-accent";
 
 /** Base path for the assets exported from Figma node 582:5284. */
 const ASSET_BASE = "/images/home-2026/get-started";
@@ -92,11 +101,59 @@ const PLATFORMS: PlatformLogo[] = [
 ];
 
 /**
+ * A single numbered onboarding step. When a list of these is supplied the
+ * section renders the numbered-badge layout (feature pages) instead of the
+ * homepage media cards.
+ */
+export interface GetStartedNumberedStep {
+  title: string;
+  description: string;
+  /** Badge accent color (hex). Falls back to {@link DEFAULT_STEP_ACCENT}. */
+  accent?: string;
+}
+
+/**
+ * Per-page overrides for the Get Started section. Omit a field to use the
+ * homepage default (so /home-preview renders unchanged).
+ */
+export interface GetStartedProps {
+  heading?: string;
+  subheading?: string;
+  /**
+   * When provided and non-empty, renders numbered step cards (no media strip,
+   * no svg icon) instead of the homepage media cards.
+   */
+  steps?: readonly GetStartedNumberedStep[];
+}
+
+/**
+ * Format a 1-based step index as a zero-padded badge label (e.g. 1 → "01").
+ *
+ * @param index - Zero-based position of the step within the list.
+ * @returns The padded, 1-based label to show inside the badge.
+ */
+function formatStepBadge(index: number): string {
+  return String(index + 1).padStart(STEP_BADGE_PAD_LENGTH, STEP_BADGE_PAD_CHAR);
+}
+
+/**
  * 05 / Get Started — three-step onboarding overview with a strip of supported
  * website-platform plugins. Copy and colors mirror Figma node 582:5284;
  * card illustrations and platform logos are neutral placeholders pending assets.
+ *
+ * @param props - Optional per-page overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function GetStarted() {
+export default function GetStarted({
+  heading,
+  subheading,
+  steps,
+}: GetStartedProps = {}) {
+  const headingText = heading ?? SECTION_HEADING;
+  const subheadingText = subheading ?? SECTION_SUBHEADING;
+  const numberedSteps = steps ?? [];
+  const isNumbered = numberedSteps.length > 0;
+
   return (
     <section
       className={styles.section}
@@ -170,34 +227,58 @@ export default function GetStarted() {
 
             <div className={styles.headingGroup}>
               <h2 id={HEADING_ID} className={styles.heading}>
-                {SECTION_HEADING}
+                {headingText}
               </h2>
-              <p className={styles.subhead}>{SECTION_SUBHEADING}</p>
+              <p className={styles.subhead}>{subheadingText}</p>
             </div>
           </div>
 
-          <ul className={styles.cards}>
-            {STEPS.map((step) => (
-              <li key={step.id} className={styles.card}>
-                <span className={`${styles.stepIcon} ${step.iconClassName}`}>
-                  {step.icon}
-                </span>
-                <div className={styles.stepText}>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
-                  <p className={styles.stepDesc}>{step.description}</p>
-                </div>
-                <div className={styles.stepMedia} aria-hidden="true">
-                  <Image
-                    className={styles.stepMediaImage}
-                    src={step.media}
-                    alt=""
-                    fill
-                    sizes="(max-width: 720px) 90vw, 400px"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
+          {isNumbered ? (
+            <ul className={`${styles.cards} ${styles.cardsNumbered}`}>
+              {numberedSteps.map((step, index) => (
+                <li
+                  key={`${formatStepBadge(index)}-${step.title}`}
+                  className={`${styles.card} ${styles.cardNumbered}`}
+                  style={
+                    {
+                      [STEP_ACCENT_VAR]: step.accent ?? DEFAULT_STEP_ACCENT,
+                    } as CSSProperties
+                  }
+                >
+                  <span className={styles.stepBadge} aria-hidden="true">
+                    {formatStepBadge(index)}
+                  </span>
+                  <div className={styles.stepText}>
+                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <p className={styles.stepDesc}>{step.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className={styles.cards}>
+              {STEPS.map((step) => (
+                <li key={step.id} className={styles.card}>
+                  <span className={`${styles.stepIcon} ${step.iconClassName}`}>
+                    {step.icon}
+                  </span>
+                  <div className={styles.stepText}>
+                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <p className={styles.stepDesc}>{step.description}</p>
+                  </div>
+                  <div className={styles.stepMedia} aria-hidden="true">
+                    <Image
+                      className={styles.stepMediaImage}
+                      src={step.media}
+                      alt=""
+                      fill
+                      sizes="(max-width: 720px) 90vw, 400px"
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className={styles.footer}>

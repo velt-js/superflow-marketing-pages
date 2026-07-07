@@ -260,6 +260,48 @@
     object-position: bottom center;
 }
 
+/* ---- Numbered variant (feature pages) ----
+   Four (or three) cards in a row on desktop, each led by a filled accent badge
+   showing "01", "02", … . No media strip and no svg step icon; the accent color
+   is driven per-card via the --gs-step-accent custom property. */
+
+.cardsNumbered {
+    flex-wrap: wrap;
+}
+
+/* Numbered-step titles are short, multi-line phrases; tighten their leading
+   so the badge, title and description read as one compact block (the shared
+   .stepTitle line-height stays 1.5 for the homepage media cards). */
+.cardNumbered .stepTitle {
+    line-height: 1.15;
+}
+
+.cardNumbered {
+    gap: 20px;
+    height: auto;
+    min-height: 220px;
+    /* Grow evenly but keep enough width so 3–4 cards sit on one desktop row and
+       wrap gracefully on narrower viewports before the mobile breakpoint. */
+    flex: 1 1 220px;
+    justify-content: flex-start;
+}
+
+.stepBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--gs-step-accent, #433df3);
+    color: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.2px;
+}
+
 /* ---- Footer: plugin note + platform pills ---- */
 
 .footer {
@@ -372,6 +414,12 @@
     .card {
         height: auto;
         min-height: 360px;
+    }
+
+    /* Numbered cards carry no media strip, so they don't need the tall
+       min-height the media cards use to fit their illustration. */
+    .cardNumbered {
+        min-height: 0;
     }
 
     /* Full-width stacked cards give the illustration more room, so grow the

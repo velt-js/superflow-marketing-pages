@@ -483,3 +483,77 @@ export async function getReviewPageBySlug(slug: string) {
     { slug }
   );
 }
+
+// Feature page queries (/preview/features/<slug>) — new 2026 template that
+// reuses the home-2026 sections. Separate from reviewPage; legacy pages are
+// left untouched.
+export async function getAllFeatureSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "featurePage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getFeaturePageBySlug(slug: string) {
+  return client.fetch(
+    `
+    *[_type == "featurePage" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      hero {
+        headlineLines,
+        subhead,
+        showcase
+      },
+      solution {
+        heading,
+        subheading,
+        variant
+      },
+      featureSet {
+        headerTitle,
+        journeyStart,
+        journeyEnd,
+        blocks[] {
+          "id": _key,
+          title,
+          description,
+          icon,
+          accent,
+          mock,
+          initialTabIndex,
+          tabs[] {
+            label,
+            icon,
+            oneLiner,
+            loss,
+            href,
+            listOnly,
+            collapsesFirstTab
+          }
+        }
+      },
+      getStarted {
+        heading,
+        subheading,
+        steps[] {
+          title,
+          description,
+          accent
+        }
+      },
+      faq {
+        heading,
+        items[] {
+          question,
+          answer
+        }
+      },
+      metaTitle,
+      metaDescription,
+      "ogImage": ogImage.asset->url
+    }
+  `,
+    { slug }
+  );
+}

@@ -122,6 +122,52 @@ function RobotIcon({ size }: IconProps): ReactNode {
 }
 
 /**
+ * Grain glyph — a grid of dots — cueing scattered feedback in the comments
+ * variant's header. Uses filled dots rather than the shared stroke style.
+ * @param size Square pixel dimension for the SVG.
+ */
+function GrainIcon({ size = 24 }: IconProps): ReactNode {
+  const dots: readonly (readonly [number, number])[] = [
+    [5, 5],
+    [12, 5],
+    [19, 5],
+    [5, 12],
+    [12, 12],
+    [19, 12],
+    [5, 19],
+    [12, 19],
+    [19, 19],
+  ];
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="currentColor"
+    >
+      {dots.map(([cx, cy]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={1.7} />
+      ))}
+    </svg>
+  );
+}
+
+/**
+ * Speech-bubble glyph representing feedback landing as a comment, used in the
+ * comments variant's header.
+ * @param size Square pixel dimension for the SVG.
+ */
+function MessageIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+    </SolutionIcon>
+  );
+}
+
+/**
  * Lego-brick glyph flagging the "Agent Team" group.
  * @param size Square pixel dimension for the SVG.
  */
@@ -412,11 +458,125 @@ function SolutionFrame(): ReactNode {
   );
 }
 
+/* Comments-variant fallbacks, used only if the CMS omits the copy. */
+const COMMENTS_HEADING_TEXT = "No more scattered feedback on 5 different apps";
+const COMMENTS_SUBHEADING_TEXT =
+  "Leave feedback where your website or asset lives.";
+const COMMENTS_SITE_URL = "your-site.com";
+
+/* Reveal delays (ms) sequencing the comments diagram left-to-right. */
+const COMMENTS_REVEAL_BUBBLE_BASE_MS = 500;
+const COMMENTS_REVEAL_BUBBLE_STEP_MS = 90;
+const COMMENTS_REVEAL_CONNECTOR_MS = 900;
+const COMMENTS_REVEAL_BROWSER_MS = 1050;
+
+/**
+ * Comments variant of the flow diagram: scattered feedback bubbles on the
+ * left resolve into a single comment pinned onto the live site (a browser
+ * window) on the right. Mirrors the Figma comments feature frame
+ * (node 678:3439).
+ */
+function SolutionCommentsFlow(): ReactNode {
+  return (
+    <div className={styles.commentsFlow}>
+      <div className={styles.commentsBubbles}>
+        <div className={styles.bubbleRow}>
+          <span
+            className={`${styles.bubbleAvatar} ${styles.revealItem}`}
+            style={revealDelayStyle(COMMENTS_REVEAL_BUBBLE_BASE_MS)}
+          >
+            <span className={styles.bubbleDot} />
+          </span>
+          <span
+            className={`${styles.bubbleBar} ${styles.revealItem}`}
+            style={revealDelayStyle(
+              COMMENTS_REVEAL_BUBBLE_BASE_MS + COMMENTS_REVEAL_BUBBLE_STEP_MS,
+            )}
+          />
+        </div>
+        <div className={`${styles.bubbleRow} ${styles.bubbleRowOffset}`}>
+          <span
+            className={`${styles.bubbleBar} ${styles.bubbleBarShort} ${styles.revealItem}`}
+            style={revealDelayStyle(
+              COMMENTS_REVEAL_BUBBLE_BASE_MS +
+                COMMENTS_REVEAL_BUBBLE_STEP_MS * 2,
+            )}
+          />
+          <span
+            className={`${styles.bubbleAvatar} ${styles.revealItem}`}
+            style={revealDelayStyle(
+              COMMENTS_REVEAL_BUBBLE_BASE_MS +
+                COMMENTS_REVEAL_BUBBLE_STEP_MS * 3,
+            )}
+          >
+            <span className={styles.bubbleDot} />
+          </span>
+        </div>
+      </div>
+
+      <SolutionConnector revealDelayMs={COMMENTS_REVEAL_CONNECTOR_MS} />
+
+      <div
+        className={`${styles.browser} ${styles.revealItem}`}
+        style={revealDelayStyle(COMMENTS_REVEAL_BROWSER_MS)}
+      >
+        <div className={styles.browserBar}>
+          <span className={styles.browserDots} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
+          <span className={styles.browserUrl}>{COMMENTS_SITE_URL}</span>
+        </div>
+        <div className={styles.browserBody}>
+          <span className={styles.browserHero} />
+          <div className={styles.browserLines}>
+            <span className={styles.browserLine} />
+            <span className={`${styles.browserLine} ${styles.browserLineMid}`} />
+            <span
+              className={`${styles.browserLine} ${styles.browserLineShort}`}
+            />
+          </div>
+          <span className={styles.commentPin} aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Per-page overrides for the Solution section copy. Omit a field to fall back
+ * to the homepage default (so /home-preview renders unchanged). Feature pages
+ * keep the word "manual" here since they have no Problem section above.
+ *
+ * `variant` swaps the illustration + header glyphs:
+ *  - "checklist" (default): checklist file → agent team → review card.
+ *  - "comments": scattered feedback bubbles → a comment pinned on the site.
+ */
+export interface SolutionSectionProps {
+  heading?: string;
+  subheading?: string;
+  variant?: "checklist" | "comments";
+}
+
 /**
  * 03 / Solution Section for the 2026 marketing homepage. Presents the QA
  * "checklist to agents to review" story with a decorative blueprint frame.
+ *
+ * @param props - Optional per-page copy overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function SolutionSection(): ReactNode {
+export default function SolutionSection({
+  heading,
+  subheading,
+  variant = "checklist",
+}: SolutionSectionProps = {}): ReactNode {
+  const isComments = variant === "comments";
+  const headingText =
+    heading ?? (isComments ? COMMENTS_HEADING_TEXT : HEADING_TEXT);
+  const subheadingText =
+    subheading ?? (isComments ? COMMENTS_SUBHEADING_TEXT : SUBHEADING_TEXT);
+
   return (
     <section className={styles.section} data-section="solution">
       <SolutionSectionReveal>
@@ -424,30 +584,54 @@ export default function SolutionSection(): ReactNode {
         <div className={styles.inner}>
           <header className={styles.header}>
             <div className={styles.headerIcons}>
-              <span className={styles.headerIconTable}>
-                <TableIcon size={28} />
-              </span>
-              <span className={styles.headerIconArrow}>
-                <ArrowRightIcon size={22} />
-              </span>
-              <span className={styles.headerIconRobot}>
-                <RobotIcon size={28} />
-              </span>
+              {isComments ? (
+                <>
+                  <span className={styles.headerIconGrain}>
+                    <GrainIcon size={28} />
+                  </span>
+                  <span className={styles.headerIconArrowAccent}>
+                    <ArrowRightIcon size={22} />
+                  </span>
+                  <span className={styles.headerIconMessage}>
+                    <MessageIcon size={28} />
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className={styles.headerIconTable}>
+                    <TableIcon size={28} />
+                  </span>
+                  <span className={styles.headerIconArrow}>
+                    <ArrowRightIcon size={22} />
+                  </span>
+                  <span className={styles.headerIconRobot}>
+                    <RobotIcon size={28} />
+                  </span>
+                </>
+              )}
             </div>
             <div className={styles.headingGroup}>
-              <h2 className={styles.heading}>{HEADING_TEXT}</h2>
-              <p className={styles.subheading}>{SUBHEADING_TEXT}</p>
+              <h2 className={styles.heading}>{headingText}</h2>
+              <p className={styles.subheading}>{subheadingText}</p>
             </div>
           </header>
-          <SolutionSectionAgentProvider>
-            <div className={styles.flow}>
-              <SolutionFileCard />
-              <SolutionConnector revealDelayMs={REVEAL_DELAY_CONNECTOR_ONE_MS} />
-              <SolutionAgentTeam />
-              <SolutionConnector revealDelayMs={REVEAL_DELAY_CONNECTOR_TWO_MS} />
-              <SolutionReviewCard />
-            </div>
-          </SolutionSectionAgentProvider>
+          {isComments ? (
+            <SolutionCommentsFlow />
+          ) : (
+            <SolutionSectionAgentProvider>
+              <div className={styles.flow}>
+                <SolutionFileCard />
+                <SolutionConnector
+                  revealDelayMs={REVEAL_DELAY_CONNECTOR_ONE_MS}
+                />
+                <SolutionAgentTeam />
+                <SolutionConnector
+                  revealDelayMs={REVEAL_DELAY_CONNECTOR_TWO_MS}
+                />
+                <SolutionReviewCard />
+              </div>
+            </SolutionSectionAgentProvider>
+          )}
         </div>
       </SolutionSectionReveal>
     </section>

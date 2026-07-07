@@ -3,6 +3,9 @@ import styles from "./Hero.module.css";
 import { GlobeIcon } from "./HeroIcons";
 import HeroChecksDropdown from "./HeroChecksDropdown";
 import HeroWorkflowShowcase from "./HeroWorkflowShowcase";
+import HeroBrowserShowcase, {
+  type HeroBrowserVariant,
+} from "./HeroBrowserShowcase";
 
 const URL_PLACEHOLDER = "Enter your website URL";
 const START_LABEL = "Start";
@@ -13,6 +16,28 @@ const HEADLINE_LINES: readonly string[] = ["Watch AI do", "your QA Work"];
 
 const SUBHEAD_TEXT =
   "Turn your agency's QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
+
+/**
+ * Per-page overrides for the hero copy. Omit a prop to fall back to the
+ * homepage default.
+ *
+ * `variant` controls the layout:
+ *  - "home" (default): subhead sits under the headline, with the URL-capture
+ *    field + checks dropdown in the right column.
+ *  - "feature": no URL capture — the subhead moves into the right column
+ *    (matching the Figma feature-page frame, node 678:3023).
+ *
+ * `showcase` picks the interactive product mock beneath the copy:
+ *  - "workflow" (default): the QA workflow window.
+ *  - "comments" / "review-agents": the same dark browser window (a comment
+ *    pinned onto a live site), differing only in their tab labels/copy.
+ */
+export interface HeroProps {
+  headlineLines?: readonly string[];
+  subhead?: string;
+  variant?: "home" | "feature";
+  showcase?: "workflow" | HeroBrowserVariant;
+}
 
 /** A customer/partner logo shown in the trust strip. */
 type TrustLogo = {
@@ -47,47 +72,72 @@ const TRUST_LOGOS: readonly TrustLogo[] = [
  * showcase, and the "trusted by" logo strip populated with real customer
  * logos carried over from the previous homepage. The top navigation is a
  * separate sticky header (`SiteNav`) that overlays this section.
+ *
+ * @param props - Optional per-page copy overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function Hero() {
+export default function Hero({
+  headlineLines,
+  subhead,
+  variant = "home",
+  showcase = "workflow",
+}: HeroProps = {}) {
+  const resolvedHeadlineLines =
+    headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
+  const resolvedSubhead = subhead ?? SUBHEAD_TEXT;
+  const isFeature = variant === "feature";
+  const isBrowserShowcase =
+    showcase === "comments" || showcase === "review-agents";
+
   return (
     <section className={styles.hero} data-section="hero">
       <div className={styles.inner}>
         <div className={styles.body}>
           <div className={styles.copy}>
             <h1 className={styles.headline}>
-              {HEADLINE_LINES.map((line) => (
+              {resolvedHeadlineLines.map((line) => (
                 <span key={line} className={styles.headlineLine}>
                   {line}
                 </span>
               ))}
             </h1>
-            <p className={styles.subhead}>{SUBHEAD_TEXT}</p>
+            {!isFeature && <p className={styles.subhead}>{resolvedSubhead}</p>}
           </div>
 
-          <div className={styles.panel}>
-            <div className={styles.urlRow}>
-              <div className={styles.urlField}>
-                <GlobeIcon size={24} className={styles.urlIcon} />
-                <input
-                  className={styles.urlInput}
-                  type="url"
-                  inputMode="url"
-                  aria-label={URL_PLACEHOLDER}
-                  placeholder={URL_PLACEHOLDER}
-                />
+          {isFeature ? (
+            <p className={`${styles.subhead} ${styles.subheadRight}`}>
+              {resolvedSubhead}
+            </p>
+          ) : (
+            <div className={styles.panel}>
+              <div className={styles.urlRow}>
+                <div className={styles.urlField}>
+                  <GlobeIcon size={24} className={styles.urlIcon} />
+                  <input
+                    className={styles.urlInput}
+                    type="url"
+                    inputMode="url"
+                    aria-label={URL_PLACEHOLDER}
+                    placeholder={URL_PLACEHOLDER}
+                  />
+                </div>
+                <button type="button" className={styles.startButton}>
+                  {START_LABEL}
+                </button>
               </div>
-              <button type="button" className={styles.startButton}>
-                {START_LABEL}
-              </button>
+
+              <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
+
+              <HeroChecksDropdown />
             </div>
-
-            <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
-
-            <HeroChecksDropdown />
-          </div>
+          )}
         </div>
 
-        <HeroWorkflowShowcase />
+        {isBrowserShowcase ? (
+          <HeroBrowserShowcase variant={showcase as HeroBrowserVariant} />
+        ) : (
+          <HeroWorkflowShowcase />
+        )}
 
         <div className={styles.trusted}>
           <p className={styles.trustedLabel}>

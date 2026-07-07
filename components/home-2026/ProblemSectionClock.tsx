@@ -14,6 +14,13 @@ const HEADLINE_COPY = {
   subtitle: "And mistakes still ship.",
 } as const;
 
+/** Per-page overrides for the clock hero copy; omit to use the defaults above. */
+export interface ProblemSectionHeadline {
+  line1?: string;
+  line2?: string;
+  subtitle?: string;
+}
+
 /* ------------------------------------------------------------------ */
 /* Decorative dial geometry                                            */
 /* ------------------------------------------------------------------ */
@@ -184,6 +191,8 @@ function mapProgress(progress: number, rangeStart: number, rangeEnd: number): nu
 interface ProblemSectionClockProps {
   /** id applied to the h2 so the parent section's aria-labelledby resolves. */
   headingId: string;
+  /** Optional per-page copy override; defaults to the homepage headline. */
+  headline?: ProblemSectionHeadline;
 }
 
 /**
@@ -199,7 +208,14 @@ interface ProblemSectionClockProps {
  * whose custom-property defaults equal the final frame, so mobile,
  * prefers-reduced-motion and no-JS visitors get the original static design.
  */
-export default function ProblemSectionClock({ headingId }: ProblemSectionClockProps): ReactElement {
+export default function ProblemSectionClock({
+  headingId,
+  headline,
+}: ProblemSectionClockProps): ReactElement {
+  const titleLineOne = headline?.line1 ?? HEADLINE_COPY.titleLineOne;
+  const titleLineTwo = headline?.line2 ?? HEADLINE_COPY.titleLineTwo;
+  const subtitle = headline?.subtitle ?? HEADLINE_COPY.subtitle;
+
   const trackRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const dialRef = useRef<HTMLDivElement | null>(null);
@@ -408,11 +424,11 @@ export default function ProblemSectionClock({ headingId }: ProblemSectionClockPr
 
           <div className={styles.headline}>
             <h2 id={headingId} className={styles.headlineTitle}>
-              {HEADLINE_COPY.titleLineOne}
+              {titleLineOne}
               <br />
-              {HEADLINE_COPY.titleLineTwo}
+              {titleLineTwo}
             </h2>
-            <p className={styles.headlineSubtitle}>{HEADLINE_COPY.subtitle}</p>
+            <p className={styles.headlineSubtitle}>{subtitle}</p>
           </div>
         </div>
       </div>

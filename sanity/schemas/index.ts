@@ -78,6 +78,18 @@ import {
   checklistEndNote,
   checklistSuggested,
 } from "./checklistPage";
+import {
+  featureHero,
+  featureSolution,
+  featureBlockTab,
+  featureBlock,
+  featureSetSection,
+  featureGetStartedStep,
+  featureGetStarted,
+  featureFaqItem,
+  featureFaq,
+  featurePage,
+} from "./featurePage";
 
 export const schemaTypes = [
   // Documents
@@ -92,6 +104,7 @@ export const schemaTypes = [
   comparisonPage,
   reviewPage,
   checklistPage,
+  featurePage,
 
   // Inline annotations
   linkAnnotation,
@@ -166,4 +179,15 @@ export const schemaTypes = [
   checklistTip,
   checklistEndNote,
   checklistSuggested,
+
+  // featurePage sub-types
+  featureHero,
+  featureSolution,
+  featureBlockTab,
+  featureBlock,
+  featureSetSection,
+  featureGetStartedStep,
+  featureGetStarted,
+  featureFaqItem,
+  featureFaq,
 ];

@@ -1,0 +1,483 @@
+/* Comments variant of the hero product showcase.
+   A row of capability tabs (amber active pill) over a dark browser window
+   that shows a comment pinned onto a live site. Sits on the same hero
+   gradient as HeroWorkflowShowcase but uses a warm dark palette per the
+   Comments feature-page direction. */
+
+.showcase {
+  --cw-amber: #efb24d;
+  --cw-amber-ink: #3a2810;
+  --cw-window: #201a15;
+  --cw-page: #1a140f;
+  --cw-line: rgba(255, 255, 255, 0.08);
+  --cw-tab: #352c25;
+  --cw-tab-ink: #b7ab9c;
+
+  margin-top: 8px;
+  font-family: var(--hero-font-ui);
+}
+
+/* ---- Tab strip ---- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  background: var(--cw-tab);
+  color: var(--cw-tab-ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.tab:hover {
+  background: #3f352c;
+  color: #d8cdbe;
+}
+
+.tabActive,
+.tabActive:hover {
+  background: var(--cw-amber);
+  color: var(--cw-amber-ink);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(239, 178, 77, 0.28);
+}
+
+/* ---- Browser window ---- */
+
+.window {
+  border-radius: 18px;
+  background: var(--cw-window);
+  border: 1px solid var(--cw-line);
+  box-shadow: 0 30px 70px rgba(20, 14, 8, 0.35);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--cw-line);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dots span:nth-child(1) {
+  background: #ff5f57;
+}
+
+.dots span:nth-child(2) {
+  background: #febc2e;
+}
+
+.dots span:nth-child(3) {
+  background: #28c840;
+}
+
+.url {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #d3cabf;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.urlStatus {
+  color: #8a8076;
+  font-weight: 500;
+}
+
+.tryFree {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(239, 178, 77, 0.16);
+  color: var(--cw-amber);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tryFree:hover {
+  background: rgba(239, 178, 77, 0.26);
+}
+
+/* ---- Page viewport (a dark-mode website mock) ---- */
+
+.viewport {
+  position: relative;
+  min-height: 460px;
+  padding: 26px 30px 40px;
+  background:
+    radial-gradient(120% 90% at 78% 8%, rgba(239, 178, 77, 0.12), transparent 60%),
+    var(--cw-page);
+  overflow: hidden;
+}
+
+.site {
+  position: relative;
+  z-index: 0;
+}
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 44px;
+}
+
+.siteLogo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cw-amber), #d98a2f);
+}
+
+.siteLinks {
+  display: inline-flex;
+  gap: 22px;
+  margin-left: auto;
+  margin-right: 24px;
+}
+
+.siteLinks span {
+  width: 52px;
+  height: 9px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.siteCta {
+  width: 96px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.siteHero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.siteCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.siteHeadline {
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.siteHeadlineShort {
+  width: 62%;
+}
+
+.siteText {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.siteText:first-of-type {
+  margin-top: 8px;
+}
+
+.siteTextShort {
+  width: 74%;
+}
+
+.siteButton {
+  margin-top: 14px;
+  width: 148px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cw-amber), #e0951f);
+}
+
+/* When "Pin an element" is active, ring the pinned CTA. */
+.siteButtonPinned {
+  box-shadow: 0 0 0 2px var(--cw-page), 0 0 0 4px var(--cw-amber);
+}
+
+.siteArt {
+  height: 260px;
+  border-radius: 16px;
+  background:
+    radial-gradient(80% 70% at 30% 20%, rgba(239, 178, 77, 0.35), transparent 60%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ---- Pinned comment marker + card ---- */
+
+.pin {
+  position: absolute;
+  top: 214px;
+  left: 150px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 2px;
+  background: var(--cw-amber);
+  box-shadow: 0 8px 22px rgba(239, 178, 77, 0.4);
+}
+
+.pinAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff, #f1e3cb);
+}
+
+.card {
+  position: absolute;
+  top: 150px;
+  left: 196px;
+  z-index: 3;
+  width: 320px;
+  max-width: calc(100% - 60px);
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(10, 7, 3, 0.5);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cardAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b7cfa, #8a5bfa);
+}
+
+.cardMeta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cardName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.cardTime {
+  font-size: 12px;
+  color: #9a9a9a;
+}
+
+.cardBody {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #2b2b2b;
+}
+
+.cardFooter {
+  margin-top: 12px;
+}
+
+.cardFooter:empty {
+  display: none;
+}
+
+/* Reply field */
+.replyField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px 9px 14px;
+  border-radius: 10px;
+  background: #f3f2f0;
+}
+
+.replyPlaceholder {
+  flex: 1;
+  font-size: 13px;
+  color: #9a948c;
+}
+
+.replySend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--cw-amber);
+  color: #3a2810;
+}
+
+/* Selected-words chip */
+.selectionChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: rgba(239, 178, 77, 0.16);
+  color: #8a5f16;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.selectionMark {
+  width: 4px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: var(--cw-amber);
+}
+
+/* Threaded reply row */
+.threadReply {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.threadAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c07a, #14915b);
+}
+
+.threadText {
+  font-size: 13px;
+  color: #4a4a4a;
+}
+
+.threadName {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* Carried-context chip */
+.contextChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 8px;
+  border-radius: 8px;
+  background: #f3f2f0;
+  color: #4a4a4a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.contextThumb {
+  width: 26px;
+  height: 20px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #5b7cfa, #8a5bfa);
+}
+
+/* Resolved badge */
+.resolvedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(34, 192, 122, 0.14);
+  color: #14915b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 1080px) {
+  .viewport {
+    min-height: 420px;
+  }
+
+  .card {
+    left: auto;
+    right: 30px;
+    top: 130px;
+    width: 300px;
+  }
+
+  .pin {
+    left: 40%;
+  }
+}
+
+@media (max-width: 720px) {
+  .siteHero {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .siteArt {
+    height: 150px;
+  }
+
+  .viewport {
+    min-height: 0;
+    padding: 22px 20px 28px;
+  }
+
+  .site {
+    /* Leave room below the mock for the statically-placed comment card. */
+    padding-bottom: 150px;
+  }
+
+  .pin {
+    top: auto;
+    bottom: 168px;
+    left: 24px;
+  }
+
+  .card {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+  }
+}

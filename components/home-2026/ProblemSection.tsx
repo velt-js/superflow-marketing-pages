@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Fragment, type ReactElement } from "react";
 import styles from "./ProblemSection.module.css";
-import ProblemSectionClock from "./ProblemSectionClock";
+import ProblemSectionClock, {
+  type ProblemSectionHeadline,
+} from "./ProblemSectionClock";
 
 /** Custom "Fully Automated" mark exported from Figma node 582:3925 (gradient stroke). */
 const FULLY_AUTOMATED_ICON_SRC = "/images/home-2026/problem/fully-automated.svg";
@@ -14,6 +16,15 @@ const COPY = {
 } as const;
 
 const HEADING_ID = "problem-heading";
+
+/**
+ * Per-page overrides for the Problem section. Omit any field to fall back to
+ * the homepage default (so /home-preview renders unchanged).
+ */
+export interface ProblemSectionProps {
+  headline?: ProblemSectionHeadline;
+  callout?: string;
+}
 
 /* ------------------------------------------------------------------ */
 /* Icons (inline SVG, inherit colour via currentColor)                 */
@@ -231,11 +242,19 @@ function Stage({ stage }: { stage: TimelineStage }): ReactElement {
  * closing qualifier callout. The clock-gauge hero is a client subcomponent
  * that scrubs a scroll-driven intro animation; the timeline + callout below
  * stay server-rendered and static.
+ *
+ * @param props - Optional per-page copy overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function ProblemSection(): ReactElement {
+export default function ProblemSection({
+  headline,
+  callout,
+}: ProblemSectionProps = {}): ReactElement {
+  const calloutText = callout ?? COPY.callout;
+
   return (
     <section className={styles.problem} data-section="problem" aria-labelledby={HEADING_ID}>
-      <ProblemSectionClock headingId={HEADING_ID} />
+      <ProblemSectionClock headingId={HEADING_ID} headline={headline} />
 
       <div className={styles.timeline}>
         <EdgeTicks />
@@ -250,7 +269,7 @@ export default function ProblemSection(): ReactElement {
 
       <div className={styles.callout}>
         <InfoIcon className={styles.calloutIcon} />
-        <p className={styles.calloutText}>{COPY.callout}</p>
+        <p className={styles.calloutText}>{calloutText}</p>
       </div>
     </section>
   );

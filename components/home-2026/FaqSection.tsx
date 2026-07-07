@@ -11,7 +11,7 @@ const CONTACT_EMAIL = "emma@usesuperflow.com";
 const DOODLE_SRC = "/images/home-2026/faq/question-doodle.svg";
 const AVATAR_SRC = "/images/home-2026/faq/emma-avatar.png";
 
-type FaqItem = {
+export type FaqItem = {
   question: string;
   answer: string;
 };
@@ -144,10 +144,24 @@ function FaqSectionAccordionItem({
 }
 
 /**
+ * Per-page overrides for the FAQ section. Omit a field to use the homepage
+ * default (so /home-preview renders unchanged).
+ */
+export interface FaqSectionProps {
+  heading?: string;
+  items?: FaqItem[];
+}
+
+/**
  * 09 / FAQ — the 2026 homepage FAQ section. Renders an intro column (heading +
  * contact) alongside a single-open, keyboard-accessible accordion of questions.
+ *
+ * @param props - Optional per-page overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function FaqSection() {
+export default function FaqSection({ heading, items }: FaqSectionProps = {}) {
+  const headingText = heading ?? HEADING_TEXT;
+  const faqItems = items && items.length > 0 ? items : FAQ_ITEMS;
   const baseId = useId();
   const headingId = `${baseId}-heading`;
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -173,7 +187,7 @@ export default function FaqSection() {
               height={89}
             />
             <h2 id={headingId} className={styles.heading}>
-              {HEADING_TEXT}
+              {headingText}
             </h2>
           </div>
           <div className={styles.contact}>
@@ -193,7 +207,7 @@ export default function FaqSection() {
           </div>
         </div>
         <ul className={styles.list}>
-          {FAQ_ITEMS.map((item, index) => (
+          {faqItems.map((item, index) => (
             <FaqSectionAccordionItem
               key={item?.question}
               item={item}

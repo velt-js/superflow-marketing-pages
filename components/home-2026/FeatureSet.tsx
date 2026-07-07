@@ -174,25 +174,52 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
 ];
 
 /**
+ * Per-page overrides for the Feature Set section. Omit any field to fall back
+ * to the homepage default (so /home-preview renders unchanged).
+ */
+export interface FeatureSetProps {
+  headerTitle?: string;
+  journeyStart?: string;
+  journeyEnd?: string;
+  blocks?: FeatureSetBlockData[];
+}
+
+/**
  * "04 / Feature Set" — the 2026 homepage feature showcase. Renders an intro
  * headline with a "First Draft → Client Approved" journey, then four feature
  * blocks whose tabbed app windows bleed off the card edges as in Figma. The
  * AI block shows the agent-gallery mock (Spell Check card + skeletons); the
  * other three show the "New Website Workflow" mock. On desktop the cards
  * pin and stack over each other on scroll (see FeatureSetStack).
+ *
+ * @param props - Optional per-page overrides; defaults reproduce the
+ *   /home-preview homepage exactly.
  */
-export default function FeatureSet() {
+export default function FeatureSet({
+  headerTitle,
+  journeyStart,
+  journeyEnd,
+  blocks,
+}: FeatureSetProps = {}) {
+  const resolvedHeaderTitle = headerTitle ?? HEADER_TITLE;
+  const resolvedJourneyStart = journeyStart ?? JOURNEY_START;
+  const resolvedJourneyEnd = journeyEnd ?? JOURNEY_END;
+  const resolvedBlocks = blocks && blocks.length > 0 ? blocks : FEATURE_BLOCKS;
+
   return (
     <section className={styles.section} aria-labelledby={HEADING_ID}>
       <div className={styles.inner}>
         <header className={styles.header}>
           <h2 id={HEADING_ID} className={styles.headerTitle}>
-            {HEADER_TITLE}
+            {resolvedHeaderTitle}
           </h2>
-          <FeatureSetJourney startLabel={JOURNEY_START} endLabel={JOURNEY_END} />
+          <FeatureSetJourney
+            startLabel={resolvedJourneyStart}
+            endLabel={resolvedJourneyEnd}
+          />
         </header>
 
-        <FeatureSetStack blocks={FEATURE_BLOCKS} />
+        <FeatureSetStack blocks={resolvedBlocks} />
       </div>
     </section>
   );

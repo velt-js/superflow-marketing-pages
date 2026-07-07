@@ -105,6 +105,18 @@
   text-wrap: balance;
 }
 
+/* Feature-page hero (variant="feature"): there is no URL-capture panel, so the
+   subhead occupies the right column instead. It aligns to the top of the row
+   so its first line sits just below the headline's cap (Figma feature frame
+   node 678:3023 — headline y=172, subhead y=208). */
+.subheadRight {
+  flex-shrink: 0;
+  width: 420px;
+  max-width: 100%;
+  align-self: flex-start;
+  padding-top: 14px;
+}
+
 /* --------------------------------------------------------- URL + checks */
 
 .panel {
@@ -818,6 +830,14 @@
 
   .subhead {
     max-width: 46ch;
+  }
+
+  /* Stacked layout: the feature subhead spans the column like the panel does,
+     and drops the top nudge that only made sense beside the headline. */
+  .subheadRight {
+    width: 100%;
+    align-self: stretch;
+    padding-top: 0;
   }
 
   .panel {
