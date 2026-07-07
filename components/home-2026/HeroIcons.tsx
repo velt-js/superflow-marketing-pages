@@ -50,6 +50,27 @@ export function ChevronDownIcon(props: IconProps) {
   );
 }
 
+/** Hamburger icon — opens the mobile navigation menu. */
+export function MenuIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 6h16" />
+      <path d="M4 12h16" />
+      <path d="M4 18h16" />
+    </IconBase>
+  );
+}
+
+/** Close (X) icon — dismisses the mobile navigation menu. */
+export function CloseIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M18 6l-12 12" />
+      <path d="M6 6l12 12" />
+    </IconBase>
+  );
+}
+
 /** Globe / longitude icon shown inside the website URL input. */
 export function GlobeIcon(props: IconProps) {
   return (

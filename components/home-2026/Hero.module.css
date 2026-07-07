@@ -871,9 +871,16 @@
     width: 100%;
   }
 
+  /* On mobile the CTA note sits centered under the full-width Start button. */
+  .microcopy {
+    text-align: center;
+  }
+
+  /* Keep horizontal scroll for the tab strip, but no bottom padding: the 2px
+     gap it created let the blue hero gradient show between the black active tab
+     and the black window, breaking their flush merge. */
   .tabs {
     overflow-x: auto;
-    padding-bottom: 2px;
   }
 
   .windowInner {

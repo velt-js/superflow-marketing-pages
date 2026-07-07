@@ -25,6 +25,13 @@
   border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
+/* Menu open (mobile only): solidify the bar so it reads as one white surface
+   with the dropdown panel, even at the top of the page over the hero. */
+.menuOpen {
+  background-color: #ffffff;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
 .inner {
   display: flex;
   align-items: center;
@@ -50,7 +57,8 @@
   transition: color 0.25s ease;
 }
 
-.scrolled .brand {
+.scrolled .brand,
+.menuOpen .brand {
   color: #101012;
 }
 
@@ -127,9 +135,140 @@
   outline-offset: 2px;
 }
 
+/* Mobile hamburger toggle — hidden on desktop, revealed in the mobile
+   breakpoint. Inherits the header's white → dark color swap. */
+.menuToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.25s ease;
+}
+
+.menuToggle:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.scrolled .menuToggle,
+.menuOpen .menuToggle {
+  color: #101012;
+}
+
+.scrolled .menuToggle:hover,
+.menuOpen .menuToggle:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.menuToggle:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Drop-down mobile menu panel. Present only within the mobile breakpoint;
+   animates between closed/open via .mobileMenuOpen. Solid white so its dark
+   links stay legible over the transparent-at-top header. */
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 12px var(--nav-gutter) 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.12);
+  /* Closed: lifted, faded, and non-interactive. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.mobileMenuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobileMenuLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14px;
+  color: #101012;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileNavLink:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.mobileCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 32px;
+  background-color: #1e1e1f;
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileCta:hover {
+  background-color: #000000;
+}
+
+.mobileNavLink:focus-visible,
+.mobileCta:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
 @media (max-width: 860px) {
   .navLinks {
     display: none;
+  }
+
+  .ctaButton {
+    display: none;
+  }
+
+  .menuToggle {
+    display: inline-flex;
+  }
+
+  .mobileMenu {
+    display: flex;
   }
 }
 
@@ -146,7 +285,11 @@
   .inner,
   .brand,
   .navLink,
-  .ctaButton {
+  .ctaButton,
+  .menuToggle,
+  .mobileMenu,
+  .mobileNavLink,
+  .mobileCta {
     transition: none;
   }
 }

@@ -247,8 +247,40 @@
         padding: 56px 16px;
     }
 
+    /* On phones the 1-column stack made each near-square ticket very tall with
+       lots of empty space. Lay the stamps out in a single horizontal row that
+       scrolls sideways instead, so they read as a compact ticket strip. */
     .grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 10px 4px 14px;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+    }
+
+    .cell {
+        flex: 0 0 auto;
+        width: 160px;
+        scroll-snap-align: start;
+    }
+
+    /* Neutralise the tap-scale so it can't spill outside the horizontal
+       scroller and trigger a stray vertical scrollbar; the rim/shadow stay. */
+    .cell:hover,
+    .cell:focus-within {
+        transform: none;
+    }
+
+    /* Drop the fixed near-square aspect ratio so each ticket's height fits its
+       icon + label; group them at the top and tighten padding for the strip. */
+    .ticket {
+        aspect-ratio: auto;
+        justify-content: flex-start;
+        gap: 12px;
+        padding: 20px;
+        padding-inline-end: 20px;
     }
 
     .heading {

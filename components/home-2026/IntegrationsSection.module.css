@@ -329,7 +329,10 @@
 }
 
 @media (max-width: 600px) {
+  /* Left-align the category groups on phones so the labelled cards start from
+     the left edge instead of being centered in the row. */
   .grid {
+    justify-content: flex-start;
     gap: 32px 24px;
   }
 

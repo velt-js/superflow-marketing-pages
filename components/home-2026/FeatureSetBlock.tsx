@@ -179,7 +179,10 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                aria-label={iconOnly ? tab.label : undefined}
+                // Always expose the name: the visible label span is hidden on
+                // inactive tabs (desktop `iconOnly` first tab and every inactive
+                // tab on mobile), so the button keeps its accessible name here.
+                aria-label={tab.label}
                 title={iconOnly ? tab.label : undefined}
                 className={isActive ? activeClass : inactiveClass}
                 onClick={() => setActiveTabIndex(tabIndex)}
@@ -193,7 +196,9 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 ) : (
                   <FeatureSetIcon name={tab.icon} size={16} />
                 )}
-                {iconOnly ? null : tab.label}
+                {iconOnly ? null : (
+                  <span className={styles.panelTabLabel}>{tab.label}</span>
+                )}
               </button>
             );
           })}

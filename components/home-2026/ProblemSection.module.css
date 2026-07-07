@@ -452,7 +452,15 @@
     display: none;
   }
 
-  .separator {
+  /* The full ruler was rotated 90deg on mobile, but rotate() keeps the
+     original (wide) layout box, so the long ruler overflowed its box and
+     painted a line across the adjacent marker pills. Between stacked stages
+     just show the chevron pointing down instead. */
+  .separator .tickBlock {
+    display: none;
+  }
+
+  .chevron {
     transform: rotate(90deg);
   }
 

@@ -485,6 +485,13 @@
   padding-inline: 12px;
 }
 
+/* Tab label text, wrapped in a span so the mobile rules below can hide it on
+   inactive tabs (collapsing them to icon-only chips) while the active tab
+   keeps its label. On desktop/tablet it renders exactly as the bare text did. */
+.panelTabLabel {
+  white-space: nowrap;
+}
+
 /*
  * Window frame: dark accent shell whose top-left corner is square so the
  * active tab merges into it. Fixed design width — the card clips the bleed.
@@ -1066,7 +1073,19 @@
     overflow: hidden;
   }
 
+  /* The window bleeds off the right at a fixed 1204px, but the caption text
+     must stay within the visible card width instead of running off-screen. */
+  .panelCaption {
+    max-width: calc(100vw - 120px);
+  }
+
+  /* Single-column layout: the clipped window spans the full card, so the
+     bottom fade must too (the desktop 60%/right-anchored cap looked partial). */
   .blockFade {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
     height: 120px;
   }
 }
@@ -1141,9 +1160,19 @@
   .panelTab {
     height: 40px;
     font-size: 14px;
+    /* Inactive tabs collapse to icon-only chips, so drop to the icon-only
+       horizontal padding to keep them compact. */
+    padding-inline: 12px;
+  }
+
+  /* Only the active tab keeps its label; every inactive tab shows its icon
+     alone so the whole strip fits the phone width instead of overflowing. */
+  .panelTab .panelTabLabel {
+    display: none;
   }
 
   .panelCaption {
+    max-width: calc(100vw - 96px);
     padding: 6px 10px;
   }
 
