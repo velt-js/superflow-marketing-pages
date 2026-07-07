@@ -232,20 +232,20 @@
   margin: 0 0 12px;
   color: #111111;
   font-family: var(--font-adamina), Georgia, serif;
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 400;
   line-height: 1.2;
-  letter-spacing: -1.2px;
+  letter-spacing: -1.08px;
 }
 
 .blockDescription {
   margin: 0;
   max-width: 42ch;
   color: #111111;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
-  letter-spacing: -0.48px;
+  letter-spacing: -0.42px;
 }
 
 .blockFeatures {
@@ -256,31 +256,90 @@
 .blockFeaturesLabel {
   margin: 0 0 14px;
   color: #111111;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.4;
-  letter-spacing: -0.48px;
+  letter-spacing: -0.42px;
   opacity: 0.52;
 }
 
 .blockFeatureList {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin: 0;
+  gap: 2px;
+  /* Offset each row's inner padding so the icons still line up with the
+     heading and description in the column above. */
+  margin: 0 -12px;
   padding: 0;
   list-style: none;
 }
 
 .blockFeatureItem {
-  color: #111111;
-  font-size: 16px;
-  line-height: 1.4;
-  letter-spacing: -0.48px;
+  margin: 0;
+  padding: 0;
 }
 
-.blockFeatureItem::before {
-  content: "\2192";
-  margin-right: 8px;
+/*
+ * Interactive feature row: a per-view icon and label on the left with a
+ * trailing arrow that links through to that feature's own page. Hovering or
+ * focusing a row activates the matching tab, swapping the app window on the
+ * right — so the whole left list drives the right panel.
+ */
+.featureLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #111111;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.featureLink:hover,
+.featureLinkActive {
+  background: color-mix(in srgb, var(--feature-accent) 9%, transparent);
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--feature-accent);
+}
+
+.featureLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+}
+
+.featureArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(17, 17, 17, 0.45);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.featureLink:hover .featureArrow,
+.featureLink:focus-visible .featureArrow,
+.featureLinkActive .featureArrow {
+  color: var(--feature-accent);
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featureLink,
+  .featureArrow {
+    transition: none;
+  }
 }
 
 /* Fades the clipped window bottom into the card, as in Figma (Rectangle 78). */
@@ -419,6 +478,11 @@
 
 .panelTab:hover {
   background: rgba(0, 0, 0, 0.1);
+}
+
+/* First tab collapsed to icon-only (label hidden) to free strip space. */
+.panelTabIconOnly {
+  padding-inline: 12px;
 }
 
 /*

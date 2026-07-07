@@ -4,14 +4,14 @@ import { useEffect, useRef, useState, type ReactElement } from "react";
 import styles from "./ProblemSection.module.css";
 
 /**
- * Exact copy taken from the Figma "02 / Problem Section" node (582:3592).
- * "loosing" and the double space before "~$12K" are reproduced verbatim
- * from the design; do not "fix" them without a copy change in Figma.
+ * Problem headline copy, per the homepage copy spec (home v4.1): the dollar
+ * figure and the "stop living in past" urgency line are cut in favour of the
+ * time-burn framing the clock dial already illustrates.
  */
 const HEADLINE_COPY = {
-  titleLineOne: "You are loosing  ~$12K",
-  titleLineTwo: "due to manual QA",
-  subtitle: "And still end up with mistakes, Stop living in past",
+  titleLineOne: "You're burning",
+  titleLineTwo: "expensive QA hours.",
+  subtitle: "And mistakes still ship.",
 } as const;
 
 /* ------------------------------------------------------------------ */

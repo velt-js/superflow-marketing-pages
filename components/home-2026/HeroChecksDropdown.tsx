@@ -24,9 +24,9 @@ const SELECTED_COUNT = CHECK_OPTIONS.filter((option) => option?.selected).length
 const TITLE_SUFFIX = "";
 const TITLE_TAIL = " agents done.";
 
-/* Pixels from the end of the scroll range within which we consider the list
-   fully scrolled and hide the bottom fade. */
-const SCROLL_END_THRESHOLD_PX = 4;
+/* Pixels of scroll offset within which an edge counts as "at rest", so its
+   fade stays hidden until there are actually hidden checks beyond it. */
+const SCROLL_EDGE_THRESHOLD_PX = 4;
 
 /**
  * Expandable "checks to perform" card shown beside the hero URL input.
@@ -36,9 +36,12 @@ const SCROLL_END_THRESHOLD_PX = 4;
  */
 export default function HeroChecksDropdown() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  // The six checks always overflow the fixed-height viewport, so the fade
-  // is on until the user scrolls to the bottom of the list.
+  // The six checks always overflow the fixed-height viewport, so the bottom
+  // fade is on until the user scrolls to the end of the list.
   const [hasMoreBelow, setHasMoreBelow] = useState<boolean>(true);
+  // The list starts pinned to the top, so the top fade only turns on once the
+  // user has scrolled down and checks are hidden above the viewport.
+  const [hasMoreAbove, setHasMoreAbove] = useState<boolean>(false);
   const listId = useId();
 
   /** Toggle the visibility of the checks list. */
@@ -51,18 +54,20 @@ export default function HeroChecksDropdown() {
   }
 
   /**
-   * Show the bottom fade only while more checks remain below the viewport.
+   * Toggle each edge's fade based on whether checks remain hidden above or
+   * below the current scroll position.
    * @param event - Scroll event from the checks list viewport.
    */
   function handleListScroll(event: UIEvent<HTMLUListElement>) {
     try {
       const viewport = event?.currentTarget;
+      const scrollTop = viewport?.scrollTop ?? 0;
       const distanceFromBottom =
-        (viewport?.scrollHeight ?? 0) -
-        (viewport?.scrollTop ?? 0) -
-        (viewport?.clientHeight ?? 0);
-      setHasMoreBelow(distanceFromBottom > SCROLL_END_THRESHOLD_PX);
+        (viewport?.scrollHeight ?? 0) - scrollTop - (viewport?.clientHeight ?? 0);
+      setHasMoreAbove(scrollTop > SCROLL_EDGE_THRESHOLD_PX);
+      setHasMoreBelow(distanceFromBottom > SCROLL_EDGE_THRESHOLD_PX);
     } catch {
+      setHasMoreAbove(false);
       setHasMoreBelow(true);
     }
   }
@@ -94,8 +99,8 @@ export default function HeroChecksDropdown() {
         <ul
           id={listId}
           className={`${styles.checksList} ${
-            hasMoreBelow ? styles.checksListFade : ""
-          }`}
+            hasMoreAbove ? styles.checksListFadeTop : ""
+          } ${hasMoreBelow ? styles.checksListFadeBottom : ""}`}
           onScroll={handleListScroll}
         >
           {CHECK_OPTIONS.map((option) => {

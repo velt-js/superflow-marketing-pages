@@ -27,7 +27,23 @@ export interface FeatureSetTab {
   oneLiner: string;
   /** "Without it…" line naming what you lose without this view. */
   loss: string;
+  /** Destination for the "Features that help" arrow link (defaults to "#"). */
+  href?: string;
+  /**
+   * When true, the entry appears in the "Features that help" list only — it
+   * gets no window tab and does not swap the app window on hover (it is just a
+   * link to its own page).
+   */
+  listOnly?: boolean;
+  /**
+   * When true, activating this tab collapses the first tab down to icon-only
+   * (its label is hidden) to make room in the strip.
+   */
+  collapsesFirstTab?: boolean;
 }
+
+/** Fallback destination when a tab has no dedicated feature page yet. */
+const FEATURE_LINK_FALLBACK = "#";
 
 /** Config describing one feature block. */
 export interface FeatureSetBlockData {
@@ -39,8 +55,11 @@ export interface FeatureSetBlockData {
   icon: FeatureSetIconName;
   title: string;
   description: string;
-  features: string[];
-  /** All window tabs in order; the first is active by default. */
+  /**
+   * All window tabs in order; the first is active by default. These also power
+   * the "Features that help" list on the left — hovering a row activates the
+   * matching tab, and its arrow links through to that feature's page.
+   */
   tabs: FeatureSetTab[];
   /** Index of the initially active tab (defaults to 0). */
   initialTabIndex?: number;
@@ -82,6 +101,10 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
 
   const activeTab = data?.tabs?.[activeTabIndex];
 
+  // The active tab can ask the first tab to shrink to icon-only (e.g. Live),
+  // freeing horizontal room in the strip.
+  const collapseFirstTab = Boolean(activeTab?.collapsesFirstTab);
+
   const windowClass =
     activeTabIndex === 0
       ? styles.panelWindow
@@ -99,11 +122,36 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
         <div className={styles.blockFeatures}>
           <p className={styles.blockFeaturesLabel}>{FEATURES_LABEL}</p>
           <ul className={styles.blockFeatureList}>
-            {data?.features?.map((feature) => (
-              <li key={feature} className={styles.blockFeatureItem}>
-                {feature}
-              </li>
-            ))}
+            {data?.tabs?.map((tab, tabIndex) => {
+              const isActive = !tab.listOnly && tabIndex === activeTabIndex;
+              const linkClass = isActive
+                ? `${styles.featureLink} ${styles.featureLinkActive}`
+                : styles.featureLink;
+              // List-only entries don't own a window view, so hovering them
+              // shouldn't swap the panel — they're just links.
+              const activateTab = tab.listOnly
+                ? undefined
+                : () => setActiveTabIndex(tabIndex);
+
+              return (
+                <li key={tab.label} className={styles.blockFeatureItem}>
+                  <a
+                    className={linkClass}
+                    href={tab.href ?? FEATURE_LINK_FALLBACK}
+                    onMouseEnter={activateTab}
+                    onFocus={activateTab}
+                  >
+                    <span className={styles.featureIcon}>
+                      <FeatureSetIcon name={tab.icon} size={18} />
+                    </span>
+                    <span className={styles.featureLabel}>{tab.label}</span>
+                    <span className={styles.featureArrow} aria-hidden="true">
+                      <FeatureSetIcon name="arrow-right" size={18} />
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -111,11 +159,19 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
       <div className={styles.panel}>
         <div className={styles.panelTabs} role="tablist">
           {data?.tabs?.map((tab, tabIndex) => {
+            if (tab.listOnly) {
+              return null;
+            }
             const isActive = tabIndex === activeTabIndex;
+            // First tab drops its label when the active tab requests the room.
+            const iconOnly = collapseFirstTab && tabIndex === 0 && !isActive;
             const activeClass =
               tabIndex === 0
                 ? styles.panelTabActive
                 : `${styles.panelTabActive} ${styles.panelTabActiveRaised}`;
+            const inactiveClass = iconOnly
+              ? `${styles.panelTab} ${styles.panelTabIconOnly}`
+              : styles.panelTab;
 
             return (
               <button
@@ -123,8 +179,12 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                className={isActive ? activeClass : styles.panelTab}
+                aria-label={iconOnly ? tab.label : undefined}
+                title={iconOnly ? tab.label : undefined}
+                className={isActive ? activeClass : inactiveClass}
                 onClick={() => setActiveTabIndex(tabIndex)}
+                onMouseEnter={() => setActiveTabIndex(tabIndex)}
+                onFocus={() => setActiveTabIndex(tabIndex)}
               >
                 {isActive ? (
                   <span className={styles.panelTabActiveIcon}>
@@ -133,7 +193,7 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 ) : (
                   <FeatureSetIcon name={tab.icon} size={16} />
                 )}
-                {tab.label}
+                {iconOnly ? null : tab.label}
               </button>
             );
           })}

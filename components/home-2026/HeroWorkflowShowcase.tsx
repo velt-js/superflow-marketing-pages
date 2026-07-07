@@ -11,13 +11,14 @@ import {
   KeyIcon,
   LayoutDashboardIcon,
   LayoutSidebarIcon,
-  LegoIcon,
   LinkIcon,
   LockIcon,
   PlugIcon,
+  RobotIcon,
   SettingsIcon,
   ShareIcon,
   SpeedtestIcon,
+  WandIcon,
 } from "./HeroIcons";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
@@ -39,8 +40,8 @@ type WorkflowCheck = {
 const QA_WORKFLOW_ID = "qa-workflow";
 
 const SHOWCASE_TABS: readonly ShowcaseTab[] = [
-  { id: QA_WORKFLOW_ID, label: "Agents at Work", Icon: GrainIcon },
-  { id: "agents", label: "Build Agents", Icon: LegoIcon },
+  { id: QA_WORKFLOW_ID, label: "Agents at Work", Icon: RobotIcon },
+  { id: "agents", label: "Build Agents", Icon: WandIcon },
   { id: "anonymous-login", label: "Guest Mode", Icon: KeyIcon },
   { id: "private-comment", label: "Private Comments", Icon: LockIcon },
   { id: "integrations", label: "Integrations", Icon: PlugIcon },
@@ -109,6 +110,8 @@ export default function HeroWorkflowShowcase() {
               aria-selected={isActive}
               className={`${styles.tab} ${isActive ? styles.tabActive : ""}`}
               onClick={() => handleSelectTab(tab?.id)}
+              onMouseEnter={() => handleSelectTab(tab?.id)}
+              onFocus={() => handleSelectTab(tab?.id)}
             >
               {isActive ? (
                 <span className={styles.tabMark}>

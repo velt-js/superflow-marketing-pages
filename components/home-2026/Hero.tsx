@@ -6,11 +6,13 @@ import HeroWorkflowShowcase from "./HeroWorkflowShowcase";
 
 const URL_PLACEHOLDER = "Enter your website URL";
 const START_LABEL = "Start";
+const CTA_MICROCOPY =
+  "Free to start. No credit card. Your client reviews without an account.";
 
 const HEADLINE_LINES: readonly string[] = ["Watch AI do", "your QA Work"];
 
 const SUBHEAD_TEXT =
-  "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
+  "Turn your agency's QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
 
 /** A customer/partner logo shown in the trust strip. */
 type TrustLogo = {
@@ -78,6 +80,8 @@ export default function Hero() {
                 {START_LABEL}
               </button>
             </div>
+
+            <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
 
             <HeroChecksDropdown />
           </div>

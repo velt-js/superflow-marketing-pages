@@ -9,8 +9,9 @@ import SolutionSectionToast, {
   type ReviewFinding,
 } from "./SolutionSectionToast";
 
-/** Copy taken verbatim from Figma node 582:3943. */
-const HEADING_TEXT = "Turn your manual QA process into a team of agents.";
+/** Copy per the homepage copy spec (home v4.1.8): "manual" cut, since the
+    Problem section one scroll up already establishes the manual status quo. */
+const HEADING_TEXT = "Turn your QA process into a team of agents.";
 const SUBHEADING_TEXT =
   "Built from your checklist. They check, you decide.";
 const FILE_NAME_TEXT = "Checklist.xlsx";

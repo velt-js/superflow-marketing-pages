@@ -94,12 +94,15 @@
 
 .subhead {
   margin: 0;
-  max-width: 30ch;
+  max-width: 56ch;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.54px;
   color: rgba(255, 255, 255, 0.78);
+  /* Even out the wrap so the copy sits on fewer, balanced lines instead of a
+     ragged 4-line block with an orphaned word. */
+  text-wrap: balance;
 }
 
 /* --------------------------------------------------------- URL + checks */
@@ -122,6 +125,17 @@
   align-items: stretch;
   gap: 12px;
   width: 100%;
+}
+
+/* Restored friction-killer line sitting just beneath the URL input; the
+   negative top margin tightens it to the input against the panel's 16px gap. */
+.microcopy {
+  margin: -8px 0 0;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.13px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .urlField {
@@ -239,6 +253,9 @@
 /* Scroll viewport for the six checks: fills the space left by the fixed
    header inside the fixed-height card and scrolls internally. */
 .checksList {
+  /* Per-edge fade sizes, toggled by the fade classes below. 0 = no fade. */
+  --checks-fade-top: 0px;
+  --checks-fade-bottom: 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -250,6 +267,22 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+  /* Dissolve rows at whichever scroll edge still hides checks, so partially
+     visible rows fade out instead of being chopped by the card edge. */
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000000 var(--checks-fade-top),
+    #000000 calc(100% - var(--checks-fade-bottom)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000000 var(--checks-fade-top),
+    #000000 calc(100% - var(--checks-fade-bottom)),
+    transparent 100%
+  );
 }
 
 .checksList::-webkit-scrollbar {
@@ -265,21 +298,14 @@
   border-radius: 4px;
 }
 
-/* Fades the bottom scroll edge while more checks remain below, so partially
-   visible rows dissolve instead of being chopped by the card edge. */
-.checksListFade {
-  mask-image: linear-gradient(
-    180deg,
-    #000000 0%,
-    #000000 calc(100% - 28px),
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    #000000 0%,
-    #000000 calc(100% - 28px),
-    transparent 100%
-  );
+/* Fades the top scroll edge once the user has scrolled past the first checks. */
+.checksListFadeTop {
+  --checks-fade-top: 28px;
+}
+
+/* Fades the bottom scroll edge while more checks remain below the viewport. */
+.checksListFadeBottom {
+  --checks-fade-bottom: 28px;
 }
 
 .checkItem {
@@ -607,13 +633,17 @@
   overflow: hidden;
 }
 
-/* Soft fade to white at the bottom of the canvas, mirroring the design. */
+/* Soft fade to white at the bottom and right of the canvas so the workflow
+   nodes that bleed past those edges dissolve into the frame instead of being
+   chopped off abruptly. Two stacked gradients keep the corner fully white. */
 .canvas::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, #ffffff 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, #ffffff 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) calc(100% - 110px), #ffffff 100%);
   pointer-events: none;
 }
 

@@ -90,8 +90,13 @@
     align-items: center;
     justify-content: center;
     padding: 72px 48px;
+    /* No bottom border: the card dissolves into the wave, so a bottom stroke
+       would show as a hard black line where the wave crest dips in the centre.
+       Bottom corners are squared (hidden under the wave) so the side strokes
+       run straight down instead of leaving a rounded stub. */
     border: 2px solid #000000;
-    border-radius: 28px;
+    border-bottom: none;
+    border-radius: 28px 28px 0 0;
     background: var(--sf-card);
     overflow: hidden;
 }
@@ -454,7 +459,7 @@
 
     .ctaCard {
         padding: 48px 24px;
-        border-radius: 24px;
+        border-radius: 24px 24px 0 0;
     }
 
     .ctaHeading {
