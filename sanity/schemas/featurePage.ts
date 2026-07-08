@@ -108,6 +108,7 @@ const HERO_TAB_ICON_NAMES: readonly string[] = [
   "route",
   "eye",
   "eye-off",
+  "devices",
 ];
 
 const HERO_TAB_ICON_OPTIONS = HERO_TAB_ICON_NAMES.map((iconName) => ({
