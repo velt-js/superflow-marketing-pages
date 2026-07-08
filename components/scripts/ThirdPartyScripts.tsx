@@ -10,6 +10,7 @@
 import Script from "next/script";
 
 const GTM_ID = "GTM-M6Q8QPG";
+const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
 const REWARDFUL_KEY = "626baf";
 const MIXPANEL_TOKEN = "15f22bfd89315cb10f7cd65937b149cb";
 const INTERCOM_APP_ID = "gkjq60px";
@@ -31,6 +32,19 @@ export function ThirdPartyScripts() {
         data-rewardful={REWARDFUL_KEY}
         strategy="afterInteractive"
       />
+
+      {/* Google Analytics (gtag.js) */}
+      <Script
+        id="ga-gtag"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="ga-config" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+      </Script>
 
       {/* Google Tag Manager — head snippet */}
       <Script id="gtm" strategy="afterInteractive">
