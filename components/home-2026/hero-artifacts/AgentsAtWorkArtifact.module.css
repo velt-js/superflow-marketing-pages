@@ -1,0 +1,71 @@
+/* Hero tab artifact — "Agents at Work" entrance animations.
+
+   This is an ADDITIVE, animation-only module layered on top of the shared
+   Hero.module.css visual classes. The "Agents at Work" artifact reuses the
+   same shared classes as the generic fallback workflow window in
+   HeroWorkflowShowcase.tsx, so the entrance animations live here (applied via
+   an extra className in AgentsAtWorkArtifact.tsx) and never touch the shared
+   rules — the fallback window therefore stays completely static.
+
+   Conveys "agents running checks sequentially": the site + update nodes settle
+   in, the connector line grows between them, then the four check pills cascade
+   in one-by-one. The animations replay every time the tab mounts (React remounts
+   a fresh artifact instance on tab switch), giving the desired "on appear" feel.
+   Shared easing/duration keep this cohesive with the other four artifacts. */
+
+@keyframes agentsNodeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes agentsConnectorIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes agentsCheckIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Source/update nodes settle in (per-node delay set inline in the TSX). */
+.nodeIn {
+  animation: agentsNodeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Dashed connector grows from the site node toward the update node. */
+.connectorIn {
+  transform-origin: left center;
+  animation: agentsConnectorIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Check pills cascade in (staggered delay set inline per pill in the TSX). */
+.checkIn {
+  animation: agentsCheckIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nodeIn,
+  .connectorIn,
+  .checkIn {
+    animation: none;
+  }
+}

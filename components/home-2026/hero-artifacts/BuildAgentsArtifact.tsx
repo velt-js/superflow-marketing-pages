@@ -39,23 +39,25 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 /** Number of skeleton/loading cards rendered below the real cards. */
 const SKELETON_CARD_COUNT = 4;
 
-/** Tone of a single tile dot; maps to a palette color in {@link GridTile}. */
-type DotTone = "strong" | "faint" | "accent";
-
 /**
- * Fill tones for the card's 3x3 grid tile, in row-major order. Mirrors the
- * exact per-dot layout of Figma nodes 751:2490 / 751:2471.
+ * Vibrant, multi-hue fill palette for the 3x3 grid tile, in row-major order.
+ * Nine deliberately distinct colors (rather than three near-identical shades)
+ * so every dot reads as a crisp, separate point against the dark tile
+ * background. Values are hardcoded — never generated with `Math.random()` or
+ * any render-time value — to keep the server- and client-rendered markup
+ * identical and avoid React hydration mismatches. Tones are borrowed from the
+ * Open Color 5/6 scale for a saturated-but-tasteful spread across the hue wheel.
  */
-const GRID_DOT_TONES: readonly DotTone[] = [
-  "strong",
-  "faint",
-  "faint",
-  "accent",
-  "strong",
-  "strong",
-  "faint",
-  "accent",
-  "faint",
+const GRID_DOT_COLORS: readonly string[] = [
+  "#ff6b6b", // red
+  "#ffa94d", // orange
+  "#ffd43b", // yellow
+  "#69db7c", // green
+  "#38d9a9", // teal
+  "#3bc9db", // cyan
+  "#4dabf7", // blue
+  "#9775fa", // violet
+  "#f783ac", // pink
 ];
 
 type IconProps = SVGProps<SVGSVGElement> & {
@@ -250,12 +252,13 @@ type RailItem = {
   active?: boolean;
 };
 
-/** Palette for a card's 3x3 grid tile icon (exact Figma computed colors). */
+/**
+ * Palette for a card's 3x3 grid tile icon. The nine dot fills are shared across
+ * cards via {@link GRID_DOT_COLORS}; only the tile background varies per card so
+ * each card keeps a subtle brand tint while the dots stay vibrant and crisp.
+ */
 type GridIconPalette = {
   background: string;
-  strong: string;
-  faint: string;
-  accent: string;
 };
 
 /** A fully rendered agent card. */
@@ -276,27 +279,20 @@ const RAIL_ITEMS: readonly RailItem[] = [
 ];
 
 /**
- * "Spell Check" amber tile palette. Colors are the exact Figma dot fills:
- * base #f7de83 flattened with 60%/30% white overlays, #f7a083 accent, and the
- * 70%-black-over-#f49b64 background.
+ * "Spell Check" tile: a deep warm-brown background. Darkened from the original
+ * amber so the shared {@link GRID_DOT_COLORS} dots stay high-contrast and crisp.
  */
 const SPELL_CHECK_PALETTE: GridIconPalette = {
-  background: "#492f1e",
-  strong: "#fcf2cd",
-  faint: "#f9e8a8",
-  accent: "#f7a083",
+  background: "#2a1a0f",
 };
 
 /**
- * "Grid Layout" green tile palette. Colors are the exact Figma dot fills:
- * base #64f48a flattened with 60%/30% white overlays, #64f48a accent, and the
- * 70%-black-over-#64f48a background.
+ * "Grid Layout" tile: a deep green background. Darkened from the original green
+ * so the shared {@link GRID_DOT_COLORS} dots stay high-contrast and crisp
+ * (previously the green dots blended into the lighter green tile).
  */
 const GRID_LAYOUT_PALETTE: GridIconPalette = {
-  background: "#1e4929",
-  strong: "#c1fbd0",
-  faint: "#93f7ad",
-  accent: "#64f48a",
+  background: "#123020",
 };
 
 const AGENT_CARDS: readonly AgentCard[] = [
@@ -315,27 +311,28 @@ const AGENT_CARDS: readonly AgentCard[] = [
 ];
 
 /**
- * Resolve the fill color for a single grid-tile dot from its tone.
+ * Resolve the fill color for a single grid-tile dot by its row-major index.
+ * The color set is a fixed, hardcoded array, so the result is fully
+ * deterministic (identical on server and client — no hydration risk).
  *
- * @param palette - The tile palette.
- * @param tone - The dot tone.
- * @returns The resolved hex color.
+ * @param index - Zero-based dot index (0-8) within the 3x3 grid.
+ * @returns The resolved hex color; falls back to the first palette entry for
+ *   any out-of-range index so a dot is never rendered without a fill.
  */
-function resolveDotColor(palette: GridIconPalette, tone: DotTone): string {
-  if (tone === "accent") {
-    return palette?.accent;
+function resolveDotColor(index: number): string {
+  try {
+    return GRID_DOT_COLORS?.[index] ?? GRID_DOT_COLORS[0];
+  } catch {
+    return GRID_DOT_COLORS[0];
   }
-  if (tone === "faint") {
-    return palette?.faint;
-  }
-  return palette?.strong;
 }
 
 /**
- * Render the 3x3 dotted grid tile used as an agent card's leading icon,
- * reproducing Figma nodes 751:2490 / 751:2471.
+ * Render the 3x3 dotted grid tile used as an agent card's leading icon. The
+ * background is per-card (see {@link GridIconPalette}); the nine dot fills come
+ * from the shared, deterministic {@link GRID_DOT_COLORS} palette.
  *
- * @param palette - The background and dot colors for the tile.
+ * @param palette - The background color for the tile.
  * @returns The grid tile element.
  */
 function GridTile({ palette }: { palette: GridIconPalette }) {
@@ -345,11 +342,11 @@ function GridTile({ palette }: { palette: GridIconPalette }) {
       style={{ background: palette?.background }}
       aria-hidden="true"
     >
-      {GRID_DOT_TONES.map((tone, index) => (
+      {GRID_DOT_COLORS.map((_color, index) => (
         <span
           key={`dot-${index}`}
           className={styles.gridDot}
-          style={{ background: resolveDotColor(palette, tone) }}
+          style={{ background: resolveDotColor(index) }}
         />
       ))}
     </span>

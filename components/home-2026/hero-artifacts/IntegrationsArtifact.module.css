@@ -119,6 +119,12 @@
   fill: none;
   stroke-width: 1.5;
   stroke-linecap: round;
+  /* Draw the curved connector from the composer up into the board. The path is
+     ~310 units long inside the 162x190 viewBox; a 320-unit dash covers the
+     whole path, so at offset 0 (the end state) the full stroke is unchanged. */
+  --connector-len: 320;
+  stroke-dasharray: var(--connector-len);
+  animation: integConnectorDraw 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 /* ------------------------------------------------------------ Kanban board */
@@ -132,6 +138,7 @@
   border: 2px solid #ededed;
   border-radius: 24px;
   background: #ffffff;
+  animation: integFade 0.45s ease 0.1s both;
 }
 
 .logos {
@@ -151,6 +158,28 @@
   background: #f4f4f4;
   border: 1.3px solid #ffffff;
   border-radius: 44px;
+  /* Integration logos pop in with a small left-to-right stagger. */
+  animation: integChipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.logoChip:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.logoChip:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+.logoChip:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.logoChip:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+.logoChip:nth-child(5) {
+  animation-delay: 0.5s;
 }
 
 .columnHeader {
@@ -158,6 +187,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  animation: integFade 0.4s ease 0.4s both;
 }
 
 .columnOpen {
@@ -198,6 +228,22 @@
   border-radius: 12px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  /* Kanban comment cards rise in after the connector draws (a comment flows
+     into the board). The three cards are the only <article> elements in the
+     stage, so nth-of-type gives each a small stagger. */
+  animation: integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:nth-of-type(1) {
+  animation-delay: 0.38s;
+}
+
+.card:nth-of-type(2) {
+  animation-delay: 0.46s;
+}
+
+.card:nth-of-type(3) {
+  animation-delay: 0.54s;
 }
 
 .cardOpenA {
@@ -418,6 +464,9 @@
   position: absolute;
   left: 72px;
   top: 232px;
+  /* The source comment composer rises in first (the comment being written). */
+  transform-origin: left top;
+  animation: integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 
 /* Bottom fade so the clipped board cards dissolve into the white card edge,
@@ -430,4 +479,63 @@
   height: 190px;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
   pointer-events: none;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "a comment flows into your integration board": the curved connector
+ * draws from the composer toward the board, the composer rises in, then the
+ * board panel, integration logo chips and Kanban comment cards appear with a
+ * small stagger. Children carry no positioning transform of their own (the
+ * `.stage` scale is left untouched), so plain transforms are safe. Shared
+ * easing/duration keep this cohesive across the hero tabs. */
+
+@keyframes integConnectorDraw {
+  from {
+    stroke-dashoffset: var(--connector-len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes integRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes integChipIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes integFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connectorPath,
+  .composer,
+  .board,
+  .columnHeader,
+  .logoChip,
+  .card {
+    animation: none;
+  }
 }

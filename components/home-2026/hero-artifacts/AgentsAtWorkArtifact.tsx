@@ -1,6 +1,7 @@
 import type { ReactElement, ReactNode, SVGProps } from "react";
 import Image from "next/image";
 import heroStyles from "../Hero.module.css";
+import animStyles from "./AgentsAtWorkArtifact.module.css";
 
 /**
  * Hero tab artifact — "Agents at Work".
@@ -367,25 +368,41 @@ export default function AgentsAtWorkArtifact() {
 
         <div className={heroStyles.canvas}>
           <div className={heroStyles.canvasSources}>
-            <span className={`${heroStyles.node} ${heroStyles.nodeSite}`}>
+            <span
+              className={`${heroStyles.node} ${heroStyles.nodeSite} ${animStyles.nodeIn}`}
+              style={{ animationDelay: "0.04s" }}
+            >
               <SiteFaviconIcon size={NODE_ICON_SIZE} />
               <span>
                 {SITE_NAME}
                 <span className={heroStyles.nodeSiteTld}>{SITE_TLD}</span>
               </span>
             </span>
-            <span className={heroStyles.connector} aria-hidden="true" />
-            <span className={`${heroStyles.node} ${heroStyles.nodeUpdate}`}>
+            <span
+              className={`${heroStyles.connector} ${animStyles.connectorIn}`}
+              style={{ animationDelay: "0.12s" }}
+              aria-hidden="true"
+            />
+            <span
+              className={`${heroStyles.node} ${heroStyles.nodeUpdate} ${animStyles.nodeIn}`}
+              style={{ animationDelay: "0.2s" }}
+            >
               <BoltNodeIcon size={NODE_ICON_SIZE} />
               {UPDATE_LABEL}
             </span>
           </div>
 
+          <span className={heroStyles.branchConnector} aria-hidden="true" />
+
           <div className={heroStyles.canvasChecks}>
-            {WORKFLOW_CHECKS.map((check) => {
+            {WORKFLOW_CHECKS.map((check, checkIndex) => {
               const CheckPillIcon = check?.Icon;
               return (
-                <span key={check?.label} className={`${heroStyles.pill} ${check?.className}`}>
+                <span
+                  key={check?.label}
+                  className={`${heroStyles.pill} ${check?.className} ${animStyles.checkIn}`}
+                  style={{ animationDelay: `${0.34 + checkIndex * 0.08}s` }}
+                >
                   <CheckPillIcon size={PILL_ICON_SIZE} />
                   {check?.label}
                 </span>

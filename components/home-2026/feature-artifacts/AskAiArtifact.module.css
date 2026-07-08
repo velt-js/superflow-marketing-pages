@@ -1,0 +1,223 @@
+/* Feature-section artifact — "Ask AI". Figma node 775:2983.
+ *
+ * Reworked into a chat/conversation UI: a right-aligned user message answered by
+ * a left-aligned assistant turn (avatar + response bubble holding the breakdown),
+ * with a rounded input bar pinned at the bottom. Everything is authored at the
+ * siblings' native type scale (14–18px) and constrained to the panel's visible
+ * 631px frame, so no transform-scale is needed; the root fills the shared
+ * feature-panel screen (full width × 602px) and clips any bleed. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #000000;
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* Chat column, left-anchored to the visible 631px frame (the wider root bleeds
+   off and is clipped by the shared window). Messages stack above a pinned input
+   bar. */
+.chat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 631px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px 32px;
+}
+
+/* Message thread. Vertically centred in the available space so the conversation
+   sits higher in the frame (less empty room above / less bottom-heaviness) while
+   the input bar stays pinned at the bottom. */
+.thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* ------------------------------------------------------------- user message */
+
+.userRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  max-width: 70%;
+  padding: 15px 20px;
+  border-radius: 20px 20px 6px 20px;
+  background: #000000;
+}
+
+.userText {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.24px;
+}
+
+/* -------------------------------------------------------- assistant message */
+
+.assistantRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 82%;
+}
+
+/* Circular AI/assistant avatar (the glossy blue sphere) beside the reply. */
+.assistantAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+}
+
+.assistantBubble {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px 20px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Mixed-weight answer heading (Figma node 781:3198). */
+.heading {
+  margin: 0;
+  color: #000000;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+
+.headingLead {
+  font-weight: 600;
+}
+
+.headingRest {
+  font-weight: 400;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Three-segment stacked progress bar (Figma Frame 1707483198). */
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 8px;
+}
+
+.segment {
+  height: 8px;
+  border-radius: 8px;
+}
+
+/* Legend rows listing each breakdown slice (Figma Frame 1707483201). */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.legendLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.legendDot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+}
+
+.legendLabel,
+.legendValue {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+.legendLabel {
+  color: #000000;
+}
+
+.legendValue {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* --------------------------------------------------------------- input bar */
+
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 8px 8px 8px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.inputText {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: #000000;
+  color: #ffffff;
+}

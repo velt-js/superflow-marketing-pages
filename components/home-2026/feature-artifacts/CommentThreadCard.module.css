@@ -1,0 +1,222 @@
+/* Shared "posted comment" thread card for the feature-section artifacts
+   (Pinned Comments + Auto Screenshot). Renders an optional action header
+   (status pill + flag pill + resolve check), an author row with a photo or
+   initial avatar, the comment body with an optional purple mention chip, an
+   optional embedded page screenshot and an optional reply row. The caller
+   sizes/positions the card by passing its own class through `className`. */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(20, 20, 43, 0.16);
+  color: #0a0a0a;
+  font-family: inherit;
+}
+
+/* Board-style variant: no drop-shadow, just a subtle 1px border. Declared
+   after `.card` so it wins the equal-specificity override. */
+.cardFlat {
+  box-shadow: none;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+/* ---------------------------------------------------------- action header */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 0;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 9px;
+  border-radius: 24px;
+  background: rgba(98, 93, 245, 0.1);
+  color: #625df5;
+}
+
+/* Amber "In progress" tone (overrides the default purple statusPill). */
+.statusProgress {
+  background: rgba(226, 166, 0, 0.12);
+  color: #e2a600;
+}
+
+.statusText {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 7px;
+  border-radius: 24px;
+  background: #f1f1f3;
+  color: #9a9aa4;
+}
+
+/* Pushes the resolve check to the far right of the header. */
+.resolve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  color: #1a1a1a;
+}
+
+/* --------------------------------------------------------------- header */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 0;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.avatarImage {
+  display: block;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarGreen {
+  background: #0dcf82;
+}
+
+.avatarOrange {
+  background: #fe965c;
+}
+
+.avatarGray {
+  background: linear-gradient(135deg, #c7cbd6, #9aa0b0);
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.author {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: #111111;
+}
+
+.time {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9a9a9a;
+}
+
+.edited {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #bcbcbc;
+  text-transform: uppercase;
+}
+
+/* ----------------------------------------------------------------- body */
+
+.body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  /* Indent to align under the author name (card padding + avatar + gap). */
+  padding: 6px 16px 0 56px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1f1f1f;
+}
+
+.bodyText {
+  white-space: nowrap;
+}
+
+/* When there's no action header above it, balance the card's top padding
+   (minimal board cards). Falls back to 12px when an `.actions` row precedes. */
+.head:first-child {
+  padding-top: 16px;
+}
+
+/* When the body is the card's last element (no attachment / reply row), it must
+   provide the card's bottom padding itself (minimal board cards). */
+.body:last-child {
+  padding-bottom: 16px;
+}
+
+.mention {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: rgba(98, 93, 245, 0.12);
+  color: #625df5;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------- embedded screenshot */
+
+.attachment {
+  position: relative;
+  overflow: hidden;
+  /* Aligns with the body text (indented under the author name). */
+  margin: 12px 16px 0 56px;
+  /* Height is set inline by the caller (defaults to DEFAULT_SCREENSHOT_HEIGHT). */
+  border-radius: 12px;
+  background: #f0f0f0;
+}
+
+.attachmentImage {
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------ reply row */
+
+.reply {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 16px 16px;
+  color: #292929;
+}
+
+.replyText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #292929;
+}

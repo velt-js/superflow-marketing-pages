@@ -3,17 +3,37 @@
 import { useState, type CSSProperties } from "react";
 import styles from "./FeatureSet.module.css";
 import { FeatureSetIcon, type FeatureSetIconName } from "./FeatureSetIcons";
-import {
-  FeatureSetAgentGalleryMock,
-  FeatureSetWorkflowMock,
-} from "./FeatureSetMocks";
+import { FeatureSetWorkflowMock } from "./FeatureSetMocks";
+import ReviewAgentsArtifact from "./feature-artifacts/ReviewAgentsArtifact";
+import ClientMemoryArtifact from "./feature-artifacts/ClientMemoryArtifact";
+import AskAiArtifact from "./feature-artifacts/AskAiArtifact";
+import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
+import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
+import PrivateArtifact from "./feature-artifacts/PrivateArtifact";
+import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
+import AllDevicesArtifact from "./feature-artifacts/AllDevicesArtifact";
+import GuestModeArtifact from "./feature-artifacts/GuestModeArtifact";
+import KanbanArtifact from "./feature-artifacts/KanbanArtifact";
+import IntegrationsArtifact from "./feature-artifacts/IntegrationsArtifact";
+import CustomStatusArtifact from "./feature-artifacts/CustomStatusArtifact";
 
 const FEATURES_LABEL = "Features that help";
 
 /** App-window mock variants available to a block, keyed by config name. */
 const MOCKS = {
-  "agent-gallery": FeatureSetAgentGalleryMock,
   workflow: FeatureSetWorkflowMock,
+  "review-agents": ReviewAgentsArtifact,
+  "client-memory": ClientMemoryArtifact,
+  "ask-ai": AskAiArtifact,
+  "pinned-comments": PinnedCommentsArtifact,
+  "auto-screenshot": AutoScreenshotArtifact,
+  "private-comments": PrivateArtifact,
+  "guest-mode": GuestModeArtifact,
+  "behind-login": BehindLoginArtifact,
+  "all-devices": AllDevicesArtifact,
+  kanban: KanbanArtifact,
+  integrations: IntegrationsArtifact,
+  "custom-statuses": CustomStatusArtifact,
 } as const;
 
 /** Name of an app-window mock a block can show inside its white screen. */
@@ -27,6 +47,12 @@ export interface FeatureSetTab {
   oneLiner: string;
   /** "Without it…" line naming what you lose without this view. */
   loss: string;
+  /**
+   * Which app-window mock to render inside the white screen when this tab is
+   * active. When omitted, the block-level {@link FeatureSetBlockData.mock} is
+   * used, so blocks that share one mock across every tab need not set this.
+   */
+  mock?: FeatureSetMockName;
   /** Destination for the "Features that help" arrow link (defaults to "#"). */
   href?: string;
   /**
@@ -97,9 +123,12 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
     "--feature-tint": data?.tint,
   };
 
-  const MockContent = MOCKS[data?.mock] ?? FeatureSetWorkflowMock;
-
   const activeTab = data?.tabs?.[activeTabIndex];
+
+  // Prefer the active tab's own mock (so a single block can show a different
+  // artifact per tab); fall back to the block-level mock, then the workflow.
+  const activeMockName = activeTab?.mock ?? data?.mock;
+  const MockContent = MOCKS[activeMockName] ?? FeatureSetWorkflowMock;
 
   // The active tab can ask the first tab to shrink to icon-only (e.g. Live),
   // freeing horizontal room in the strip.
@@ -227,8 +256,6 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
           </div>
         </div>
       </div>
-
-      <div className={styles.blockFade} aria-hidden="true" />
     </article>
   );
 }

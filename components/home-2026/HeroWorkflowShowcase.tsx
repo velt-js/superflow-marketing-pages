@@ -316,6 +316,8 @@ export default function HeroWorkflowShowcase({
                 </span>
               </div>
 
+              <span className={styles.branchConnector} aria-hidden="true" />
+
               <div className={styles.canvasChecks}>
                 {WORKFLOW_CHECKS.map((check) => {
                   const CheckPillIcon = check?.Icon;

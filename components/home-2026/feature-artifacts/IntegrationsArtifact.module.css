@@ -1,0 +1,157 @@
+/* Feature-section app-window artifact — "Integrations".
+   A Superflow task card (shared CommentThreadCard) on the left, a curved
+   gradient connector, and a cluster of integration logo chips on the right that
+   bleeds off the edge. Everything is absolutely positioned inside the visible
+   ~631px frame; the right edge is clipped by the root's overflow. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------ task card */
+
+.card {
+  position: absolute;
+  left: 44px;
+  top: 196px;
+  width: 320px;
+  animation: iRise 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+/* -------------------------------------------------------- curved connector */
+
+/* Sits in the gap between the card's right edge and the cluster's left edge. */
+.connector {
+  position: absolute;
+  left: 362px;
+  top: 238px;
+  width: 44px;
+  height: 70px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.connectorPath {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  /* A 120-unit dash covers the whole curve so at offset 0 the full stroke shows. */
+  --connector-len: 120;
+  stroke-dasharray: var(--connector-len);
+  animation: iConnectorDraw 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.connectorNode {
+  animation: iChipIn 0.3s ease 0.24s both;
+}
+
+/* --------------------------------------------------------- logo cluster */
+
+.logos {
+  position: absolute;
+  left: 402px;
+  top: 178px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 16px;
+  /* Sized for exactly three chips per row; the third column bleeds off the
+     right edge, leaving the four named tools in the two visible columns. */
+  width: 320px;
+}
+
+.logoChip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.3px solid #ffffff;
+  border-radius: 44px;
+  background: #f4f4f4;
+  box-shadow: 0 6px 16px rgba(20, 20, 43, 0.06);
+  /* Chips pop in with a small left-to-right stagger. */
+  animation: iChipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.logoChip:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.logoChip:nth-child(2) {
+  animation-delay: 0.46s;
+}
+
+.logoChip:nth-child(3) {
+  animation-delay: 0.52s;
+}
+
+.logoChip:nth-child(4) {
+  animation-delay: 0.58s;
+}
+
+.logoChip:nth-child(5) {
+  animation-delay: 0.64s;
+}
+
+.logoChip:nth-child(6) {
+  animation-delay: 0.7s;
+}
+
+/* Dissolve the clipped chips into the right/bottom edges. */
+.fade {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  background: linear-gradient(to right, rgba(254, 255, 255, 0), #feffff);
+  pointer-events: none;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- */
+
+@keyframes iRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes iConnectorDraw {
+  from {
+    stroke-dashoffset: var(--connector-len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes iChipIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .connectorPath,
+  .connectorNode,
+  .logoChip {
+    animation: none;
+  }
+}

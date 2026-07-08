@@ -1,0 +1,304 @@
+/* Feature-section app-window artifact — "Private".
+   A live page (browser chrome) with a selected element carrying a team-only
+   comment (shared composer, "Visible to → Only your Team"), a "Private Mode
+   Enabled" pill and a compact dark product toolbar with the lock toggle on.
+   Elements are placed with absolute positioning at native pixel coordinates,
+   left-anchored inside the ~631px visible panel frame so nothing important
+   clips off-screen (the panel window is a wider 1204px that intentionally
+   bleeds off the right). The root fills its container (100% x 100%). */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------- browser chrome */
+
+.chrome {
+  position: absolute;
+  top: 28px;
+  left: 20px;
+  width: 591px;
+  animation: privateSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* -------------------------------------------------------------- page body */
+
+.pageBlock {
+  position: absolute;
+  left: 40px;
+  top: 100px;
+  width: 250px;
+  height: 200px;
+  border-radius: 12px;
+  background: #f7f7f6;
+  animation: privateFade 0.4s ease 0.1s both;
+}
+
+.rightTop {
+  position: absolute;
+  left: 320px;
+  top: 100px;
+  width: 258px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: privateFade 0.4s ease 0.1s both;
+}
+
+.dashedBox {
+  width: 100%;
+  height: 64px;
+  border: 2px dashed #625df5;
+  border-radius: 16px;
+  background: #f7f7f7;
+}
+
+.skeletonBlock {
+  width: 82%;
+  height: 56px;
+  border-radius: 12px;
+  background: #f7f7f6;
+}
+
+.rightBars {
+  position: absolute;
+  left: 320px;
+  top: 236px;
+  width: 258px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  animation: privateFade 0.4s ease 0.1s both;
+}
+
+.bar {
+  width: 100%;
+  height: 27px;
+  border-radius: 12px;
+  background: #f7f7f6;
+}
+
+.barShort {
+  width: 90%;
+}
+
+/* --------------------------------------------------- team-only composer */
+
+.composerGroup {
+  position: absolute;
+  left: 188px;
+  top: 150px;
+  transform-origin: left top;
+  animation: privateComposerIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+/* ------------------------ "Private Mode Enabled" pill + toolbar stack */
+
+/* Stacks the pill directly above the toolbar and centres it on the toolbar.
+   Shrinks to the toolbar's width (the widest child), so `align-items: center`
+   auto-centres the narrower pill over it — no hand-tuned pixel offset needed. */
+.toolbarStack {
+  position: absolute;
+  left: 186px;
+  top: 414px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.privatePill {
+  padding: 6px 12px;
+  border-radius: 24px;
+  background: linear-gradient(to top, #222238, #2c2c53);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.1;
+  white-space: nowrap;
+  animation: privatePillIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+/* --------------------------------------------- floating dark toolbar */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 53px;
+  background: #141517;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  color: #80808a;
+  animation: privateToolbarRise 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.toolbarLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 22px;
+  border-radius: 8px;
+  background: rgba(238, 238, 238, 0.12);
+  flex-shrink: 0;
+}
+
+/* Purple pill toggle with the white lock knob pushed to the "on" side. */
+.lockToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 48px;
+  padding: 4px;
+  border-radius: 32px;
+  background: #625cf4;
+}
+
+.lockKnob {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #625cf4;
+}
+
+.commentButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 32px;
+  background: #635cf4;
+  color: #feffff;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+}
+
+.inboxWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inboxDot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff7162;
+  border: 1px solid #141517;
+}
+
+.countText {
+  font-size: 14px;
+  line-height: 1;
+  color: #80808a;
+}
+
+.toolbarIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.toolbarAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd5a8 0%, #f79bb4 45%, #7a6cff 100%);
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Mirrors the Private Comments hero artifact: the chrome settles, the page
+ * body fades in, the team-only composer pops in, the "Private Mode Enabled"
+ * pill scales in and the dark toolbar rises up. Shared easing/duration keep
+ * this cohesive with the sibling artifacts. */
+
+@keyframes privateSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes privateFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes privateComposerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes privatePillIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes privateToolbarRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .pageBlock,
+  .rightTop,
+  .rightBars,
+  .composerGroup,
+  .privatePill,
+  .toolbar {
+    animation: none;
+  }
+}

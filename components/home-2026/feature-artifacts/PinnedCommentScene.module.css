@@ -1,0 +1,84 @@
+/* Shared scene for the Pinned Comments + Auto Screenshot feature-section
+   artifacts. Draws the root surface, then overlays the purple teardrop avatar
+   pin and the comment card (the shared CommentThreadCard) on top of the shared
+   PinScene. The only difference between the two artifacts is the embedded
+   screenshot, toggled by the caller — so the card grows taller for the Auto
+   Screenshot view. Elements are absolutely positioned at native pixel
+   coordinates, left-anchored inside the visible panel frame. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* -------------------------------------------------- pinned comment thread */
+
+/* Positioned group holding the card; the pin is placed relative to it so the
+   avatar sits just off the card's top-left corner (its own anchor — no
+   separate numbered badge, and no overlap onto the card itself). */
+.thread {
+  position: absolute;
+  left: 272px;
+  top: 196px;
+  width: 320px;
+  animation: threadIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+/* Auto Screenshot's card is taller (it embeds the snapshot), so it starts
+   higher to stay centred over the element and keep its reply row clear of the
+   panel's bottom fade. */
+.threadShot {
+  top: 112px;
+}
+
+.card {
+  width: 100%;
+}
+
+/* Sits fully off the card's top-left corner (right edge clears the card), so
+   the pin reads as its own marker anchored to the element without lapping over
+   the comment dialog. */
+.pin {
+  position: absolute;
+  top: -4px;
+  left: -44px;
+  z-index: 1;
+  display: inline-flex;
+  padding: 5px;
+  background: #635cf4;
+  /* Teardrop silhouette: round except a pointed bottom-left corner. */
+  border-radius: 50% 50% 50% 5px;
+  box-shadow: 0 5px 14px rgba(45, 40, 120, 0.26);
+}
+
+.pinAvatar {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* --- Entrance animation (replays whenever the tab mounts) --------------- */
+
+@keyframes threadIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thread {
+    animation: none;
+  }
+}

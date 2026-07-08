@@ -1,0 +1,91 @@
+/* Shared "pinned comment" page scene for the Durable Comments feature-section
+   artifacts (Pinned Comments + Auto Screenshot): a wide browser chrome whose
+   address pill bleeds off the right panel edge, a dashed purple-selected target
+   element and a couple of skeleton content blocks to its right. There is no
+   separate pin badge — each artifact's comment avatar + dialog acts as the
+   anchor. Elements are absolutely positioned relative to the artifact root at
+   native pixel coordinates, left-anchored inside the visible panel frame (the
+   panel window is a wider 1204px that intentionally bleeds off the right). */
+
+/* --------------------------------------------------------- browser chrome */
+
+/* Intentionally wider than the visible frame: the right-aligned address pill
+   runs off the right panel edge, so its "YOUR-SITE.COM" text clips at the edge
+   and the bar has no visible right border — matching the design. */
+.chrome {
+  position: absolute;
+  top: 30px;
+  left: 24px;
+  width: 676px;
+  animation: sceneSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* -------------------------------------------------------------- page body */
+
+/* The selected element the comment is pinned to (empty dashed purple outline). */
+.heroElement {
+  position: absolute;
+  left: 40px;
+  top: 96px;
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #625df5;
+  border-radius: 18px;
+  background: #f6f6f5;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+/* Neutral skeleton content sitting to the right of the selected element; it
+   peeks out from behind the comment card and bleeds off the right edge. */
+.contentBlocks {
+  position: absolute;
+  left: 372px;
+  top: 108px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 560px;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+.contentBlock {
+  height: 72px;
+  border-radius: 16px;
+  background: #f2f2f1;
+}
+
+.contentBlockTall {
+  height: 150px;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * The chrome settles and the page body fades in. Shared easing/duration keep
+ * both artifacts cohesive. */
+
+@keyframes sceneSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sceneFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .heroElement,
+  .contentBlocks {
+    animation: none;
+  }
+}

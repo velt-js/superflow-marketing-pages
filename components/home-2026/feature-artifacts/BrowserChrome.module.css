@@ -1,0 +1,51 @@
+/* Shared browser chrome bar for the Durable Comments feature-section artifacts
+   (Pinned Comments / Auto Screenshot / Private). Mirrors the chrome drawn
+   privately inside the Guest Mode / Private Comment hero artifacts. The caller
+   positions the bar by passing its own absolute-positioning class through the
+   component's `className` prop. */
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #0a0a0a;
+}
+
+.addressBar {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+/* Right-aligned variant for the wide address bar that bleeds off the panel
+   edge: the text hugs the pill's right padding so it reads "…SITE.COM" as the
+   bar runs off-screen. */
+.addressBarRight {
+  justify-content: flex-end;
+  padding: 12px 20px;
+}
+
+.addressText {
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* The right-aligned wide bar uses a larger address type, matching the design. */
+.addressBarRight .addressText {
+  font-size: 18px;
+}

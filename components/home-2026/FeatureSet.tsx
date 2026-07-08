@@ -30,6 +30,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Your checklist, run by agents on every site, findings posted as comments.",
         loss: "Without them, senior people burn billable hours catching broken links and typos by hand.",
+        mock: "review-agents",
       },
       {
         label: "Memory",
@@ -37,6 +38,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Every client's brand and past decisions, remembered and fed to the agents.",
         loss: "Without it, every project restarts from zero and you re-explain the brand each round.",
+        mock: "client-memory",
       },
       {
         label: "Ask AI",
@@ -44,9 +46,10 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Ask the review history anything, per client or across every project.",
         loss: "Without it, institutional knowledge stays buried in old threads and walks out when people leave.",
+        mock: "ask-ai",
       },
     ],
-    mock: "agent-gallery",
+    mock: "review-agents",
   },
   {
     id: "durable-comments",
@@ -62,6 +65,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         icon: "pin",
         oneLiner: "Pinned to the element, holding through edits and redeploys.",
         loss: "Without them, feedback scatters across email, Slack, and screenshots.",
+        mock: "pinned-comments",
       },
       {
         label: "Auto Screenshot",
@@ -70,6 +74,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Every comment captures the page as it looked, so context never gets lost.",
         loss: "Without it, there is no record of what the reviewer saw once the page changes.",
         collapsesFirstTab: true,
+        mock: "auto-screenshot",
       },
       {
         label: "Private",
@@ -77,6 +82,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Internal-only notes your team sees and the client never does.",
         loss: "Without them, your internal back-and-forth happens in front of the client.",
         collapsesFirstTab: true,
+        mock: "private-comments",
       },
       {
         label: "Versioning",
@@ -110,6 +116,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Your client reviews from a link: no account, no login, from their phone.",
         loss: "Without it, you lose a week waiting for a client to log in and take a look.",
+        mock: "guest-mode",
       },
       {
         label: "Behind Login",
@@ -117,12 +124,14 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Comment on dashboards, portals, and any page that needs an account.",
         loss: "Without it, the gated, logged-in half of the work cannot be reviewed in context.",
+        mock: "behind-login",
       },
       {
         label: "All Devices",
         icon: "devices",
         oneLiner: "Both views, findings tagged by device.",
         loss: "Without it, mobile feedback turns into screenshots texted around.",
+        mock: "all-devices",
       },
       {
         label: "Record Walkthrough",
@@ -148,6 +157,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         icon: "circle-check",
         oneLiner: "Built-in review statuses, plus your own custom ones.",
         loss: "Without them, review state lives in people's heads.",
+        mock: "custom-statuses",
       },
       {
         label: "Workflows",
@@ -160,6 +170,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         icon: "layout-kanban",
         oneLiner: "A built-in kanban board, or sync with the one you already run.",
         loss: "Without it, you run the studio from a spreadsheet and your memory.",
+        mock: "kanban",
       },
       {
         label: "Integrations",
@@ -167,6 +178,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "One-click installs (WordPress, Webflow, Framer, Shopify); tasks sync to Slack, Asana, Monday, ClickUp.",
         loss: "Without them, Superflow becomes one more silo to copy tasks out of.",
+        mock: "integrations",
       },
     ],
     mock: "workflow",

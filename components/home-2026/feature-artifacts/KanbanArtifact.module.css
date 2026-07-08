@@ -1,0 +1,161 @@
+/* Feature-section app-window artifact — "Kanban".
+   An "Open" column (four cards) and an "In Progress" column (three cards) that
+   bleeds off the right edge, each card the shared CommentThreadCard rendered in
+   its minimal, header-less form. Elements are absolutely positioned at native
+   pixel coordinates inside the visible ~631px frame; the right/bottom edges are
+   clipped by the root's overflow. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* -------------------------------------------------------- column headers */
+
+.columnHeader {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: kFade 0.4s ease 0.1s both;
+}
+
+.columnOpen {
+  left: 48px;
+  top: 40px;
+}
+
+.columnProgress {
+  left: 404px;
+  top: 40px;
+}
+
+.columnTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: #0f0f0f;
+  white-space: nowrap;
+}
+
+.iconOpen {
+  display: inline-flex;
+  color: #625df5;
+}
+
+.iconProgress {
+  display: inline-flex;
+  color: #e2a600;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: #f1f1f1;
+  color: #8a8a8a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------- comment cards */
+
+.card {
+  position: absolute;
+  width: 316px;
+  /* Cards rise in with a small stagger after the headers fade in. */
+  animation: kRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.openA {
+  left: 48px;
+  top: 84px;
+  animation-delay: 0.2s;
+}
+
+.openB {
+  left: 48px;
+  top: 190px;
+  animation-delay: 0.28s;
+}
+
+.openC {
+  left: 48px;
+  top: 296px;
+  animation-delay: 0.36s;
+}
+
+.openD {
+  left: 48px;
+  top: 402px;
+  animation-delay: 0.44s;
+}
+
+.progressA {
+  left: 404px;
+  top: 84px;
+  animation-delay: 0.24s;
+}
+
+.progressB {
+  left: 404px;
+  top: 190px;
+  animation-delay: 0.32s;
+}
+
+.progressC {
+  left: 404px;
+  top: 296px;
+  animation-delay: 0.4s;
+}
+
+/* Softly dissolve the lowest cards into the bottom edge. */
+.fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, rgba(254, 255, 255, 0), #feffff);
+  pointer-events: none;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- */
+
+@keyframes kRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .columnHeader,
+  .card {
+    animation: none;
+  }
+}

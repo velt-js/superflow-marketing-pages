@@ -42,6 +42,7 @@
   height: 47.01%;
   background: #f7f7f6;
   border-radius: 12px;
+  animation: privateFade 0.4s ease 0.1s both;
 }
 
 .rightTop {
@@ -52,6 +53,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  animation: privateFade 0.4s ease 0.1s both;
 }
 
 .dashedBox {
@@ -77,6 +79,7 @@
   display: flex;
   flex-direction: column;
   gap: 13px;
+  animation: privateFade 0.4s ease 0.1s both;
 }
 
 .bar {
@@ -103,6 +106,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  animation: privateChromeSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .chromeControls {
@@ -143,6 +147,9 @@
   position: absolute;
   left: 21.17%;
   top: 21.26%;
+  /* The team-only comment composer pops in. */
+  transform-origin: left top;
+  animation: privateComposerIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
 }
 
 /* ------------------------------------------------------------------ *
@@ -161,6 +168,7 @@
   font-size: 14px;
   line-height: 1.1;
   white-space: nowrap;
+  animation: privatePillIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
 }
 
 /* ------------------------------------------------------------------ *
@@ -180,6 +188,7 @@
   background: #141517;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   color: #80808a;
+  animation: privateToolbarRise 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 .toolbarLogo {
@@ -281,4 +290,77 @@
   height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ffd5a8 0%, #f79bb4 45%, #7a6cff 100%);
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "a private, team-only comment": the browser chrome settles, the page
+ * body fades in, the team-only composer pops in, the "Private Mode Enabled"
+ * pill scales in and the dark toolbar rises up. Keyframes fold in each
+ * element's base positioning transform so the final state is pixel-identical
+ * to the static design. Shared easing/duration keep this cohesive across tabs.
+ * The navy `.frame` border is intentionally left static. */
+
+@keyframes privateFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes privateChromeSettle {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes privateComposerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes privatePillIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes privateToolbarRise {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageBlock,
+  .rightTop,
+  .rightBars,
+  .chrome,
+  .composerGroup,
+  .privatePill,
+  .toolbar {
+    animation: none;
+  }
 }

@@ -3,7 +3,6 @@ import styles from "./FeatureSet.module.css";
 import { FeatureSetIcon } from "./FeatureSetIcons";
 
 const WORKFLOW_TITLE = "New Website Workflow";
-const SKELETON_CARD_COUNT = 7;
 
 /** Colored check pills on the workflow canvas, straight from Figma. */
 const WORKFLOW_CHECKS = [
@@ -136,83 +135,6 @@ export function FeatureSetWorkflowMock() {
           ))}
         </div>
       </div>
-    </div>
-  );
-}
-
-/** A skeleton agent card: light-gray rounded bars matching the Figma layout. */
-function AgentSkeletonCard() {
-  return (
-    <div className={`${styles.agCard} ${styles.agSkeleton}`} aria-hidden="true">
-      <div className={styles.agCardTop}>
-        <span className={`${styles.agSkelShape} ${styles.agSkelIcon}`} />
-        <div className={styles.agCardText}>
-          <div className={`${styles.agSkelShape} ${styles.agSkelTitle}`} />
-          <div className={`${styles.agSkelShape} ${styles.agSkelSub}`} />
-        </div>
-        <span className={`${styles.agSkelShape} ${styles.agSkelKebab}`} />
-      </div>
-      <div className={styles.agCardFooter}>
-        <div className={styles.agMeta}>
-          <span className={`${styles.agSkelShape} ${styles.agSkelBarShort}`} />
-          <span className={`${styles.agSkelShape} ${styles.agSkelBarLong}`} />
-        </div>
-        <div className={styles.agActions}>
-          <span className={`${styles.agSkelShape} ${styles.agSkelCircle}`} />
-          <span className={`${styles.agSkelShape} ${styles.agSkelCircle}`} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * The AI-agent gallery mock used by the "AI Review Agent" block: a fully
- * rendered "Spell Check" agent card followed by skeleton placeholder cards,
- * laid out on the same two-column grid as the Figma design (the second
- * column bleeds off the card edge).
- */
-export function FeatureSetAgentGalleryMock() {
-  return (
-    <div className={styles.agGrid}>
-      <div className={styles.agCard}>
-        <div className={styles.agCardTop}>
-          <span className={styles.agIcon}>
-            <FeatureSetIcon name="dots-grid" size={28} />
-          </span>
-          <div className={styles.agCardText}>
-            <p className={styles.agCardTitle}>Spell Check</p>
-            <p className={styles.agCardSub}>Finds spelling mistakes and typos in …</p>
-          </div>
-          <span className={styles.agKebab}>
-            <FeatureSetIcon name="dots-vertical" size={18} />
-          </span>
-        </div>
-        <div className={styles.agCardFooter}>
-          <div className={styles.agMeta}>
-            <span className={styles.agMetaItem}>
-              <FeatureSetIcon name="refresh" size={14} className={styles.agMetaIconBlue} />
-              1d ago
-            </span>
-            <span className={styles.agMetaItem}>
-              <FeatureSetIcon name="sparkles" size={14} className={styles.agMetaIconOrange} />
-              Used 23 times
-            </span>
-          </div>
-          <div className={styles.agActions}>
-            <span className={`${styles.agCircle} ${styles.agCircleGhost}`}>
-              <FeatureSetIcon name="history" size={16} />
-            </span>
-            <span className={`${styles.agCircle} ${styles.agCircleDark}`}>
-              <FeatureSetIcon name="player-play" size={12} />
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {Array.from({ length: SKELETON_CARD_COUNT }, (_, index) => (
-        <AgentSkeletonCard key={`agent-skeleton-${index}`} />
-      ))}
     </div>
   );
 }

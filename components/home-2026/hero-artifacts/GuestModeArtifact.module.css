@@ -12,7 +12,9 @@
   background: #feffff;
   color: #0a0a0a;
   overflow: hidden;
-  font-family: var(--hero-font-ui);
+  /* Falls back to Urbanist when rendered outside the hero (e.g. reused as the
+     Feature Set "Guest Mode" mock), where --hero-font-ui isn't defined. */
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
 }
 
 /* --- Browser chrome bar ------------------------------------------------- */
@@ -25,6 +27,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  animation: guestSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .chromeNav,
@@ -72,6 +75,7 @@
   background: #f7f7f7;
   border: 2px dashed #625df5;
   border-radius: 16px;
+  animation: guestFade 0.4s ease 0.1s both;
 }
 
 .skeletonTop {
@@ -82,6 +86,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  animation: guestFade 0.4s ease 0.1s both;
 }
 
 .skeletonBottom {
@@ -92,6 +97,7 @@
   display: flex;
   flex-direction: column;
   gap: 13px;
+  animation: guestFade 0.4s ease 0.1s both;
 }
 
 .skelBlock {
@@ -125,6 +131,9 @@
   top: 230px;
   left: 50%;
   transform: translateX(-50%);
+  /* Pop in from near the avatar anchor (a guest drops a comment). */
+  transform-origin: left top;
+  animation: guestPopover 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.26s both;
 }
 
 /* --- "You are a guest" pill -------------------------------------------- */
@@ -142,6 +151,7 @@
   padding: 4px 4px 4px 12px;
   border-radius: 24px;
   background: linear-gradient(to top, #222238, #2c2c53);
+  animation: guestPillIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
 }
 
 .guestPillText {
@@ -177,6 +187,7 @@
   border: 1px solid #eeeeee;
   border-radius: 53px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  animation: guestToolbarRise 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 .toolbarDivider {
@@ -242,4 +253,76 @@
   border-radius: 50%;
   background: #ff7162;
   border: 1px solid #ffffff;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "a guest drops a comment, no login": the browser chrome settles,
+ * the page body fades in, the comment composer pops in near its anchor and the
+ * floating toolbar + guest pill rise up. Keyframes fold in each element's base
+ * positioning transform so the final state is pixel-identical to the static
+ * design. Shared easing/duration keep this cohesive across the hero tabs. */
+
+@keyframes guestSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes guestFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes guestPopover {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes guestPillIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes guestToolbarRise {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .dashedRegion,
+  .skeletonTop,
+  .skeletonBottom,
+  .popover,
+  .guestPill,
+  .toolbar {
+    animation: none;
+  }
 }

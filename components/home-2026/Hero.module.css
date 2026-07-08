@@ -654,11 +654,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
+  /* No gap: the branch connector (a flex child) must physically touch the
+     "New Update" node on its left and the checks column's dashed trunk on its
+     right. A flex gap here would leave the dashed line stranded ~40px short of
+     each, reading as broken connectors. */
+  gap: 0;
   background-color: #ffffff;
   background-image: radial-gradient(rgba(0, 0, 0, 0.16) 1.2px, transparent 1.2px);
   background-size: 26px 26px;
   background-position: 0 0;
+  /* Hairline card edge (Figma "image 16", node 751:1935). Drawn as an inset
+     ring so the white fade overlay below dissolves it at the bottom/right
+     corner, matching the design's border that fades into the frame. */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -681,7 +689,23 @@
   z-index: 1;
   display: flex;
   align-items: center;
-  gap: 40px;
+  /* No gap: the site→update connector spans the whole distance itself (see
+     .connector width) so the dashed line touches both nodes instead of
+     floating between two 40px gaps. */
+  gap: 0;
+}
+
+/* Horizontal lead of the branch connector: links the "New Update" node to the
+   vertical trunk in front of the check pills (Figma "Line 4", node 751:1975).
+   Grows to fill the gap so the dashed line stays continuous at any canvas
+   width, meeting the checks column's dashed trunk at its vertical centre. */
+.branchConnector {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 24px;
+  height: 0;
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.3);
 }
 
 .node {
@@ -690,7 +714,7 @@
   gap: 10px;
   padding: 15px;
   border-radius: 15px;
-  font-size: 17px;
+  font-size: 17.5px;
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.525px;
@@ -713,9 +737,11 @@
   font-family: var(--hero-font-mono);
 }
 
-/* Dashed connector between the two source nodes. */
+/* Dashed connector between the two source nodes. Its width is the full node-
+   to-node distance (the old 48px line + the two 40px gaps that used to flank
+   it) so the dashes run edge-to-edge and touch both nodes. */
 .connector {
-  width: 48px;
+  width: 128px;
   height: 0;
   border-top: 1.5px dashed rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
@@ -726,6 +752,9 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  /* Pills hug their own content and left-align on a shared edge (Figma pills
+     have different widths); without this they stretch to a uniform width. */
+  align-items: flex-start;
   gap: 12px;
   padding-left: 40px;
   border-left: 1.5px dashed rgba(0, 0, 0, 0.3);
@@ -739,7 +768,7 @@
   padding: 12px 16px;
   border-radius: 32px;
   font-family: var(--hero-font-mono);
-  font-size: 16px;
+  font-size: 17.5px;
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.525px;
@@ -889,7 +918,8 @@
     gap: 20px;
   }
 
-  .connector {
+  .connector,
+  .branchConnector {
     display: none;
   }
 }
