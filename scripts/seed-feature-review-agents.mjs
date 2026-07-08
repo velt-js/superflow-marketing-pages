@@ -74,7 +74,7 @@ const doc = {
           {
             _key: "custom-agent",
             label: "Custom Agent",
-            icon: "grain",
+            icon: "ballpen",
             oneLiner:
               "Create custom rules from your checklist or brand guide.",
           },
@@ -88,7 +88,7 @@ const doc = {
           {
             _key: "test-cases",
             label: "Test Cases",
-            icon: "lego",
+            icon: "list-check",
             oneLiner:
               "Turn every requirement into a repeatable test the agents run each release.",
           },
@@ -106,20 +106,20 @@ const doc = {
           {
             _key: "manual-run",
             label: "Manual Run",
-            icon: "grain",
+            icon: "player-play",
             oneLiner: "Kick off a review on any URL whenever you want.",
           },
           {
             _key: "webhooks",
             label: "Webhooks",
-            icon: "lego",
+            icon: "bolt",
             oneLiner:
               "Fire a review automatically on every publish or deploy.",
           },
           {
             _key: "simulate-devices",
             label: "Simulate All Devices",
-            icon: "brain",
+            icon: "devices",
             oneLiner:
               "Check every page across desktop, tablet and phone in one run.",
           },
@@ -144,7 +144,7 @@ const doc = {
           {
             _key: "findings",
             label: "Findings",
-            icon: "grain",
+            icon: "message-pin",
             oneLiner:
               "Every issue lands as a pinned comment on the exact element.",
           },

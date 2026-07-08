@@ -220,6 +220,14 @@ const ICON_PATHS = {
     "M4 10a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -8",
     "M14 10a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -2",
   ],
+  // Artist palette — the branding / white-label glyph, mirrored from
+  // PaletteIcon in HeroIcons.tsx so both icon sets stay visually consistent.
+  palette: [
+    "M12 21a9 9 0 0 1 0 -18a9 8 0 0 1 9 8a4.5 4 0 0 1 -4.5 4h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25",
+    "M8.5 10.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0",
+    "M12.5 7.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0",
+    "M16.5 10.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0",
+  ],
 } as const;
 
 /** Icons drawn as solid fills instead of 2px strokes. */

@@ -80,6 +80,7 @@ import {
 } from "./checklistPage";
 import {
   featureHero,
+  featureHeroTab,
   featureSolution,
   featureBlockTab,
   featureBlock,
@@ -182,6 +183,7 @@ export const schemaTypes = [
 
   // featurePage sub-types
   featureHero,
+  featureHeroTab,
   featureSolution,
   featureBlockTab,
   featureBlock,

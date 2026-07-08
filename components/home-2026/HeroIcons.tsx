@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { ComponentType, SVGProps } from "react";
 
 /**
  * Shared inline SVG icon set for the 2026 Hero section.
@@ -286,4 +286,235 @@ export function CodeAsteriskIcon(props: IconProps) {
       <path d="M14.5 9.5l-5 5" />
     </IconBase>
   );
+}
+
+/** Map-pin icon representing the "Pin an element" comments tab. */
+export function PinIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 21c4 -4 6 -7 6 -10a6 6 0 1 0 -12 0c0 3 2 6 6 10" />
+      <path d="M12 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    </IconBase>
+  );
+}
+
+/** Speech-bubble icon representing threaded comments / discussion tabs. */
+export function MessageIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3z" />
+      <path d="M8 9h8" />
+      <path d="M8 13h6" />
+    </IconBase>
+  );
+}
+
+/** User-with-check icon representing the "Human signs off" tab. */
+export function UserCheckIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+      <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+      <path d="M15 19l2 2l4 -4" />
+    </IconBase>
+  );
+}
+
+/** Checklist icon representing the "Track it" comments tab. */
+export function ListCheckIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+      <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+      <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+      <path d="M11 6h9" />
+      <path d="M11 12h9" />
+      <path d="M11 18h9" />
+    </IconBase>
+  );
+}
+
+/** Open padlock icon — used by "guest mode" / unlocked-access hero tabs. */
+export function LockOpenIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2l0 -6" />
+      <path d="M9 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+      <path d="M13 11v-4a4 4 0 1 1 8 0v4" />
+    </IconBase>
+  );
+}
+
+/** Kanban columns icon — represents the board / pipeline hero tab. */
+export function LayoutKanbanIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 4l6 0" />
+      <path d="M14 4l6 0" />
+      <path d="M4 10a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -8" />
+      <path d="M14 10a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -2" />
+    </IconBase>
+  );
+}
+
+/** Clock-with-arrow icon — represents history / "learned from reviews" tabs. */
+export function HistoryIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 8l0 4l2 2" />
+      <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+    </IconBase>
+  );
+}
+
+/** Camera icon — represents snapshot / screenshot capture hero tabs. */
+export function CameraIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
+      <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+    </IconBase>
+  );
+}
+
+/** Video-camera icon — represents recordings / walkthrough hero tabs. */
+export function VideoIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4" />
+      <path d="M3 8a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -8" />
+    </IconBase>
+  );
+}
+
+/** Bar-chart icon — represents analytics / insights hero tabs. */
+export function ChartBarIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+      <path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+      <path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+      <path d="M4 20h14" />
+    </IconBase>
+  );
+}
+
+/** Palette icon — represents branding / white-label hero tabs. */
+export function PaletteIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 21a9 9 0 0 1 0 -18a9 8 0 0 1 9 8a4.5 4 0 0 1 -4.5 4h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
+      <path d="M8.5 10.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+      <path d="M12.5 7.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+      <path d="M16.5 10.5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+    </IconBase>
+  );
+}
+
+/** Sparkles icon — represents AI / suggestion hero tabs. */
+export function SparklesIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" />
+    </IconBase>
+  );
+}
+
+/** Route / flow icon — represents workflow orchestration hero tabs. */
+export function RouteIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4" />
+      <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
+    </IconBase>
+  );
+}
+
+/** Eye icon — represents visibility / "the client's view" hero tabs. */
+export function EyeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+    </IconBase>
+  );
+}
+
+/** Eye-off icon — represents hidden / private ("not visible") hero tabs. */
+export function EyeOffIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+      <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
+      <path d="M3 3l18 18" />
+    </IconBase>
+  );
+}
+
+/** A hero-tab icon component: accepts native SVG props plus an optional size. */
+export type HeroTabIconComponent = ComponentType<
+  SVGProps<SVGSVGElement> & { size?: number }
+>;
+
+/**
+ * Canonical hero-tab icon registry: maps the CMS-authored icon `name` values
+ * (see the `featureHeroTab` schema options) to their rendering component.
+ * `world` is intentionally aliased to {@link GlobeIcon}.
+ */
+export const HERO_TAB_ICONS: Readonly<Record<string, HeroTabIconComponent>> = {
+  robot: RobotIcon,
+  wand: WandIcon,
+  key: KeyIcon,
+  lock: LockIcon,
+  "lock-open": LockOpenIcon,
+  plug: PlugIcon,
+  grain: GrainIcon,
+  bolt: BoltIcon,
+  share: ShareIcon,
+  check: CheckIcon,
+  ballpen: BallpenIcon,
+  link: LinkIcon,
+  "code-asterisk": CodeAsteriskIcon,
+  speedtest: SpeedtestIcon,
+  globe: GlobeIcon,
+  world: GlobeIcon,
+  lego: LegoIcon,
+  "layout-sidebar": LayoutSidebarIcon,
+  "layout-dashboard": LayoutDashboardIcon,
+  "layout-kanban": LayoutKanbanIcon,
+  settings: SettingsIcon,
+  pin: PinIcon,
+  message: MessageIcon,
+  "user-check": UserCheckIcon,
+  "list-check": ListCheckIcon,
+  history: HistoryIcon,
+  camera: CameraIcon,
+  video: VideoIcon,
+  "chart-bar": ChartBarIcon,
+  palette: PaletteIcon,
+  sparkles: SparklesIcon,
+  route: RouteIcon,
+  eye: EyeIcon,
+  "eye-off": EyeOffIcon,
+};
+
+/** Fallback icon used when a hero-tab icon name is missing or unknown. */
+export const DEFAULT_HERO_TAB_ICON: HeroTabIconComponent = GrainIcon;
+
+/**
+ * Resolve a hero-tab icon component from its CMS-authored name, falling back
+ * to {@link DEFAULT_HERO_TAB_ICON} when the name is absent or unrecognised.
+ *
+ * @param name - The icon name from the registry (e.g. "robot", "chart-bar").
+ * @returns The icon component to render.
+ */
+export function resolveHeroTabIcon(
+  name: string | null | undefined,
+): HeroTabIconComponent {
+  try {
+    return (name && HERO_TAB_ICONS?.[name]) || DEFAULT_HERO_TAB_ICON;
+  } catch {
+    return DEFAULT_HERO_TAB_ICON;
+  }
 }

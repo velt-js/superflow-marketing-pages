@@ -6,19 +6,25 @@ import styles from "./Hero.module.css";
 import {
   BallpenIcon,
   BoltIcon,
+  CheckIcon,
   CodeAsteriskIcon,
   GrainIcon,
   KeyIcon,
   LayoutDashboardIcon,
   LayoutSidebarIcon,
   LinkIcon,
+  ListCheckIcon,
   LockIcon,
+  MessageIcon,
+  PinIcon,
   PlugIcon,
   RobotIcon,
   SettingsIcon,
   ShareIcon,
   SpeedtestIcon,
+  UserCheckIcon,
   WandIcon,
+  resolveHeroTabIcon,
 } from "./HeroIcons";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
@@ -30,6 +36,17 @@ type ShowcaseTab = {
   Icon: IconComponent;
 };
 
+/**
+ * A CMS-authored hero tab. Icons are referenced by their registry `name`
+ * (resolved via {@link resolveHeroTabIcon}) rather than a component, so the
+ * shape can travel from Sanity.
+ */
+export type HeroCmsTab = {
+  id: string;
+  label: string;
+  icon: string;
+};
+
 /** A right-hand workflow check node inside the product canvas. */
 type WorkflowCheck = {
   label: string;
@@ -39,13 +56,85 @@ type WorkflowCheck = {
 
 const QA_WORKFLOW_ID = "qa-workflow";
 
-const SHOWCASE_TABS: readonly ShowcaseTab[] = [
+/** Selects which per-page tab preset renders above the product window. */
+export type HeroWorkflowVariant = "home" | "comments" | "review-agents";
+
+/** Default preset — the /home-preview homepage tabs. Must stay unchanged. */
+const HOME_TABS: readonly ShowcaseTab[] = [
   { id: QA_WORKFLOW_ID, label: "Agents at Work", Icon: RobotIcon },
   { id: "agents", label: "Build Agents", Icon: WandIcon },
   { id: "anonymous-login", label: "Guest Mode", Icon: KeyIcon },
   { id: "private-comment", label: "Private Comments", Icon: LockIcon },
   { id: "integrations", label: "Integrations", Icon: PlugIcon },
 ];
+
+/** Tab preset for the /preview/features/review-agents feature page. */
+const REVIEW_AGENTS_TABS: readonly ShowcaseTab[] = [
+  { id: "build-from-checklist", label: "Build agents from a checklist", Icon: RobotIcon },
+  { id: "built-in-checks", label: "Built-in checks", Icon: CheckIcon },
+  { id: "findings-as-comments", label: "Findings as comments", Icon: MessageIcon },
+  { id: "run-on-demand", label: "Run on demand", Icon: BoltIcon },
+  { id: "human-signs-off", label: "Human signs off", Icon: UserCheckIcon },
+];
+
+/** Tab preset for the /preview/features/comments feature page. */
+const COMMENTS_TABS: readonly ShowcaseTab[] = [
+  { id: "pin-an-element", label: "Pin an element", Icon: PinIcon },
+  { id: "select-the-words", label: "Select the words", Icon: BallpenIcon },
+  { id: "thread-it", label: "Thread it", Icon: MessageIcon },
+  { id: "carry-the-context", label: "Carry the context", Icon: ShareIcon },
+  { id: "track-it", label: "Track it", Icon: ListCheckIcon },
+];
+
+/** Lookup from page variant to its tab preset. */
+const TAB_PRESETS: Readonly<Record<HeroWorkflowVariant, readonly ShowcaseTab[]>> = {
+  home: HOME_TABS,
+  comments: COMMENTS_TABS,
+  "review-agents": REVIEW_AGENTS_TABS,
+};
+
+/**
+ * Resolve the tab preset for a given page variant, falling back to the home
+ * preset when the variant is unknown.
+ *
+ * @param variant - The requested page variant.
+ * @returns The tab list to render above the product window.
+ */
+function resolveTabs(variant: HeroWorkflowVariant): readonly ShowcaseTab[] {
+  try {
+    return TAB_PRESETS[variant] ?? HOME_TABS;
+  } catch {
+    return HOME_TABS;
+  }
+}
+
+/**
+ * Map CMS-authored hero tabs onto the internal {@link ShowcaseTab} shape,
+ * resolving each icon name through the registry. Tabs without a label are
+ * dropped so a partial CMS entry never renders an empty chip.
+ *
+ * @param cmsTabs - The tabs authored on the `featurePage.hero.tabs` field.
+ * @returns The renderable tab list, or `null` when none are usable.
+ */
+function toShowcaseTabs(
+  cmsTabs: readonly HeroCmsTab[] | null | undefined,
+): readonly ShowcaseTab[] | null {
+  try {
+    if (!cmsTabs || cmsTabs.length === 0) {
+      return null;
+    }
+    const mapped = cmsTabs
+      .filter((cmsTab) => Boolean(cmsTab?.label))
+      .map((cmsTab, index) => ({
+        id: cmsTab?.id ?? `hero-tab-${index}`,
+        label: cmsTab.label,
+        Icon: resolveHeroTabIcon(cmsTab?.icon),
+      }));
+    return mapped.length > 0 ? mapped : null;
+  } catch {
+    return null;
+  }
+}
 
 const RAIL_ITEMS: readonly { id: string; Icon: IconComponent; active?: boolean }[] = [
   { id: "sidebar", Icon: LayoutSidebarIcon },
@@ -70,15 +159,39 @@ const UPDATE_LABEL = "New Update";
 const SHARE_LABEL = "Share";
 const RUN_LABEL = "Run Workflow";
 
+/** Props for {@link HeroWorkflowShowcase}. */
+export interface HeroWorkflowShowcaseProps {
+  /**
+   * Which per-page tab preset to render above the product window. Only the tab
+   * labels/icons change; the window, rail and canvas stay identical. Defaults
+   * to "home" (the /home-preview homepage tabs).
+   */
+  variant?: HeroWorkflowVariant;
+  /**
+   * CMS-authored tabs. When provided and non-empty, these render above the
+   * product window INSTEAD of the `variant` preset; the window, rail and
+   * canvas stay identical. Falls back to the `variant` preset when absent.
+   */
+  tabs?: readonly HeroCmsTab[] | null;
+}
+
 /**
  * Interactive product showcase: a row of capability tabs sitting on top of a
  * mocked "app window" that illustrates a QA workflow. Tabs are selectable and
  * carry hover states; the workflow canvas itself is a lightweight CSS mock
  * (the real product screenshot asset is not yet available).
+ *
+ * @param props - Optional per-page overrides; defaults reproduce the
+ *   /home-preview homepage tabs exactly.
  */
-export default function HeroWorkflowShowcase() {
-  const [activeTabId, setActiveTabId] = useState<string>(QA_WORKFLOW_ID);
-  const isFirstTabActive = activeTabId === SHOWCASE_TABS[0]?.id;
+export default function HeroWorkflowShowcase({
+  variant = "home",
+  tabs: cmsTabs,
+}: HeroWorkflowShowcaseProps = {}) {
+  const tabs = toShowcaseTabs(cmsTabs) ?? resolveTabs(variant);
+  const firstTabId = tabs[0]?.id ?? QA_WORKFLOW_ID;
+  const [activeTabId, setActiveTabId] = useState<string>(firstTabId);
+  const isFirstTabActive = activeTabId === firstTabId;
 
   /**
    * Mark the given tab as active.
@@ -88,7 +201,7 @@ export default function HeroWorkflowShowcase() {
     try {
       setActiveTabId(tabId);
     } catch {
-      setActiveTabId(QA_WORKFLOW_ID);
+      setActiveTabId(firstTabId);
     }
   }
 
@@ -99,7 +212,7 @@ export default function HeroWorkflowShowcase() {
         role="tablist"
         aria-label="Product capabilities"
       >
-        {SHOWCASE_TABS.map((tab) => {
+        {tabs.map((tab) => {
           const isActive = tab?.id === activeTabId;
           const TabIcon = tab?.Icon;
           return (

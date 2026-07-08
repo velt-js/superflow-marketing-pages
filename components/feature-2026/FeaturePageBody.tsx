@@ -6,6 +6,7 @@
 // every other section renders its hard-coded homepage default.
 
 import Hero from "@/components/home-2026/Hero";
+import type { HeroCmsTab } from "@/components/home-2026/HeroWorkflowShowcase";
 import SolutionSection from "@/components/home-2026/SolutionSection";
 import FeatureSet from "@/components/home-2026/FeatureSet";
 import type {
@@ -57,6 +58,7 @@ export interface FeaturePageDoc {
     headlineLines?: string[] | null;
     subhead?: string | null;
     showcase?: "workflow" | "comments" | "review-agents" | null;
+    tabs?: { label?: string | null; icon?: string | null }[] | null;
   } | null;
   solution?: {
     heading?: string | null;
@@ -165,6 +167,43 @@ function toFeatureSetBlock(
 }
 
 /**
+ * Turn a hero-tab label into a stable, slug-like id used as the React key and
+ * active-tab identifier.
+ *
+ * @param label - The tab label.
+ * @param index - The tab's position (used when the label yields no slug).
+ */
+function toHeroTabId(label: string, index: number): string {
+  const slug = label
+    ?.toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug && slug.length > 0 ? slug : `hero-tab-${index}`;
+}
+
+/**
+ * Map the CMS `hero.tabs` onto the {@link HeroCmsTab} shape the shared Hero
+ * expects, assigning each a stable id and dropping tabs without a label.
+ *
+ * @param doc - The resolved feature page document.
+ * @returns The hero tabs, or `undefined` when the doc supplies none (so the
+ *   shared component keeps its showcase-preset behavior).
+ */
+function toHeroTabs(doc: FeaturePageDoc): HeroCmsTab[] | undefined {
+  const rawTabs = doc?.hero?.tabs ?? [];
+  const tabs = rawTabs
+    .filter((tab) => Boolean(tab?.label))
+    .map((tab, index) => ({
+      id: toHeroTabId(tab?.label as string, index),
+      label: tab?.label as string,
+      icon: tab?.icon ?? "grain",
+    }));
+
+  return tabs.length > 0 ? tabs : undefined;
+}
+
+/**
  * Map the CMS `getStarted.steps` onto the shared component's numbered-step
  * shape, dropping any step without a title.
  *
@@ -200,6 +239,7 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
   const heroHeadlineLines = doc?.hero?.headlineLines ?? undefined;
   const heroSubhead = doc?.hero?.subhead ?? undefined;
   const heroShowcase = doc?.hero?.showcase ?? undefined;
+  const heroTabs = toHeroTabs(doc);
 
   const solutionHeading = doc?.solution?.heading ?? undefined;
   const solutionSubheading = doc?.solution?.subheading ?? undefined;
@@ -229,6 +269,7 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         subhead={heroSubhead}
         variant="feature"
         showcase={heroShowcase}
+        tabs={heroTabs}
       />
       <SolutionSection
         heading={solutionHeading}

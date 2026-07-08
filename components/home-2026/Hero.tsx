@@ -2,10 +2,10 @@ import Image from "next/image";
 import styles from "./Hero.module.css";
 import { GlobeIcon } from "./HeroIcons";
 import HeroChecksDropdown from "./HeroChecksDropdown";
-import HeroWorkflowShowcase from "./HeroWorkflowShowcase";
-import HeroBrowserShowcase, {
-  type HeroBrowserVariant,
-} from "./HeroBrowserShowcase";
+import HeroWorkflowShowcase, {
+  type HeroCmsTab,
+  type HeroWorkflowVariant,
+} from "./HeroWorkflowShowcase";
 
 const URL_PLACEHOLDER = "Enter your website URL";
 const START_LABEL = "Start";
@@ -27,16 +27,20 @@ const SUBHEAD_TEXT =
  *  - "feature": no URL capture — the subhead moves into the right column
  *    (matching the Figma feature-page frame, node 678:3023).
  *
- * `showcase` picks the interactive product mock beneath the copy:
- *  - "workflow" (default): the QA workflow window.
- *  - "comments" / "review-agents": the same dark browser window (a comment
- *    pinned onto a live site), differing only in their tab labels/copy.
+ * `showcase` picks the tab preset on the interactive QA workflow window:
+ *  - "workflow" (default): the homepage tab preset.
+ *  - "comments" / "review-agents": the same white workflow window, differing
+ *    only in their tab labels/icons.
+ *
+ * `tabs` supplies CMS-authored tab labels/icons. When provided and non-empty
+ * they take precedence over `showcase`; the window UI is unchanged.
  */
 export interface HeroProps {
   headlineLines?: readonly string[];
   subhead?: string;
   variant?: "home" | "feature";
-  showcase?: "workflow" | HeroBrowserVariant;
+  showcase?: "workflow" | "comments" | "review-agents";
+  tabs?: readonly HeroCmsTab[] | null;
 }
 
 /** A customer/partner logo shown in the trust strip. */
@@ -81,13 +85,16 @@ export default function Hero({
   subhead,
   variant = "home",
   showcase = "workflow",
+  tabs,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
     headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
   const resolvedSubhead = subhead ?? SUBHEAD_TEXT;
   const isFeature = variant === "feature";
-  const isBrowserShowcase =
-    showcase === "comments" || showcase === "review-agents";
+  const showcaseVariant: HeroWorkflowVariant =
+    showcase === "comments" || showcase === "review-agents"
+      ? showcase
+      : "home";
 
   return (
     <section className={styles.hero} data-section="hero">
@@ -133,11 +140,7 @@ export default function Hero({
           )}
         </div>
 
-        {isBrowserShowcase ? (
-          <HeroBrowserShowcase variant={showcase as HeroBrowserVariant} />
-        ) : (
-          <HeroWorkflowShowcase />
-        )}
+        <HeroWorkflowShowcase variant={showcaseVariant} tabs={tabs} />
 
         <div className={styles.trusted}>
           <p className={styles.trustedLabel}>

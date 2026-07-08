@@ -60,12 +60,84 @@ const FEATURE_SET_ICON_NAMES: readonly string[] = [
   "circle-check",
   "route",
   "layout-kanban",
+  "palette",
 ];
 
 const FEATURE_SET_ICON_OPTIONS = FEATURE_SET_ICON_NAMES.map((iconName) => ({
   title: iconName,
   value: iconName,
 }));
+
+/**
+ * Canonical hero-tab icon names. Must stay in sync with the `HERO_TAB_ICONS`
+ * registry in components/home-2026/HeroIcons.tsx (an unknown value simply
+ * falls back to the default icon rather than throwing).
+ */
+const HERO_TAB_ICON_NAMES: readonly string[] = [
+  "robot",
+  "wand",
+  "key",
+  "lock",
+  "lock-open",
+  "plug",
+  "grain",
+  "bolt",
+  "share",
+  "check",
+  "ballpen",
+  "link",
+  "code-asterisk",
+  "speedtest",
+  "globe",
+  "world",
+  "lego",
+  "layout-sidebar",
+  "layout-dashboard",
+  "layout-kanban",
+  "settings",
+  "pin",
+  "message",
+  "user-check",
+  "list-check",
+  "history",
+  "camera",
+  "video",
+  "chart-bar",
+  "palette",
+  "sparkles",
+  "route",
+  "eye",
+  "eye-off",
+];
+
+const HERO_TAB_ICON_OPTIONS = HERO_TAB_ICON_NAMES.map((iconName) => ({
+  title: iconName,
+  value: iconName,
+}));
+
+// ---- Hero tab (CMS-driven labels for the shared product window) ----
+
+export const featureHeroTab = defineType({
+  name: "featureHeroTab",
+  title: "Hero tab",
+  type: "object",
+  fields: [
+    defineField({
+      name: "label",
+      title: "Label",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "icon",
+      title: "Icon",
+      type: "string",
+      options: { list: HERO_TAB_ICON_OPTIONS },
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: { select: { title: "label", subtitle: "icon" } },
+});
 
 // ---- Hero (headline + subhead only; product UI is shared/hard-coded) ----
 
@@ -105,6 +177,15 @@ export const featureHero = defineType({
         layout: "radio",
       },
       initialValue: "workflow",
+    }),
+    defineField({
+      name: "tabs",
+      title: "Hero tabs",
+      description:
+        "Per-page tab labels shown on the shared product window. When set, these override the showcase preset's tabs; the window itself stays identical.",
+      type: "array",
+      of: [{ type: "featureHeroTab" }],
+      validation: (rule) => rule.min(1).max(6),
     }),
   ],
 });

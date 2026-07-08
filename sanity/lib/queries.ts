@@ -503,7 +503,8 @@ export async function getFeaturePageBySlug(slug: string) {
       hero {
         headlineLines,
         subhead,
-        showcase
+        showcase,
+        tabs[]{ label, icon }
       },
       solution {
         heading,
