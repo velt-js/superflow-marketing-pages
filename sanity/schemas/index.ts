@@ -91,6 +91,20 @@ import {
   featureFaq,
   featurePage,
 } from "./featurePage";
+import {
+  integrationPreviewHeroTab,
+  integrationPreviewHero,
+  integrationPreviewSolution,
+  integrationPreviewBlockTab,
+  integrationPreviewBlock,
+  integrationPreviewFeatureSet,
+  integrationPreviewStep,
+  integrationPreviewGetStarted,
+  integrationPreviewFaqItem,
+  integrationPreviewFaq,
+  integrationPreviewPage,
+  integrationPreviewHub,
+} from "./integrationPreviewPage";
 
 export const schemaTypes = [
   // Documents
@@ -106,6 +120,8 @@ export const schemaTypes = [
   reviewPage,
   checklistPage,
   featurePage,
+  integrationPreviewPage,
+  integrationPreviewHub,
 
   // Inline annotations
   linkAnnotation,
@@ -192,4 +208,16 @@ export const schemaTypes = [
   featureGetStarted,
   featureFaqItem,
   featureFaq,
+
+  // integrationPreviewPage + integrationPreviewHub sub-types
+  integrationPreviewHeroTab,
+  integrationPreviewHero,
+  integrationPreviewSolution,
+  integrationPreviewBlockTab,
+  integrationPreviewBlock,
+  integrationPreviewFeatureSet,
+  integrationPreviewStep,
+  integrationPreviewGetStarted,
+  integrationPreviewFaqItem,
+  integrationPreviewFaq,
 ];
