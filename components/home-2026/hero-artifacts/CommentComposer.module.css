@@ -1,0 +1,158 @@
+/* Shared hero comment composer — the floating "comment input box" reused by the
+   Guest Mode, Private Comments and Integrations hero artifacts. Extracted from
+   the original Guest Mode artifact (Figma node 754:2924) so all three tabs show
+   the identical composer. Callers position the whole group by passing their own
+   absolute-positioning class through the component's `className` prop. */
+
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.avatarChip {
+  display: flex;
+  padding: 5px;
+  background: #635cf4;
+  /* Speech-bubble silhouette: pointed bottom-left, rounded elsewhere. */
+  border-radius: 25px 25px 25px 3px;
+}
+
+/* Mirror of the default pin for right-side placement (pointed bottom-right). */
+.avatarChipRight {
+  border-radius: 25px 25px 3px 25px;
+}
+
+.avatar {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Gradient placeholder disc used when no avatar image is supplied. */
+.avatarPlaceholder {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #f6cfa6 0%, #d59a86 45%, #8a5a6a 100%);
+}
+
+.card {
+  width: 328px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 2px solid rgba(98, 93, 245, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Solid-purple border variant (Integrations composer). */
+.cardAccent {
+  border-color: #625df5;
+}
+
+/* Navy "Visible to → Team" header strip. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #1f1c3e;
+  color: #ffffff;
+}
+
+.headerLabel {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.teamChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+}
+
+.teamChipText {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 16px 16px 8px;
+}
+
+.typed {
+  font-size: 14px;
+  color: #0a0a0a;
+  white-space: nowrap;
+}
+
+/* Purple "@mention" fragment inside the typed comment text. */
+.mention {
+  font-size: 14px;
+  font-weight: 500;
+  color: #635cf4;
+  white-space: nowrap;
+}
+
+.caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 16px;
+  background: #0a0a0a;
+}
+
+/* Purple caret variant (Integrations composer). */
+.caretAccent {
+  background: #625df5;
+}
+
+.divider {
+  height: 1px;
+  margin: 2px 12px;
+  background: #f0f0f0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #999999;
+}
+
+.tool {
+  display: inline-flex;
+  padding: 4px;
+}
+
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: #625df5;
+  border-radius: 80px;
+  color: #ffffff;
+}

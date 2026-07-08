@@ -1,0 +1,433 @@
+/* Hero tab artifact — "Integrations". Figma node 758:3037.
+   A chrome-less composition on white: a comment composer popover (left) linked
+   by a curved SVG connector to a Kanban board (right) whose integration-logo
+   row and columns bleed off the right edge. Everything is absolutely
+   positioned inside the relative root, matching the Figma layout at its native
+   ~1200px width; `overflow: hidden` clips the right-edge bleed. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* Match the "Agents at Work" artifact height so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui);
+  /* Query container so the fixed-px composition can be scaled to fit narrow
+     widths without reflowing, keeping the desktop layout pixel-identical. */
+  container-type: inline-size;
+  container-name: integrations;
+}
+
+/* The composition is authored at a fixed ~1200x578 desktop scale using absolute
+   positioning. The stage carries that native geometry: at desktop widths it
+   renders 1:1 (scale 1 = unchanged), and below ~1000px it is proportionally
+   scaled down and vertically centred so the whole composer + board stay visible
+   with the intended right-edge bleed and no horizontal page overflow. */
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1200px;
+  height: 578px;
+  --stage-scale: 1;
+  transform: scale(var(--stage-scale));
+  transform-origin: left center;
+}
+
+@container integrations (max-width: 1000px) {
+  .stage {
+    --stage-scale: 0.83;
+  }
+}
+
+@container integrations (max-width: 900px) {
+  .stage {
+    --stage-scale: 0.75;
+  }
+}
+
+@container integrations (max-width: 820px) {
+  .stage {
+    --stage-scale: 0.68;
+  }
+}
+
+@container integrations (max-width: 740px) {
+  .stage {
+    --stage-scale: 0.61;
+  }
+}
+
+@container integrations (max-width: 660px) {
+  .stage {
+    --stage-scale: 0.55;
+  }
+}
+
+@container integrations (max-width: 580px) {
+  .stage {
+    --stage-scale: 0.48;
+  }
+}
+
+@container integrations (max-width: 520px) {
+  .stage {
+    --stage-scale: 0.43;
+  }
+}
+
+@container integrations (max-width: 460px) {
+  .stage {
+    --stage-scale: 0.38;
+  }
+}
+
+@container integrations (max-width: 410px) {
+  .stage {
+    --stage-scale: 0.34;
+  }
+}
+
+@container integrations (max-width: 370px) {
+  .stage {
+    --stage-scale: 0.305;
+  }
+}
+
+@container integrations (max-width: 340px) {
+  .stage {
+    --stage-scale: 0.28;
+  }
+}
+
+/* ------------------------------------------------------- Curved connector */
+
+.connector {
+  position: absolute;
+  left: 446px;
+  top: 119px;
+  width: 162px;
+  height: 190px;
+  pointer-events: none;
+}
+
+.connectorPath {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* ------------------------------------------------------------ Kanban board */
+
+.board {
+  position: absolute;
+  left: 600px;
+  top: 166px;
+  width: 698px;
+  height: 480px;
+  border: 2px solid #ededed;
+  border-radius: 24px;
+  background: #ffffff;
+}
+
+.logos {
+  position: absolute;
+  left: 600px;
+  top: 88px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoChip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f4f4f4;
+  border: 1.3px solid #ffffff;
+  border-radius: 44px;
+}
+
+.columnHeader {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.columnOpen {
+  left: 640px;
+  top: 206px;
+}
+
+.columnProgress {
+  left: 1044px;
+  top: 206px;
+}
+
+.columnTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  color: #000000;
+}
+
+.columnIconOpen {
+  color: #623cf9;
+}
+
+.columnIconProgress {
+  color: #ff841f;
+}
+
+/* --------------------------------------------------------- Comment cards */
+
+.card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.cardOpenA {
+  left: 640px;
+  top: 258px;
+}
+
+.cardOpenB {
+  left: 640px;
+  top: 478px;
+}
+
+.cardProgress {
+  left: 1044px;
+  top: 258px;
+}
+
+/* Navy "visible to" strip — shared by the composer header and the private
+   comment card header. */
+.privateHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #1f1c3e;
+  color: #ffffff;
+}
+
+.privateLabel {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.teamChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  color: #ffffff;
+}
+
+.teamChipText {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.cardBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.cardBarGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 4px 4px 4px 8px;
+  border-radius: 80px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.statusOpen {
+  background: #f2f2fe;
+  color: #625df5;
+  font-weight: 600;
+}
+
+.statusProgress {
+  background: #fffbee;
+  color: #e2a600;
+  font-weight: 500;
+}
+
+.priorityChip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 4px 4px 8px;
+  background: #f0f0f0;
+  border-radius: 80px;
+  color: #999999;
+}
+
+.moreGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #292929;
+}
+
+.moreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 80px;
+}
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px 16px;
+}
+
+.threadHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.avatarOrange {
+  background: #fe965c;
+}
+
+.avatarGreen {
+  background: #0dcf82;
+}
+
+.avatarGray {
+  background: linear-gradient(135deg, #c7cbd6, #9aa0b0);
+}
+
+.threadMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 24px;
+}
+
+.authorName {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.16px;
+  color: #0a0a0a;
+}
+
+.timeAgo {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12px;
+  color: #999999;
+}
+
+.edited {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: #b8b8b8;
+}
+
+.commentBody {
+  padding-left: 40px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  color: #525252;
+}
+
+.mention {
+  padding: 0 2px;
+  border-radius: 4px;
+  background: rgba(98, 93, 245, 0.08);
+  color: #625df5;
+}
+
+.replyRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 20px;
+  color: #292929;
+}
+
+.replyText {
+  font-size: 14px;
+  font-weight: 400;
+  color: #292929;
+}
+
+/* ------------------------------------------------------- Comment composer */
+
+/* Positions the shared `HeroCommentComposer` group; the composer card, navy
+   header and gradient avatar are rendered by that component (CommentComposer.tsx). */
+.composer {
+  position: absolute;
+  left: 72px;
+  top: 232px;
+}
+
+/* Bottom fade so the clipped board cards dissolve into the white card edge,
+   mirroring the Figma gradient over the board region. */
+.fade {
+  position: absolute;
+  left: 580px;
+  right: 0;
+  bottom: 0;
+  height: 190px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+  pointer-events: none;
+}

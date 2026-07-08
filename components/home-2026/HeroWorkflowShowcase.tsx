@@ -26,6 +26,7 @@ import {
   WandIcon,
   resolveHeroTabIcon,
 } from "./HeroIcons";
+import { HERO_ARTIFACTS } from "./hero-artifacts";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
@@ -192,6 +193,10 @@ export default function HeroWorkflowShowcase({
   const firstTabId = tabs[0]?.id ?? QA_WORKFLOW_ID;
   const [activeTabId, setActiveTabId] = useState<string>(firstTabId);
   const isFirstTabActive = activeTabId === firstTabId;
+  // When the active tab has a dedicated artifact (homepage tabs), render it
+  // inside the shared window frame; otherwise fall back to the generic
+  // workflow window below (feature-page / CMS tab presets).
+  const ActiveArtifact = HERO_ARTIFACTS[activeTabId] ?? null;
 
   /**
    * Mark the given tab as active.
@@ -240,6 +245,11 @@ export default function HeroWorkflowShowcase({
       </div>
 
       <div className={`${styles.window} ${isFirstTabActive ? styles.windowMerged : ""}`}>
+        {ActiveArtifact ? (
+          <div className={styles.artifactFrame}>
+            <ActiveArtifact />
+          </div>
+        ) : (
         <div className={styles.windowInner}>
           <nav className={styles.rail} aria-label="Workspace navigation">
             <span className={styles.railItem} aria-hidden="true">
@@ -320,6 +330,7 @@ export default function HeroWorkflowShowcase({
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

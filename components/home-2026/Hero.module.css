@@ -498,6 +498,23 @@
   border-top-left-radius: 0;
 }
 
+/* Fixed-height frame for the per-tab hero artifacts. Every tab renders at the
+   exact same height regardless of its content; any content taller than this
+   (e.g. Build Agents' skeleton rows) is clipped, matching the Figma frames'
+   bottom bleed. Keeps tab-switching from jumping the layout. */
+.artifactFrame {
+  display: flex;
+  height: 578px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.artifactFrame > * {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
 
 .windowInner {
   display: flex;

@@ -1,0 +1,284 @@
+/* Hero tab artifact — "Private Comments". Figma node 759:3734.
+   Static visual mock: a mock browser window (chrome bar + light page body)
+   holding a team-only comment composer, a dashed selection region with
+   skeleton content, a "Private Mode Enabled" pill and a dark product toolbar.
+
+   Positions are expressed as percentages of the Figma 1200 x 602 frame so the
+   composition keeps its proportions inside the fluid hero window; element
+   sizes stay in pixels to keep text and icons crisp. */
+
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the "Agents at Work" artifact height so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--hero-font-ui);
+  overflow: hidden;
+}
+
+/* Navy inset frame — the deep-indigo window border with its soft inner glow,
+   drawn on top so it always outlines the whole card (Figma node 759:3843). */
+.frame {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(22, 16, 128, 0.55);
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px 0 rgba(22, 16, 128, 0.06);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page body — light-gray content standing in for the reviewed site.  *
+ * ------------------------------------------------------------------ */
+
+.pageBlock {
+  position: absolute;
+  left: 22.17%;
+  top: 17.61%;
+  width: 26.75%;
+  height: 47.01%;
+  background: #f7f7f6;
+  border-radius: 12px;
+}
+
+.rightTop {
+  position: absolute;
+  left: 51.08%;
+  top: 17.61%;
+  width: 26.75%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashedBox {
+  width: 100%;
+  height: 56px;
+  border: 2px dashed #625df5;
+  border-radius: 16px;
+  background: #f7f7f7;
+}
+
+.skeletonBlock {
+  width: 81%;
+  height: 56px;
+  background: #f7f7f6;
+  border-radius: 12px;
+}
+
+.rightBars {
+  position: absolute;
+  left: 51.08%;
+  top: 47.34%;
+  width: 26.75%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.bar {
+  width: 100%;
+  height: 27px;
+  background: #f7f7f6;
+  border-radius: 12px;
+}
+
+.barShort {
+  width: 90.65%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Browser chrome bar.                                                 *
+ * ------------------------------------------------------------------ */
+
+.chrome {
+  position: absolute;
+  left: 50%;
+  top: 3.65%;
+  transform: translateX(-50%);
+  width: 96.33%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.chromeControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #0a0a0a;
+}
+
+.addressBar {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.addressText {
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  color: #000000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Comment composer popover + its avatar pin.                          *
+ * ------------------------------------------------------------------ */
+
+/* Positions the shared `HeroCommentComposer` group; the composer card, navy
+   header and avatar pin are all rendered by that component (CommentComposer.tsx). */
+.composerGroup {
+  position: absolute;
+  left: 21.17%;
+  top: 21.26%;
+}
+
+/* ------------------------------------------------------------------ *
+ * "Private Mode Enabled" pill.                                        *
+ * ------------------------------------------------------------------ */
+
+.privatePill {
+  position: absolute;
+  left: 50%;
+  top: 79.65%;
+  transform: translate(-50%, -50%);
+  padding: 6px 12px;
+  border-radius: 24px;
+  background: linear-gradient(to top, #222238, #2c2c53);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Floating dark product toolbar.                                      *
+ * ------------------------------------------------------------------ */
+
+.toolbar {
+  position: absolute;
+  left: 50%;
+  top: 83.72%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 53px;
+  background: #141517;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  color: #80808a;
+}
+
+.toolbarLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 22px;
+  border-radius: 8px;
+  background: rgba(238, 238, 238, 0.12);
+  flex-shrink: 0;
+}
+
+/* Purple pill toggle with the white lock knob pushed to the "on" side. */
+.lockToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 53px;
+  padding: 4px;
+  border-radius: 32px;
+  background: #625cf4;
+}
+
+.lockKnob {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #625cf4;
+}
+
+.commentButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  background: #635cf4;
+  color: #feffff;
+}
+
+.huddle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.inboxWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inboxDot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff7162;
+  border: 1px solid #141517;
+}
+
+.countText {
+  font-size: 14px;
+  line-height: 1;
+  color: #80808a;
+}
+
+.toolbarIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toolbarAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd5a8 0%, #f79bb4 45%, #7a6cff 100%);
+}
