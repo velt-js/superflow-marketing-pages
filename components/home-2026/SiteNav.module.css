@@ -285,29 +285,29 @@
 
 /* The panel is always a solid white surface with dark text, so its content is
    legible regardless of the header's transparent/scrolled state. */
-/* Full-width sheet: the white surface + hairline border span the whole viewport
-   and drop flush under the fixed nav bar (top: 100% of the header). The actual
-   columns are centred inside via .megaInner so they line up under the nav. */
+/* Floating card: a contained, rounded white panel centred under the nav bar
+   (not a full-width sheet). It sits a few px below the bar and animates in. */
 .megaMenu {
   position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  top: calc(100% + 6px);
+  left: 50%;
+  width: min(720px, calc(100vw - 40px));
   box-sizing: border-box;
   font-family: var(--font-urbanist), system-ui, sans-serif;
   background-color: #ffffff;
-  border-bottom: 1px solid rgba(17, 20, 45, 0.08);
-  box-shadow: 0 28px 44px -20px rgba(17, 20, 45, 0.28);
+  border: 1px solid rgba(17, 20, 45, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -28px rgba(17, 20, 45, 0.4);
   /* Closed: lifted, faded, and non-interactive. */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(-8px);
+  transform: translateX(-50%) translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
   z-index: 20;
 }
 
-/* Invisible hover bridge covering the sliver between the nav bar and the panel,
+/* Invisible hover bridge covering the sliver between the nav bar and the card,
    so the pointer never crosses an unhovered dead-zone on the way down. */
 .megaMenu::before {
   content: "";
@@ -315,26 +315,25 @@
   left: 0;
   right: 0;
   bottom: 100%;
-  height: 18px;
+  height: 14px;
 }
 
 .megaMenuOpen {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
-/* Centred content column, aligned to the nav's own inner width + gutters. */
+/* The card's inner grid. */
 .megaInner {
   box-sizing: border-box;
   width: 100%;
-  max-width: calc(var(--nav-content-width) + var(--nav-gutter) * 2);
-  margin: 0 auto;
-  padding: 40px var(--nav-gutter) 48px;
+  padding: 24px 12px 12px;
   display: grid;
+  /* Three equal-width groups: AI layer · Review anywhere · Workflow & ops. */
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px 56px;
+  gap: 20px 32px;
   align-items: start;
 }
 
@@ -350,29 +349,30 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  /* Tinted per group via the tone modifier; falls back to a neutral grey. */
-  color: var(--menu-accent, #9a9aa2);
+  /* Neutral grey across every group (icons stay tinted per tone). */
+  color: #8a8f9a;
 }
 
 .megaLinks {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
+/* Plain row: a bare icon glyph + label. No tile, no border — the card is the
+   surrounding panel. Only a soft accent wash on hover. */
 .megaLink {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 10px 12px;
-  border-radius: 12px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
   text-decoration: none;
   color: #101012;
   transition: background-color 0.15s ease;
 }
 
 .megaLink:hover {
-  /* Soft wash of the group accent instead of a flat grey. */
   background-color: var(--menu-wash, rgba(0, 0, 0, 0.04));
 }
 
@@ -381,19 +381,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  margin-top: 1px;
-  border-radius: 11px;
-  /* Soft tinted tile + matching coloured icon, themed per group. */
-  background-color: var(--menu-tint, #f2f3f5);
+  width: 24px;
+  height: 24px;
+  /* Bare coloured glyph, themed per group — no background tile. */
   color: var(--menu-accent, #3a3a40);
-}
-
-.megaLinkText {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
 }
 
 .megaLinkLabel {
@@ -402,13 +393,6 @@
   line-height: 1.25;
   letter-spacing: 0.1px;
   color: #16161a;
-}
-
-.megaLinkDesc {
-  font-size: 12.5px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #74747e;
 }
 
 /* Per-group colour tones. Each sets the accent (heading + icon glyph), the soft
@@ -529,12 +513,12 @@
   outline-offset: 2px;
 }
 
-/* Narrower desktops: tighten the column gaps/padding so the three groups keep
+/* Narrower desktops: tighten the column gaps so the four columns keep
    comfortable breathing room without crowding. */
 @media (max-width: 1000px) {
   .megaInner {
-    gap: 24px 32px;
-    padding: 32px var(--nav-gutter) 40px;
+    gap: 18px 22px;
+    padding: 24px 22px 24px;
   }
 }
 

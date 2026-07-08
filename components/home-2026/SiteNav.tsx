@@ -20,6 +20,8 @@ import {
   PaletteIcon,
   RouteIcon,
   LayoutKanbanIcon,
+  UserCheckIcon,
+  DevicesIcon,
 } from "./HeroIcons";
 
 /** A single top-navigation entry. Chevron is shown for menu-style links. */
@@ -127,6 +129,18 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
         href: `${FEATURE_ROUTE_PREFIX}comments`,
         description: "Pin feedback directly onto any page",
         Icon: MessageIcon,
+      },
+      {
+        label: "Client Review",
+        href: `${FEATURE_ROUTE_PREFIX}client-review`,
+        description: "Clients approve from a link, no account",
+        Icon: UserCheckIcon,
+      },
+      {
+        label: "Cross-Device Review",
+        href: `${FEATURE_ROUTE_PREFIX}cross-device-review`,
+        description: "Review on real phones and tablets",
+        Icon: DevicesIcon,
       },
       {
         label: "Private Comments",
@@ -614,12 +628,7 @@ export default function SiteNav() {
                     <span className={styles.megaLinkIcon}>
                       <link.Icon size={20} />
                     </span>
-                    <span className={styles.megaLinkText}>
-                      <span className={styles.megaLinkLabel}>{link.label}</span>
-                      <span className={styles.megaLinkDesc}>
-                        {link.description}
-                      </span>
-                    </span>
+                    <span className={styles.megaLinkLabel}>{link.label}</span>
                   </a>
                 ))}
               </div>

@@ -452,6 +452,17 @@ export function EyeOffIcon(props: IconProps) {
   );
 }
 
+/** Devices icon — a monitor beside a phone; represents cross-device review. */
+export function DevicesIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M13 9a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1v-10" />
+      <path d="M18 8v-3a1 1 0 0 0 -1 -1h-13a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h9" />
+      <path d="M16 9h2" />
+    </IconBase>
+  );
+}
+
 /** A hero-tab icon component: accepts native SVG props plus an optional size. */
 export type HeroTabIconComponent = ComponentType<
   SVGProps<SVGSVGElement> & { size?: number }
@@ -497,6 +508,7 @@ export const HERO_TAB_ICONS: Readonly<Record<string, HeroTabIconComponent>> = {
   route: RouteIcon,
   eye: EyeIcon,
   "eye-off": EyeOffIcon,
+  devices: DevicesIcon,
 };
 
 /** Fallback icon used when a hero-tab icon name is missing or unknown. */
