@@ -17,14 +17,20 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+// Standalone GA4 measurement ID (installed via gtag.js in
+// ThirdPartyScripts.tsx). Kept in sync with GA_MEASUREMENT_ID there.
+const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
+
 type DataLayerEntry = Record<string, unknown>;
 type MixpanelFn = (...args: unknown[]) => void;
 type MixpanelClient = {
   track_pageview?: MixpanelFn;
 };
+type GtagFn = (...args: unknown[]) => void;
 type WindowWithAnalytics = Window & {
   dataLayer?: DataLayerEntry[];
   mixpanel?: MixpanelClient;
+  gtag?: GtagFn;
 };
 
 export function PageviewTracker() {
@@ -53,6 +59,18 @@ export function PageviewTracker() {
       if (Array.isArray(w.dataLayer)) {
         w.dataLayer.push({
           event: "page_view",
+          page_path: pagePath,
+          page_location: pageLocation,
+          page_title: pageTitle,
+        });
+      }
+
+      // GA4 (gtag.js) — standalone property installed directly (not via
+      // GTM), so it does not react to the dataLayer push above. Fire an
+      // explicit page_view on SPA navigations; gtag's initial config call
+      // in ThirdPartyScripts.tsx only covers the first hard load.
+      if (typeof w.gtag === "function") {
+        w.gtag("event", "page_view", {
           page_path: pagePath,
           page_location: pageLocation,
           page_title: pageTitle,
