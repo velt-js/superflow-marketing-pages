@@ -21,6 +21,9 @@ import styles from "./BrowserChrome.module.css";
 
 const DEFAULT_ADDRESS = "your-site.com";
 
+/** Label shown inside the optional green "Live" pill on the address bar. */
+const LIVE_TAG_LABEL = "Live";
+
 /** Shared props for every inline chrome glyph: an optional pixel size. */
 type GlyphProps = {
   /** Rendered width/height in pixels. */
@@ -185,14 +188,27 @@ export interface BrowserChromeProps {
    * Defaults to true.
    */
   showActions?: boolean;
+  /**
+   * When true, a pulsing green "Live" pill is rendered at the leading edge of
+   * the address bar (the address text stays centered). Used by the "Live Site"
+   * view to signal the comment lands on the real running site. Defaults to
+   * false.
+   */
+  liveTag?: boolean;
+  /**
+   * When true, render the address text one step smaller. Used by the
+   * "Versioning" view so the wide right-aligned URL reads tidier next to the
+   * version rail, without shrinking it for the other scenes. Defaults to false.
+   */
+  compactAddress?: boolean;
 }
 
 /**
  * Render the browser chrome bar: navigation chevrons, reload + bookmark, a
  * centered address pill and (optionally) the trailing share + menu actions.
  *
- * @param props - Optional positioning class, address text/alignment and a flag
- *   toggling the trailing actions.
+ * @param props - Optional positioning class, address text/alignment, a flag
+ *   toggling the trailing actions and a flag toggling the "Live" pill.
  * @returns The chrome bar element.
  */
 export default function BrowserChrome({
@@ -200,12 +216,17 @@ export default function BrowserChrome({
   address = DEFAULT_ADDRESS,
   addressAlign = "center",
   showActions = true,
+  liveTag = false,
+  compactAddress = false,
 }: BrowserChromeProps = {}) {
   const rootClassName = className ? `${styles.chrome} ${className}` : styles.chrome;
   const addressBarClassName =
     addressAlign === "right"
       ? `${styles.addressBar} ${styles.addressBarRight}`
       : styles.addressBar;
+  const addressTextClassName = compactAddress
+    ? `${styles.addressText} ${styles.addressTextCompact}`
+    : styles.addressText;
 
   return (
     <header className={rootClassName}>
@@ -216,7 +237,13 @@ export default function BrowserChrome({
         <BookmarkIcon size={16} />
       </div>
       <div className={addressBarClassName}>
-        <span className={styles.addressText}>{address}</span>
+        {liveTag ? (
+          <span className={styles.livePill}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            {LIVE_TAG_LABEL}
+          </span>
+        ) : null}
+        <span className={addressTextClassName}>{address}</span>
       </div>
       {showActions ? (
         <div className={styles.controls}>

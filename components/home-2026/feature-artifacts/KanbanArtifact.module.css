@@ -1,9 +1,10 @@
 /* Feature-section app-window artifact — "Kanban".
-   An "Open" column (four cards) and an "In Progress" column (three cards) that
-   bleeds off the right edge, each card the shared CommentThreadCard rendered in
-   its minimal, header-less form. Elements are absolutely positioned at native
-   pixel coordinates inside the visible ~631px frame; the right/bottom edges are
-   clipped by the root's overflow. */
+   An "Open" column and an "In Progress" column (which bleeds off the right edge)
+   of the shared CommentThreadCard, rendered in its minimal, header-less form.
+   Elements are absolutely positioned at native pixel coordinates inside the
+   visible ~631px frame; the right/bottom edges are clipped by the root's
+   overflow. After the cards rise in, the bottom Open card (`.mover`) lifts and
+   is dragged diagonally into In Progress, and the count badges tick over. */
 
 .root {
   position: relative;
@@ -56,6 +57,7 @@
 }
 
 .count {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -67,6 +69,25 @@
   color: #8a8a8a;
   font-size: 13px;
   font-weight: 600;
+}
+
+/* The two digits are stacked and crossfade as the dragged card lands, so the
+   column tallies stay honest (Open 4→3, In Progress 2→3). */
+.countFrom,
+.countTo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countFrom {
+  animation: kNumOut 3s ease 0.5s both;
+}
+
+.countTo {
+  animation: kNumIn 3s ease 0.5s both;
 }
 
 /* --------------------------------------------------------- comment cards */
@@ -96,12 +117,6 @@
   animation-delay: 0.36s;
 }
 
-.openD {
-  left: 48px;
-  top: 402px;
-  animation-delay: 0.44s;
-}
-
 .progressA {
   left: 404px;
   top: 84px;
@@ -114,10 +129,56 @@
   animation-delay: 0.32s;
 }
 
-.progressC {
-  left: 404px;
-  top: 296px;
-  animation-delay: 0.4s;
+/* Starts at the 4th Open slot, then is dragged into the 3rd In Progress slot.
+   Δx = 404 − 48 = 356px, Δy = 296 − 402 = −106px (see kMove). Sits above its
+   peers while in flight. */
+.mover {
+  left: 48px;
+  top: 402px;
+  z-index: 5;
+  animation: kMove 3s ease-in-out 0.5s both;
+}
+
+/* Fake mouse cursor that grabs and drags the mover. It lives inside the mover
+   so it rides along during the flight; only its icon state and a small "press"
+   are animated here. Positioned over the card body as the grab point. */
+.cursor {
+  position: absolute;
+  left: 150px;
+  top: 40px;
+  width: 26px;
+  height: 26px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.45));
+  animation: kCursorShow 3s ease-in-out 0.5s both;
+}
+
+.cursorArrow,
+.cursorGrab,
+.cursorGrabbed {
+  position: absolute;
+  inset: 0;
+}
+
+.cursorArrow svg,
+.cursorGrab svg,
+.cursorGrabbed svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cursorArrow {
+  animation: kCurArrow 3s ease 0.5s both;
+}
+
+.cursorGrab {
+  animation: kCurGrab 3s ease 0.5s both;
+}
+
+.cursorGrabbed {
+  animation: kCurGrabbed 3s ease 0.5s both;
 }
 
 /* Softly dissolve the lowest cards into the bottom edge. */
@@ -153,9 +214,159 @@
   }
 }
 
+/* Drag-and-drop: rise in (0–10%), hold, lift off (~48%), fly across while
+   raised (~82%), then set down into the In Progress slot (100%). */
+@keyframes kMove {
+  0% {
+    opacity: 0;
+    transform: translate(0, 16px) scale(1);
+    filter: drop-shadow(0 0 0 rgba(20, 20, 43, 0));
+  }
+  10% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    filter: drop-shadow(0 0 0 rgba(20, 20, 43, 0));
+  }
+  40% {
+    transform: translate(0, 0) scale(1);
+    filter: drop-shadow(0 0 0 rgba(20, 20, 43, 0));
+  }
+  48% {
+    transform: translate(0, -8px) scale(1.04);
+    filter: drop-shadow(0 18px 28px rgba(20, 20, 43, 0.22));
+  }
+  82% {
+    transform: translate(356px, -114px) scale(1.04);
+    filter: drop-shadow(0 18px 28px rgba(20, 20, 43, 0.22));
+  }
+  100% {
+    opacity: 1;
+    transform: translate(356px, -106px) scale(1);
+    filter: drop-shadow(0 0 0 rgba(20, 20, 43, 0));
+  }
+}
+
+/* Count digits crossfade right as the card drops into its new column. */
+@keyframes kNumOut {
+  0%,
+  82% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes kNumIn {
+  0%,
+  82% {
+    opacity: 0;
+  }
+  92%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Cursor arrives near the card, presses down as it grabs (~48%), then lifts
+   away and fades out after the drop. Matches the kMove phases. */
+@keyframes kCursorShow {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translate(7px, 7px) scale(1);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  44% {
+    transform: translate(0, 0) scale(1);
+  }
+  49% {
+    transform: translate(0, 0) scale(0.9);
+  }
+  56% {
+    transform: translate(0, 0) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, 6px) scale(1);
+  }
+}
+
+/* Icon states crossfade: arrow → open "grab" hand → closed "grabbed" hand
+   (through the lift + flight) → open "grab" on release. */
+@keyframes kCurArrow {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes kCurGrab {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  38%,
+  44% {
+    opacity: 1;
+  }
+  49%,
+  84% {
+    opacity: 0;
+  }
+  90%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes kCurGrabbed {
+  0%,
+  44% {
+    opacity: 0;
+  }
+  49%,
+  84% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .columnHeader,
   .card {
     animation: none;
+  }
+  /* Skip the drag — rest in the settled state (card already in In Progress,
+     counts showing their final values, no cursor). */
+  .mover {
+    animation: none;
+    transform: translate(356px, -106px);
+    filter: none;
+  }
+  .cursor {
+    display: none;
+  }
+  .countFrom {
+    display: none;
+  }
+  .countTo {
+    animation: none;
+    opacity: 1;
   }
 }

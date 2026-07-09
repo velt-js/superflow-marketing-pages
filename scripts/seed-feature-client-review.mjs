@@ -75,7 +75,7 @@ const doc = {
           "Send it by email, SMS, or WhatsApp. It opens the live page, not a portal — no account, no login screen anywhere in the loop.",
         icon: "link",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "guest-mode",
         tabs: [
           {
             _key: "magic-link",
@@ -109,7 +109,7 @@ const doc = {
           "The client sees polished work, not the punch list, and clicks the spot to comment — no training, no tutorial, no manual.",
         icon: "message-circle",
         accent: "#109534",
-        mock: "workflow",
+        mock: "guest-mode",
         tabs: [
           {
             _key: "cleaned-up",
@@ -124,6 +124,7 @@ const doc = {
             icon: "pin",
             oneLiner:
               "They click the element and type. No training, no tutorial, no manual.",
+            mock: "pinned-comments",
           },
           {
             _key: "what-they-never-see",
@@ -143,7 +144,7 @@ const doc = {
           "One tap approves, timestamped and recorded with the client's name — then the status flips, the board moves, and your team knows.",
         icon: "circle-check",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "guest-mode",
         tabs: [
           {
             _key: "approve-button",
@@ -158,6 +159,7 @@ const doc = {
             icon: "refresh",
             oneLiner:
               "The status flips, the board moves, your team knows. Approved work is ready to ship.",
+            mock: "kanban",
           },
         ],
       },

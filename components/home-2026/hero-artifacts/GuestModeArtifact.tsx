@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from "react";
 import styles from "./GuestModeArtifact.module.css";
-import HeroCommentComposer from "./CommentComposer";
+import HeroCommentComposer, { INCOGNITO_AVATAR } from "./CommentComposer";
 
 /**
  * Hero tab artifact — "Guest Mode".
@@ -379,9 +379,14 @@ type CountedToolButton = {
  * Render the Superflow floating toolbar with the brand mark, comment/huddle
  * controls, inbox + alert counters and the share/overflow actions.
  *
+ * Exported so the comments hero-fit wrapper (`CommentsHeroFit`) can paint the
+ * exact same bottom toolbar over the reused comment scenes without duplicating
+ * this markup; it stays self-contained (no props) and its `.toolbar` class
+ * absolutely positions it at the bottom-centre of the surrounding hero window.
+ *
  * @returns The floating toolbar element.
  */
-function FloatingToolbar() {
+export function FloatingToolbar() {
   const inboxButton: CountedToolButton = {
     icon: (
       <span className={styles.inboxWrap}>
@@ -437,7 +442,7 @@ export default function GuestModeArtifact() {
     <div className={styles.root} data-artifact="guest-mode">
       <ChromeBar />
       <PageBody />
-      <HeroCommentComposer className={styles.popover} />
+      <HeroCommentComposer className={styles.popover} avatar={INCOGNITO_AVATAR} />
       <div className={styles.guestPill}>
         <span className={styles.guestPillText}>{GUEST_TEXT}</span>
         <span className={styles.loginButton}>{LOGIN_TEXT}</span>

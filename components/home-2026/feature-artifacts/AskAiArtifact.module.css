@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 28px 32px;
+  padding: 28px 32px 64px;
 }
 
 /* Message thread. Vertically centred in the available space so the conversation

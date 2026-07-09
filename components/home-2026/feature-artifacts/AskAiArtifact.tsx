@@ -27,9 +27,15 @@ const HEADING_REST = " are the most common, Here is a breakdown";
 /** Placeholder shown in the chat input bar (echoes the tab's one-liner). */
 const INPUT_PLACEHOLDER = "Ask the review history anything…";
 
-/** Repeated legend label strings, kept as constants to avoid duplication. */
+/** Breakdown slice labels — three distinct copy-issue categories. */
 const LABEL_PLACEHOLDER_TEXT = "Placeholder Text";
 const LABEL_INCORRECT_NAMES = "Incorrect Names";
+const LABEL_TYPOS_GRAMMAR = "Typos & Grammar";
+
+/** Slice ids, shared between the progress bar and its legend to stay in sync. */
+const SLICE_PLACEHOLDER_TEXT = "placeholder-text";
+const SLICE_INCORRECT_NAMES = "incorrect-names";
+const SLICE_TYPOS_GRAMMAR = "typos-grammar";
 
 /** Exact segment/dot fills from the Figma design. */
 const COLOR_RED = "#ff5352";
@@ -47,7 +53,7 @@ const SEND_PATHS: readonly string[] = [
 type ProgressSegment = {
   id: string;
   color: string;
-  /** Relative flex weight (2 / 1 / 1 reproduces the 50% / 25% / 25% split). */
+  /** Relative flex weight (5 / 3 / 2 reproduces the 50% / 30% / 20% split). */
   flex: number;
 };
 
@@ -60,34 +66,34 @@ type LegendRow = {
 };
 
 /**
- * Progress-bar segments, left to right. Weights mirror the 50/25/25 breakdown
+ * Progress-bar segments, left to right. Weights mirror the 50/30/20 breakdown
  * so the bar stays proportional at any bubble width.
  */
 const PROGRESS_SEGMENTS: readonly ProgressSegment[] = [
-  { id: "copy-issues", color: COLOR_RED, flex: 2 },
-  { id: "incorrect-names-amber", color: COLOR_AMBER, flex: 1 },
-  { id: "incorrect-names-purple", color: COLOR_PURPLE, flex: 1 },
+  { id: SLICE_PLACEHOLDER_TEXT, color: COLOR_RED, flex: 5 },
+  { id: SLICE_INCORRECT_NAMES, color: COLOR_AMBER, flex: 3 },
+  { id: SLICE_TYPOS_GRAMMAR, color: COLOR_PURPLE, flex: 2 },
 ];
 
 /** Legend rows describing each breakdown slice. */
 const LEGEND_ROWS: readonly LegendRow[] = [
   {
-    id: "copy-issues",
+    id: SLICE_PLACEHOLDER_TEXT,
     color: COLOR_RED,
     label: LABEL_PLACEHOLDER_TEXT,
     value: "50%",
   },
   {
-    id: "incorrect-names-amber",
+    id: SLICE_INCORRECT_NAMES,
     color: COLOR_AMBER,
     label: LABEL_INCORRECT_NAMES,
-    value: "25%",
+    value: "30%",
   },
   {
-    id: "incorrect-names-purple",
+    id: SLICE_TYPOS_GRAMMAR,
     color: COLOR_PURPLE,
-    label: LABEL_INCORRECT_NAMES,
-    value: "25%",
+    label: LABEL_TYPOS_GRAMMAR,
+    value: "20%",
   },
 ];
 

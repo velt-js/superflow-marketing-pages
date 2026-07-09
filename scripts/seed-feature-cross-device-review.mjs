@@ -74,7 +74,7 @@ const doc = {
           "Open the site on a real phone or tablet, or emulate any screen in your browser — on production or on the staging link before it goes live.",
         icon: "devices",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "all-devices",
         tabs: [
           {
             _key: "real-device",
@@ -106,7 +106,7 @@ const doc = {
           "Every comment records the view it was left on, and agents check both views the moment the site changes — same checklist, no extra setup.",
         icon: "list-check",
         accent: "#109534",
-        mock: "agent-gallery",
+        mock: "all-devices",
         tabs: [
           {
             _key: "device-tagged",
@@ -121,6 +121,7 @@ const doc = {
             icon: "robot",
             oneLiner:
               "Cramped tap targets and clipped headlines get flagged on mobile even when desktop passes. Same checklist, no extra setup.",
+            mock: "review-agents",
           },
         ],
       },
@@ -131,7 +132,7 @@ const doc = {
           "The review link opens the mobile view natively, so your client comments and approves from the phone already in their hand.",
         icon: "user-check",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "guest-mode",
         tabs: [
           {
             _key: "client-phone",

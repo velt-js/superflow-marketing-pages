@@ -66,7 +66,7 @@ const HOME_TABS: readonly ShowcaseTab[] = [
   { id: "agents", label: "Build Agents", Icon: WandIcon },
   { id: "anonymous-login", label: "Guest Mode", Icon: KeyIcon },
   { id: "private-comment", label: "Private Comments", Icon: LockIcon },
-  { id: "integrations", label: "Integrations", Icon: PlugIcon },
+  { id: "integrations", label: "2 Way Integrations", Icon: PlugIcon },
 ];
 
 /** Tab preset for the /preview/features/review-agents feature page. */

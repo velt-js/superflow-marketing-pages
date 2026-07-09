@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, ReactNode, SVGProps } from "react";
 import Image from "next/image";
 import styles from "./CommentComposer.module.css";
 
@@ -19,6 +19,7 @@ import styles from "./CommentComposer.module.css";
 const DEFAULT_COMMENT_TEXT = "Client here! Can we change this ima";
 const DEFAULT_AVATAR_SRC = "/images/home-2026/hero/guest-avatar.png";
 const AVATAR_SIZE = 26;
+const INCOGNITO_GLYPH_SIZE = 17;
 
 /** A locally-drawn SVG icon accepting a pixel size plus native SVG props. */
 type LocalIconProps = SVGProps<SVGSVGElement> & { size?: number };
@@ -223,6 +224,26 @@ function ChevronDownIcon(props: LocalIconProps) {
   );
 }
 
+/**
+ * Spy glyph (fedora + sunglasses) — the "incognito" avatar shown in place of a
+ * photo when the commenter is an anonymous guest. Geometry is the Tabler `spy`
+ * icon (24×24 grid, 2px stroke), which matches {@link StrokeIcon}'s defaults.
+ *
+ * @param props - Local icon props.
+ * @returns The rendered icon.
+ */
+function IncognitoIcon(props: LocalIconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M3 11h18" />
+      <path d="M5 11v-4a3 3 0 0 1 3 -3h8a3 3 0 0 1 3 3v4" />
+      <path d="M4 17a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+      <path d="M14 17a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+      <path d="M10 17h4" />
+    </StrokeIcon>
+  );
+}
+
 /** Composer tool-row icons, left-to-right, matching the Figma node. */
 const COMPOSER_TOOLS: readonly ComposerToolIcon[] = [
   TextFormatIcon,
@@ -254,6 +275,19 @@ export interface HeroComposerAvatar {
   alt?: string;
 }
 
+/**
+ * Sentinel for the anonymous "incognito" avatar: a spy glyph (fedora +
+ * sunglasses) on a white disc, used when the commenter is a guest with no
+ * identity/photo (Guest Mode).
+ */
+export const INCOGNITO_AVATAR = "incognito" as const;
+
+/** The set of accepted avatar values for the composer's pin chip. */
+export type HeroComposerAvatarInput =
+  | HeroComposerAvatar
+  | typeof INCOGNITO_AVATAR
+  | null;
+
 /** Where the {@link HeroCommentComposerProps.mention} sits around the text. */
 export type MentionPlacement = "start" | "end";
 
@@ -272,6 +306,11 @@ export interface HeroCommentComposerProps {
    * header, exactly as the Guest Mode composer does.
    */
   header?: HeroComposerHeader;
+  /**
+   * Optional extra class applied to the header element, so a caller can animate
+   * the header in (e.g. the Private Comments "private mode enabled" reveal).
+   */
+  headerClassName?: string;
   /** Typed comment shown before the caret. Defaults to the guest sample text. */
   commentText?: string;
   /** Optional purple "@mention" rendered alongside {@link commentText}. */
@@ -279,10 +318,12 @@ export interface HeroCommentComposerProps {
   /** Where the mention sits relative to the text. Defaults to "end". */
   mentionPlacement?: MentionPlacement;
   /**
-   * Avatar pin content. Pass an image config, or `null` for the gradient
-   * placeholder disc (as in Integrations). Defaults to the guest avatar image.
+   * Avatar pin content. Pass an image config, `"incognito"` (or the exported
+   * {@link INCOGNITO_AVATAR}) for the anonymous spy-glyph disc used by guests,
+   * or `null` for the gradient placeholder disc (as in Integrations). Defaults
+   * to the guest avatar image.
    */
-  avatar?: HeroComposerAvatar | null;
+  avatar?: HeroComposerAvatarInput;
   /** Which side the avatar pin sits on. Defaults to "left". */
   avatarSide?: AvatarSide;
   /**
@@ -304,6 +345,7 @@ export interface HeroCommentComposerProps {
 export default function HeroCommentComposer({
   className,
   header,
+  headerClassName,
   commentText = DEFAULT_COMMENT_TEXT,
   mention,
   mentionPlacement = "end",
@@ -313,9 +355,12 @@ export default function HeroCommentComposer({
 }: HeroCommentComposerProps = {}) {
   const rootClassName = className ? `${styles.root} ${className}` : styles.root;
   const HeaderLockIcon = header?.locked ? LockClosedIcon : LockOpenIcon;
+  const useIncognitoAvatar = avatar === INCOGNITO_AVATAR;
   const useGradientAvatar = avatar === null;
-  const avatarSrc = avatar?.src ?? DEFAULT_AVATAR_SRC;
-  const avatarAlt = avatar?.alt ?? "";
+  const avatarConfig =
+    typeof avatar === "object" && avatar !== null ? avatar : null;
+  const avatarSrc = avatarConfig?.src ?? DEFAULT_AVATAR_SRC;
+  const avatarAlt = avatarConfig?.alt ?? "";
   const avatarChipClassName =
     avatarSide === "right"
       ? `${styles.avatarChip} ${styles.avatarChipRight}`
@@ -323,26 +368,33 @@ export default function HeroCommentComposer({
   const cardClassName = accent ? `${styles.card} ${styles.cardAccent}` : styles.card;
   const caretClassName = accent ? `${styles.caret} ${styles.caretAccent}` : styles.caret;
 
-  const avatarNode = (
-    <div className={avatarChipClassName}>
-      {useGradientAvatar ? (
-        <span className={styles.avatarPlaceholder} aria-hidden="true" />
-      ) : (
-        <Image
-          className={styles.avatar}
-          src={avatarSrc}
-          alt={avatarAlt}
-          width={AVATAR_SIZE}
-          height={AVATAR_SIZE}
-        />
-      )}
-    </div>
-  );
+  let avatarInner: ReactNode;
+  if (useIncognitoAvatar) {
+    avatarInner = (
+      <span className={styles.avatarIncognito}>
+        <IncognitoIcon size={INCOGNITO_GLYPH_SIZE} />
+      </span>
+    );
+  } else if (useGradientAvatar) {
+    avatarInner = <span className={styles.avatarPlaceholder} aria-hidden="true" />;
+  } else {
+    avatarInner = (
+      <Image
+        className={styles.avatar}
+        src={avatarSrc}
+        alt={avatarAlt}
+        width={AVATAR_SIZE}
+        height={AVATAR_SIZE}
+      />
+    );
+  }
+
+  const avatarNode = <div className={avatarChipClassName}>{avatarInner}</div>;
 
   const cardNode = (
     <div className={cardClassName}>
       {header ? (
-        <div className={styles.header}>
+        <div className={headerClassName ? `${styles.header} ${headerClassName}` : styles.header}>
           <HeaderLockIcon size={16} />
           <span className={styles.headerLabel}>{header.label}</span>
           <span className={styles.teamChip}>

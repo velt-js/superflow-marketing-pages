@@ -331,6 +331,7 @@ export default function PrivateCommentArtifact() {
       <HeroCommentComposer
         className={styles.composerGroup}
         header={{ label: VISIBLE_TO_LABEL, team: TEAM_LABEL }}
+        headerClassName={styles.composerHeaderReveal}
         mention={COMPOSER_MENTION}
         mentionPlacement="start"
         commentText={COMPOSER_TEXT}

@@ -55,7 +55,7 @@ type TrustLogo = {
  * Real customer logos reused from the previous homepage's logo bar
  * (components/home/LogoBar.tsx). The source PNGs are white marks on a
  * transparent background, so the trust strip inverts them to a muted dark
- * treatment (see `.logoImage` / `.logoRow` in Hero.module.css).
+ * treatment (see `.logoImage` / `.logoCarousel` in Hero.module.css).
  */
 const TRUST_LOGOS: readonly TrustLogo[] = [
   { src: "/images/home-2026/hero/logos/cox.png", alt: "Cox Automotive", width: 74, height: 24 },
@@ -67,6 +67,13 @@ const TRUST_LOGOS: readonly TrustLogo[] = [
   { src: "/images/home-2026/hero/logos/zanger.png", alt: "Zanger", width: 85, height: 26 },
   { src: "/images/home-2026/hero/logos/children.png", alt: "Children's Defense Fund", width: 78, height: 28 },
 ];
+
+/**
+ * The trust logos rendered twice, back to back, so the marquee track can scroll
+ * one full set and loop seamlessly (the animation translates by exactly half
+ * the track). The second set is a visual clone hidden from assistive tech.
+ */
+const CAROUSEL_LOGOS: readonly TrustLogo[] = [...TRUST_LOGOS, ...TRUST_LOGOS];
 
 /**
  * 01 / Hero — top section of the 2026 Superflow marketing homepage.
@@ -149,17 +156,27 @@ export default function Hero({
             {" and "}
             <span className={styles.trustedAccent}>marketing agencies</span>.
           </p>
-          <div className={styles.logoRow}>
-            {TRUST_LOGOS.map((logo) => (
-              <Image
-                key={logo?.src}
-                className={styles.logoImage}
-                src={logo?.src}
-                alt={logo?.alt}
-                width={logo?.width}
-                height={logo?.height}
-              />
-            ))}
+          <div className={styles.logoCarousel}>
+            <div className={styles.logoTrack}>
+              {CAROUSEL_LOGOS.map((logo, index) => {
+                const isClone = index >= TRUST_LOGOS.length;
+                return (
+                  <span
+                    key={`${logo?.src}-${index}`}
+                    className={styles.logoItem}
+                    aria-hidden={isClone || undefined}
+                  >
+                    <Image
+                      className={styles.logoImage}
+                      src={logo?.src}
+                      alt={isClone ? "" : logo?.alt}
+                      width={logo?.width}
+                      height={logo?.height}
+                    />
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

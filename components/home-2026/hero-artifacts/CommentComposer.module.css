@@ -40,6 +40,19 @@
   background: linear-gradient(150deg, #f6cfa6 0%, #d59a86 45%, #8a5a6a 100%);
 }
 
+/* Anonymous "incognito" disc: white spy glyph on a dark navy fill, for guest
+   commenters. */
+.avatarIncognito {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2c2c53;
+  color: #ffffff;
+}
+
 .card {
   width: 328px;
   display: flex;

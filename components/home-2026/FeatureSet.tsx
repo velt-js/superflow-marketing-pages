@@ -90,6 +90,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Every thread keeps the page versions it spanned.",
         loss: "Without it, nobody can tell which version a comment was about.",
         collapsesFirstTab: true,
+        mock: "versioning",
       },
       {
         label: "Live Site",
@@ -97,6 +98,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Comment on the real site, not a stale copy of it.",
         loss: "Without it, comments live on screenshots of a site that has already changed.",
         collapsesFirstTab: true,
+        mock: "live-site",
       },
     ],
     mock: "workflow",
@@ -139,6 +141,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner:
           "Screen-record feedback right where you review, no separate Loom link.",
         loss: "Without them, nuanced feedback becomes paragraphs nobody reads.",
+        mock: "record-walkthrough",
       },
     ],
     mock: "workflow",
@@ -164,6 +167,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         icon: "route",
         oneLiner: "Multi-step review flows with client gates and escalation rules.",
         loss: "Without them, approvals run from memory and steps get skipped.",
+        mock: "workflows",
       },
       {
         label: "Kanban",

@@ -116,6 +116,41 @@ const HERO_TAB_ICON_OPTIONS = HERO_TAB_ICON_NAMES.map((iconName) => ({
   value: iconName,
 }));
 
+/**
+ * App-window mocks a FeatureSet block (or an individual tab) can render inside
+ * its white screen. Each `value` MUST match a key of the `MOCKS` registry in
+ * components/home-2026/FeatureSetBlock.tsx (an unknown value simply falls back
+ * to the generic "workflow" window rather than throwing). Several entries reuse
+ * the hero-section artifacts verbatim via HeroArtifactFit (review-agents,
+ * private-comments, guest-mode, integrations).
+ */
+const FEATURE_SET_MOCK_OPTIONS: readonly { title: string; value: string }[] = [
+  { title: "Workflow window (generic)", value: "workflow" },
+  { title: "AI Review Agents (agents at work)", value: "review-agents" },
+  { title: "Client Memory", value: "client-memory" },
+  { title: "Ask AI", value: "ask-ai" },
+  { title: "Pinned comment", value: "pinned-comments" },
+  { title: "Auto screenshot", value: "auto-screenshot" },
+  { title: "Private comments", value: "private-comments" },
+  { title: "Guest mode", value: "guest-mode" },
+  { title: "Behind login", value: "behind-login" },
+  { title: "All devices (desktop + mobile)", value: "all-devices" },
+  { title: "Kanban board", value: "kanban" },
+  { title: "Integrations (two-way sync)", value: "integrations" },
+  { title: "Custom statuses", value: "custom-statuses" },
+  { title: "Workflows (multi-step flow)", value: "workflows" },
+  { title: "Versioning", value: "versioning" },
+  { title: "Live site", value: "live-site" },
+  { title: "Record walkthrough", value: "record-walkthrough" },
+  { title: "Text Comments", value: "text-comments" },
+  { title: "Thread Comments", value: "thread-comments" },
+  { title: "Tracking & Task Management", value: "tracking-task-management" },
+  { title: "Robust Anchor", value: "robust-anchor" },
+  { title: "Attachment", value: "comment-attachment" },
+  { title: "Mentions", value: "comment-mentions" },
+  { title: "Reaction & Read Receipt", value: "reaction-read-receipt" },
+];
+
 // ---- Hero tab (CMS-driven labels for the shared product window) ----
 
 export const featureHeroTab = defineType({
@@ -283,6 +318,14 @@ export const featureBlockTab = defineType({
         "When on, activating this tab shrinks the first tab to icon-only to free room.",
       type: "boolean",
     }),
+    defineField({
+      name: "mock",
+      title: "App-window mock (per-tab override)",
+      description:
+        "Which built-in product mock renders when this tab is active. Leave empty to inherit the block's mock.",
+      type: "string",
+      options: { list: [...FEATURE_SET_MOCK_OPTIONS] },
+    }),
   ],
   preview: { select: { title: "label", subtitle: "oneLiner" } },
 });
@@ -324,15 +367,9 @@ export const featureBlock = defineType({
       name: "mock",
       title: "App-window mock",
       description:
-        "Which built-in product mock renders inside the block's white screen.",
+        "Which built-in product mock renders inside the block's white screen. An individual tab can override this via its own \"App-window mock\" field.",
       type: "string",
-      options: {
-        list: [
-          { title: "Agent gallery", value: "agent-gallery" },
-          { title: "Workflow", value: "workflow" },
-        ],
-        layout: "radio",
-      },
+      options: { list: [...FEATURE_SET_MOCK_OPTIONS] },
       initialValue: "workflow",
       validation: (rule) => rule.required(),
     }),

@@ -122,33 +122,37 @@ function RobotIcon({ size }: IconProps): ReactNode {
 }
 
 /**
- * Grain glyph — a grid of dots — cueing scattered feedback in the comments
- * variant's header. Uses filled dots rather than the shared stroke style.
+ * Grain glyph — scattered dots — cueing scattered feedback in the comments
+ * variant's header. Stroked dots (inheriting the header's red via currentColor)
+ * arranged in the offset pattern from the design.
  * @param size Square pixel dimension for the SVG.
  */
 function GrainIcon({ size = 24 }: IconProps): ReactNode {
   const dots: readonly (readonly [number, number])[] = [
-    [5, 5],
-    [12, 5],
-    [19, 5],
-    [5, 12],
-    [12, 12],
-    [19, 12],
-    [5, 19],
-    [12, 19],
-    [19, 19],
+    [7.5, 15.833],
+    [15.833, 7.5],
+    [15.833, 24.167],
+    [7.5, 32.5],
+    [24.167, 15.833],
+    [32.5, 7.5],
+    [24.167, 32.5],
+    [32.5, 24.167],
   ];
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      viewBox="0 0 40 40"
       aria-hidden="true"
       focusable="false"
-      fill="currentColor"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3.33333}
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       {dots.map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={1.7} />
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={1.667} />
       ))}
     </svg>
   );
@@ -163,6 +167,54 @@ function MessageIcon({ size }: IconProps): ReactNode {
   return (
     <SolutionIcon size={size}>
       <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * The multi-color Slack logo shown in the first feedback card. Uses its own
+ * brand fills rather than the shared stroke style.
+ * @param size Square pixel dimension for the SVG.
+ */
+function SlackGlyph({ size = 24 }: IconProps): ReactNode {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 122.8 122.8"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zM32.3 77.6c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
+        fill="#e01e5a"
+      />
+      <path
+        d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zM45.2 32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
+        fill="#36c5f0"
+      />
+      <path
+        d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zM90.5 45.2c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
+        fill="#2eb67d"
+      />
+      <path
+        d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zM77.6 90.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
+        fill="#ecb22e"
+      />
+    </svg>
+  );
+}
+
+/**
+ * Outlined envelope glyph shown in the second feedback card. Inherits its
+ * stroke color from the card so the email row reads magenta.
+ * @param size Square pixel dimension for the SVG.
+ */
+function EnvelopeGlyph({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="5" width="18" height="14" rx="2.5" />
+      <path d="M3.5 7.5l8.5 6l8.5 -6" />
     </SolutionIcon>
   );
 }
@@ -463,12 +515,16 @@ const COMMENTS_HEADING_TEXT = "No more scattered feedback on 5 different apps";
 const COMMENTS_SUBHEADING_TEXT =
   "Leave feedback where your website or asset lives.";
 const COMMENTS_SITE_URL = "your-site.com";
+const COMMENTS_MESSAGE_SLACK =
+  "Sent you feedback on Email. Also change the CTA to green";
+const COMMENTS_MESSAGE_EMAIL = "Here are the changes for the…";
 
 /* Reveal delays (ms) sequencing the comments diagram left-to-right. */
 const COMMENTS_REVEAL_BUBBLE_BASE_MS = 500;
 const COMMENTS_REVEAL_BUBBLE_STEP_MS = 90;
 const COMMENTS_REVEAL_CONNECTOR_MS = 900;
 const COMMENTS_REVEAL_BROWSER_MS = 1050;
+const COMMENTS_REVEAL_PIN_MS = 1250;
 
 /**
  * Comments variant of the flow diagram: scattered feedback bubbles on the
@@ -482,34 +538,42 @@ function SolutionCommentsFlow(): ReactNode {
       <div className={styles.commentsBubbles}>
         <div className={styles.bubbleRow}>
           <span
-            className={`${styles.bubbleAvatar} ${styles.revealItem}`}
+            className={`${styles.appCard} ${styles.revealItem}`}
             style={revealDelayStyle(COMMENTS_REVEAL_BUBBLE_BASE_MS)}
+            aria-hidden="true"
           >
-            <span className={styles.bubbleDot} />
+            <SlackGlyph size={38} />
+            <span className={styles.appCardDot} />
           </span>
-          <span
-            className={`${styles.bubbleBar} ${styles.revealItem}`}
+          <p
+            className={`${styles.messageBubble} ${styles.revealItem}`}
             style={revealDelayStyle(
               COMMENTS_REVEAL_BUBBLE_BASE_MS + COMMENTS_REVEAL_BUBBLE_STEP_MS,
             )}
-          />
+          >
+            {COMMENTS_MESSAGE_SLACK}
+          </p>
         </div>
         <div className={`${styles.bubbleRow} ${styles.bubbleRowOffset}`}>
-          <span
-            className={`${styles.bubbleBar} ${styles.bubbleBarShort} ${styles.revealItem}`}
+          <p
+            className={`${styles.messageBubble} ${styles.revealItem}`}
             style={revealDelayStyle(
               COMMENTS_REVEAL_BUBBLE_BASE_MS +
                 COMMENTS_REVEAL_BUBBLE_STEP_MS * 2,
             )}
-          />
+          >
+            {COMMENTS_MESSAGE_EMAIL}
+          </p>
           <span
-            className={`${styles.bubbleAvatar} ${styles.revealItem}`}
+            className={`${styles.appCard} ${styles.appCardEmail} ${styles.revealItem}`}
             style={revealDelayStyle(
               COMMENTS_REVEAL_BUBBLE_BASE_MS +
                 COMMENTS_REVEAL_BUBBLE_STEP_MS * 3,
             )}
+            aria-hidden="true"
           >
-            <span className={styles.bubbleDot} />
+            <EnvelopeGlyph size={30} />
+            <span className={styles.appCardDot} />
           </span>
         </div>
       </div>
@@ -537,7 +601,11 @@ function SolutionCommentsFlow(): ReactNode {
               className={`${styles.browserLine} ${styles.browserLineShort}`}
             />
           </div>
-          <span className={styles.commentPin} aria-hidden="true" />
+          <span
+            className={`${styles.commentPin} ${styles.revealItem}`}
+            style={revealDelayStyle(COMMENTS_REVEAL_PIN_MS)}
+            aria-hidden="true"
+          />
         </div>
       </div>
     </div>

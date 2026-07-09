@@ -530,7 +530,8 @@ export async function getFeaturePageBySlug(slug: string) {
             loss,
             href,
             listOnly,
-            collapsesFirstTab
+            collapsesFirstTab,
+            mock
           }
         }
       },
@@ -603,7 +604,8 @@ const INTEGRATION_PREVIEW_PAGE_PROJECTION = `
         loss,
         href,
         listOnly,
-        collapsesFirstTab
+        collapsesFirstTab,
+        mock
       }
     }
   },
@@ -693,7 +695,8 @@ export async function getIntegrationPreviewHub() {
             loss,
             href,
             listOnly,
-            collapsesFirstTab
+            collapsesFirstTab,
+            mock
           }
         }
       },

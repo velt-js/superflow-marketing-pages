@@ -89,7 +89,7 @@ const memory = {
           "Brand guides, guidelines, and checklists go in once, and every review teaches Memory more about each client.",
         icon: "database",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "client-memory",
         tabs: [
           {
             _key: "one-time-uploads",
@@ -114,7 +114,7 @@ const memory = {
           "Everything Memory keeps is scoped to one client — rules, taste, and decisions, held apart from every other account.",
         icon: "database",
         accent: "#109534",
-        mock: "workflow",
+        mock: "client-memory",
         tabs: [
           {
             _key: "per-client-memory",
@@ -139,7 +139,7 @@ const memory = {
           "Memory grounds the agents, powers Ask AI, and surfaces suggestions before mistakes ship.",
         icon: "sparkles",
         accent: "#e0820a",
-        mock: "agent-gallery",
+        mock: "client-memory",
         tabs: [
           {
             _key: "agent-grounding",
@@ -147,6 +147,7 @@ const memory = {
             icon: "robot",
             oneLiner:
               "Agents check every new asset against that client's memory, not just generic rules.",
+            mock: "review-agents",
           },
           {
             _key: "proactive-suggestions",
@@ -161,6 +162,7 @@ const memory = {
             icon: "message-chatbot",
             oneLiner:
               "Every answer Ask AI gives is grounded in what Memory holds.",
+            mock: "ask-ai",
           },
         ],
       },
@@ -171,7 +173,7 @@ const memory = {
           "The more a client reviews, the more their next review starts already knowing.",
         icon: "refresh",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "client-memory",
         tabs: [
           {
             _key: "sharper-every-project",
@@ -306,7 +308,7 @@ const kanbanBoard = {
           "Every client's queue on a single board, filtered to one account or project in a click.",
         icon: "layout-kanban",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "kanban",
         tabs: [
           {
             _key: "cross-client-board",
@@ -331,7 +333,7 @@ const kanbanBoard = {
           "Review activity drives the status, and the columns match how your team already works.",
         icon: "bolt",
         accent: "#109534",
-        mock: "workflow",
+        mock: "kanban",
         tabs: [
           {
             _key: "self-moving-cards",
@@ -346,6 +348,7 @@ const kanbanBoard = {
             icon: "settings",
             oneLiner:
               "Add the statuses your team already uses and each becomes a column.",
+            mock: "custom-statuses",
           },
         ],
       },
@@ -356,7 +359,7 @@ const kanbanBoard = {
           "Keep the board you already run: two-way sync, webhooks out, and the REST API in.",
         icon: "plug",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "integrations",
         tabs: [
           {
             _key: "two-way-sync",
@@ -491,7 +494,7 @@ const authenticatedPages = {
           "Superflow loads with the page inside the viewer's own session, so the login never blocks a review.",
         icon: "lock-open",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "behind-login",
         tabs: [
           {
             _key: "review-inside-login",
@@ -523,7 +526,7 @@ const authenticatedPages = {
           "If your users can log in, review works there — on staging, portals, member areas, and intranets.",
         icon: "lock",
         accent: "#109534",
-        mock: "workflow",
+        mock: "behind-login",
         tabs: [
           {
             _key: "auth-types",
@@ -554,7 +557,7 @@ const authenticatedPages = {
           "Your enterprise client reviews their gated dashboard from inside their own system.",
         icon: "user-check",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "behind-login",
         tabs: [
           {
             _key: "client-own-portal",
@@ -572,7 +575,7 @@ const authenticatedPages = {
           "Gated pages get the same review process, audit trail, and snapshots as public ones.",
         icon: "checks",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "behind-login",
         tabs: [
           {
             _key: "one-process",
@@ -587,6 +590,7 @@ const authenticatedPages = {
             icon: "camera",
             oneLiner:
               "Automatic screenshots capture gated pages too, from inside the session, so every comment keeps its proof.",
+            mock: "auto-screenshot",
           },
         ],
       },
@@ -711,7 +715,7 @@ const screenshots = {
           "Every comment saves the page as the reviewer saw it, on public and gated sites, no extension.",
         icon: "camera",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "auto-screenshot",
         tabs: [
           {
             _key: "comment-time-capture",
@@ -733,6 +737,7 @@ const screenshots = {
             icon: "lock",
             oneLiner:
               "Works behind a login the same as on public pages.",
+            mock: "behind-login",
           },
         ],
       },
@@ -743,7 +748,7 @@ const screenshots = {
           "When an edit costs a comment its anchor, the snapshot still shows the original page.",
         icon: "history",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "versioning",
         tabs: [
           {
             _key: "lost-anchor",
@@ -768,7 +773,7 @@ const screenshots = {
           "You and your client look at the same full page, from any device.",
         icon: "share",
         accent: "#109534",
-        mock: "workflow",
+        mock: "auto-screenshot",
         tabs: [
           {
             _key: "client-snapshots",
@@ -793,7 +798,7 @@ const screenshots = {
           "The review record keeps the pages as reviewers saw them, comment by comment.",
         icon: "checks",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "auto-screenshot",
         tabs: [
           {
             _key: "approvals-context",
@@ -922,7 +927,7 @@ const reviewWorkflows = {
           "Drag agents, reviewers, and the client gate into order — and let a push start the flow.",
         icon: "route",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "workflows",
         tabs: [
           {
             _key: "visual-builder",
@@ -954,7 +959,7 @@ const reviewWorkflows = {
           "Conditions, parallel steps, and escalation decide when and how work moves.",
         icon: "settings",
         accent: "#109534",
-        mock: "workflow",
+        mock: "workflows",
         tabs: [
           {
             _key: "conditions",
@@ -986,7 +991,7 @@ const reviewWorkflows = {
           "The client gate closes the flow, notifications fire, and every project follows the same path.",
         icon: "user-check",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "workflows",
         tabs: [
           {
             _key: "client-gate",
@@ -994,6 +999,7 @@ const reviewWorkflows = {
             icon: "user-check",
             oneLiner:
               "The last node: your client approves from a link, no account, from their phone.",
+            mock: "guest-mode",
           },
           {
             _key: "notifications",
@@ -1124,7 +1130,7 @@ const privateComments = {
           "Scope a comment to just you, or to your whole team, pinned where it applies.",
         icon: "lock",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "private-comments",
         tabs: [
           {
             _key: "team-private",
@@ -1149,7 +1155,7 @@ const privateComments = {
           "Private and client-visible threads share one element, marked so nobody mistakes the scope.",
         icon: "message-circle",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "private-comments",
         tabs: [
           {
             _key: "side-by-side",
@@ -1174,7 +1180,7 @@ const privateComments = {
           "The client's link carries one clean thread and one settled answer — nothing private.",
         icon: "user-check",
         accent: "#109534",
-        mock: "workflow",
+        mock: "private-comments",
         tabs: [
           {
             _key: "clean-view",
@@ -1182,6 +1188,7 @@ const privateComments = {
             icon: "user-check",
             oneLiner:
               "The client's link carries client-visible threads only; nothing private travels with it.",
+            mock: "guest-mode",
           },
           {
             _key: "one-answer",
@@ -1199,7 +1206,7 @@ const privateComments = {
           "Even the alerts respect the scope, so nothing private reaches the client by accident.",
         icon: "lock",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "private-comments",
         tabs: [
           {
             _key: "scope-notifications",
@@ -1534,7 +1541,7 @@ const whiteLabel = {
           "Set the logo once, and every project — plus every agent finding — wears it.",
         icon: "checks",
         accent: "#109534",
-        mock: "agent-gallery",
+        mock: "workflow",
         tabs: [
           {
             _key: "one-upload",
@@ -1652,7 +1659,7 @@ const analytics = {
           "Three to five a week, each carrying the pattern, what it means, and its next step.",
         icon: "sparkles",
         accent: "#433df3",
-        mock: "agent-gallery",
+        mock: "workflow",
         tabs: [
           {
             _key: "insights-week",
@@ -1857,7 +1864,7 @@ const askAi = {
           "Ask in plain language, and every answer cites the comments and decisions behind it.",
         icon: "message-chatbot",
         accent: "#433df3",
-        mock: "agent-gallery",
+        mock: "ask-ai",
         tabs: [
           {
             _key: "plain-language",
@@ -1882,7 +1889,7 @@ const askAi = {
           "See which clients cost the most rounds, what's copy versus bugs, and the patterns across every project.",
         icon: "brain",
         accent: "#109534",
-        mock: "workflow",
+        mock: "ask-ai",
         tabs: [
           {
             _key: "per-client-answers",
@@ -1914,7 +1921,7 @@ const askAi = {
           "Surface where review load piles up, and catch stalled reviews and early churn signals.",
         icon: "history",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "ask-ai",
         tabs: [
           {
             _key: "load-by-team",
@@ -1939,7 +1946,7 @@ const askAi = {
           "Ask for a breakdown and get it generated from live review data — no dashboard to build.",
         icon: "sparkles",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "ask-ai",
         tabs: [
           {
             _key: "analytics-on-demand",

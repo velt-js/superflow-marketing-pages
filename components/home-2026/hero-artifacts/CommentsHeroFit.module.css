@@ -1,0 +1,59 @@
+/* Fit wrappers that let the hero window reuse the feature-section comment
+   artifacts verbatim (single source of truth). Those artifacts are authored for
+   the feature `.panelScreen` (1204 x 602, left-anchored, with the page content
+   — including a 676px browser chrome — intentionally bleeding off the right
+   where the narrower feature column clips it). The hero window's `.artifactFrame`
+   is a similar 1200 x 578 but is FULLY visible, so the raw artifact reads as one
+   giant card, not a real website.
+
+   So the wrapper composes three layers so the tab reads like a zoomed-out,
+   comment-enabled website — matching the home hero Guest/Private artifacts:
+   1. A full-width browser chrome band on top (`.chromeWrap` + the shared
+      `BrowserChrome`, matching the home hero "Agents at Work" chrome: controls
+      left, centered address pill, share + menu actions right). The artifact's
+      own panel chrome is suppressed via its `hero` prop.
+   2. The rest of the artifact on its native 1204 x 602 canvas, ZOOMED OUT and
+      offset (`.canvas`) so the comment card, pin and page element read as page
+      elements sitting between the chrome band and the toolbar; the page skeleton
+      content bleeds off the right edge and is clipped by `.fit`.
+   3. The home hero Superflow floating toolbar (reused `FloatingToolbar`), which
+      self-positions at the bottom-centre of `.fit`.
+
+   The five comments hero tabs share the same card anchor (~262–272px), so one
+   shared transform frames every one of them. */
+
+.fit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+}
+
+/* Full-width browser chrome band pinned to the top of the hero window, matching
+   the home hero chrome (`AgentsAtWorkArtifact` `.chromeWrap`): a padded row with
+   a hairline bottom border. It paints over the scaled canvas below. */
+.chromeWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  background: #feffff;
+}
+
+/* The artifact's native feature canvas, zoomed out + offset so the comment card
+   + pin + page element read as a page below the chrome band and above the
+   toolbar; the scaled page skeleton content intentionally bleeds off the right
+   edge and is clipped by `.fit`. */
+.canvas {
+  position: absolute;
+  top: var(--chf-top, 60px);
+  left: var(--chf-left, 224px);
+  width: 1204px;
+  height: 602px;
+  transform-origin: top left;
+  transform: scale(var(--chf-scale, 0.85));
+}

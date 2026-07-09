@@ -1,22 +1,460 @@
-/* Hero tab artifact — "Agents at Work" entrance animations.
+/* Hero tab artifact — "Agents at Work".
 
-   This is an ADDITIVE, animation-only module layered on top of the shared
-   Hero.module.css visual classes. The "Agents at Work" artifact reuses the
-   same shared classes as the generic fallback workflow window in
-   HeroWorkflowShowcase.tsx, so the entrance animations live here (applied via
-   an extra className in AgentsAtWorkArtifact.tsx) and never touch the shared
-   rules — the fallback window therefore stays completely static.
+   A browser window rendering a live website wireframe that QA agents review in
+   real time. Three Superflow-style multiplayer cursors fly in one after another,
+   sweep a selection over their target (a headline typo, a broken nav link, an
+   image missing alt text) and drop a comment pinned to it.
 
-   Conveys "agents running checks sequentially": the site + update nodes settle
-   in, the connector line grows between them, then the four check pills cascade
-   in one-by-one. The animations replay every time the tab mounts (React remounts
-   a fresh artifact instance on tab switch), giving the desired "on appear" feel.
-   Shared easing/duration keep this cohesive with the other four artifacts. */
+   The site is a fluid, normal-flow layout so it tracks the real (variable) hero
+   window width; each agent's selection, comment and cursor are anchored to their
+   target element (so they follow it at any width). Everything is CSS-only and
+   replays on tab mount; reduced-motion rests in the finished state. */
 
-@keyframes agentsNodeIn {
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the other hero artifacts so switching tabs never jumps. */
+  min-height: 578px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: #feffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+  /* Highlighter yellow a text selection turns once its comment is added. */
+  --aaw-highlight: #ffe86b;
+}
+
+/* ---------------------------------------------------------- browser chrome */
+
+.chromeWrap {
+  flex-shrink: 0;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.chrome {
+  animation: aawSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.viewport {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- wireframe */
+
+.site {
+  padding: 24px 40px 0;
+  animation: aawFade 0.4s ease both;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #14161c;
+}
+
+.brandMark {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #625df5, #3555dd);
+}
+
+.navLinks {
+  display: inline-flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.navLink,
+.navTarget {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.navTarget {
+  position: relative;
+  white-space: nowrap;
+}
+
+.cta {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #14161c;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* --- hero --- */
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px 0 24px;
+}
+
+.heroCopy {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: #3555dd;
+}
+
+.headline {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.7px;
+  color: #14161c;
+}
+
+.wordTarget {
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Target words render above their selection sweep. */
+.targetText {
+  position: relative;
+  z-index: 1;
+}
+
+.subhead {
+  margin: 16px 0 0;
+  max-width: 32ch;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btnPrimary {
+  background: #14161c;
+  color: #ffffff;
+}
+
+.btnGhost {
+  background: #ffffff;
+  color: #14161c;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.heroMediaTarget {
+  position: relative;
+  flex: 0 0 40%;
+}
+
+.heroMedia {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 208px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eef1f6, #e3e8f0);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: grid;
+  place-items: center;
+  color: #b7c0cf;
+}
+
+/* --- feature row (wireframe filler) --- */
+
+.features {
+  display: flex;
+  gap: 16px;
+}
+
+.featureCard {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+}
+
+.featureThumb {
+  height: 52px;
+  border-radius: 8px;
+  background: #eef1f6;
+}
+
+.featureTitle {
+  height: 10px;
+  width: 58%;
+  border-radius: 4px;
+  background: #d7dce4;
+}
+
+.featureLine {
+  height: 7px;
+  border-radius: 4px;
+  background: #eaedf2;
+}
+
+.featureLineShort {
+  width: 68%;
+}
+
+/* ============================================================= overlays */
+
+/* Selection sweep shared base (per-variant geometry + tone below). */
+.sel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Text highlights sweep in their agent tone, then flip to highlighter yellow
+   the moment their comment lands (aawHighlightYellow, delayed to each comment's
+   drop time) — reading as "this text now has a comment". */
+.selWord {
+  left: -3px;
+  right: -3px;
+  top: 0;
+  bottom: 1px;
+  border-radius: 4px;
+  background: color-mix(in srgb, #3555dd 22%, #ffffff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: aawSweep 0.34s ease 1.05s both,
+    aawHighlightYellow 0.3s ease 1.3s both;
+}
+
+.selLink {
+  left: -5px;
+  right: -5px;
+  top: -3px;
+  bottom: -3px;
+  border-radius: 5px;
+  background: color-mix(in srgb, #038e31 18%, #ffffff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: aawSweep 0.34s ease 1.95s both,
+    aawHighlightYellow 0.3s ease 2.2s both;
+}
+
+.selImg {
+  left: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px dashed #625df5;
+  border-radius: 16px;
+  opacity: 0;
+  transform: scale(0.97);
+  animation: aawRing 0.32s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
+}
+
+/* Teardrop avatar pin dropped on the image — the teardrop + photo avatar visual
+   is owned by the shared CommentPin component; this consumer class only places
+   it just above the comment's top-left corner (so the comment reads as pinned
+   to the image) and drives its entrance. */
+.pin {
+  position: absolute;
+  z-index: 41;
+  top: 74px;
+  left: 10px;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: bottom left;
+  animation: aawPinIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 3s both;
+}
+
+/* --- dropped comment bubble --- */
+
+.comment {
+  position: absolute;
+  z-index: 40;
+  width: 232px;
+  display: flex;
+  gap: 11px;
+  padding: 15px 17px;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  border-radius: 4px 14px 14px 14px;
+  box-shadow: 0 12px 30px rgba(20, 20, 43, 0.17);
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transform-origin: top left;
+}
+
+/* Round image container for the shared gradient agent avatar. */
+.commentAvatar {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.commentAvatarImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.commentBody {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.commentHead {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.commentName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #16181d;
+}
+
+.commentTime {
+  font-size: 11px;
+  color: #9aa1ad;
+}
+
+.commentText {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #3d414a;
+}
+
+/* Per-agent comment placement + drop-in timing. Each comment rests just beneath
+   its selection highlight (small ~8-14px gap). The cursors fade out after
+   dropping their comment, so the settled look wins; the offsets keep only enough
+   room that a holding cursor's name pill never lands on the comment text. */
+.commentSpell {
+  top: 40px;
+  left: -26px;
+  animation: aawDrop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
+}
+
+.commentLink {
+  top: 28px;
+  left: -28px;
+  animation: aawDrop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 2.2s both;
+}
+
+/* Sits well below the pin so the teardrop reads as its own marker with clear
+   space before the card, while staying inside the image as its annotation. */
+.commentAlt {
+  top: 112px;
+  left: 12px;
+  animation: aawDrop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 3.1s both;
+}
+
+/* --- Superflow-style agent cursor --- */
+
+.cursor {
+  position: absolute;
+  z-index: 50;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.cursorArrow {
+  display: block;
+  filter: drop-shadow(0 1px 1.6px rgba(0, 0, 0, 0.32));
+}
+
+.cursorLabel {
+  position: absolute;
+  top: 15px;
+  left: 13px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--tone);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+}
+
+/* Per-agent cursor rest position + fly-in/hold/leave timing. Each cursor flies
+   to its target, holds while it drops its comment, then fades away so the final
+   scene is a clean set of pinned comments (no overlapping cursor pills). */
+.cursorSpell {
+  top: 12px;
+  left: 42px;
+  animation: aawCurBL 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.cursorLink {
+  top: 6px;
+  left: 16px;
+  animation: aawCurTop 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.4s both;
+}
+
+.cursorAlt {
+  top: 34px;
+  left: 20px;
+  animation: aawCurRight 1.6s cubic-bezier(0.22, 1, 0.36, 1) 2.3s both;
+}
+
+/* ============================================================ keyframes */
+
+@keyframes aawSettle {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;
@@ -24,48 +462,141 @@
   }
 }
 
-@keyframes agentsConnectorIn {
+@keyframes aawFade {
   from {
     opacity: 0;
-    transform: scaleX(0);
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes aawSweep {
+  to {
     transform: scaleX(1);
   }
 }
 
-@keyframes agentsCheckIn {
+/* Flip a text highlight to yellow. The implicit `from` is each element's own
+   tone background, so one keyframe serves both selWord and selLink. */
+@keyframes aawHighlightYellow {
+  to {
+    background-color: var(--aaw-highlight);
+  }
+}
+
+@keyframes aawRing {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes aawPinIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: scale(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
-/* Source/update nodes settle in (per-node delay set inline in the TSX). */
-.nodeIn {
-  animation: agentsNodeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+@keyframes aawDrop {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Dashed connector grows from the site node toward the update node. */
-.connectorIn {
-  transform-origin: left center;
-  animation: agentsConnectorIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* Fly in (0-38%), arrive + hold while the comment drops (38-70%), leave (70-100%). */
+@keyframes aawCurBL {
+  0% {
+    opacity: 0;
+    transform: translate(-72px, 76px);
+  }
+  20% {
+    opacity: 1;
+  }
+  38%,
+  70% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(4px, -6px);
+  }
 }
 
-/* Check pills cascade in (staggered delay set inline per pill in the TSX). */
-.checkIn {
-  animation: agentsCheckIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+@keyframes aawCurTop {
+  0% {
+    opacity: 0;
+    transform: translate(6px, -128px);
+  }
+  20% {
+    opacity: 1;
+  }
+  38%,
+  70% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -8px);
+  }
+}
+
+@keyframes aawCurRight {
+  0% {
+    opacity: 0;
+    transform: translate(128px, 30px);
+  }
+  20% {
+    opacity: 1;
+  }
+  38%,
+  70% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -4px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nodeIn,
-  .connectorIn,
-  .checkIn {
+  .chrome,
+  .site,
+  .cursor,
+  .comment,
+  .sel,
+  .pin {
     animation: none;
+  }
+  .selWord,
+  .selLink {
+    transform: scaleX(1);
+    /* Rest in the final "has a comment" yellow (no sweep, no color motion). */
+    background-color: var(--aaw-highlight);
+  }
+  .selImg {
+    opacity: 1;
+    transform: none;
+  }
+  .comment {
+    opacity: 1;
+    transform: none;
+  }
+  .pin {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .cursor {
+    /* Cursors are transient; the settled scene is just the pinned comments. */
+    display: none;
   }
 }

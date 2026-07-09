@@ -4,13 +4,19 @@ import styles from "./CustomStatusArtifact.module.css";
 /**
  * Feature-section app-window artifact — "Custom Statuses".
  *
- * A static recreation of Superflow's "Add Status" dialog: a dimmed settings
- * page behind, with the modal floating over it. The modal carries a Status
- * Name field, the protected "Ongoing" type, a colour field with swatch, a
- * grid of selectable status icons, and a live preview pill with Cancel /
- * Add Status actions. Conveys "built-in review statuses, plus your own custom
- * ones." The modal and icon grid animate in on mount, replaying every time the
- * tab is activated (the panel remounts its content on tab switch).
+ * A guided recreation of Superflow's "Add Status" dialog floating over a live
+ * kanban board. The modal carries a Status Name field, the protected "Ongoing"
+ * type, a colour field with swatch, a grid of selectable status icons, and a
+ * live preview pill with Cancel / Add Status actions. Conveys "built-in review
+ * statuses, plus your own custom ones."
+ *
+ * On mount the animation plays a short story that replays every time the tab is
+ * activated (the panel remounts its content on tab switch): the modal rises in,
+ * the status name types itself out, the character counter and preview pill tick
+ * over, the "Add Status" button lights up and a pointer presses it — then the
+ * dialog dismisses and the freshly created amber "In Review" column expands into
+ * the board, sliding the "In Progress" column (and everything after it) right to
+ * make room.
  */
 
 /* -------------------------------------------------------------- text strings */
@@ -19,15 +25,22 @@ const MODAL_TITLE = "Add Status";
 const CLOSE_LABEL = "Close";
 const NAME_LABEL = "Status Name";
 const NAME_PLACEHOLDER = "Enter status name";
-const CHAR_COUNTER = "0/20";
+/** Character counter before the status name is typed. */
+const CHAR_COUNTER_FROM = "0/20";
+/** Character counter after the status name is typed (matches {@link NEW_STATUS_NAME}). */
+const CHAR_COUNTER_TO = "9/20";
 const TYPE_LABEL = "Type";
 const TYPE_VALUE = "Ongoing";
 const TYPE_HINT = "New statuses are created as Ongoing type";
 const COLOR_LABEL = "Color";
 const ICON_LABEL = "Choose Icon";
+/** Placeholder preview label shown before a name is typed. */
 const PREVIEW_TITLE = "Status";
 const CANCEL_LABEL = "Cancel";
 const SUBMIT_LABEL = "Add Status";
+
+/** The custom status the dialog creates; typed into the name field and added to the board. */
+const NEW_STATUS_NAME = "In Review";
 
 /* -------------------------------------------------------------------- colors */
 
@@ -39,6 +52,98 @@ const COLOR_VALUE = "#ECB000";
 const STATUS_TINT = "rgba(236, 176, 0, 0.12)";
 /** Border colour applied to the selected icon cell. */
 const STATUS_BORDER = "rgba(236, 176, 0, 0.45)";
+
+/* --------------------------------------------------------------- board model */
+
+/** A board column's identity, driving its header icon colour and glyph. */
+type ColumnKind = "open" | "new" | "progress" | "done";
+
+/** One compact card rendered inside a board column. */
+interface BoardCardData {
+  /** Initial shown in the circular avatar. */
+  initial: string;
+  /** Avatar fill colour (hex). */
+  avatarColor: string;
+  /** Card author. */
+  author: string;
+  /** Relative timestamp (e.g. "3h"). */
+  timeAgo: string;
+  /** Single-line card body. */
+  text: string;
+}
+
+/** One column on the board behind the modal. */
+interface BoardColumn {
+  id: string;
+  kind: ColumnKind;
+  title: string;
+  /** Count badge contents. */
+  count: string;
+  /** When true, the column is the freshly created one that expands in on submit. */
+  isNew?: boolean;
+  cards: readonly BoardCardData[];
+}
+
+/** Circle glyph shared by the "Open" and new-status column headers. */
+const CIRCLE_PATH = "M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z";
+
+/** Per-kind header colour + glyph paths (24×24). */
+const COLUMN_META: Readonly<Record<ColumnKind, { color: string; paths: readonly string[] }>> = {
+  open: { color: "#625df5", paths: [CIRCLE_PATH] },
+  new: { color: STATUS_COLOR, paths: [CIRCLE_PATH] },
+  progress: { color: "#3f6be6", paths: [CIRCLE_PATH, "M12 7V12L15 15"] },
+  done: { color: "#12a150", paths: [CIRCLE_PATH, "M9 12L11 14L15 10"] },
+};
+
+/**
+ * Columns behind the modal, left→right. The amber "In Review" column is flagged
+ * {@link BoardColumn.isNew} — it starts collapsed and expands on submit, pushing
+ * "In Progress" and "Done" to the right (Done bleeds off the frame's edge).
+ */
+const BOARD_COLUMNS: readonly BoardColumn[] = [
+  {
+    id: "open",
+    kind: "open",
+    title: "Open",
+    count: "2",
+    cards: [
+      { initial: "G", avatarColor: "#fe965c", author: "Guest", timeAgo: "1h", text: "Client here! Change this" },
+      { initial: "P", avatarColor: "#0dcf82", author: "Priya", timeAgo: "3h", text: "Logo feels too small" },
+    ],
+  },
+  {
+    id: "in-review",
+    kind: "new",
+    title: NEW_STATUS_NAME,
+    count: "1",
+    isNew: true,
+    cards: [
+      { initial: "E", avatarColor: "#9aa0b0", author: "Emma", timeAgo: "2w", text: "Let\u2019s update the image" },
+    ],
+  },
+  {
+    id: "in-progress",
+    kind: "progress",
+    title: "In Progress",
+    count: "2",
+    cards: [
+      { initial: "A", avatarColor: "#9aa0b0", author: "Ava", timeAgo: "4h", text: "Fixing the hero copy" },
+      { initial: "R", avatarColor: "#0dcf82", author: "Romulus", timeAgo: "2w", text: "Tone this down" },
+    ],
+  },
+  {
+    id: "done",
+    kind: "done",
+    title: "Done",
+    count: "3",
+    cards: [
+      { initial: "M", avatarColor: "#625df5", author: "Mark", timeAgo: "1d", text: "Shipped the update" },
+    ],
+  },
+];
+
+/** Board toolbar title shown above the columns. */
+const BOARD_TITLE = "Design Review";
 
 /* --------------------------------------------------- icon geometry (24 × 24) */
 
@@ -234,6 +339,123 @@ function CloseIcon({ size }: { size: number }): ReactNode {
   }
 }
 
+/**
+ * Arrow pointer cursor that approaches and presses the "Add Status" button.
+ * The Figma drop-shadow is reapplied in CSS so the glyph stays crisp.
+ *
+ * @returns The pointer `<svg>` element, or null on failure.
+ */
+function CursorArrow(): ReactNode {
+  try {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={22}
+        height={22}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M8 5.41406V17.4141L11 14.4141L13.5 19.4141C13.5 19.4141 14.1763 19.6299 14.5 19.4141C14.8237 19.1983 15.1457 18.7636 15 18.4141C14.3123 16.7636 12.5 13.4141 12.5 13.4141H16L8 5.41406Z"
+          fill="#202125"
+          stroke="#ffffff"
+          strokeWidth={1.1}
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* --------------------------------------------------------------- board views */
+
+/**
+ * Compact board card: an avatar/author row over a single-line body.
+ *
+ * @param root0 - The card props.
+ * @param root0.card - The card content to render.
+ * @returns The card element, or null on failure.
+ */
+function BoardCard({ card }: { card: BoardCardData }): ReactNode {
+  try {
+    return (
+      <div className={styles.miniCard}>
+        <div className={styles.miniHead}>
+          <span
+            className={styles.miniAvatar}
+            style={{ background: card?.avatarColor }}
+            aria-hidden="true"
+          >
+            {card?.initial}
+          </span>
+          <span className={styles.miniAuthor}>{card?.author}</span>
+          <span className={styles.miniTime}>{card?.timeAgo}</span>
+        </div>
+        <p className={styles.miniBody}>{card?.text}</p>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The kanban board rendered behind the modal. The new amber column is present
+ * from the start but collapsed to zero width; its expansion (animated in CSS)
+ * slides the following columns to the right.
+ *
+ * @returns The board element, or null on failure.
+ */
+function Board(): ReactNode {
+  try {
+    return (
+      <div className={styles.board} aria-hidden="true">
+        <div className={styles.boardBar}>
+          <span className={styles.boardTitle}>{BOARD_TITLE}</span>
+          <span className={styles.boardChips}>
+            <span className={styles.boardChip} />
+            <span className={styles.boardChip} />
+          </span>
+        </div>
+
+        <div className={styles.columns}>
+          {BOARD_COLUMNS.map((column) => {
+            const meta = COLUMN_META[column.kind];
+            const columnClass = column.isNew
+              ? `${styles.column} ${styles.columnNew}`
+              : styles.column;
+            const innerClass = column.isNew
+              ? `${styles.columnInner} ${styles.columnNewInner}`
+              : styles.columnInner;
+            return (
+              <div key={column.id} className={columnClass}>
+                <div className={innerClass}>
+                  <div className={styles.columnHead}>
+                    <span className={styles.columnIcon} style={{ color: meta?.color }}>
+                      <StrokeIcon size={17} paths={meta?.paths ?? [CIRCLE_PATH]} />
+                    </span>
+                    <span className={styles.columnTitle}>{column.title}</span>
+                    <span className={styles.columnCount}>{column.count}</span>
+                  </div>
+                  {column.cards?.map((card) => (
+                    <BoardCard key={`${column.id}-${card.author}`} card={card} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
 /* -------------------------------------------------------------------- export */
 
 /**
@@ -255,13 +477,8 @@ export default function CustomStatusArtifact(): ReactNode {
 
     return (
       <div className={styles.root} data-artifact="custom-statuses">
-        {/* Dimmed settings page hinted behind the modal. */}
-        <div className={styles.page} aria-hidden="true">
-          <span className={styles.ghostTitle} />
-          <span className={styles.ghostRow} />
-          <span className={styles.ghostRow} />
-          <span className={styles.ghostRow} />
-        </div>
+        {/* Live kanban board behind the modal; the new column expands into it. */}
+        <Board />
         <div className={styles.scrim} aria-hidden="true" />
 
         <div className={styles.modal} role="dialog" aria-label={MODAL_TITLE}>
@@ -278,8 +495,15 @@ export default function CustomStatusArtifact(): ReactNode {
                 <span className={styles.label}>{NAME_LABEL}</span>
                 <div className={styles.input}>
                   <span className={styles.placeholder}>{NAME_PLACEHOLDER}</span>
+                  <span className={styles.typedWrap} aria-hidden="true">
+                    <span className={styles.typedText}>{NEW_STATUS_NAME}</span>
+                    <span className={styles.caret} />
+                  </span>
                 </div>
-                <span className={styles.counter}>{CHAR_COUNTER}</span>
+                <span className={styles.counter}>
+                  <span className={styles.counterFrom}>{CHAR_COUNTER_FROM}</span>
+                  <span className={styles.counterTo}>{CHAR_COUNTER_TO}</span>
+                </span>
               </div>
 
               <div className={styles.group}>
@@ -333,19 +557,27 @@ export default function CustomStatusArtifact(): ReactNode {
                   <span className={styles.chipIcon}>
                     <StrokeIcon size={18} paths={OPEN_PATHS} />
                   </span>
-                  <span className={styles.chipLabel}>{PREVIEW_TITLE}</span>
+                  <span className={styles.chipLabel}>
+                    <span className={styles.chipLabelFrom}>{PREVIEW_TITLE}</span>
+                    <span className={styles.chipLabelTo}>{NEW_STATUS_NAME}</span>
+                  </span>
                 </span>
               </div>
               <div className={styles.actions}>
                 <button type="button" className={styles.btnSecondary}>
                   {CANCEL_LABEL}
                 </button>
-                <button type="button" className={styles.btnPrimary} disabled>
+                <button type="button" className={styles.btnPrimary}>
                   {SUBMIT_LABEL}
                 </button>
               </div>
             </div>
           </div>
+
+          {/* Pointer that arrives on the "Add Status" button and presses it. */}
+          <span className={styles.cursor} aria-hidden="true">
+            <CursorArrow />
+          </span>
         </div>
       </div>
     );

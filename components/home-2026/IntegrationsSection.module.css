@@ -1,21 +1,17 @@
 /*
  * 08 / Integrations — 2026 homepage redesign.
- * Colours, type sizes and radii mirror Figma node 582:5822.
- * ≤1024px: centered stacked layout (the collage cannot fit).
- * >1024px: off-center collage per Figma — header centered, four cards
- * absolutely positioned around it, side cards bleeding off the viewport
- * (clipped by overflow: hidden). Card offsets are anchored to the section's
- * horizontal centre so the card↔header gap from the 1440px frame is
- * preserved at every viewport width.
+ * A centered header sits above a responsive grid of category cards.
+ * Each card is a light, bordered "folder": a header row (accent icon chip +
+ * label) over a row of integration tiles (logo/glyph + mono label).
+ * ≥768px the cards form a 2-up grid; below that they stack in one column.
  * Each category card sets --accent / --tone / --glyph via inline style.
  */
 
 .section {
   --ink: #1e1e1f;
   --section-bg: #feffff;
-  --tile-border: #d9d9d9;
-  --placeholder-fill: #ececec;
-  --placeholder-fill-hover: #e0e0e0;
+  --card-border: #e4e4e7;
+  --tile-hover: #fafafa;
 
   position: relative;
   background: var(--section-bg);
@@ -24,29 +20,32 @@
 }
 
 .inner {
-  max-width: 1200px;
+  max-width: 1120px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 56px;
 }
 
 /* ---- Header --------------------------------------------------------- */
 
+/* The header is the top cell of the bento: it spans every column and sits
+   over the same 1px hairline gap as the cards, so the copy and the grid read
+   as one continuous visual. Mobile-first it stacks centered; >=768px it
+   becomes a split banner (title left, subtitle + CTA right). */
 .header {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  max-width: 560px;
+  padding: 56px 24px 48px;
   text-align: center;
+  background: var(--section-bg);
 }
 
-.headingGroup {
+.headerAside {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
 }
 
 /* Figma: Adamina Regular 52 / -1.56px. */
@@ -103,302 +102,268 @@
   outline-offset: 3px;
 }
 
-/* ---- Category cards ------------------------------------------------- */
+/* ---- Category grid -------------------------------------------------- */
 
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
   width: 100%;
+  /* The 1px gap + this background paint the hairline dividers between
+     cells, so the four cards read as one continuous bento grid. */
+  background: var(--card-border);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Split banner: display title flush left, supporting line + CTA flush
+     right, both vertically centered against the same baseline. */
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    padding: 44px 40px;
+    text-align: left;
+  }
+
+  .header .title {
+    flex: 1 1 auto;
+    max-width: 540px;
+  }
+
+  .headerAside {
+    flex: 0 0 auto;
+    align-items: flex-end;
+    gap: 22px;
+    text-align: right;
+  }
+
+  .headerAside .subtitle {
+    max-width: 320px;
+  }
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  max-width: 100%;
+  width: 100%;
+  background: var(--section-bg);
 }
 
-/* Folder-style tab sitting on top of the card body. Figma tab background is
-   the accent colour at 30% over black, which equals --tone. */
+/* Card header row: accent icon chip + label, over a hairline divider. */
 .tab {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 11px 12px;
-  border-radius: 16px 16px 0 0;
-  background: var(--tone);
+  gap: 12px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--card-border);
+  background: var(--section-bg);
 }
 
 .tabIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   background: var(--accent);
   color: var(--glyph);
 }
 
 .tabIcon svg {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 .tabLabel {
   font-family: var(--font-urbanist), system-ui, sans-serif;
   font-weight: 700;
-  font-size: 1rem;
-  line-height: 1;
-  color: #fff;
-  white-space: nowrap;
-}
-
-/* Card body: thick tone border holds a row of tiles. Negative tile margins
-   collapse adjacent hairlines into single dividers, matching Figma. */
-.body {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: 2px solid var(--tone);
-  background: var(--section-bg);
-  transition: box-shadow 0.25s ease;
-}
-
-.card:hover .body {
-  box-shadow: 0 16px 40px -12px rgba(30, 30, 31, 0.18);
-}
-
-.tile {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  border: 1px solid var(--tile-border);
-  margin-left: -1px;
-  margin-top: -1px;
-  background: var(--section-bg);
-  transition: border-color 0.2s ease;
-}
-
-.tile:hover {
-  border-color: var(--accent);
-}
-
-/* Square logo tile: holds the integration brand logo. */
-.logoTile {
-  justify-content: center;
-  width: 118px;
-  height: 118px;
-}
-
-.logoImage {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-}
-
-/* Email (and any glyph-only tile) reuses the logo footprint, drawn in the
-   card accent colour. */
-.glyphIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
-
-.glyphIcon svg {
-  display: block;
-  width: 56px;
-  height: 56px;
-}
-
-/* Wide labeled tile (Developer): accent glyph + mono label. Figma uses
-   Geist Mono 18; approximated with a system monospace stack. */
-.labeledTile {
-  justify-content: flex-start;
-  gap: 16px;
-  min-width: 210px;
-  height: 118px;
-  padding: 0 28px;
-}
-
-.labeledIcon {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  color: var(--accent);
-}
-
-.labeledIcon svg {
-  display: block;
-  width: 40px;
-  height: 40px;
-}
-
-.labeledLabel {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-weight: 400;
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   line-height: 1;
   color: var(--ink);
   white-space: nowrap;
 }
 
-/* ---- Desktop collage (>1024px) -------------------------------------- */
+/* Card body: tiles sit edge-to-edge and the 1px grid gap over the
+   border-coloured background paints hairline dividers between them — the
+   same treatment as the outer bento and the header divider. Per-category
+   column counts (with spans where needed) keep every row full so no empty
+   cell shows through. Tiles stretch to fill the body height so there is no
+   bare background showing. Mobile-first layout; widened at >=768px. */
+.body {
+  display: grid;
+  gap: 1px;
+  align-content: stretch;
+  grid-auto-rows: minmax(110px, 1fr);
+  background: var(--card-border);
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-/* Figma frame is 1440x904 with the header centered and the four cards
-   scattered around it. Cards are anchored to the section's horizontal
-   centre using the inner-edge distances measured in the 1440px frame, so
-   side cards bleed off narrower viewports (clipped by the section) while
-   the composition around the header stays intact. */
-@media (min-width: 1025px) {
-  .section {
-    padding: 0;
-    overflow: hidden;
+/* Mobile: never more than two tiles across. Odd counts use column spans so
+   the trailing row still fills the full width. */
+.body[data-cat="developer"],
+.body[data-cat="installation"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.body[data-cat="delivery"],
+.body[data-cat="task-management"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.body[data-cat="delivery"] > .tile {
+  grid-column: span 3;
+}
+
+.body[data-cat="delivery"] > .tile:nth-child(3) {
+  grid-column: span 6;
+}
+
+.body[data-cat="task-management"] > .tile {
+  grid-column: span 3;
+}
+
+.body[data-cat="task-management"] > .tile:nth-child(5) {
+  grid-column: span 6;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 18px 16px;
+  background: var(--section-bg);
+  transition: background-color 0.2s ease;
+}
+
+.tile:hover {
+  background: var(--tile-hover);
+}
+
+/* Desktop: Developer 2-up and Installation 2x2 stay as-is; Delivery is a
+   single 3-up row; Task Management is a 3 + 2 layout (six tracks, spans). */
+@media (min-width: 768px) {
+  .body[data-cat="delivery"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .inner {
-    display: block;
-    position: relative;
-    max-width: none;
-    height: 904px;
+  .body[data-cat="delivery"] > .tile,
+  .body[data-cat="delivery"] > .tile:nth-child(3) {
+    grid-column: auto;
   }
 
-  .header {
-    position: absolute;
-    top: 290px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 509px;
-    max-width: none;
+  .body[data-cat="task-management"] > .tile {
+    grid-column: span 2;
   }
 
-  /* Cards position themselves against .inner directly. */
-  .grid {
-    display: contents;
-  }
-
-  .card {
-    position: absolute;
-    max-width: none;
-  }
-
-  .body {
-    flex-wrap: nowrap;
-  }
-
-  /* Upper-left, bleeds off the left edge; tab sits on the inner (right)
-     end of the card. Pushed 80px further out than the raw Figma offset so
-     the card is decisively cut by the viewport edge. */
-  .placeDeveloper {
-    top: 201px;
-    right: calc(50% + 360px);
-    align-items: flex-end;
-  }
-
-  /* Upper-right, bleeds off the right edge; tab on the inner (left) end. */
-  .placeInstallation {
-    top: 228px;
-    left: calc(50% + 296px);
-  }
-
-  /* Lower-left, inset (no bleed); tab on the inner (right) end. Pushed
-     80px further out than the raw Figma offset for header clearance. */
-  .placeDelivery {
-    top: 521px;
-    right: calc(50% + 294px);
-    align-items: flex-end;
-  }
-
-  /* Lower-right, bleeds off the right edge; tab on the inner (left) end.
-     Pushed 76px further out than the raw Figma offset so it clears the
-     centered header and bleeds more decisively. */
-  .placeTaskManagement {
-    top: 537px;
-    left: calc(50% + 238px);
+  .body[data-cat="task-management"] > .tile:nth-child(4),
+  .body[data-cat="task-management"] > .tile:nth-child(5) {
+    grid-column: span 3;
   }
 }
 
+.tileIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.tileIcon svg {
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.logoImage {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.tileLabel {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
 @media (max-width: 600px) {
-  /* Left-align the category groups on phones so the labelled cards start from
-     the left edge instead of being centered in the row. */
-  .grid {
-    justify-content: flex-start;
-    gap: 32px 24px;
+  .section {
+    padding: 64px 20px;
   }
 
-  .logoTile {
-    width: 96px;
-    height: 96px;
+  .header {
+    padding: 40px 20px 36px;
+    gap: 20px;
   }
 
-  .logoImage {
-    width: 48px;
-    height: 48px;
+  .tab {
+    padding: 16px 18px;
   }
 
-  .glyphIcon svg {
-    width: 44px;
-    height: 44px;
+  .body {
+    grid-auto-rows: minmax(92px, 1fr);
   }
 
-  .labeledTile {
-    min-width: 0;
-    flex: 1 1 100%;
+  .tile {
+    padding: 14px 10px;
+    gap: 10px;
   }
 }
 
 /* ---- Entrance reveal -------------------------------------------------- */
 
 /* Play-once reveal driven by .revealed (set via IntersectionObserver).
-   Cards fade in from a blurred, slightly drifted state with a stagger;
-   the header gets a gentle fade + blur with no transform (its desktop
-   centering relies on translateX). Under prefers-reduced-motion none of
-   the hidden states apply, so the section renders static. */
-
-/* Stagger order: Developer → Installation → Delivery → Task Management.
-   Delays = 300ms base pause after the section enters the viewport, plus a
-   120ms stagger between cards. --drift-x is the desktop drift direction
-   (in from the outer edge). */
+   Cards fade up from a blurred state with a stagger; the header gets a
+   gentle fade + blur. Under prefers-reduced-motion the hidden states are
+   skipped, so the section renders static. Stagger order follows the DOM:
+   Developer → Delivery → Installation → Task Management. */
 .placeDeveloper {
   --reveal-delay: 300ms;
-  --drift-x: -20px;
-}
-
-.placeInstallation {
-  --reveal-delay: 420ms;
-  --drift-x: 20px;
 }
 
 .placeDelivery {
+  --reveal-delay: 420ms;
+}
+
+.placeInstallation {
   --reveal-delay: 540ms;
-  --drift-x: -20px;
 }
 
 .placeTaskManagement {
   --reveal-delay: 660ms;
-  --drift-x: 20px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Cards live inside the clipped bento grid, so the reveal is a fade +
+     blur only (no transform) to avoid clipping against the rounded edge. */
   .card {
     opacity: 0;
-    filter: blur(9px);
-    /* Stacked fallback: gentle fade-up. */
-    transform: translateY(16px);
+    filter: blur(8px);
     transition:
       opacity 0.6s ease-out,
-      filter 0.6s ease-out,
-      transform 0.6s ease-out;
+      filter 0.6s ease-out;
     transition-delay: var(--reveal-delay, 0ms);
   }
 
@@ -413,7 +378,6 @@
   .revealed .card {
     opacity: 1;
     filter: none;
-    transform: none;
   }
 
   .revealed .header {
@@ -422,20 +386,9 @@
   }
 }
 
-/* Desktop collage: drift horizontally from each card's outer edge. */
-@media (prefers-reduced-motion: no-preference) and (min-width: 1025px) {
-  .card {
-    transform: translateX(var(--drift-x, 0px));
-  }
-
-  .revealed .card {
-    transform: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .cta,
-  .body,
+  .card,
   .tile {
     transition: none;
   }

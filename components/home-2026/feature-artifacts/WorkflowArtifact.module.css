@@ -1,0 +1,225 @@
+/* Feature-section app-window artifact — "Workflows".
+   A "Client Resolution" automation on a dot-grid canvas: a header (title +
+   trigger meta) top-left, and three step cards stacked vertically down the
+   centre, joined by dotted connectors with round end-caps. The header fades in,
+   the steps rise in with a stagger, and each connector draws between the cards.
+   Everything sits inside the fixed ~1200×602px panel screen. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  /* Dot grid, matching the workflow canvas elsewhere in the section. */
+  background-image: radial-gradient(rgba(17, 17, 17, 0.14) 1.3px, transparent 1.4px);
+  background-size: 26px 26px;
+}
+
+/* Soften the grid toward the edges so the centred flow stays the focus. */
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 42%, rgba(254, 255, 255, 0) 55%, #feffff 100%);
+}
+
+/* ------------------------------------------------------------------ header */
+
+.header {
+  position: relative;
+  z-index: 1;
+  padding: 40px 0 0 48px;
+  animation: wfaFade 0.4s ease both;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.6px;
+  color: #0f0f10;
+}
+
+.meta {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: #9a9aa2;
+}
+
+.metaStrong {
+  font-weight: 600;
+  color: #6d6d76;
+}
+
+/* -------------------------------------------------------------------- flow */
+
+.flow {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  /* Left-aligned under the header so the cards stay inside the viewport — the
+     panel is wider than the visible frame and bleeds off the right edge. */
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 48px;
+  padding-bottom: 24px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------------- nodes */
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 452px;
+  padding: 22px 26px;
+  border-radius: 20px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.04),
+    0 12px 28px rgba(17, 17, 17, 0.05);
+  animation: wfaRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nodeIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+}
+
+.nodeIcon[data-tone="amber"] {
+  background: rgba(255, 138, 61, 0.13);
+  color: #ff7a2e;
+}
+
+.nodeIcon[data-tone="slate"] {
+  background: #f2f3f5;
+}
+
+.nodeIcon[data-tone="indigo"] {
+  background: rgba(78, 110, 245, 0.1);
+}
+
+.apiWord {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #4e6ef5;
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.nodeTitle {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  color: #1a1a1e;
+}
+
+.nodeSub {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: #97979f;
+}
+
+/* -------------------------------------------------------------- connectors */
+
+/* Vertical link between two nodes: a round cap, a hairline, another round cap.
+   The caps overlap the card edges so the flow reads as one continuous line. */
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 56px;
+  margin: -6px 0;
+  animation: wfaConnector 0.4s ease both;
+  transform-origin: center top;
+}
+
+.connectorDot {
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 9999px;
+  background: #fbfbfc;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+.connectorLine {
+  flex: 1;
+  width: 2px;
+  background: rgba(17, 17, 17, 0.14);
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- */
+
+@keyframes wfaFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wfaRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wfaConnector {
+  from {
+    opacity: 0;
+    transform: scaleY(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .node,
+  .connector {
+    animation: none;
+  }
+}

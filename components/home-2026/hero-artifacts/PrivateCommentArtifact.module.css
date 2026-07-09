@@ -42,7 +42,7 @@
   height: 47.01%;
   background: #f7f7f6;
   border-radius: 12px;
-  animation: privateFade 0.4s ease 0.1s both;
+  animation: privateFade 0.24s ease 0.06s both;
 }
 
 .rightTop {
@@ -53,7 +53,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  animation: privateFade 0.4s ease 0.1s both;
+  animation: privateFade 0.24s ease 0.06s both;
 }
 
 .dashedBox {
@@ -79,7 +79,7 @@
   display: flex;
   flex-direction: column;
   gap: 13px;
-  animation: privateFade 0.4s ease 0.1s both;
+  animation: privateFade 0.24s ease 0.06s both;
 }
 
 .bar {
@@ -106,7 +106,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
-  animation: privateChromeSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: privateChromeSettle 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .chromeControls {
@@ -149,7 +149,7 @@
   top: 21.26%;
   /* The team-only comment composer pops in. */
   transform-origin: left top;
-  animation: privateComposerIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+  animation: privateComposerIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
 }
 
 /* ------------------------------------------------------------------ *
@@ -168,7 +168,16 @@
   font-size: 14px;
   line-height: 1.1;
   white-space: nowrap;
-  animation: privatePillIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+  /* Appears once private mode has been toggled on. */
+  animation: privatePillIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) 1.14s both;
+}
+
+/* Navy "Visible to → Only your Team" header that reveals inside the composer
+   once private mode is enabled — the comment gains its private header. Base =
+   revealed (final) state; the keyframe collapses it for the entrance. */
+.composerHeaderReveal {
+  overflow: hidden;
+  animation: privateHeaderReveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) 1.08s both;
 }
 
 /* ------------------------------------------------------------------ *
@@ -185,10 +194,16 @@
   gap: 8px;
   padding: 16px;
   border-radius: 53px;
+  border: 1px solid transparent;
+  /* Base = final "private" (dark) state, so reduced-motion shows it settled.
+     The theme keyframe starts from the light state and switches to dark when
+     private mode is toggled on. */
   background: #141517;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   color: #80808a;
-  animation: privateToolbarRise 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  animation:
+    privateToolbarRise 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both,
+    privateToolbarTheme 0.3s ease 0.87s both;
 }
 
 .toolbarLogo {
@@ -205,17 +220,21 @@
   border-radius: 8px;
   background: rgba(238, 238, 238, 0.12);
   flex-shrink: 0;
+  animation: privateDividerTheme 0.3s ease 0.87s both;
 }
 
-/* Purple pill toggle with the white lock knob pushed to the "on" side. */
+/* Purple pill toggle with the white lock knob pushed to the "on" side. Base =
+   the final "on" state; the toggle keyframes flip it from off (gray track,
+   knob left) to on when private mode is enabled. */
 .lockToggle {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 53px;
   padding: 4px;
   border-radius: 32px;
   background: #625cf4;
+  animation: privateToggleTrack 0.27s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }
 
 .lockKnob {
@@ -226,6 +245,10 @@
   border-radius: 24px;
   background: #ffffff;
   color: #625cf4;
+  /* Slid to the "on" (right) side; the knob keyframe slides it in from the
+     left as the toggle flips. */
+  transform: translateX(19px);
+  animation: privateToggleKnob 0.27s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }
 
 .commentButton {
@@ -269,12 +292,15 @@
   border-radius: 50%;
   background: #ff7162;
   border: 1px solid #141517;
+  animation: privateDotTheme 0.3s ease 0.87s both;
 }
 
 .countText {
   font-size: 14px;
   line-height: 1;
-  color: #80808a;
+  /* Follows the toolbar's animated color (dark-gray in light mode → the muted
+     gray of the dark toolbar). */
+  color: inherit;
 }
 
 .toolbarIconButton {
@@ -353,14 +379,97 @@
   }
 }
 
+/* --- Private-mode toggle sequence ------------------------------------- *
+ * After the entrance settles: the lock toggle flips on, the toolbar switches
+ * from a light to a dark theme, and the composer reveals its private header
+ * with the "Private Mode Enabled" pill. The "from" states are the pre-toggle
+ * (light / off) look; the "to" states match the settled design. */
+
+/* Toolbar light → dark theme. */
+@keyframes privateToolbarTheme {
+  from {
+    background: #ffffff;
+    color: #52525b;
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+  to {
+    background: #141517;
+    color: #80808a;
+    border-color: transparent;
+  }
+}
+
+@keyframes privateDividerTheme {
+  from {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  to {
+    background: rgba(238, 238, 238, 0.12);
+  }
+}
+
+/* Inbox notification dot's ring matches the toolbar surface. */
+@keyframes privateDotTheme {
+  from {
+    border-color: #ffffff;
+  }
+  to {
+    border-color: #141517;
+  }
+}
+
+/* Toggle track: gray (off) → purple (on). */
+@keyframes privateToggleTrack {
+  from {
+    background: #cbccd6;
+  }
+  to {
+    background: #625cf4;
+  }
+}
+
+/* Toggle knob: slides left → right and the lock glyph goes gray → purple. */
+@keyframes privateToggleKnob {
+  from {
+    transform: translateX(0);
+    color: #8b8b95;
+  }
+  to {
+    transform: translateX(19px);
+    color: #625cf4;
+  }
+}
+
+/* Composer private header collapses shut before it reveals; padding and height
+   fold away so nothing peeks out above the draft text beforehand. */
+@keyframes privateHeaderReveal {
+  from {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 44px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pageBlock,
   .rightTop,
   .rightBars,
   .chrome,
   .composerGroup,
+  .composerHeaderReveal,
   .privatePill,
-  .toolbar {
+  .toolbar,
+  .toolbarDivider,
+  .inboxDot,
+  .lockToggle,
+  .lockKnob {
     animation: none;
   }
 }

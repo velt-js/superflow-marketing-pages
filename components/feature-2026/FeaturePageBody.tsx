@@ -35,6 +35,13 @@ export interface FeaturePageBlockTab {
   href?: string;
   listOnly?: boolean;
   collapsesFirstTab?: boolean;
+  /**
+   * Optional per-tab app-window mock. When set, activating this tab swaps the
+   * block's window to this artifact (mirrors {@link FeatureSetTab.mock} on the
+   * home-2026 blocks); falls back to the block-level {@link FeaturePageBlock.mock}
+   * when omitted.
+   */
+  mock?: string;
 }
 
 /** One Feature Set block as returned by getFeaturePageBySlug. */
@@ -94,11 +101,92 @@ export interface FeaturePageDoc {
 const DEFAULT_BLOCK_ACCENT = "#433df3";
 /** Opacity of the light card wash derived from a block's accent colour. */
 const BLOCK_TINT_ALPHA = 0.06;
+/** Slug of the comments feature page that gets comment-artifact mock mapping. */
+const COMMENTS_PAGE_SLUG = "comments";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
  */
 const GET_STARTED_HEADING = "Get started with Agents in a minute";
+
+/** Comments-page tab labels mapped to the best reusable artifact mock. */
+const COMMENTS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "text-comments": "text-comments",
+  "text-selection-comments": "text-comments",
+  "thread-comments": "thread-comments",
+  "thread-replies": "thread-comments",
+  mentions: "comment-mentions",
+  attachment: "comment-attachment",
+  attachments: "comment-attachment",
+  "tracking-task-management": "tracking-task-management",
+  "statuses-assignment": "tracking-task-management",
+  "reactions-and-read-receipts": "reaction-read-receipt",
+  "reaction-read-receipt": "reaction-read-receipt",
+  "robust-anchor": "robust-anchor",
+  "robust-anchors": "robust-anchor",
+  "record-walkthrough": "record-walkthrough",
+  "element-pinning": "pinned-comments",
+  "pinned-comments": "pinned-comments",
+  "snapshot-on-every-comment": "auto-screenshot",
+  "private-scopes": "private-comments",
+  "agent-comments": "review-agents",
+};
+
+/** Comments-page block ids mapped to their initially visible artifact mock. */
+const COMMENTS_BLOCK_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "block-comment": "text-comments",
+  "comment-that-sticks-to-elements": "text-comments",
+  "block-conversations": "thread-comments",
+  "rich-conversations-with-all-media-types": "thread-comments",
+  "block-seen-settled": "reaction-read-receipt",
+  "seen-settled": "reaction-read-receipt",
+  "block-single-system": "private-comments",
+  "single-system": "private-comments",
+};
+
+/**
+ * Convert arbitrary labels/ids into the slug shape used by the comments mock
+ * lookup tables.
+ *
+ * @param value - The source label or id.
+ * @returns A lowercase hyphenated key.
+ */
+function toLookupKey(value?: string | null): string {
+  return (value ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Resolve a tab's comments-page artifact mock, preserving explicit CMS values
+ * when the label is not one of the known comments artifacts.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key to use, or undefined when no comments mapping applies.
+ */
+function getCommentsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return COMMENTS_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve the best default mock for a comments-page feature block.
+ *
+ * @param block - The feature block from Sanity.
+ * @returns The block-level mock key, or undefined when no comments mapping applies.
+ */
+function getCommentsBlockMock(
+  block: FeaturePageBlock,
+): FeatureSetMockName | undefined {
+  const idKey = toLookupKey(block?.id);
+  const titleKey = toLookupKey(block?.title);
+  return COMMENTS_BLOCK_MOCKS?.[idKey] ?? COMMENTS_BLOCK_MOCKS?.[titleKey];
+}
 
 /**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
@@ -139,8 +227,10 @@ function hexToRgba(hex: string, alpha: number): string {
 function toFeatureSetBlock(
   block: FeaturePageBlock,
   index: number,
+  pageSlug?: string,
 ): FeatureSetBlockData {
   const accent = block?.accent ?? DEFAULT_BLOCK_ACCENT;
+  const isCommentsPage = pageSlug === COMMENTS_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => ({
@@ -151,7 +241,13 @@ function toFeatureSetBlock(
       href: tab.href ?? undefined,
       listOnly: tab.listOnly ?? undefined,
       collapsesFirstTab: tab.collapsesFirstTab ?? undefined,
+      mock: (
+        isCommentsPage ? getCommentsTabMock(tab) ?? tab.mock : tab.mock ?? undefined
+      ) as FeatureSetMockName | undefined,
     }));
+  const commentsBlockMock = isCommentsPage
+    ? getCommentsBlockMock(block)
+    : undefined;
 
   return {
     id: block?.id ?? `feature-block-${index}`,
@@ -162,7 +258,7 @@ function toFeatureSetBlock(
     description: block?.description ?? "",
     tabs,
     initialTabIndex: block?.initialTabIndex ?? undefined,
-    mock: (block?.mock ?? "workflow") as FeatureSetMockName,
+    mock: (commentsBlockMock ?? block?.mock ?? "workflow") as FeatureSetMockName,
   };
 }
 
@@ -247,7 +343,7 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
     .filter((block) => Boolean(block?.title))
-    .map(toFeatureSetBlock);
+    .map((block, index) => toFeatureSetBlock(block, index, doc?.slug));
 
   const getStartedHeading = doc?.getStarted?.heading ?? GET_STARTED_HEADING;
   const getStartedSubheading = doc?.getStarted?.subheading ?? undefined;

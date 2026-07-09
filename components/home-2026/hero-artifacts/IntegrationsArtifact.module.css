@@ -228,32 +228,53 @@
   border-radius: 12px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  /* Kanban comment cards rise in after the connector draws (a comment flows
-     into the board). The three cards are the only <article> elements in the
-     stage, so nth-of-type gives each a small stagger. */
-  animation: integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* The board's pre-existing cards (Guest, Romulus) rise in early as the board
+     scaffolding settles. The matching "Emma" card — the comment submitted from
+     the composer — is `.cardOpenA` (the top of the Open column) and instead
+     lands later, after the Phase 1 forward pulse arrives (see its own rule
+     below). The three cards are the only .card <article> elements in the stage,
+     so nth-of-type gives each a small stagger (via --rise-delay, kept a custom
+     property so cards can layer a second animation without a bare
+     animation-delay clobbering the per-animation delays). */
+  --rise-delay: 0s;
+  animation: integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) var(--rise-delay) both;
 }
 
+/* nth-of-type(1) is the matching "Emma" card (`.cardOpenA`); its animation is
+   redefined below (forward-pulse landing), so this stagger value is unused. */
 .card:nth-of-type(1) {
-  animation-delay: 0.38s;
+  --rise-delay: 0.46s;
 }
 
 .card:nth-of-type(2) {
-  animation-delay: 0.46s;
+  --rise-delay: 0.3s;
 }
 
 .card:nth-of-type(3) {
-  animation-delay: 0.54s;
+  --rise-delay: 0.4s;
 }
 
+/* Top card in the "Open" column — the newly-submitted "Emma" card whose body
+   matches the composer draft, i.e. the submitted comment landing on the board.
+   It lands (Phase 1) right as the forward pulse arrives, rather than mounting
+   with the pre-existing board cards; Mark's reply then reveals nested inside it
+   (Phase 2). */
 .cardOpenA {
   left: 640px;
   top: 258px;
+  animation: integCardLand 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
 }
 
+/* Second card in the "Open" column — the pre-existing "Guest" comment. It rises
+   in during Phase 0, then slides down when the Emma card's reply reveals
+   (Phase 2) to make room (matching the reply block's revealed height) instead of
+   being overlapped by the growing card above it. */
 .cardOpenB {
   left: 640px;
-  top: 478px;
+  top: 438px;
+  animation:
+    integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) var(--rise-delay) both,
+    integShiftDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2.15s both;
 }
 
 .cardProgress {
@@ -398,6 +419,26 @@
   background: linear-gradient(135deg, #c7cbd6, #9aa0b0);
 }
 
+/* Purple avatar — the teammate (@Mark) whose reply syncs across; ties to the
+   purple "@mention" accent. */
+.avatarPurple {
+  background: #625df5;
+}
+
+/* Smaller avatar used inside nested replies (board reply + synced reply). */
+.avatarSm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
 .threadMeta {
   display: flex;
   align-items: baseline;
@@ -456,6 +497,82 @@
   color: #292929;
 }
 
+/* -------------------------------------------- Board reply (revealed in card) */
+
+/* The reply that animates open inside the Kanban card — a teammate replies on
+   the connected board tool. This is the Phase 2 trigger: the reply is "added on
+   the board" first, then the reverse pulse carries it back to the composer.
+   Nested under the parent comment with a threading rail; the settled (final)
+   state is the base here so reduced-motion shows it open. `integReplyReveal`
+   collapses it for the entrance. */
+.cardReply {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 16px 14px 52px;
+  padding: 10px 0 0 12px;
+  border-left: 2px solid #ededed;
+  overflow: hidden;
+  animation: integReplyReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2.15s both;
+}
+
+.replyAuthor {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: #0a0a0a;
+}
+
+.replyBody {
+  padding-left: 34px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #525252;
+}
+
+/* --------------------------------------- Posted comment (left, submitted) */
+
+/* The composer's submitted comment. It cross-fades in at the composer's spot as
+   the composer sends, then Mark's reply animates open nested inside it. A brief
+   purple ring marks the whole card as the reply "arrives" from the board. */
+.postedComment {
+  position: absolute;
+  /* Sits exactly over the composer card (composer group left 72 + 36px pin +
+     12px gap) so it cross-fades in place as the composer sends. */
+  left: 120px;
+  top: 232px;
+  width: 328px;
+  background: #ffffff;
+  border: 1px solid rgba(98, 93, 245, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation:
+    integCommentIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both,
+    integSyncRing 1.1s ease 3.15s 1 both;
+}
+
+/* The synced reply nested inside the posted comment (Phase 2 payoff). Reuses the
+   board reply's reveal but arrives last — a small beat after the reverse pulse
+   lands back at the composer. */
+.cardReplySynced {
+  animation-delay: 3.3s;
+}
+
+/* Small green "Synced" pill making the cross-tool sync explicit. */
+.syncedTag {
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(13, 207, 130, 0.12);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #0aa663;
+}
+
 /* ------------------------------------------------------- Comment composer */
 
 /* Positions the shared `HeroCommentComposer` group; the composer card, navy
@@ -464,9 +581,12 @@
   position: absolute;
   left: 72px;
   top: 232px;
-  /* The source comment composer rises in first (the comment being written). */
+  /* The source comment composer rises in first (the comment being written),
+     holds while it's "typed", then sends — fading up and out as its submitted
+     comment cross-fades in below (see `.postedComment`). A single lifecycle
+     keyframe avoids the entrance/exit transforms fighting over opacity. */
   transform-origin: left top;
-  animation: integRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  animation: integComposerLife 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 /* Bottom fade so the clipped board cards dissolve into the white card edge,
@@ -509,6 +629,56 @@
   }
 }
 
+/* The matching board card "landing" as the forward pulse arrives — a slightly
+   stronger pop (scale + lift) than the ambient card rise, so it reads as the
+   submitted comment showing up on the board. */
+@keyframes integCardLand {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.92);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Composer lifecycle: rise in (0–27%), hold while it's "typed" (27–72%), then
+   send — fading up and out (72–100%) as the posted comment cross-fades in. */
+@keyframes integComposerLife {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  27% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  72% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+
+/* The submitted comment cross-fades in where the composer was. */
+@keyframes integCommentIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes integChipIn {
   from {
     opacity: 0;
@@ -529,13 +699,78 @@
   }
 }
 
+/* Reply animates open inside the Kanban card (collapsed → revealed). Padding
+   and the threading rail are folded away in the collapsed state so nothing
+   peeks out before it reveals. */
+@keyframes integReplyReveal {
+  from {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    border-left-color: transparent;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    max-height: 96px;
+    margin-bottom: 14px;
+    padding-top: 10px;
+    border-left-color: #ededed;
+    transform: translateY(0);
+  }
+}
+
+/* Slides the second "Open" card down as the Guest card's reply reveals, so the
+   growing card pushes it out of the way instead of overlapping it. The travel
+   matches the revealed reply block's height. */
+@keyframes integShiftDown {
+  from {
+    top: 438px;
+  }
+  to {
+    top: 516px;
+  }
+}
+
+/* Purple ring that pulses once as the synced reply lands under the composer. */
+@keyframes integSyncRing {
+  0% {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08), 0 0 0 0 rgba(98, 93, 245, 0.45);
+  }
+  70% {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08), 0 0 0 7px rgba(98, 93, 245, 0);
+  }
+  100% {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08), 0 0 0 0 rgba(98, 93, 245, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .connectorPath,
-  .composer,
   .board,
   .columnHeader,
   .logoChip,
-  .card {
+  .card,
+  .cardReply,
+  .postedComment {
     animation: none;
+  }
+
+  /* Static end state: the composer has already sent, so show only its posted
+     comment (with the synced reply open). */
+  .composer {
+    display: none;
+  }
+
+  /* SMIL pulse isn't governed by the CSS animation reset above. */
+  .syncPulse {
+    display: none;
+  }
+
+  /* With animations off the reply shows open, so hold the card below at its
+     shifted position to keep the (static) gap clear. */
+  .cardOpenB {
+    top: 516px;
   }
 }

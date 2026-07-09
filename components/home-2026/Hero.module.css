@@ -832,14 +832,74 @@
   color: var(--hero-accent-blue);
 }
 
-.logoRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 24px 48px;
+/* Single-line marquee: the track holds two identical logo sets and scrolls
+   left forever, translating by exactly half its width so the loop is seamless.
+   The container clips the overflow and fades both edges. */
+.logoCarousel {
+  position: relative;
   width: 100%;
-  max-width: 940px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+}
+
+.logoTrack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: logoMarquee 34s linear infinite;
+}
+
+.logoCarousel:hover .logoTrack {
+  animation-play-state: paused;
+}
+
+.logoItem {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 26px;
+}
+
+@keyframes logoMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Motion-averse users get a static, centered, wrapping row (no clones). */
+@media (prefers-reduced-motion: reduce) {
+  .logoCarousel {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logoTrack {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    row-gap: 24px;
+  }
+
+  .logoItem[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 /* Real customer logos carried over from the previous homepage. The source
@@ -960,5 +1020,9 @@
 
   .logoImage {
     height: 22px;
+  }
+
+  .logoItem {
+    padding: 0 18px;
   }
 }

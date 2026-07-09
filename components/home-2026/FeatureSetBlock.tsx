@@ -4,18 +4,35 @@ import { useState, type CSSProperties } from "react";
 import styles from "./FeatureSet.module.css";
 import { FeatureSetIcon, type FeatureSetIconName } from "./FeatureSetIcons";
 import { FeatureSetWorkflowMock } from "./FeatureSetMocks";
-import ReviewAgentsArtifact from "./feature-artifacts/ReviewAgentsArtifact";
 import ClientMemoryArtifact from "./feature-artifacts/ClientMemoryArtifact";
 import AskAiArtifact from "./feature-artifacts/AskAiArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
-import PrivateArtifact from "./feature-artifacts/PrivateArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
 import AllDevicesArtifact from "./feature-artifacts/AllDevicesArtifact";
-import GuestModeArtifact from "./feature-artifacts/GuestModeArtifact";
 import KanbanArtifact from "./feature-artifacts/KanbanArtifact";
-import IntegrationsArtifact from "./feature-artifacts/IntegrationsArtifact";
 import CustomStatusArtifact from "./feature-artifacts/CustomStatusArtifact";
+import WorkflowArtifact from "./feature-artifacts/WorkflowArtifact";
+import VersioningArtifact from "./feature-artifacts/VersioningArtifact";
+import LiveSiteArtifact from "./feature-artifacts/LiveSiteArtifact";
+import RecordWalkthroughArtifact from "./feature-artifacts/RecordWalkthroughArtifact";
+import {
+  AttachmentCommentsArtifact,
+  MentionsCommentsArtifact,
+  ReactionReadReceiptArtifact,
+  RobustAnchorArtifact,
+  TextCommentsArtifact,
+  ThreadCommentsArtifact,
+  TrackingTaskManagementArtifact,
+} from "./feature-artifacts/CommentsFeatureArtifacts";
+// Feature tabs with a hero-section equivalent reuse the hero artifact verbatim
+// (sized to the feature panel) instead of a standalone feature duplicate.
+import {
+  ReviewAgentsArtifact,
+  PrivateArtifact,
+  GuestModeArtifact,
+  IntegrationsArtifact,
+} from "./feature-artifacts/HeroArtifactFit";
 
 const FEATURES_LABEL = "Features that help";
 
@@ -34,6 +51,17 @@ const MOCKS = {
   kanban: KanbanArtifact,
   integrations: IntegrationsArtifact,
   "custom-statuses": CustomStatusArtifact,
+  workflows: WorkflowArtifact,
+  versioning: VersioningArtifact,
+  "live-site": LiveSiteArtifact,
+  "record-walkthrough": RecordWalkthroughArtifact,
+  "text-comments": TextCommentsArtifact,
+  "thread-comments": ThreadCommentsArtifact,
+  "tracking-task-management": TrackingTaskManagementArtifact,
+  "robust-anchor": RobustAnchorArtifact,
+  "comment-attachment": AttachmentCommentsArtifact,
+  "comment-mentions": MentionsCommentsArtifact,
+  "reaction-read-receipt": ReactionReadReceiptArtifact,
 } as const;
 
 /** Name of an app-window mock a block can show inside its white screen. */

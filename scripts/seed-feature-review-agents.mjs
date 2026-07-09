@@ -69,7 +69,7 @@ const doc = {
           "Reviews that remember brand rules, past decisions, and get smarter with every project.",
         icon: "brain",
         accent: "#433df3",
-        mock: "agent-gallery",
+        mock: "review-agents",
         tabs: [
           {
             _key: "custom-agent",
@@ -122,6 +122,7 @@ const doc = {
             icon: "devices",
             oneLiner:
               "Check every page across desktop, tablet and phone in one run.",
+            mock: "all-devices",
           },
           {
             _key: "integrations",
@@ -129,6 +130,7 @@ const doc = {
             icon: "plug",
             oneLiner:
               "One-click installs for WordPress, Webflow, Framer and Shopify.",
+            mock: "integrations",
           },
         ],
       },
@@ -139,7 +141,7 @@ const doc = {
           "Guests review from a link. Your team reviews behind login. Everyone gets desktop + mobile + private notes + in-tool recordings.",
         icon: "checks",
         accent: "#da53b9",
-        mock: "workflow",
+        mock: "pinned-comments",
         tabs: [
           {
             _key: "findings",
@@ -161,6 +163,7 @@ const doc = {
             icon: "user-check",
             oneLiner:
               "Clients approve from a link — no account, from their phone.",
+            mock: "guest-mode",
             collapsesFirstTab: true,
           },
           {

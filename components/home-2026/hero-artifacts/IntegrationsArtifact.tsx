@@ -29,6 +29,25 @@ const OPEN_LABEL = "Open";
 const IN_PROGRESS_LABEL = "In Progress";
 const IN_PROGRESS_STATUS = "In progress";
 
+/* Two-way sync demo — the reply added on the Kanban board that syncs back into
+   the comment on the left. */
+const REPLY_AUTHOR = "Mark";
+const REPLY_INITIAL = "M";
+const REPLY_TIME = "now";
+const REPLY_BODY = "On it! Updating the image now";
+const SYNCED_LABEL = "Synced";
+
+/* The left composer submits into this posted comment; its body matches the
+   composer draft and the board's "Lets update the image" card. */
+const COMMENT_AUTHOR = "Emma";
+const COMMENT_INITIAL = "E";
+const COMMENT_TIME = "now";
+
+/* Curved connector geometry, shared by the drawn stroke and both "sync" pulses:
+   a forward pulse (composer → board, Phase 1) and a reverse pulse
+   (board → composer, Phase 2) travel this same path in opposite directions. */
+const CONNECTOR_PATH = "M0 180 H44 Q68 180 68 156 V28 Q68 4 92 4 H162";
+
 /** Size (px) accepted by every local inline glyph. */
 type GlyphProps = {
   /** Rendered width/height in pixels. */
@@ -346,7 +365,26 @@ const LOGO_CHIPS: readonly LogoChip[] = [
 type CardStatus = "open" | "progress";
 
 /** Available circular avatar fills. */
-type AvatarTone = "orange" | "green" | "gray";
+type AvatarTone = "orange" | "green" | "gray" | "purple";
+
+/** A reply nested inside a Kanban comment card (the two-way sync payoff). */
+type CommentReplyData = {
+  author: string;
+  time: string;
+  avatarTone: AvatarTone;
+  /** Initial rendered inside the reply avatar. */
+  avatarInitial: string;
+  bodyText: string;
+};
+
+/** Mark's reply, shown on the board card and synced into the left comment. */
+const MARK_REPLY: CommentReplyData = {
+  author: REPLY_AUTHOR,
+  time: REPLY_TIME,
+  avatarTone: "purple",
+  avatarInitial: REPLY_INITIAL,
+  bodyText: REPLY_BODY,
+};
 
 /** Declarative description of one Kanban comment card. */
 type CommentCardData = {
@@ -364,22 +402,18 @@ type CommentCardData = {
   bodyText: string;
   /** Optional trailing "@mention" highlighted after {@link bodyText}. */
   bodyMention?: string;
+  /**
+   * Optional reply that animates open inside the card. When present the card
+   * reveals this reply (in place of the static "1 Reply" footer) to show a
+   * reply being added on the board and synced across to the composer.
+   */
+  reply?: CommentReplyData;
 };
 
 const COMMENT_CARDS: readonly CommentCardData[] = [
   {
-    id: "guest",
-    positionClass: styles.cardOpenA,
-    status: "open",
-    avatarTone: "orange",
-    avatarInitial: "G",
-    author: "Guest",
-    time: "1h",
-    bodyText: "Client here! Can we change this image",
-  },
-  {
     id: "emma",
-    positionClass: styles.cardOpenB,
+    positionClass: styles.cardOpenA,
     status: "open",
     avatarTone: "gray",
     author: "Emma",
@@ -387,6 +421,17 @@ const COMMENT_CARDS: readonly CommentCardData[] = [
     isEdited: true,
     bodyText: COMPOSER_TEXT,
     bodyMention: MENTION,
+    reply: MARK_REPLY,
+  },
+  {
+    id: "guest",
+    positionClass: styles.cardOpenB,
+    status: "open",
+    avatarTone: "orange",
+    avatarInitial: "G",
+    author: "Guest",
+    time: "1h",
+    bodyText: "Client here! Can we change this image",
   },
   {
     id: "romulus",
@@ -407,6 +452,7 @@ const AVATAR_TONE_CLASS: Readonly<Record<AvatarTone, string>> = {
   orange: styles.avatarOrange,
   green: styles.avatarGreen,
   gray: styles.avatarGray,
+  purple: styles.avatarPurple,
 };
 
 /**
@@ -462,6 +508,31 @@ function CardActions() {
 }
 
 /**
+ * A reply that animates open inside a Kanban comment card. Represents a reply
+ * added on the connected board tool, revealing to convey the two-way sync.
+ *
+ * @param props.reply - The reply's author, avatar tone/initial and body text.
+ * @returns The nested, revealed reply thread.
+ */
+function CardReply({ reply, synced = false }: { reply: CommentReplyData; synced?: boolean }) {
+  const avatarClass = AVATAR_TONE_CLASS?.[reply?.avatarTone] ?? styles.avatarGray;
+  const rootClass = synced ? `${styles.cardReply} ${styles.cardReplySynced}` : styles.cardReply;
+  return (
+    <div className={rootClass}>
+      <div className={styles.threadHead}>
+        <span className={`${styles.avatarSm} ${avatarClass}`}>{reply?.avatarInitial ?? ""}</span>
+        <span className={styles.threadMeta}>
+          <span className={styles.replyAuthor}>{reply?.author}</span>
+          <span className={styles.timeAgo}>{reply?.time}</span>
+          {synced ? <span className={styles.syncedTag}>{SYNCED_LABEL}</span> : null}
+        </span>
+      </div>
+      <p className={styles.replyBody}>{reply?.bodyText}</p>
+    </div>
+  );
+}
+
+/**
  * Render a single Kanban comment card from its {@link CommentCardData}.
  *
  * @param props.card - The declarative card configuration.
@@ -507,10 +578,58 @@ function CommentCard({ card }: { card: CommentCardData }) {
         </p>
       </div>
 
-      <div className={styles.replyRow}>
-        <ReplyIcon size={16} />
-        <span className={styles.replyText}>{REPLY_LABEL}</span>
+      {card?.reply ? (
+        <CardReply reply={card.reply} />
+      ) : (
+        <div className={styles.replyRow}>
+          <ReplyIcon size={16} />
+          <span className={styles.replyText}>{REPLY_LABEL}</span>
+        </div>
+      )}
+    </article>
+  );
+}
+
+/**
+ * The composer's draft submitted into a posted comment. It cross-fades in as the
+ * composer sends, and Mark's reply — mirrored from the Kanban board — animates
+ * open nested inside it (after a reverse pulse travels the connector) rather than
+ * appearing as a detached bubble below the input.
+ *
+ * @returns The positioned posted comment with its nested synced reply.
+ */
+function PostedComment() {
+  return (
+    <article className={styles.postedComment}>
+      <div className={styles.cardBar}>
+        <div className={styles.cardBarGroup}>
+          <span className={`${styles.statusChip} ${styles.statusOpen}`}>
+            <ClockIcon size={16} />
+            {OPEN_LABEL}
+            <ChipChevronIcon size={24} />
+          </span>
+          <span className={styles.priorityChip}>
+            <FlagIcon size={16} />
+            <ChipChevronIcon size={24} />
+          </span>
+        </div>
+        <CardActions />
       </div>
+
+      <div className={styles.thread}>
+        <div className={styles.threadHead}>
+          <span className={`${styles.avatar} ${styles.avatarGray}`}>{COMMENT_INITIAL}</span>
+          <span className={styles.threadMeta}>
+            <span className={styles.authorName}>{COMMENT_AUTHOR}</span>
+            <span className={styles.timeAgo}>{COMMENT_TIME}</span>
+          </span>
+        </div>
+        <p className={styles.commentBody}>
+          {COMPOSER_TEXT}
+          <span className={styles.mention}>{MENTION}</span>
+        </p>
+      </div>
+      <CardReply reply={MARK_REPLY} synced={true} />
     </article>
   );
 }
@@ -553,8 +672,55 @@ export default function IntegrationsArtifact() {
         <path
           className={styles.connectorPath}
           stroke="url(#integrations-connector)"
-          d="M0 180 H44 Q68 180 68 156 V28 Q68 4 92 4 H162"
+          d={CONNECTOR_PATH}
         />
+        {/* Phase 1 — forward "sync" pulse: a dot travels composer → board as the
+            submitted comment lands on the connected board (keyPoints 0 → 1).
+            Begins as the composer sends; its arrival cues the matching board
+            card's entrance (see `.cardOpenB` / `integCardLand`). */}
+        <circle className={styles.syncPulse} r="4" fill="#625df5" opacity="0">
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0"
+            keyTimes="0;0.12;0.85;1"
+            dur="0.6s"
+            begin="0.9s"
+            repeatCount="1"
+          />
+          <animateMotion
+            dur="0.6s"
+            begin="0.9s"
+            repeatCount="1"
+            keyPoints="0;1"
+            keyTimes="0;1"
+            calcMode="linear"
+            path={CONNECTOR_PATH}
+          />
+        </circle>
+
+        {/* Phase 2 — reverse "sync" pulse: a dot travels back board → composer
+            (keyPoints 1 → 0) as the board reply syncs into the comment on the
+            left. Delayed until Phase 1 has clearly settled; its arrival cues the
+            synced reply reveal (see `.cardReplySynced`). */}
+        <circle className={styles.syncPulse} r="4" fill="#625df5" opacity="0">
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0"
+            keyTimes="0;0.12;0.85;1"
+            dur="0.65s"
+            begin="2.55s"
+            repeatCount="1"
+          />
+          <animateMotion
+            dur="0.65s"
+            begin="2.55s"
+            repeatCount="1"
+            keyPoints="1;0"
+            keyTimes="0;1"
+            calcMode="linear"
+            path={CONNECTOR_PATH}
+          />
+        </circle>
       </svg>
 
       {/* Kanban board panel (bleeds off the right edge). */}
@@ -596,7 +762,8 @@ export default function IntegrationsArtifact() {
       {/* Fade the clipped board cards into the bottom edge. */}
       <div className={styles.fade} aria-hidden="true" />
 
-      {/* Comment composer popover on the left (shared component). */}
+      {/* Comment composer popover on the left (shared component); it sends and
+          cross-fades into the posted comment below. */}
       <HeroCommentComposer
         className={styles.composer}
         header={{ label: COMPOSER_VISIBLE_TO, team: COMPOSER_TEAM }}
@@ -605,6 +772,9 @@ export default function IntegrationsArtifact() {
         avatar={null}
         accent
       />
+
+      {/* The composer's submitted comment, with the board reply synced inside. */}
+      <PostedComment />
       </div>
     </div>
   );

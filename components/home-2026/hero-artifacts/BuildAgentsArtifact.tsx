@@ -39,26 +39,10 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 /** Number of skeleton/loading cards rendered below the real cards. */
 const SKELETON_CARD_COUNT = 4;
 
-/**
- * Vibrant, multi-hue fill palette for the 3x3 grid tile, in row-major order.
- * Nine deliberately distinct colors (rather than three near-identical shades)
- * so every dot reads as a crisp, separate point against the dark tile
- * background. Values are hardcoded — never generated with `Math.random()` or
- * any render-time value — to keep the server- and client-rendered markup
- * identical and avoid React hydration mismatches. Tones are borrowed from the
- * Open Color 5/6 scale for a saturated-but-tasteful spread across the hue wheel.
- */
-const GRID_DOT_COLORS: readonly string[] = [
-  "#ff6b6b", // red
-  "#ffa94d", // orange
-  "#ffd43b", // yellow
-  "#69db7c", // green
-  "#38d9a9", // teal
-  "#3bc9db", // cyan
-  "#4dabf7", // blue
-  "#9775fa", // violet
-  "#f783ac", // pink
-];
+/** Number of dots per row/column in a card's square "app icon" grid tile. */
+const GRID_DOT_GRID_SIZE = 4;
+/** Total dots in a grid tile — the 4×4 matrix has 16 cells. */
+const GRID_DOT_COUNT = GRID_DOT_GRID_SIZE * GRID_DOT_GRID_SIZE;
 
 type IconProps = SVGProps<SVGSVGElement> & {
   /** Rendered width/height in pixels. Defaults to 16. */
@@ -253,12 +237,16 @@ type RailItem = {
 };
 
 /**
- * Palette for a card's 3x3 grid tile icon. The nine dot fills are shared across
- * cards via {@link GRID_DOT_COLORS}; only the tile background varies per card so
- * each card keeps a subtle brand tint while the dots stay vibrant and crisp.
+ * Palette for a card's {@link GRID_DOT_GRID_SIZE}×{@link GRID_DOT_GRID_SIZE}
+ * "app icon" grid tile. Every tile is monochromatic: `background` is a saturated
+ * hue and `dots` holds one fill per cell (row-major), drawn from shades and
+ * opacities of that same hue plus a few warm accents — mirroring the Superflow
+ * app-icon style in Figma (file ULqAEE056c2Tzoa2Nvwqcu).
  */
 type GridIconPalette = {
   background: string;
+  /** Row-major dot fills; length must be GRID_DOT_GRID_SIZE squared. */
+  dots: readonly string[][];
 };
 
 /** A fully rendered agent card. */
@@ -279,20 +267,31 @@ const RAIL_ITEMS: readonly RailItem[] = [
 ];
 
 /**
- * "Spell Check" tile: a deep warm-brown background. Darkened from the original
- * amber so the shared {@link GRID_DOT_COLORS} dots stay high-contrast and crisp.
+ * "Spell Check" tile — the red app-icon from Figma node 26680:552: a deep red
+ * background with dots in shades of coral/red.
  */
 const SPELL_CHECK_PALETTE: GridIconPalette = {
-  background: "#2a1a0f",
+  background: "#8a2022",
+  dots: [
+    ["#ffc6b5", "#ff9d84", "#ff6f57", "#ff9d84"],
+    ["#ff9d84", "#ff6f57", "#fd4428", "#ff9d84"],
+    ["#fd4428", "#ffc6b5", "#ff9d84", "#ff6f57"],
+    ["#ffc6b5", "#ff9d84", "#fd4428", "#ff9d84"],
+  ],
 };
 
 /**
- * "Grid Layout" tile: a deep green background. Darkened from the original green
- * so the shared {@link GRID_DOT_COLORS} dots stay high-contrast and crisp
- * (previously the green dots blended into the lighter green tile).
+ * "Grid Layout" tile — the indigo app-icon from Figma node 26680:878: a deep
+ * indigo background with translucent-white dots plus a few warm coral accents.
  */
 const GRID_LAYOUT_PALETTE: GridIconPalette = {
-  background: "#123020",
+  background: "#231f9b",
+  dots: [
+    ["rgba(255,255,255,0.52)", "#ff9d84", "rgba(255,255,255,0.8)", "rgba(255,255,255,0.52)"],
+    ["#ff9d84", "rgba(255,255,255,0.8)", "rgba(255,255,255,0.3)", "#ff9d84"],
+    ["rgba(255,255,255,0.3)", "rgba(255,255,255,0.52)", "#ff9d84", "#ff6f57"],
+    ["#ffc6b5", "#ff9d84", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.8)"],
+  ],
 };
 
 const AGENT_CARDS: readonly AgentCard[] = [
@@ -311,42 +310,43 @@ const AGENT_CARDS: readonly AgentCard[] = [
 ];
 
 /**
- * Resolve the fill color for a single grid-tile dot by its row-major index.
- * The color set is a fixed, hardcoded array, so the result is fully
- * deterministic (identical on server and client — no hydration risk).
+ * Flatten a palette's row-major dot rows into a single ordered list of fills.
+ * The color set is fixed and hardcoded, so the result is fully deterministic
+ * (identical on server and client — no hydration risk).
  *
- * @param index - Zero-based dot index (0-8) within the 3x3 grid.
- * @returns The resolved hex color; falls back to the first palette entry for
- *   any out-of-range index so a dot is never rendered without a fill.
+ * @param palette - The tile palette whose dot rows to flatten.
+ * @returns The row-major list of dot fills, capped at {@link GRID_DOT_COUNT};
+ *   an empty list if none are defined.
  */
-function resolveDotColor(index: number): string {
+function flattenDots(palette: GridIconPalette): string[] {
   try {
-    return GRID_DOT_COLORS?.[index] ?? GRID_DOT_COLORS[0];
+    return palette?.dots?.flat()?.slice(0, GRID_DOT_COUNT) ?? [];
   } catch {
-    return GRID_DOT_COLORS[0];
+    return [];
   }
 }
 
 /**
- * Render the 3x3 dotted grid tile used as an agent card's leading icon. The
- * background is per-card (see {@link GridIconPalette}); the nine dot fills come
- * from the shared, deterministic {@link GRID_DOT_COLORS} palette.
+ * Render the {@link GRID_DOT_GRID_SIZE}×{@link GRID_DOT_GRID_SIZE} dotted grid
+ * tile used as an agent card's leading icon. Both the background and the dot
+ * fills come from the per-card {@link GridIconPalette}.
  *
- * @param palette - The background color for the tile.
+ * @param palette - The background color and row-major dot fills for the tile.
  * @returns The grid tile element.
  */
 function GridTile({ palette }: { palette: GridIconPalette }) {
+  const dots = flattenDots(palette);
   return (
     <span
       className={styles.gridTile}
       style={{ background: palette?.background }}
       aria-hidden="true"
     >
-      {GRID_DOT_COLORS.map((_color, index) => (
+      {dots.map((color, index) => (
         <span
           key={`dot-${index}`}
           className={styles.gridDot}
-          style={{ background: resolveDotColor(index) }}
+          style={{ background: color }}
         />
       ))}
     </span>

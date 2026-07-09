@@ -669,39 +669,53 @@
 
 /* Stagger the second row right so the cluster reads as scattered, not a grid. */
 .bubbleRowOffset {
-    margin-left: 56px;
+    margin-left: 52px;
 }
 
-.bubbleAvatar {
+/* App card: a white rounded square holding a source-app logo (Slack / email),
+   with an unread coral dot straddling its top-right corner. */
+.appCard {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 0 0 auto;
     width: 76px;
     height: 76px;
-    border-radius: 22px;
-    background: #e9eaed;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 2px solid #e5e5e8;
 }
 
-.bubbleDot {
+/* The email card tints its outlined envelope glyph magenta. */
+.appCardEmail {
+    color: #e5487f;
+}
+
+.appCardDot {
     position: absolute;
-    top: -3px;
-    right: -3px;
-    width: 20px;
-    height: 20px;
+    top: -6px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: var(--sol-red);
-    border: 3px solid var(--sol-bg);
+    background: #f76a5c;
 }
 
-.bubbleBar {
-    flex: 0 0 auto;
-    width: 224px;
-    height: 76px;
-    border-radius: 18px;
-    background: #e9eaed;
-}
-
-.bubbleBarShort {
-    width: 200px;
+/* Message bubble: a light-grey rounded rect carrying the real feedback copy. */
+.messageBubble {
+    flex: 0 1 auto;
+    max-width: 268px;
+    margin: 0;
+    padding: 17px 22px;
+    border-radius: 20px;
+    background: #eeeef0;
+    color: var(--sol-ink);
+    font-family: var(--sol-font-body);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.42;
+    letter-spacing: -0.2px;
 }
 
 .browser {
@@ -711,7 +725,9 @@
     border: 1px solid #ececec;
     border-radius: 18px;
     background: #ffffff;
-    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.18);
+    /* Lift the window off the page just slightly (matches the Figma comments
+       frame) — a whisper-soft shadow, not a heavy drop. */
+    box-shadow: 0 4px 14px rgba(20, 20, 43, 0.04);
     overflow: hidden;
 }
 
@@ -800,18 +816,17 @@
     width: 54%;
 }
 
-/* The pinned comment marker: a rounded blob with one pointed corner, straddling
-   the seam between the hero media and the copy so it reads as attached to the
-   page content. */
+/* The pinned comment: a solid indigo speech-blob with one pointed corner
+   (bottom-left tail), straddling the right edge of the hero media so it reads
+   as a comment attached to the live page. */
 .commentPin {
     position: absolute;
-    top: 92px;
-    left: 196px;
-    width: 34px;
-    height: 34px;
-    border-radius: 18px 18px 18px 4px;
-    background: var(--sol-blue);
-    box-shadow: 0 6px 14px -4px rgba(53, 85, 221, 0.55);
+    top: 96px;
+    left: 198px;
+    width: 40px;
+    height: 40px;
+    border-radius: 21px 21px 21px 6px;
+    background: #3b6ef6;
 }
 
 /* ---- Responsive ---- */

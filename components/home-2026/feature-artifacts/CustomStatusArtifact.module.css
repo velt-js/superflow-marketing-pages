@@ -1,9 +1,15 @@
 /* Feature-section app-window artifact — "Custom Statuses".
-   Superflow's "Add Status" dialog floating over a dimmed settings page. A ghost
-   page + dark scrim fill the root; the modal is a compact card, left-anchored
-   with clear margins so it reads as a floating dialog (not a full-bleed panel).
-   Its right edge runs a little past the visible ~631px frame like the sibling
-   artifacts. The modal and icon grid animate in on mount and replay on tab switch. */
+   Superflow's "Add Status" dialog floating over a live kanban board. The board
+   fills the root; a dark scrim dims it while the modal is open. The modal is a
+   compact card, left-anchored with clear margins so it reads as a floating
+   dialog. Its right edge runs a little past the visible ~631px frame like the
+   sibling artifacts.
+
+   Timeline (replays on tab switch): the modal rises in, the status name types
+   itself out, the counter + preview pill tick over, the "Add Status" button
+   lights up and a pointer presses it, then the dialog dismisses and the new
+   amber "In Review" column expands into the board — sliding "In Progress" (and
+   "Done") to the right. */
 
 .root {
   position: relative;
@@ -12,9 +18,9 @@
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  /* Left margin keeps the dimmed page visible on the left; vertical centring
-     leaves margin above/below so the dialog floats rather than fills the frame.
-     The modal is a touch wider than needed, so its right edge bleeds gently. */
+  /* Left margin keeps the board visible on the left; vertical centring leaves
+     margin above/below so the dialog floats rather than fills the frame. The
+     modal is a touch wider than needed, so its right edge bleeds gently. */
   padding-left: 40px;
   overflow: hidden;
   background: #feffff;
@@ -22,37 +28,174 @@
   font-family: var(--font-urbanist), system-ui, sans-serif;
 }
 
-/* ------------------------------------------------------ dimmed settings page */
+/* -------------------------------------------------------------- kanban board */
 
-.page {
+.board {
   position: absolute;
   inset: 0;
+  background: #ffffff;
+}
+
+.boardBar {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 40px 52px;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 28px;
+  border-bottom: 1px solid #ececef;
+  background: #ffffff;
 }
 
-.ghostTitle {
-  width: 180px;
-  height: 18px;
-  border-radius: 6px;
-  background: #ededed;
+.boardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #26262b;
 }
 
-.ghostRow {
-  width: 100%;
-  height: 46px;
+.boardChips {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.boardChip {
+  width: 58px;
+  height: 24px;
+  border-radius: 8px;
+  background: #eeeef1;
+}
+
+/* Columns row. It is wider than the frame; the right edge is clipped by the
+   root's overflow so the last column bleeds off, like the sibling artifacts. */
+.columns {
+  position: absolute;
+  left: 24px;
+  top: 74px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 0 0 auto;
+  width: 176px;
+  margin-right: 14px;
+}
+
+/* Fixed-width inner so column contents never reflow while the new column's
+   outer width animates from 0 (it is simply clipped as the lane widens). */
+.columnInner {
+  width: 176px;
+}
+
+.columnHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.columnIcon {
+  display: inline-flex;
+}
+
+.columnTitle {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #26262b;
+  white-space: nowrap;
+}
+
+.columnCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: #eaeaee;
+  color: #8a8a92;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* New amber column: collapsed to zero width until the status is submitted,
+   then it expands and pushes the following columns right. */
+.columnNew {
+  width: 0;
+  margin-right: 0;
+  overflow: hidden;
+  animation: csColExpand 0.72s cubic-bezier(0.16, 1, 0.3, 1) 2.95s both;
+}
+
+.columnNewInner {
+  opacity: 0;
+  animation: csColContent 0.5s ease 3.28s both;
+}
+
+/* ---------------------------------------------------------------- board card */
+
+.miniCard {
+  margin-bottom: 10px;
+  padding: 11px 12px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 12px;
-  background: #f2f2f2;
+  background: #ffffff;
 }
 
-/* Dark wash that makes the white modal read as an overlay. */
+.miniHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.miniAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.miniAuthor {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #1b1b1f;
+}
+
+.miniTime {
+  font-size: 11px;
+  font-weight: 500;
+  color: #a0a0a8;
+}
+
+.miniBody {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #4c4c54;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dark wash that makes the white modal read as an overlay; lifts as it closes. */
 .scrim {
   position: absolute;
   inset: 0;
-  background: rgba(18, 18, 24, 0.32);
-  animation: csFade 0.4s ease both;
+  background: rgba(18, 18, 24, 0.34);
+  opacity: 0;
+  animation: csScrimLife 3.6s ease 0.06s both;
 }
 
 /* -------------------------------------------------------------------- modal */
@@ -68,7 +211,8 @@
   background: #ffffff;
   box-shadow: 0 22px 54px rgba(17, 17, 26, 0.24);
   overflow: hidden;
-  animation: csModalIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+  opacity: 0;
+  animation: csModalLife 3.6s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
 }
 
 .header {
@@ -136,6 +280,7 @@
 /* ------------------------------------------------------------ status name */
 
 .input {
+  position: relative;
   display: flex;
   align-items: center;
   height: 40px;
@@ -148,13 +293,62 @@
 .placeholder {
   color: #9a9aa2;
   font-size: 14px;
+  animation: csPlaceholderOut 0.25s ease 0.85s both;
+}
+
+/* Typed status name + caret, revealed left-to-right by a clip wipe. The text
+   and caret keep their natural widths and sit flush, so the caret always hugs
+   the text (no fixed-width box to overshoot the string). */
+.typedWrap {
+  position: absolute;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  clip-path: inset(0 0 0 0);
+  animation: csType 0.78s steps(9, end) 0.92s both;
+}
+
+.typedText {
+  white-space: nowrap;
+  color: #1e1e1f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.caret {
+  width: 1.5px;
+  height: 18px;
+  margin-left: 1px;
+  background: #1e1e1f;
+  opacity: 0;
+  animation: csCaret 1.7s ease 0.85s both;
 }
 
 .counter {
+  position: relative;
   align-self: flex-end;
+  width: 34px;
+  height: 15px;
   margin-top: 5px;
+}
+
+/* Stacked digits crossfade as the name lands (0/20 → 9/20). */
+.counterFrom,
+.counterTo {
+  position: absolute;
+  inset: 0;
+  text-align: right;
   color: #9a9aa2;
   font-size: 11.5px;
+}
+
+.counterFrom {
+  animation: csCountOut 0.4s ease 1.5s both;
+}
+
+.counterTo {
+  animation: csCountIn 0.4s ease 1.5s both;
 }
 
 /* -------------------------------------------------------------- type field */
@@ -262,8 +456,31 @@
   display: inline-flex;
 }
 
+/* Stacked preview labels crossfade with the counter (Status → In Review). */
 .chipLabel {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
   line-height: 1;
+}
+
+.chipLabelFrom,
+.chipLabelTo {
+  white-space: nowrap;
+}
+
+.chipLabelTo {
+  position: absolute;
+  left: 0;
+}
+
+.chipLabelFrom {
+  animation: csCountOut 0.4s ease 1.5s both;
+}
+
+.chipLabelTo {
+  animation: csCountIn 0.4s ease 1.5s both;
 }
 
 .actions {
@@ -291,35 +508,37 @@
   cursor: pointer;
 }
 
+/* Starts disabled-grey, then lights up amber once the name is typed. */
 .btnPrimary {
   flex: 1.25;
   border: 0;
   background: #e9e9ec;
   color: #a7a7ae;
-  cursor: not-allowed;
+  cursor: pointer;
+  animation: csEnable 0.35s ease 1.66s both;
 }
 
-/* --- Entrance animations (replay whenever the tab mounts) --------------- */
+/* -------------------------------------------------------------- fake cursor */
 
-@keyframes csFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.cursor {
+  position: absolute;
+  right: 66px;
+  bottom: 24px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.4));
+  animation: csCursor 1.2s ease 1.78s both;
 }
 
-@keyframes csModalIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
+
+/* --- Entrance / story animations (replay whenever the tab mounts) ------- */
 
 @keyframes csCellIn {
   from {
@@ -332,10 +551,232 @@
   }
 }
 
+/* Scrim fades in with the modal, holds, then lifts as the dialog dismisses. */
+@keyframes csScrimLife {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Modal rises in, holds while the form is filled, then fades + drifts up. */
+@keyframes csModalLife {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+}
+
+@keyframes csPlaceholderOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes csType {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes csCaret {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.1;
+  }
+  32% {
+    opacity: 1;
+  }
+  46% {
+    opacity: 0.1;
+  }
+  60% {
+    opacity: 1;
+  }
+  74% {
+    opacity: 0.1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes csCountOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes csCountIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes csEnable {
+  from {
+    background: #e9e9ec;
+    color: #a7a7ae;
+  }
+  to {
+    background: #ecb000;
+    color: #ffffff;
+  }
+}
+
+/* Cursor eases onto the button, presses (scale down + up), then rides the
+   modal out via the parent's fade. */
+@keyframes csCursor {
+  0% {
+    opacity: 0;
+    transform: translate(14px, 14px) scale(1);
+  }
+  28% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  52% {
+    transform: translate(0, 0) scale(1);
+  }
+  64% {
+    transform: translate(0, 0) scale(0.84);
+  }
+  78% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* New column grows from zero, sliding the following columns right. */
+@keyframes csColExpand {
+  from {
+    width: 0;
+    margin-right: 0;
+  }
+  to {
+    width: 176px;
+    margin-right: 14px;
+  }
+}
+
+@keyframes csColContent {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+/* Rest on a filled-in dialog ready to submit (board dimmed behind, new column
+   not yet added), skipping every transition. */
 @media (prefers-reduced-motion: reduce) {
   .scrim,
   .modal,
-  .iconCell {
+  .iconCell,
+  .placeholder,
+  .typedWrap,
+  .caret,
+  .counterFrom,
+  .counterTo,
+  .chipLabelFrom,
+  .chipLabelTo,
+  .btnPrimary,
+  .cursor,
+  .columnNew,
+  .columnNewInner {
     animation: none;
+  }
+
+  .scrim {
+    opacity: 0.34;
+  }
+
+  .modal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .placeholder,
+  .caret,
+  .cursor {
+    display: none;
+  }
+
+  .typedWrap {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .counterFrom,
+  .chipLabelFrom {
+    display: none;
+  }
+
+  .counterTo,
+  .chipLabelTo {
+    opacity: 1;
+  }
+
+  .btnPrimary {
+    background: #ecb000;
+    color: #ffffff;
+  }
+
+  .columnNew {
+    width: 0;
+    margin-right: 0;
+  }
+
+  .columnNewInner {
+    opacity: 0;
   }
 }

@@ -63,28 +63,31 @@ const doc = {
           "Click an element or select the exact words. Your comment pins to that spot and stays anchored — even after the page changes.",
         icon: "message-pin",
         accent: "#a21caf",
-        mock: "agent-gallery",
+        mock: "text-comments",
         tabs: [
           {
-            _key: "element-pinning",
-            label: "Element pinning",
+            _key: "text-comments",
+            label: "Text Comments",
             icon: "pin",
             oneLiner:
-              "Click any element and pin a comment exactly where it belongs.",
-          },
-          {
-            _key: "text-selection",
-            label: "Text-selection comments",
-            icon: "ballpen",
-            oneLiner:
               "Highlight the exact words and comment on the copy itself.",
+            mock: "text-comments",
           },
           {
             _key: "robust-anchors",
-            label: "Robust anchors",
+            label: "Robust Anchor",
             icon: "link",
             oneLiner:
               "Comments stay anchored to the element even after the page changes.",
+            mock: "robust-anchor",
+          },
+          {
+            _key: "element-pinning",
+            label: "Element Pinning",
+            icon: "pin",
+            oneLiner:
+              "Click any element and pin a comment exactly where it belongs.",
+            mock: "pinned-comments",
           },
         ],
       },
@@ -95,14 +98,15 @@ const doc = {
           "Threads, replies, mentions, attachments, and recorded walkthroughs — every conversation stays in one place, in full context.",
         icon: "message-circle",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "thread-comments",
         tabs: [
           {
             _key: "threads-replies",
-            label: "Thread & Replies",
+            label: "Thread Comments",
             icon: "message-circle",
             oneLiner:
               "Full threads with replies keep every decision in one place.",
+            mock: "thread-comments",
           },
           {
             _key: "mentions",
@@ -110,13 +114,15 @@ const doc = {
             icon: "user-check",
             oneLiner:
               "@mention a teammate or the client to pull them into the thread.",
+            mock: "comment-mentions",
           },
           {
             _key: "attachments",
-            label: "Attachments",
+            label: "Attachment",
             icon: "share",
             oneLiner:
               "Drop images, PDFs, and files right into the conversation.",
+            mock: "comment-attachment",
             collapsesFirstTab: true,
           },
           {
@@ -136,20 +142,22 @@ const doc = {
           "Guests review from a link. Your team reviews behind login. Everyone gets desktop + mobile + private notes + in-tool recordings.",
         icon: "checks",
         accent: "#109534",
-        mock: "workflow",
+        mock: "reaction-read-receipt",
         tabs: [
           {
             _key: "reactions-receipts",
-            label: "Reactions and read receipts",
+            label: "Reaction & Read Receipt",
             icon: "checks",
             oneLiner:
               "React with an emoji and see exactly who has read each comment.",
+            mock: "reaction-read-receipt",
           },
           {
             _key: "statuses-assignment",
-            label: "Statuses and assignment",
+            label: "Tracking & Task Management",
             icon: "list-check",
             oneLiner: "Assign every finding an owner and track it to done.",
+            mock: "tracking-task-management",
             collapsesFirstTab: true,
           },
         ],
@@ -161,7 +169,7 @@ const doc = {
           "With statuses, workflows, kanban, and deep integrations the reviews actually move forward instead of getting lost in email and Loom.",
         icon: "layout-dashboard",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "private-comments",
         tabs: [
           {
             _key: "private-scopes",
@@ -176,6 +184,7 @@ const doc = {
             icon: "camera",
             oneLiner:
               "Every comment saves a snapshot, so the proof survives redeploys.",
+            mock: "auto-screenshot",
             collapsesFirstTab: true,
           },
           {
@@ -184,6 +193,7 @@ const doc = {
             icon: "robot",
             oneLiner:
               "AI agents post their findings as comments right alongside your team.",
+            mock: "review-agents",
             collapsesFirstTab: true,
           },
         ],

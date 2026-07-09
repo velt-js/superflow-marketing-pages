@@ -26,15 +26,8 @@ type TabIconName = "code" | "plug" | "send" | "list";
 /** Tabler-style glyphs used where Figma draws an icon instead of a brand logo. */
 type GlyphName = "mail" | "cloud" | "webhook";
 
-/**
- * "logo" renders the row of integration brand logos (Figma shows only logos
- * here); "labeled" renders an icon plus a visible mono label, matching the
- * Developer card's REST API / WEB HOOKS tiles.
- */
-type CategoryVariant = "logo" | "labeled";
-
 interface IntegrationItem {
-  /** Brand/name; used as the accessible label. */
+  /** Brand/name; rendered as the tile caption and accessible label. */
   name: string;
   /** Brand logo asset (omitted when Figma draws a plain glyph instead). */
   logo?: string;
@@ -46,20 +39,18 @@ interface IntegrationCategory {
   id: string;
   label: string;
   icon: TabIconName;
-  /** Bright accent used for the tab icon chip. */
+  /** Bright accent used for the header icon chip. */
   accent: string;
-  /** Dark tone (accent @ 30% over black) used for the tab fill and card border. */
-  tone: string;
   /** Glyph colour that keeps enough contrast against the accent chip. */
   glyph: string;
-  variant: CategoryVariant;
   items: IntegrationItem[];
 }
 
 /**
- * Categories mirror the four folder cards in Figma. Item counts match the
- * "12 integrations" claim (Installation 4 + Delivery 3 + Task Management 5);
- * the Developer card lists API surfaces rather than integrations.
+ * Categories mirror the four folder cards in Figma, ordered so the lighter
+ * cards (Developer, Delivery) sit in the first grid row. Item counts match
+ * the "12 integrations" claim (Installation 4 + Delivery 3 + Task Management
+ * 5); the Developer card lists API surfaces rather than integrations.
  */
 const CATEGORIES: readonly IntegrationCategory[] = [
   {
@@ -67,12 +58,22 @@ const CATEGORIES: readonly IntegrationCategory[] = [
     label: "Developer",
     icon: "code",
     accent: "#5514e1",
-    tone: "#190744",
     glyph: "#ffffff",
-    variant: "labeled",
     items: [
-      { name: "REST API", glyph: "cloud" },
       { name: "WEB HOOKS", glyph: "webhook" },
+      { name: "REST API", glyph: "cloud" },
+    ],
+  },
+  {
+    id: "delivery",
+    label: "Delivery",
+    icon: "send",
+    accent: "#139956",
+    glyph: "#ffffff",
+    items: [
+      { name: "Slack", logo: `${ASSET_BASE}/slack.png` },
+      { name: "Email", glyph: "mail" },
+      { name: "WhatsApp", logo: `${ASSET_BASE}/whatsapp.png` },
     ],
   },
   {
@@ -80,9 +81,7 @@ const CATEGORIES: readonly IntegrationCategory[] = [
     label: "Installation",
     icon: "plug",
     accent: "#e17a14",
-    tone: "#452406",
     glyph: "#ffffff",
-    variant: "logo",
     items: [
       { name: "Framer", logo: `${ASSET_BASE}/framer.png` },
       { name: "WordPress", logo: `${ASSET_BASE}/wordpress.png` },
@@ -91,33 +90,17 @@ const CATEGORIES: readonly IntegrationCategory[] = [
     ],
   },
   {
-    id: "delivery",
-    label: "Delivery",
-    icon: "send",
-    accent: "#139956",
-    tone: "#062f1b",
-    glyph: "#ffffff",
-    variant: "logo",
-    items: [
-      { name: "Slack", logo: `${ASSET_BASE}/slack.png` },
-      { name: "WhatsApp", logo: `${ASSET_BASE}/whatsapp.png` },
-      { name: "Email", glyph: "mail" },
-    ],
-  },
-  {
     id: "task-management",
     label: "Task Management",
     icon: "list",
     accent: "#f9d834",
-    tone: "#4b4010",
     glyph: "#1e1e1f",
-    variant: "logo",
     items: [
       { name: "Asana", logo: `${ASSET_BASE}/asana.png` },
       { name: "Trello", logo: `${ASSET_BASE}/trello.png` },
       { name: "Monday.com", logo: `${ASSET_BASE}/monday.png` },
       { name: "ClickUp", logo: `${ASSET_BASE}/clickup.png` },
-      { name: "Jira", logo: `${ASSET_BASE}/jira.png` },
+      { name: "Jira", logo: `${ASSET_BASE}/jira.svg` },
     ],
   },
 ] as const;
@@ -135,6 +118,7 @@ const GLYPH_DEFINITIONS: Record<GlyphName, GlyphDefinition> = {
   mail: {
     viewBox: "0 0 24 24",
     strokeWidth: 2,
+    stroke: "#f5325b",
     paths: [
       "M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z",
       "M3 7l9 6l9 -6",
@@ -143,6 +127,7 @@ const GLYPH_DEFINITIONS: Record<GlyphName, GlyphDefinition> = {
   cloud: {
     viewBox: "0 0 24 24",
     strokeWidth: 2,
+    stroke: "#f5325b",
     paths: [
       "M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878",
     ],
@@ -231,74 +216,49 @@ function TabIcon({ iconName }: { iconName: TabIconName }): ReactElement {
 }
 
 /**
- * Renders one integration tile. Logo tiles show the brand logo (or a stroked
- * glyph where Figma uses one, e.g. Email); labeled tiles pair a glyph with the
- * visible mono caption from the Developer card.
+ * Renders one integration tile: a brand logo (or a stroked glyph where Figma
+ * uses one, e.g. Email / REST API) paired with its mono caption.
  * @param item - The integration entry to render.
- * @param variant - Whether to render a square logo tile or a wide labeled tile.
  */
-function IntegrationTile({
-  item,
-  variant,
-}: {
-  item: IntegrationItem;
-  variant: CategoryVariant;
-}): ReactElement {
-  if (variant === "labeled") {
-    return (
-      <li className={`${styles.tile} ${styles.labeledTile}`}>
-        <span className={styles.labeledIcon} aria-hidden="true">
-          {item?.glyph ? <GlyphIcon glyph={item.glyph} /> : null}
-        </span>
-        <span className={styles.labeledLabel}>{item?.name}</span>
-      </li>
-    );
-  }
-
+function IntegrationTile({ item }: { item: IntegrationItem }): ReactElement {
   return (
-    <li className={`${styles.tile} ${styles.logoTile}`}>
-      {item?.logo ? (
-        <Image
-          className={styles.logoImage}
-          src={item.logo}
-          alt={`${item?.name} ${LOGO_LABEL_SUFFIX}`}
-          width={60}
-          height={60}
-        />
-      ) : (
-        <span
-          className={styles.glyphIcon}
-          role="img"
-          aria-label={`${item?.name} ${LOGO_LABEL_SUFFIX}`}
-        >
-          {item?.glyph ? <GlyphIcon glyph={item.glyph} /> : null}
-        </span>
-      )}
+    <li className={styles.tile}>
+      <span className={styles.tileIcon} aria-hidden="true">
+        {item?.logo ? (
+          <Image
+            className={styles.logoImage}
+            src={item.logo}
+            alt={`${item?.name} ${LOGO_LABEL_SUFFIX}`}
+            width={40}
+            height={40}
+          />
+        ) : item?.glyph ? (
+          <GlyphIcon glyph={item.glyph} />
+        ) : null}
+      </span>
+      <span className={styles.tileLabel}>{item?.name}</span>
     </li>
   );
 }
 
 /**
- * Desktop collage placement class per category (Figma scatter positions).
- * On ≤1024px viewports these classes are inert and cards flow in the
- * centered wrapped grid.
+ * Per-category class carrying the entrance-reveal stagger delay (see CSS).
  */
 const PLACEMENT_CLASSES: Record<string, string> = {
   developer: styles.placeDeveloper,
-  installation: styles.placeInstallation,
   delivery: styles.placeDelivery,
+  installation: styles.placeInstallation,
   "task-management": styles.placeTaskManagement,
 };
 
 /**
- * Renders a single category folder card: a coloured tab plus a bordered body
- * of integration tiles.
+ * Renders a single category card: a header row (accent icon chip + label)
+ * over a grid of integration tiles.
  * @param category - The category to render.
  */
 function CategoryCard({ category }: { category: IntegrationCategory }): ReactElement {
   const cardStyle = {
     "--accent": category.accent,
-    "--tone": category.tone,
     "--glyph": category.glyph,
   } as CSSProperties;
   const placementClass = PLACEMENT_CLASSES[category.id] ?? "";
@@ -315,9 +275,9 @@ function CategoryCard({ category }: { category: IntegrationCategory }): ReactEle
         </span>
         <span className={styles.tabLabel}>{category.label}</span>
       </div>
-      <ul className={styles.body} data-variant={category.variant}>
+      <ul className={styles.body} data-cat={category.id}>
         {category.items?.map((item) => (
-          <IntegrationTile key={item.name} item={item} variant={category.variant} />
+          <IntegrationTile key={item.name} item={item} />
         ))}
       </ul>
     </article>
@@ -329,9 +289,8 @@ function CategoryCard({ category }: { category: IntegrationCategory }): ReactEle
  *
  * Presents the "Works with your existing tools" headline, a supporting line,
  * a link to the full integrations index, and four folder-style category cards
- * of integration logos. On >1024px viewports the cards form the off-center
- * Figma collage around the centered header (side cards bleed off the viewport
- * edges); on smaller viewports they fall back to a centered wrapped grid.
+ * of integrations. The cards sit in a responsive grid below the centered
+ * header (2-up ≥768px, single column below).
  *
  * A client boundary is used only for the play-once entrance reveal: an
  * IntersectionObserver flips a class when the section scrolls into view and
@@ -377,19 +336,18 @@ export default function IntegrationsSection(): ReactElement {
       aria-labelledby="integrations-title"
     >
       <div className={styles.inner}>
-        <header className={styles.header}>
-          <div className={styles.headingGroup}>
+        <div className={styles.grid}>
+          <header className={styles.header}>
             <h2 id="integrations-title" className={styles.title}>
               {SECTION_TITLE}
             </h2>
-            <p className={styles.subtitle}>{SECTION_SUBTITLE}</p>
-          </div>
-          <a className={styles.cta} href={CTA_HREF}>
-            {CTA_LABEL}
-          </a>
-        </header>
-
-        <div className={styles.grid}>
+            <div className={styles.headerAside}>
+              <p className={styles.subtitle}>{SECTION_SUBTITLE}</p>
+              <a className={styles.cta} href={CTA_HREF}>
+                {CTA_LABEL}
+              </a>
+            </div>
+          </header>
           {CATEGORIES.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}

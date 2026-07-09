@@ -19,6 +19,7 @@
 }
 
 .addressBar {
+  position: relative;
   flex: 1 1 0;
   min-width: 0;
   display: flex;
@@ -48,4 +49,74 @@
 /* The right-aligned wide bar uses a larger address type, matching the design. */
 .addressBarRight .addressText {
   font-size: 18px;
+}
+
+/* Compact address: one step smaller than the wide right-aligned default. The
+   selector matches the right-aligned bar so it overrides the 18px above (equal
+   specificity, later in source); scoped to callers passing `compactAddress`. */
+.addressBarRight .addressTextCompact {
+  font-size: 14px;
+}
+
+/* -------------------------------------------------------------- "Live" pill */
+
+/* Green "Live" pill pinned to the address bar's leading edge; the address text
+   stays centered in the full bar since the pill is taken out of flow. Rendered
+   only when the caller sets `liveTag` (the "Live Site" view). */
+.livePill {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px 4px 9px;
+  border-radius: 9999px;
+  background: rgba(18, 161, 80, 0.12);
+  color: #12a150;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.liveDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #12a150;
+}
+
+/* Expanding ring conveying the site is live. */
+.liveDot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #12a150;
+  transform: translate(-50%, -50%);
+  animation: liveChromePulse 1.8s ease-out infinite;
+}
+
+@keyframes liveChromePulse {
+  0% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liveDot::after {
+    animation: none;
+    opacity: 0;
+  }
 }
