@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import styles from "./PinnedCommentScene.module.css";
 import PinScene from "./PinScene";
 import CommentThreadCard, { type CommentThreadCardProps } from "./CommentThreadCard";
+import AgentCommentCard, { type AgentCommentCardProps } from "./AgentCommentCard";
 import CommentPin from "./CommentPin";
+import LegoFaceIcon from "./LegoFaceIcon";
 
 /**
  * Shared scene for the "Pinned Comments", "Auto Screenshot" and "Live Site"
@@ -32,6 +34,16 @@ const DEFAULT_TIME_AGO = "2w";
 const DEFAULT_COMMENT_TEXT = "Let\u2019s update this";
 const DEFAULT_MENTION = "@Mark";
 const DEFAULT_REPLY_LABEL = "1 Reply";
+
+/** Fallbacks for the agent-finding card when a field is not supplied. */
+const DEFAULT_AGENT_NAME = "Agent";
+const DEFAULT_AGENT_TIME = "3h";
+/** Default avatar mark for the agent finding (four-dot multicolor agent mark). */
+const DEFAULT_AGENT_AVATAR_VARIANT = "agentDots" as const;
+
+/** Teardrop fill + avatar size of the agent pin (matches the RunOnDemand pin). */
+const AGENT_PIN_TONE = "#6a5cf6";
+const PIN_SIZE = 28;
 
 /** Positioning preset for the pinned comment group. */
 export type PinnedCommentThreadVariant = "default" | "text" | "threaded" | "robust";
@@ -97,6 +109,16 @@ export interface PinnedCommentSceneProps {
   hero?: boolean;
   /** Optional prop overrides for the shared comment dialog. */
   cardProps?: Partial<CommentThreadCardProps>;
+  /**
+   * When provided, the pinned popover renders the {@link AgentCommentCard}
+   * (an AI-agent finding with approve/reject actions) instead of the threaded
+   * {@link CommentThreadCard}, and the teardrop pin swaps its person photo for
+   * the white {@link LegoFaceIcon} agent glyph — matching the "Run on Demand"
+   * hero artifact. The card avatar defaults to the four-dot `agentDots` mark.
+   * The rest of the scene (page surface) is unchanged. Used by the "Findings"
+   * tab on the review-agents feature page.
+   */
+  agentCard?: Partial<AgentCommentCardProps>;
 }
 
 /**
@@ -122,6 +144,7 @@ export default function PinnedCommentScene({
   hero = false,
   textSelectAnimation = false,
   cardProps,
+  agentCard,
 }: PinnedCommentSceneProps): ReactNode {
   try {
     const isTextSelect = threadVariant === "text";
@@ -152,10 +175,18 @@ export default function PinnedCommentScene({
     if (animateTextSelect) {
       threadClassNames.push(styles.threadTextAnim);
     }
+    // The agent-finding card is a touch wider than the threaded dialog, so its
+    // thread group widens to the card's native width.
+    if (agentCard) {
+      threadClassNames.push(styles.threadAgent);
+    }
     const threadClassName = threadClassNames.join(" ");
     const { className: cardOverrideClassName, ...resolvedCardProps } = cardProps ?? {};
     const cardClassName = cardOverrideClassName
       ? `${styles.card} ${cardOverrideClassName}`
+      : styles.card;
+    const agentCardClassName = agentCard?.className
+      ? `${styles.card} ${agentCard.className}`
       : styles.card;
 
     return (
@@ -170,21 +201,45 @@ export default function PinnedCommentScene({
         />
 
         <div className={threadClassName}>
-          <CommentPin avatarSrc={AVATAR_SRC} className={styles.pin} size={28} />
+          {agentCard ? (
+            <CommentPin
+              className={styles.pin}
+              size={PIN_SIZE}
+              tone={AGENT_PIN_TONE}
+              glyph={<LegoFaceIcon size={PIN_SIZE} />}
+            />
+          ) : (
+            <CommentPin avatarSrc={AVATAR_SRC} className={styles.pin} size={PIN_SIZE} />
+          )}
 
-          <CommentThreadCard
-            className={cardClassName}
-            avatarSrc={AVATAR_SRC}
-            author={author}
-            timeAgo={timeAgo}
-            edited={edited}
-            bodyText={bodyText}
-            mention={mention}
-            status={STATUS_LABEL}
-            showScreenshot={screenshot}
-            replyLabel={resolvedReplyLabel}
-            {...resolvedCardProps}
-          />
+          {agentCard ? (
+            <AgentCommentCard
+              className={agentCardClassName}
+              agentName={agentCard.agentName ?? DEFAULT_AGENT_NAME}
+              timeAgo={agentCard.timeAgo ?? DEFAULT_AGENT_TIME}
+              title={agentCard.title ?? ""}
+              description={agentCard.description ?? ""}
+              avatarSrc={agentCard.avatarSrc}
+              avatarVariant={agentCard.avatarVariant ?? DEFAULT_AGENT_AVATAR_VARIANT}
+              replyLabel={agentCard.replyLabel}
+              showActions={agentCard.showActions}
+              showMenu={agentCard.showMenu}
+            />
+          ) : (
+            <CommentThreadCard
+              className={cardClassName}
+              avatarSrc={AVATAR_SRC}
+              author={author}
+              timeAgo={timeAgo}
+              edited={edited}
+              bodyText={bodyText}
+              mention={mention}
+              status={STATUS_LABEL}
+              showScreenshot={screenshot}
+              replyLabel={resolvedReplyLabel}
+              {...resolvedCardProps}
+            />
+          )}
         </div>
       </div>
     );

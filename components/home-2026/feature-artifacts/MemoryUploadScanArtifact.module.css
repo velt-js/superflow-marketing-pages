@@ -1,0 +1,128 @@
+/* Feature-section tab artifact — "One-time uploads" (memory feature page).
+
+   A single large dog-eared "Brand Guidelines" sheet centred on the white panel.
+   A pink scan line sweeps upward across it; the portion below the line turns
+   into a wireframe blueprint (revealed bottom-up by an animated clip-path tied
+   to `--scan`), while the portion above stays the solid sheet. A compact Memory
+   pill sits below the sheet and its count rises 0 → 13 in sync with the sweep.
+   The single `--scan` custom property (0 → 1) is
+   the source of truth for the line position and the reveal. The scene centres
+   within the panel's visible left-anchored slice. Rests on the settled frame
+   (fully wireframed, line hidden) under prefers-reduced-motion. */
+
+.root {
+  /* Consumed by the reused MemoryPill's `.pillMark` (its brain glyph is
+     `color: var(--memory-pink)`), so the mark stays pink outside the hero. */
+  --memory-pink: #ec3fa0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8fb 100%);
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* Left-anchored stage spanning the panel's visible slice, so its centred
+   contents read as centred on screen even though the panel bleeds off right. */
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: var(--visible-frame-width, 631px);
+  height: 100%;
+  /* Reserve space at the base so the vertically-centred composition sits a
+     little higher in the panel. */
+  padding-bottom: 96px;
+}
+
+/* --------------------------------------------------------- the scanned file */
+
+.scanFile {
+  position: relative;
+}
+
+/* Base layer: the solid dog-eared sheet, sitting below the wireframe overlay. */
+.solidSheet {
+  position: relative;
+  z-index: 1;
+}
+
+/* Wireframe overlay, aligned pixel-for-pixel with the sheet, revealed from the
+   bottom up as `--scan` rises (its opaque white fill masks the solid sheet on
+   the already-scanned side). */
+.wireframe {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  clip-path: inset(calc((1 - var(--scan, 0)) * 100%) 0 0 0);
+}
+
+.wireframeSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Pink scan line riding the reveal boundary, extending past the sheet's sides.
+   `bottom` follows `--scan`; the translate centres the 3px line on the seam. */
+.scanLine {
+  position: absolute;
+  left: -92px;
+  right: -92px;
+  z-index: 3;
+  height: 3px;
+  bottom: calc(var(--scan, 0) * 100%);
+  transform: translateY(50%);
+  border-radius: 2px;
+  background: #ec3fa0;
+  box-shadow: 0 0 14px rgba(236, 63, 160, 0.45);
+  /* Fade out over the final quarter of the sweep (clamped to 1 earlier) so the
+     line and its pink glow never sit on the sheet's top edge as the scan
+     completes. Driven by --scan so it stays in step with the reveal boundary. */
+  opacity: calc((1 - var(--scan, 0)) * 4);
+  transition: opacity 0.3s ease;
+}
+
+/* Settled frame: the sweep has completed — hide the line while it holds. */
+.root[data-phase="settle"] .scanLine {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------- memory pill */
+
+.pillRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+/* Compact override of the shared plain MemoryPill for this artifact only: a
+   small caption-sized pill rather than a card. Applied via the pill's
+   `className` and scoped under `.root` so it always wins over the shared
+   `.pillPlain` / `.pillTextPlain` defaults regardless of stylesheet order —
+   without touching those shared classes (and their potential consumers). */
+.root .compactPill {
+  gap: 8px;
+  padding: 12px 16px 12px 16px;
+  box-shadow: 0 10px 24px rgba(16, 16, 20, 0.1);
+}
+
+/* The pill's label span (its last child) — smaller, tighter text. */
+.root .compactPill > span:last-child {
+  font-size: 15px;
+  letter-spacing: -0.2px;
+}
+
+/* ---------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .scanLine {
+    opacity: 0;
+    transition: none;
+  }
+}

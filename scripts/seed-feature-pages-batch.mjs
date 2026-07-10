@@ -75,7 +75,8 @@ const memory = {
     heading: "Every client, remembered",
     subheading:
       "Memory is Superflow's per-client brain: it stores what you upload and learns what every review teaches.",
-    variant: "checklist",
+    variant: "memory-guidelines",
+    icon: "sheet-brain",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -97,6 +98,7 @@ const memory = {
             icon: "share",
             oneLiner:
               "Brand guides, guidelines, and review checklists go in at setup, per client.",
+            mock: "memory-upload-scan",
           },
           {
             _key: "learning-from-reviews",
@@ -104,6 +106,7 @@ const memory = {
             icon: "history",
             oneLiner:
               "Every accept or reject teaches Memory more about that client.",
+            mock: "memory-learning",
           },
         ],
       },
@@ -122,6 +125,7 @@ const memory = {
             icon: "lock",
             oneLiner:
               "Rules, taste, and decisions stay scoped to one client, never bleeding into another.",
+            mock: "memory-per-client",
           },
           {
             _key: "scoped-three-ways",
@@ -129,6 +133,7 @@ const memory = {
             icon: "layout-dashboard",
             oneLiner:
               "Agency-wide standards, per-client rules, and any knowledge base you upload.",
+            mock: "memory-scoped-three",
           },
         ],
       },
@@ -147,7 +152,7 @@ const memory = {
             icon: "robot",
             oneLiner:
               "Agents check every new asset against that client's memory, not just generic rules.",
-            mock: "review-agents",
+            mock: "review-agents-memory",
           },
           {
             _key: "proactive-suggestions",
@@ -181,6 +186,7 @@ const memory = {
             icon: "brain",
             oneLiner:
               "Project ten starts already knowing what project one had to learn.",
+            mock: "applied-next-asset",
           },
         ],
       },
@@ -1850,7 +1856,7 @@ const askAi = {
     heading: "See where the rounds go",
     subheading:
       "Ask plain-language questions across every review — and every answer is grounded in your own data, cited.",
-    variant: "checklist",
+    variant: "ask-ai",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1870,6 +1876,7 @@ const askAi = {
             _key: "plain-language",
             label: "Plain-language questions",
             icon: "message-circle",
+            mock: "ask-ai",
             oneLiner:
               "Ask the way you'd ask a person: which client, which pattern, which quarter.",
           },
@@ -1877,6 +1884,7 @@ const askAi = {
             _key: "cited-answers",
             label: "Cited answers",
             icon: "link",
+            mock: "ask-ai-cited",
             oneLiner:
               "Every answer names the comments and decisions it came from, one click from the original thread.",
           },
@@ -1895,6 +1903,7 @@ const askAi = {
             _key: "per-client-answers",
             label: "Per-client answers",
             icon: "world",
+            mock: "ask-ai-per-client",
             oneLiner:
               "See which clients draw the most review and what each one keeps rejecting.",
           },
@@ -1902,6 +1911,7 @@ const askAi = {
             _key: "copy-vs-bug",
             label: "Copy-versus-bug mix",
             icon: "code-asterisk",
+            mock: "ask-ai-copy-vs-bug",
             oneLiner:
               "See whether reviews mostly catch writing problems or build problems, per client or across the agency.",
           },
@@ -1909,6 +1919,7 @@ const askAi = {
             _key: "cross-project",
             label: "Cross-project patterns",
             icon: "route",
+            mock: "ask-ai-cross-project",
             oneLiner:
               "One question spans every client, project, and thread you've ever reviewed.",
           },
@@ -1927,6 +1938,7 @@ const askAi = {
             _key: "load-by-team",
             label: "Review load by team",
             icon: "user-check",
+            mock: "ask-ai-load-by-team",
             oneLiner:
               "See where review load piles up, by team, account, or work type, and pair support where it's needed.",
           },
@@ -1934,6 +1946,7 @@ const askAi = {
             _key: "delay-churn",
             label: "Delay and churn signals",
             icon: "refresh",
+            mock: "ask-ai-delay-churn",
             oneLiner:
               "Flags stalled reviews and early churn signals in the pattern of a client's rounds.",
           },
@@ -1952,6 +1965,7 @@ const askAi = {
             _key: "analytics-on-demand",
             label: "Analytics on demand",
             icon: "layout-dashboard",
+            mock: "ask-ai-analytics",
             oneLiner:
               "Ask for a breakdown and get it generated from live review data — no dashboard to build.",
           },

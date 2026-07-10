@@ -14,6 +14,13 @@
     --sol-blue: #3555dd;
     --sol-red: #ff5744;
     --sol-orange: #b26d0a;
+    /* Superflow Memory brand pink — mirrors --memory-pink in the memory
+       artifacts so the "remembered" header brain reads as Memory. */
+    --sol-memory-pink: #e5389f;
+    /* Brand Guideline lavender-blue for the memory header cue's "before" sheet
+       glyph — matches DEFAULT_PDF_TINT.shadow used by the Brand Guideline sheet
+       in the guidelines graphic below. */
+    --sol-sheet-blue: #7f95c6;
     --sol-frame-line: #e5e5e4;
     --sol-guide: #c9c9c9;
 
@@ -265,6 +272,29 @@
 
 .headerIconRobot {
     color: var(--sol-blue);
+}
+
+/* Memory header-cue override (solution.icon = "sheet-brain"): a blue sheet glyph
+   → a blue→pink gradient arrow → the pink Memory brain. inline-flex keeps each
+   stroked glyph centred, matching the default paired glyphs. */
+.headerIconSheet {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sol-sheet-blue);
+}
+
+.headerIconBrain {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sol-memory-pink);
+}
+
+/* Ask AI variant header glyph: slate chart → gray arrow → blue bubble
+   (the arrow + message reuse .headerIconArrow / .headerIconMessage). */
+.headerIconChart {
+    display: inline-flex;
+    align-items: center;
+    color: #5b6472;
 }
 
 /* Comments variant header glyphs: red grain → red arrow → blue bubble. */
@@ -829,6 +859,402 @@
     background: #3b6ef6;
 }
 
+/* ---- Memory "guidelines → Memory" variant ---- */
+.guidelinesFlow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    width: 100%;
+    max-width: 840px;
+    margin: 0 auto;
+}
+
+/* The overlapping guideline-sheet stack; each sheet is absolutely staggered
+   with loose offsets so the trio reads as a separated cluster (only small
+   corner overlaps), while still fitting the left region of the graphic. */
+.guidelinesStack {
+    position: relative;
+    flex-shrink: 0;
+    width: 254px;
+    height: 232px;
+}
+
+.sheetBrand,
+.sheetAgency,
+.sheetSeo {
+    position: absolute;
+    display: inline-flex;
+}
+
+.sheetBrand {
+    top: 0;
+    left: 20px;
+    z-index: 2;
+}
+
+.sheetAgency {
+    top: 104px;
+    left: 0;
+    z-index: 1;
+}
+
+.sheetSeo {
+    top: 52px;
+    left: 132px;
+    z-index: 3;
+}
+
+/* The per-client Memory brain, ringed by count pills. A 2-column grid places
+   two pills on top, the brain badge centered below them, then one pill last —
+   no transforms, so the shared `.revealItem` entrance stays conflict-free. */
+.guidelinesMemory {
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: center;
+    gap: 16px 20px;
+}
+
+.brainBadge {
+    grid-column: 1 / -1;
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 16, 20, 0.1);
+    color: var(--sol-memory-pink);
+}
+
+.countPill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(16, 16, 20, 0.09);
+    font-family: var(--sol-font-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--sol-ink);
+}
+
+.countPillTopLeft {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.countPillTopRight {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.countPillBottom {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-self: center;
+}
+
+/* ---- Ask AI "graphs → insight" variant ----
+   Left: a column of minimal graph tiles (bars, donut, sparkline). Right: a
+   single insight card styled like an Ask AI answer. The card cycles one insight
+   per graph; the active tile lifts + gains an accent ring, and a data pulse
+   travels the connector, so a chart visibly "becomes a sentence". */
+.insightsFlow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.graphStack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 0 0 auto;
+}
+
+.graphTileReveal {
+    display: block;
+}
+
+/* Each tile: a mini chart + label. Inactive tiles are dimmed; the active tile
+   (driven by the cycling insight) lifts and gains an accent ring. The reveal
+   entrance lives on the outer .graphTileReveal wrapper, so this inner element
+   is free to own the active scale/opacity without fighting the entrance. */
+.graphTile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 248px;
+    padding: 15px 18px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(16, 16, 20, 0.09);
+    box-shadow: 0 3px 12px rgba(16, 16, 20, 0.05);
+    opacity: 0.6;
+    transform-origin: left center;
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s ease,
+        opacity 0.4s ease;
+}
+
+.graphTileActive {
+    opacity: 1;
+    transform: scale(1.04);
+    box-shadow:
+        0 0 0 1.5px var(--sol-insight-accent, var(--sol-blue)),
+        0 12px 28px rgba(16, 16, 20, 0.12);
+}
+
+/* Chart area; charts inherit the tile accent via currentColor. */
+.graphMini {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 46px;
+    height: 40px;
+    color: var(--sol-insight-accent, var(--sol-blue));
+}
+
+.graphLabel {
+    font-family: var(--sol-font-display);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+    color: var(--sol-ink);
+}
+
+/* Mini bar chart. */
+.miniBars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+}
+
+.miniBar {
+    width: 7px;
+    border-radius: 2px 2px 1px 1px;
+    background: currentColor;
+    transform-origin: bottom;
+}
+
+/* Mini donut: an accent arc (var --sol-donut-fill) on a light track, with a
+   white center punched out. */
+.miniDonut {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: conic-gradient(
+        currentColor 0 var(--sol-donut-fill, 68%),
+        #e7e7ec var(--sol-donut-fill, 68%) 100%
+    );
+}
+
+.miniDonut::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* Mini sparkline. */
+.miniLine {
+    width: 44px;
+    height: 40px;
+    overflow: visible;
+    color: currentColor;
+}
+
+.miniLine polyline {
+    stroke-dasharray: 56;
+    stroke-dashoffset: 0;
+}
+
+/* Connector data pulse: a dot that travels the dashed arrow toward the card. */
+.insightsConnector {
+    position: relative;
+}
+
+.flowPulse {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    border-radius: 50%;
+    background: var(--sol-blue);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ---- Insight card (the "answer") ---- */
+.insightCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 0 0 auto;
+    width: 340px;
+    max-width: 100%;
+    padding: 20px 22px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(16, 16, 20, 0.09);
+    box-shadow: 0 12px 32px rgba(16, 16, 20, 0.09);
+}
+
+/* Blue AI sphere, echoing the Ask AI assistant avatar. */
+.insightAvatar {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 32% 28%,
+        #7aa2ff 0%,
+        #3b6ef6 46%,
+        #2445c4 100%
+    );
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.25),
+        0 3px 8px rgba(52, 85, 221, 0.35);
+}
+
+.insightBody {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.insightLabel {
+    font-family: var(--sol-font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sol-insight-accent, var(--sol-blue));
+    transition: color 0.4s ease;
+}
+
+.insightText {
+    margin: 0;
+    font-family: var(--sol-font-body);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.42;
+    letter-spacing: -0.3px;
+    color: var(--sol-ink);
+}
+
+.insightText strong {
+    font-weight: 700;
+    color: var(--sol-insight-accent, var(--sol-blue));
+    transition: color 0.4s ease;
+}
+
+/* ---- Ask AI variant motion (all gated behind reduced-motion preference) ---- */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes sol-bar-grow {
+        from {
+            transform: scaleY(0);
+        }
+
+        to {
+            transform: scaleY(1);
+        }
+    }
+
+    @keyframes sol-line-draw {
+        from {
+            stroke-dashoffset: 56;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes sol-insight-swap {
+        from {
+            opacity: 0;
+            transform: translateY(7px);
+            filter: blur(3px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes sol-flow-pulse {
+        0% {
+            transform: translateX(4px);
+            opacity: 0;
+        }
+
+        18% {
+            opacity: 1;
+        }
+
+        72% {
+            opacity: 1;
+        }
+
+        90%,
+        100% {
+            transform: translateX(60px);
+            opacity: 0;
+        }
+    }
+
+    /* One-shot chart draw once the section reveals. */
+    .revealVisible .miniBar {
+        animation: sol-bar-grow 620ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+        animation-delay: calc(var(--sol-reveal-delay, 0ms) + 220ms);
+    }
+
+    .revealVisible .miniLine polyline {
+        animation: sol-line-draw 720ms ease-out backwards;
+        animation-delay: calc(var(--sol-reveal-delay, 0ms) + 260ms);
+    }
+
+    /* Insight text re-mounts per cycle (React key), replaying the swap-in. */
+    .insightText {
+        animation: sol-insight-swap 440ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Looping data pulse, started after the connector wipes in. */
+    .revealVisible .flowPulse {
+        animation: sol-flow-pulse 2800ms linear infinite;
+        animation-delay: 1300ms;
+    }
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
     .flow {
@@ -839,6 +1265,16 @@
     .commentsFlow {
         flex-direction: column;
         gap: 28px;
+    }
+
+    .guidelinesFlow {
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .insightsFlow {
+        flex-direction: column;
+        gap: 24px;
     }
 
     /* Point the dashed connectors downward when the flow stacks. */
@@ -895,12 +1331,38 @@
         width: 100%;
         max-width: 320px;
     }
+
+    .graphStack {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .graphTile {
+        width: 100%;
+    }
+
+    .insightCard {
+        width: 100%;
+        max-width: 320px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .pill,
-    .reviewButton {
+    .reviewButton,
+    .graphTile,
+    .insightLabel,
+    .insightText strong {
         transition: none;
+    }
+
+    /* Ask AI variant: hold the settled state (tile 0 active, no cycling). */
+    .flowPulse {
+        display: none;
+    }
+
+    .insightText {
+        animation: none;
     }
 
     /* Entrance animations: skip them and show the static final state,

@@ -77,6 +77,7 @@ const doc = {
             icon: "ballpen",
             oneLiner:
               "Create custom rules from your checklist or brand guide.",
+            mock: "custom-agent",
           },
           {
             _key: "built-in-agents",
@@ -84,6 +85,7 @@ const doc = {
             icon: "lego",
             oneLiner:
               "Ready-made agents for broken links, spelling, SEO and accessibility.",
+            mock: "built-in-checks",
           },
           {
             _key: "test-cases",
@@ -91,6 +93,7 @@ const doc = {
             icon: "list-check",
             oneLiner:
               "Turn every requirement into a repeatable test the agents run each release.",
+            mock: "custom-agent-test",
           },
         ],
       },
@@ -108,6 +111,7 @@ const doc = {
             label: "Manual Run",
             icon: "player-play",
             oneLiner: "Kick off a review on any URL whenever you want.",
+            mock: "run-on-demand",
           },
           {
             _key: "webhooks",
@@ -115,6 +119,7 @@ const doc = {
             icon: "bolt",
             oneLiner:
               "Fire a review automatically on every publish or deploy.",
+            mock: "webhooks",
           },
           {
             _key: "simulate-devices",
@@ -149,12 +154,14 @@ const doc = {
             icon: "message-pin",
             oneLiner:
               "Every issue lands as a pinned comment on the exact element.",
+            mock: "agent-finding",
           },
           {
             _key: "validate-fixes",
             label: "Validate Fixes",
             icon: "circle-check",
             oneLiner: "Re-run an agent to confirm a fix actually shipped.",
+            mock: "validate-fixes",
             collapsesFirstTab: true,
           },
           {
@@ -172,6 +179,7 @@ const doc = {
             icon: "video",
             oneLiner:
               "Screen-record nuanced feedback right where you review.",
+            mock: "record-walkthrough",
             collapsesFirstTab: true,
           },
         ],

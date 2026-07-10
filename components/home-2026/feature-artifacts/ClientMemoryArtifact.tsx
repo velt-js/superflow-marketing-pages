@@ -122,14 +122,34 @@ function ClientAvatarView({ avatar }: { avatar: ClientAvatar }) {
   );
 }
 
+/** Props for {@link ClientMemoryArtifact}. */
+export interface ClientMemoryArtifactProps {
+  /**
+   * Render for the hero product window rather than the feature-section panel.
+   * The feature panel is a narrow, left-anchored 631px visible frame (the scene
+   * hugs the left with a small nudge); the hero window is wider and fully
+   * visible, so `hero` centers the scene and scales it up to fill the frame.
+   * Defaults to false, leaving the feature-section layout untouched.
+   */
+  hero?: boolean;
+}
+
 /**
  * Render the "Client Memory" feature artifact.
  *
+ * @param props - Optional {@link ClientMemoryArtifactProps}; `hero` centers and
+ *   scales the scene for reuse in the hero product window.
  * @returns The Client Memory window contents.
  */
-export default function ClientMemoryArtifact() {
+export default function ClientMemoryArtifact({
+  hero = false,
+}: ClientMemoryArtifactProps = {}) {
   return (
-    <div className={styles.root} data-artifact="client-memory">
+    <div
+      className={styles.root}
+      data-artifact="client-memory"
+      data-hero={hero ? "true" : undefined}
+    >
       <div className={styles.scene}>
         <BranchVector />
 

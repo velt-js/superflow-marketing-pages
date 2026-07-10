@@ -1,0 +1,194 @@
+/* Shared "agent comment" card (Figma node 894:1118). A white rounded card with
+   a brand-mark avatar + agent name + time header, a title/description body and
+   a footer whose right side holds the green approve + coral reject actions (an
+   optional reply row sits on the left). The caller sizes/positions the card by
+   passing its own class through `className`. Header type is Urbanist; the
+   title/description use Poppins, matching the design. */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #0a0a0a;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+}
+
+/* ------------------------------------------------ top block (identity + copy) */
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Default agent avatar: the Superflow dots mark on a vertical purple gradient. */
+.brandAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6.857px;
+  background: linear-gradient(180deg, #625cf4 0%, #36408e 100%);
+  overflow: hidden;
+}
+
+.brandMarkGlyph {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.avatarImage {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6.857px;
+  object-fit: cover;
+}
+
+.agentName {
+  min-width: 0;
+  font-family: var(--font-urbanist), "Urbanist", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.14px;
+  color: #0a0a0a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.time {
+  font-family: var(--font-urbanist), "Urbanist", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.14px;
+  color: #0a0a0a;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #0a0a0a;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.description {
+  margin: 0;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #525252;
+}
+
+/* --------------------------------------------- footer (reply + approve/reject) */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px 20px;
+}
+
+/* Reserves the left slot so the approve/reject actions stay right-aligned when
+   no reply row is shown (mirrors the Figma hidden reply placeholder). */
+.footerSpacer {
+  display: block;
+}
+
+.reply {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #292929;
+}
+
+.replyText {
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.approve {
+  background: #1a8f64;
+}
+
+.reject {
+  background: #fe7362;
+}

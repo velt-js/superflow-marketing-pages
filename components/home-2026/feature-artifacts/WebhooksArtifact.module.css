@@ -1,0 +1,332 @@
+/* Feature-tab artifact — "Webhooks".
+
+   Stripped to the single core idea: a deploy fires a review automatically. A
+   subtle dot-grid canvas (the same dot color/size/spacing as the generic
+   "workflow" mock, .wfCanvas) sits behind one glanceable cause → effect flow —
+   a "Deploy"
+   node, a purple arrow a pulse travels along (the webhook firing), and a
+   "Review started · 6 agents running" node with small pulsing purple dots. Two
+   nodes, one arrow, lots of whitespace. CSS-only; the flow replays whenever the
+   tab mounts and rests settled under prefers-reduced-motion. The whole scene is
+   cohesive on one purple (the agents' brand purple), used sparingly on the
+   arrow and the review node.
+
+   The scene is left-anchored and vertically centered so it stays inside the
+   ~636px slice the feature panel reveals of the 1204px app window. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* Match the sibling hero artifacts so switching tabs never jumps. */
+  min-height: 578px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 0 0 60px;
+  border-radius: 16px;
+  background-color: #feffff;
+  /* Dot-grid canvas, matching the generic "workflow" mock (.wfCanvas): the same
+     dot color, dot size and 26px spacing so it reads as the same canvas. Painted
+     as the root's own background, so it always sits behind the flow. */
+  background-image: radial-gradient(rgba(17, 17, 17, 0.16) 1.3px, transparent 1.4px);
+  background-size: 26px 26px;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+  /* Purple accent (arrow + review node + agent dots), matching the agents'
+     brand purple. Change --wh-accent-rgb to restyle the payoff side. */
+  --wh-accent-rgb: 109, 92, 245;
+  --wh-accent: rgb(var(--wh-accent-rgb));
+  --wh-accent-soft: rgba(var(--wh-accent-rgb), 0.1);
+  --wh-accent-line: rgba(var(--wh-accent-rgb), 0.32);
+  /* Warm "deploy" accent for the trigger tile (rocket orange), so the orange
+     cause and the purple effect read as two distinct tones. One-value change. */
+  --wh-deploy-rgb: 224, 130, 10;
+  --wh-deploy: rgb(var(--wh-deploy-rgb));
+  --wh-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+}
+
+/* Soften the dot grid toward the edges so the flow stays the focus, mirroring
+   the workflow canvas' fade. Painted as ::before, so it fades the dots but the
+   nodes/arrow (real children) paint above it and stay fully legible. */
+.root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 30% 50%, rgba(254, 255, 255, 0) 42%, #feffff 100%);
+}
+
+/* -------------------------------------------------------------- flow row */
+
+.flow {
+  display: flex;
+  align-items: center;
+}
+
+/* -------------------------------------------------------------- nodes */
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 20px;
+  border: 1.5px solid #ebedf0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(16, 18, 24, 0.05);
+}
+
+.nodeTrigger {
+  animation: whPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+/* The payoff node: a faint purple wash + purple border, popping in once the
+   arrow's pulse arrives. */
+.nodeReview {
+  border-color: var(--wh-accent-line);
+  background: linear-gradient(0deg, var(--wh-accent-soft), var(--wh-accent-soft)), #ffffff;
+  opacity: 0;
+  transform: scale(0.92);
+  animation: whReviewIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.25s both;
+}
+
+.nodeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+
+.triggerIcon {
+  background: var(--wh-deploy);
+  color: #ffffff;
+}
+
+.reviewIcon {
+  background: var(--wh-accent);
+  color: #ffffff;
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.nodeTitle {
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: #22242a;
+}
+
+.reviewTitle {
+  color: var(--wh-accent);
+}
+
+.triggerMeta {
+  font-family: var(--wh-mono);
+  font-size: 12px;
+  letter-spacing: -0.2px;
+  color: #9a9ea7;
+}
+
+/* Agents-running line: pulsing purple dots + a short label. */
+.reviewAgents {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #6b7280;
+}
+
+.reviewDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reviewDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--wh-accent);
+  animation: whAgentPulse 1.1s ease-in-out infinite;
+  animation-delay: calc(var(--dot-index, 0) * 0.16s);
+}
+
+/* -------------------------------------------------------------- arrow */
+
+.arrow {
+  position: relative;
+  flex-shrink: 0;
+  width: 88px;
+  height: 24px;
+  margin: 0 8px;
+}
+
+/* The connecting line draws itself left → right on mount. */
+.arrowLine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 78px;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 2px;
+  background: var(--wh-accent);
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: whDraw 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.arrowHead {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-top: 2px solid var(--wh-accent);
+  border-right: 2px solid var(--wh-accent);
+  border-radius: 1px;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: whFadeIn 0.3s ease 1s both;
+}
+
+/* Purple pulse riding the arrow left → right: the webhook firing. It loops
+   slowly so the "automatic" story keeps breathing without adding clutter. */
+.arrowPulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--wh-accent);
+  box-shadow: 0 0 0 4px rgba(var(--wh-accent-rgb), 0.16);
+  opacity: 0;
+  animation: whTravel 2.6s cubic-bezier(0.4, 0, 0.2, 1) 1.1s infinite;
+}
+
+/* ============================================================ keyframes */
+
+@keyframes whPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes whReviewIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes whDraw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes whFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes whTravel {
+  0% {
+    left: 2px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    left: 70px;
+    opacity: 1;
+  }
+  85%,
+  100% {
+    left: 70px;
+    opacity: 0;
+  }
+}
+
+@keyframes whAgentPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 900px) {
+  .root {
+    padding-left: 36px;
+  }
+
+  .nodeTitle {
+    font-size: 16px;
+  }
+}
+
+/* ---------------------------------------------------- reduced motion rest */
+
+@media (prefers-reduced-motion: reduce) {
+  .nodeTrigger,
+  .nodeReview,
+  .arrowLine,
+  .arrowHead {
+    animation: none;
+  }
+
+  .nodeReview {
+    opacity: 1;
+    transform: none;
+  }
+
+  .arrowLine {
+    transform: scaleX(1);
+  }
+
+  .arrowHead {
+    opacity: 1;
+  }
+
+  /* Drop the traveling pulse entirely; the settled arrow is enough. */
+  .arrowPulse {
+    animation: none;
+    opacity: 0;
+  }
+
+  .reviewDot {
+    animation: none;
+    opacity: 1;
+  }
+}

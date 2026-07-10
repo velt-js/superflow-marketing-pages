@@ -68,6 +68,14 @@
   width: 360px;
 }
 
+/* Agent finding (review-agents "Findings" tab): the AgentCommentCard is a touch
+   wider than the threaded dialog, so the group widens to its native card width
+   while keeping the pin on the selected element. Declared after `.thread` so it
+   wins the equal-specificity width override. */
+.threadAgent {
+  width: 360px;
+}
+
 .card {
   width: 100%;
 }

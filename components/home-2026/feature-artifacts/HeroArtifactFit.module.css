@@ -36,3 +36,30 @@
 .shiftInteg {
   transform: translateX(-110px);
 }
+
+/* Pull the Built-in checks card grid into the visible panel. The hero artifact
+   centres its two-column agent-card grid (margin:auto, max-width), which would
+   otherwise sit past the panel's right-edge bleed; shifting left drops the
+   groups sidebar off-screen and features the ready-made agent cards instead. */
+.shiftBuiltIn {
+  transform: translateX(-250px);
+}
+
+/* "Applied to the next asset" reused in the Feature Set panel WITHOUT the hero
+   browser chrome. The composition (three project sheets + pills + memory card)
+   is wider than the panel's visible left-anchored frame, so it is scaled down
+   from the left and vertically centred to sit fully inside the panel — keeping
+   all three projects and the memory card visible, matching the reference. */
+.fitApplied {
+  display: flex;
+  align-items: center;
+}
+
+.appliedScale {
+  flex: 0 0 auto;
+  /* Render the artifact at its native panel width, then scale from the left so
+     the left-anchored scene fits the panel's visible (right-clipped) frame. */
+  width: 1200px;
+  transform: scale(0.7);
+  transform-origin: left center;
+}

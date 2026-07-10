@@ -122,19 +122,43 @@ const HERO_TAB_ICON_OPTIONS = HERO_TAB_ICON_NAMES.map((iconName) => ({
  * components/home-2026/FeatureSetBlock.tsx (an unknown value simply falls back
  * to the generic "workflow" window rather than throwing). Several entries reuse
  * the hero-section artifacts verbatim via HeroArtifactFit (review-agents,
- * private-comments, guest-mode, integrations).
+ * run-on-demand, built-in-checks, private-comments, guest-mode, integrations).
  */
 const FEATURE_SET_MOCK_OPTIONS: readonly { title: string; value: string }[] = [
   { title: "Workflow window (generic)", value: "workflow" },
   { title: "AI Review Agents (agents at work)", value: "review-agents" },
+  {
+    title: "AI Review Agents \u2014 Memory (grounded findings)",
+    value: "review-agents-memory",
+  },
+  { title: "Run on Demand (agents run screen)", value: "run-on-demand" },
+  { title: "Built-in checks (agents library)", value: "built-in-checks" },
+  { title: "Custom Agent (SEO Agent builder)", value: "custom-agent" },
+  { title: "Custom Agent — Test Case (reviewer)", value: "custom-agent-test" },
   { title: "Client Memory", value: "client-memory" },
-  { title: "Ask AI", value: "ask-ai" },
+  { title: "Memory — Learning from reviews", value: "memory-learning" },
+  { title: "Memory — One-time uploads (scan)", value: "memory-upload-scan" },
+  { title: "Memory — Per-client memory", value: "memory-per-client" },
+  { title: "Memory — Scoped three ways", value: "memory-scoped-three" },
+  { title: "Memory — Applied to the next asset", value: "applied-next-asset" },
+  { title: "Ask AI (common client issues)", value: "ask-ai" },
+  { title: "Ask AI — Cited answer", value: "ask-ai-cited" },
+  { title: "Ask AI — Per-client ranking", value: "ask-ai-per-client" },
+  { title: "Ask AI — Copy vs bug mix", value: "ask-ai-copy-vs-bug" },
+  { title: "Ask AI — Cross-project patterns", value: "ask-ai-cross-project" },
+  { title: "Ask AI — Review load by team", value: "ask-ai-load-by-team" },
+  { title: "Ask AI — Delay & churn signals", value: "ask-ai-delay-churn" },
+  { title: "Ask AI — Ops signals", value: "ask-ai-ops-signals" },
+  { title: "Ask AI — Analytics on demand", value: "ask-ai-analytics" },
   { title: "Pinned comment", value: "pinned-comments" },
+  { title: "Agent finding (approve/reject card)", value: "agent-finding" },
+  { title: "Validate Fixes (re-check \u2192 fixed \u2192 resolved)", value: "validate-fixes" },
   { title: "Auto screenshot", value: "auto-screenshot" },
   { title: "Private comments", value: "private-comments" },
   { title: "Guest mode", value: "guest-mode" },
   { title: "Behind login", value: "behind-login" },
   { title: "All devices (desktop + mobile)", value: "all-devices" },
+  { title: "Webhooks (auto-fire on deploy)", value: "webhooks" },
   { title: "Kanban board", value: "kanban" },
   { title: "Integrations (two-way sync)", value: "integrations" },
   { title: "Custom statuses", value: "custom-statuses" },
@@ -257,10 +281,33 @@ export const featureSolution = defineType({
         list: [
           { title: "Checklist → agents → review", value: "checklist" },
           { title: "Scattered comments → pinned on site", value: "comments" },
+          {
+            title: "Guideline sheets → Memory brain (memory page)",
+            value: "memory-guidelines",
+          },
+          {
+            title: "Minimal graphs → insight (Ask AI page)",
+            value: "ask-ai",
+          },
         ],
         layout: "radio",
       },
       initialValue: "checklist",
+    }),
+    defineField({
+      name: "icon",
+      title: "Header icon override",
+      description:
+        "Optional. Replaces the default before→after glyph pair above the heading with a page-specific cue. Leave empty to keep the illustration's default pair.",
+      type: "string",
+      options: {
+        list: [
+          {
+            title: "Sheet → Memory brain (memory page)",
+            value: "sheet-brain",
+          },
+        ],
+      },
     }),
   ],
 });

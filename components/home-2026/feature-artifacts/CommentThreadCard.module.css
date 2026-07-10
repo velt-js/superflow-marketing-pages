@@ -514,6 +514,16 @@
   padding-bottom: 16px;
 }
 
+/* The status/tracking card (review-agents "Human signs off" + comments
+   "Track it") renders an absolutely-positioned pointer overlay (`.statusCursor`)
+   after the composer, so the `:last-child` rule above never matches and the
+   "Reply…" input would otherwise sit flush against the card's rounded bottom
+   edge. That cursor is out of flow, so restore the composer's bottom padding
+   here. */
+.animStatus .composerWrap {
+  padding-bottom: 16px;
+}
+
 .composer {
   position: relative;
   display: flex;

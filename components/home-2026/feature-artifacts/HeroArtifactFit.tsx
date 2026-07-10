@@ -1,9 +1,14 @@
 import type { ReactNode } from "react";
 import styles from "./HeroArtifactFit.module.css";
-import HeroAgentsAtWorkArtifact from "../hero-artifacts/AgentsAtWorkArtifact";
+import HeroAgentsAtWorkArtifact, {
+  type AgentReviewComment,
+} from "../hero-artifacts/AgentsAtWorkArtifact";
 import HeroPrivateCommentArtifact from "../hero-artifacts/PrivateCommentArtifact";
 import HeroGuestModeArtifact from "../hero-artifacts/GuestModeArtifact";
 import HeroIntegrationsArtifact from "../hero-artifacts/IntegrationsArtifact";
+import HeroRunOnDemandArtifact from "../hero-artifacts/RunOnDemandArtifact";
+import HeroBuiltInChecksArtifact from "../hero-artifacts/BuiltInChecksArtifact";
+import HeroAppliedToNextAssetArtifact from "../hero-artifacts/AppliedToNextAssetArtifact";
 
 /**
  * Feature Set fit wrappers that reuse the hero-section artifacts.
@@ -21,18 +26,81 @@ import HeroIntegrationsArtifact from "../hero-artifacts/IntegrationsArtifact";
 const FIT_CLASS = styles.fit;
 
 /**
+ * Distinct `data-artifact` hook for the feature-section "Applied to the next
+ * asset" root, so screenshots/tests target it without colliding with the hero
+ * window's own `applied-next-asset` root on the same memory page.
+ */
+const APPLIED_NEXT_ASSET_ARTIFACT = "applied-next-asset-feature";
+
+/** Props for the Review Agents feature-set fit wrapper. */
+export interface ReviewAgentsArtifactProps {
+  /**
+   * Optional agent-finding overrides forwarded to the reused hero artifact
+   * (see {@link AgentReviewComment}). Omit to keep the default spell-check /
+   * broken-link / alt-text findings, so existing usages are unchanged.
+   */
+  comments?: ReadonlyArray<AgentReviewComment>;
+}
+
+/**
  * Feature Set "AI Review Agents" tab — reuses the hero "Agents at Work"
  * artifact (the reviewed-website window with agent cursors dropping comments).
  * It is a full-width website mock, so it fills the panel directly and lets its
  * right edge bleed like a browser window (no shift needed).
  *
+ * @param props - Optional agent-finding overrides forwarded to the artifact.
  * @returns The reused hero artifact sized to the feature panel.
  */
-export function ReviewAgentsArtifact(): ReactNode {
+export function ReviewAgentsArtifact({
+  comments,
+}: ReviewAgentsArtifactProps = {}): ReactNode {
   try {
     return (
       <div className={FIT_CLASS}>
-        <HeroAgentsAtWorkArtifact />
+        <HeroAgentsAtWorkArtifact comments={comments} />
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Feature Set "Manual Run" tab — reuses the hero "Run on Demand" artifact (the
+ * two-pane agents run screen: the QA agent run-list on the left and the
+ * reviewed page on the right where a finding drops in). Like the Review Agents
+ * mock it is a full-width browser window, so it fills the panel directly and
+ * lets its right edge bleed like a browser window (no shift needed).
+ *
+ * @returns The reused hero artifact sized to the feature panel.
+ */
+export function RunOnDemandArtifact(): ReactNode {
+  try {
+    return (
+      <div className={FIT_CLASS}>
+        <HeroRunOnDemandArtifact />
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Feature Set "Built-in Agents" tab — reuses the hero "Built-in checks" artifact
+ * (the Superflow Agents library: a groups sidebar and a two-column grid of
+ * ready-made QA agent cards — Spell Check, Broken Links, Grammar Check, …). The
+ * hero composition centres its card grid, so in the narrower feature panel it is
+ * shifted left to pull the agent cards (the point of this tab) into the visible
+ * frame past the right-edge bleed.
+ *
+ * @returns The reused hero artifact sized + left-anchored to the feature panel.
+ */
+export function BuiltInChecksArtifact(): ReactNode {
+  try {
+    return (
+      <div className={`${FIT_CLASS} ${styles.shiftBuiltIn}`}>
+        <HeroBuiltInChecksArtifact />
       </div>
     );
   } catch {
@@ -95,6 +163,34 @@ export function IntegrationsArtifact(): ReactNode {
     return (
       <div className={`${FIT_CLASS} ${styles.shiftInteg}`}>
         <HeroIntegrationsArtifact />
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Feature Set "Applied to the next asset" tab (memory page) — reuses the hero
+ * "Applied to the next asset" artifact (three dog-eared project sheets, each
+ * reporting what Memory has learned) with its chrome bar suppressed. The bare
+ * scene is wider than the panel's visible left-anchored frame, so it is scaled
+ * down from the left and vertically centred to keep all three sheets, both
+ * "New Behaviour Learned" pills and the Superflow Memory card fully in view —
+ * matching the reference (no browser chrome).
+ *
+ * @returns The reused hero artifact, chrome-less and fitted to the panel.
+ */
+export function AppliedNextAssetArtifact(): ReactNode {
+  try {
+    return (
+      <div
+        className={`${FIT_CLASS} ${styles.fitApplied}`}
+        data-artifact={APPLIED_NEXT_ASSET_ARTIFACT}
+      >
+        <div className={styles.appliedScale}>
+          <HeroAppliedToNextAssetArtifact showChrome={false} />
+        </div>
       </div>
     );
   } catch {

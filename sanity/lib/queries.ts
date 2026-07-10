@@ -509,7 +509,8 @@ export async function getFeaturePageBySlug(slug: string) {
       solution {
         heading,
         subheading,
-        variant
+        variant,
+        icon
       },
       featureSet {
         headerTitle,

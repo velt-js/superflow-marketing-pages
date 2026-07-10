@@ -1,0 +1,484 @@
+/* Feature Set artifact — "Custom Agent".
+
+   The Superflow custom-agent builder screen inside the shared FeatureSetBlock
+   white window (1204×602, right edge clipped by the marketing card). The scene
+   is left-anchored; the prompt box and "Add Question" button intentionally
+   bleed off the right. CSS-only; a light staggered entrance replays whenever
+   the tab mounts and rests settled under prefers-reduced-motion. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #feffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+}
+
+.body {
+  position: relative;
+  height: 100%;
+  padding: 34px 0 0 42px;
+}
+
+/* ------------------------------------------------------------- title row */
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  animation: caFadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+.appTile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  padding: 9px;
+  border-radius: 13px;
+  background: linear-gradient(150deg, #3a6b23 0%, #274d16 100%);
+  box-shadow: 0 4px 10px rgba(26, 77, 22, 0.26);
+}
+
+.appTileDot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -1.2px;
+  color: #0a0a0a;
+}
+
+/* ------------------------------------------------------------------ card */
+
+.card {
+  position: relative;
+  /* Wider than the ~631px visible frame so the top/bottom borders span the
+     whole visible width and the right border stays hidden (bleeds off). */
+  width: 1010px;
+  padding: 24px 40px 30px 32px;
+  border: 1px solid #edeef1;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.03);
+  animation: caRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+/* --------------------------------------------------------------- stepper */
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  /* Nudged right so the Basics → Prompt → Test rail reads centred in the
+     visible ~631px frame rather than hugging the card's left edge. */
+  margin: 6px 0 48px 52px;
+}
+
+.stepGroup {
+  display: flex;
+  align-items: flex-start;
+}
+
+.connector {
+  flex: none;
+  width: 165px;
+  height: 2px;
+  /* Sit on the circle's vertical centre (circle is 44px tall). */
+  margin-top: 21px;
+  background: #e6e8ee;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 44px;
+}
+
+.stepCircle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #e4e6ec;
+  background: #f6f7f9;
+  color: #b3b7c0;
+  animation: caPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.stepGroup:nth-child(1) .stepCircle {
+  animation-delay: 0.2s;
+}
+
+.stepGroup:nth-child(2) .stepCircle {
+  animation-delay: 0.28s;
+}
+
+.stepGroup:nth-child(3) .stepCircle {
+  animation-delay: 0.36s;
+}
+
+.stepDone {
+  border-color: #12a150;
+  background: #e9fbf1;
+  color: #12a150;
+}
+
+.stepActive {
+  border-color: #433df3;
+  background: #ecebff;
+  color: #433df3;
+  box-shadow: 0 4px 12px rgba(67, 61, 243, 0.22);
+}
+
+.stepUpcoming {
+  border-color: #e4e6ec;
+  background: #f6f7f9;
+  color: #b3b7c0;
+}
+
+.stepLabel {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #9a9ea7;
+}
+
+.stepLabelDone {
+  color: #12a150;
+  font-weight: 600;
+}
+
+.stepLabelActive {
+  color: #0a0a0a;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ form */
+
+.form {
+  display: block;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 9px;
+  color: #8b8f9a;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  animation: caFadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.promptBox {
+  position: relative;
+  width: 630px;
+  min-height: 176px;
+  padding: 18px 20px;
+  border: 2px solid #433df3;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(67, 61, 243, 0.12);
+  animation: caFadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.promptText {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #0a0a0a;
+}
+
+/* "Check for" types in left-to-right: the box grows one step per character so
+   the trailing caret rides the last-typed glyph. */
+.typed {
+  flex: none;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 69px;
+  animation: caType 1s steps(9, end) 0.5s both;
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 20px;
+  margin-left: 2px;
+  background: #1a1a1a;
+  /* Solid while the text types, then blinks once the word is finished. */
+  animation: caBlink 1.05s steps(1, end) 1.5s infinite;
+}
+
+.refineBtn {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 15px;
+  border: 1px solid #e6e7eb;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.05);
+}
+
+.refineBtn svg {
+  color: #7d7bf0;
+}
+
+/* ------------------------------------------------------------- questions */
+
+.questions {
+  margin-top: 26px;
+  animation: caFadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.questionsTitle {
+  margin: 0 0 3px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: #0a0a0a;
+}
+
+.questionsSub {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #9a9ea7;
+}
+
+.addQuestion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 630px;
+  height: 48px;
+  padding: 0 22px;
+  border: 1.5px dashed #d7dae1;
+  border-radius: 12px;
+  background: transparent;
+  color: #7a7f8a;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+/* ------------------------------------------------------ test-case variant */
+
+.testBody {
+  display: block;
+}
+
+.testHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+  animation: caFadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.testCaseNo {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #9a9ea7;
+}
+
+.testCaseTitle {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: #0a0a0a;
+}
+
+.codeBox {
+  width: 630px;
+  padding: 16px 22px;
+  border: 1px solid #eceef1;
+  border-radius: 12px;
+  background: #f4f5f7;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.85;
+  color: #475569;
+  overflow: hidden;
+  animation: caFadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.codeLine {
+  display: block;
+  white-space: pre;
+}
+
+/* The commented-out meta tags are the found issue — tint them like a flagged
+   diff line so the test case reads at a glance. */
+.codeLineFlag {
+  border-radius: 5px;
+  background: rgba(254, 115, 98, 0.1);
+  color: #a05a4b;
+}
+
+.correctBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  /* Matches the code box width so both left-align and bleed off the right edge
+     together. The oversized right padding parks Yes / No inside the ~631px
+     reveal (the decision is the focal CTA) while the bar background keeps
+     bleeding — mirroring the prompt-box bleed. */
+  width: 630px;
+  margin-top: 16px;
+  padding: 11px 86px 11px 22px;
+  border-radius: 14px;
+  background: #f4f5f7;
+  animation: caFadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.correctQuestion {
+  flex-shrink: 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: #0a0a0a;
+}
+
+.correctActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.answerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.answerYes {
+  border: 1.5px solid rgba(18, 161, 80, 0.42);
+  background: rgba(18, 161, 80, 0.08);
+  color: #12a150;
+}
+
+.answerNo {
+  border: 1.5px solid rgba(254, 115, 98, 0.5);
+  background: rgba(254, 115, 98, 0.08);
+  color: #e5533f;
+}
+
+/* --------------------------------------------------- entrance choreography */
+
+@keyframes caFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes caRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes caPop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes caType {
+  from {
+    width: 0;
+  }
+  to {
+    width: 69px;
+  }
+}
+
+@keyframes caBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titleRow,
+  .card,
+  .stepCircle,
+  .fieldLabel,
+  .promptBox,
+  .questions,
+  .typed,
+  .caret,
+  .testHeader,
+  .codeBox,
+  .correctBar {
+    animation: none;
+  }
+
+  /* Rest with the whole word shown and the caret steady. */
+  .typed {
+    width: auto;
+  }
+}

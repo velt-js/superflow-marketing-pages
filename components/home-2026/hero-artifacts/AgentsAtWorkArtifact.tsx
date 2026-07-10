@@ -62,6 +62,51 @@ const AGENT_AVATAR = "/images/home-2026/hero/agent-avatar.svg";
 /** Diameter (px) of the comment bubble's author avatar. */
 const COMMENT_AVATAR_SIZE = 26;
 
+/**
+ * One positioned agent finding overlaid on the reviewed website. Each entry
+ * fills one of the artifact's three fixed target slots, in order: the headline
+ * word (0), the nav link (1) and the hero media (2). Only the fields the
+ * dropped-comment card actually renders are configurable — the shared gradient
+ * avatar and the settled-scene layout are fixed, and the card offers no
+ * approve/reject or status treatment (that lives on {@link AgentCommentCard}).
+ */
+export interface AgentReviewComment {
+  /** Agent name shown on the fly-in cursor pill and as the comment author. */
+  agentName: string;
+  /** Timestamp label in the comment header (defaults to {@link NOW_LABEL}). */
+  timeLabel?: string;
+  /** The finding text rendered as the comment body. */
+  text: string;
+  /**
+   * Optional cursor arrow + label-pill accent tone. Defaults to the built-in
+   * tone of the slot the finding fills, so overriding it is never required.
+   */
+  tone?: string;
+}
+
+/** Props for the "Agents at Work" artifact. */
+export interface AgentsAtWorkArtifactProps {
+  /**
+   * Overrides for the up-to-three positioned agent findings, in target order
+   * (headline word, nav link, hero media). Provide fewer entries to render
+   * fewer findings — the remaining target slots simply show no cursor or
+   * comment while the site chrome stays intact. Omit entirely to keep the
+   * default spell-check / broken-link / alt-text findings.
+   */
+  comments?: ReadonlyArray<AgentReviewComment>;
+}
+
+/**
+ * Default findings, in slot order. These reproduce the artifact's original
+ * hard-coded content exactly so every consumer that renders it without a
+ * `comments` prop is unchanged.
+ */
+const DEFAULT_COMMENTS: ReadonlyArray<AgentReviewComment> = [
+  { agentName: SPELL_AGENT, text: SPELL_FINDING, tone: SPELL_TONE },
+  { agentName: LINKS_AGENT, text: LINKS_FINDING, tone: LINKS_TONE },
+  { agentName: ALT_AGENT, text: ALT_FINDING, tone: ALT_TONE },
+];
+
 /** Props for the reusable Superflow-style agent cursor. */
 type AgentCursorProps = {
   /** Agent tone (arrow fill + label pill background). */
@@ -120,16 +165,23 @@ type AgentCommentProps = {
   text: string;
   /** Positioning + animation class from the module. */
   className: string;
+  /** Timestamp label beside the name (defaults to {@link NOW_LABEL}). */
+  time?: string;
 };
 
 /**
  * Render a compact "dropped comment" bubble: the shared gradient agent avatar,
  * the agent name + timestamp and the finding text.
  *
- * @param props - Author name, finding text and position.
+ * @param props - Author name, finding text, timestamp label and position.
  * @returns The comment bubble element.
  */
-function AgentComment({ name, text, className }: AgentCommentProps): ReactNode {
+function AgentComment({
+  name,
+  text,
+  className,
+  time = NOW_LABEL,
+}: AgentCommentProps): ReactNode {
   try {
     return (
       <div className={`${styles.comment} ${className}`} aria-hidden="true">
@@ -146,7 +198,7 @@ function AgentComment({ name, text, className }: AgentCommentProps): ReactNode {
         <div className={styles.commentBody}>
           <span className={styles.commentHead}>
             <span className={styles.commentName}>{name}</span>
-            <span className={styles.commentTime}>{NOW_LABEL}</span>
+            <span className={styles.commentTime}>{time}</span>
           </span>
           <span className={styles.commentText}>{text}</span>
         </div>
@@ -160,10 +212,27 @@ function AgentComment({ name, text, className }: AgentCommentProps): ReactNode {
 /**
  * Render the "Agents at Work" hero artifact.
  *
+ * The three positioned agent findings (headline word, nav link, hero media)
+ * default to the built-in spell-check / broken-link / alt-text copy, but a
+ * caller can pass {@link AgentsAtWorkArtifactProps.comments} to relabel them
+ * (e.g. memory-grounded findings) or render fewer of them. The reviewed-site
+ * chrome is always drawn regardless of how many findings are shown.
+ *
+ * @param props - Optional per-slot finding overrides.
  * @returns The reviewed-website window contents.
  */
-export default function AgentsAtWorkArtifact(): ReactNode {
+export default function AgentsAtWorkArtifact({
+  comments,
+}: AgentsAtWorkArtifactProps = {}): ReactNode {
   try {
+    // Slot order maps to the three fixed targets below: 0 = headline word,
+    // 1 = nav link, 2 = hero media. A missing slot renders no finding but keeps
+    // its target element (site chrome) intact.
+    const resolvedComments = comments ?? DEFAULT_COMMENTS;
+    const spellComment = resolvedComments?.[0];
+    const linksComment = resolvedComments?.[1];
+    const altComment = resolvedComments?.[2];
+
     return (
       <div className={styles.root} data-artifact="agents-at-work">
         <div className={styles.chromeWrap}>
@@ -180,16 +249,25 @@ export default function AgentsAtWorkArtifact(): ReactNode {
               </span>
               <span className={styles.navLinks}>
                 <span className={styles.navLink}>{NAV_FEATURES}</span>
-                {/* Broken Links agent target */}
+                {/* Nav-link agent target (slot 1) */}
                 <span className={styles.navTarget}>
                   <span className={styles.targetText}>{NAV_PRICING}</span>
-                  <span className={`${styles.sel} ${styles.selLink}`} aria-hidden="true" />
-                  <AgentComment
-                    name={LINKS_AGENT}
-                    text={LINKS_FINDING}
-                    className={styles.commentLink}
-                  />
-                  <AgentCursor tone={LINKS_TONE} label={LINKS_AGENT} className={styles.cursorLink} />
+                  {linksComment ? (
+                    <>
+                      <span className={`${styles.sel} ${styles.selLink}`} aria-hidden="true" />
+                      <AgentComment
+                        name={linksComment.agentName}
+                        text={linksComment.text}
+                        time={linksComment.timeLabel}
+                        className={styles.commentLink}
+                      />
+                      <AgentCursor
+                        tone={linksComment.tone ?? LINKS_TONE}
+                        label={linksComment.agentName}
+                        className={styles.cursorLink}
+                      />
+                    </>
+                  ) : null}
                 </span>
                 <span className={styles.navLink}>{NAV_DOCS}</span>
               </span>
@@ -204,20 +282,25 @@ export default function AgentsAtWorkArtifact(): ReactNode {
                   {HEADLINE_LEAD}
                   <br />
                   {HEADLINE_TAIL}
-                  {/* Spell Check agent target */}
+                  {/* Headline-word agent target (slot 0) */}
                   <span className={styles.wordTarget}>
                     <span className={styles.targetText}>{HEADLINE_TYPO}</span>
-                    <span className={`${styles.sel} ${styles.selWord}`} aria-hidden="true" />
-                    <AgentComment
-                      name={SPELL_AGENT}
-                      text={SPELL_FINDING}
-                      className={styles.commentSpell}
-                    />
-                    <AgentCursor
-                      tone={SPELL_TONE}
-                      label={SPELL_AGENT}
-                      className={styles.cursorSpell}
-                    />
+                    {spellComment ? (
+                      <>
+                        <span className={`${styles.sel} ${styles.selWord}`} aria-hidden="true" />
+                        <AgentComment
+                          name={spellComment.agentName}
+                          text={spellComment.text}
+                          time={spellComment.timeLabel}
+                          className={styles.commentSpell}
+                        />
+                        <AgentCursor
+                          tone={spellComment.tone ?? SPELL_TONE}
+                          label={spellComment.agentName}
+                          className={styles.cursorSpell}
+                        />
+                      </>
+                    ) : null}
                   </span>
                 </h1>
                 <p className={styles.subhead}>{SUBHEAD}</p>
@@ -227,7 +310,7 @@ export default function AgentsAtWorkArtifact(): ReactNode {
                 </div>
               </div>
 
-              {/* Alt Text agent target */}
+              {/* Hero-media agent target (slot 2) */}
               <div className={styles.heroMediaTarget}>
                 <div className={styles.heroMedia}>
                   <svg
@@ -247,14 +330,23 @@ export default function AgentsAtWorkArtifact(): ReactNode {
                     <path d="M21 15L16 10L5 20" />
                   </svg>
                 </div>
-                <span className={`${styles.sel} ${styles.selImg}`} aria-hidden="true" />
-                <CommentPin avatarSrc={AGENT_AVATAR} className={styles.pin} size={26} />
-                <AgentComment
-                  name={ALT_AGENT}
-                  text={ALT_FINDING}
-                  className={styles.commentAlt}
-                />
-                <AgentCursor tone={ALT_TONE} label={ALT_AGENT} className={styles.cursorAlt} />
+                {altComment ? (
+                  <>
+                    <span className={`${styles.sel} ${styles.selImg}`} aria-hidden="true" />
+                    <CommentPin avatarSrc={AGENT_AVATAR} className={styles.pin} size={26} />
+                    <AgentComment
+                      name={altComment.agentName}
+                      text={altComment.text}
+                      time={altComment.timeLabel}
+                      className={styles.commentAlt}
+                    />
+                    <AgentCursor
+                      tone={altComment.tone ?? ALT_TONE}
+                      label={altComment.agentName}
+                      className={styles.cursorAlt}
+                    />
+                  </>
+                ) : null}
               </div>
             </div>
 

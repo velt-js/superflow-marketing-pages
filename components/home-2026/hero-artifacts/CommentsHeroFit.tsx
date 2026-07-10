@@ -42,11 +42,14 @@ const HERO_ADDRESS = "YOUR-SITE.COM";
  * `FloatingToolbar` the home hero Guest Mode artifact renders — reused, not
  * duplicated — and it self-positions at the bottom-centre of `.fit`.
  *
+ * Exported so sibling hero-fit modules (e.g. `MemoryHeroFit`) can reuse the very
+ * same chrome/toolbar frame instead of duplicating it.
+ *
  * @param artifact - The feature comment artifact element to fit (rendered with
  *   its `hero` prop so its own panel chrome is suppressed).
  * @returns The artifact framed for the hero window, or `null` on failure.
  */
-function fitToHeroWindow(artifact: ReactNode): ReactNode {
+export function fitToHeroWindow(artifact: ReactNode): ReactNode {
   try {
     return (
       <div className={styles.fit}>

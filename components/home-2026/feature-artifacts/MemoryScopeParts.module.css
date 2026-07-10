@@ -1,0 +1,78 @@
+/* Shared building blocks for the two "scoped memory" feature-section artifacts
+   (Per-client memory + Scoped three ways): the rounded lavender client card,
+   the short client→memory connector, and the thin-bordered white memory card
+   with its lighter stacked sheet peeking below. Sizes mirror Figma node
+   925:2667 (file aVubXS2jMWMDlRK42zvgoy). Every piece is static; a subtle
+   rise/fade entrance is layered by the consuming artifact and disabled under
+   prefers-reduced-motion. */
+
+/* --------------------------------------------------------------- client card */
+
+.clientCard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 200px;
+  padding: 16px;
+  border-radius: 32px;
+  background: rgba(54, 80, 231, 0.08);
+}
+
+.clientIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.clientLabel {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.6px;
+  color: #1e1e1f;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------- the column */
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Short vertical connector dropping from the client card to the memory card. */
+.columnConnector {
+  width: 2px;
+  height: 63px;
+  background: var(--scope-line, #d7d7e0);
+}
+
+/* --------------------------------------------------------------- memory card */
+
+.memoryCard {
+  position: relative;
+}
+
+/* The lighter sheet stacked behind the white card, peeking out at the bottom
+   (inset left/right, nudged down) for the layered look in the design. */
+.memoryStack {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 18px;
+  height: 100%;
+  border-radius: 20px;
+  background: #f2f2f2;
+  z-index: 0;
+}
+
+/* The reused MemoryPill card fills the wrapper width and sits above the stack. */
+.memoryPill {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}

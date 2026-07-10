@@ -70,7 +70,12 @@ export interface FeaturePageDoc {
   solution?: {
     heading?: string | null;
     subheading?: string | null;
-    variant?: "checklist" | "comments" | null;
+    variant?: "checklist" | "comments" | "memory-guidelines" | "ask-ai" | null;
+    /**
+     * Optional single-glyph override for the section-header cue (e.g. "brain"
+     * for the pink Memory brain). Omit to keep the variant's default glyph pair.
+     */
+    icon?: string | null;
   } | null;
   featureSet?: {
     headerTitle?: string | null;
@@ -103,6 +108,8 @@ const DEFAULT_BLOCK_ACCENT = "#433df3";
 const BLOCK_TINT_ALPHA = 0.06;
 /** Slug of the comments feature page that gets comment-artifact mock mapping. */
 const COMMENTS_PAGE_SLUG = "comments";
+/** Slug of the Ask AI feature page that gets Ask AI variant mock mapping. */
+const ASK_AI_PAGE_SLUG = "ask-ai";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -130,6 +137,24 @@ const COMMENTS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "snapshot-on-every-comment": "auto-screenshot",
   "private-scopes": "private-comments",
   "agent-comments": "review-agents",
+};
+
+/**
+ * Ask AI-page tab labels mapped to their per-tab Ask AI variant mock. Every tab
+ * shows the same chat artifact answering a different question with a different
+ * answer body (breakdown bar, ranking, pattern list, signal cards or chart).
+ * Applied client-side so the variants render without a Sanity re-seed; the seed
+ * script carries the same per-tab mocks for anyone who re-seeds the dataset.
+ */
+const ASK_AI_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "plain-language-questions": "ask-ai",
+  "cited-answers": "ask-ai-cited",
+  "per-client-answers": "ask-ai-per-client",
+  "copy-versus-bug-mix": "ask-ai-copy-vs-bug",
+  "cross-project-patterns": "ask-ai-cross-project",
+  "review-load-by-team": "ask-ai-load-by-team",
+  "delay-and-churn-signals": "ask-ai-delay-churn",
+  "analytics-on-demand": "ask-ai-analytics",
 };
 
 /** Comments-page block ids mapped to their initially visible artifact mock. */
@@ -189,6 +214,20 @@ function getCommentsBlockMock(
 }
 
 /**
+ * Resolve a tab's Ask AI variant mock from its label, preserving explicit CMS
+ * values when the label is not one of the known Ask AI variants.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The variant mock key, or undefined when no Ask AI mapping applies.
+ */
+function getAskAiTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return ASK_AI_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -231,20 +270,31 @@ function toFeatureSetBlock(
 ): FeatureSetBlockData {
   const accent = block?.accent ?? DEFAULT_BLOCK_ACCENT;
   const isCommentsPage = pageSlug === COMMENTS_PAGE_SLUG;
+  const isAskAiPage = pageSlug === ASK_AI_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
-    .map((tab) => ({
-      label: tab.label as string,
-      icon: (tab.icon ?? "grain") as FeatureSetIconName,
-      oneLiner: tab.oneLiner ?? "",
-      loss: tab.loss ?? "",
-      href: tab.href ?? undefined,
-      listOnly: tab.listOnly ?? undefined,
-      collapsesFirstTab: tab.collapsesFirstTab ?? undefined,
-      mock: (
-        isCommentsPage ? getCommentsTabMock(tab) ?? tab.mock : tab.mock ?? undefined
-      ) as FeatureSetMockName | undefined,
-    }));
+    .map((tab) => {
+      // Per-page label→mock lookups let a tab swap to its own artifact without
+      // the CMS carrying an explicit mock; explicit CMS values still win.
+      let resolvedMock: FeatureSetMockName | undefined;
+      if (isCommentsPage) {
+        resolvedMock = getCommentsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isAskAiPage) {
+        resolvedMock = getAskAiTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
+      } else {
+        resolvedMock = tab.mock as FeatureSetMockName | undefined;
+      }
+      return {
+        label: tab.label as string,
+        icon: (tab.icon ?? "grain") as FeatureSetIconName,
+        oneLiner: tab.oneLiner ?? "",
+        loss: tab.loss ?? "",
+        href: tab.href ?? undefined,
+        listOnly: tab.listOnly ?? undefined,
+        collapsesFirstTab: tab.collapsesFirstTab ?? undefined,
+        mock: resolvedMock,
+      };
+    });
   const commentsBlockMock = isCommentsPage
     ? getCommentsBlockMock(block)
     : undefined;
@@ -339,7 +389,14 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
 
   const solutionHeading = doc?.solution?.heading ?? undefined;
   const solutionSubheading = doc?.solution?.subheading ?? undefined;
-  const solutionVariant = doc?.solution?.variant ?? undefined;
+  // The Ask AI page uses the "graphs → insight" variant. Force it client-side
+  // (mirroring ASK_AI_TAB_MOCKS) so it renders without a Sanity re-seed; the
+  // seed script carries the same variant for anyone who re-seeds the dataset.
+  const solutionVariant =
+    doc?.slug === ASK_AI_PAGE_SLUG
+      ? "ask-ai"
+      : (doc?.solution?.variant ?? undefined);
+  const solutionIcon = doc?.solution?.icon ?? undefined;
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
     .filter((block) => Boolean(block?.title))
@@ -371,6 +428,7 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         heading={solutionHeading}
         subheading={solutionSubheading}
         variant={solutionVariant}
+        icon={solutionIcon}
       />
       <FeatureSet
         headerTitle={doc?.featureSet?.headerTitle ?? undefined}

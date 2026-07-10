@@ -9,11 +9,15 @@ import styles from "./CommentPin.module.css";
  * feature scene ({@link PinnedCommentScene}) and by the "Agents at Work" hero
  * artifact, so the two stay pixel-identical.
  *
- * The avatar can be EITHER a photo/graphic (the default, driven by
- * {@link CommentPinProps.avatarSrc}) OR a single-character glyph on a white
- * disc (set {@link CommentPinProps.hasImage} to false) — the character reads in
- * the {@link CommentPinProps.tone} color, matching the look the pin had before
- * the photo swap.
+ * The avatar can be:
+ * - a photo/graphic (the default, driven by {@link CommentPinProps.avatarSrc}),
+ * - an arbitrary white glyph drawn directly on the tone teardrop (pass
+ *   {@link CommentPinProps.glyph} — e.g. the agent app icon used by the
+ *   agent-finding scene and the "Run on Demand" hero artifact), or
+ * - a single-character glyph on a white disc (set
+ *   {@link CommentPinProps.hasImage} to false) — the character reads in the
+ *   {@link CommentPinProps.tone} color, matching the look the pin had before the
+ *   photo swap.
  *
  * The component owns ONLY the pin visual (teardrop container + avatar).
  * Absolute position, z-index and entrance animation differ per consumer and are
@@ -55,6 +59,13 @@ export interface CommentPinProps {
   hasImage?: boolean;
   /** Single character shown in character mode (default "A"). */
   character?: string;
+  /**
+   * An arbitrary glyph (e.g. an app icon) drawn centered in white directly on
+   * the {@link tone} teardrop — no inner disc. Takes priority over every other
+   * avatar mode. The glyph should scale to fill its box (the caller sizes it via
+   * {@link size}).
+   */
+  glyph?: ReactNode;
 }
 
 /**
@@ -73,41 +84,55 @@ export default function CommentPin({
   alt = "",
   hasImage = true,
   character = DEFAULT_CHARACTER,
+  glyph,
 }: CommentPinProps): ReactNode {
   try {
     const pinClassName = className ? `${styles.pin} ${className}` : styles.pin;
     const pinStyle = { "--pin-tone": tone } as CSSProperties;
     // Fall back to the character avatar whenever no image source is available,
     // so an omitted avatarSrc in image mode never crashes the render.
-    const showImage = hasImage && Boolean(avatarSrc);
+    const showImage = !glyph && hasImage && Boolean(avatarSrc);
     // next/image refuses to run SVGs through the optimizer (needs
     // dangerouslyAllowSVG); serve them raw instead of forcing a global config.
     const isSvg = avatarSrc?.toLowerCase().endsWith(".svg") ?? false;
 
+    let avatar: ReactNode;
+    if (glyph) {
+      avatar = (
+        <span className={styles.pinGlyph} style={{ width: size, height: size }}>
+          {glyph}
+        </span>
+      );
+    } else if (showImage) {
+      avatar = (
+        <Image
+          className={styles.pinAvatar}
+          src={avatarSrc as string}
+          alt={alt}
+          width={size}
+          height={size}
+          unoptimized={isSvg}
+          style={{ width: size, height: size }}
+        />
+      );
+    } else {
+      avatar = (
+        <span
+          className={styles.pinChar}
+          style={{
+            width: size,
+            height: size,
+            fontSize: Math.round(size * CHARACTER_FONT_RATIO),
+          }}
+        >
+          {character}
+        </span>
+      );
+    }
+
     return (
       <span className={pinClassName} style={pinStyle} aria-hidden="true">
-        {showImage ? (
-          <Image
-            className={styles.pinAvatar}
-            src={avatarSrc as string}
-            alt={alt}
-            width={size}
-            height={size}
-            unoptimized={isSvg}
-            style={{ width: size, height: size }}
-          />
-        ) : (
-          <span
-            className={styles.pinChar}
-            style={{
-              width: size,
-              height: size,
-              fontSize: Math.round(size * CHARACTER_FONT_RATIO),
-            }}
-          >
-            {character}
-          </span>
-        )}
+        {avatar}
       </span>
     );
   } catch {

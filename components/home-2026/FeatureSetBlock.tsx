@@ -5,17 +5,37 @@ import styles from "./FeatureSet.module.css";
 import { FeatureSetIcon, type FeatureSetIconName } from "./FeatureSetIcons";
 import { FeatureSetWorkflowMock } from "./FeatureSetMocks";
 import ClientMemoryArtifact from "./feature-artifacts/ClientMemoryArtifact";
-import AskAiArtifact from "./feature-artifacts/AskAiArtifact";
+import MemoryLearningArtifact from "./feature-artifacts/MemoryLearningArtifact";
+import MemoryUploadScanArtifact from "./feature-artifacts/MemoryUploadScanArtifact";
+import MemoryPerClientArtifact from "./feature-artifacts/MemoryPerClientArtifact";
+import MemoryScopedThreeArtifact from "./feature-artifacts/MemoryScopedThreeArtifact";
+import AskAiArtifact, {
+  AskAiCitedArtifact,
+  AskAiPerClientArtifact,
+  AskAiCopyVsBugArtifact,
+  AskAiCrossProjectArtifact,
+  AskAiLoadByTeamArtifact,
+  AskAiDelayChurnArtifact,
+  AskAiOpsSignalsArtifact,
+  AskAiAnalyticsArtifact,
+} from "./feature-artifacts/AskAiArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
 import AllDevicesArtifact from "./feature-artifacts/AllDevicesArtifact";
+import WebhooksArtifact from "./feature-artifacts/WebhooksArtifact";
 import KanbanArtifact from "./feature-artifacts/KanbanArtifact";
 import CustomStatusArtifact from "./feature-artifacts/CustomStatusArtifact";
 import WorkflowArtifact from "./feature-artifacts/WorkflowArtifact";
 import VersioningArtifact from "./feature-artifacts/VersioningArtifact";
 import LiveSiteArtifact from "./feature-artifacts/LiveSiteArtifact";
 import RecordWalkthroughArtifact from "./feature-artifacts/RecordWalkthroughArtifact";
+import AgentFindingArtifact from "./feature-artifacts/AgentFindingArtifact";
+import ReviewAgentsMemoryArtifact from "./feature-artifacts/ReviewAgentsMemoryArtifact";
+import ValidateFixesArtifact from "./feature-artifacts/ValidateFixesArtifact";
+import CustomAgentArtifact, {
+  CustomAgentTestArtifact,
+} from "./feature-artifacts/CustomAgentArtifact";
 import {
   AttachmentCommentsArtifact,
   MentionsCommentsArtifact,
@@ -29,9 +49,12 @@ import {
 // (sized to the feature panel) instead of a standalone feature duplicate.
 import {
   ReviewAgentsArtifact,
+  RunOnDemandArtifact,
+  BuiltInChecksArtifact,
   PrivateArtifact,
   GuestModeArtifact,
   IntegrationsArtifact,
+  AppliedNextAssetArtifact,
 } from "./feature-artifacts/HeroArtifactFit";
 
 const FEATURES_LABEL = "Features that help";
@@ -40,14 +63,35 @@ const FEATURES_LABEL = "Features that help";
 const MOCKS = {
   workflow: FeatureSetWorkflowMock,
   "review-agents": ReviewAgentsArtifact,
+  "review-agents-memory": ReviewAgentsMemoryArtifact,
+  "run-on-demand": RunOnDemandArtifact,
+  "built-in-checks": BuiltInChecksArtifact,
+  "custom-agent": CustomAgentArtifact,
+  "custom-agent-test": CustomAgentTestArtifact,
   "client-memory": ClientMemoryArtifact,
+  "memory-learning": MemoryLearningArtifact,
+  "memory-upload-scan": MemoryUploadScanArtifact,
+  "memory-per-client": MemoryPerClientArtifact,
+  "memory-scoped-three": MemoryScopedThreeArtifact,
+  "applied-next-asset": AppliedNextAssetArtifact,
   "ask-ai": AskAiArtifact,
+  "ask-ai-cited": AskAiCitedArtifact,
+  "ask-ai-per-client": AskAiPerClientArtifact,
+  "ask-ai-copy-vs-bug": AskAiCopyVsBugArtifact,
+  "ask-ai-cross-project": AskAiCrossProjectArtifact,
+  "ask-ai-load-by-team": AskAiLoadByTeamArtifact,
+  "ask-ai-delay-churn": AskAiDelayChurnArtifact,
+  "ask-ai-ops-signals": AskAiOpsSignalsArtifact,
+  "ask-ai-analytics": AskAiAnalyticsArtifact,
   "pinned-comments": PinnedCommentsArtifact,
+  "agent-finding": AgentFindingArtifact,
+  "validate-fixes": ValidateFixesArtifact,
   "auto-screenshot": AutoScreenshotArtifact,
   "private-comments": PrivateArtifact,
   "guest-mode": GuestModeArtifact,
   "behind-login": BehindLoginArtifact,
   "all-devices": AllDevicesArtifact,
+  webhooks: WebhooksArtifact,
   kanban: KanbanArtifact,
   integrations: IntegrationsArtifact,
   "custom-statuses": CustomStatusArtifact,

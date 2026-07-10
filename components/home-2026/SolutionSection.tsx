@@ -1,5 +1,11 @@
 import type { CSSProperties, ReactNode, SVGProps } from "react";
 import styles from "./SolutionSection.module.css";
+import {
+  BrainGlyph,
+  DEFAULT_PDF_TINT,
+  PdfFile,
+  type PdfFileTint,
+} from "./hero-artifacts/MemoryUploadArtifact";
 import SolutionSectionAgentPills, {
   SolutionSectionAgentProvider,
   type AgentPill,
@@ -8,6 +14,7 @@ import SolutionSectionReveal from "./SolutionSectionReveal";
 import SolutionSectionToast, {
   type ReviewFinding,
 } from "./SolutionSectionToast";
+import SolutionAskAiInsights from "./SolutionAskAiInsights";
 
 /** Copy per the homepage copy spec (home v4.1.8): "manual" cut, since the
     Problem section one scroll up already establishes the manual status quo. */
@@ -104,6 +111,50 @@ function ArrowRightIcon({ size }: IconProps): ReactNode {
   );
 }
 
+/** Unique gradient id for the memory `sheet-brain` cue's arrow stroke. */
+const HEADER_ARROW_GRADIENT_ID = "solHeaderArrowGradient";
+/**
+ * Brand Guideline lavender-blue — reuses the Brand Guideline sheet's tint
+ * (`DEFAULT_PDF_TINT.shadow`, #7f95c6) so the memory header cue's sheet glyph
+ * and the arrow gradient's left stop match the guidelines graphic below.
+ */
+const HEADER_SHEET_BLUE = DEFAULT_PDF_TINT.shadow;
+/** Memory brand pink (mirrors `--sol-memory-pink`) — the arrow gradient's right stop. */
+const HEADER_BRAIN_PINK = "#e5389f";
+
+/**
+ * Gradient variant of {@link ArrowRightIcon} used ONLY by the memory page's
+ * `sheet-brain` header cue. Its stroke fades from the Brand Guideline sheet's
+ * lavender-blue (left) to the Memory brain's pink (right), bridging the two
+ * glyphs. Uses a unique gradient id and per-path `url(#…)` stroke, so it never
+ * touches the shared gray {@link ArrowRightIcon} used by other cues.
+ * @param size Square pixel dimension for the SVG.
+ */
+function HeaderArrowGradientIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <defs>
+        <linearGradient
+          id={HEADER_ARROW_GRADIENT_ID}
+          x1="5"
+          y1="12"
+          x2="19"
+          y2="12"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor={HEADER_SHEET_BLUE} />
+          <stop offset="1" stopColor={HEADER_BRAIN_PINK} />
+        </linearGradient>
+      </defs>
+      <path d="M5 12h14" stroke={`url(#${HEADER_ARROW_GRADIENT_ID})`} />
+      <path
+        d="M13 6l6 6l-6 6"
+        stroke={`url(#${HEADER_ARROW_GRADIENT_ID})`}
+      />
+    </SolutionIcon>
+  );
+}
+
 /**
  * Robot glyph representing the generated QA agents.
  * @param size Square pixel dimension for the SVG.
@@ -117,6 +168,23 @@ function RobotIcon({ size }: IconProps): ReactNode {
       <path d="M15 11v2" />
       <path d="M9 7l-1 -4" />
       <path d="M15 7l1 -4" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Dog-eared document-sheet glyph (Tabler `file-description` geometry) — the
+ * "before" mark in the memory page's guidelines → Memory header cue.
+ * @param size Square pixel dimension for the SVG.
+ */
+function SheetIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+      <path d="M9 9l1 0" />
+      <path d="M9 13l6 0" />
+      <path d="M9 17l6 0" />
     </SolutionIcon>
   );
 }
@@ -167,6 +235,22 @@ function MessageIcon({ size }: IconProps): ReactNode {
   return (
     <SolutionIcon size={size}>
       <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Bar-chart glyph cueing the "graphs" side of the Ask AI variant's header
+ * (charts → arrow → message). Two axis rules with three ascending bars.
+ * @param size Square pixel dimension for the SVG.
+ */
+function ChartIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M4 4v16h16" />
+      <path d="M8 16v-4" />
+      <path d="M13 16v-8" />
+      <path d="M18 16v-6" />
     </SolutionIcon>
   );
 }
@@ -514,6 +598,11 @@ function SolutionFrame(): ReactNode {
 const COMMENTS_HEADING_TEXT = "No more scattered feedback on 5 different apps";
 const COMMENTS_SUBHEADING_TEXT =
   "Leave feedback where your website or asset lives.";
+
+/* Ask AI-variant fallbacks, used only if the CMS omits the copy. */
+const ASK_AI_HEADING_TEXT = "See where the rounds go";
+const ASK_AI_SUBHEADING_TEXT =
+  "Ask plain-language questions across every review — and every answer is grounded in your own data, cited.";
 const COMMENTS_SITE_URL = "your-site.com";
 const COMMENTS_MESSAGE_SLACK =
   "Sent you feedback on Email. Also change the CTA to green";
@@ -612,6 +701,196 @@ function SolutionCommentsFlow(): ReactNode {
   );
 }
 
+/* ---- Memory "guidelines → Memory" variant (memory feature page) ----
+   A small stack of tinted guideline sheets on the left feeds — through a
+   dashed arrow — the per-client Memory brain on the right, ringed by counts of
+   what it now holds. Only the memory page opts into this via
+   solution.variant = "memory-guidelines". */
+
+/** Rendered width (px) of each dog-eared guideline sheet. */
+const GUIDELINE_SHEET_WIDTH = 118;
+
+/** Rose/pink tint for the "Agency Guidelines" sheet. */
+const GUIDELINE_PINK_TINT: PdfFileTint = {
+  bodyFrom: "#fef1f8",
+  bodyTo: "#fbe0f0",
+  stroke: "#f8d9ea",
+  foldFrom: "#f6cbe4",
+  foldTo: "#efb3d5",
+  shadow: "#d98cbb",
+};
+
+/** Mint/green tint for the "SEO Guidelines" sheet. */
+const GUIDELINE_GREEN_TINT: PdfFileTint = {
+  bodyFrom: "#eefaf1",
+  bodyTo: "#dcf3e4",
+  stroke: "#d0efdb",
+  foldFrom: "#c2e9d1",
+  foldTo: "#a8dcbd",
+  shadow: "#79b892",
+};
+
+/** Shared two-line label styling for the guideline sheets. */
+const GUIDELINE_LABEL_STYLE: CSSProperties = {
+  fontSize: 15,
+  fontWeight: 700,
+  lineHeight: 1.2,
+  letterSpacing: 0,
+  color: "#1f2430",
+  textAlign: "center",
+  padding: "0 8px",
+};
+
+/** One guideline sheet in the left stack. */
+interface GuidelineSheet {
+  /** Stable key + id-prefix seed. */
+  id: string;
+  /** Two-line wordmark overlaid on the sheet. */
+  label: ReactNode;
+  /** Unique SVG gradient/filter id prefix so sheets never collide. */
+  idPrefix: string;
+  /** Sheet colour tint. */
+  tint: PdfFileTint;
+  /** Stagger-position class for this sheet in the stack. */
+  className: string;
+}
+
+/** The three overlapping guideline sheets, front-to-back via CSS z-index. */
+const GUIDELINE_SHEETS: readonly GuidelineSheet[] = [
+  {
+    id: "brand",
+    label: (
+      <>
+        Brand
+        <br />
+        Guideline
+      </>
+    ),
+    idPrefix: "solGuideBrand",
+    tint: DEFAULT_PDF_TINT,
+    className: styles.sheetBrand,
+  },
+  {
+    id: "agency",
+    label: (
+      <>
+        Agency
+        <br />
+        Guidelines
+      </>
+    ),
+    idPrefix: "solGuideAgency",
+    tint: GUIDELINE_PINK_TINT,
+    className: styles.sheetAgency,
+  },
+  {
+    id: "seo",
+    label: (
+      <>
+        SEO
+        <br />
+        Guidelines
+      </>
+    ),
+    idPrefix: "solGuideSeo",
+    tint: GUIDELINE_GREEN_TINT,
+    className: styles.sheetSeo,
+  },
+];
+
+/** Count pills that ring the Memory brain (what it now holds). */
+const GUIDELINE_AGENCY_RULES_TEXT = "12 Agency Rules";
+const GUIDELINE_CLIENT_PROJECTS_TEXT = "24 Client Projects";
+const GUIDELINE_SEO_CHECKS_TEXT = "8 SEO Checks";
+
+/* Reveal delays (ms) sequencing the guidelines diagram left-to-right. */
+const GUIDELINES_REVEAL_SHEET_BASE_MS = 500;
+const GUIDELINES_REVEAL_SHEET_STEP_MS = 110;
+const GUIDELINES_REVEAL_CONNECTOR_MS = 900;
+const GUIDELINES_REVEAL_BRAIN_MS = 1050;
+const GUIDELINES_REVEAL_PILL_BASE_MS = 1150;
+const GUIDELINES_REVEAL_PILL_STEP_MS = 90;
+
+/** Pixel size of the pink brain in the center Memory badge. */
+const GUIDELINES_BRAIN_SIZE = 38;
+
+/**
+ * Memory "guidelines → Memory" variant of the flow diagram (memory feature
+ * page): a small stack of tinted, dog-eared guideline sheets on the left feeds
+ * — through a dashed arrow — the per-client Memory brain on the right, ringed
+ * by counts of what it now holds. Reuses the shared {@link PdfFile} sheet and
+ * the pink {@link BrainGlyph}. Entrances use the section's shared `.revealItem`
+ * mechanism, so the whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The guidelines-flow element, or `null` on failure.
+ */
+function SolutionGuidelinesFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.guidelinesFlow}>
+        <div className={styles.guidelinesStack}>
+          {GUIDELINE_SHEETS.map((sheet, sheetIndex) => (
+            <span
+              key={sheet.id}
+              className={`${sheet.className} ${styles.revealItem}`}
+              style={revealDelayStyle(
+                GUIDELINES_REVEAL_SHEET_BASE_MS +
+                  sheetIndex * GUIDELINES_REVEAL_SHEET_STEP_MS,
+              )}
+              aria-hidden="true"
+            >
+              <PdfFile
+                label={sheet.label}
+                idPrefix={sheet.idPrefix}
+                width={GUIDELINE_SHEET_WIDTH}
+                tint={sheet.tint}
+                labelStyle={GUIDELINE_LABEL_STYLE}
+              />
+            </span>
+          ))}
+        </div>
+
+        <SolutionConnector revealDelayMs={GUIDELINES_REVEAL_CONNECTOR_MS} />
+
+        <div className={styles.guidelinesMemory}>
+          <span
+            className={`${styles.countPill} ${styles.countPillTopLeft} ${styles.revealItem}`}
+            style={revealDelayStyle(GUIDELINES_REVEAL_PILL_BASE_MS)}
+          >
+            {GUIDELINE_AGENCY_RULES_TEXT}
+          </span>
+          <span
+            className={`${styles.countPill} ${styles.countPillTopRight} ${styles.revealItem}`}
+            style={revealDelayStyle(
+              GUIDELINES_REVEAL_PILL_BASE_MS + GUIDELINES_REVEAL_PILL_STEP_MS,
+            )}
+          >
+            {GUIDELINE_CLIENT_PROJECTS_TEXT}
+          </span>
+          <span
+            className={`${styles.brainBadge} ${styles.revealItem}`}
+            style={revealDelayStyle(GUIDELINES_REVEAL_BRAIN_MS)}
+            aria-hidden="true"
+          >
+            <BrainGlyph size={GUIDELINES_BRAIN_SIZE} />
+          </span>
+          <span
+            className={`${styles.countPill} ${styles.countPillBottom} ${styles.revealItem}`}
+            style={revealDelayStyle(
+              GUIDELINES_REVEAL_PILL_BASE_MS +
+                GUIDELINES_REVEAL_PILL_STEP_MS * 2,
+            )}
+          >
+            {GUIDELINE_SEO_CHECKS_TEXT}
+          </span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Per-page overrides for the Solution section copy. Omit a field to fall back
  * to the homepage default (so /home-preview renders unchanged). Feature pages
@@ -620,11 +899,120 @@ function SolutionCommentsFlow(): ReactNode {
  * `variant` swaps the illustration + header glyphs:
  *  - "checklist" (default): checklist file → agent team → review card.
  *  - "comments": scattered feedback bubbles → a comment pinned on the site.
+ *  - "memory-guidelines": tinted guideline sheets → the Memory brain (memory
+ *    page only). Header glyph still comes from the `icon` override.
+ *  - "ask-ai": a column of minimal graph tiles → a cycling insight card (Ask AI
+ *    page). Header pair defaults to charts → message.
  */
 export interface SolutionSectionProps {
   heading?: string;
   subheading?: string;
-  variant?: "checklist" | "comments";
+  variant?: "checklist" | "comments" | "memory-guidelines" | "ask-ai";
+  /**
+   * Optional named override for the header cue. When set to a known name (see
+   * {@link SOLUTION_HEADER_ICONS}) the variant's default before→after glyph
+   * pair is replaced by a page-specific cue — e.g. `"sheet-brain"` (document
+   * sheet → arrow → pink Memory brain) on the memory feature page. Omit to keep
+   * the variant's built-in pair.
+   */
+  icon?: string;
+}
+
+/** Pixel size for the header cue glyphs (matches the table/robot glyphs). */
+const HEADER_GLYPH_SIZE = 28;
+
+/**
+ * Registry of named header-cue overrides (string → full cue nodes). A page can
+ * set `solution.icon` to one of these keys to replace the variant's default
+ * before→after pair with a page-specific cue. `sheet-brain` mirrors the memory
+ * page's "guidelines → Memory" graphic: a blue document sheet → a blue→pink
+ * gradient arrow → the pink Memory brain (reused from the memory artifacts).
+ */
+const SOLUTION_HEADER_ICONS: Readonly<
+  Record<string, (size: number) => ReactNode>
+> = {
+  "sheet-brain": (size) => (
+    <>
+      <span className={styles.headerIconSheet}>
+        <SheetIcon size={size} />
+      </span>
+      <span className={styles.headerIconArrow}>
+        <HeaderArrowGradientIcon size={22} />
+      </span>
+      <span className={styles.headerIconBrain}>
+        <BrainGlyph size={size} />
+      </span>
+    </>
+  ),
+};
+
+/**
+ * Render the section-header icon cue. A page may override the variant's default
+ * before→after glyph pair with a named cue from {@link SOLUTION_HEADER_ICONS};
+ * otherwise the built-in pair for the active variant is shown.
+ *
+ * @param props.variant The active Solution variant, selecting its default cue.
+ * @param props.icon Optional named header-cue override (e.g. "sheet-brain").
+ * @returns The header-icon nodes, or `null` on failure.
+ */
+function SolutionHeaderIcons({
+  variant,
+  icon,
+}: {
+  variant: SolutionSectionProps["variant"];
+  icon?: string;
+}): ReactNode {
+  try {
+    const override = icon ? SOLUTION_HEADER_ICONS?.[icon] : undefined;
+    if (override) {
+      return override(HEADER_GLYPH_SIZE);
+    }
+    if (variant === "ask-ai") {
+      return (
+        <>
+          <span className={styles.headerIconChart}>
+            <ChartIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconMessage}>
+            <MessageIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "comments") {
+      return (
+        <>
+          <span className={styles.headerIconGrain}>
+            <GrainIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrowAccent}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconMessage}>
+            <MessageIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    return (
+      <>
+        <span className={styles.headerIconTable}>
+          <TableIcon size={HEADER_GLYPH_SIZE} />
+        </span>
+        <span className={styles.headerIconArrow}>
+          <ArrowRightIcon size={22} />
+        </span>
+        <span className={styles.headerIconRobot}>
+          <RobotIcon size={HEADER_GLYPH_SIZE} />
+        </span>
+      </>
+    );
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -638,12 +1026,22 @@ export default function SolutionSection({
   heading,
   subheading,
   variant = "checklist",
+  icon,
 }: SolutionSectionProps = {}): ReactNode {
   const isComments = variant === "comments";
-  const headingText =
-    heading ?? (isComments ? COMMENTS_HEADING_TEXT : HEADING_TEXT);
-  const subheadingText =
-    subheading ?? (isComments ? COMMENTS_SUBHEADING_TEXT : SUBHEADING_TEXT);
+  const isAskAi = variant === "ask-ai";
+  const defaultHeading = isComments
+    ? COMMENTS_HEADING_TEXT
+    : isAskAi
+      ? ASK_AI_HEADING_TEXT
+      : HEADING_TEXT;
+  const defaultSubheading = isComments
+    ? COMMENTS_SUBHEADING_TEXT
+    : isAskAi
+      ? ASK_AI_SUBHEADING_TEXT
+      : SUBHEADING_TEXT;
+  const headingText = heading ?? defaultHeading;
+  const subheadingText = subheading ?? defaultSubheading;
 
   return (
     <section className={styles.section} data-section="solution">
@@ -652,39 +1050,19 @@ export default function SolutionSection({
         <div className={styles.inner}>
           <header className={styles.header}>
             <div className={styles.headerIcons}>
-              {isComments ? (
-                <>
-                  <span className={styles.headerIconGrain}>
-                    <GrainIcon size={28} />
-                  </span>
-                  <span className={styles.headerIconArrowAccent}>
-                    <ArrowRightIcon size={22} />
-                  </span>
-                  <span className={styles.headerIconMessage}>
-                    <MessageIcon size={28} />
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className={styles.headerIconTable}>
-                    <TableIcon size={28} />
-                  </span>
-                  <span className={styles.headerIconArrow}>
-                    <ArrowRightIcon size={22} />
-                  </span>
-                  <span className={styles.headerIconRobot}>
-                    <RobotIcon size={28} />
-                  </span>
-                </>
-              )}
+              <SolutionHeaderIcons variant={variant} icon={icon} />
             </div>
             <div className={styles.headingGroup}>
               <h2 className={styles.heading}>{headingText}</h2>
               <p className={styles.subheading}>{subheadingText}</p>
             </div>
           </header>
-          {isComments ? (
+          {variant === "ask-ai" ? (
+            <SolutionAskAiInsights />
+          ) : variant === "comments" ? (
             <SolutionCommentsFlow />
+          ) : variant === "memory-guidelines" ? (
+            <SolutionGuidelinesFlow />
           ) : (
             <SolutionSectionAgentProvider>
               <div className={styles.flow}>

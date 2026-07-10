@@ -38,6 +38,14 @@
   );
 }
 
+/* Hero product-window reuse: the frame is wider and fully visible, so center
+   the scene and scale it up to fill (the branch still bleeds in from the top
+   edge). Feature-section usage is unaffected. */
+.root[data-hero="true"] .scene {
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
 /* Dashed branch vector, centered on the frame, meeting the card top at y=184. */
 .branch {
   position: absolute;
