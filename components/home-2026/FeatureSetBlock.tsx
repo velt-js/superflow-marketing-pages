@@ -30,6 +30,11 @@ import {
   AnalyticsPinDismissArtifact,
   AnalyticsFiltersArtifact,
 } from "./feature-artifacts/AnalyticsArtifact";
+import {
+  ClientReviewMagicLinkArtifact,
+  ClientReviewCleanedUpArtifact,
+  ClientReviewApproveArtifact,
+} from "./feature-artifacts/ClientReviewArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
@@ -103,6 +108,9 @@ const MOCKS = {
   "analytics-for-me": AnalyticsForMeArtifact,
   "analytics-pin-dismiss": AnalyticsPinDismissArtifact,
   "analytics-filters": AnalyticsFiltersArtifact,
+  "client-review-magic-link": ClientReviewMagicLinkArtifact,
+  "client-review-cleaned-up": ClientReviewCleanedUpArtifact,
+  "client-review-approve": ClientReviewApproveArtifact,
   "pinned-comments": PinnedCommentsArtifact,
   "agent-finding": AgentFindingArtifact,
   "validate-fixes": ValidateFixesArtifact,

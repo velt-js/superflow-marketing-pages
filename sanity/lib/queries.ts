@@ -545,6 +545,16 @@ export async function getFeaturePageBySlug(slug: string) {
           accent
         }
       },
+      relatedCapabilities {
+        heading,
+        boundaryLine,
+        items[] {
+          title,
+          description,
+          href,
+          icon
+        }
+      },
       faq {
         heading,
         items[] {

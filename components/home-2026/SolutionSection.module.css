@@ -305,6 +305,20 @@
     color: #433df3;
 }
 
+/* Client Review variant header cue: indigo link → gray arrow → green approved
+   check (reuses .headerIconArrow between them). */
+.headerIconLink {
+    display: inline-flex;
+    align-items: center;
+    color: #433df3;
+}
+
+.headerIconCheck {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sol-green);
+}
+
 /* Comments variant header glyphs: red grain → red arrow → blue bubble. */
 .headerIconGrain {
     color: var(--sol-red);
@@ -867,6 +881,217 @@
     background: #3b6ef6;
 }
 
+/* ---- Client Review "magic link → live page → Approve" variant ----
+   Left: a small phone carrying the review link. Right: the live page the client
+   sees — no-account chrome, cleaned-up content and a recorded approval pill. */
+.clientReviewFlow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.crPhone {
+    flex: 0 0 auto;
+    position: relative;
+    width: 212px;
+    height: 288px;
+    padding: 10px;
+    border-radius: 36px;
+    background: #16161d;
+    box-shadow: 0 22px 46px rgba(20, 20, 43, 0.18);
+}
+
+.crPhoneNotch {
+    position: absolute;
+    top: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 66px;
+    height: 18px;
+    border-radius: 10px;
+    background: #16161d;
+    z-index: 2;
+}
+
+.crPhoneScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 11px;
+    height: 100%;
+    padding: 36px 18px 18px;
+    border-radius: 27px;
+    background: #f6f7f9;
+}
+
+.crMsgHead {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: #16a35a;
+}
+
+.crBubble {
+    margin: 0;
+    padding: 10px 13px;
+    border-radius: 14px 14px 14px 4px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(16, 17, 20, 0.06);
+    font-size: 13.5px;
+    line-height: 1.38;
+    letter-spacing: -0.2px;
+    color: #23262b;
+}
+
+.crLinkChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: auto;
+    padding: 9px 13px;
+    border: 1px solid #dcdef7;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #433df3;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+/* Right side is a browser WINDOW (not a floating card): moderate window radius,
+   a shaded toolbar with an inset address-bar pill, and depth from a soft
+   shadow rather than a heavy card border. */
+.crLive {
+    flex: 0 0 auto;
+    width: 430px;
+    max-width: 100%;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 14px 36px rgba(20, 20, 43, 0.1);
+    overflow: hidden;
+}
+
+.crLiveBar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 46px;
+    padding: 0 14px;
+    background: #f4f5f7;
+    border-bottom: 1px solid #e8e9ec;
+}
+
+.crLiveDots {
+    display: flex;
+    gap: 6px;
+}
+
+.crLiveDots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.crLiveDots span:nth-child(1) {
+    background: #ff5f57;
+}
+
+.crLiveDots span:nth-child(2) {
+    background: #febc2e;
+}
+
+.crLiveDots span:nth-child(3) {
+    background: #28c840;
+}
+
+/* Inset address bar — the cue that reads as a real browser, not a card. */
+.crUrlBar {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 27px;
+    padding: 0 12px;
+    border: 1px solid #e6e7ea;
+    border-radius: 8px;
+    background: #ffffff;
+    font-family: var(--sol-font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #9a9da4;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.crUrlBar svg {
+    flex: 0 0 auto;
+    color: #b8bac1;
+}
+
+.crNoAccount {
+    flex: 0 0 auto;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #eef0f4;
+    color: #6b7280;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.crLiveBody {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.crLiveHero {
+    width: 100%;
+    height: 92px;
+    border-radius: 12px;
+    background:
+        radial-gradient(90% 120% at 15% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
+        linear-gradient(135deg, #433df3 0%, #6b63ff 55%, #8f7bff 100%);
+}
+
+.crLiveLine {
+    width: 100%;
+    height: 16px;
+    border-radius: 8px;
+    background: #eff0f2;
+}
+
+.crLiveLineShort {
+    width: 58%;
+}
+
+/* Recorded approval pill sitting on the live page. */
+.crApprove {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    margin: 4px 20px 20px;
+    padding: 9px 14px;
+    border-radius: 11px;
+    background: var(--sol-green);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+}
+
 /* ---- Memory "guidelines → Memory" variant ---- */
 .guidelinesFlow {
     display: flex;
@@ -1276,6 +1501,11 @@
     }
 
     .guidelinesFlow {
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .clientReviewFlow {
         flex-direction: column;
         gap: 28px;
     }

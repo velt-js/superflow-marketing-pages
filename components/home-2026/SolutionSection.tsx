@@ -272,6 +272,20 @@ function SparklesIcon({ size }: IconProps): ReactNode {
 }
 
 /**
+ * Check-in-shield glyph cueing the "approved" end of the Client Review variant's
+ * header (magic link → arrow → approved).
+ * @param size Square pixel dimension for the SVG.
+ */
+function ShieldCheckIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M12 3l7 3v5c0 4.5 -3 7 -7 8c-4 -1 -7 -3.5 -7 -8v-5z" />
+      <path d="M9.5 11.5l1.8 1.8l3.2 -3.3" />
+    </SolutionIcon>
+  );
+}
+
+/**
  * The multi-color Slack logo shown in the first feedback card. Uses its own
  * brand fills rather than the shared stroke style.
  * @param size Square pixel dimension for the SVG.
@@ -624,6 +638,11 @@ const ASK_AI_SUBHEADING_TEXT =
 const ANALYTICS_HEADING_TEXT = "The week, already read";
 const ANALYTICS_SUBHEADING_TEXT =
   "Analytics leads with insights — three to five a week, each with the pattern, what it means, and a one-click action.";
+
+/* Client Review-variant fallbacks, used only if the CMS omits the copy. */
+const CLIENT_REVIEW_HEADING_TEXT = "One click to yes. No account.";
+const CLIENT_REVIEW_SUBHEADING_TEXT =
+  "A magic link opens the live page — the client sees work AI and your team already cleaned up, then approves right there.";
 const COMMENTS_SITE_URL = "your-site.com";
 const COMMENTS_MESSAGE_SLACK =
   "Sent you feedback on Email. Also change the CTA to green";
@@ -912,6 +931,91 @@ function SolutionGuidelinesFlow(): ReactNode {
   }
 }
 
+/* ---- Client Review "magic link → live page → Approve" variant ----
+   A phone carrying the review link (left) feeds — through the dashed arrow — the
+   live page the client sees (right): no-account chrome, cleaned-up content and a
+   recorded approval. Only the client-review page opts into this via
+   solution.variant = "client-review". */
+
+const CLIENT_REVIEW_SENDER = "Acme Studio";
+const CLIENT_REVIEW_SITE_URL = "acme-studio.com";
+const CLIENT_REVIEW_MESSAGE = "Your homepage is ready to review";
+const CLIENT_REVIEW_NO_ACCOUNT = "No account";
+const CLIENT_REVIEW_APPROVED = "Approved · Dana Wells";
+
+/* Reveal delays (ms) sequencing the client-review diagram left-to-right. */
+const CLIENT_REVIEW_REVEAL_PHONE_MS = 500;
+const CLIENT_REVIEW_REVEAL_CONNECTOR_MS = 900;
+const CLIENT_REVIEW_REVEAL_LIVE_MS = 1050;
+const CLIENT_REVIEW_REVEAL_APPROVE_MS = 1350;
+
+/**
+ * Client Review variant of the flow diagram (client-review feature page): a
+ * phone carrying the review link on the left resolves — through the dashed
+ * arrow — into the live page the client sees on the right, ending in a recorded
+ * approval. Entrances use the section's shared `.revealItem` mechanism, so the
+ * whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The client-review-flow element, or `null` on failure.
+ */
+function SolutionClientReviewFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.clientReviewFlow}>
+        <div
+          className={`${styles.crPhone} ${styles.revealItem}`}
+          style={revealDelayStyle(CLIENT_REVIEW_REVEAL_PHONE_MS)}
+          aria-hidden="true"
+        >
+          <span className={styles.crPhoneNotch} />
+          <div className={styles.crPhoneScreen}>
+            <span className={styles.crMsgHead}>{CLIENT_REVIEW_SENDER}</span>
+            <p className={styles.crBubble}>{CLIENT_REVIEW_MESSAGE}</p>
+            <span className={styles.crLinkChip}>
+              <LinkIcon size={15} />
+              {CLIENT_REVIEW_SITE_URL}
+            </span>
+          </div>
+        </div>
+
+        <SolutionConnector revealDelayMs={CLIENT_REVIEW_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.crLive} ${styles.revealItem}`}
+          style={revealDelayStyle(CLIENT_REVIEW_REVEAL_LIVE_MS)}
+        >
+          <div className={styles.crLiveBar}>
+            <span className={styles.crLiveDots} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.crUrlBar}>
+              <LinkIcon size={12} />
+              {CLIENT_REVIEW_SITE_URL}
+            </span>
+            <span className={styles.crNoAccount}>{CLIENT_REVIEW_NO_ACCOUNT}</span>
+          </div>
+          <div className={styles.crLiveBody} aria-hidden="true">
+            <span className={styles.crLiveHero} />
+            <span className={styles.crLiveLine} />
+            <span className={`${styles.crLiveLine} ${styles.crLiveLineShort}`} />
+          </div>
+          <span
+            className={`${styles.crApprove} ${styles.revealItem}`}
+            style={revealDelayStyle(CLIENT_REVIEW_REVEAL_APPROVE_MS)}
+          >
+            <ShieldCheckIcon size={16} />
+            {CLIENT_REVIEW_APPROVED}
+          </span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Per-page overrides for the Solution section copy. Omit a field to fall back
  * to the homepage default (so /home-preview renders unchanged). Feature pages
@@ -933,7 +1037,8 @@ export interface SolutionSectionProps {
     | "comments"
     | "memory-guidelines"
     | "ask-ai"
-    | "analytics";
+    | "analytics"
+    | "client-review";
   /**
    * Optional named override for the header cue. When set to a known name (see
    * {@link SOLUTION_HEADER_ICONS}) the variant's default before→after glyph
@@ -1023,6 +1128,21 @@ function SolutionHeaderIcons({
         </>
       );
     }
+    if (variant === "client-review") {
+      return (
+        <>
+          <span className={styles.headerIconLink}>
+            <LinkIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconCheck}>
+            <ShieldCheckIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
     if (variant === "comments") {
       return (
         <>
@@ -1072,20 +1192,25 @@ export default function SolutionSection({
   const isComments = variant === "comments";
   const isAskAi = variant === "ask-ai";
   const isAnalytics = variant === "analytics";
+  const isClientReview = variant === "client-review";
   const defaultHeading = isComments
     ? COMMENTS_HEADING_TEXT
     : isAskAi
       ? ASK_AI_HEADING_TEXT
       : isAnalytics
         ? ANALYTICS_HEADING_TEXT
-        : HEADING_TEXT;
+        : isClientReview
+          ? CLIENT_REVIEW_HEADING_TEXT
+          : HEADING_TEXT;
   const defaultSubheading = isComments
     ? COMMENTS_SUBHEADING_TEXT
     : isAskAi
       ? ASK_AI_SUBHEADING_TEXT
       : isAnalytics
         ? ANALYTICS_SUBHEADING_TEXT
-        : SUBHEADING_TEXT;
+        : isClientReview
+          ? CLIENT_REVIEW_SUBHEADING_TEXT
+          : SUBHEADING_TEXT;
   const headingText = heading ?? defaultHeading;
   const subheadingText = subheading ?? defaultSubheading;
 
@@ -1105,6 +1230,8 @@ export default function SolutionSection({
           </header>
           {variant === "analytics" ? (
             <SolutionAnalyticsInsights />
+          ) : variant === "client-review" ? (
+            <SolutionClientReviewFlow />
           ) : variant === "ask-ai" ? (
             <SolutionAskAiInsights />
           ) : variant === "comments" ? (

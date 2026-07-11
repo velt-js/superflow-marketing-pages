@@ -159,6 +159,9 @@ const FEATURE_SET_MOCK_OPTIONS: readonly { title: string; value: string }[] = [
   { title: "Analytics — For Me (personal + awaiting response)", value: "analytics-for-me" },
   { title: "Analytics — Pin or dismiss", value: "analytics-pin-dismiss" },
   { title: "Analytics — Filters that re-curate", value: "analytics-filters" },
+  { title: "Client Review — Magic link (message → review link)", value: "client-review-magic-link" },
+  { title: "Client Review — Cleaned up before they look", value: "client-review-cleaned-up" },
+  { title: "Client Review — Approve (tap → recorded yes)", value: "client-review-approve" },
   { title: "Pinned comment", value: "pinned-comments" },
   { title: "Agent finding (approve/reject card)", value: "agent-finding" },
   { title: "Validate Fixes (re-check \u2192 fixed \u2192 resolved)", value: "validate-fixes" },
@@ -301,6 +304,10 @@ export const featureSolution = defineType({
           {
             title: "Dashboard → curated weekly insight (Analytics page)",
             value: "analytics",
+          },
+          {
+            title: "Magic link → live page → Approve (Client Review page)",
+            value: "client-review",
           },
         ],
         layout: "radio",
@@ -540,6 +547,73 @@ export const featureGetStarted = defineType({
   ],
 });
 
+// ---- Related capabilities (cross-links to sibling feature pages) ----
+
+export const featureRelatedCapability = defineType({
+  name: "featureRelatedCapability",
+  title: "Related capability",
+  type: "object",
+  fields: [
+    defineField({
+      name: "title",
+      title: "Title",
+      description: 'e.g. "Cross-device review".',
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "description",
+      title: "Description (one line)",
+      type: "text",
+      rows: 2,
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "href",
+      title: "Link",
+      type: "string",
+      validation: (rule) =>
+        rule.required().custom(warnOnRelativeInternalHref).warning(),
+    }),
+    defineField({
+      name: "icon",
+      title: "Icon",
+      type: "string",
+      options: { list: FEATURE_SET_ICON_OPTIONS },
+    }),
+  ],
+  preview: { select: { title: "title", subtitle: "description" } },
+});
+
+export const featureRelatedCapabilities = defineType({
+  name: "featureRelatedCapabilities",
+  title: "Related capabilities",
+  type: "object",
+  fields: [
+    defineField({
+      name: "heading",
+      title: "Heading",
+      type: "string",
+      initialValue: "Related capabilities",
+    }),
+    defineField({
+      name: "items",
+      title: "Capabilities",
+      type: "array",
+      of: [{ type: "featureRelatedCapability" }],
+      validation: (rule) => rule.min(1).max(4),
+    }),
+    defineField({
+      name: "boundaryLine",
+      title: "Boundary line",
+      description:
+        "Optional single line under the cards clarifying where this capability's scope ends and a sibling's begins.",
+      type: "text",
+      rows: 2,
+    }),
+  ],
+});
+
 // ---- FAQ ----
 
 export const featureFaqItem = defineType({
@@ -597,6 +671,7 @@ export const featurePage = defineType({
     { name: "solution", title: "Solution intro" },
     { name: "features", title: "Feature Set" },
     { name: "getStarted", title: "Get Started" },
+    { name: "related", title: "Related capabilities" },
     { name: "faq", title: "FAQ" },
     { name: "seo", title: "SEO" },
   ],
@@ -642,6 +717,12 @@ export const featurePage = defineType({
       title: "Get Started",
       type: "featureGetStarted",
       group: "getStarted",
+    }),
+    defineField({
+      name: "relatedCapabilities",
+      title: "Related capabilities",
+      type: "featureRelatedCapabilities",
+      group: "related",
     }),
     defineField({
       name: "faq",

@@ -186,6 +186,27 @@ const doc = {
       },
     ],
   },
+  relatedCapabilities: {
+    heading: "Related capabilities",
+    items: [
+      {
+        _key: "rc-screenshots",
+        title: "Screenshots",
+        description: "Captures carry the view they were taken on.",
+        href: "/preview/features/screenshots",
+        icon: "camera",
+      },
+      {
+        _key: "rc-review-agents",
+        title: "AI review agents",
+        description: "The checklist that runs against both views.",
+        href: "/preview/features/review-agents",
+        icon: "robot",
+      },
+    ],
+    boundaryLine:
+      "Cross-device covers where you review. Client review covers the no-account sign-off.",
+  },
   faq: {
     heading: "Frequently Asked Questions",
     items: [

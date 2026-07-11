@@ -22,6 +22,9 @@ import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
 import TrustSection from "@/components/home-2026/TrustSection";
 import SolutionsSection from "@/components/home-2026/SolutionsSection";
 import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
+import RelatedCapabilities, {
+  type RelatedCapabilityItem,
+} from "@/components/feature-2026/RelatedCapabilities";
 import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
@@ -76,6 +79,7 @@ export interface FeaturePageDoc {
       | "memory-guidelines"
       | "ask-ai"
       | "analytics"
+      | "client-review"
       | null;
     /**
      * Optional single-glyph override for the section-header cue (e.g. "brain"
@@ -100,6 +104,18 @@ export interface FeaturePageDoc {
         }[]
       | null;
   } | null;
+  relatedCapabilities?: {
+    heading?: string | null;
+    boundaryLine?: string | null;
+    items?:
+      | {
+          title?: string | null;
+          description?: string | null;
+          href?: string | null;
+          icon?: string | null;
+        }[]
+      | null;
+  } | null;
   faq?: {
     heading?: string | null;
     items?: FaqItem[] | null;
@@ -118,6 +134,8 @@ const COMMENTS_PAGE_SLUG = "comments";
 const ASK_AI_PAGE_SLUG = "ask-ai";
 /** Slug of the Analytics feature page that gets analytics variant mock mapping. */
 const ANALYTICS_PAGE_SLUG = "analytics";
+/** Slug of the Client Review feature page that gets client-review mock mapping. */
+const CLIENT_REVIEW_PAGE_SLUG = "client-review";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -183,6 +201,211 @@ const ANALYTICS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "for-me": "analytics-for-me",
   "pin-or-dismiss": "analytics-pin-dismiss",
   "filters-that-re-curate": "analytics-filters",
+};
+
+/**
+ * Client Review-page tab labels mapped to their per-tab artifact. The new
+ * client-facing phone beats (magic link, cleaned-up, approve) plus two beats
+ * that reuse shared artifacts rather than staying bare cross-links: "behind a
+ * login" → `behind-login` (a password gate that lifts to the review) and "what
+ * they never see" → `private-comments` (the internal-only thread). Other
+ * team/board beats (no-account flow, click-the-spot, after-the-yes) fall back
+ * to the block's explicit or default mock (guest-mode / pinned-comments /
+ * kanban). A mapped beat here always renders as a real tab (see
+ * {@link toFeatureSetBlock}), even when pre-reseed CMS data still marks it
+ * list-only. Applied client-side so the artifacts render without a Sanity
+ * re-seed; the seed script carries the same per-tab mocks.
+ */
+const CLIENT_REVIEW_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "the-magic-link": "client-review-magic-link",
+  "cleaned-up-before-they-look": "client-review-cleaned-up",
+  "the-approve-button": "client-review-approve",
+  "behind-a-login-too": "behind-login",
+  "what-they-never-see": "private-comments",
+};
+
+/** Base path for feature preview pages (related-capability link targets). */
+const FEATURE_BASE_PATH = "/preview/features";
+
+/**
+ * Canonical link metadata for each related-capability target — title, href and
+ * icon — so the per-page tables below only vary the contextual description.
+ * Targets without a feature preview page point elsewhere (Integrations → the
+ * integrations hub; Trust → the shared /trust route).
+ */
+const RELATED_TARGETS: Readonly<
+  Record<string, { title: string; href: string; icon: FeatureSetIconName }>
+> = {
+  "client-review": { title: "Client review", href: `${FEATURE_BASE_PATH}/client-review`, icon: "circle-check" },
+  "cross-device-review": { title: "Cross-device review", href: `${FEATURE_BASE_PATH}/cross-device-review`, icon: "devices" },
+  "review-workflows": { title: "Review workflows", href: `${FEATURE_BASE_PATH}/review-workflows`, icon: "route" },
+  "review-agents": { title: "AI review agents", href: `${FEATURE_BASE_PATH}/review-agents`, icon: "robot" },
+  screenshots: { title: "Automatic screenshots", href: `${FEATURE_BASE_PATH}/screenshots`, icon: "camera" },
+  "kanban-board": { title: "Kanban board", href: `${FEATURE_BASE_PATH}/kanban-board`, icon: "layout-kanban" },
+  "ask-ai": { title: "Ask AI", href: `${FEATURE_BASE_PATH}/ask-ai`, icon: "message-chatbot" },
+  memory: { title: "Memory", href: `${FEATURE_BASE_PATH}/memory`, icon: "brain" },
+  comments: { title: "Comments", href: `${FEATURE_BASE_PATH}/comments`, icon: "message-circle" },
+  "private-comments": { title: "Private comments", href: `${FEATURE_BASE_PATH}/private-comments`, icon: "eye-off" },
+  "authenticated-pages": { title: "Authenticated pages", href: `${FEATURE_BASE_PATH}/authenticated-pages`, icon: "lock" },
+  "white-label": { title: "White-label", href: `${FEATURE_BASE_PATH}/white-label`, icon: "palette" },
+  integrations: { title: "Integrations", href: "/preview/integrations", icon: "plug" },
+  trust: { title: "Trust", href: "/trust", icon: "checks" },
+};
+
+/** One item in {@link RELATED_CAPABILITIES_BY_SLUG}, resolved from a target. */
+type RelatedCapabilityDocItem = NonNullable<
+  NonNullable<FeaturePageDoc["relatedCapabilities"]>["items"]
+>[number];
+
+/**
+ * Build a related-capability item from a canonical target plus the referencing
+ * page's contextual description. The title may be overridden when a spec names
+ * the same target differently.
+ *
+ * @param targetKey - Key into {@link RELATED_TARGETS}.
+ * @param description - The one-line, page-specific description.
+ * @param titleOverride - Optional title replacing the target's default.
+ * @returns The resolved related-capability item.
+ */
+function relatedItem(
+  targetKey: keyof typeof RELATED_TARGETS,
+  description: string,
+  titleOverride?: string,
+): RelatedCapabilityDocItem {
+  try {
+    const target = RELATED_TARGETS[targetKey];
+    return {
+      title: titleOverride ?? target.title,
+      description,
+      href: target.href,
+      icon: target.icon,
+    };
+  } catch {
+    return { title: titleOverride ?? "", description, href: "#" };
+  }
+}
+
+/**
+ * Per-page "Related capabilities" (spec §9), keyed by slug. Applied client-side
+ * as a fallback so the section renders without a Sanity re-seed; the seed
+ * scripts carry the same content for anyone who re-seeds. An explicit CMS value
+ * on the doc always wins. Targets that have no preview page (Website review,
+ * Audit trail, Reviewer twins) are omitted per the site's cross-link rules.
+ */
+const RELATED_CAPABILITIES_BY_SLUG: Readonly<
+  Record<string, NonNullable<FeaturePageDoc["relatedCapabilities"]>>
+> = {
+  "client-review": {
+    heading: "Related capabilities",
+    boundaryLine:
+      "Client review covers the no-account sign-off. Cross-device covers where you review.",
+    items: [
+      relatedItem("cross-device-review", "The phone your client is already holding."),
+      relatedItem("review-workflows", "The client gate is one node in the path you design."),
+    ],
+  },
+  "cross-device-review": {
+    heading: "Related capabilities",
+    boundaryLine:
+      "Cross-device covers where you review. Client review covers the no-account sign-off.",
+    items: [
+      relatedItem("screenshots", "Captures carry the view they were taken on.", "Screenshots"),
+      relatedItem("review-agents", "The checklist that runs against both views."),
+    ],
+  },
+  analytics: {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("ask-ai", "Analytics curates the week; Ask AI answers the question you just thought of."),
+      relatedItem("kanban-board", "The board shows today's state; Analytics says what the states add up to."),
+      relatedItem("review-agents", "The most common one-click action is adding an agent to catch the pattern next time."),
+    ],
+  },
+  recordings: {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("comments", "The primitive every recording lands as — pinning, threads, statuses."),
+      relatedItem("private-comments", "Record for your team only; the client's view never shows it."),
+      relatedItem("client-review", "The link your client plays it from, no account."),
+    ],
+  },
+  "review-workflows": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("kanban-board", "The flow's statuses become the board's columns."),
+      relatedItem("review-agents", "The agent packs your flow's machine steps run."),
+      relatedItem("client-review", "The gate at the end of every flow — the no-account link."),
+    ],
+  },
+  "kanban-board": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("review-workflows", "Where statuses, gates, and escalation rules get defined."),
+      relatedItem("integrations", "The full hub behind the two-way sync, webhooks, and the API."),
+      relatedItem("review-agents", "The first pass whose findings move cards before anyone looks."),
+    ],
+  },
+  comments: {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("private-comments", "The threads your client never sees."),
+      relatedItem("screenshots", "The proof of the page each comment was left on."),
+    ],
+  },
+  "authenticated-pages": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("screenshots", "The capture that backs every comment, behind the login included."),
+      relatedItem("client-review", "The no-account link; here the client is logged into their own system."),
+      relatedItem("trust", "Where credentials, SOC 2, and HIPAA get their full answers."),
+    ],
+  },
+  "white-label": {
+    heading: "Related capabilities",
+    boundaryLine:
+      "White-label covers how Superflow looks. Client review covers how your client gets in.",
+    items: [
+      relatedItem("client-review", "The sign-off moment this page brands."),
+      relatedItem("kanban-board", "One of the admin surfaces that carries your logo."),
+      relatedItem("trust", "SSO, SOC 2, and the rest of looking like a serious operation."),
+    ],
+  },
+  screenshots: {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("authenticated-pages", "The full behind-login review story."),
+      relatedItem("review-agents", "Agents leave findings as comments on the same pages your team snapshots."),
+    ],
+  },
+  "private-comments": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("client-review", "The client's half — the magic-link path through the clean view private comments protect."),
+      relatedItem("review-agents", "The first pass. Findings land as comments on the same elements your threads sit on."),
+    ],
+  },
+  "ask-ai": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("memory", "The source of every answer — what you upload and what reviews teach it."),
+      relatedItem("review-agents", "The checks that write much of the data."),
+    ],
+  },
+  "review-agents": {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("memory", "The agents get sharper because Memory feeds them each client's brand and past decisions."),
+      relatedItem("client-review", "Where the human half lives — the no-account link a client signs off with."),
+    ],
+  },
+  memory: {
+    heading: "Related capabilities",
+    items: [
+      relatedItem("review-agents", "The checks Memory makes client-specific."),
+      relatedItem("ask-ai", "The questions Memory makes answerable."),
+      relatedItem("client-review", "The approvals that teach Memory what each client accepts."),
+    ],
+  },
 };
 
 /** Comments-page block ids mapped to their initially visible artifact mock. */
@@ -270,6 +493,20 @@ function getAnalyticsTabMock(
 }
 
 /**
+ * Resolve a tab's Client Review artifact from its label, preserving explicit
+ * CMS values when the label is not one of the mapped client-side beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no client-review mapping applies.
+ */
+function getClientReviewTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return CLIENT_REVIEW_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -314,11 +551,15 @@ function toFeatureSetBlock(
   const isCommentsPage = pageSlug === COMMENTS_PAGE_SLUG;
   const isAskAiPage = pageSlug === ASK_AI_PAGE_SLUG;
   const isAnalyticsPage = pageSlug === ANALYTICS_PAGE_SLUG;
+  const isClientReviewPage = pageSlug === CLIENT_REVIEW_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => {
       // Per-page label→mock lookups let a tab swap to its own artifact without
       // the CMS carrying an explicit mock; explicit CMS values still win.
+      const clientReviewMock = isClientReviewPage
+        ? getClientReviewTabMock(tab)
+        : undefined;
       let resolvedMock: FeatureSetMockName | undefined;
       if (isCommentsPage) {
         resolvedMock = getCommentsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
@@ -326,16 +567,21 @@ function toFeatureSetBlock(
         resolvedMock = getAskAiTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
       } else if (isAnalyticsPage) {
         resolvedMock = getAnalyticsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isClientReviewPage) {
+        resolvedMock = clientReviewMock ?? (tab.mock as FeatureSetMockName | undefined);
       } else {
         resolvedMock = tab.mock as FeatureSetMockName | undefined;
       }
+      // A mapped client-review beat always renders as a real tab with its
+      // artifact, even when pre-reseed CMS data still marks it list-only.
+      const listOnly = clientReviewMock ? false : (tab.listOnly ?? undefined);
       return {
         label: tab.label as string,
         icon: (tab.icon ?? "grain") as FeatureSetIconName,
         oneLiner: tab.oneLiner ?? "",
         loss: tab.loss ?? "",
         href: tab.href ?? undefined,
-        listOnly: tab.listOnly ?? undefined,
+        listOnly,
         collapsesFirstTab: tab.collapsesFirstTab ?? undefined,
         mock: resolvedMock,
       };
@@ -417,6 +663,30 @@ function toGetStartedSteps(
   return steps.length > 0 ? steps : undefined;
 }
 
+/**
+ * Map the CMS `relatedCapabilities.items` onto the shared component's item
+ * shape, dropping any entry without a title or destination.
+ *
+ * @param doc - The resolved feature page document.
+ * @returns The related-capability items, or `undefined` when the doc supplies
+ *   none (so the section renders nothing).
+ */
+function toRelatedCapabilityItems(
+  doc: FeaturePageDoc,
+): RelatedCapabilityItem[] | undefined {
+  const rawItems = doc?.relatedCapabilities?.items ?? [];
+  const items = rawItems
+    .filter((item) => Boolean(item?.title) && Boolean(item?.href))
+    .map((item) => ({
+      title: item?.title as string,
+      description: item?.description ?? "",
+      href: item?.href as string,
+      icon: (item?.icon ?? undefined) as FeatureSetIconName | undefined,
+    }));
+
+  return items.length > 0 ? items : undefined;
+}
+
 interface FeaturePageBodyProps {
   doc: FeaturePageDoc;
 }
@@ -443,7 +713,9 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
       ? "ask-ai"
       : doc?.slug === ANALYTICS_PAGE_SLUG
         ? "analytics"
-        : (doc?.solution?.variant ?? undefined);
+        : doc?.slug === CLIENT_REVIEW_PAGE_SLUG
+          ? "client-review"
+          : (doc?.solution?.variant ?? undefined);
   const solutionIcon = doc?.solution?.icon ?? undefined;
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
@@ -454,14 +726,28 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
   const getStartedSubheading = doc?.getStarted?.subheading ?? undefined;
   const getStartedSteps = toGetStartedSteps(doc);
 
+  // Prefer the CMS value; fall back to the per-slug defaults so the section
+  // renders before a re-seed (mirrors *_TAB_MOCKS / solution variant).
+  const relatedSource =
+    doc?.relatedCapabilities ??
+    (doc?.slug ? RELATED_CAPABILITIES_BY_SLUG[doc.slug] : undefined) ??
+    null;
+  const relatedItems = toRelatedCapabilityItems({
+    ...doc,
+    relatedCapabilities: relatedSource,
+  });
+  const relatedHeading = relatedSource?.heading ?? undefined;
+  const relatedBoundaryLine = relatedSource?.boundaryLine ?? undefined;
+
   const faqItems = doc?.faq?.items ?? undefined;
   const faqHeading = doc?.faq?.heading ?? undefined;
 
   // Section order mirrors the Figma feature-page frame (node 673:1145):
   // hero → solution → feature set → get started → solutions (industry
-  // stamps) → cost → testimonials → trust → integrations → faq → footer.
-  // Note there is NO Problem/clock section (unlike /home-preview), and
-  // SolutionsSection sits before CostSection.
+  // stamps) → [related capabilities, when supplied] → cost → testimonials →
+  // trust → integrations → faq → footer. Note there is NO Problem/clock
+  // section (unlike /home-preview), and SolutionsSection sits before
+  // CostSection. RelatedCapabilities only renders when the doc supplies items.
   return (
     <main>
       <SiteNav />
@@ -490,6 +776,13 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         steps={getStartedSteps}
       />
       <SolutionsSection />
+      {relatedItems ? (
+        <RelatedCapabilities
+          heading={relatedHeading}
+          items={relatedItems}
+          boundaryLine={relatedBoundaryLine}
+        />
+      ) : null}
       <CostSection />
       <TestimonialsSection />
       <TrustSection />

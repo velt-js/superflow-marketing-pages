@@ -226,6 +226,25 @@ const doc = {
       },
     ],
   },
+  relatedCapabilities: {
+    heading: "Related capabilities",
+    items: [
+      {
+        _key: "rc-private-comments",
+        title: "Private comments",
+        description: "The threads your client never sees.",
+        href: "/preview/features/private-comments",
+        icon: "eye-off",
+      },
+      {
+        _key: "rc-screenshots",
+        title: "Automatic screenshots",
+        description: "The proof of the page each comment was left on.",
+        href: "/preview/features/screenshots",
+        icon: "camera",
+      },
+    ],
+  },
   faq: {
     heading: "Frequently Asked Questions",
     items: [

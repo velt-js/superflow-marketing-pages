@@ -27,6 +27,10 @@ import {
   HeroAnalyticsForMeArtifact,
 } from "./AnalyticsHeroFit";
 import {
+  HeroClientReviewMagicLinkArtifact,
+  HeroClientReviewPhoneArtifact,
+} from "./ClientReviewHeroFit";
+import {
   HeroCarryTheContextArtifact,
   HeroPinAnElementArtifact,
   HeroSelectTheWordsArtifact,
@@ -91,4 +95,12 @@ export const HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   customers: HeroAnalyticsCustomersArtifact,
   team: HeroAnalyticsTeamArtifact,
   "for-me": HeroAnalyticsForMeArtifact,
+  // Client Review feature page hero tabs (CMS "workflow" showcase + hero.tabs
+  // slugs). The client-facing beats use the phone-framed Client Review artifact;
+  // "Phone view" reuses All Devices; "No-account flow" and "Private threads"
+  // reuse the existing Guest Mode / Private Comment hero artifacts.
+  "magic-link": HeroClientReviewMagicLinkArtifact,
+  "phone-view": HeroClientReviewPhoneArtifact,
+  "no-account-flow": GuestModeArtifact,
+  "private-threads": PrivateCommentArtifact,
 };

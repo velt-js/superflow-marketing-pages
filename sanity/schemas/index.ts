@@ -87,6 +87,8 @@ import {
   featureSetSection,
   featureGetStartedStep,
   featureGetStarted,
+  featureRelatedCapability,
+  featureRelatedCapabilities,
   featureFaqItem,
   featureFaq,
   featurePage,
@@ -206,6 +208,8 @@ export const schemaTypes = [
   featureSetSection,
   featureGetStartedStep,
   featureGetStarted,
+  featureRelatedCapability,
+  featureRelatedCapabilities,
   featureFaqItem,
   featureFaq,
 

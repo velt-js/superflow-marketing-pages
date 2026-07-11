@@ -61,7 +61,7 @@ const doc = {
     heading: "One click to yes. No account.",
     subheading:
       "Client review is a magic link to the live page — the client sees the work after AI and your team cleaned it up, then approves right there.",
-    variant: "checklist",
+    variant: "client-review",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -83,6 +83,7 @@ const doc = {
             icon: "link",
             oneLiner:
               "Send it by email, SMS, or WhatsApp. It opens the live page, not a portal.",
+            mock: "client-review-magic-link",
           },
           {
             _key: "no-account-flow",
@@ -96,9 +97,9 @@ const doc = {
             label: "Behind a login too",
             icon: "lock",
             oneLiner:
-              "Even work behind SSO gets the same client link.",
+              "Even work behind a login gets the same client link — the gate lifts and they review in context.",
+            mock: "behind-login",
             href: "/preview/features/authenticated-pages",
-            listOnly: true,
           },
         ],
       },
@@ -117,6 +118,7 @@ const doc = {
             icon: "checks",
             oneLiner:
               "AI agents and your team review first, so the client sees polished work, not the punch list.",
+            mock: "client-review-cleaned-up",
           },
           {
             _key: "click-the-spot",
@@ -132,8 +134,8 @@ const doc = {
             icon: "eye-off",
             oneLiner:
               "Your internal debate stays internal; the client reads none of it.",
+            mock: "private-comments",
             href: "/preview/features/private-comments",
-            listOnly: true,
           },
         ],
       },
@@ -152,6 +154,7 @@ const doc = {
             icon: "circle-check",
             oneLiner:
               "One tap, timestamped, recorded with the client's name. The yes stops living in an email thread.",
+            mock: "client-review-approve",
           },
           {
             _key: "after-the-yes",
@@ -196,6 +199,27 @@ const doc = {
         description: "Every yes is timestamped and recorded.",
       },
     ],
+  },
+  relatedCapabilities: {
+    heading: "Related capabilities",
+    items: [
+      {
+        _key: "rc-cross-device",
+        title: "Cross-device review",
+        description: "The phone your client is already holding.",
+        href: "/preview/features/cross-device-review",
+        icon: "devices",
+      },
+      {
+        _key: "rc-review-workflows",
+        title: "Review workflows",
+        description: "The client gate is one node in the path you design.",
+        href: "/preview/features/review-workflows",
+        icon: "route",
+      },
+    ],
+    boundaryLine:
+      "Client review covers the no-account sign-off. Cross-device covers where you review.",
   },
   faq: {
     heading: "Frequently Asked Questions",

@@ -219,6 +219,27 @@ const doc = {
       },
     ],
   },
+  relatedCapabilities: {
+    heading: "Related capabilities",
+    items: [
+      {
+        _key: "rc-memory",
+        title: "Memory",
+        description:
+          "The agents get sharper because Memory feeds them each client's brand and past decisions.",
+        href: "/preview/features/memory",
+        icon: "brain",
+      },
+      {
+        _key: "rc-client-review",
+        title: "Client review",
+        description:
+          "Where the human half lives — the no-account link a client signs off with.",
+        href: "/preview/features/client-review",
+        icon: "circle-check",
+      },
+    ],
+  },
   faq: {
     heading: "Frequently Asked Questions",
     items: [
