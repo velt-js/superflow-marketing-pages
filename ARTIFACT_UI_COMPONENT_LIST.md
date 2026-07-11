@@ -328,6 +328,78 @@ element (composer / attachment / reactions) and show a reply row only when
   seed (`scripts/seed-feature-pages-batch.mjs`) carries the same per-tab mocks +
   solution variant for anyone who re-seeds the dataset.
 
+## Client Review Feature Artifacts
+
+- `feature-artifacts/ClientReviewArtifact.tsx` is a single **variant-driven,
+  phone-framed** artifact — the *client's* side of a review, rendered inside a
+  phone on a soft stage (the whole pitch is "from their phone"). It covers the
+  three client-facing beats that had no artifact before, so the page gets a
+  deliberate **client-on-a-phone / team-on-desktop** duality (the team/board
+  beats reuse the existing desktop artifacts, below). Pass the opt-in `hero`
+  prop to size the phone for the (fully visible) hero window; in the feature
+  panel the phone is **left-anchored** so it stays inside the 1204px window's
+  visible left portion instead of the right-edge bleed.
+- Three mock keys — thin zero-prop wrappers registered in `MOCKS`
+  (`FeatureSetBlock.tsx`) and `FEATURE_SET_MOCK_OPTIONS`:
+  `client-review-magic-link` (a green message thread + a rich review link card
+  the cursor taps — the page star), `client-review-cleaned-up` (the polished
+  live page + a "AI + your team reviewed first" banner — the client never sees
+  the punch list), `client-review-approve` (the live page's client bar with one
+  green Approve button; the cursor presses it, it flips to "Approved" and a
+  recorded, timestamped, name-stamped confirmation rises). All motion (phone
+  entrance, link tap, approve press → recorded yes) is gated behind
+  `prefers-reduced-motion`, which holds the settled state (link highlighted,
+  approval recorded, cursors hidden).
+- Hero reuse: `hero-artifacts/ClientReviewHeroFit.tsx` wraps the same artifact
+  (`magic-link`, `hero`) for the "Magic link" tab and the desktop-plus-phone
+  `AllDevicesArtifact` for the "Phone view" tab; the "No-account flow" and
+  "Private threads" hero tabs map straight to the existing `GuestModeArtifact` /
+  `PrivateCommentArtifact` in `HERO_ARTIFACTS` (by tab id `magic-link`,
+  `phone-view`, `no-account-flow`, `private-threads`).
+- Wiring: `FeaturePageBody` maps the client-facing tab labels to their phone
+  artifact via `CLIENT_REVIEW_TAB_MOCKS` (the team/board tabs fall back to the
+  block's `guest-mode` / `pinned-comments` / `kanban` mocks) and forces
+  `solution.variant = "client-review"` for the `client-review` slug (both
+  client-side, so the page renders without a re-seed); the seed
+  (`scripts/seed-feature-client-review.mjs`) carries the same per-tab mocks +
+  solution variant for anyone who re-seeds the dataset.
+- Two beats that used to be list-only cross-links are now real tabs reusing
+  shared artifacts: "Behind a login too" (third tab of "The link") → the
+  `behind-login` artifact (a password gate that lifts to a pinned-comment
+  review), and "What they never see" (third tab of "The review") →
+  `private-comments` (the internal-only, "Visible to your team" thread). Both
+  are mapped in `CLIENT_REVIEW_TAB_MOCKS` (`behind-a-login-too → behind-login`,
+  `what-they-never-see → private-comments`); any mapped client-review beat is
+  force-promoted to a real tab in `toFeatureSetBlock` even when pre-reseed CMS
+  data still marks it `listOnly`. Their "Features that help" rows still link
+  through to `/preview/features/authenticated-pages` and
+  `/preview/features/private-comments` respectively.
+- Added an `eye-off` glyph to `FeatureSetIcons` (Tabler crossed-eye) so the
+  "What they never see" tab/list row shows an icon (it previously rendered
+  blank — an unknown icon name returns `null`).
+- Related capabilities section (`components/feature-2026/RelatedCapabilities.tsx`,
+  spec §9): a "keep exploring" section — mono kicker + serif heading, a row of
+  link cards (icon + title + one-liner + arrow, each an `<a href>`, icons via
+  `FeatureSetIcon`), and an optional scope-boundary line. Feature-page chrome:
+  `FeaturePageBody` renders it after the industry `SolutionsSection` only when a
+  page supplies items, so other pages are unaffected. CMS-driven via the new
+  `featureRelatedCapabilities` / `featureRelatedCapability` schema types
+  (`relatedCapabilities` field, "Related capabilities" group) and projected in
+  `getFeaturePageBySlug`. All 14 feature pages now supply items (spec §9),
+  keyed by slug in `RELATED_CAPABILITIES_BY_SLUG` in `FeaturePageBody`: a shared
+  `RELATED_TARGETS` table holds each link's canonical title/href/icon and a
+  `relatedItem(targetKey, description, titleOverride?)` helper builds each card
+  so only the contextual one-liner varies per page. This is a client-side
+  fallback (an explicit CMS value always wins) so the section renders without a
+  re-seed; every seed script carries the same data for re-seeds
+  (`seed-feature-pages-batch.mjs` covers 10 pages; `-client-review`, `-comments`,
+  `-cross-device-review`, `-review-agents` are individual). Targets with no
+  preview page follow the site's cross-link rules: Integrations → the
+  `/preview/integrations` hub, Trust → the shared `/trust` route, and the three
+  page-less ones (Website review, Audit trail, Reviewer twins) are dropped
+  rather than linked. Boundary lines exist on `client-review`,
+  `cross-device-review`, and `white-label`.
+
 ## Existing Reusable Mocks
 
 - Durable comments (all `PinnedCommentScene` configs): `pinned-comments`,
@@ -452,10 +524,11 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
 
 ## Solution Section variants
 
-- `SolutionSection.tsx` renders one of five illustrations keyed off
+- `SolutionSection.tsx` renders one of six illustrations keyed off
   `solution.variant`: `checklist` (default, shared), `comments`, the opt-in
-  `memory-guidelines` (memory page), `ask-ai` (Ask AI page) and `analytics`
-  (Analytics page). Adding a variant does NOT change what any other page renders.
+  `memory-guidelines` (memory page), `ask-ai` (Ask AI page), `analytics`
+  (Analytics page) and `client-review` (Client Review page). Adding a variant
+  does NOT change what any other page renders.
 - `memory-guidelines` (`SolutionGuidelinesFlow`, inside `SolutionSection.tsx`):
   a left stack of three tinted, dog-eared guideline sheets — the reused
   `PdfFile` with `DEFAULT_PDF_TINT` (Brand, blue), a pink tint (Agency), and a
@@ -486,13 +559,24 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
   ("the week, already read"). Same `.revealItem` entrance + reduced-motion
   behavior as `ask-ai`. The Analytics page forces this variant client-side in
   `FeaturePageBody` and the seed carries `variant: "analytics"`.
+- `client-review` (`SolutionClientReviewFlow`, inside `SolutionSection.tsx`): a
+  small phone carrying the review link (green sender label + message bubble +
+  indigo link chip) feeds, through the shared dashed `SolutionConnector`, the
+  **live page the client sees** — a browser card with a "No account" chip,
+  cleaned-up hero + lines, and a green "Approved · Dana Wells" pill (the recorded
+  yes). Entrances use the section's `.revealItem` mechanism, so it is
+  prefers-reduced-motion safe. The Client Review page forces this variant
+  client-side in `FeaturePageBody` and the seed
+  (`scripts/seed-feature-client-review.mjs`) carries `variant: "client-review"`.
 - Header cue: the small icon row above the heading comes from the variant's
   built-in before→after pair, or a named `solution.icon` override. Variant
   defaults — checklist: `table → arrow → robot`; comments: `grain → arrow →
   message`; ask-ai: `chart → arrow → message` (`.headerIconChart` /
   `.headerIconArrow` / `.headerIconMessage`); analytics: `chart → arrow →
   sparkles` (`.headerIconChart` / `.headerIconArrow` / `.headerIconSparkles`, the
-  indigo `SparklesIcon` cueing the curated-insight end). The
+  indigo `SparklesIcon` cueing the curated-insight end); client-review: `link →
+  arrow → approved-check` (`.headerIconLink` indigo chain → `.headerIconArrow` →
+  `.headerIconCheck` green `ShieldCheckIcon`). The
   `solution.icon = "sheet-brain"` override (memory page) instead renders a
   neutral document `SheetIcon` → gray gradient `ArrowRightIcon` → pink
   `BrainGlyph` (`.headerIconSheet` / `.headerIconArrow` / `.headerIconBrain`).
