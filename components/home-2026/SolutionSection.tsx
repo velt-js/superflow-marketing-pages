@@ -15,6 +15,7 @@ import SolutionSectionToast, {
   type ReviewFinding,
 } from "./SolutionSectionToast";
 import SolutionAskAiInsights from "./SolutionAskAiInsights";
+import SolutionAnalyticsInsights from "./SolutionAnalyticsInsights";
 
 /** Copy per the homepage copy spec (home v4.1.8): "manual" cut, since the
     Problem section one scroll up already establishes the manual status quo. */
@@ -251,6 +252,21 @@ function ChartIcon({ size }: IconProps): ReactNode {
       <path d="M8 16v-4" />
       <path d="M13 16v-8" />
       <path d="M18 16v-6" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Sparkles glyph cueing the "curated insight" side of the Analytics variant's
+ * header (dashboard → arrow → sparkles). A large four-point star with a small
+ * companion spark.
+ * @param size Square pixel dimension for the SVG.
+ */
+function SparklesIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z" />
+      <path d="M18 15l.7 1.8L20.5 17.5l-1.8.7L18 20l-.7-1.8L15.5 17.5l1.8-.7z" />
     </SolutionIcon>
   );
 }
@@ -603,6 +619,11 @@ const COMMENTS_SUBHEADING_TEXT =
 const ASK_AI_HEADING_TEXT = "See where the rounds go";
 const ASK_AI_SUBHEADING_TEXT =
   "Ask plain-language questions across every review — and every answer is grounded in your own data, cited.";
+
+/* Analytics-variant fallbacks, used only if the CMS omits the copy. */
+const ANALYTICS_HEADING_TEXT = "The week, already read";
+const ANALYTICS_SUBHEADING_TEXT =
+  "Analytics leads with insights — three to five a week, each with the pattern, what it means, and a one-click action.";
 const COMMENTS_SITE_URL = "your-site.com";
 const COMMENTS_MESSAGE_SLACK =
   "Sent you feedback on Email. Also change the CTA to green";
@@ -907,7 +928,12 @@ function SolutionGuidelinesFlow(): ReactNode {
 export interface SolutionSectionProps {
   heading?: string;
   subheading?: string;
-  variant?: "checklist" | "comments" | "memory-guidelines" | "ask-ai";
+  variant?:
+    | "checklist"
+    | "comments"
+    | "memory-guidelines"
+    | "ask-ai"
+    | "analytics";
   /**
    * Optional named override for the header cue. When set to a known name (see
    * {@link SOLUTION_HEADER_ICONS}) the variant's default before→after glyph
@@ -982,6 +1008,21 @@ function SolutionHeaderIcons({
         </>
       );
     }
+    if (variant === "analytics") {
+      return (
+        <>
+          <span className={styles.headerIconChart}>
+            <ChartIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconSparkles}>
+            <SparklesIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
     if (variant === "comments") {
       return (
         <>
@@ -1030,16 +1071,21 @@ export default function SolutionSection({
 }: SolutionSectionProps = {}): ReactNode {
   const isComments = variant === "comments";
   const isAskAi = variant === "ask-ai";
+  const isAnalytics = variant === "analytics";
   const defaultHeading = isComments
     ? COMMENTS_HEADING_TEXT
     : isAskAi
       ? ASK_AI_HEADING_TEXT
-      : HEADING_TEXT;
+      : isAnalytics
+        ? ANALYTICS_HEADING_TEXT
+        : HEADING_TEXT;
   const defaultSubheading = isComments
     ? COMMENTS_SUBHEADING_TEXT
     : isAskAi
       ? ASK_AI_SUBHEADING_TEXT
-      : SUBHEADING_TEXT;
+      : isAnalytics
+        ? ANALYTICS_SUBHEADING_TEXT
+        : SUBHEADING_TEXT;
   const headingText = heading ?? defaultHeading;
   const subheadingText = subheading ?? defaultSubheading;
 
@@ -1057,7 +1103,9 @@ export default function SolutionSection({
               <p className={styles.subheading}>{subheadingText}</p>
             </div>
           </header>
-          {variant === "ask-ai" ? (
+          {variant === "analytics" ? (
+            <SolutionAnalyticsInsights />
+          ) : variant === "ask-ai" ? (
             <SolutionAskAiInsights />
           ) : variant === "comments" ? (
             <SolutionCommentsFlow />

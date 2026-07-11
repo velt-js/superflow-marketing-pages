@@ -70,7 +70,13 @@ export interface FeaturePageDoc {
   solution?: {
     heading?: string | null;
     subheading?: string | null;
-    variant?: "checklist" | "comments" | "memory-guidelines" | "ask-ai" | null;
+    variant?:
+      | "checklist"
+      | "comments"
+      | "memory-guidelines"
+      | "ask-ai"
+      | "analytics"
+      | null;
     /**
      * Optional single-glyph override for the section-header cue (e.g. "brain"
      * for the pink Memory brain). Omit to keep the variant's default glyph pair.
@@ -110,6 +116,8 @@ const BLOCK_TINT_ALPHA = 0.06;
 const COMMENTS_PAGE_SLUG = "comments";
 /** Slug of the Ask AI feature page that gets Ask AI variant mock mapping. */
 const ASK_AI_PAGE_SLUG = "ask-ai";
+/** Slug of the Analytics feature page that gets analytics variant mock mapping. */
+const ANALYTICS_PAGE_SLUG = "analytics";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -155,6 +163,26 @@ const ASK_AI_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "review-load-by-team": "ask-ai-load-by-team",
   "delay-and-churn-signals": "ask-ai-delay-churn",
   "analytics-on-demand": "ask-ai-analytics",
+};
+
+/**
+ * Analytics-page tab labels mapped to their per-tab Analytics variant mock.
+ * Every tab shows the same Analytics window rendering a different view — the
+ * curated insight feed, the status-chart Overview, per-client / team / personal
+ * rollups, or the pin-dismiss / filter interactions. Applied client-side so the
+ * variants render without a Sanity re-seed; the seed script carries the same
+ * per-tab mocks for anyone who re-seeds the dataset.
+ */
+const ANALYTICS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "insights-of-the-week": "analytics-insights",
+  "interpretation-included": "analytics-interpretation",
+  "one-click-actions": "analytics-act",
+  "strategic-overview": "analytics-overview",
+  customers: "analytics-customers",
+  team: "analytics-team",
+  "for-me": "analytics-for-me",
+  "pin-or-dismiss": "analytics-pin-dismiss",
+  "filters-that-re-curate": "analytics-filters",
 };
 
 /** Comments-page block ids mapped to their initially visible artifact mock. */
@@ -228,6 +256,20 @@ function getAskAiTabMock(
 }
 
 /**
+ * Resolve a tab's Analytics variant mock from its label, preserving explicit
+ * CMS values when the label is not one of the known Analytics variants.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The variant mock key, or undefined when no Analytics mapping applies.
+ */
+function getAnalyticsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return ANALYTICS_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -271,6 +313,7 @@ function toFeatureSetBlock(
   const accent = block?.accent ?? DEFAULT_BLOCK_ACCENT;
   const isCommentsPage = pageSlug === COMMENTS_PAGE_SLUG;
   const isAskAiPage = pageSlug === ASK_AI_PAGE_SLUG;
+  const isAnalyticsPage = pageSlug === ANALYTICS_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => {
@@ -281,6 +324,8 @@ function toFeatureSetBlock(
         resolvedMock = getCommentsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
       } else if (isAskAiPage) {
         resolvedMock = getAskAiTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isAnalyticsPage) {
+        resolvedMock = getAnalyticsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
       } else {
         resolvedMock = tab.mock as FeatureSetMockName | undefined;
       }
@@ -389,13 +434,16 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
 
   const solutionHeading = doc?.solution?.heading ?? undefined;
   const solutionSubheading = doc?.solution?.subheading ?? undefined;
-  // The Ask AI page uses the "graphs → insight" variant. Force it client-side
-  // (mirroring ASK_AI_TAB_MOCKS) so it renders without a Sanity re-seed; the
-  // seed script carries the same variant for anyone who re-seeds the dataset.
+  // The Ask AI page uses the "graphs → insight" variant and the Analytics page
+  // the "dashboard → curated insight" variant. Force them client-side
+  // (mirroring the *_TAB_MOCKS) so they render without a Sanity re-seed; the
+  // seed script carries the same variants for anyone who re-seeds the dataset.
   const solutionVariant =
     doc?.slug === ASK_AI_PAGE_SLUG
       ? "ask-ai"
-      : (doc?.solution?.variant ?? undefined);
+      : doc?.slug === ANALYTICS_PAGE_SLUG
+        ? "analytics"
+        : (doc?.solution?.variant ?? undefined);
   const solutionIcon = doc?.solution?.icon ?? undefined;
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])

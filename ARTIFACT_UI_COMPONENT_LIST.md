@@ -278,6 +278,56 @@ element (composer / attachment / reactions) and show a reply row only when
   re-seed); the seed (`scripts/seed-feature-pages-batch.mjs`) carries the same
   per-tab mocks for anyone who re-seeds the dataset.
 
+## Analytics Feature Artifacts
+
+- `feature-artifacts/AnalyticsArtifact.tsx` is a single **variant-driven**
+  dashboard artifact: a stylized Superflow Analytics window — an `AnalyticsChrome`
+  app header ("Analytics" title + the real product tab row Overview / For me /
+  People / Past Data with one active + a "Last 7 Days" range pill; the product's
+  API-key / user-id inputs are intentionally omitted) over a per-`variant` body.
+  Pass the opt-in `hero` prop to widen + center it for the hero product window.
+  The **curated insight feed is the page star** (default variant).
+- Shared primitives (all in the same file, composed by the variants): `LineChart`
+  (multi-series smoothed SVG lines via `buildSmoothPath` + vertex dots +
+  gridlines + axis labels + legend — the Status Graph, per-client trend, etc.),
+  `StatCards` (big-number stat strip), `MetricRow` (the "Resolution Time" row),
+  `RankedList` (`RankLead` globe / file / initials-avatar + label + right value —
+  top projects / clients / awaiting-response), `RankingBars` (team-load bars),
+  `InsightCard` (calm white card, Rox/Steep-inspired: a neutral **status chip**
+  with a small severity dot → bold pattern → short "what it means"; the feed lays
+  out horizontally as **insight | action**, the action a quiet ghost pill with an
+  accent-tinted arrow so severity colour stays restrained (dot + arrow only). Its
+  `mode` layers in `act` (cursor presses a solid button → flips to "Applied") and
+  `interpretation` (stacked solo card with a highlighted "What it means" callout))
+  and `MorningDoc` (the clean "morning
+  view" **document** — a light sheet + a few one-line pinned insights the cursor
+  pins). The `act` / morning-view choreographies reuse the shared `FakeCursor`.
+  Numbers/titles use **Urbanist** (not a serif); the `LineChart` viewbox is a
+  ~5:1 letterbox scaled uniformly (`height:auto`) so lines/dots never stretch.
+- Nine mock keys — each a thin zero-prop wrapper exported from the same file,
+  registered in `MOCKS` (`FeatureSetBlock.tsx`) and `FEATURE_SET_MOCK_OPTIONS`:
+  `analytics-insights` (default, curated feed — the star), `analytics-overview`
+  (Status Graph + stat cards + resolution row — the product Overview tab),
+  `analytics-act`, `analytics-interpretation`, `analytics-customers` (per-client
+  trend + rollup list), `analytics-team` (load bars, no per-person score),
+  `analytics-for-me` (personal stats + awaiting-response — the product For me
+  tab), `analytics-pin-dismiss` (the clean morning-view document), `analytics-filters`
+  (filter chip bar over a compact Overview that re-curates). All motion (chart
+  line-draw, bar-grow, feed stagger, cursor press, morning-view pin, filter
+  re-curate) is gated behind `prefers-reduced-motion`, which holds the settled
+  state (Applied shown, morning-view pin accented, cursors hidden).
+- Hero reuse: `hero-artifacts/AnalyticsHeroFit.tsx` wraps the same artifact with
+  `hero` + a `variant` for the Analytics page hero tabs, registered in
+  `HERO_ARTIFACTS` by tab id: `the-week-s-insights` (default — the insight feed),
+  `act-on-one`, `customers`, `team`, `for-me`. (These generic tab-slugs are only
+  reachable from the Analytics page's own hero tabs, so they don't collide with
+  other pages.)
+- Wiring: `FeaturePageBody` maps each Analytics tab label to its variant mock via
+  `ANALYTICS_TAB_MOCKS` and forces `solution.variant = "analytics"` for the
+  `analytics` slug (both client-side, so the page renders without a re-seed); the
+  seed (`scripts/seed-feature-pages-batch.mjs`) carries the same per-tab mocks +
+  solution variant for anyone who re-seeds the dataset.
+
 ## Existing Reusable Mocks
 
 - Durable comments (all `PinnedCommentScene` configs): `pinned-comments`,
@@ -402,10 +452,10 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
 
 ## Solution Section variants
 
-- `SolutionSection.tsx` renders one of four illustrations keyed off
+- `SolutionSection.tsx` renders one of five illustrations keyed off
   `solution.variant`: `checklist` (default, shared), `comments`, the opt-in
-  `memory-guidelines` (memory page) and `ask-ai` (Ask AI page). Adding a variant
-  does NOT change what any other page renders.
+  `memory-guidelines` (memory page), `ask-ai` (Ask AI page) and `analytics`
+  (Analytics page). Adding a variant does NOT change what any other page renders.
 - `memory-guidelines` (`SolutionGuidelinesFlow`, inside `SolutionSection.tsx`):
   a left stack of three tinted, dog-eared guideline sheets — the reused
   `PdfFile` with `DEFAULT_PDF_TINT` (Brand, blue), a pink tint (Agency), and a
@@ -427,14 +477,25 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
   its insight, no cycling/pulse). The Ask AI page forces this variant
   client-side in `FeaturePageBody` (mirroring `ASK_AI_TAB_MOCKS`) and the seed
   (`scripts/seed-feature-pages-batch.mjs`) carries `variant: "ask-ai"`.
+- `analytics` (`SolutionAnalyticsInsights.tsx`, a client component): the same
+  "minimal graphs → single insight" flow as `ask-ai`, **sharing one
+  implementation** — both call the exported `SolutionInsightsFlow(specs,
+  insightLabel)` from `SolutionAskAiInsights.tsx`. The analytics tiles are a
+  status sparkline, rounds-by-client bars and a copy-vs-bug donut; they resolve
+  into a card labelled `THIS WEEK` cycling one curated weekly takeaway per tile
+  ("the week, already read"). Same `.revealItem` entrance + reduced-motion
+  behavior as `ask-ai`. The Analytics page forces this variant client-side in
+  `FeaturePageBody` and the seed carries `variant: "analytics"`.
 - Header cue: the small icon row above the heading comes from the variant's
   built-in before→after pair, or a named `solution.icon` override. Variant
   defaults — checklist: `table → arrow → robot`; comments: `grain → arrow →
   message`; ask-ai: `chart → arrow → message` (`.headerIconChart` /
-  `.headerIconArrow` / `.headerIconMessage`). The `solution.icon = "sheet-brain"`
-  override (memory page) instead renders a neutral document `SheetIcon` → gray
-  gradient `ArrowRightIcon` → pink `BrainGlyph` (`.headerIconSheet` /
-  `.headerIconArrow` / `.headerIconBrain`).
+  `.headerIconArrow` / `.headerIconMessage`); analytics: `chart → arrow →
+  sparkles` (`.headerIconChart` / `.headerIconArrow` / `.headerIconSparkles`, the
+  indigo `SparklesIcon` cueing the curated-insight end). The
+  `solution.icon = "sheet-brain"` override (memory page) instead renders a
+  neutral document `SheetIcon` → gray gradient `ArrowRightIcon` → pink
+  `BrainGlyph` (`.headerIconSheet` / `.headerIconArrow` / `.headerIconBrain`).
 
 ## Comments Feature Page Wiring
 

@@ -297,6 +297,14 @@
     color: #5b6472;
 }
 
+/* Analytics variant header cue: slate chart → gray arrow → indigo sparkles
+   (the curated-insight end). Reuses .headerIconChart / .headerIconArrow. */
+.headerIconSparkles {
+    display: inline-flex;
+    align-items: center;
+    color: #433df3;
+}
+
 /* Comments variant header glyphs: red grain → red arrow → blue bubble. */
 .headerIconGrain {
     color: var(--sol-red);

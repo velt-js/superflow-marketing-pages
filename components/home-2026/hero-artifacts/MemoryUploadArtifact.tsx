@@ -37,8 +37,16 @@ const PDF_LABEL = "PDF";
 const SAVED_LABEL = "Saved to memory";
 const INSIGHTS_LABEL = "Insights from memory";
 const MEMORY_SOURCE = "Superflow Memory";
-const MEMORY_TIME = "3h";
-const MEMORY_FACT = "Client\u2019s likes Sans-serif font";
+
+/**
+ * Distinct remembered facts surfaced in the insights scene. Every card is the
+ * Memory speaking (same {@link MEMORY_SOURCE} author + brain avatar), but each
+ * recalls a different learned brand preference so the branch fans into three
+ * unique insights rather than repeating one.
+ */
+const FACT_SANS_SERIF = "Client prefers sans-serif fonts";
+const FACT_SENTENCE_CASE = "Sentence case is always rejected";
+const FACT_LOGO_CLEAR_SPACE = "Logos need 24px of clear space";
 
 /** Ordered phases of the upload \u2192 memory \u2192 insights loop. */
 const PHASES = ["drop", "save", "insights"] as const;
@@ -68,11 +76,21 @@ const BIT_ROWS: readonly string[] = [
   "1010101010101010101",
 ];
 
-/** Three memory cards shown in the insights scene. */
-const MEMORY_CARDS: readonly { id: string }[] = [
-  { id: "card-1" },
-  { id: "card-2" },
-  { id: "card-3" },
+/** One remembered insight rendered as a "Superflow Memory" card. */
+interface MemoryInsight {
+  /** Stable React key and per-card stagger identity. */
+  id: string;
+  /** The remembered fact shown as the card body. */
+  fact: string;
+  /** Relative timestamp shown in the card header (e.g. "3h", "1d"). */
+  time: string;
+}
+
+/** Three distinct memory cards shown in the insights scene. */
+const MEMORY_CARDS: readonly MemoryInsight[] = [
+  { id: "card-1", fact: FACT_SANS_SERIF, time: "3h" },
+  { id: "card-2", fact: FACT_SENTENCE_CASE, time: "1d" },
+  { id: "card-3", fact: FACT_LOGO_CLEAR_SPACE, time: "2d" },
 ];
 
 /** Tabler `brain` glyph geometry (24×24), inlined so no icon dep is added. */
@@ -497,11 +515,18 @@ function BranchVector(): ReactNode {
  * time, overflow) above the remembered fact.
  *
  * @param root0 - Card props.
+ * @param root0.insight - The remembered fact + timestamp for this card.
  * @param root0.index - Zero-based position, forwarded as `--card` for the
  *   staggered rise-in.
  * @returns The card element, or `null` on failure.
  */
-function MemoryCard({ index }: { index: number }): ReactNode {
+function MemoryCard({
+  insight,
+  index,
+}: {
+  insight: MemoryInsight;
+  index: number;
+}): ReactNode {
   try {
     return (
       <article
@@ -513,12 +538,12 @@ function MemoryCard({ index }: { index: number }): ReactNode {
             <BrainGlyph size={18} />
           </span>
           <span className={styles.cardSource}>{MEMORY_SOURCE}</span>
-          <span className={styles.cardTime}>{MEMORY_TIME}</span>
+          <span className={styles.cardTime}>{insight?.time}</span>
           <span className={styles.cardMenu}>
             <DotsIcon size={18} />
           </span>
         </header>
-        <p className={styles.cardFact}>{MEMORY_FACT}</p>
+        <p className={styles.cardFact}>{insight?.fact}</p>
       </article>
     );
   } catch {
@@ -565,7 +590,7 @@ function InsightsScene(): ReactNode {
           </div>
           <div className={styles.cards}>
             {MEMORY_CARDS.map((card, index) => (
-              <MemoryCard key={card?.id} index={index} />
+              <MemoryCard key={card?.id} insight={card} index={index} />
             ))}
           </div>
         </div>

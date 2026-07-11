@@ -19,6 +19,17 @@ import AskAiArtifact, {
   AskAiOpsSignalsArtifact,
   AskAiAnalyticsArtifact,
 } from "./feature-artifacts/AskAiArtifact";
+import {
+  AnalyticsOverviewArtifact,
+  AnalyticsInsightsArtifact,
+  AnalyticsActArtifact,
+  AnalyticsInterpretationArtifact,
+  AnalyticsCustomersArtifact,
+  AnalyticsTeamArtifact,
+  AnalyticsForMeArtifact,
+  AnalyticsPinDismissArtifact,
+  AnalyticsFiltersArtifact,
+} from "./feature-artifacts/AnalyticsArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
@@ -83,6 +94,15 @@ const MOCKS = {
   "ask-ai-delay-churn": AskAiDelayChurnArtifact,
   "ask-ai-ops-signals": AskAiOpsSignalsArtifact,
   "ask-ai-analytics": AskAiAnalyticsArtifact,
+  "analytics-overview": AnalyticsOverviewArtifact,
+  "analytics-insights": AnalyticsInsightsArtifact,
+  "analytics-act": AnalyticsActArtifact,
+  "analytics-interpretation": AnalyticsInterpretationArtifact,
+  "analytics-customers": AnalyticsCustomersArtifact,
+  "analytics-team": AnalyticsTeamArtifact,
+  "analytics-for-me": AnalyticsForMeArtifact,
+  "analytics-pin-dismiss": AnalyticsPinDismissArtifact,
+  "analytics-filters": AnalyticsFiltersArtifact,
   "pinned-comments": PinnedCommentsArtifact,
   "agent-finding": AgentFindingArtifact,
   "validate-fixes": ValidateFixesArtifact,

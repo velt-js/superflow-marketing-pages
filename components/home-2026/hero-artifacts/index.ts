@@ -20,6 +20,13 @@ import {
   HeroAskAiOpsSignalsArtifact,
 } from "./AskAiHeroFit";
 import {
+  HeroAnalyticsInsightsArtifact,
+  HeroAnalyticsActArtifact,
+  HeroAnalyticsCustomersArtifact,
+  HeroAnalyticsTeamArtifact,
+  HeroAnalyticsForMeArtifact,
+} from "./AnalyticsHeroFit";
+import {
   HeroCarryTheContextArtifact,
   HeroPinAnElementArtifact,
   HeroSelectTheWordsArtifact,
@@ -76,4 +83,12 @@ export const HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "cross-project": HeroAskAiCrossProjectArtifact,
   "analytics-on-demand": HeroAskAiAnalyticsArtifact,
   "ops-signals": HeroAskAiOpsSignalsArtifact,
+  // Analytics feature page hero tabs (CMS "analytics" hero.tabs slugs). Each
+  // reuses the variant-driven Analytics feature artifact fitted to the hero
+  // window; "The week's insights" leads with the curated insight feed (star).
+  "the-week-s-insights": HeroAnalyticsInsightsArtifact,
+  "act-on-one": HeroAnalyticsActArtifact,
+  customers: HeroAnalyticsCustomersArtifact,
+  team: HeroAnalyticsTeamArtifact,
+  "for-me": HeroAnalyticsForMeArtifact,
 };

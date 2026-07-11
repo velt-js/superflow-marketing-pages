@@ -54,7 +54,7 @@ function revealDelayStyle(delayMs: number): CSSProperties {
 type GraphKind = "bars" | "donut" | "line";
 
 /** One graph tile paired with the insight it resolves into. */
-interface InsightSpec {
+export interface InsightSpec {
   id: string;
   kind: GraphKind;
   /** Short label shown beside the mini chart. */
@@ -64,6 +64,9 @@ interface InsightSpec {
   /** The plain-language takeaway shown in the insight card. */
   insight: ReactNode;
 }
+
+/** Default label above the insight card's takeaway. */
+const DEFAULT_INSIGHT_LABEL = "Insight";
 
 /** Bar heights (percent of the mini chart) for the "rounds by client" tile. */
 const BAR_HEIGHTS: readonly number[] = [42, 100, 64, 50];
@@ -231,41 +234,59 @@ function InsightConnector(): ReactNode {
   );
 }
 
+/** Props for the shared {@link SolutionInsightsFlow}. */
+export interface SolutionInsightsFlowProps {
+  /** The graph→insight pairs cycled by the card (left to right). */
+  specs: readonly InsightSpec[];
+  /** Label shown above the takeaway (defaults to {@link DEFAULT_INSIGHT_LABEL}). */
+  insightLabel?: string;
+}
+
 /**
- * The Ask AI Solution flow: three minimal graph tiles that resolve into a
- * cycling insight card.
+ * Shared "minimal graphs → single insight" Solution flow: a left column of
+ * minimal graph tiles that resolve into one cycling insight card. Reused by both
+ * the Ask AI ("graphs → sentence") and Analytics ("dashboard → curated weekly
+ * insight") Solution variants so there is a single implementation.
  *
+ * @param props - The specs to cycle and the insight-card label.
  * @returns The insights-flow element, or `null` on failure.
  */
-export default function SolutionAskAiInsights(): ReactNode {
+export function SolutionInsightsFlow({
+  specs,
+  insightLabel = DEFAULT_INSIGHT_LABEL,
+}: SolutionInsightsFlowProps): ReactNode {
   try {
     const prefersReduced = usePrefersReducedMotion();
     const [activeIndex, setActiveIndex] = useState(0);
+    const specCount = specs?.length ?? 0;
 
     useEffect(() => {
-      if (prefersReduced) {
+      if (prefersReduced || specCount <= 1) {
         setActiveIndex(0);
         return undefined;
       }
       const timer = window.setInterval(() => {
-        setActiveIndex((current) => (current + 1) % INSIGHT_SPECS.length);
+        setActiveIndex((current) => (current + 1) % specCount);
       }, CYCLE_MS);
       return () => window.clearInterval(timer);
-    }, [prefersReduced]);
+    }, [prefersReduced, specCount]);
 
-    const activeSpec = INSIGHT_SPECS[activeIndex] ?? INSIGHT_SPECS[0];
+    const activeSpec = specs?.[activeIndex] ?? specs?.[0];
+    if (!activeSpec) {
+      return null;
+    }
 
     return (
       <div className={styles.insightsFlow}>
         <div className={styles.graphStack}>
-          {INSIGHT_SPECS.map((spec, specIndex) => {
+          {specs?.map((spec, specIndex) => {
             const isActive = specIndex === activeIndex;
             const tileClass = isActive
               ? `${styles.graphTile} ${styles.graphTileActive}`
               : styles.graphTile;
             return (
               <div
-                key={spec.id}
+                key={spec?.id}
                 className={`${styles.graphTileReveal} ${styles.revealItem}`}
                 style={revealDelayStyle(
                   REVEAL_TILE_BASE_MS + specIndex * REVEAL_TILE_STEP_MS,
@@ -273,12 +294,12 @@ export default function SolutionAskAiInsights(): ReactNode {
               >
                 <div
                   className={tileClass}
-                  style={{ [TILE_ACCENT_VAR]: spec.accent } as CSSProperties}
+                  style={{ [TILE_ACCENT_VAR]: spec?.accent } as CSSProperties}
                 >
                   <span className={styles.graphMini}>
-                    <MiniGraph kind={spec.kind} />
+                    <MiniGraph kind={spec?.kind} />
                   </span>
-                  <span className={styles.graphLabel}>{spec.label}</span>
+                  <span className={styles.graphLabel}>{spec?.label}</span>
                 </div>
               </div>
             );
@@ -291,15 +312,16 @@ export default function SolutionAskAiInsights(): ReactNode {
           className={`${styles.insightCard} ${styles.revealItem}`}
           style={
             {
-              [`--sol-insight-accent` as string]: activeSpec.accent,
+              [`--sol-insight-accent` as string]: activeSpec?.accent,
+              [REVEAL_DELAY_VAR]: `${REVEAL_INSIGHT_MS}ms`,
             } as CSSProperties
           }
         >
           <span className={styles.insightAvatar} aria-hidden="true" />
           <div className={styles.insightBody}>
-            <span className={styles.insightLabel}>Insight</span>
+            <span className={styles.insightLabel}>{insightLabel}</span>
             <p key={activeIndex} className={styles.insightText}>
-              {activeSpec.insight}
+              {activeSpec?.insight}
             </p>
           </div>
         </div>
@@ -308,4 +330,14 @@ export default function SolutionAskAiInsights(): ReactNode {
   } catch {
     return null;
   }
+}
+
+/**
+ * The Ask AI Solution flow: three minimal graph tiles that resolve into a
+ * cycling insight card.
+ *
+ * @returns The insights-flow element, or `null` on failure.
+ */
+export default function SolutionAskAiInsights(): ReactNode {
+  return <SolutionInsightsFlow specs={INSIGHT_SPECS} />;
 }

@@ -1651,7 +1651,7 @@ const analytics = {
     heading: "The week, already read",
     subheading:
       "Analytics leads with insights — three to five a week, each with the pattern, what it means, and a one-click action.",
-    variant: "checklist",
+    variant: "analytics",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1665,12 +1665,13 @@ const analytics = {
           "Three to five a week, each carrying the pattern, what it means, and its next step.",
         icon: "sparkles",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "analytics-insights",
         tabs: [
           {
             _key: "insights-week",
             label: "Insights of the week",
             icon: "sparkles",
+            mock: "analytics-insights",
             oneLiner:
               "Three to five a week, auto-curated: the patterns worth your attention, nothing else.",
           },
@@ -1678,6 +1679,7 @@ const analytics = {
             _key: "interpretation",
             label: "Interpretation included",
             icon: "message-chatbot",
+            mock: "analytics-interpretation",
             oneLiner:
               "Every insight says what the number means, not just the number.",
           },
@@ -1685,6 +1687,7 @@ const analytics = {
             _key: "one-click-actions",
             label: "One-click actions",
             icon: "bolt",
+            mock: "analytics-act",
             oneLiner:
               "Each insight carries its next step: add the agent, nudge the account, rebalance the load.",
           },
@@ -1697,12 +1700,13 @@ const analytics = {
           "Four views: agency strategy, per-client rollups, team load, and your own slice.",
         icon: "layout-dashboard",
         accent: "#109534",
-        mock: "workflow",
+        mock: "analytics-overview",
         tabs: [
           {
             _key: "strategic-overview",
             label: "Strategic Overview",
             icon: "layout-dashboard",
+            mock: "analytics-overview",
             oneLiner:
               "The agency-level patterns: volume, rounds, where reviews heat up.",
           },
@@ -1710,6 +1714,7 @@ const analytics = {
             _key: "customers",
             label: "Customers",
             icon: "world",
+            mock: "analytics-customers",
             oneLiner:
               "Per-client rollups: who draws rounds, who approves fast, who cooled off.",
           },
@@ -1717,6 +1722,7 @@ const analytics = {
             _key: "team",
             label: "Team",
             icon: "user-check",
+            mock: "analytics-team",
             oneLiner:
               "Review load by team and account, for allocation and pairing — no per-person score.",
           },
@@ -1724,6 +1730,7 @@ const analytics = {
             _key: "for-me",
             label: "For Me",
             icon: "circle-check",
+            mock: "analytics-for-me",
             oneLiner: "Your own slice: your approvals, your queues, your week.",
           },
         ],
@@ -1735,12 +1742,13 @@ const analytics = {
           "Pin what matters, dismiss what doesn't, and change the filters to re-curate on the spot.",
         icon: "settings",
         accent: "#e0820a",
-        mock: "workflow",
+        mock: "analytics-pin-dismiss",
         tabs: [
           {
             _key: "pin-dismiss",
             label: "Pin or dismiss",
             icon: "pin",
+            mock: "analytics-pin-dismiss",
             oneLiner:
               "Pin an insight to your morning view, or dismiss it for thirty days.",
           },
@@ -1748,6 +1756,7 @@ const analytics = {
             _key: "filters-recurate",
             label: "Filters that re-curate",
             icon: "refresh",
+            mock: "analytics-filters",
             oneLiner:
               "Change the range, vertical, or comparison and the insights re-curate on the spot.",
           },
