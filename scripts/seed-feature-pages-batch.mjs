@@ -326,7 +326,7 @@ const kanbanBoard = {
     heading: "The pipeline, finally visible",
     subheading:
       "Every review, across every client, on one board that updates itself from review activity.",
-    variant: "checklist",
+    variant: "kanban",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -340,7 +340,7 @@ const kanbanBoard = {
           "Every client's queue on a single board, filtered to one account or project in a click.",
         icon: "layout-kanban",
         accent: "#433df3",
-        mock: "kanban",
+        mock: "kanban-cross-client",
         tabs: [
           {
             _key: "cross-client-board",
@@ -348,6 +348,7 @@ const kanbanBoard = {
             icon: "layout-kanban",
             oneLiner:
               "Every client's queue on one board: awaiting review, in revision, ready to ship.",
+            mock: "kanban-cross-client",
           },
           {
             _key: "filters",
@@ -355,6 +356,7 @@ const kanbanBoard = {
             icon: "list-check",
             oneLiner:
               "Cut the board to one client or one project in a click.",
+            mock: "kanban-filters",
           },
         ],
       },
@@ -365,7 +367,7 @@ const kanbanBoard = {
           "Review activity drives the status, and the columns match how your team already works.",
         icon: "bolt",
         accent: "#109534",
-        mock: "kanban",
+        mock: "kanban-self-moving",
         tabs: [
           {
             _key: "self-moving-cards",
@@ -373,6 +375,7 @@ const kanbanBoard = {
             icon: "refresh",
             oneLiner:
               "A resolved thread, a fresh finding, or a client approval each moves the card.",
+            mock: "kanban-self-moving",
           },
           {
             _key: "custom-statuses",
@@ -538,7 +541,7 @@ const authenticatedPages = {
     heading: "Both halves of the work, reviewed",
     subheading:
       "Superflow installs on the site itself, so review runs behind passwords, Okta, and SSO — wherever the viewer is logged in.",
-    variant: "checklist",
+    variant: "authenticated-pages",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -552,7 +555,7 @@ const authenticatedPages = {
           "Superflow loads with the page inside the viewer's own session, so the login never blocks a review.",
         icon: "lock-open",
         accent: "#433df3",
-        mock: "behind-login",
+        mock: "auth-behind-password",
         tabs: [
           {
             _key: "review-inside-login",
@@ -560,6 +563,7 @@ const authenticatedPages = {
             icon: "lock",
             oneLiner:
               "Superflow loads with the page, inside the viewer's own session.",
+            mock: "auth-behind-password",
           },
           {
             _key: "one-snippet-for-it",
@@ -567,6 +571,7 @@ const authenticatedPages = {
             icon: "code-asterisk",
             oneLiner:
               "IT approves one snippet once — no browser extensions, no proxy fetching your page.",
+            mock: "auth-on-site",
           },
           {
             _key: "credential-free",
@@ -574,6 +579,7 @@ const authenticatedPages = {
             icon: "checks",
             oneLiner:
               "Superflow never sees or stores a password; the viewer's own session authenticates.",
+            mock: "auth-behind-password",
           },
         ],
       },
@@ -584,13 +590,14 @@ const authenticatedPages = {
           "If your users can log in, review works there — on staging, portals, member areas, and intranets.",
         icon: "lock",
         accent: "#109534",
-        mock: "behind-login",
+        mock: "auth-types",
         tabs: [
           {
             _key: "auth-types",
             label: "Password, Okta, SSO",
             icon: "lock",
             oneLiner: "If your users can log in, review works there.",
+            mock: "auth-types",
           },
           {
             _key: "staging-basic-auth",
@@ -598,6 +605,7 @@ const authenticatedPages = {
             icon: "code-asterisk",
             oneLiner:
               "Password-protected staging gets the same review as the live site.",
+            mock: "auth-behind-password",
           },
           {
             _key: "portals-intranets",
@@ -605,6 +613,7 @@ const authenticatedPages = {
             icon: "layout-dashboard",
             oneLiner:
               "The pages only logged-in users see, reviewed in place.",
+            mock: "auth-client-portal",
           },
         ],
       },
@@ -615,7 +624,7 @@ const authenticatedPages = {
           "Your enterprise client reviews their gated dashboard from inside their own system.",
         icon: "user-check",
         accent: "#e0820a",
-        mock: "behind-login",
+        mock: "auth-client-portal",
         tabs: [
           {
             _key: "client-own-portal",
@@ -623,6 +632,7 @@ const authenticatedPages = {
             icon: "user-check",
             oneLiner:
               "Your client opens their gated dashboard logged into their own system and approves — no Superflow account.",
+            mock: "auth-client-portal",
           },
         ],
       },
@@ -633,7 +643,7 @@ const authenticatedPages = {
           "Gated pages get the same review process, audit trail, and snapshots as public ones.",
         icon: "checks",
         accent: "#a21caf",
-        mock: "behind-login",
+        mock: "auth-types",
         tabs: [
           {
             _key: "one-process",
@@ -641,6 +651,7 @@ const authenticatedPages = {
             icon: "checks",
             oneLiner:
               "Comments, threads, approvals, and the audit trail behave identically on gated and public pages.",
+            mock: "auth-types",
           },
           {
             _key: "snapshots-behind-login",
@@ -1019,7 +1030,7 @@ const reviewWorkflows = {
     heading: "The process, out of your head",
     subheading:
       "Put your reviewers and AI agents in a visual flow, with conditions that move work forward and the client gate last.",
-    variant: "checklist",
+    variant: "review-workflows",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1033,7 +1044,7 @@ const reviewWorkflows = {
           "Drag agents, reviewers, and the client gate into order — and let a push start the flow.",
         icon: "route",
         accent: "#433df3",
-        mock: "workflows",
+        mock: "flow-build",
         tabs: [
           {
             _key: "visual-builder",
@@ -1041,6 +1052,7 @@ const reviewWorkflows = {
             icon: "layout-dashboard",
             oneLiner:
               "Drag steps into order: agents, reviewers, the client gate — no engineer, no config file.",
+            mock: "flow-build",
           },
           {
             _key: "human-agent-steps",
@@ -1048,6 +1060,7 @@ const reviewWorkflows = {
             icon: "robot",
             oneLiner:
               "AI agents and your reviewers sit in the same flow: agents run the first pass, people own the calls.",
+            mock: "flow-sample",
           },
           {
             _key: "push-triggered",
@@ -1055,6 +1068,7 @@ const reviewWorkflows = {
             icon: "bolt",
             oneLiner:
               "A new deploy starts the flow on its own: GitHub, Vercel, or any change to the live site.",
+            mock: "flow-push",
           },
         ],
       },
@@ -1065,7 +1079,7 @@ const reviewWorkflows = {
           "Conditions, parallel steps, and escalation decide when and how work moves.",
         icon: "settings",
         accent: "#109534",
-        mock: "workflows",
+        mock: "flow-condition",
         tabs: [
           {
             _key: "conditions",
@@ -1073,6 +1087,7 @@ const reviewWorkflows = {
             icon: "circle-check",
             oneLiner:
               "Work moves forward only when the condition is met: zero criticals, all findings resolved, approved.",
+            mock: "flow-condition",
           },
           {
             _key: "parallel-steps",
@@ -1080,6 +1095,7 @@ const reviewWorkflows = {
             icon: "route",
             oneLiner:
               "Design review and copy review run at the same time, and the flow waits for both.",
+            mock: "flow-parallel",
           },
           {
             _key: "escalation",
@@ -1087,6 +1103,7 @@ const reviewWorkflows = {
             icon: "history",
             oneLiner:
               "A step that sits too long escalates to a senior reviewer, or nudges a quiet client.",
+            mock: "flow-escalation",
           },
         ],
       },
@@ -1097,7 +1114,7 @@ const reviewWorkflows = {
           "The client gate closes the flow, notifications fire, and every project follows the same path.",
         icon: "user-check",
         accent: "#e0820a",
-        mock: "workflows",
+        mock: "flow-gate",
         tabs: [
           {
             _key: "client-gate",
@@ -1105,7 +1122,7 @@ const reviewWorkflows = {
             icon: "user-check",
             oneLiner:
               "The last node: your client approves from a link, no account, from their phone.",
-            mock: "guest-mode",
+            mock: "flow-gate",
           },
           {
             _key: "notifications",
@@ -1113,6 +1130,7 @@ const reviewWorkflows = {
             icon: "send",
             oneLiner:
               "Slack or email fires when a node clears, and when the whole flow completes.",
+            mock: "flow-notifications",
           },
           {
             _key: "one-flow",
@@ -1120,6 +1138,7 @@ const reviewWorkflows = {
             icon: "refresh",
             oneLiner:
               "Apply a workflow across projects and clients, and every build takes the same path.",
+            mock: "flow-one-flow",
           },
         ],
       },
@@ -1248,7 +1267,7 @@ const privateComments = {
     heading: "Your side of the review",
     subheading:
       "Private comments are comments the client never sees — debate, correct, and decide in a thread beside the client's.",
-    variant: "comments",
+    variant: "private-comments",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1270,6 +1289,7 @@ const privateComments = {
             icon: "lock",
             oneLiner:
               "A thread only your team can see, replies included, pinned to the element.",
+            mock: "private-team-thread",
           },
           {
             _key: "just-you",
@@ -1277,6 +1297,7 @@ const privateComments = {
             icon: "message-pin",
             oneLiner:
               "Scope a comment to just you: a draft, a doubt, a reminder, pinned where it applies.",
+            mock: "private-just-you",
           },
         ],
       },
@@ -1295,6 +1316,7 @@ const privateComments = {
             icon: "message-circle",
             oneLiner:
               "Private and client-visible threads sit on the same element, one context.",
+            mock: "private-side-by-side",
           },
           {
             _key: "scope-marks",
@@ -1302,6 +1324,7 @@ const privateComments = {
             icon: "checks",
             oneLiner:
               "A private thread looks nothing like a client thread, so no reply lands in the wrong place.",
+            mock: "private-scope-marks",
           },
         ],
       },
@@ -1320,7 +1343,7 @@ const privateComments = {
             icon: "user-check",
             oneLiner:
               "The client's link carries client-visible threads only; nothing private travels with it.",
-            mock: "guest-mode",
+            mock: "private-client-view",
           },
           {
             _key: "one-answer",
@@ -1328,6 +1351,7 @@ const privateComments = {
             icon: "circle-check",
             oneLiner:
               "Debate in the private thread, then post the decision on the client's.",
+            mock: "private-one-answer",
           },
         ],
       },
@@ -1346,6 +1370,7 @@ const privateComments = {
             icon: "send",
             oneLiner:
               "Alerts about a private thread go only to people inside its scope.",
+            mock: "private-scope-notifications",
           },
         ],
       },
@@ -1682,7 +1707,7 @@ const whiteLabel = {
     heading: "Where your logo lives",
     subheading:
       "One logo in settings — the client's toolbar carries it, and your team's admin panel carries it, every project.",
-    variant: "checklist",
+    variant: "white-label",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1696,7 +1721,7 @@ const whiteLabel = {
           "Your logo on the review toolbar the client sees, and on the admin panel your team runs.",
         icon: "palette",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "white-label-toolbar",
         tabs: [
           {
             _key: "client-toolbar",
@@ -1704,6 +1729,7 @@ const whiteLabel = {
             icon: "devices",
             oneLiner:
               "Every review a client opens carries your logo, on every project.",
+            mock: "white-label-toolbar",
           },
           {
             _key: "admin-panel",
@@ -1711,6 +1737,7 @@ const whiteLabel = {
             icon: "layout-dashboard",
             oneLiner:
               "Your logo on the panel itself, so contractors and new hires work inside your operation, not a vendor's.",
+            mock: "white-label-portal",
           },
         ],
       },
@@ -1721,7 +1748,7 @@ const whiteLabel = {
           "Set the logo once, and every project — plus every agent finding — wears it.",
         icon: "checks",
         accent: "#109534",
-        mock: "workflow",
+        mock: "white-label-settings",
         tabs: [
           {
             _key: "one-upload",
@@ -1729,6 +1756,7 @@ const whiteLabel = {
             icon: "refresh",
             oneLiner:
               "Set the logo once in settings, and every current and future project carries it.",
+            mock: "white-label-settings",
           },
           {
             _key: "agent-findings-brand",
@@ -1736,6 +1764,7 @@ const whiteLabel = {
             icon: "robot",
             oneLiner:
               "When AI reviews and comments, the toolbar carrying those comments is yours.",
+            mock: "white-label-agent-findings",
           },
         ],
       },

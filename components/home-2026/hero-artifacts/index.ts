@@ -31,6 +31,35 @@ import {
   HeroClientReviewPhoneArtifact,
 } from "./ClientReviewHeroFit";
 import {
+  HeroPrivateTeamThreadArtifact,
+  HeroPrivateJustYouArtifact,
+  HeroPrivateClientViewArtifact,
+} from "./PrivateCommentsHeroFit";
+import {
+  HeroWhiteLabelToolbarArtifact,
+  HeroWhiteLabelPortalArtifact,
+  HeroWhiteLabelSettingsArtifact,
+} from "./WhiteLabelHeroFit";
+import {
+  HeroKanbanBoardArtifact,
+  HeroKanbanSelfMovingArtifact,
+  HeroKanbanCustomStatusesArtifact,
+  HeroKanbanFiltersArtifact,
+} from "./KanbanHeroFit";
+import {
+  HeroReviewWorkflowSampleArtifact,
+  HeroReviewWorkflowPushArtifact,
+  HeroReviewWorkflowBuilderArtifact,
+  HeroReviewWorkflowConditionArtifact,
+  HeroReviewWorkflowGateArtifact,
+} from "./ReviewWorkflowHeroFit";
+import {
+  HeroAuthBehindPasswordArtifact,
+  HeroAuthBehindOktaArtifact,
+  HeroAuthBehindSsoArtifact,
+  HeroAuthClientPortalArtifact,
+} from "./AuthenticatedPagesHeroFit";
+import {
   HeroCarryTheContextArtifact,
   HeroPinAnElementArtifact,
   HeroSelectTheWordsArtifact,
@@ -103,4 +132,64 @@ export const HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "phone-view": HeroClientReviewPhoneArtifact,
   "no-account-flow": GuestModeArtifact,
   "private-threads": PrivateCommentArtifact,
+  // Private Comments feature page hero tabs (CMS "private-comments" hero.tabs
+  // slugs). Each reuses the variant-driven Private Comment artifact fitted to
+  // the hero window: the team-private thread, a just-you note (chip reads
+  // "Only you") and the client's clean view where the private thread vanishes.
+  "team-private-thread": HeroPrivateTeamThreadArtifact,
+  "just-you-notes": HeroPrivateJustYouArtifact,
+  "the-client-s-view": HeroPrivateClientViewArtifact,
+};
+
+/**
+ * Page-scoped hero-artifact overrides, keyed by a page scope then the tab id.
+ * A scope's map is consulted before the global {@link HERO_ARTIFACTS} (see
+ * {@link HeroWorkflowShowcase}), so a page can bind a bespoke artifact to a tab
+ * id that already exists globally.
+ *
+ * White-label is the first such page: its "The client's view" hero tab
+ * slugifies to `the-client-s-view`, the same id the private-comments page's
+ * client-view hero already claims globally. Scoping the three white-label hero
+ * artifacts here disambiguates them without changing either page's CMS labels.
+ */
+export const SCOPED_HERO_ARTIFACTS: Readonly<
+  Record<string, Readonly<Record<string, ComponentType>>>
+> = {
+  "white-label": {
+    "the-client-s-view": HeroWhiteLabelToolbarArtifact,
+    "the-admin-panel": HeroWhiteLabelPortalArtifact,
+    "one-upload": HeroWhiteLabelSettingsArtifact,
+  },
+  // Kanban Board hero tabs. The labels ("The board", "Custom statuses",
+  // "Filters", …) slugify to generic ids, so they're scoped to this page rather
+  // than registered globally. "Yours, not ours" reuses the Integrations hero
+  // artifact (the two-way sync / connected-board story).
+  "kanban-board": {
+    "the-board": HeroKanbanBoardArtifact,
+    "it-moves-itself": HeroKanbanSelfMovingArtifact,
+    "custom-statuses": HeroKanbanCustomStatusesArtifact,
+    "yours-not-ours": IntegrationsArtifact,
+    filters: HeroKanbanFiltersArtifact,
+  },
+  // Review Workflows hero tabs. The labels ("The sample flow", "Build a step",
+  // "Set a condition", …) slugify to generic ids, so they're scoped to this
+  // page rather than registered globally. Each reuses the variant-driven
+  // ReviewWorkflowArtifact fitted to the hero window.
+  "review-workflows": {
+    "the-sample-flow": HeroReviewWorkflowSampleArtifact,
+    "triggered-by-a-push": HeroReviewWorkflowPushArtifact,
+    "build-a-step": HeroReviewWorkflowBuilderArtifact,
+    "set-a-condition": HeroReviewWorkflowConditionArtifact,
+    "the-client-gate": HeroReviewWorkflowGateArtifact,
+  },
+  // Authenticated Pages hero tabs. The labels ("Behind a password", "Behind
+  // Okta", …) slugify to generic ids, so they're scoped to this page rather than
+  // registered globally. Each reuses the variant-driven AuthenticatedPagesArtifact
+  // fitted to the hero window.
+  "authenticated-pages": {
+    "behind-a-password": HeroAuthBehindPasswordArtifact,
+    "behind-okta": HeroAuthBehindOktaArtifact,
+    "behind-sso": HeroAuthBehindSsoArtifact,
+    "the-client-s-own-portal": HeroAuthClientPortalArtifact,
+  },
 };

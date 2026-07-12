@@ -370,3 +370,617 @@
     opacity: 1;
   }
 }
+
+/* =========================================================== board shell
+   The cross-client / self-moving / filters / custom-columns scenes share one
+   column + card shell. It left-anchors in the feature panel (right columns
+   intentionally bleed off the clipped edge) and centres in the fully-visible
+   hero product window (`[data-hero]`). */
+
+.boardRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+.board {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 34px 0 0 40px;
+}
+
+.boardRoot[data-hero] .board {
+  justify-content: center;
+  padding: 44px 28px 0;
+}
+
+.boardRoot[data-variant="filters"] .board {
+  padding-top: 16px;
+}
+
+/* ---------------------------------------------------------------- column */
+
+.column {
+  flex: 0 0 268px;
+  width: 268px;
+  display: flex;
+  flex-direction: column;
+}
+
+.boardRoot[data-variant="custom-columns"] .column {
+  flex-basis: 188px;
+  width: 188px;
+}
+
+.boardRoot[data-variant="custom-columns"] .board {
+  gap: 14px;
+}
+
+/* Five columns won't centre inside the hero window, so left-anchor them (the
+   right-most status + "Add status" may bleed, which reads as "more columns"). */
+.boardRoot[data-hero][data-variant="custom-columns"] .board {
+  justify-content: flex-start;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.colHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px 2px;
+  animation: kbFade 0.45s ease both;
+  animation-delay: var(--kb-delay, 0ms);
+}
+
+.colDot {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.colTitle {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: #1b1c22;
+  white-space: nowrap;
+}
+
+.colCount {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  margin-left: 2px;
+  padding: 0 7px;
+  border-radius: 20px;
+  background: #f1f1f4;
+  color: #8a8a92;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tickFrom,
+.tickTo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tickFrom {
+  animation: kbFadeOut 0.35s ease 1.25s both;
+}
+
+.tickTo {
+  opacity: 0;
+  animation: kbFadeIn 0.35s ease 1.25s both;
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.bcard {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 11px 12px 10px;
+  background: #ffffff;
+  border: 1px solid #ececf1;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(16, 16, 32, 0.05);
+  animation: kbRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--kb-delay, 0ms);
+}
+
+.clientChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 19px;
+  margin-bottom: 8px;
+  padding: 0 7px 0 6px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--kb-client) 12%, #ffffff);
+  color: color-mix(in srgb, var(--kb-client) 70%, #1b1c22);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+}
+
+.clientDot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--kb-client);
+}
+
+.bcardTitle {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.1px;
+  color: #26272e;
+}
+
+.bcardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 20px;
+  margin-top: 9px;
+}
+
+.avatars {
+  display: flex;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: -6px;
+  border: 1.5px solid #ffffff;
+  border-radius: 50%;
+  background: #b9bcc6;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.metaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #9a9aa2;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.metaPill svg {
+  color: #b4b4bc;
+}
+
+/* The card that lands in Ready to ship carries a green "Approved" meta. */
+.bcard[data-motion="arriving"] .metaPill,
+.bcard[data-motion="arriving"] .metaPill svg {
+  color: #109534;
+}
+
+/* Softly dissolve the lowest cards into the bottom edge (feature panel). */
+.boardFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: linear-gradient(to bottom, rgba(254, 255, 255, 0), #feffff);
+  pointer-events: none;
+}
+
+.boardRoot[data-hero] .boardFade {
+  height: 48px;
+}
+
+/* --------------------------------------------------------- custom columns */
+
+/* The freshly-added status column slides in from the right + a soft ring. */
+.column[data-new] {
+  animation: kbColSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 1.05s;
+}
+
+.column[data-new] .colDot {
+  box-shadow: 0 0 0 4px color-mix(in srgb, #12b5a6 22%, transparent);
+}
+
+.addStatus {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+  padding: 6px 12px 6px 9px;
+  border: 1px dashed #cfd0d8;
+  border-radius: 9px;
+  color: #9a9aa2;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: kbFade 0.5s ease both;
+  animation-delay: 1.3s;
+}
+
+.addStatus svg {
+  color: #b4b4bc;
+}
+
+/* --------------------------------------------------------------- filters */
+
+.filterBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 26px 0 0 40px;
+  animation: kbFade 0.45s ease both;
+  animation-delay: 60ms;
+}
+
+.boardRoot[data-hero] .filterBar {
+  justify-content: center;
+  padding: 30px 28px 0;
+}
+
+.filterLabel {
+  margin-right: 2px;
+  color: #9a9aa2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.filterChip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #f4f4f6;
+  color: #54555e;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* "All clients" starts active, then hands off to the tapped "Acme" chip. */
+.filterChip[data-all] {
+  border-color: #d9d6ff;
+  background: #ecebff;
+  color: #4b45d6;
+  animation: kbChipOff 0.3s ease 1s both;
+}
+
+.filterChip[data-target] {
+  animation: kbChipOn 0.3s ease 1s both;
+}
+
+.filterCursor {
+  position: absolute;
+  right: -12px;
+  bottom: -14px;
+  animation: kbFilterCursor 2.4s ease both;
+}
+
+/* Non-matching cards collapse away, leaving the one filtered client. */
+.boardRoot[data-variant="filters"] .bcard[data-filter]:not([data-filter="acme"]) {
+  animation: kbCollapse 0.5s ease 1.15s both;
+}
+
+/* ------------------------------------------------------------ self-moving */
+
+.moveToast {
+  position: absolute;
+  top: 22px;
+  right: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px 9px 11px;
+  border: 1px solid #cde8d8;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(16, 90, 52, 0.14);
+  color: #0f7a45;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: kbToastIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+.boardRoot[data-hero] .moveToast {
+  right: 48px;
+}
+
+.moveToastIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #109534;
+  color: #ffffff;
+}
+
+.moveToastIcon svg {
+  color: #ffffff;
+}
+
+/* The card leaving In revision fades + collapses; the arriving card unfolds
+   into the top of Ready to ship (overriding the base rise). */
+.bcard[data-motion="leaving"] {
+  animation: kbLeave 0.55s ease 1.05s both;
+}
+
+.bcard[data-motion="arriving"] {
+  animation: kbArrive 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
+}
+
+/* ---------------------------------------------------- board keyframes ---- */
+
+@keyframes kbRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kbFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kbFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kbFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes kbColSlide {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes kbToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kbChipOn {
+  from {
+    background: #f4f4f6;
+    color: #54555e;
+    border-color: transparent;
+  }
+  to {
+    background: #4b45d6;
+    color: #ffffff;
+    border-color: #4b45d6;
+  }
+}
+
+@keyframes kbChipOff {
+  from {
+    background: #ecebff;
+    color: #4b45d6;
+    border-color: #d9d6ff;
+  }
+  to {
+    background: #f4f4f6;
+    color: #54555e;
+    border-color: transparent;
+  }
+}
+
+/* Cursor glides onto the Acme chip, presses (~1s), then lifts away. */
+@keyframes kbFilterCursor {
+  0% {
+    opacity: 0;
+    transform: translate(16px, 12px) scale(1);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  38% {
+    transform: translate(0, 0) scale(1);
+  }
+  43% {
+    transform: translate(0, 0) scale(0.86);
+  }
+  50% {
+    transform: translate(0, 0) scale(1);
+  }
+  82% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, 10px) scale(1);
+  }
+}
+
+/* A non-matching card collapses out of the column with no leftover gap. */
+@keyframes kbCollapse {
+  0% {
+    max-height: 120px;
+    opacity: 1;
+    margin-bottom: 10px;
+    transform: translateX(0);
+  }
+  35% {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+    transform: translateX(10px);
+  }
+}
+
+/* Self-moving: the leaving card slides right + collapses out of In revision. */
+@keyframes kbLeave {
+  0% {
+    max-height: 120px;
+    opacity: 1;
+    margin-bottom: 10px;
+    transform: translateX(0);
+  }
+  40% {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+    transform: translateX(18px);
+  }
+}
+
+/* Self-moving: the arriving card unfolds into the top of Ready to ship. */
+@keyframes kbArrive {
+  0% {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transform: translateY(-8px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    max-height: 140px;
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-top: 11px;
+    padding-bottom: 10px;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Settled state (screenshots / reduced motion) --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .colHead,
+  .bcard,
+  .filterBar,
+  .filterChip[data-all],
+  .filterChip[data-target],
+  .column[data-new],
+  .addStatus,
+  .moveToast,
+  .tickFrom,
+  .tickTo {
+    animation: none;
+  }
+  /* Counts rest on their final value. */
+  .tickFrom {
+    display: none;
+  }
+  .tickTo {
+    opacity: 1;
+  }
+  /* Filters: only the filtered client's cards remain; Acme chip stays active. */
+  .filterCursor {
+    display: none;
+  }
+  .filterChip[data-all] {
+    border-color: transparent;
+    background: #f4f4f6;
+    color: #54555e;
+  }
+  .filterChip[data-target] {
+    border-color: #4b45d6;
+    background: #4b45d6;
+    color: #ffffff;
+  }
+  .boardRoot[data-variant="filters"] .bcard[data-filter]:not([data-filter="acme"]) {
+    display: none;
+  }
+  /* Self-moving: card already arrived in Ready to ship. */
+  .bcard[data-motion="leaving"] {
+    display: none;
+  }
+  .bcard[data-motion="arriving"] {
+    animation: none;
+  }
+}

@@ -80,6 +80,10 @@ export interface FeaturePageDoc {
       | "ask-ai"
       | "analytics"
       | "client-review"
+      | "white-label"
+      | "kanban"
+      | "review-workflows"
+      | "authenticated-pages"
       | null;
     /**
      * Optional single-glyph override for the section-header cue (e.g. "brain"
@@ -136,6 +140,16 @@ const ASK_AI_PAGE_SLUG = "ask-ai";
 const ANALYTICS_PAGE_SLUG = "analytics";
 /** Slug of the Client Review feature page that gets client-review mock mapping. */
 const CLIENT_REVIEW_PAGE_SLUG = "client-review";
+/** Slug of the Private Comments page that gets private-comments mock mapping. */
+const PRIVATE_COMMENTS_PAGE_SLUG = "private-comments";
+/** Slug of the White-label page that gets white-label mock mapping. */
+const WHITE_LABEL_PAGE_SLUG = "white-label";
+/** Slug of the Kanban Board page that gets kanban mock + solution mapping. */
+const KANBAN_BOARD_PAGE_SLUG = "kanban-board";
+/** Slug of the Review Workflows page that gets flow mock + solution mapping. */
+const REVIEW_WORKFLOWS_PAGE_SLUG = "review-workflows";
+/** Slug of the Authenticated Pages page that gets auth mock + solution mapping. */
+const AUTHENTICATED_PAGES_PAGE_SLUG = "authenticated-pages";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -222,6 +236,100 @@ const CLIENT_REVIEW_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "the-approve-button": "client-review-approve",
   "behind-a-login-too": "behind-login",
   "what-they-never-see": "private-comments",
+};
+
+/**
+ * Private Comments-page tab labels mapped to their per-tab artifact variant.
+ * Each of the seven showcase "lifecycle rail" beats renders the variant-driven
+ * {@link PrivateCommentArtifact} scene for that beat — the two private scopes,
+ * the two beside-the-client-thread beats, the two client-facing beats and the
+ * scope-aware notification. A mapped beat here always renders as a real tab
+ * (see {@link toFeatureSetBlock}), even when pre-reseed CMS data still marks it
+ * list-only. Applied client-side so the artifacts render without a Sanity
+ * re-seed; the seed script carries the same per-tab mocks.
+ */
+const PRIVATE_COMMENTS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "team-private-threads": "private-team-thread",
+  "just-you-comments": "private-just-you",
+  "side-by-side-threads": "private-side-by-side",
+  "unmistakable-scope-marks": "private-scope-marks",
+  "a-clean-client-view": "private-client-view",
+  "one-settled-answer": "private-one-answer",
+  "scope-aware-notifications": "private-scope-notifications",
+};
+
+/**
+ * White-label-page tab labels mapped to their per-tab artifact variant. The
+ * four showcase beats render the variant-driven {@link WhiteLabelArtifact}: the
+ * branded client toolbar, the branded admin portal, the Custom Branding upload
+ * panel and an AI finding under the agency's brand. A mapped beat here always
+ * renders as a real tab (see {@link toFeatureSetBlock}), even when pre-reseed
+ * CMS data still marks it list-only. Applied client-side so the artifacts render
+ * without a Sanity re-seed; the seed script carries the same per-tab mocks.
+ */
+const WHITE_LABEL_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "the-toolbar-your-client-sees": "white-label-toolbar",
+  "the-admin-panel-your-team-runs": "white-label-portal",
+  "one-upload-every-project": "white-label-settings",
+  "agent-findings-under-your-brand": "white-label-agent-findings",
+};
+
+/**
+ * Kanban-board-page tab labels mapped to their per-tab board artifact. The
+ * cross-client board, the filter-to-one-client board and the self-moving board
+ * each render the variant-driven {@link KanbanArtifact}; the "Custom statuses"
+ * tab keeps the existing dedicated custom-statuses artifact and the "Yours,
+ * connected" block reuses the Integrations artifact. Applied client-side so the
+ * artifacts render without a Sanity re-seed; the seed script carries the same
+ * per-tab mocks.
+ */
+const KANBAN_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "cross-client-board": "kanban-cross-client",
+  "filters-by-client-and-project": "kanban-filters",
+  "self-moving-cards": "kanban-self-moving",
+};
+
+/**
+ * Review Workflows-page tab labels mapped to their per-tab flow-builder scene.
+ * Every tab renders the variant-driven {@link ReviewWorkflowArtifact} for that
+ * beat — the visual builder, the human+agent sample flow, the push trigger, the
+ * transition condition, parallel lanes, escalation, the client gate, the
+ * step/flow notifications and the one-flow-per-project rollup. Applied
+ * client-side so the scenes render without a Sanity re-seed; the seed script
+ * carries the same per-tab mocks for anyone who re-seeds the dataset.
+ */
+const REVIEW_WORKFLOWS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "visual-builder": "flow-build",
+  "human-and-agent-steps": "flow-sample",
+  "push-triggered-runs": "flow-push",
+  conditions: "flow-condition",
+  "parallel-steps": "flow-parallel",
+  escalation: "flow-escalation",
+  "the-client-gate": "flow-gate",
+  "step-and-flow-notifications": "flow-notifications",
+  "one-flow-every-project": "flow-one-flow",
+};
+
+/**
+ * Authenticated Pages-page tab labels mapped to their per-tab auth artifact.
+ * The feature beats render the variant-driven {@link AuthenticatedPagesArtifact}:
+ * the password / Okta / SSO gate lifting to the in-session reviewed page, the
+ * on-site snippet (vs a blocked proxy), the works-behind-every-auth-type matrix,
+ * and the client reviewing from inside their own portal. The "Snapshots behind
+ * the login" tab keeps its explicit `auto-screenshot` CMS mock (explicit values
+ * still win). Applied client-side so the artifacts render without a Sanity
+ * re-seed; the seed script carries the same per-tab mocks for anyone who
+ * re-seeds the dataset.
+ */
+const AUTHENTICATED_PAGES_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "review-inside-the-login": "auth-behind-password",
+  "credential-free-review": "auth-behind-password",
+  "staging-behind-basic-auth": "auth-behind-password",
+  "one-snippet-for-it": "auth-on-site",
+  "password-okta-sso": "auth-types",
+  "one-review-process-everywhere": "auth-types",
+  "portals-member-areas-intranets": "auth-client-portal",
+  "client-review-on-their-own-portal": "auth-client-portal",
 };
 
 /** Base path for feature preview pages (related-capability link targets). */
@@ -507,6 +615,76 @@ function getClientReviewTabMock(
 }
 
 /**
+ * Resolve a tab's Private Comments artifact variant from its label, preserving
+ * explicit CMS values when the label is not one of the mapped lifecycle beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no private-comments mapping applies.
+ */
+function getPrivateCommentsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return PRIVATE_COMMENTS_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve a tab's White-label artifact variant from its label, preserving
+ * explicit CMS values when the label is not one of the mapped showcase beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no white-label mapping applies.
+ */
+function getWhiteLabelTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return WHITE_LABEL_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve a tab's Kanban-board artifact from its label, preserving explicit CMS
+ * values when the label is not one of the mapped board beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no kanban mapping applies.
+ */
+function getKanbanTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return KANBAN_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve a tab's Review Workflows flow-builder scene from its label,
+ * preserving explicit CMS values when the label is not one of the mapped beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no review-workflows mapping applies.
+ */
+function getReviewWorkflowsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return REVIEW_WORKFLOWS_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve a tab's Authenticated Pages artifact from its label, preserving
+ * explicit CMS values when the label is not one of the mapped auth beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no authenticated-pages mapping applies.
+ */
+function getAuthenticatedPagesTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return AUTHENTICATED_PAGES_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -552,6 +730,11 @@ function toFeatureSetBlock(
   const isAskAiPage = pageSlug === ASK_AI_PAGE_SLUG;
   const isAnalyticsPage = pageSlug === ANALYTICS_PAGE_SLUG;
   const isClientReviewPage = pageSlug === CLIENT_REVIEW_PAGE_SLUG;
+  const isPrivateCommentsPage = pageSlug === PRIVATE_COMMENTS_PAGE_SLUG;
+  const isWhiteLabelPage = pageSlug === WHITE_LABEL_PAGE_SLUG;
+  const isKanbanBoardPage = pageSlug === KANBAN_BOARD_PAGE_SLUG;
+  const isReviewWorkflowsPage = pageSlug === REVIEW_WORKFLOWS_PAGE_SLUG;
+  const isAuthenticatedPagesPage = pageSlug === AUTHENTICATED_PAGES_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => {
@@ -559,6 +742,15 @@ function toFeatureSetBlock(
       // the CMS carrying an explicit mock; explicit CMS values still win.
       const clientReviewMock = isClientReviewPage
         ? getClientReviewTabMock(tab)
+        : undefined;
+      const privateCommentsMock = isPrivateCommentsPage
+        ? getPrivateCommentsTabMock(tab)
+        : undefined;
+      const whiteLabelMock = isWhiteLabelPage
+        ? getWhiteLabelTabMock(tab)
+        : undefined;
+      const reviewWorkflowsMock = isReviewWorkflowsPage
+        ? getReviewWorkflowsTabMock(tab)
         : undefined;
       let resolvedMock: FeatureSetMockName | undefined;
       if (isCommentsPage) {
@@ -569,12 +761,40 @@ function toFeatureSetBlock(
         resolvedMock = getAnalyticsTabMock(tab) ?? (tab.mock as FeatureSetMockName | undefined);
       } else if (isClientReviewPage) {
         resolvedMock = clientReviewMock ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isPrivateCommentsPage) {
+        resolvedMock = privateCommentsMock ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isWhiteLabelPage) {
+        resolvedMock = whiteLabelMock ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isKanbanBoardPage) {
+        // Explicit CMS mock (e.g. the "Custom statuses" tab's custom-statuses)
+        // wins; otherwise the board beats map to their variant.
+        resolvedMock =
+          (tab.mock as FeatureSetMockName | undefined) ?? getKanbanTabMock(tab);
+      } else if (isReviewWorkflowsPage) {
+        // The flow-builder scene owns each beat; a mapped label wins over the
+        // pre-reseed CMS mock (e.g. the client-gate tab's old guest-mode).
+        resolvedMock =
+          reviewWorkflowsMock ?? (tab.mock as FeatureSetMockName | undefined);
+      } else if (isAuthenticatedPagesPage) {
+        // Explicit CMS mock (e.g. the Snapshots tab's auto-screenshot) wins;
+        // otherwise each auth beat maps to its variant, replacing the block-level
+        // behind-login fallback.
+        resolvedMock =
+          (tab.mock as FeatureSetMockName | undefined) ??
+          getAuthenticatedPagesTabMock(tab);
       } else {
         resolvedMock = tab.mock as FeatureSetMockName | undefined;
       }
-      // A mapped client-review beat always renders as a real tab with its
-      // artifact, even when pre-reseed CMS data still marks it list-only.
-      const listOnly = clientReviewMock ? false : (tab.listOnly ?? undefined);
+      // A mapped client-review / private-comments / white-label /
+      // review-workflows beat always renders as a real tab with its artifact,
+      // even when pre-reseed CMS data still marks it list-only.
+      const listOnly =
+        clientReviewMock ||
+        privateCommentsMock ||
+        whiteLabelMock ||
+        reviewWorkflowsMock
+          ? false
+          : (tab.listOnly ?? undefined);
       return {
         label: tab.label as string,
         icon: (tab.icon ?? "grain") as FeatureSetIconName,
@@ -715,7 +935,17 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         ? "analytics"
         : doc?.slug === CLIENT_REVIEW_PAGE_SLUG
           ? "client-review"
-          : (doc?.solution?.variant ?? undefined);
+          : doc?.slug === PRIVATE_COMMENTS_PAGE_SLUG
+            ? "private-comments"
+              : doc?.slug === WHITE_LABEL_PAGE_SLUG
+                ? "white-label"
+                : doc?.slug === KANBAN_BOARD_PAGE_SLUG
+                  ? "kanban"
+                  : doc?.slug === REVIEW_WORKFLOWS_PAGE_SLUG
+                    ? "review-workflows"
+                    : doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG
+                      ? "authenticated-pages"
+                      : (doc?.solution?.variant ?? undefined);
   const solutionIcon = doc?.solution?.icon ?? undefined;
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
@@ -757,6 +987,14 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         variant="feature"
         showcase={heroShowcase}
         tabs={heroTabs}
+        heroArtifactScope={
+          doc?.slug === WHITE_LABEL_PAGE_SLUG ||
+          doc?.slug === KANBAN_BOARD_PAGE_SLUG ||
+          doc?.slug === REVIEW_WORKFLOWS_PAGE_SLUG ||
+          doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG
+            ? doc.slug
+            : undefined
+        }
       />
       <SolutionSection
         heading={solutionHeading}

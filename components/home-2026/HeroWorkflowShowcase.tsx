@@ -26,7 +26,7 @@ import {
   WandIcon,
   resolveHeroTabIcon,
 } from "./HeroIcons";
-import { HERO_ARTIFACTS } from "./hero-artifacts";
+import { HERO_ARTIFACTS, SCOPED_HERO_ARTIFACTS } from "./hero-artifacts";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
@@ -174,6 +174,15 @@ export interface HeroWorkflowShowcaseProps {
    * canvas stay identical. Falls back to the `variant` preset when absent.
    */
   tabs?: readonly HeroCmsTab[] | null;
+  /**
+   * Optional page scope selecting a per-page hero-artifact override map from
+   * {@link SCOPED_HERO_ARTIFACTS}. When set, the scope's map is consulted before
+   * the global {@link HERO_ARTIFACTS}, so a page can bind its own artifact to a
+   * tab id that already exists globally (e.g. white-label's "The client's view"
+   * shares the private-comments tab id). A plain string, safe to pass across the
+   * server/client boundary.
+   */
+  heroArtifactScope?: string;
 }
 
 /**
@@ -188,6 +197,7 @@ export interface HeroWorkflowShowcaseProps {
 export default function HeroWorkflowShowcase({
   variant = "home",
   tabs: cmsTabs,
+  heroArtifactScope,
 }: HeroWorkflowShowcaseProps = {}) {
   const tabs = toShowcaseTabs(cmsTabs) ?? resolveTabs(variant);
   const firstTabId = tabs[0]?.id ?? QA_WORKFLOW_ID;
@@ -195,8 +205,14 @@ export default function HeroWorkflowShowcase({
   const isFirstTabActive = activeTabId === firstTabId;
   // When the active tab has a dedicated artifact (homepage tabs), render it
   // inside the shared window frame; otherwise fall back to the generic
-  // workflow window below (feature-page / CMS tab presets).
-  const ActiveArtifact = HERO_ARTIFACTS[activeTabId] ?? null;
+  // workflow window below (feature-page / CMS tab presets). A page scope's
+  // override map wins over the global registry, so a page can bind its own
+  // artifact to a tab id that already exists globally.
+  const scopedArtifacts = heroArtifactScope
+    ? SCOPED_HERO_ARTIFACTS?.[heroArtifactScope]
+    : undefined;
+  const ActiveArtifact =
+    scopedArtifacts?.[activeTabId] ?? HERO_ARTIFACTS[activeTabId] ?? null;
 
   /**
    * Mark the given tab as active.

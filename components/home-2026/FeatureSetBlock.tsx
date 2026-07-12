@@ -35,14 +35,53 @@ import {
   ClientReviewCleanedUpArtifact,
   ClientReviewApproveArtifact,
 } from "./feature-artifacts/ClientReviewArtifact";
+import {
+  PrivateTeamThreadArtifact,
+  PrivateJustYouArtifact,
+  PrivateClientViewArtifact,
+  PrivateSideBySideArtifact,
+  PrivateScopeMarksArtifact,
+  PrivateOneAnswerArtifact,
+  PrivateScopeNotificationsArtifact,
+} from "./hero-artifacts/PrivateCommentArtifact";
+import {
+  WhiteLabelSettingsArtifact,
+  WhiteLabelToolbarArtifact,
+  WhiteLabelPortalArtifact,
+  WhiteLabelAgentFindingsArtifact,
+} from "./feature-artifacts/WhiteLabelArtifact";
+import {
+  AuthBehindPasswordArtifact,
+  AuthBehindOktaArtifact,
+  AuthBehindSsoArtifact,
+  AuthClientPortalArtifact,
+  AuthOnSiteArtifact,
+  AuthTypesArtifact,
+} from "./feature-artifacts/AuthenticatedPagesArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
 import AllDevicesArtifact from "./feature-artifacts/AllDevicesArtifact";
 import WebhooksArtifact from "./feature-artifacts/WebhooksArtifact";
-import KanbanArtifact from "./feature-artifacts/KanbanArtifact";
+import KanbanArtifact, {
+  KanbanCrossClientArtifact,
+  KanbanSelfMovingArtifact,
+  KanbanFiltersArtifact,
+  KanbanCustomColumnsArtifact,
+} from "./feature-artifacts/KanbanArtifact";
 import CustomStatusArtifact from "./feature-artifacts/CustomStatusArtifact";
 import WorkflowArtifact from "./feature-artifacts/WorkflowArtifact";
+import {
+  ReviewWorkflowSampleArtifact,
+  ReviewWorkflowPushArtifact,
+  ReviewWorkflowBuilderArtifact,
+  ReviewWorkflowConditionArtifact,
+  ReviewWorkflowParallelArtifact,
+  ReviewWorkflowEscalationArtifact,
+  ReviewWorkflowGateArtifact,
+  ReviewWorkflowNotificationsArtifact,
+  ReviewWorkflowOneFlowArtifact,
+} from "./feature-artifacts/ReviewWorkflowArtifact";
 import VersioningArtifact from "./feature-artifacts/VersioningArtifact";
 import LiveSiteArtifact from "./feature-artifacts/LiveSiteArtifact";
 import RecordWalkthroughArtifact from "./feature-artifacts/RecordWalkthroughArtifact";
@@ -116,14 +155,44 @@ const MOCKS = {
   "validate-fixes": ValidateFixesArtifact,
   "auto-screenshot": AutoScreenshotArtifact,
   "private-comments": PrivateArtifact,
+  "private-team-thread": PrivateTeamThreadArtifact,
+  "private-just-you": PrivateJustYouArtifact,
+  "private-client-view": PrivateClientViewArtifact,
+  "private-side-by-side": PrivateSideBySideArtifact,
+  "private-scope-marks": PrivateScopeMarksArtifact,
+  "private-one-answer": PrivateOneAnswerArtifact,
+  "private-scope-notifications": PrivateScopeNotificationsArtifact,
+  "white-label-settings": WhiteLabelSettingsArtifact,
+  "white-label-toolbar": WhiteLabelToolbarArtifact,
+  "white-label-portal": WhiteLabelPortalArtifact,
+  "white-label-agent-findings": WhiteLabelAgentFindingsArtifact,
   "guest-mode": GuestModeArtifact,
   "behind-login": BehindLoginArtifact,
+  "auth-behind-password": AuthBehindPasswordArtifact,
+  "auth-behind-okta": AuthBehindOktaArtifact,
+  "auth-behind-sso": AuthBehindSsoArtifact,
+  "auth-client-portal": AuthClientPortalArtifact,
+  "auth-on-site": AuthOnSiteArtifact,
+  "auth-types": AuthTypesArtifact,
   "all-devices": AllDevicesArtifact,
   webhooks: WebhooksArtifact,
   kanban: KanbanArtifact,
+  "kanban-cross-client": KanbanCrossClientArtifact,
+  "kanban-self-moving": KanbanSelfMovingArtifact,
+  "kanban-filters": KanbanFiltersArtifact,
+  "kanban-custom-columns": KanbanCustomColumnsArtifact,
   integrations: IntegrationsArtifact,
   "custom-statuses": CustomStatusArtifact,
   workflows: WorkflowArtifact,
+  "flow-sample": ReviewWorkflowSampleArtifact,
+  "flow-push": ReviewWorkflowPushArtifact,
+  "flow-build": ReviewWorkflowBuilderArtifact,
+  "flow-condition": ReviewWorkflowConditionArtifact,
+  "flow-parallel": ReviewWorkflowParallelArtifact,
+  "flow-escalation": ReviewWorkflowEscalationArtifact,
+  "flow-gate": ReviewWorkflowGateArtifact,
+  "flow-notifications": ReviewWorkflowNotificationsArtifact,
+  "flow-one-flow": ReviewWorkflowOneFlowArtifact,
   versioning: VersioningArtifact,
   "live-site": LiveSiteArtifact,
   "record-walkthrough": RecordWalkthroughArtifact,

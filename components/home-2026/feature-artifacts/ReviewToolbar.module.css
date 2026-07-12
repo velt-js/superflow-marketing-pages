@@ -1,0 +1,97 @@
+/* ReviewToolbar — the shared client-facing review toolbar (a single rounded
+   white pill with a soft drop shadow). Gray outline icons, one solid indigo
+   comment button, thin vertical dividers. Only the logo slot swaps for
+   white-label; everything else is constant. Matches the real Superflow toolbar. */
+
+.toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.06),
+    0 18px 38px rgba(20, 20, 43, 0.16);
+}
+
+.logoSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.divider {
+  width: 1px;
+  height: 26px;
+  background: #e6e8ec;
+  flex-shrink: 0;
+}
+
+/* The one filled control: a solid indigo disc with a white chat bubble. */
+.commentBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #5b5bd6;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(91, 91, 214, 0.38);
+  flex-shrink: 0;
+}
+
+.support {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  color: #6b7280;
+}
+
+.chevron {
+  color: #a2a7b2;
+}
+
+/* Inbox glyph + its red unread dot (top-right, ringed against the white pill). */
+.badgeWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.redDot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #f2543d;
+  border: 1.5px solid #ffffff;
+}
+
+.count {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #6b7280;
+}

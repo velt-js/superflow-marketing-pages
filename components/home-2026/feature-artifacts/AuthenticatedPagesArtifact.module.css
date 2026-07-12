@@ -1,0 +1,1325 @@
+/* Feature/hero artifact — "Authenticated Pages".
+   Six scenes share one sceneRoot shell. The base rules are the settled state
+   (gate already lifted, approve recorded, pills landed) — used by
+   prefers-reduced-motion and screenshot capture. Entrances + exits live in a
+   prefers-reduced-motion:no-preference block and gate off --ap-delay.
+
+   The feature-panel window is a fixed ~1204px that clips off the right edge,
+   so scenes left-anchor (padding-left:44px); the hero window is fully visible,
+   so the [data-hero] rule re-centres via justify-content:center. */
+
+/* ------------------------------------------------------------------ *
+ * Root + stage shell.                                                  *
+ * ------------------------------------------------------------------ */
+
+.sceneRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #14161a;
+  font-family: var(--hero-font-ui);
+}
+
+.sceneRoot.hero {
+  min-height: 520px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 44px;
+}
+
+.sceneRoot.hero .stage {
+  justify-content: center;
+  padding-left: 0;
+}
+
+/* Soft right-edge fade that hides the hard clip in the feature panel. */
+.fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #ffffff 88%);
+}
+
+.sceneRoot.hero .fade {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene caption — small text beneath the gate window in behind-*      *
+ * scenes and client-portal.                                           *
+ * ------------------------------------------------------------------ */
+
+.sceneCaption {
+  margin: 12px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8a8f99;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared: inner page (the revealed page behind the auth gate).        *
+ * ------------------------------------------------------------------ */
+
+.innerPage {
+  position: relative;
+  width: 100%;
+  height: 348px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Hero page fills the whole hero window edge-to-edge. */
+.innerPageHero {
+  height: 100%;
+}
+
+/* Flat, full-width browser chrome band — a hairline bottom border, matching the
+   comments-hero chrome. Wrapping so the shared BrowserChrome spans full width. */
+.innerChrome {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  background: #feffff;
+}
+
+/* Hero: inset the chrome content (controls + address pill + share/menu actions)
+   so it clears the hero window's rounded corners instead of bleeding into them —
+   matching the comments-hero chrome band. Feature mode keeps the intentional
+   right-edge bleed. */
+.innerPageHero .innerChrome {
+  padding: 12px 26px;
+}
+
+.innerBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Extra left padding so the feature-mode content clears the overlapping login
+     card; the hero page resets this to a normal gutter (see .innerPageHero). */
+  padding: 16px 22px 48px 132px;
+}
+
+.innerPageHero .innerBody {
+  padding: 22px 28px 48px;
+}
+
+.innerHero {
+  height: 96px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e2e5ed 100%);
+}
+
+.innerPageHero .innerHero {
+  height: 150px;
+}
+
+.innerLine {
+  height: 11px;
+  width: 76%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.innerLineShort {
+  width: 50%;
+}
+
+.innerTiles {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.innerTile {
+  flex: 1;
+  height: 38px;
+  border-radius: 10px;
+  background: #f2f3f6;
+}
+
+.innerPageHero .innerTile {
+  height: 60px;
+}
+
+/* Pinned review comment on the reviewed page — sits on the right, clear of the
+   overlapping login card on the left (feature) / floating gate (hero). */
+/* Higher specificity than `.reviewGroup` (which also sets position and is
+   defined later in the file) so the placement wins regardless of source order. */
+.reviewGroup.innerReview {
+  position: absolute;
+  top: 118px;
+  right: 24px;
+  z-index: 3;
+}
+
+.innerPageHero .reviewGroup.innerReview {
+  position: absolute;
+  top: 150px;
+  right: 56px;
+}
+
+/* "You're signed in" green pill overlaid on the reviewed page — anchored to the
+   right so it clears the overlapping login card. */
+.sessionPill {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(16, 149, 52, 0.1);
+  color: #109534;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 4;
+}
+
+.innerPageHero .sessionPill {
+  bottom: 24px;
+  left: 28px;
+  right: auto;
+}
+
+.sessionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #109534;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared review comment — CommentPin + CommentThreadCard (the same     *
+ * dialog the comments page uses). Consumers position the group and can *
+ * scale it via a font-size hook; the pin sits off its top-left corner. *
+ * ------------------------------------------------------------------ */
+
+.reviewGroup {
+  position: relative;
+  width: 260px;
+}
+
+/* The teardrop pin sits off the card's top-left corner. */
+.reviewPin {
+  position: absolute;
+  top: -6px;
+  left: -34px;
+  z-index: 1;
+}
+
+/* The shared CommentThreadCard fills the group width. */
+.reviewCard {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared behind-login split: the login card (front) beside the         *
+ * reviewed in-session page (behind/right). Both persist in the settled *
+ * state so the specific login AND "review runs behind it" both read.   *
+ * ------------------------------------------------------------------ */
+
+.behindSplit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* The login card overlaps the reviewed page from the left. */
+  width: 620px;
+}
+
+/* The reviewed in-session page, pushed right so the login card overlaps it. */
+.behindPage {
+  position: relative;
+  margin-left: 168px;
+  width: 452px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 14px 34px rgba(20, 20, 43, 0.08);
+}
+
+/* The login card — a sign-in modal sitting in FRONT of the reviewed page. */
+.gateCard {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  padding: 26px 28px 28px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 2px 4px rgba(16, 17, 20, 0.04),
+    0 26px 54px rgba(20, 20, 43, 0.18);
+  width: 288px;
+}
+
+.gateIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(91, 91, 214, 0.08);
+  color: #5b5bd6;
+}
+
+.gateIcon {
+  flex-shrink: 0;
+}
+
+.gateMarkWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.gateHeading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #14161a;
+}
+
+.gateSub {
+  margin: -6px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9aa0aa;
+}
+
+/* Submit control wrapper — holds the idle button, the "Signed in ✓" pill and
+   (optionally) the FakeCursor that presses the button. A fixed height keeps the
+   control sized even while the idle button is display:none in the settled
+   state (the pill is absolutely positioned over it). */
+.gateBtnWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 41px;
+  margin-top: 2px;
+}
+
+/* The idle submit button. In the SETTLED state (default / reduced-motion) it is
+   hidden — the "Signed in ✓" pill is what shows. The no-preference block below
+   reveals it for the entrance, then fades it out as the pill lands. */
+.gateBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 28px;
+  border-radius: 10px;
+  background: #5b5bd6;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.gateBtnOkta {
+  background: #00297A;
+}
+
+/* The settled "passed-through" state: the submit control is a green
+   "Signed in ✓" pill. This is what shows in reduced-motion / screenshots, so
+   the card reads as the login you came through, not a wall still blocking. It
+   overlays the (hidden) idle button so the control keeps its size. */
+.gateSignedIn {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 10px;
+  background: rgba(16, 149, 52, 0.1);
+  color: #109534;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  border: 1.5px solid rgba(16, 149, 52, 0.22);
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 1: behind-password specifics.                                 *
+ * ------------------------------------------------------------------ */
+
+.behindRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.sceneRoot.hero .behindRoot {
+  align-items: center;
+}
+
+/* Hero: the behind-login scene fills the whole hero window (the reviewed page
+   is edge-to-edge under a flat full-width browser; the gate floats over it). */
+.behindRootHero {
+  width: 100%;
+  height: 100%;
+}
+
+.behindHero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Hero gate — a sign-in modal floating centered over the full-width page. */
+.gateCardFloat {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+}
+
+/* Password typed field. */
+.passwordField {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  padding: 0 14px;
+}
+
+/* Typed masked value. Settled state (default / reduced-motion) shows the full
+   mask; the no-preference block below grows the width one char at a time. */
+.passwordReveal {
+  display: inline-block;
+  overflow: hidden;
+  width: calc(10ch + 18px);
+  font-family: ui-monospace, "Geist Mono", Menlo, monospace;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.passwordDots {
+  color: #0a0a0a;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Blinking caret — hidden in the settled state (typing is done). */
+.passwordCaret {
+  display: none;
+  width: 2px;
+  height: 20px;
+  margin-left: 4px;
+  background: #0a0a0a;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 2: behind-okta specifics.                                     *
+ * ------------------------------------------------------------------ */
+
+.emailField {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: 1.5px solid #c8d0dc;
+  padding: 0 12px;
+  background: #ffffff;
+}
+
+.emailValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2b3040;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 3: behind-sso specifics — handled by the shared gate styles.  *
+ * ------------------------------------------------------------------ */
+
+/* FakeCursor that presses the submit button (Okta + SSO). Positioned at the
+   bottom-right corner of the submit control. Hidden in the settled state (only
+   shown during the entrance in the no-preference block). */
+.gateCursor {
+  position: absolute;
+  bottom: -12px;
+  right: 2px;
+  display: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 4: client-portal.                                             *
+ * ------------------------------------------------------------------ */
+
+/* Feature client-portal fills the sceneRoot surface as a real page (not a
+   floating card): the flat portal window is top-anchored and stretches to fill
+   the panel height, and the caption sits beneath it. The stage override below
+   removes the shared vertical centering for this scene. */
+.sceneRoot[data-variant="client-portal"] .stage {
+  align-items: stretch;
+}
+
+.portalRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding-top: 22px;
+}
+
+.sceneRoot.hero .portalRoot {
+  padding-top: 0;
+}
+
+/* Feature: flat page filling the surface — no card border/radius/shadow, and
+   wider than the visible panel so it bleeds off the right like the behind-*
+   pages (the .fade + sceneRoot overflow clip it). */
+.portalWindow {
+  position: relative;
+  flex: 1 1 auto;
+  width: 720px;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Hero: the portal fills the whole hero window edge-to-edge (flat wireframe). */
+.portalWindowHero {
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+}
+
+/* Flat, full-width browser chrome band (a hairline bottom border). */
+.portalChrome {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  background: #feffff;
+}
+
+/* Hero: inset the chrome content so it clears the hero window's rounded corners
+   (see .innerPageHero .innerChrome). Feature keeps the intentional right bleed. */
+.portalWindowHero .portalChrome {
+  padding: 12px 26px;
+}
+
+/* Slim in-page pill row (brand + signed-in + no-account chips) — NOT a card
+   chrome; it sits inside the page body under the browser wireframe. Capped in
+   width so the chips stay inside the visible panel in feature mode (the window
+   itself bleeds off the right); the hero override widens it to the full page. */
+.portalBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+  max-width: 548px;
+}
+
+.portalWindowHero .portalBar {
+  max-width: none;
+}
+
+.portalBrand {
+  font-size: 15px;
+  font-weight: 800;
+  color: #14161a;
+  letter-spacing: -0.01em;
+  margin-right: auto;
+}
+
+.portalSignedInChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(91, 91, 214, 0.08);
+  color: #5b5bd6;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.portalNoAccountChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f2f3f6;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.portalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 20px 64px;
+}
+
+.portalWindowHero .portalBody {
+  padding: 18px 28px 72px;
+}
+
+.portalDashHero {
+  height: 88px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e2e5ed 100%);
+}
+
+.portalWindowHero .portalDashHero {
+  height: 150px;
+}
+
+.portalDashLine {
+  height: 11px;
+  width: 74%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.portalDashLineShort {
+  width: 48%;
+}
+
+.portalDashTiles {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.portalDashTile {
+  flex: 1;
+  height: 36px;
+  border-radius: 10px;
+  background: #f2f3f6;
+}
+
+.portalWindowHero .portalDashTile {
+  height: 60px;
+}
+
+/* Pinned review comment (shared dialog) on the portal page. Anchored from the
+   LEFT so it stays inside the visible ~631px panel even though the window bleeds
+   off the right (a slight right bleed of the dialog is fine, like Text Comments). */
+.portalReview {
+  position: absolute;
+  top: 120px;
+  left: 336px;
+  z-index: 3;
+}
+
+.portalWindowHero .portalReview {
+  top: 210px;
+  left: auto;
+  right: 64px;
+}
+
+/* Approve action bar at the bottom of the portal window. In FEATURE mode the
+   window bleeds off the right, so the pill is anchored toward the left (via
+   justify-content:flex-start + left padding) to stay inside the visible panel;
+   the hero override below restores the right-aligned bar on the full window. */
+.portalActionBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px 10px 336px;
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1px solid #eceef2;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.portalWindowHero .portalActionBar {
+  justify-content: flex-end;
+  padding: 10px 28px;
+}
+
+.approveBtnWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* The idle "Approve" button. In the SETTLED state (default / reduced-motion) it
+   is hidden — the "Approved · Dana Wells" state is what shows; the no-preference
+   block reveals it (overlaying the confirmed pill) for the entrance, then fades
+   it out as the confirm lands. */
+.approveBtnIdle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  align-items: center;
+  padding: 9px 24px;
+  border-radius: 10px;
+  background: #109534;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: default;
+  z-index: 2;
+}
+
+/* The "Approved · Dana Wells" confirmed state — the settled end state. */
+.approveBtnDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: rgba(16, 149, 52, 0.08);
+  color: #109534;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1.5px solid rgba(16, 149, 52, 0.2);
+}
+
+.approveCursor {
+  position: absolute;
+  bottom: -10px;
+  right: -14px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 5: on-site-snippet.                                           *
+ * ------------------------------------------------------------------ */
+
+.snippetRoot {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+/* Snippet install card */
+.snippetCard {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px 18px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.04),
+    0 12px 30px rgba(20, 20, 43, 0.08);
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.snippetHeading {
+  font-size: 13px;
+  font-weight: 800;
+  color: #14161a;
+  letter-spacing: -0.01em;
+}
+
+.snippetCodeBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background: #1a1a2e;
+  overflow: hidden;
+}
+
+.snippetCodeIcon {
+  color: #5b5bd6;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.snippetCode {
+  font-family: ui-monospace, "Geist Mono", Menlo, monospace;
+  font-size: 9px;
+  line-height: 1.5;
+  color: #a9b1d6;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.snippetNote {
+  margin: 0;
+  font-size: 11px;
+  color: #8a8f99;
+  line-height: 1.4;
+}
+
+.snippetDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(16, 149, 52, 0.08);
+  color: #109534;
+  font-size: 11px;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+/* Dashed connector arrow between snippet card and session card. */
+.snippetConnector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+  padding: 0 6px;
+}
+
+.snippetConnLine {
+  width: 22px;
+  height: 2px;
+  border-top: 2px dashed #d1d5db;
+}
+
+.snippetConnArrow {
+  color: #9aa0aa;
+  flex-shrink: 0;
+  margin-left: -2px;
+}
+
+/* In-session reviewed page card */
+.sessionCard {
+  position: relative;
+  flex-shrink: 0;
+  width: 198px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.04),
+    0 12px 28px rgba(20, 20, 43, 0.08);
+}
+
+.sessionBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 48px;
+}
+
+.sessionHero {
+  height: 64px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e2e5ed 100%);
+}
+
+.sessionLine {
+  height: 9px;
+  width: 80%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.sessionLineShort {
+  width: 54%;
+}
+
+/* Pinned review comment (shared dialog) on the compact in-session card. The
+   dialog is scaled down and anchored to the card's right so it reads at this
+   small size without overflowing the 198px card. */
+.sessionReview {
+  position: absolute;
+  top: 46px;
+  right: 6px;
+  z-index: 3;
+  transform: scale(0.66);
+  transform-origin: top right;
+}
+
+/* Green "Loads in the viewer's session" badge */
+.sessionBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(16, 149, 52, 0.1);
+  color: #109534;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.sessionBadgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #109534;
+  flex-shrink: 0;
+}
+
+/* Proxy error card (desaturated). Placed just after the in-session card so its
+   left portion — heading + red "403" error box — peeks into the visible ~631px
+   in feature mode, keeping the "on the site, not a proxy" contrast readable.
+   In hero mode the whole card is visible. */
+.proxyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px 16px 16px;
+  border-radius: 14px;
+  background: #f4f5f7;
+  border: 1px solid #e2e4e8;
+  box-shadow: 0 4px 12px rgba(20, 20, 43, 0.04);
+  width: 208px;
+  flex-shrink: 0;
+  filter: grayscale(0.35);
+  opacity: 0.82;
+  margin-left: 14px;
+}
+
+.proxyHeading {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.proxyErrorBox {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(254, 115, 98, 0.1);
+  border: 1px solid rgba(254, 115, 98, 0.28);
+  white-space: nowrap;
+}
+
+.proxyErrorIcon {
+  color: #fe7362;
+  flex-shrink: 0;
+}
+
+.proxyErrorText {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fe7362;
+  white-space: nowrap;
+}
+
+.proxySub {
+  font-size: 11px;
+  color: #9aa0aa;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene 6: auth-types.                                                 *
+ * ------------------------------------------------------------------ */
+
+.authTypesRoot {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.authTypesCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 22px 24px 26px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.04),
+    0 20px 44px rgba(20, 20, 43, 0.08);
+  min-width: 340px;
+  max-width: 380px;
+  flex-shrink: 0;
+}
+
+.authTypesHeading {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #14161a;
+  line-height: 1.3;
+}
+
+.authTypesList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.authTypesRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.authTypesRow:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.authTypesGlyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(91, 91, 214, 0.08);
+  color: #5b5bd6;
+  flex-shrink: 0;
+}
+
+.authTypesLabel {
+  flex: 1 1 auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2b2f38;
+}
+
+.authWorksPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16, 149, 52, 0.1);
+  color: #109534;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.authWorksCheck {
+  flex-shrink: 0;
+}
+
+/* Right: page thumbnail with pinned comment (bleeds off in feature mode). */
+.authTypesThumbnail {
+  position: relative;
+  flex-shrink: 0;
+  width: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow: 0 6px 18px rgba(20, 20, 43, 0.06);
+  margin-left: 28px;
+  opacity: 0.6;
+}
+
+.thumbChrome {
+  height: 36px;
+  background: #f6f7f9;
+  border-bottom: 1px solid #eceef2;
+}
+
+.thumbBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 36px;
+}
+
+.thumbHero {
+  height: 68px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e2e5ed 100%);
+}
+
+.thumbLine {
+  height: 10px;
+  width: 78%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.thumbLineShort {
+  width: 52%;
+}
+
+.thumbPinGroup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  z-index: 3;
+}
+
+.thumbPin {
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance animations (settled by default; animate when motion OK).   *
+ * ------------------------------------------------------------------ */
+
+@keyframes apRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reviewed page "activates" — fades from dimmed to full once signed in. */
+@keyframes apPageActivate {
+  from { opacity: 0.55; }
+  to   { opacity: 1; }
+}
+
+/* Login card gently rises + settles as a sign-in modal (feature split). */
+@keyframes apGateRise {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* Hero float gate rise — keeps the centered (-50%, -50%) transform. */
+@keyframes apGateFloatRise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes apPasswordType {
+  from { width: 0; }
+  to   { width: calc(10ch + 18px); }
+}
+
+@keyframes apCaretBlink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* Fade the idle submit button out after it is "pressed". */
+@keyframes apBtnOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Fade the "Signed in ✓" pill in as the button clears. */
+@keyframes apSignedInIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes apPillLand {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes apCursorPress {
+  0%, 55%  { transform: translate(0, 0); }
+  78%      { transform: translate(0, 3px) scale(0.96); }
+  100%     { transform: translate(0, 0); }
+}
+
+@keyframes apSnippetIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes apSessionIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance choreography — the SETTLED state above is the end state,   *
+ * so screenshots + reduced motion keep the gate visible & signed in.  *
+ * The entrance below plays the "before → after" transition on load    *
+ * (type field / cursor presses → button flips to "Signed in ✓" → the  *
+ * reviewed page activates), then holds on the same settled state.     *
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* --- Behind-login gate entrance (scenes 1–3) --- */
+
+  /* Feature split gate rise (keeps its -50% Y centering). */
+  .gateCard:not(.gateCardFloat) {
+    animation: apGateRise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Hero floating gate rise (keeps its -50%,-50% centering). */
+  .gateCardFloat {
+    animation: apGateFloatRise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Reveal the idle button for the entrance, then fade it out once pressed. */
+  .behindRoot .gateBtn {
+    display: inline-flex;
+    animation: apBtnOut 0.3s ease 1.7s both;
+  }
+
+  /* Hold the "Signed in ✓" pill hidden until the button clears. */
+  .behindRoot .gateSignedIn {
+    opacity: 0;
+    animation: apSignedInIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) 1.95s both;
+  }
+
+  /* The reviewed page starts dimmed, then activates once signed in (both the
+     feature split page and the hero full-width page). */
+  .behindPage,
+  .behindHero .innerPage {
+    animation: apPageActivate 0.5s ease 2.0s both;
+  }
+
+  /* Password typing + blinking caret. */
+  [data-variant="behind-password"] .passwordReveal {
+    animation: apPasswordType 1.2s steps(10) 0.4s both;
+  }
+
+  [data-variant="behind-password"] .passwordCaret {
+    display: block;
+    animation: apCaretBlink 0.85s steps(1, end) 0.4s 2, apBtnOut 0.01s linear 1.7s forwards;
+  }
+
+  /* FakeCursor presses the button (Okta + SSO). */
+  [data-variant="behind-okta"] .gateCursor,
+  [data-variant="behind-sso"] .gateCursor {
+    display: inline-flex;
+    animation: apCursorPress 0.55s ease 1.25s both, apBtnOut 0.3s ease 1.7s both;
+  }
+
+  /* --- Client portal entrance --- */
+
+  .portalWindow {
+    animation: apRise 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Approve → Approved flip. The idle button is revealed over the confirmed
+     pill for the entrance, then fades out as the confirm lands beneath. */
+  .approveBtnIdle {
+    display: inline-flex;
+    animation: apBtnOut 0.35s ease 2.2s both;
+  }
+
+  .approveBtnDone {
+    opacity: 0;
+    animation: apSignedInIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) 2.35s both;
+  }
+
+  .approveCursor {
+    display: inline-flex;
+    animation: apCursorPress 0.55s ease 1.8s both;
+  }
+
+  /* --- Snippet scene entrances --- */
+
+  .snippetCard {
+    animation: apSnippetIn 500ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--ap-delay, 0ms)) both;
+  }
+
+  .sessionCard {
+    animation: apSessionIn 500ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--ap-delay, 0ms)) both;
+  }
+
+  /* --- Auth-types pill stagger --- */
+
+  .authWorksPill {
+    animation: apPillLand 380ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--ap-delay, 0ms)) both;
+  }
+}

@@ -41,6 +41,13 @@ export interface HeroProps {
   variant?: "home" | "feature";
   showcase?: "workflow" | "comments" | "review-agents";
   tabs?: readonly HeroCmsTab[] | null;
+  /**
+   * Optional page scope selecting per-page hero-artifact overrides (forwarded to
+   * {@link HeroWorkflowShowcase}). A plain string, safe across the server/client
+   * boundary; used so a page can bind its own hero artifact to a tab id that
+   * already exists in the global registry.
+   */
+  heroArtifactScope?: string;
 }
 
 /** A customer/partner logo shown in the trust strip. */
@@ -93,6 +100,7 @@ export default function Hero({
   variant = "home",
   showcase = "workflow",
   tabs,
+  heroArtifactScope,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
     headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
@@ -147,7 +155,11 @@ export default function Hero({
           )}
         </div>
 
-        <HeroWorkflowShowcase variant={showcaseVariant} tabs={tabs} />
+        <HeroWorkflowShowcase
+          variant={showcaseVariant}
+          tabs={tabs}
+          heroArtifactScope={heroArtifactScope}
+        />
 
         <div className={styles.trusted}>
           <p className={styles.trustedLabel}>

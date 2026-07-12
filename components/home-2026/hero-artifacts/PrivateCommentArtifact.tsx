@@ -292,12 +292,17 @@ function SuperflowLogo({ size = 32, className }: IconProps) {
 }
 
 /**
- * Render the "Private Comments" hero artifact.
+ * Render the legacy "Private Comments" hero scene — the Figma node 759:3734
+ * browser-window mock (team-only composer, dashed selection, "Private Mode
+ * Enabled" pill, dark toolbar). This is the `default` variant, kept byte-for-
+ * byte so the existing homepage / client-review "private-threads" hero tab and
+ * the `private-comments` feature mock render exactly as before.
  *
- * @returns The mock browser window contents for the Private Comments tab.
+ * @returns The mock browser window contents, or `null` on failure.
  */
-export default function PrivateCommentArtifact() {
-  return (
+function LegacyPrivateScene(): ReactNode {
+  try {
+    return (
     <div className={styles.root} data-artifact="private-comment">
       <div className={styles.pageBlock} aria-hidden="true" />
 
@@ -387,5 +392,788 @@ export default function PrivateCommentArtifact() {
 
       <div className={styles.frame} aria-hidden="true" />
     </div>
-  );
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Page-scene variants (private-comments feature page).               *
+ *                                                                    *
+ * A single variant-driven scene (mirrors ClientReviewArtifact): one  *
+ * reviewed element carrying its threads, with each beat flipping the  *
+ * scope chip, the threads shown and the client-view toggle. Every    *
+ * scope chip's label is prop-driven (see {@link ScopeChip}) so the   *
+ * "Just you" beat reads "Only you" while the team beats read         *
+ * "Only your Team". Base CSS is the settled state; entrances live in  *
+ * a prefers-reduced-motion:no-preference block so reduced motion and  *
+ * screenshots always show the settled composition.                   *
+ * ------------------------------------------------------------------ */
+
+/** Prop-driven scope-chip labels (the reference-image pill text). */
+const SCOPE_TEAM_LABEL = TEAM_LABEL;
+const SCOPE_JUST_YOU_LABEL = "Only you";
+
+/** Reviewed-element + thread copy (kept as constants per the repo's string rule). */
+const CTA_LABEL = "Get started";
+const CLIENT_VISIBLE_LABEL = "Client-visible";
+const TOGGLE_TEAM_LABEL = "Team view";
+const TOGGLE_CLIENT_LABEL = "Client view";
+const SETTLED_ANSWER_LABEL = "One settled answer";
+
+const AGENCY_NAME = "Acme Studio";
+const DEBATE_A_NAME = "Mark";
+const DEBATE_A_TEXT = "Client chose this orange in March.";
+const DEBATE_B_NAME = "Sara";
+const DEBATE_B_TEXT = "Escalating to the brand lead, then updating.";
+const DEBATE_C_NAME = "Mark";
+const DEBATE_C_TEXT = "Brand lead confirmed. Done.";
+const JUST_YOU_NAME = "You";
+const JUST_YOU_TEXT = "Draft: tighten the sub-headline before this goes out.";
+const CLIENT_REPLY_TEXT = "Updated to your brand orange.";
+const CLIENT_VIEW_CAPTION = "Client view \u2014 private threads don\u2019t travel here.";
+const SCOPE_MARKS_CAPTION = "A private thread looks nothing like a client thread.";
+const SAME_ELEMENT_CAPTION = "Two threads, one element.";
+
+const NOTIF_TITLE = "New reply in a private thread";
+const NOTIF_SUB = "Sent to your team only";
+const NOTIF_NOT_SENT = "Not notified";
+const NOTIF_TEAM_ROLE = "Team";
+const NOTIF_CLIENT_NAME = "Client";
+const NOTIF_CLIENT_ROLE = "Guest";
+
+/** Avatar disc tones, keyed by the initial they carry. */
+const AVATAR_TONE_MARK = "#6a5cf6";
+const AVATAR_TONE_SARA = "#e0820a";
+const AVATAR_TONE_YOU = "#109534";
+const AVATAR_TONE_AGENCY = "#433df3";
+
+/** Open padlock — the scope chip's leading glyph (matches the reference image). */
+function LockOpenGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2} defaultSize={16} {...props}>
+        <rect x="5" y="11" width="14" height="10" rx="2.5" />
+        <path d="M8 11V7a4 4 0 0 1 8 0" />
+        <path d="M12 15v2.5" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Downward chevron beside the scope pill (matches the reference image). */
+function ChevronDownGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2} defaultSize={13} {...props}>
+        <path d="M6 9l6 6l6 -6" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Eye glyph — the "client-visible" thread mark. */
+function EyeGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2} defaultSize={14} {...props}>
+        <path d="M12 5c-5 0 -8.5 4 -9.5 7c1 3 4.5 7 9.5 7s8.5 -4 9.5 -7c-1 -3 -4.5 -7 -9.5 -7z" />
+        <circle cx="12" cy="12" r="2.5" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Small check glyph — a settled / delivered marker. */
+function CheckGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2.2} defaultSize={14} {...props}>
+        <path d="M5 12l5 5l10 -10" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Small cross glyph — a "not notified" / blocked marker. */
+function CrossGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2.2} defaultSize={14} {...props}>
+        <path d="M18 6l-12 12" />
+        <path d="M6 6l12 12" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Bell glyph — the scope-aware notification header. */
+function BellGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2} defaultSize={16} {...props}>
+        <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+        <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Right arrow — the "debate → one answer" flow connector. */
+function ArrowRightGlyph(props: IconProps) {
+  try {
+    return (
+      <StrokeIcon viewBox="0 0 24 24" strokeWidth={2} defaultSize={20} {...props}>
+        <path d="M5 12h14" />
+        <path d="M13 6l6 6l-6 6" />
+      </StrokeIcon>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The prop-driven scope chip: an open padlock, the "Visible to" label and a
+ * rounded pill carrying the scope text with a chevron — the exact treatment in
+ * the reference image. The pill text is the ONLY thing that changes between
+ * scopes ("Only your Team" vs "Only you").
+ *
+ * @param props.scopeLabel - The scope text rendered inside the pill.
+ * @returns The scope-chip element, or `null` on failure.
+ */
+function ScopeChip({ scopeLabel }: { scopeLabel: string }): ReactNode {
+  try {
+    return (
+      <div className={styles.scopeChip}>
+        <LockOpenGlyph size={15} />
+        <span className={styles.scopeChipLabel}>{VISIBLE_TO_LABEL}</span>
+        <span className={styles.scopePill}>
+          <span className={styles.scopePillText}>{scopeLabel}</span>
+          <ChevronDownGlyph size={13} />
+        </span>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** A small round avatar carrying a person's initial. */
+function ThreadAvatar({
+  initial,
+  tone,
+}: {
+  initial: string;
+  tone: string;
+}): ReactNode {
+  try {
+    return (
+      <span className={styles.tAvatar} style={{ background: tone }} aria-hidden="true">
+        {initial}
+      </span>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** One author + message row inside a thread card. */
+function ThreadMessage({
+  initial,
+  tone,
+  name,
+  text,
+}: {
+  initial: string;
+  tone: string;
+  name: string;
+  text: string;
+}): ReactNode {
+  try {
+    return (
+      <div className={styles.msgRow}>
+        <ThreadAvatar initial={initial} tone={tone} />
+        <div className={styles.msgBody}>
+          <span className={styles.msgName}>{name}</span>
+          <span className={styles.msgText}>{text}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A private (team-only or just-you) thread card: the compact scope chip above a
+ * white body. `emphasizeMark` strengthens the private styling for the
+ * scope-marks beat.
+ *
+ * @param props - Scope label, body children and optional emphasis flag.
+ * @returns The private thread card, or `null` on failure.
+ */
+function PrivateThreadCard({
+  scopeLabel,
+  children,
+  emphasizeMark = false,
+}: {
+  scopeLabel: string;
+  children?: ReactNode;
+  emphasizeMark?: boolean;
+}): ReactNode {
+  try {
+    const cardClassName = emphasizeMark
+      ? `${styles.threadCard} ${styles.privateCard} ${styles.privateCardMarked}`
+      : `${styles.threadCard} ${styles.privateCard}`;
+    return (
+      <div className={cardClassName}>
+        <ScopeChip scopeLabel={scopeLabel} />
+        <div className={styles.cardBody}>{children}</div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A client-visible thread card: a plain white card with an eye "Client-visible"
+ * tag. `settled` appends a green "One settled answer" marker beneath the reply.
+ *
+ * @param props - Body children plus optional settled / emphasis flags.
+ * @returns The client thread card, or `null` on failure.
+ */
+function ClientThreadCard({
+  children,
+  settled = false,
+  emphasizeMark = false,
+}: {
+  children?: ReactNode;
+  settled?: boolean;
+  emphasizeMark?: boolean;
+}): ReactNode {
+  try {
+    const cardClassName = emphasizeMark
+      ? `${styles.threadCard} ${styles.clientCard} ${styles.clientCardMarked}`
+      : `${styles.threadCard} ${styles.clientCard}`;
+    return (
+      <div className={cardClassName}>
+        <div className={styles.clientTag}>
+          <EyeGlyph size={13} />
+          <span>{CLIENT_VISIBLE_LABEL}</span>
+        </div>
+        <div className={styles.cardBody}>{children}</div>
+        {settled ? (
+          <span className={styles.settledRow}>
+            <CheckGlyph size={13} />
+            {SETTLED_ANSWER_LABEL}
+          </span>
+        ) : null}
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The reviewed website element: a mini browser card with a hero band and the
+ * CTA button under review (dashed selection ring + a comment pin). An optional
+ * Team/Client segmented toggle sits in its bar for the client-view beat.
+ *
+ * @param props.toggle - When set, renders the segmented view toggle set to this
+ *   side; omit to hide the toggle.
+ * @returns The reviewed-element card, or `null` on failure.
+ */
+function ReviewedElementCard({
+  toggle,
+}: {
+  toggle?: "team" | "client";
+}): ReactNode {
+  try {
+    return (
+      <div className={styles.siteCard}>
+        <div className={styles.siteBar}>
+          <span className={styles.siteDots} aria-hidden="true">
+            <span className={styles.siteDot} />
+            <span className={styles.siteDot} />
+            <span className={styles.siteDot} />
+          </span>
+          {toggle ? (
+            <span className={styles.scopeToggle} aria-hidden="true">
+              <span
+                className={
+                  toggle === "team"
+                    ? `${styles.toggleSeg} ${styles.toggleSegActive}`
+                    : styles.toggleSeg
+                }
+              >
+                {TOGGLE_TEAM_LABEL}
+              </span>
+              <span
+                className={
+                  toggle === "client"
+                    ? `${styles.toggleSeg} ${styles.toggleSegActive}`
+                    : styles.toggleSeg
+                }
+              >
+                {TOGGLE_CLIENT_LABEL}
+              </span>
+            </span>
+          ) : (
+            <span className={styles.siteUrl}>{ADDRESS_LABEL}</span>
+          )}
+        </div>
+        <div className={styles.siteBody} aria-hidden="true">
+          <span className={styles.siteHero} />
+          <span className={styles.siteLine} />
+          <span className={`${styles.siteLine} ${styles.siteLineShort}`} />
+          <span className={styles.ctaWrap}>
+            <span className={styles.cta}>
+              <span className={styles.ctaText}>{CTA_LABEL}</span>
+            </span>
+            <span className={styles.pinDot} />
+          </span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** The team-private debate rows (Mark vs Sara), reused across scenes. */
+function TeamDebateRows(): ReactNode {
+  try {
+    return (
+      <>
+        <ThreadMessage
+          initial="M"
+          tone={AVATAR_TONE_MARK}
+          name={DEBATE_A_NAME}
+          text={DEBATE_A_TEXT}
+        />
+        <ThreadMessage
+          initial="S"
+          tone={AVATAR_TONE_SARA}
+          name={DEBATE_B_NAME}
+          text={DEBATE_B_TEXT}
+        />
+      </>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** The single settled reply the client thread carries. */
+function ClientReplyRow(): ReactNode {
+  try {
+    return (
+      <ThreadMessage
+        initial="A"
+        tone={AVATAR_TONE_AGENCY}
+        name={AGENCY_NAME}
+        text={CLIENT_REPLY_TEXT}
+      />
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 1 — team-private thread beside the client's settled reply. */
+function TeamPrivateScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.board}>
+        <ReviewedElementCard />
+        <div className={styles.threadCol}>
+          <PrivateThreadCard scopeLabel={SCOPE_TEAM_LABEL}>
+            <TeamDebateRows />
+          </PrivateThreadCard>
+          <ClientThreadCard>
+            <ClientReplyRow />
+          </ClientThreadCard>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 2 — a comment scoped to just you (chip reads "Only you"). */
+function JustYouScene({ scopeLabel }: { scopeLabel: string }): ReactNode {
+  try {
+    return (
+      <div className={styles.board}>
+        <ReviewedElementCard />
+        <div className={styles.threadCol}>
+          <PrivateThreadCard scopeLabel={scopeLabel}>
+            <ThreadMessage
+              initial="Y"
+              tone={AVATAR_TONE_YOU}
+              name={JUST_YOU_NAME}
+              text={JUST_YOU_TEXT}
+            />
+          </PrivateThreadCard>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 3 — the client's view: the private thread is gone, one clean reply. */
+function ClientViewScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.board}>
+        <ReviewedElementCard toggle="client" />
+        <div className={styles.threadCol}>
+          <ClientThreadCard>
+            <ClientReplyRow />
+          </ClientThreadCard>
+          <span className={styles.sceneCaption}>{CLIENT_VIEW_CAPTION}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 4 — both threads pinned to the one element, one context. */
+function SideBySideScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.sideWrap}>
+        <div className={`${styles.board} ${styles.boardTriptych}`}>
+          <PrivateThreadCard scopeLabel={SCOPE_TEAM_LABEL}>
+            <TeamDebateRows />
+          </PrivateThreadCard>
+          <ReviewedElementCard />
+          <ClientThreadCard>
+            <ClientReplyRow />
+          </ClientThreadCard>
+        </div>
+        <span className={styles.sceneCaption}>{SAME_ELEMENT_CAPTION}</span>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 5 — the scope marks: a private thread looks nothing like a client one. */
+function ScopeMarksScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.board}>
+        <div className={styles.threadCol}>
+          <PrivateThreadCard scopeLabel={SCOPE_TEAM_LABEL} emphasizeMark>
+            <TeamDebateRows />
+          </PrivateThreadCard>
+          <ClientThreadCard emphasizeMark>
+            <ClientReplyRow />
+          </ClientThreadCard>
+          <span className={styles.sceneCaption}>{SCOPE_MARKS_CAPTION}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Beat 6 — a real 3-reply private debate resolves, vertically, into the client
+ * thread's one settled answer: the private thread card (three teammate replies)
+ * on top, a down arrow, then the client-visible "One settled answer" card below.
+ */
+function OneAnswerScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.flowVertical}>
+        <PrivateThreadCard scopeLabel={SCOPE_TEAM_LABEL}>
+          <TeamDebateRows />
+          <ThreadMessage
+            initial="M"
+            tone={AVATAR_TONE_MARK}
+            name={DEBATE_C_NAME}
+            text={DEBATE_C_TEXT}
+          />
+        </PrivateThreadCard>
+        <span className={styles.flowArrowDown} aria-hidden="true">
+          <ArrowRightGlyph size={22} />
+        </span>
+        <ClientThreadCard settled>
+          <ClientReplyRow />
+        </ClientThreadCard>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** One recipient row in the scope-aware notification routing. */
+function NotifRoute({
+  initial,
+  tone,
+  name,
+  role,
+  delivered,
+}: {
+  initial: string;
+  tone: string;
+  name: string;
+  role: string;
+  delivered: boolean;
+}): ReactNode {
+  try {
+    const rowClassName = delivered
+      ? styles.routeRow
+      : `${styles.routeRow} ${styles.routeRowBlocked}`;
+    return (
+      <div className={rowClassName}>
+        <ThreadAvatar initial={initial} tone={tone} />
+        <span className={styles.routeName}>{name}</span>
+        <span className={styles.routeRole}>{role}</span>
+        <span
+          className={
+            delivered
+              ? `${styles.routeStatus} ${styles.routeStatusOk}`
+              : `${styles.routeStatus} ${styles.routeStatusBlocked}`
+          }
+        >
+          {delivered ? <CheckGlyph size={13} /> : <CrossGlyph size={13} />}
+          {delivered ? null : <span className={styles.routeStatusText}>{NOTIF_NOT_SENT}</span>}
+        </span>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Beat 7 — scope-aware notifications reach only people inside the scope. */
+function ScopeNotificationsScene(): ReactNode {
+  try {
+    return (
+      <div className={styles.board}>
+        <div className={styles.threadCol}>
+          <PrivateThreadCard scopeLabel={SCOPE_TEAM_LABEL}>
+            <ThreadMessage
+              initial="S"
+              tone={AVATAR_TONE_SARA}
+              name={DEBATE_B_NAME}
+              text={DEBATE_B_TEXT}
+            />
+          </PrivateThreadCard>
+          <div className={styles.notifCard}>
+            <div className={styles.notifHead}>
+              <span className={styles.notifBell}>
+                <BellGlyph size={16} />
+              </span>
+              <div className={styles.notifHeadText}>
+                <span className={styles.notifTitle}>{NOTIF_TITLE}</span>
+                <span className={styles.notifSub}>{NOTIF_SUB}</span>
+              </div>
+            </div>
+            <div className={styles.routeList}>
+              <NotifRoute
+                initial="M"
+                tone={AVATAR_TONE_MARK}
+                name={DEBATE_A_NAME}
+                role={NOTIF_TEAM_ROLE}
+                delivered
+              />
+              <NotifRoute
+                initial="S"
+                tone={AVATAR_TONE_SARA}
+                name={DEBATE_B_NAME}
+                role={NOTIF_TEAM_ROLE}
+                delivered
+              />
+              <NotifRoute
+                initial="C"
+                tone="#8a8f99"
+                name={NOTIF_CLIENT_NAME}
+                role={NOTIF_CLIENT_ROLE}
+                delivered={false}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Which private-comments scene to render. `default` is the legacy scene. */
+export type PrivateCommentVariant =
+  | "default"
+  | "team-private"
+  | "just-you"
+  | "client-view"
+  | "side-by-side"
+  | "scope-marks"
+  | "one-answer"
+  | "scope-notifications";
+
+/** Props for {@link PrivateCommentArtifact}. */
+export interface PrivateCommentArtifactProps {
+  /** Which scene to render. Defaults to `default` (the legacy browser mock). */
+  variant?: PrivateCommentVariant;
+  /**
+   * Overrides the scope-chip pill text. Defaults to the variant's own scope
+   * ("Only you" for `just-you`, "Only your Team" otherwise). Prop-driven so the
+   * chip reads the correct scope per the reference image.
+   */
+  scopeLabel?: string;
+  /** Hero-window fit (centres the board + trims height for the hero frame). */
+  hero?: boolean;
+}
+
+/**
+ * Resolve which scene body to render for a variant, plus its scope label.
+ *
+ * @param variant - The requested scene variant.
+ * @param scopeLabel - Optional scope-chip override.
+ * @returns The scene node for the variant.
+ */
+function renderPrivateScene(
+  variant: PrivateCommentVariant,
+  scopeLabel?: string,
+): ReactNode {
+  try {
+    switch (variant) {
+      case "team-private":
+        return <TeamPrivateScene />;
+      case "just-you":
+        return <JustYouScene scopeLabel={scopeLabel ?? SCOPE_JUST_YOU_LABEL} />;
+      case "client-view":
+        return <ClientViewScene />;
+      case "side-by-side":
+        return <SideBySideScene />;
+      case "scope-marks":
+        return <ScopeMarksScene />;
+      case "one-answer":
+        return <OneAnswerScene />;
+      case "scope-notifications":
+        return <ScopeNotificationsScene />;
+      default:
+        return <LegacyPrivateScene />;
+    }
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Render the Private Comments artifact for the given variant. The `default`
+ * variant is the legacy Figma browser mock (unchanged for existing homepage /
+ * client-review / comments usages); every other variant is a private-comments
+ * feature-page scene sharing the reviewed-element + threads shell.
+ *
+ * @param props - The variant, optional scope-chip override and hero-fit flag.
+ * @returns The artifact, or `null` on failure.
+ */
+export default function PrivateCommentArtifact({
+  variant = "default",
+  scopeLabel,
+  hero = false,
+}: PrivateCommentArtifactProps = {}): ReactNode {
+  try {
+    if (variant === "default") {
+      return <LegacyPrivateScene />;
+    }
+    return (
+      <div
+        className={styles.sceneRoot}
+        data-artifact="private-comment"
+        data-variant={variant}
+        data-hero={hero || undefined}
+      >
+        <div className={styles.stage}>{renderPrivateScene(variant, scopeLabel)}</div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Feature-panel wrapper — team-private thread beside the client reply (Beat 1).
+ * @returns The team-private artifact.
+ */
+export function PrivateTeamThreadArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="team-private" />;
+}
+
+/**
+ * Feature-panel wrapper — a comment scoped to just you (Beat 2).
+ * @returns The just-you artifact.
+ */
+export function PrivateJustYouArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="just-you" />;
+}
+
+/**
+ * Feature-panel wrapper — the client's clean view, private thread gone (Beat 3).
+ * @returns The client-view artifact.
+ */
+export function PrivateClientViewArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="client-view" />;
+}
+
+/**
+ * Feature-panel wrapper — both threads on the one element (Beat 4).
+ * @returns The side-by-side artifact.
+ */
+export function PrivateSideBySideArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="side-by-side" />;
+}
+
+/**
+ * Feature-panel wrapper — unmistakable scope marks (Beat 5).
+ * @returns The scope-marks artifact.
+ */
+export function PrivateScopeMarksArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="scope-marks" />;
+}
+
+/**
+ * Feature-panel wrapper — debate in private, one settled answer (Beat 6).
+ * @returns The one-answer artifact.
+ */
+export function PrivateOneAnswerArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="one-answer" />;
+}
+
+/**
+ * Feature-panel wrapper — scope-aware notifications (Beat 7).
+ * @returns The scope-notifications artifact.
+ */
+export function PrivateScopeNotificationsArtifact(): ReactNode {
+  return <PrivateCommentArtifact variant="scope-notifications" />;
 }

@@ -67,9 +67,11 @@ mocks via `feature-artifacts/HeroArtifactFit.tsx` (see "Existing Reusable Mocks"
   pill and the Superflow toolbar. **Also exports `FloatingToolbar`** — the shared
   Superflow floating toolbar reused by `CommentsHeroFit`. Feeds feature
   `guest-mode`.
-- `PrivateCommentArtifact.tsx` — home "Private Comments" (`private-comment`). A
-  team-only composer, dashed selection, a "Private Mode Enabled" pill and dark
-  toolbar. Feeds feature `private-comments`.
+- `PrivateCommentArtifact.tsx` — home "Private Comments" (`private-comment`), the
+  `default` variant: a team-only composer, dashed selection, a "Private Mode
+  Enabled" pill and dark toolbar. Feeds feature `private-comments`. Now also
+  **variant-driven** with seven private-comments feature scenes (see "Private
+  Comments Feature Artifacts").
 - `IntegrationsArtifact.tsx` — home "2 Way Integrations" (`integrations`). A
   composer wired by a curved connector to a Kanban board whose integration-logo
   row bleeds off the right. Feeds feature `integrations`.
@@ -400,6 +402,275 @@ element (composer / attachment / reactions) and show a reply row only when
   rather than linked. Boundary lines exist on `client-review`,
   `cross-device-review`, and `white-label`.
 
+## Private Comments Feature Artifacts
+
+- `hero-artifacts/PrivateCommentArtifact.tsx` was **extended in place** into a
+  single **variant-driven** artifact (mirrors `ClientReviewArtifact`) rather than
+  fragmenting into new files. Its original Figma browser mock is now the
+  `default` variant (`LegacyPrivateScene`, unchanged) so every existing use
+  (home `private-comment`, the client-review `private-threads` hero tab, the
+  `private-comments` feature mock) renders exactly as before. Seven new scenes
+  share one **reviewed-element + threads** shell: `team-private`, `just-you`,
+  `client-view`, `side-by-side`, `scope-marks`, `one-answer`,
+  `scope-notifications`. Props: `variant` (which scene), `scopeLabel` (scope-chip
+  override), and the opt-in `hero` flag (centres/trims for the fully-visible hero
+  window; the feature panel is **left-anchored** into the window's visible left
+  portion, like `ClientReviewArtifact`). All entrances are gated behind
+  `prefers-reduced-motion`, which holds the settled composition (used for the
+  screenshots). All scene/stage/card backgrounds are **pure white** (`#ffffff`) —
+  no lavender/pink tint — with indigo (private) / green (client) reserved for
+  borders, chips and marks only.
+- **Prop-driven scope chip** (`ScopeChip`, matching the reference image): a
+  navy **full-width header bar flush to the private card's top/left/right edges**
+  (the card's `overflow:hidden` and radius round its top corners, bottom square).
+  Its content stays **grouped hard-left**: an open-padlock glyph, "Visible to",
+  then a rounded pill carrying the scope text and a down chevron, adjacent with
+  one small ~9px gap (`justify-content: flex-start`; the label and pill are never
+  pushed apart to opposite ends). The pill text is the only thing that changes
+  between scopes — it reads **"Only your Team"** for the team beats and **"Only
+  you"** for the `just-you` beat (via `SCOPE_JUST_YOU_LABEL`, overridable with
+  `scopeLabel`).
+- Scene → beat map (spec's hero demo + showcase "lifecycle rail"):
+  - `team-private` — two teammates debate in a marked-private thread beside the
+    client thread's one settled reply (hero tab 1 / showcase "Team-private
+    threads").
+  - `just-you` — a comment scoped to only you, pinned to the element; chip reads
+    "Only you" (hero tab 2 / showcase "Just-you comments").
+  - `client-view` — the same element from the client's link with a Team/Client
+    view toggle flipped to Client; the private thread has **vanished** (absent,
+    not grayed), leaving just the clean client thread — **no Approve button**
+    (hero tab 3 / showcase "A clean client view").
+  - `side-by-side` — private + reviewed element + client threads on one element,
+    "Two threads, one element." (showcase "Side-by-side threads").
+  - `scope-marks` — the private and client cards in emphasized, unmistakably
+    different treatments, "A private thread looks nothing like a client thread."
+    (showcase "Unmistakable scope marks").
+  - `one-answer` — a **vertical** stack: the private thread card showing a real
+    **3-reply** debate (Mark → Sara → Mark) on top, a **down arrow**, then the
+    client-visible card with the "One settled answer" marker below (showcase "One
+    settled answer").
+  - `scope-notifications` — a private thread + a routed notification card
+    delivering to Team members and **"Not notified"** for the client Guest
+    (showcase "Scope-aware notifications").
+- Seven zero-prop wrappers (`PrivateTeamThreadArtifact` …
+  `PrivateScopeNotificationsArtifact`) are registered in `MOCKS`
+  (`FeatureSetBlock.tsx`) and `FEATURE_SET_MOCK_OPTIONS` under keys
+  `private-team-thread`, `private-just-you`, `private-client-view`,
+  `private-side-by-side`, `private-scope-marks`, `private-one-answer`,
+  `private-scope-notifications`.
+- Hero reuse: `hero-artifacts/PrivateCommentsHeroFit.tsx` wraps the artifact
+  (`hero` + `team-private` / `just-you` / `client-view`) for the three hero tabs,
+  registered in `HERO_ARTIFACTS` by tab id `team-private-thread`,
+  `just-you-notes`, `the-client-s-view`.
+- Wiring: `FeaturePageBody` maps the seven showcase tab labels to their scene via
+  `PRIVATE_COMMENTS_TAB_MOCKS` / `getPrivateCommentsTabMock`, and any mapped beat
+  is force-promoted to a **real tab** in `toFeatureSetBlock` (`listOnly: false`)
+  even when pre-reseed CMS marks it list-only. It also forces
+  `solution.variant = "private-comments"` for the `private-comments` slug. Both
+  are   client-side, so the page renders without a re-seed; the seed
+  (`scripts/seed-feature-pages-batch.mjs` `private-comments` doc) carries the same
+  per-tab mocks + solution variant for anyone who re-seeds.
+
+## Kanban Board Feature Artifacts
+
+- `feature-artifacts/KanbanArtifact.tsx` was **extended in place** into a
+  single **variant-driven** board (mirrors `PrivateCommentArtifact`) rather than
+  fragmenting into new files. Its original built-in board is now the `default`
+  variant (`LegacyKanbanScene`, unchanged) so every existing use of the `kanban`
+  mock (homepage, comments, `all-devices`) renders exactly as before. Four new
+  scenes share one column + card shell (`BoardColumn` + `BoardCard`, data-driven
+  so the scenes are thin configs). Props: `variant` (which scene) and the opt-in
+  `hero` flag (centres the board in the fully-visible hero window; the feature
+  panel **left-anchors** it so the right columns intentionally bleed off the
+  clipped edge, like the legacy board). All motion is CSS-only, replays on tab
+  remount, and is gated behind `prefers-reduced-motion` (which holds the settled
+  composition — the card already moved, only the filtered client shown, counts on
+  their final value).
+- The four scenes (each a client-tagged board: cards carry an `Acme` / `Northwind`
+  / `Volt` / `Bloom` client chip):
+  - `cross-client` — every client's queue on one board (Awaiting review / In
+    revision / Ready to ship); cards rise in staggered. The page star.
+  - `self-moving` — a focused two-column board (In revision → Ready to ship); an
+    approval toast lands, the matching card collapses out of In revision and
+    unfolds into the top of Ready to ship (green "Approved" meta) and both column
+    counts tick over.
+  - `filters` — the cross-client board under a client filter bar; a `FakeCursor`
+    (anchored inside the "Acme" chip) taps it, the chip highlights and every
+    non-Acme card collapses away, leaving one client. Counts tick to the match.
+  - `custom-columns` — the columns ARE the team's own statuses (Backlog /
+    Designing / Client review / Approved / Live); the fresh "Live" status column
+    slides in and a dashed "Add status" affordance follows. Narrower columns +
+    left-anchored in hero so all five fit.
+- Four zero-prop wrappers (`KanbanCrossClientArtifact` …
+  `KanbanCustomColumnsArtifact`) are registered in `MOCKS` (`FeatureSetBlock.tsx`)
+  and `FEATURE_SET_MOCK_OPTIONS` under keys `kanban-cross-client`,
+  `kanban-self-moving`, `kanban-filters`, `kanban-custom-columns`.
+- Hero reuse: `hero-artifacts/KanbanHeroFit.tsx` wraps the artifact (`hero` +
+  each variant) for the five hero tabs. Because the tab labels ("The board",
+  "Custom statuses", "Filters", …) slugify to generic ids that could collide with
+  other pages, they are registered under a **page scope** (`kanban-board`) in
+  `SCOPED_HERO_ARTIFACTS` (like white-label), keyed by tab id `the-board`,
+  `it-moves-itself`, `custom-statuses`, `filters`, plus `yours-not-ours` →
+  the existing `IntegrationsArtifact` (the two-way-sync / connected-board story).
+  `FeaturePageBody` passes `heroArtifactScope="kanban-board"` for the slug.
+- Solution variant `kanban` (`SolutionKanbanFlow`, inside `SolutionSection.tsx`):
+  a compact **review-activity feed** (a resolved thread, an agent finding, a
+  client approval) feeds — through the shared dashed `SolutionConnector` — one
+  board where each event has landed as a card, the Approved column lighting up
+  green. Header cue: activity pulse → arrow → board columns
+  (`.headerIconActivity` green / `.headerIconArrow` / `.headerIconBoard` indigo).
+  Entrances use the section's `.revealItem` mechanism, so it is
+  prefers-reduced-motion safe.
+- Wiring: `FeaturePageBody` maps the board tab labels to their variant via
+  `KANBAN_TAB_MOCKS` (Cross-client board → `kanban-cross-client`, Filters by
+  client and project → `kanban-filters`, Self-moving cards → `kanban-self-moving`;
+  the "Custom statuses as columns" tab keeps the dedicated `custom-statuses`
+  artifact and "Yours, connected" keeps `integrations`), and forces
+  `solution.variant = "kanban"` for the `kanban-board` slug. Both are client-side,
+  so the page renders without a re-seed; the seed
+  (`scripts/seed-feature-pages-batch.mjs` `kanban-board` doc) carries the same
+  per-tab mocks + solution variant for anyone who re-seeds.
+
+## White Label Feature Artifacts
+
+- `feature-artifacts/WhiteLabelArtifact.tsx` is a single **variant-driven**
+  artifact (mirrors `ClientReviewArtifact` / `PrivateCommentArtifact`): one white
+  scene shell, a `variant` prop, and an opt-in `hero` flag. It tells the
+  white-label story — upload your logo once (Settings → Custom Branding) and your
+  brand shows up everywhere the client and your team look (the client-facing
+  review toolbar + the internal admin portal), while Superflow's brand
+  disappears. The **"before"** brand is the Superflow flower (`SuperflowFlowerMark`,
+  the exact Figma petals shared with `PrivateCommentArtifact`) + "Superflow"
+  wordmark; the **"after"** brand is the reused fictional agency **"Acme Studio"**
+  (`ClientBrandMark`, a teal-gradient rounded-square "A" monogram, `fillRule`
+  evenodd so the counter reads). No Superflow metrics are invented. All entrances
+  are gated behind `prefers-reduced-motion`, which holds the settled composition
+  (used for the screenshots).
+- Four scenes:
+  - `settings` — the **Custom Branding** settings panel: "Settings" heading, the
+    tab row with **Custom Branding** active (purple outline), and the **Toolbar**
+    ("SVG or PNG · 2MB" / "Dimension · Square Image", a dashed edit circle around
+    the Superflow flower + purple pencil, then 4 gray skeleton tool circles) and
+    **Admin Portal** ("SVG or PNG · 2MB" / "Dimension · 4 : 1", a dashed edit pill
+    around the Superflow flower + "Superflow" wordmark + purple pencil, faint
+    "Wel…" welcome ghost behind) upload rows — matches the reference images and
+    the real portal HTML (`preview-toolbar` / `preview-portal` widgets).
+  - `toolbar` — the client's view: a reviewed live-site card (`acme-client.com`)
+    with the floating shared **`ReviewToolbar`** (see below) overlapping its bottom
+    edge, its logo slot now the **Acme** mark (Superflow → the client's brand), and
+    a "Your brand, the client's view" caption.
+  - `portal` — the internal admin portal navbar: the **Acme Studio** lockup +
+    collapse chevron, a workspace switcher pill, and the Home / Analytics `BETA` /
+    Agents `BETA` / Ask AI `BETA` nav rows, beside a faint main panel also under
+    the Acme brand; a "Your brand, the panel your team runs" caption.
+  - `agent-findings` — the same branded toolbar carrying an AI **Review Agent**
+    finding (pinned comment card under the Acme brand), so the AI half reads as
+    the agency's process; an "AI finding · under your brand" caption.
+- **Reusable `feature-artifacts/ReviewToolbar.tsx`** — the shared client-facing
+  review toolbar, extracted so the branded logo is the only thing that swaps. A
+  single rounded **white** pill with a soft drop shadow (matches the real
+  Superflow toolbar): a `brandMark` **logo slot** → thin divider → a solid indigo
+  (`#5b5bd6`) **comment button** with a white chat bubble → **headphones +
+  chevron** support dropdown → divider → **inbox** glyph with a red unread dot +
+  count → **warning** glyph + count → divider → **share** glyph → **kebab** menu.
+  Props: `brandMark` (the pre-sized logo node — the only white-label swap),
+  `inboxCount` (default `"24"`), `alertCount` (default `"4"`), `className`. Inline
+  SVGs, no deps, and **no `"use client"`** so it renders from both client
+  (`WhiteLabelArtifact`) and server (`SolutionSection`) components. The
+  white-label `toolbar` + `agent-findings` scenes render it with the Acme mark
+  (via the thin `BrandedToolbar` wrapper); the settings scene keeps its **upload
+  affordance** (a dashed edit circle + gray skeleton tool slots) rather than the
+  live toolbar, since that row is the "drop your logo here" surface, not the
+  rendered toolbar.
+- Four zero-prop feature-panel wrappers (`WhiteLabelSettingsArtifact`,
+  `WhiteLabelToolbarArtifact`, `WhiteLabelPortalArtifact`,
+  `WhiteLabelAgentFindingsArtifact`) are registered in `MOCKS`
+  (`FeatureSetBlock.tsx`) and `FEATURE_SET_MOCK_OPTIONS` under keys
+  `white-label-settings`, `white-label-toolbar`, `white-label-portal`,
+  `white-label-agent-findings`.
+- Hero reuse: `hero-artifacts/WhiteLabelHeroFit.tsx` wraps the same artifact
+  (`hero` + `toolbar` / `portal` / `settings`) for the three hero tabs. Because
+  the white-label "The client's view" tab slugifies to `the-client-s-view` — the
+  **same** id the private-comments client-view hero already claims globally — the
+  three white-label hero artifacts are registered under a **page-scoped** map,
+  `SCOPED_HERO_ARTIFACTS["white-label"]` (in `hero-artifacts/index.ts`), keyed by
+  tab id `the-client-s-view` / `the-admin-panel` / `one-upload`. `Hero` /
+  `HeroWorkflowShowcase` take a new serializable `heroArtifactScope` prop and
+  consult the scoped map first, falling back to the global `HERO_ARTIFACTS` — so
+  the collision is resolved without touching either page's CMS labels.
+- Wiring: `FeaturePageBody` maps the four showcase tab labels to their scene via
+  `WHITE_LABEL_TAB_MOCKS` / `getWhiteLabelTabMock`, and any mapped beat is
+  force-promoted to a **real tab** in `toFeatureSetBlock` (`listOnly: false`) even
+  when pre-reseed CMS marks it list-only. It also forces
+  `solution.variant = "white-label"` for the `white-label` slug and passes
+  `heroArtifactScope="white-label"` to `Hero`. All are client-side, so the page
+  renders without a re-seed; the seed (`scripts/seed-feature-pages-batch.mjs`
+  `white-label` doc) carries the same per-tab mocks + solution variant for anyone
+  who re-seeds.
+
+## Authenticated Pages Feature Artifacts
+
+- `feature-artifacts/AuthenticatedPagesArtifact.tsx` is a single
+  **variant-driven** artifact (mirrors `WhiteLabelArtifact` / `KanbanArtifact`):
+  one white `sceneRoot` shell, a `variant` prop, and an opt-in `hero` flag. It
+  tells the behind-the-login review story — Superflow is installed **on the
+  site** (a snippet), so review runs inside the viewer's own logged-in session
+  (password / Okta / SSO / SAML); feedback lands in a portal only the customer
+  sees; the client can review logged into **their own** portal with no Superflow
+  account. All motion is CSS-only, replays on tab remount, and is gated behind
+  `prefers-reduced-motion` — the **settled state is the base CSS** (gate already
+  "Signed in ✓", approve recorded, checks landed), so screenshots capture the
+  finished composition. Every browser is **flat on the root** (the shared
+  `BrowserChrome` band drawn directly on the white surface, no nested card
+  wrapper — the Text Comments look); the only cards are the login gate modal and
+  the shared `CommentThreadCard` dialog.
+- Reuses the shared primitives, not hand-rolled equivalents: `BrowserChrome`
+  (flat browser band), `CommentPin` + `CommentThreadCard` (via a local
+  `ReviewComment` helper — every pinned comment popover), and `FakeCursor` (the
+  gate button press + approve press choreographies). The real **Okta mark** lives
+  at `public/images/logos/okta.svg` (loaded with `next/image`) and is used in the
+  `behind-okta` gate and the `auth-types` Okta row.
+- Six scenes (`AuthenticatedPagesVariant`): `behind-password`, `behind-okta`,
+  `behind-sso` share one `BehindScene` shell — a flat reviewed in-session page
+  (pinned comment + green "You're signed in" pill) with the scene's distinct
+  login card floating in front in its "Signed in ✓" state (password field / Okta
+  card / SSO shield). `client-portal` is the client's own branded flat browser
+  (`portal.northwind.com`, "Signed in as Dana · Northwind" / "No Superflow
+  account" slim pills, a `CommentThreadCard` + a cursor-pressed Approve that
+  flips to "Approved · Dana Wells"). `on-site-snippet` is the differentiator (an
+  install-snippet card → the in-session page + a desaturated, blocked "Proxy
+  tool · 403" contrast card peeking in from the right). `auth-types` is the
+  works-behind-every-auth-type matrix (Password / Okta / SSO·SAML / basic-auth
+  rows, each with a green "Review works ✓" pill landing staggered).
+- Six zero-prop feature-panel wrappers (`AuthBehindPasswordArtifact` …
+  `AuthTypesArtifact`) are registered in `MOCKS` (`FeatureSetBlock.tsx`) and
+  `FEATURE_SET_MOCK_OPTIONS` under keys `auth-behind-password`,
+  `auth-behind-okta`, `auth-behind-sso`, `auth-client-portal`, `auth-on-site`,
+  `auth-types`.
+- Hero reuse: `hero-artifacts/AuthenticatedPagesHeroFit.tsx` wraps the artifact
+  (`hero` + `behind-password` / `behind-okta` / `behind-sso` / `client-portal`)
+  for the four hero tabs. Because the labels ("Behind a password", "Behind
+  Okta", …) slugify to generic ids, they're registered under a **page scope**
+  (`authenticated-pages`) in `SCOPED_HERO_ARTIFACTS` (like white-label / kanban),
+  keyed by tab id `behind-a-password`, `behind-okta`, `behind-sso`,
+  `the-client-s-own-portal`. `FeaturePageBody` passes
+  `heroArtifactScope="authenticated-pages"` for the slug.
+- Solution variant `authenticated-pages` (`SolutionAuthenticatedFlow`, inside
+  `SolutionSection.tsx`): a left login-gate card (padlock + Password / Okta /
+  SSO·SAML chips, "Behind the login") feeds, through the shared dashed
+  `SolutionConnector`, the **in-session reviewed page** (a browser card with a
+  comment marker + a green "In the viewer's session" pill, "Reviewed in place").
+  Header cue: `open-lock → arrow → message`. Entrances use the section's
+  `.revealItem` mechanism, so it is prefers-reduced-motion safe.
+- Wiring: `FeaturePageBody` maps the feature tab labels to their variant via
+  `AUTHENTICATED_PAGES_TAB_MOCKS` (explicit CMS mock still wins, so the "Snapshots
+  behind the login" tab keeps `auto-screenshot`), forces
+  `solution.variant = "authenticated-pages"` for the `authenticated-pages` slug,
+  and passes `heroArtifactScope="authenticated-pages"` to `Hero`. All are
+  client-side, so the page renders without a re-seed; the seed
+  (`scripts/seed-feature-pages-batch.mjs` `authenticated-pages` doc) carries the
+  same per-tab mocks + solution variant for anyone who re-seeds.
+
 ## Existing Reusable Mocks
 
 - Durable comments (all `PinnedCommentScene` configs): `pinned-comments`,
@@ -524,11 +795,14 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
 
 ## Solution Section variants
 
-- `SolutionSection.tsx` renders one of six illustrations keyed off
+- `SolutionSection.tsx` renders one of nine illustrations keyed off
   `solution.variant`: `checklist` (default, shared), `comments`, the opt-in
   `memory-guidelines` (memory page), `ask-ai` (Ask AI page), `analytics`
-  (Analytics page) and `client-review` (Client Review page). Adding a variant
-  does NOT change what any other page renders.
+  (Analytics page), `client-review` (Client Review page), `private-comments`
+  (Private Comments page), `white-label` (White-label page), `kanban`
+  (Kanban Board page), `review-workflows` (Review Workflows page) and
+  `authenticated-pages` (Authenticated Pages page). Adding a variant does NOT
+  change what any other page renders.
 - `memory-guidelines` (`SolutionGuidelinesFlow`, inside `SolutionSection.tsx`):
   a left stack of three tinted, dog-eared guideline sheets — the reused
   `PdfFile` with `DEFAULT_PDF_TINT` (Brand, blue), a pink tint (Agency), and a
@@ -568,6 +842,40 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
   prefers-reduced-motion safe. The Client Review page forces this variant
   client-side in `FeaturePageBody` and the seed
   (`scripts/seed-feature-client-review.mjs`) carries `variant: "client-review"`.
+- `private-comments` (`SolutionPrivateFlow`, inside `SolutionSection.tsx`): one
+  reviewed element (browser card) carrying a marked-private team debate (a
+  full-width, flush "Visible to · Only your Team" scope header, content grouped
+  left) above the client thread's settled reply feeds, through the shared dashed
+  `SolutionConnector`, the
+  **client's view** — a browser card labelled "Client view" holding only the
+  client-visible reply + a green "One settled answer" marker (a text cue, **not**
+  an Approve button); the private thread has **vanished**. All panels/cards are
+  pure white. Entrances use the section's `.revealItem` mechanism, so it is
+  prefers-reduced-motion safe. The Private Comments page forces this variant
+  client-side in `FeaturePageBody` and the seed
+  (`scripts/seed-feature-pages-batch.mjs`) carries `variant: "private-comments"`.
+- `white-label` (`SolutionWhiteLabelFlow`, inside `SolutionSection.tsx`): a single
+  logo-upload card on the left (an upload glyph, the **faded Superflow flower →
+  "REPLACES" → the Acme "A" mark**, filename `acme-logo.svg`, "One upload") feeds,
+  through the shared dashed `SolutionConnector`, the **two surfaces that now wear
+  it** — a "Client toolbar" surface (the shared **`ReviewToolbar`** with the Acme
+  mark, scaled to fit the compact diagram column) and an "Admin portal" card (Acme
+  lockup + skeleton lines). The `SolutionSuperflowMark` /
+  `SolutionClientMark` are inline SVGs local to `SolutionSection.tsx` (a server
+  component) mirroring the artifact's marks, so no client-component import crosses
+  the boundary. Entrances use the section's `.revealItem` mechanism, so it is
+  prefers-reduced-motion safe. The White Label page forces this variant
+  client-side in `FeaturePageBody` and the seed
+  (`scripts/seed-feature-pages-batch.mjs`) carries `variant: "white-label"`.
+- `kanban` (`SolutionKanbanFlow`, inside `SolutionSection.tsx`): a compact
+  **review-activity feed** on the left (a resolved thread, an agent finding, a
+  client approval — each a toned icon row) feeds, through the shared dashed
+  `SolutionConnector`, **one board** where each event has landed as a card (Open /
+  In review / Approved), the Approved column header + card lighting up green as the
+  approval arrives. Entrances use the section's `.revealItem` mechanism, so it is
+  prefers-reduced-motion safe. The Kanban Board page forces this variant
+  client-side in `FeaturePageBody` and the seed
+  (`scripts/seed-feature-pages-batch.mjs`) carries `variant: "kanban"`.
 - Header cue: the small icon row above the heading comes from the variant's
   built-in before→after pair, or a named `solution.icon` override. Variant
   defaults — checklist: `table → arrow → robot`; comments: `grain → arrow →
@@ -576,7 +884,15 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
   sparkles` (`.headerIconChart` / `.headerIconArrow` / `.headerIconSparkles`, the
   indigo `SparklesIcon` cueing the curated-insight end); client-review: `link →
   arrow → approved-check` (`.headerIconLink` indigo chain → `.headerIconArrow` →
-  `.headerIconCheck` green `ShieldCheckIcon`). The
+  `.headerIconCheck` green `ShieldCheckIcon`); private-comments: `open-lock →
+  arrow → eye` (`.headerIconLock` indigo `LockOpenIcon` → `.headerIconArrow` →
+  `.headerIconEye` green `EyeIcon`, cueing "private → the client sees a clean
+  view"); white-label: `upload → arrow → window` (`.headerIconUpload` indigo
+  `UploadIcon` → `.headerIconArrow` → `.headerIconWindow` teal `WindowIcon`,
+  cueing "one upload → your brand on every surface"); kanban: `activity → arrow →
+  board` (`.headerIconActivity` green `ActivityIcon` pulse → `.headerIconArrow` →
+  `.headerIconBoard` indigo `BoardColumnsIcon`, cueing "review activity → the
+  board updates itself"). The
   `solution.icon = "sheet-brain"` override (memory page) instead renders a
   neutral document `SheetIcon` → gray gradient `ArrowRightIcon` → pink
   `BrainGlyph` (`.headerIconSheet` / `.headerIconArrow` / `.headerIconBrain`).

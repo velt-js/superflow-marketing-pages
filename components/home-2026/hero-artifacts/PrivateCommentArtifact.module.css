@@ -473,3 +473,528 @@
     animation: none;
   }
 }
+
+/* ================================================================== *
+ * Private-comments feature-page scenes (variant-driven).             *
+ * A soft stage holds a reviewed element + its threads; each variant   *
+ * flips the scope chip, the threads shown and the client-view toggle.  *
+ * Base styling is the settled state (screenshot / reduced-motion safe);*
+ * a gentle entrance lives in the no-preference block below.           *
+ * ================================================================== */
+
+.sceneRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #14161a;
+  font-family: var(--hero-font-ui);
+}
+
+.sceneRoot[data-hero="true"] {
+  min-height: 520px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  /* The feature panel window is a fixed 1204px that bleeds off the right edge,
+     so the board is left-anchored to stay inside the visible left portion. The
+     hero window is fully visible, so it re-centres there. */
+  justify-content: flex-start;
+  padding-left: 104px;
+}
+
+.sceneRoot[data-hero="true"] .stage {
+  justify-content: center;
+  padding-left: 0;
+}
+
+/* The side-by-side triptych is the widest composition; shift it further left
+   (much smaller stage inset) so the right-hand client-visible card clears the
+   feature panel's right edge instead of clipping. Feature-panel only — the hero
+   window is fully visible and re-centres via the [data-hero] rule above. */
+.sceneRoot[data-variant="side-by-side"]:not([data-hero="true"]) .stage {
+  padding-left: 16px;
+}
+
+.board {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.boardTriptych {
+  gap: 16px;
+}
+
+/* One-settled-answer beat: a vertical stack — private thread card, a down arrow,
+   then the client-visible settled-answer card. */
+.flowVertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sideWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.threadCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 300px;
+}
+
+/* ---------------------------------------------------------- reviewed element */
+
+.siteCard {
+  flex: 0 0 auto;
+  width: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid #ececf2;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 18px 40px rgba(20, 20, 43, 0.12);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.boardTriptych .siteCard {
+  width: 214px;
+}
+
+.siteBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px;
+  background: #f4f5f8;
+  border-bottom: 1px solid #ececf2;
+}
+
+.siteDots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.siteDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d3d6de;
+}
+
+.siteUrl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #9aa0a8;
+}
+
+.scopeToggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: #e4e6ee;
+}
+
+.toggleSeg {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.toggleSegActive {
+  background: #ffffff;
+  color: #14161a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.siteBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+}
+
+/* A neutral skeleton placeholder (same gray family as .siteLine) rather than a
+   colored hero — keeps the mock reading as a generic page, not a branded one. */
+.siteHero {
+  height: 60px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e6e8ed 100%);
+}
+
+.siteLine {
+  height: 8px;
+  border-radius: 5px;
+  background: #eceef2;
+}
+
+.siteLineShort {
+  width: 62%;
+}
+
+.ctaWrap {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px;
+  border: 2px dashed #625df5;
+  border-radius: 12px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: #e0820a;
+}
+
+.ctaText {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #ffffff;
+}
+
+.pinDot {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 2px;
+  background: #635cf4;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(53, 45, 180, 0.4);
+}
+
+/* ------------------------------------------------------------- scope chip */
+
+/* A full-width header bar flush to the private card's top/left/right edges (the
+   card's overflow:hidden + radius rounds its top corners, bottom stays square).
+   Its CONTENT stays grouped hard-left — open padlock + "Visible to" + the scope
+   pill adjacent with one small gap — never justified apart to opposite ends. */
+.scopeChip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 14px;
+  background: #1f1c3e;
+  color: #ffffff;
+}
+
+.scopeChipLabel {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.scopePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 6px 3px 10px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.scopePillText {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------- thread cards */
+
+.threadCard {
+  width: 300px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.boardTriptych .threadCard {
+  width: 228px;
+}
+
+/* Private thread: a white card with an indigo border, visibly marked apart from
+   the client thread (its compact navy scope chip also reads the scope). */
+.privateCard {
+  border: 1.5px solid rgba(98, 93, 245, 0.4);
+  background: #ffffff;
+}
+
+.privateCardMarked {
+  border-width: 2px;
+  box-shadow:
+    0 0 0 3px rgba(98, 93, 245, 0.12),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+}
+
+.clientCard {
+  border: 1px solid #e7e9ee;
+}
+
+.clientCardMarked {
+  border-color: #cfeecf;
+  box-shadow:
+    0 0 0 3px rgba(16, 149, 52, 0.1),
+    0 12px 30px rgba(20, 20, 43, 0.08);
+}
+
+/* The client thread's "client-visible" mark — plainly different from the navy
+   private scope chip (that contrast is the point of the scope-marks beat). */
+.clientTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 12px 0;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #eef7f0;
+  color: #2f7d47;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.msgRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.tAvatar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.msgBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.msgName {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #14161a;
+}
+
+.msgText {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #3b3f47;
+}
+
+.settledRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 12px 12px;
+  color: #2f7d47;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------- captions */
+
+.sceneCaption {
+  max-width: 300px;
+  color: #6b7280;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.threadCol .sceneCaption {
+  text-align: left;
+}
+
+/* ----------------------------------------------------------- flow (arrow) */
+
+/* The one-settled-answer beat stacks vertically, so its connector arrow points
+   down (the shared right-arrow glyph rotated a quarter turn). */
+.flowArrowDown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b3c2;
+  transform: rotate(90deg);
+}
+
+/* ------------------------------------------------ scope-aware notifications */
+
+.notifCard {
+  width: 300px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e7e9ee;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+.notifHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f1f4;
+}
+
+.notifBell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #f1f0fe;
+  color: #635cf4;
+}
+
+.notifHeadText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.notifTitle {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #14161a;
+}
+
+.notifSub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.routeList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 10px;
+}
+
+.routeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #f7f8fa;
+}
+
+.routeRowBlocked {
+  background: #fbf3f3;
+}
+
+.routeName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #14161a;
+}
+
+.routeRole {
+  padding: 1px 7px;
+  border-radius: 20px;
+  background: #e9eaf0;
+  color: #6b7280;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.routeStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.routeStatusOk {
+  color: #2f7d47;
+}
+
+.routeStatusBlocked {
+  color: #c0473f;
+}
+
+.routeStatusText {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------- entrance */
+
+@keyframes pcRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siteCard,
+  .threadCard,
+  .notifCard {
+    animation: none;
+  }
+}

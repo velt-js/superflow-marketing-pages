@@ -16,6 +16,7 @@ import SolutionSectionToast, {
 } from "./SolutionSectionToast";
 import SolutionAskAiInsights from "./SolutionAskAiInsights";
 import SolutionAnalyticsInsights from "./SolutionAnalyticsInsights";
+import ReviewToolbar from "./feature-artifacts/ReviewToolbar";
 
 /** Copy per the homepage copy spec (home v4.1.8): "manual" cut, since the
     Problem section one scroll up already establishes the manual status quo. */
@@ -282,6 +283,151 @@ function ShieldCheckIcon({ size }: IconProps): ReactNode {
       <path d="M12 3l7 3v5c0 4.5 -3 7 -7 8c-4 -1 -7 -3.5 -7 -8v-5z" />
       <path d="M9.5 11.5l1.8 1.8l3.2 -3.3" />
     </SolutionIcon>
+  );
+}
+
+/**
+ * Open-padlock glyph cueing the "private scope" start of the Private Comments
+ * variant's header (private → arrow → the client sees a clean view).
+ * @param size Square pixel dimension for the SVG.
+ */
+function LockOpenIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0" />
+      <path d="M12 15v2.5" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Eye glyph cueing the "client sees a clean view" end of the Private Comments
+ * variant's header.
+ * @param size Square pixel dimension for the SVG.
+ */
+function EyeIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M12 5c-5 0 -8.5 4 -9.5 7c1 3 4.5 7 9.5 7s8.5 -4 9.5 -7c-1 -3 -4.5 -7 -9.5 -7z" />
+      <path d="M12 12m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Plain check glyph for the Private Comments variant's "One settled answer"
+ * marker beneath the client-visible reply.
+ * @param size Square pixel dimension for the SVG.
+ */
+function CheckLineIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M5 12.5l4 4l10 -10" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Upload glyph — the "one logo upload" start of the White-label variant's
+ * header (upload → arrow → your brand on both surfaces).
+ * @param size Square pixel dimension for the SVG.
+ */
+function UploadIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+      <path d="M7 9l5 -5l5 5" />
+      <path d="M12 4v12" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * App-window glyph — the "your brand on every surface" end of the White-label
+ * variant's header.
+ * @param size Square pixel dimension for the SVG.
+ */
+function WindowIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M3 9h18" />
+      <path d="M7 6.5h.01" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * The Superflow flower mark (exact Figma vectors) — the "before" brand shown as
+ * the logo the White-label upload replaces.
+ * @param size Square pixel dimension for the SVG.
+ */
+function SolutionSuperflowMark({ size = 24 }: IconProps): ReactNode {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M13.4316 3.51909C12.6958 3.20466 11.8819 3.11989 11.0969 3.2759C10.312 3.43192 9.59255 3.82142 9.03308 4.3933C8.46157 4.95285 8.07233 5.67168 7.91623 6.45582C7.76014 7.23996 7.84447 8.05291 8.15818 8.7884C8.45708 9.52946 8.97285 10.1631 9.63803 10.6065C10.3032 11.05 11.0868 11.2825 11.8864 11.2736H15.9223V7.24436C15.9311 6.44498 15.698 5.66158 15.2535 4.99684C14.8091 4.33209 14.1741 3.81701 13.4316 3.51909Z"
+        fill="#FFCD2E"
+      />
+      <path
+        d="M28.1321 8.52565C27.188 7.58307 25.9855 6.94115 24.6765 6.68096C23.3675 6.42076 22.0107 6.55396 20.7774 7.06372C19.5441 7.57348 18.4896 8.43695 17.7471 9.54511C17.0046 10.6533 16.6073 11.9564 16.6055 13.29V20.0329H23.3675C24.706 20.0471 26.0176 19.657 27.1306 18.9139C28.2436 18.1707 29.1061 17.1091 29.6052 15.868C30.1269 14.638 30.2654 13.2795 30.0027 11.9697C29.7399 10.6599 29.088 9.45962 28.1321 8.52565Z"
+        fill="#FF7162"
+      />
+      <path
+        d="M24.3715 23.2142C24.0727 22.4723 23.5569 21.8378 22.8914 21.3935C22.226 20.9492 21.4419 20.7158 20.6416 20.7238H16.6057V24.7565C16.5973 25.5561 16.8307 26.3395 17.2754 27.0042C17.7201 27.6689 18.3554 28.184 19.098 28.4818C19.5949 28.6906 20.1283 28.7986 20.6674 28.7995C21.3289 28.7928 21.9788 28.6243 22.5601 28.3085C23.1414 27.9928 23.6365 27.5396 24.0019 26.9885C24.3674 26.4374 24.5922 25.8053 24.6566 25.1473C24.721 24.4893 24.6231 23.8256 24.3715 23.2142Z"
+        fill="#0DCF82"
+      />
+      <path
+        d="M2.93155 16.1289C2.40623 17.3593 2.26498 18.7195 2.52629 20.0315C2.7876 21.3434 3.43928 22.5459 4.39601 23.4816C5.01327 24.11 5.74925 24.6096 6.56125 24.9516C7.37325 25.2936 8.24513 25.4712 9.12631 25.4739C10.0283 25.4719 10.9209 25.2915 11.7527 24.9432C12.995 24.4447 14.0576 23.5829 14.8013 22.4708C15.5451 21.3586 15.9353 20.0479 15.921 18.7104V11.9606H9.16929C7.83035 11.9467 6.51844 12.3373 5.4054 13.081C4.29236 13.8248 3.4301 14.8872 2.93155 16.1289Z"
+        fill="#625DF5"
+      />
+    </svg>
+  );
+}
+
+/**
+ * The agency ("after") brand mark — a solid teal rounded-square tile with the
+ * agency monogram, unmistakably distinct from the multi-color Superflow flower.
+ * @param size Square pixel dimension for the SVG.
+ */
+function SolutionClientMark({ size = 24 }: IconProps): ReactNode {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <linearGradient
+          id="solWlClientMark"
+          x1="4"
+          y1="4"
+          x2="28"
+          y2="28"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#12B5A6" />
+          <stop offset="1" stopColor="#0E7C6E" />
+        </linearGradient>
+      </defs>
+      <rect x="3" y="3" width="26" height="26" rx="8" fill="url(#solWlClientMark)" />
+      <path
+        d="M16 9.5l4.6 12h-2.5l-0.9 -2.5h-4.4l-0.9 2.5h-2.5z M13.6 16.8h4.8l-2.4 -4.6z"
+        fill="#ffffff"
+        fillRule="evenodd"
+      />
+    </svg>
   );
 }
 
@@ -643,6 +789,11 @@ const ANALYTICS_SUBHEADING_TEXT =
 const CLIENT_REVIEW_HEADING_TEXT = "One click to yes. No account.";
 const CLIENT_REVIEW_SUBHEADING_TEXT =
   "A magic link opens the live page — the client sees work AI and your team already cleaned up, then approves right there.";
+
+/* Private Comments-variant fallbacks, used only if the CMS omits the copy. */
+const PRIVATE_HEADING_TEXT = "Your side of the review.";
+const PRIVATE_SUBHEADING_TEXT =
+  "Debate in a thread beside the client's — then the client's view shows one settled answer, never the debate.";
 const COMMENTS_SITE_URL = "your-site.com";
 const COMMENTS_MESSAGE_SLACK =
   "Sent you feedback on Email. Also change the CTA to green";
@@ -1016,6 +1167,677 @@ function SolutionClientReviewFlow(): ReactNode {
   }
 }
 
+/* ---- Private Comments "two threads → toggle → client view" variant ----
+   Left: one reviewed element carrying two threads — a marked-private team debate
+   and the client thread's settled reply. Through the dashed arrow: the client's
+   view, where the private thread has vanished, leaving one clean thread and the
+   one settled answer. Only the private-comments page opts into this via
+   solution.variant = "private-comments". */
+
+const PRIVATE_SITE_URL = "your-site.com";
+const PRIVATE_TEAM_SCOPE = "Only your Team";
+const PRIVATE_VISIBLE_TO = "Visible to";
+const PRIVATE_DEBATE_A = "Client chose this in March.";
+const PRIVATE_DEBATE_B = "Escalating to the brand lead, then updating.";
+const PRIVATE_CLIENT_REPLY = "Updated to your brand orange.";
+const PRIVATE_CLIENT_VISIBLE = "Client-visible";
+const PRIVATE_CLIENT_VIEW_LABEL = "Client view";
+const PRIVATE_SETTLED_LABEL = "One settled answer";
+
+/* Reveal delays (ms) sequencing the private-comments diagram left-to-right. */
+const PRIVATE_REVEAL_ELEMENT_MS = 500;
+const PRIVATE_REVEAL_CONNECTOR_MS = 900;
+const PRIVATE_REVEAL_CLIENT_MS = 1050;
+const PRIVATE_REVEAL_SETTLED_MS = 1350;
+
+/**
+ * Private Comments variant of the flow diagram (private-comments feature page):
+ * one reviewed element carrying a marked-private team debate above the client
+ * thread's settled reply on the left resolves — through the dashed arrow — into
+ * the client's view on the right, where the private thread has vanished, leaving
+ * one clean thread and an Approve cue. Entrances use the section's shared
+ * `.revealItem` mechanism, so the whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The private-comments-flow element, or `null` on failure.
+ */
+function SolutionPrivateFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.privateFlow}>
+        <div
+          className={`${styles.pcElement} ${styles.revealItem}`}
+          style={revealDelayStyle(PRIVATE_REVEAL_ELEMENT_MS)}
+        >
+          <div className={styles.pcBar}>
+            <span className={styles.pcDots} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.pcUrl}>{PRIVATE_SITE_URL}</span>
+          </div>
+          <div className={styles.pcBody}>
+            <div className={styles.pcThreadPrivate}>
+              <span className={styles.pcScopeChip}>
+                <LockOpenIcon size={15} />
+                <span className={styles.pcScopeLabel}>{PRIVATE_VISIBLE_TO}</span>
+                <span className={styles.pcScopePill}>{PRIVATE_TEAM_SCOPE}</span>
+              </span>
+              <p className={styles.pcMsg}>{PRIVATE_DEBATE_A}</p>
+              <p className={styles.pcMsg}>{PRIVATE_DEBATE_B}</p>
+            </div>
+            <div className={styles.pcThreadClient}>
+              <span className={styles.pcClientTag}>
+                <EyeIcon size={13} />
+                {PRIVATE_CLIENT_VISIBLE}
+              </span>
+              <p className={styles.pcMsg}>{PRIVATE_CLIENT_REPLY}</p>
+            </div>
+          </div>
+        </div>
+
+        <SolutionConnector revealDelayMs={PRIVATE_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.pcClient} ${styles.revealItem}`}
+          style={revealDelayStyle(PRIVATE_REVEAL_CLIENT_MS)}
+        >
+          <div className={styles.pcBar}>
+            <span className={styles.pcDots} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.pcViewChip}>{PRIVATE_CLIENT_VIEW_LABEL}</span>
+          </div>
+          <div className={styles.pcClientBody}>
+            <div className={styles.pcThreadClient}>
+              <span className={styles.pcClientTag}>
+                <EyeIcon size={13} />
+                {PRIVATE_CLIENT_VISIBLE}
+              </span>
+              <p className={styles.pcMsg}>{PRIVATE_CLIENT_REPLY}</p>
+              <span
+                className={`${styles.pcSettled} ${styles.revealItem}`}
+                style={revealDelayStyle(PRIVATE_REVEAL_SETTLED_MS)}
+              >
+                <CheckLineIcon size={15} />
+                {PRIVATE_SETTLED_LABEL}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ---- White-label "one upload → toolbar + portal branded" variant ----
+   Left: one logo file uploaded (the agency's mark). Through the dashed arrow:
+   the two surfaces the brand lands on — the client-facing review toolbar and
+   the internal admin portal navbar — both now carrying the agency's mark, with
+   the Superflow mark it replaced shown faded on the upload card. Only the
+   white-label page opts into this via solution.variant = "white-label". */
+
+const WHITE_LABEL_HEADING_TEXT = "Your brand, everywhere they look.";
+const WHITE_LABEL_SUBHEADING_TEXT =
+  "Upload your logo once — the review toolbar your client sees and the admin panel your team runs both carry it.";
+const WHITE_LABEL_UPLOAD_TITLE = "acme-logo.svg";
+const WHITE_LABEL_UPLOAD_META = "One upload";
+const WHITE_LABEL_REPLACES_LABEL = "replaces";
+const WHITE_LABEL_CLIENT_NAME = "Acme Studio";
+const WHITE_LABEL_TOOLBAR_LABEL = "Client toolbar";
+const WHITE_LABEL_PORTAL_LABEL = "Admin portal";
+
+/* Reveal delays (ms) sequencing the white-label diagram left-to-right. */
+const WHITE_LABEL_REVEAL_UPLOAD_MS = 500;
+const WHITE_LABEL_REVEAL_CONNECTOR_MS = 900;
+const WHITE_LABEL_REVEAL_TOOLBAR_MS = 1050;
+const WHITE_LABEL_REVEAL_PORTAL_MS = 1300;
+
+/**
+ * White-label variant of the flow diagram (white-label feature page): a single
+ * logo upload on the left (the agency's mark replacing the faded Superflow one)
+ * resolves — through the dashed arrow — into the two surfaces that now wear it:
+ * the client-facing review toolbar and the internal admin portal navbar.
+ * Entrances use the section's shared `.revealItem` mechanism, so the whole thing
+ * stays prefers-reduced-motion safe.
+ *
+ * @returns The white-label-flow element, or `null` on failure.
+ */
+function SolutionWhiteLabelFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.whiteLabelFlow}>
+        <div
+          className={`${styles.wlUpload} ${styles.revealItem}`}
+          style={revealDelayStyle(WHITE_LABEL_REVEAL_UPLOAD_MS)}
+        >
+          <span className={styles.wlUploadIcon} aria-hidden="true">
+            <UploadIcon size={22} />
+          </span>
+          <div className={styles.wlUploadMarks} aria-hidden="true">
+            <span className={styles.wlUploadOld}>
+              <SolutionSuperflowMark size={26} />
+            </span>
+            <span className={styles.wlUploadReplaces}>
+              {WHITE_LABEL_REPLACES_LABEL}
+            </span>
+            <span className={styles.wlUploadNew}>
+              <SolutionClientMark size={30} />
+            </span>
+          </div>
+          <div className={styles.wlUploadText}>
+            <span className={styles.wlUploadTitle}>{WHITE_LABEL_UPLOAD_TITLE}</span>
+            <span className={styles.wlUploadMeta}>{WHITE_LABEL_UPLOAD_META}</span>
+          </div>
+        </div>
+
+        <SolutionConnector revealDelayMs={WHITE_LABEL_REVEAL_CONNECTOR_MS} />
+
+        <div className={styles.wlSurfaces}>
+          <div
+            className={`${styles.wlToolbar} ${styles.revealItem}`}
+            style={revealDelayStyle(WHITE_LABEL_REVEAL_TOOLBAR_MS)}
+          >
+            <div className={styles.wlToolbarClip}>
+              <div className={styles.wlToolbarInner}>
+                <ReviewToolbar
+                  brandMark={<SolutionClientMark size={26} />}
+                />
+              </div>
+            </div>
+            <span className={styles.wlToolbarCaption}>
+              {WHITE_LABEL_TOOLBAR_LABEL}
+            </span>
+          </div>
+
+          <div
+            className={`${styles.wlPortal} ${styles.revealItem}`}
+            style={revealDelayStyle(WHITE_LABEL_REVEAL_PORTAL_MS)}
+          >
+            <div className={styles.wlPortalTop}>
+              <span className={styles.wlPortalLockup}>
+                <SolutionClientMark size={20} />
+                <span className={styles.wlPortalName}>{WHITE_LABEL_CLIENT_NAME}</span>
+              </span>
+              <span className={styles.wlSurfaceTag}>{WHITE_LABEL_PORTAL_LABEL}</span>
+            </div>
+            <span className={styles.wlPortalLine} aria-hidden="true" />
+            <span
+              className={`${styles.wlPortalLine} ${styles.wlPortalLineShort}`}
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ---- Kanban "review activity → the board updates itself" variant ----
+   Left: a compact review-activity feed (a resolved thread, an agent finding, a
+   client approval). Through the dashed arrow: one board where each event has
+   already landed as a card in the right column, the Approved column lighting up
+   as the approval arrives. Only the kanban-board page opts into this via
+   solution.variant = "kanban". */
+
+const KANBAN_HEADING_TEXT = "The pipeline, finally visible.";
+const KANBAN_SUBHEADING_TEXT =
+  "Every review, across every client, on one board that updates itself from review activity — no dragging.";
+const KANBAN_ACTIVITY_LABEL = "Review activity";
+const KANBAN_EVENT_RESOLVED = "Thread resolved";
+const KANBAN_EVENT_FINDING = "Agent found 3 issues";
+const KANBAN_EVENT_APPROVED = "Client approved";
+const KANBAN_COL_OPEN = "Open";
+const KANBAN_COL_REVIEW = "In review";
+const KANBAN_COL_APPROVED = "Approved";
+
+/* Reveal delays (ms) sequencing the kanban diagram left-to-right. */
+const KANBAN_REVEAL_ACTIVITY_MS = 500;
+const KANBAN_REVEAL_EVENT_STEP_MS = 90;
+const KANBAN_REVEAL_CONNECTOR_MS = 950;
+const KANBAN_REVEAL_BOARD_MS = 1100;
+const KANBAN_REVEAL_LAND_MS = 1400;
+
+/**
+ * Activity/pulse glyph — the "review activity" start of the kanban variant's
+ * header (activity → arrow → board).
+ * @param size Square pixel dimension for the SVG.
+ */
+function ActivityIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M3 12h4l3 8l4 -16l3 8h4" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Kanban-columns glyph — the "one board" end of the kanban variant's header.
+ * @param size Square pixel dimension for the SVG.
+ */
+function BoardColumnsIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M9 4v16" />
+      <path d="M15 4v16" />
+    </SolutionIcon>
+  );
+}
+
+/** One row in the kanban activity feed: a toned icon + its label. */
+interface KanbanEvent {
+  id: string;
+  label: string;
+  icon: ReactNode;
+  tone: string;
+}
+
+const KANBAN_EVENTS: readonly KanbanEvent[] = [
+  {
+    id: "resolved",
+    label: KANBAN_EVENT_RESOLVED,
+    icon: <CheckLineIcon size={16} />,
+    tone: "#109534",
+  },
+  {
+    id: "finding",
+    label: KANBAN_EVENT_FINDING,
+    icon: <RobotIcon size={16} />,
+    tone: "#433df3",
+  },
+  {
+    id: "approved",
+    label: KANBAN_EVENT_APPROVED,
+    icon: <ShieldCheckIcon size={16} />,
+    tone: "#e0820a",
+  },
+];
+
+/**
+ * Kanban variant of the flow diagram (kanban-board feature page): a compact
+ * review-activity feed on the left resolves — through the dashed arrow — into
+ * one board on the right where each event has landed as a card, the Approved
+ * column lighting up as the approval arrives. Entrances use the section's shared
+ * `.revealItem` mechanism, so the whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The kanban-flow element, or `null` on failure.
+ */
+function SolutionKanbanFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.kanbanFlow}>
+        <div className={styles.kbActivity}>
+          <span
+            className={`${styles.kbActivityLabel} ${styles.revealItem}`}
+            style={revealDelayStyle(KANBAN_REVEAL_ACTIVITY_MS)}
+          >
+            {KANBAN_ACTIVITY_LABEL}
+          </span>
+          <ul className={styles.kbEvents}>
+            {KANBAN_EVENTS.map((event, eventIndex) => (
+              <li
+                key={event.id}
+                className={`${styles.kbEvent} ${styles.revealItem}`}
+                style={revealDelayStyle(
+                  KANBAN_REVEAL_ACTIVITY_MS +
+                    (eventIndex + 1) * KANBAN_REVEAL_EVENT_STEP_MS,
+                )}
+              >
+                <span
+                  className={styles.kbEventIcon}
+                  style={{ color: event.tone }}
+                  aria-hidden="true"
+                >
+                  {event.icon}
+                </span>
+                <span className={styles.kbEventText}>{event.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <SolutionConnector revealDelayMs={KANBAN_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.kbBoard} ${styles.revealItem}`}
+          style={revealDelayStyle(KANBAN_REVEAL_BOARD_MS)}
+        >
+          <div className={styles.kbCol}>
+            <span className={styles.kbColHead}>
+              <span className={styles.kbDot} style={{ background: "#625df5" }} />
+              {KANBAN_COL_OPEN}
+            </span>
+            <span className={styles.kbCard} />
+            <span className={styles.kbCard} />
+          </div>
+          <div className={styles.kbCol}>
+            <span className={styles.kbColHead}>
+              <span className={styles.kbDot} style={{ background: "#e2a600" }} />
+              {KANBAN_COL_REVIEW}
+            </span>
+            <span className={styles.kbCard} />
+          </div>
+          <div className={`${styles.kbCol} ${styles.kbColDone}`}>
+            <span className={styles.kbColHead}>
+              <span className={styles.kbDot} style={{ background: "#109534" }} />
+              {KANBAN_COL_APPROVED}
+            </span>
+            <span
+              className={`${styles.kbCard} ${styles.kbCardLand} ${styles.revealItem}`}
+              style={revealDelayStyle(KANBAN_REVEAL_LAND_MS)}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ---- Review Workflows "in your head → one visual flow" variant ----
+   Left: the process as it lives today — a loose stack of slightly-rotated step
+   notes ("in your head"). Through the dashed arrow: one ordered visual flow —
+   push → AI agents → team review → client gate — as tidy toned node rows. Only
+   the review-workflows page opts into this via solution.variant =
+   "review-workflows". */
+
+const REVIEW_WF_HEADING_TEXT = "The process, out of your head.";
+const REVIEW_WF_SUBHEADING_TEXT =
+  "Put your reviewers and AI agents in one visual flow — conditions move work forward, and the client gate comes last.";
+
+/** Authenticated Pages variant heading/subheading defaults (CMS overrides at runtime). */
+const AUTH_HEADING_TEXT = "Both halves of the work, reviewed";
+const AUTH_SUBHEADING_TEXT =
+  "Superflow installs on the site itself, so review runs behind passwords, Okta, and SSO — wherever the viewer is logged in.";
+const REVIEW_WF_MESSY_LABEL = "In your head";
+const REVIEW_WF_FLOW_LABEL = "One visual flow";
+
+/** The loose, unordered steps the process lives as before the flow. */
+const REVIEW_WF_LOOSE_STEPS: readonly string[] = [
+  "Run the checks?",
+  "Ask Dana to review",
+  "Wait… then chase",
+  "Send to the client",
+];
+
+/**
+ * Lightning-bolt glyph — the push trigger that starts the flow.
+ * @param size Square pixel dimension for the SVG.
+ */
+function BoltIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Two-people glyph — the human review step.
+ * @param size Square pixel dimension for the SVG.
+ */
+function UsersIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Person-with-check glyph — the client gate (the recorded approval).
+ * @param size Square pixel dimension for the SVG.
+ */
+function UserCheckIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+      <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+      <path d="M15 19l2 2l4 -4" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Route/flow glyph — two steps merging into one path — the "after" side of the
+ * review-workflows header cue.
+ * @param size Square pixel dimension for the SVG.
+ */
+function RouteIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M5 6m-2.4 0a2.4 2.4 0 1 0 4.8 0a2.4 2.4 0 1 0 -4.8 0" />
+      <path d="M5 18m-2.4 0a2.4 2.4 0 1 0 4.8 0a2.4 2.4 0 1 0 -4.8 0" />
+      <path d="M18 12m-2.4 0a2.4 2.4 0 1 0 4.8 0a2.4 2.4 0 1 0 -4.8 0" />
+      <path d="M7.3 7.1l8 3.7" />
+      <path d="M7.3 16.9l8 -3.7" />
+    </SolutionIcon>
+  );
+}
+
+/** One ordered node row in the review-workflows flow. */
+interface ReviewWfNode {
+  id: string;
+  label: string;
+  icon: ReactNode;
+  tone: string;
+}
+
+const REVIEW_WF_NODES: readonly ReviewWfNode[] = [
+  { id: "push", label: "Push trigger", icon: <BoltIcon size={18} />, tone: "#e0820a" },
+  { id: "agents", label: "AI agents", icon: <RobotIcon size={18} />, tone: "#433df3" },
+  { id: "review", label: "Team review", icon: <UsersIcon size={18} />, tone: "#2f6bf5" },
+  { id: "gate", label: "Client gate", icon: <UserCheckIcon size={18} />, tone: "#0f9d8e" },
+];
+
+/* Reveal delays (ms) sequencing the review-workflows diagram left-to-right. */
+const REVIEW_WF_REVEAL_MESSY_MS = 500;
+const REVIEW_WF_REVEAL_STEP_MS = 80;
+const REVIEW_WF_REVEAL_CONNECTOR_MS = 950;
+const REVIEW_WF_REVEAL_FLOW_MS = 1100;
+const REVIEW_WF_REVEAL_NODE_BASE_MS = 1250;
+const REVIEW_WF_REVEAL_NODE_STEP_MS = 90;
+
+/**
+ * Review Workflows variant of the flow diagram (review-workflows feature page):
+ * the process as loose, unordered step notes ("in your head") on the left
+ * resolves — through the dashed arrow — into one ordered visual flow on the
+ * right (push → AI agents → team review → client gate). Entrances use the
+ * section's shared `.revealItem` mechanism, so the whole thing stays
+ * prefers-reduced-motion safe.
+ *
+ * @returns The review-workflows-flow element, or `null` on failure.
+ */
+function SolutionReviewWorkflowFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.reviewWfFlow}>
+        <div
+          className={`${styles.rwfMessy} ${styles.revealItem}`}
+          style={revealDelayStyle(REVIEW_WF_REVEAL_MESSY_MS)}
+        >
+          <span className={styles.rwfMessyLabel}>{REVIEW_WF_MESSY_LABEL}</span>
+          <div className={styles.rwfChips}>
+            {REVIEW_WF_LOOSE_STEPS.map((step, stepIndex) => (
+              <span
+                key={step}
+                className={`${styles.rwfChip} ${styles.revealItem}`}
+                style={revealDelayStyle(
+                  REVIEW_WF_REVEAL_MESSY_MS +
+                    (stepIndex + 1) * REVIEW_WF_REVEAL_STEP_MS,
+                )}
+              >
+                {step}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <SolutionConnector revealDelayMs={REVIEW_WF_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.rwfFlow} ${styles.revealItem}`}
+          style={revealDelayStyle(REVIEW_WF_REVEAL_FLOW_MS)}
+        >
+          <span className={styles.rwfFlowLabel}>{REVIEW_WF_FLOW_LABEL}</span>
+          <ul className={styles.rwfNodes}>
+            {REVIEW_WF_NODES.map((node, nodeIndex) => (
+              <li
+                key={node.id}
+                className={`${styles.rwfNode} ${styles.revealItem}`}
+                style={revealDelayStyle(
+                  REVIEW_WF_REVEAL_NODE_BASE_MS +
+                    nodeIndex * REVIEW_WF_REVEAL_NODE_STEP_MS,
+                )}
+              >
+                <span
+                  className={styles.rwfNodeIcon}
+                  style={{ color: node.tone }}
+                  aria-hidden="true"
+                >
+                  {node.icon}
+                </span>
+                <span className={styles.rwfNodeLabel}>{node.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ---- Authenticated Pages "behind the login → reviewed in place" variant ----
+   Left: a compact auth-gate card (padlock + auth-method chips). Through the
+   dashed arrow: a small browser card with a Superflow comment pin and an
+   "In the viewer's session" green pill. Only the authenticated-pages feature
+   page opts into this via solution.variant = "authenticated-pages". */
+
+/** Auth-gate card label. */
+const AUTH_GATE_LABEL = "Behind the login";
+/** Auth methods shown as toned chips in the gate card. */
+const AUTH_METHODS: readonly string[] = ["Password", "Okta", "SSO / SAML"];
+/** Browser page label. */
+const AUTH_PAGE_LABEL = "Reviewed in place";
+/** Green session pill copy. */
+const AUTH_SESSION_PILL = "In the viewer's session";
+/** Placeholder URL shown in the auth-page browser bar. */
+const AUTH_SITE_URL = "your-site.com";
+
+/* Reveal delays (ms) sequencing the authenticated-pages diagram left-to-right. */
+const AUTH_REVEAL_GATE_MS = 500;
+const AUTH_REVEAL_METHOD_STEP_MS = 80;
+const AUTH_REVEAL_CONNECTOR_MS = 950;
+const AUTH_REVEAL_PAGE_MS = 1100;
+const AUTH_REVEAL_PIN_MS = 1350;
+
+/**
+ * Closed padlock glyph for the authenticated-pages gate card.
+ * @param size Square pixel dimension for the SVG.
+ */
+function LockClosedIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+      <path d="M12 15v2.5" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Authenticated Pages variant of the flow diagram (authenticated-pages feature
+ * page): a compact auth-gate card on the left (padlock + Password / Okta /
+ * SSO-SAML chips) resolves — through the dashed arrow — into a small browser
+ * card on the right carrying a Superflow comment pin and a green
+ * "In the viewer's session" pill. Entrances use the section's shared
+ * `.revealItem` mechanism, so the whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The authenticated-pages-flow element, or `null` on failure.
+ */
+function SolutionAuthenticatedFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.authFlow}>
+        <div
+          className={`${styles.authGate} ${styles.revealItem}`}
+          style={revealDelayStyle(AUTH_REVEAL_GATE_MS)}
+        >
+          <span className={styles.authGateIcon} aria-hidden="true">
+            <LockClosedIcon size={22} />
+          </span>
+          <ul className={styles.authMethods}>
+            {AUTH_METHODS.map((method, methodIndex) => (
+              <li
+                key={method}
+                className={`${styles.authMethod} ${styles.revealItem}`}
+                style={revealDelayStyle(
+                  AUTH_REVEAL_GATE_MS +
+                    (methodIndex + 1) * AUTH_REVEAL_METHOD_STEP_MS,
+                )}
+              >
+                {method}
+              </li>
+            ))}
+          </ul>
+          <span className={styles.authGateLabel}>{AUTH_GATE_LABEL}</span>
+        </div>
+
+        <SolutionConnector revealDelayMs={AUTH_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.authPage} ${styles.revealItem}`}
+          style={revealDelayStyle(AUTH_REVEAL_PAGE_MS)}
+        >
+          <div className={styles.authPageBar}>
+            <span className={styles.authPageDots} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.authPageUrl}>{AUTH_SITE_URL}</span>
+          </div>
+          <div className={styles.authPageBody} aria-hidden="true">
+            <span className={styles.authPageHero} />
+            <div className={styles.authPageLines}>
+              <span className={styles.authPageLine} />
+              <span className={`${styles.authPageLine} ${styles.authPageLineShort}`} />
+            </div>
+            <span
+              className={`${styles.authPin} ${styles.revealItem}`}
+              style={revealDelayStyle(AUTH_REVEAL_PIN_MS)}
+              aria-hidden="true"
+            />
+          </div>
+          <span
+            className={`${styles.authSessionPill} ${styles.revealItem}`}
+            style={revealDelayStyle(AUTH_REVEAL_PIN_MS)}
+          >
+            <CheckLineIcon size={13} />
+            {AUTH_SESSION_PILL}
+          </span>
+          <span className={styles.authPageLabel}>{AUTH_PAGE_LABEL}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Per-page overrides for the Solution section copy. Omit a field to fall back
  * to the homepage default (so /home-preview renders unchanged). Feature pages
@@ -1038,7 +1860,12 @@ export interface SolutionSectionProps {
     | "memory-guidelines"
     | "ask-ai"
     | "analytics"
-    | "client-review";
+    | "client-review"
+    | "private-comments"
+    | "white-label"
+    | "kanban"
+    | "review-workflows"
+    | "authenticated-pages";
   /**
    * Optional named override for the header cue. When set to a known name (see
    * {@link SOLUTION_HEADER_ICONS}) the variant's default before→after glyph
@@ -1143,6 +1970,81 @@ function SolutionHeaderIcons({
         </>
       );
     }
+    if (variant === "private-comments") {
+      return (
+        <>
+          <span className={styles.headerIconLock}>
+            <LockOpenIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconEye}>
+            <EyeIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "white-label") {
+      return (
+        <>
+          <span className={styles.headerIconUpload}>
+            <UploadIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconWindow}>
+            <WindowIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "kanban") {
+      return (
+        <>
+          <span className={styles.headerIconActivity}>
+            <ActivityIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconBoard}>
+            <BoardColumnsIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "review-workflows") {
+      return (
+        <>
+          <span className={styles.headerIconScatter}>
+            <GrainIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconRoute}>
+            <RouteIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "authenticated-pages") {
+      return (
+        <>
+          <span className={styles.headerIconLock}>
+            <LockOpenIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconMessage}>
+            <MessageIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
     if (variant === "comments") {
       return (
         <>
@@ -1193,6 +2095,11 @@ export default function SolutionSection({
   const isAskAi = variant === "ask-ai";
   const isAnalytics = variant === "analytics";
   const isClientReview = variant === "client-review";
+  const isPrivate = variant === "private-comments";
+  const isWhiteLabel = variant === "white-label";
+  const isKanban = variant === "kanban";
+  const isReviewWorkflows = variant === "review-workflows";
+  const isAuthenticated = variant === "authenticated-pages";
   const defaultHeading = isComments
     ? COMMENTS_HEADING_TEXT
     : isAskAi
@@ -1201,7 +2108,17 @@ export default function SolutionSection({
         ? ANALYTICS_HEADING_TEXT
         : isClientReview
           ? CLIENT_REVIEW_HEADING_TEXT
-          : HEADING_TEXT;
+          : isPrivate
+            ? PRIVATE_HEADING_TEXT
+            : isWhiteLabel
+              ? WHITE_LABEL_HEADING_TEXT
+              : isKanban
+                ? KANBAN_HEADING_TEXT
+                : isReviewWorkflows
+                  ? REVIEW_WF_HEADING_TEXT
+                  : isAuthenticated
+                    ? AUTH_HEADING_TEXT
+                    : HEADING_TEXT;
   const defaultSubheading = isComments
     ? COMMENTS_SUBHEADING_TEXT
     : isAskAi
@@ -1210,7 +2127,17 @@ export default function SolutionSection({
         ? ANALYTICS_SUBHEADING_TEXT
         : isClientReview
           ? CLIENT_REVIEW_SUBHEADING_TEXT
-          : SUBHEADING_TEXT;
+          : isPrivate
+            ? PRIVATE_SUBHEADING_TEXT
+            : isWhiteLabel
+              ? WHITE_LABEL_SUBHEADING_TEXT
+              : isKanban
+                ? KANBAN_SUBHEADING_TEXT
+                : isReviewWorkflows
+                  ? REVIEW_WF_SUBHEADING_TEXT
+                  : isAuthenticated
+                    ? AUTH_SUBHEADING_TEXT
+                    : SUBHEADING_TEXT;
   const headingText = heading ?? defaultHeading;
   const subheadingText = subheading ?? defaultSubheading;
 
@@ -1232,6 +2159,16 @@ export default function SolutionSection({
             <SolutionAnalyticsInsights />
           ) : variant === "client-review" ? (
             <SolutionClientReviewFlow />
+          ) : variant === "private-comments" ? (
+            <SolutionPrivateFlow />
+          ) : variant === "white-label" ? (
+            <SolutionWhiteLabelFlow />
+          ) : variant === "kanban" ? (
+            <SolutionKanbanFlow />
+          ) : variant === "review-workflows" ? (
+            <SolutionReviewWorkflowFlow />
+          ) : variant === "authenticated-pages" ? (
+            <SolutionAuthenticatedFlow />
           ) : variant === "ask-ai" ? (
             <SolutionAskAiInsights />
           ) : variant === "comments" ? (

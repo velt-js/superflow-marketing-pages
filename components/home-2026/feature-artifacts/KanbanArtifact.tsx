@@ -1,21 +1,41 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import styles from "./KanbanArtifact.module.css";
 import CommentThreadCard from "./CommentThreadCard";
+import FakeCursor from "./FakeCursor";
 
 /**
- * Feature-section app-window artifact — "Kanban".
+ * Feature/hero artifact — "Kanban".
  *
- * A built-in board: an "Open" column and an "In Progress" column that bleeds
- * off the right edge, each card reusing the shared {@link CommentThreadCard} in
- * its minimal, header-less form (just avatar, author and body — no status pill
- * or reply row). Conveys "a built-in kanban board, or sync with the one you
- * already run."
+ * One variant-driven board component. The original built-in board is the
+ * `default` variant (unchanged: an "Open" column and an "In Progress" column
+ * reusing the shared {@link CommentThreadCard}, with the bottom card dragged
+ * across on mount) so every existing use of the `kanban` mock renders exactly
+ * as before.
  *
- * On mount the cards rise in with a small stagger, then the bottom "Devon" card
- * is dragged out of Open and dropped into In Progress — it lifts, flies
- * diagonally across and settles into the column, while the two count badges
- * tick over (Open 4→3, In Progress 2→3) as it lands.
+ * The kanban-board feature page adds four board scenes that share one column +
+ * card shell:
+ *
+ *  - `cross-client`   — every client's queue on one board (client-tagged cards
+ *                       across Awaiting review / In revision / Ready to ship).
+ *  - `self-moving`    — a client approval lands and the matching card moves
+ *                       itself from In revision to Ready to ship; the counts
+ *                       tick over.
+ *  - `filters`        — a cursor taps a client chip in the filter bar and the
+ *                       board collapses to that one client.
+ *  - `custom-columns` — the board's columns ARE your custom statuses; a new
+ *                       status column slides in.
+ *
+ * All motion is CSS-only, replays whenever the tab remounts, and is gated
+ * behind `prefers-reduced-motion` (which holds the settled composition).
  */
+
+/** Which board scene {@link KanbanArtifact} renders. */
+export type KanbanVariant =
+  | "default"
+  | "cross-client"
+  | "self-moving"
+  | "filters"
+  | "custom-columns";
 
 const OPEN_LABEL = "Open";
 const IN_PROGRESS_LABEL = "In Progress";
@@ -226,11 +246,13 @@ function CursorGrabbed(): ReactNode {
 }
 
 /**
- * Render the "Kanban" feature-section artifact.
+ * The original built-in board — the `default` variant. Kept byte-for-byte so
+ * every existing `kanban` mock (homepage, comments, all-devices, …) renders
+ * unchanged.
  *
- * @returns The kanban board contents, filling its container.
+ * @returns The legacy kanban board contents, filling its container.
  */
-export default function KanbanArtifact(): ReactNode {
+function LegacyKanbanScene(): ReactNode {
   try {
     return (
       <div className={styles.root} data-artifact="kanban">
@@ -347,4 +369,631 @@ export default function KanbanArtifact(): ReactNode {
   } catch {
     return null;
   }
+}
+
+/* ============================================================= board shell
+   Shared column + card pieces used by the cross-client / self-moving / filters
+   / custom-columns scenes. Everything is data-driven so the four scenes are
+   thin configurations over one board. */
+
+/** A short client label + its brand tone, shown as a chip on each card. */
+interface ClientTag {
+  name: string;
+  tone: string;
+}
+
+/** One board card. */
+interface BoardCardData {
+  id: string;
+  /** The client this work belongs to (drives the "one board, every client" read). */
+  client?: ClientTag;
+  title: string;
+  /** Author/assignee initials shown as a small overlapping avatar stack. */
+  avatars?: readonly string[];
+  /** Optional muted footer meta (e.g. a comment count or a shipped check). */
+  meta?: { icon: ReactNode; text: string };
+  /** Marks the card that animates (self-moving arriving/leaving, filter match). */
+  motion?: "arriving" | "leaving";
+  /** Client key used by the filter scene to collapse non-matching cards. */
+  filterKey?: string;
+}
+
+/** One board column. */
+interface BoardColumnData {
+  id: string;
+  title: string;
+  /** Column status dot colour. */
+  tone: string;
+  /** Count pill; a two-value tuple ticks `from → to` as a card lands. */
+  count: number | readonly [number, number];
+  cards: readonly BoardCardData[];
+  /** Marks the freshly-added status column (custom-columns scene). */
+  isNew?: boolean;
+}
+
+/** Small speech-bubble glyph for a card's comment-count meta. */
+function MiniCommentIcon(): ReactNode {
+  try {
+    return (
+      <svg width={14} height={14} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M8 9h8M8 13h5M4 4h16v12H8l-4 4z"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Small check glyph for a shipped/approved card's meta. */
+function MiniCheckIcon(): ReactNode {
+  try {
+    return (
+      <svg width={14} height={14} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M5 12l4 4l10 -10"
+          stroke="currentColor"
+          strokeWidth={2.4}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Plus glyph for the "Add status" affordance on the custom-columns board. */
+function PlusIcon(): ReactNode {
+  try {
+    return (
+      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M12 5v14M5 12h14"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** CSS custom property carrying a per-item entrance-stagger delay. */
+const STAGGER_VAR = "--kb-delay";
+
+/**
+ * Builds the inline style that staggers one card's/column's rise-in.
+ *
+ * @param delayMs - Milliseconds to wait before this item's entrance.
+ * @returns The inline style setting the stagger custom property.
+ */
+function staggerStyle(delayMs: number): CSSProperties {
+  try {
+    return { [STAGGER_VAR]: `${delayMs}ms` } as CSSProperties;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * A single board card: an optional client chip, the work title, and a footer
+ * with an avatar stack + optional meta. Purely presentational.
+ *
+ * @param root0 - The card props.
+ * @param root0.card - The card data to render.
+ * @param root0.delayMs - Entrance-stagger delay for this card.
+ * @returns The card element, or `null` on failure.
+ */
+function BoardCard({
+  card,
+  delayMs,
+}: {
+  card: BoardCardData;
+  delayMs: number;
+}): ReactNode {
+  try {
+    return (
+      <div
+        className={styles.bcard}
+        style={staggerStyle(delayMs)}
+        data-motion={card.motion}
+        data-filter={card.filterKey}
+      >
+        {card.client ? (
+          <span
+            className={styles.clientChip}
+            style={{ "--kb-client": card.client.tone } as CSSProperties}
+          >
+            <span className={styles.clientDot} aria-hidden="true" />
+            {card.client.name}
+          </span>
+        ) : null}
+        <p className={styles.bcardTitle}>{card.title}</p>
+        <div className={styles.bcardFoot}>
+          <span className={styles.avatars} aria-hidden="true">
+            {(card.avatars ?? []).map((initials, avatarIndex) => (
+              <span
+                key={`${card.id}-${initials}-${avatarIndex}`}
+                className={styles.avatar}
+              >
+                {initials}
+              </span>
+            ))}
+          </span>
+          {card.meta ? (
+            <span className={styles.metaPill}>
+              {card.meta.icon}
+              {card.meta.text}
+            </span>
+          ) : null}
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A single board column: a header (status dot + title + count pill) over its
+ * stack of cards. The count pill can tick `from → to` as a card lands.
+ *
+ * @param root0 - The column props.
+ * @param root0.column - The column data to render.
+ * @param root0.columnIndex - Its position (seeds the entrance stagger).
+ * @returns The column element, or `null` on failure.
+ */
+function BoardColumn({
+  column,
+  columnIndex,
+}: {
+  column: BoardColumnData;
+  columnIndex: number;
+}): ReactNode {
+  try {
+    const countIsTick = Array.isArray(column.count);
+    const [countFrom, countTo] = countIsTick
+      ? (column.count as readonly [number, number])
+      : [column.count as number, column.count as number];
+    return (
+      <div
+        className={styles.column}
+        data-new={column.isNew || undefined}
+        style={staggerStyle(120 + columnIndex * 90)}
+      >
+        <div className={styles.colHead}>
+          <span
+            className={styles.colDot}
+            style={{ background: column.tone }}
+            aria-hidden="true"
+          />
+          <span className={styles.colTitle}>{column.title}</span>
+          <span className={styles.colCount}>
+            {countIsTick ? (
+              <>
+                <span className={styles.tickFrom}>{countFrom}</span>
+                <span className={styles.tickTo}>{countTo}</span>
+              </>
+            ) : (
+              countFrom
+            )}
+          </span>
+        </div>
+        <div className={styles.cards}>
+          {column.cards.map((card, cardIndex) => (
+            <BoardCard
+              key={card.id}
+              card={card}
+              delayMs={220 + columnIndex * 90 + cardIndex * 70}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ------------------------------------------------------------- scene data */
+
+const CLIENT_ACME: ClientTag = { name: "Acme", tone: "#625df5" };
+const CLIENT_NORTH: ClientTag = { name: "Northwind", tone: "#12b5a6" };
+const CLIENT_VOLT: ClientTag = { name: "Volt", tone: "#e0820a" };
+const CLIENT_BLOOM: ClientTag = { name: "Bloom", tone: "#e5389f" };
+
+const TONE_AWAITING = "#625df5";
+const TONE_REVISION = "#e2a600";
+const TONE_READY = "#109534";
+
+const AVATAR_META = { icon: <MiniCommentIcon />, text: "3" };
+
+/** The cross-client board (also the base other scenes tweak). */
+const CROSS_CLIENT_COLUMNS: readonly BoardColumnData[] = [
+  {
+    id: "awaiting",
+    title: "Awaiting review",
+    tone: TONE_AWAITING,
+    count: 3,
+    cards: [
+      {
+        id: "c1",
+        client: CLIENT_ACME,
+        title: "Hero headline still says “Launch”",
+        avatars: ["DW"],
+        meta: { icon: <MiniCommentIcon />, text: "3" },
+      },
+      {
+        id: "c2",
+        client: CLIENT_NORTH,
+        title: "Pricing table overflows on mobile",
+        avatars: ["JS", "MK"],
+        meta: { icon: <MiniCommentIcon />, text: "2" },
+      },
+      {
+        id: "c3",
+        client: CLIENT_VOLT,
+        title: "Logo feels too small in the navbar",
+        avatars: ["PR"],
+      },
+    ],
+  },
+  {
+    id: "revision",
+    title: "In revision",
+    tone: TONE_REVISION,
+    count: 2,
+    cards: [
+      {
+        id: "c4",
+        client: CLIENT_BLOOM,
+        title: "Tone down the background gradient",
+        avatars: ["AV"],
+        meta: { icon: <MiniCommentIcon />, text: "1" },
+      },
+      {
+        id: "c5",
+        client: CLIENT_ACME,
+        title: "Bump the section padding to 96px",
+        avatars: ["DW", "EM"],
+      },
+    ],
+  },
+  {
+    id: "ready",
+    title: "Ready to ship",
+    tone: TONE_READY,
+    count: 2,
+    cards: [
+      {
+        id: "c6",
+        client: CLIENT_NORTH,
+        title: "Fixed the broken footer links",
+        avatars: ["MK"],
+        meta: { icon: <MiniCheckIcon />, text: "Done" },
+      },
+      {
+        id: "c7",
+        client: CLIENT_VOLT,
+        title: "Updated the CTA copy to “Get started”",
+        avatars: ["PR"],
+      },
+    ],
+  },
+];
+
+/** The self-moving board: two focused columns so the arrival stays on-screen
+    even in the left-anchored feature panel. The Bloom card leaves In revision
+    and arrives in Ready to ship as a client approval lands; both counts tick. */
+const SELF_MOVING_COLUMNS: readonly BoardColumnData[] = [
+  {
+    id: "revision",
+    title: "In revision",
+    tone: TONE_REVISION,
+    count: [3, 2],
+    cards: [
+      {
+        id: "m1",
+        client: CLIENT_BLOOM,
+        title: "Tone down the background gradient",
+        avatars: ["AV"],
+        meta: { icon: <MiniCommentIcon />, text: "1" },
+        motion: "leaving",
+      },
+      { id: "m2", client: CLIENT_ACME, title: "Bump the section padding to 96px", avatars: ["DW", "EM"] },
+      { id: "m3", client: CLIENT_VOLT, title: "Logo feels too small in the navbar", avatars: ["PR"] },
+    ],
+  },
+  {
+    id: "ready",
+    title: "Ready to ship",
+    tone: TONE_READY,
+    count: [2, 3],
+    cards: [
+      {
+        id: "m4",
+        client: CLIENT_BLOOM,
+        title: "Tone down the background gradient",
+        avatars: ["AV"],
+        meta: { icon: <MiniCheckIcon />, text: "Approved" },
+        motion: "arriving",
+      },
+      {
+        id: "m5",
+        client: CLIENT_NORTH,
+        title: "Fixed the broken footer links",
+        avatars: ["MK"],
+        meta: { icon: <MiniCheckIcon />, text: "Done" },
+      },
+      { id: "m6", client: CLIENT_VOLT, title: "Updated the CTA copy to “Get started”", avatars: ["PR"] },
+    ],
+  },
+];
+
+/** The filter scene: every card carries the client key its chip filters on. */
+const FILTER_TARGET = "acme";
+const FILTER_CHIPS: readonly { key: string; label: string }[] = [
+  { key: "all", label: "All clients" },
+  { key: "acme", label: "Acme" },
+  { key: "northwind", label: "Northwind" },
+  { key: "volt", label: "Volt" },
+  { key: "bloom", label: "Bloom" },
+];
+
+/**
+ * Tags each card in the cross-client board with a filter key so the filter
+ * scene can collapse non-matching cards. The counts tick down to the matching
+ * client's tally.
+ */
+const FILTER_COLUMNS: readonly BoardColumnData[] = CROSS_CLIENT_COLUMNS.map(
+  (column) => ({
+    ...column,
+    count: [
+      column.count as number,
+      column.cards.filter((card) => card.client?.name === "Acme").length,
+    ] as const,
+    cards: column.cards.map((card) => ({
+      ...card,
+      filterKey: card.client?.name.toLowerCase(),
+    })),
+  }),
+);
+
+/** The custom-statuses board: the columns ARE the team's own statuses. */
+const CUSTOM_COLUMNS: readonly BoardColumnData[] = [
+  {
+    id: "backlog",
+    title: "Backlog",
+    tone: "#8a90a2",
+    count: 4,
+    cards: [
+      { id: "x1", client: CLIENT_ACME, title: "New pricing page", avatars: ["DW"] },
+      { id: "x2", client: CLIENT_VOLT, title: "Refresh the blog index", avatars: ["PR"] },
+    ],
+  },
+  {
+    id: "designing",
+    title: "Designing",
+    tone: "#8b5cf6",
+    count: 2,
+    cards: [
+      { id: "x3", client: CLIENT_NORTH, title: "Dashboard empty state", avatars: ["MK", "JS"] },
+    ],
+  },
+  {
+    id: "client-review",
+    title: "Client review",
+    tone: "#2d9aff",
+    count: 3,
+    cards: [
+      {
+        id: "x4",
+        client: CLIENT_BLOOM,
+        title: "Campaign landing page",
+        avatars: ["AV"],
+        meta: AVATAR_META,
+      },
+    ],
+  },
+  {
+    id: "approved",
+    title: "Approved",
+    tone: "#109534",
+    count: 2,
+    cards: [
+      {
+        id: "x5",
+        client: CLIENT_ACME,
+        title: "About page rewrite",
+        avatars: ["EM"],
+        meta: { icon: <MiniCheckIcon />, text: "Done" },
+      },
+    ],
+  },
+  {
+    id: "live",
+    title: "Live",
+    tone: "#12b5a6",
+    count: 1,
+    isNew: true,
+    cards: [
+      {
+        id: "x6",
+        client: CLIENT_NORTH,
+        title: "Careers page shipped",
+        avatars: ["MK"],
+        meta: { icon: <MiniCheckIcon />, text: "Live" },
+      },
+    ],
+  },
+];
+
+/** The approval toast that drives the self-moving card. */
+const SELF_MOVING_TOAST = "Client approved · moved to Ready to ship";
+const CUSTOM_ADD_LABEL = "Add status";
+
+/**
+ * The shared board scene. Renders the filter bar (filters scene), the columns,
+ * and the self-moving approval toast (self-moving scene) inside one framed
+ * board that left-anchors in the feature panel and centres in the hero window.
+ *
+ * @param root0 - The scene props.
+ * @param root0.variant - Which board scene to render.
+ * @returns The board scene element, or `null` on failure.
+ */
+function BoardScene({ variant }: { variant: KanbanVariant }): ReactNode {
+  try {
+    const columns =
+      variant === "self-moving"
+        ? SELF_MOVING_COLUMNS
+        : variant === "filters"
+          ? FILTER_COLUMNS
+          : variant === "custom-columns"
+            ? CUSTOM_COLUMNS
+            : CROSS_CLIENT_COLUMNS;
+    return (
+      <>
+        {variant === "filters" ? (
+          <div className={styles.filterBar} style={staggerStyle(60)}>
+            <span className={styles.filterLabel} aria-hidden="true">
+              Client
+            </span>
+            {FILTER_CHIPS.map((chip) => (
+              <span
+                key={chip.key}
+                className={styles.filterChip}
+                data-target={chip.key === FILTER_TARGET || undefined}
+                data-all={chip.key === "all" || undefined}
+              >
+                {chip.label}
+                {chip.key === FILTER_TARGET ? (
+                  <FakeCursor className={styles.filterCursor} size={24} />
+                ) : null}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        <div className={styles.board}>
+          {columns.map((column, columnIndex) => (
+            <BoardColumn
+              key={column.id}
+              column={column}
+              columnIndex={columnIndex}
+            />
+          ))}
+          {variant === "custom-columns" ? (
+            <span
+              className={styles.addStatus}
+              style={staggerStyle(120 + columns.length * 90)}
+              aria-hidden="true"
+            >
+              <PlusIcon />
+              {CUSTOM_ADD_LABEL}
+            </span>
+          ) : null}
+        </div>
+
+        {variant === "self-moving" ? (
+          <div className={styles.moveToast} aria-hidden="true">
+            <span className={styles.moveToastIcon}>
+              <MiniCheckIcon />
+            </span>
+            {SELF_MOVING_TOAST}
+          </div>
+        ) : null}
+      </>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Props for {@link KanbanArtifact}. */
+export interface KanbanArtifactProps {
+  /** Which board scene to render. Defaults to the legacy `default` board. */
+  variant?: KanbanVariant;
+  /** Hero-window fit — centres the board in the fully-visible hero product window. */
+  hero?: boolean;
+}
+
+/**
+ * Render the Kanban artifact for the given variant. The `default` variant is
+ * the original built-in board; every other variant renders the shared
+ * cross-client board shell.
+ *
+ * @param props - The variant + hero-fit flag.
+ * @returns The artifact, or `null` on failure.
+ */
+export default function KanbanArtifact({
+  variant = "default",
+  hero = false,
+}: KanbanArtifactProps = {}): ReactNode {
+  try {
+    if (variant === "default") {
+      return <LegacyKanbanScene />;
+    }
+    return (
+      <div
+        className={styles.boardRoot}
+        data-hero={hero || undefined}
+        data-variant={variant}
+        data-artifact={`kanban-${variant}`}
+      >
+        <BoardScene variant={variant} />
+        <div className={styles.boardFade} aria-hidden="true" />
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Feature-panel wrapper — the cross-client board (Block 1 "One board, every
+ * client" / hero "The board").
+ *
+ * @returns The cross-client board artifact.
+ */
+export function KanbanCrossClientArtifact(): ReactNode {
+  return <KanbanArtifact variant="cross-client" />;
+}
+
+/**
+ * Feature-panel wrapper — the self-moving board (Block 2 "It moves itself" /
+ * hero "It moves itself").
+ *
+ * @returns The self-moving board artifact.
+ */
+export function KanbanSelfMovingArtifact(): ReactNode {
+  return <KanbanArtifact variant="self-moving" />;
+}
+
+/**
+ * Feature-panel wrapper — the filter-to-one-client board (Block 1 "Filters by
+ * client and project" / hero "Filters").
+ *
+ * @returns The filters board artifact.
+ */
+export function KanbanFiltersArtifact(): ReactNode {
+  return <KanbanArtifact variant="filters" />;
+}
+
+/**
+ * Feature-panel wrapper — the custom-statuses board (hero "Custom statuses").
+ *
+ * @returns The custom-columns board artifact.
+ */
+export function KanbanCustomColumnsArtifact(): ReactNode {
+  return <KanbanArtifact variant="custom-columns" />;
 }
