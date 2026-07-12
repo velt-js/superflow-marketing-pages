@@ -2290,15 +2290,16 @@
     padding: 18px;
 }
 
-/* Indigo-tinted media placeholder (matches the Client Review card's accent). */
+/* The reviewed element: a dashed-selected placeholder — a light gray fill with a
+   dashed indigo stroke (matching the shared PinScene selected element) so it
+   reads as "this element is selected/pinned" rather than a solid media tile. */
 .authPageHero {
     flex: 0 0 auto;
     width: 110px;
     height: 80px;
     border-radius: 10px;
-    background:
-        radial-gradient(90% 120% at 15% 0%, rgba(255, 255, 255, 0.3), transparent 60%),
-        linear-gradient(135deg, #433df3 0%, #6b63ff 55%, #8f7bff 100%);
+    border: 2px dashed #625df5;
+    background: #f6f6f5;
 }
 
 .authPageLines {

@@ -625,21 +625,31 @@ element (composer / attachment / reactions) and show a reply row only when
   wrapper — the Text Comments look); the only cards are the login gate modal and
   the shared `CommentThreadCard` dialog.
 - Reuses the shared primitives, not hand-rolled equivalents: `BrowserChrome`
-  (flat browser band), `CommentPin` + `CommentThreadCard` (via a local
-  `ReviewComment` helper — every pinned comment popover), and `FakeCursor` (the
-  gate button press + approve press choreographies). The real **Okta mark** lives
-  at `public/images/logos/okta.svg` (loaded with `next/image`) and is used in the
+  (flat browser band), `PinnedCommentScene` (the whole reviewed page + pinned
+  dialog, for the `behind-*` scenes), `CommentPin` + `CommentThreadCard` (via a
+  local `ReviewComment` helper — the `client-portal` popover), and `FakeCursor`
+  (the gate button press + approve press
+  choreographies). The real **Okta mark** lives at
+  `public/images/logos/okta.svg` (loaded with `next/image`) and is used in the
   `behind-okta` gate and the `auth-types` Okta row.
 - Six scenes (`AuthenticatedPagesVariant`): `behind-password`, `behind-okta`,
-  `behind-sso` share one `BehindScene` shell — a flat reviewed in-session page
-  (pinned comment + green "You're signed in" pill) with the scene's distinct
-  login card floating in front in its "Signed in ✓" state (password field / Okta
-  card / SSO shield). `client-portal` is the client's own branded flat browser
+  `behind-sso` share one `BehindScene` shell that mirrors the client-review
+  "Behind a login too" tab (`BehindLoginArtifact`): the shared
+  `PinnedCommentScene` is the revealed page (its own `address` per login domain —
+  `app.acme-portal.com` / `acme.okta.com` / `sso.acme-corp.com` — with the same
+  reviewer dialog the comments page uses), and the scene's distinct login "page"
+  (password field / Okta card / SSO shield) covers it, plays its "Signed in ✓"
+  beat, then lifts away to reveal it. The hero fit rides that scene on a
+  zoomed-out canvas under a full-width chrome band (like the comments hero).
+  `client-portal` is the client's own branded flat browser
   (`portal.northwind.com`, "Signed in as Dana · Northwind" / "No Superflow
   account" slim pills, a `CommentThreadCard` + a cursor-pressed Approve that
-  flips to "Approved · Dana Wells"). `on-site-snippet` is the differentiator (an
-  install-snippet card → the in-session page + a desaturated, blocked "Proxy
-  tool · 403" contrast card peeking in from the right). `auth-types` is the
+  flips to "Approved · Dana Wells"). `on-site-snippet` is the differentiator (a
+  minimal vertical two-beat story — step one is just the embed snippet: an
+  `index.html` tab over a syntax-highlighted one-line `<script>` card; step two
+  is the site with the snippet live, a `YOUR-SITE.COM` browser window whose page
+  carries a dropped review pin and runs off the panel's bottom edge). `auth-types`
+  is the
   works-behind-every-auth-type matrix (Password / Okta / SSO·SAML / basic-auth
   rows, each with a green "Review works ✓" pill landing staggered).
 - Six zero-prop feature-panel wrappers (`AuthBehindPasswordArtifact` …

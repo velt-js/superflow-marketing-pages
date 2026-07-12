@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import styles from "./PinScene.module.css";
-import BrowserChrome from "./BrowserChrome";
+import BrowserChrome, { type AddressAlign } from "./BrowserChrome";
 import FakeCursor from "./FakeCursor";
 
 /**
@@ -162,6 +162,18 @@ export interface PinSceneProps {
    * false.
    */
   hero?: boolean;
+  /**
+   * Optional address shown in the chrome's pill (non-live scenes only). Defaults
+   * to the generic {@link ADDRESS}. Lets a consumer (e.g. the authenticated-pages
+   * behind-login scenes) show the page's real login domain.
+   */
+  address?: string;
+  /**
+   * Alignment of the chrome address text. Defaults to "right" (the generic
+   * surface bleeds its URL off the panel edge); pass "center" when a custom
+   * {@link address} must stay fully readable inside the panel.
+   */
+  addressAlign?: AddressAlign;
 }
 
 /**
@@ -183,6 +195,8 @@ export default function PinScene({
   textSelect = false,
   textSelectAnimate = false,
   hero = false,
+  address,
+  addressAlign,
 }: PinSceneProps = {}): ReactNode {
   try {
     const hasVersions = Boolean(versions?.length);
@@ -201,6 +215,15 @@ export default function PinScene({
     const textSelectClassName = textSelectAnimate
       ? `${styles.textSelect} ${styles.textSelectAnim}`
       : styles.textSelect;
+    // A custom, fully-readable centred URL (the authenticated-pages behind-login
+    // scenes) wants a CONTAINED chrome bar with margins on both edges — the
+    // default 676px bar is authored to bleed off the panel's right edge, which
+    // clips the readable domain. Live / right-aligned scenes keep the bleeding
+    // bar unchanged.
+    const chromeClassName =
+      !live && addressAlign === "center"
+        ? `${styles.chrome} ${styles.chromeInset}`
+        : styles.chrome;
 
     return (
       <>
@@ -208,9 +231,9 @@ export default function PinScene({
             band, so this left-anchored panel chrome is suppressed there. */}
         {hero ? null : (
           <BrowserChrome
-            className={styles.chrome}
-            address={live ? LIVE_ADDRESS : ADDRESS}
-            addressAlign={live ? "center" : "right"}
+            className={chromeClassName}
+            address={live ? LIVE_ADDRESS : (address ?? ADDRESS)}
+            addressAlign={live ? "center" : (addressAlign ?? "right")}
             showActions={false}
             liveTag={live}
             compactAddress={hasVersions}

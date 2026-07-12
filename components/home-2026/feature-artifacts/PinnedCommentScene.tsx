@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import styles from "./PinnedCommentScene.module.css";
 import PinScene from "./PinScene";
+import type { AddressAlign } from "./BrowserChrome";
 import CommentThreadCard, { type CommentThreadCardProps } from "./CommentThreadCard";
 import AgentCommentCard, { type AgentCommentCardProps } from "./AgentCommentCard";
 import CommentPin from "./CommentPin";
@@ -110,6 +111,14 @@ export interface PinnedCommentSceneProps {
   /** Optional prop overrides for the shared comment dialog. */
   cardProps?: Partial<CommentThreadCardProps>;
   /**
+   * Optional address for the page's browser chrome (forwarded to {@link PinScene}).
+   * Lets consumers such as the authenticated-pages behind-login scenes show the
+   * real login domain instead of the generic placeholder.
+   */
+  address?: string;
+  /** Alignment of the chrome address. Forwarded to {@link PinScene}. */
+  addressAlign?: AddressAlign;
+  /**
    * When provided, the pinned popover renders the {@link AgentCommentCard}
    * (an AI-agent finding with approve/reject actions) instead of the threaded
    * {@link CommentThreadCard}, and the teardrop pin swaps its person photo for
@@ -145,6 +154,8 @@ export default function PinnedCommentScene({
   textSelectAnimation = false,
   cardProps,
   agentCard,
+  address,
+  addressAlign,
 }: PinnedCommentSceneProps): ReactNode {
   try {
     const isTextSelect = threadVariant === "text";
@@ -198,6 +209,8 @@ export default function PinnedCommentScene({
           textSelect={isTextSelect}
           textSelectAnimate={animateTextSelect}
           hero={hero}
+          address={address}
+          addressAlign={addressAlign}
         />
 
         <div className={threadClassName}>

@@ -20,6 +20,16 @@
   animation: sceneSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Contained variant for a custom, centred, fully-readable URL (the
+   authenticated-pages behind-login scenes). The default bar is 676px and bleeds
+   off the panel's right edge; here we narrow + nudge it in so the nav controls
+   and the address pill both keep a ~28px margin inside the visible ~630px panel
+   region, and the domain never runs off the edge. */
+.chromeInset {
+  left: 28px;
+  width: 574px;
+}
+
 /* ---------------------------------------------------- stale (static) copy */
 
 /* Only rendered in the Live Site variant: a dimmed, grayscale, slightly rotated

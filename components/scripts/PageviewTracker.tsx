@@ -21,6 +21,10 @@ type DataLayerEntry = Record<string, unknown>;
 type MixpanelFn = (...args: unknown[]) => void;
 type MixpanelClient = {
   track_pageview?: MixpanelFn;
+  /** Set to true by Mixpanel only once the real library has loaded (not the stub). */
+  __loaded?: boolean;
+  /** Present on the real library but not the pre-load stub — a clean "ready" signal. */
+  get_distinct_id?: MixpanelFn;
 };
 type WindowWithAnalytics = Window & {
   dataLayer?: DataLayerEntry[];
@@ -61,8 +65,16 @@ export function PageviewTracker() {
 
       // Mixpanel — manual pageview track for SPA route changes. The init
       // option `track_pageview: "full-url"` only fires on hard loads.
+      //
+      // Guard against the pre-load stub: it defines `track_pageview` as a
+      // function too (so a `typeof` check alone passes), but invoking it before
+      // the real lib loads throws internally ("a.push is not a function"). Only
+      // call once the real library is loaded — `__loaded`/`get_distinct_id` are
+      // present on the real lib but not the stub.
       const mp = w.mixpanel;
-      if (mp && typeof mp.track_pageview === "function") {
+      const mixpanelLoaded =
+        mp?.__loaded === true || typeof mp?.get_distinct_id === "function";
+      if (mixpanelLoaded && typeof mp?.track_pageview === "function") {
         mp.track_pageview();
       }
     } catch (err) {

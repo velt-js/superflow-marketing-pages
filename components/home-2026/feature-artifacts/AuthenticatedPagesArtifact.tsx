@@ -5,7 +5,8 @@ import Image from "next/image";
 import styles from "./AuthenticatedPagesArtifact.module.css";
 import BrowserChrome from "./BrowserChrome";
 import CommentPin from "./CommentPin";
-import CommentThreadCard from "./CommentThreadCard";
+import CommentThreadCard, { type AvatarTone } from "./CommentThreadCard";
+import PinnedCommentScene from "./PinnedCommentScene";
 import FakeCursor from "./FakeCursor";
 
 /**
@@ -21,8 +22,8 @@ import FakeCursor from "./FakeCursor";
  * One variant-driven component covers every beat:
  *
  *  - `behind-password`  — a padlock gate types a masked password then lifts to
- *                         reveal the reviewed page with a pinned comment + a
- *                         "You're signed in" pill.
+ *                         reveal the reviewed page with a pinned comment (the
+ *                         shared PinnedCommentScene).
  *  - `behind-okta`      — an Okta-style sign-in card with a prefilled email and
  *                         a FakeCursor pressing "Sign In" before the gate lifts.
  *  - `behind-sso`       — a generic SSO/SAML card with a shield glyph and a
@@ -60,23 +61,30 @@ const ADDRESS_OKTA = "acme.okta.com";
 const ADDRESS_SSO = "sso.acme-corp.com";
 const ADDRESS_NORTHWIND = "portal.northwind.com";
 
-const SESSION_PILL = "You’re signed in";
-
 /** Shared "passed-through" state shown on every gate's submit control. */
 const SIGNED_IN_LABEL = "Signed in ✓";
 
 /** Official Okta mark asset (a blue "O" ring), served raw as an SVG. */
 const OKTA_LOGO_SRC = "/images/logos/okta.svg";
 
-/* Pinned-review comment copy (reused across scenes via the shared dialog). */
+/* Pinned-review comment copy (reused across scenes via the shared dialog). The
+   dialog is the exact same rich CommentThreadCard the comments feature page
+   uses — status header, photo avatar, "@mention" chip and a reply row. */
+/** Header status label shown on the pinned dialog (mirrors the comments page). */
+const REVIEW_STATUS = "Open";
+/** Reply-count row shown at the foot of the pinned dialog. */
+const REVIEW_REPLY_LABEL = "1 Reply";
+
 const REVIEW_AUTHOR = "Milton";
 const REVIEW_TIME = "2w";
-const REVIEW_INITIAL = "M";
 const REVIEW_BODY = "Can we update this image?";
+const REVIEW_MENTION = "@Sara";
+
 const CLIENT_REVIEW_AUTHOR = "Dana";
 const CLIENT_REVIEW_TIME = "1h";
 const CLIENT_REVIEW_INITIAL = "D";
 const CLIENT_REVIEW_BODY = "Looks great, ready to approve!";
+const CLIENT_REVIEW_MENTION = "@Alex";
 
 /* behind-password */
 const PASSWORD_HEADING = "Enter password";
@@ -106,14 +114,10 @@ const APPROVED_LABEL = "Approved · Dana Wells";
 const CLIENT_CAPTION = "Your client reviews from inside their own system.";
 
 /* on-site-snippet */
-const SNIPPET_HEADING = "Installed on your site";
-const SNIPPET_CODE = '<script src="https://cdn.superflow.app/embed.js" async></script>';
-const SNIPPET_NOTE = "IT-approved · one tag, like an analytics pixel";
-const SNIPPET_DONE = "Added once ✓";
-const SESSION_BADGE = "Loads in the viewer’s session";
-const PROXY_HEADING = "Proxy tool";
-const PROXY_ERROR = "403 · Can’t reach your page";
-const PROXY_SUB = "not logged in as your user";
+const SNIPPET_FILE_TAB = "index.html";
+const SNIPPET_SRC = "https://cdn.superflow.app/embed.js";
+/** Address shown in the browser chrome of the "snippet is live" window. */
+const SNIPPET_SITE_ADDRESS = "YOUR-SITE.COM";
 
 /* auth-types */
 const AUTH_TYPES_HEADING = "If they can log in, review works there.";
@@ -148,10 +152,7 @@ type AuthGlyph =
   | "key"
   | "shield"
   | "check"
-  | "okta"
-  | "code"
-  | "arrowRight"
-  | "xCircle";
+  | "okta";
 
 /** Tabler-derived stroke path sets, keyed by glyph name. */
 const GLYPH_PATHS: Readonly<Record<Exclude<AuthGlyph, "okta">, readonly string[]>> = {
@@ -166,16 +167,6 @@ const GLYPH_PATHS: Readonly<Record<Exclude<AuthGlyph, "okta">, readonly string[]
     "M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3",
   ],
   check: ["M5 12l5 5l9 -9"],
-  code: [
-    "M7 8l-4 4l4 4",
-    "M17 8l4 4l-4 4",
-    "M14 4l-4 16",
-  ],
-  arrowRight: ["M5 12h14", "M13 6l6 6l-6 6"],
-  xCircle: [
-    "M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0",
-    "M10 10l4 4m0 -4l-4 4",
-  ],
 };
 
 /** Props for the inline stroke glyph. */
@@ -276,29 +267,58 @@ interface ReviewCommentProps {
   avatarInitial: string;
   /** The comment body text. */
   bodyText: string;
-  /** Avatar/pin tone. Defaults to Superflow purple. */
+  /** Optional purple "@mention" chip appended to the body. */
+  mention?: string;
+  /**
+   * Photo avatar source for both the teardrop pin and the card header. When
+   * omitted the pin/card fall back to the {@link avatarInitial} on a tone disc.
+   */
+  avatarSrc?: string;
+  /** Pin teardrop tone. Defaults to Superflow purple. */
   tone?: string;
-  /** Card avatar fill tone. Defaults to "gray". */
-  avatarTone?: "green" | "orange" | "gray";
-  /** Teardrop pin diameter in px. Defaults to 26. */
+  /** Card avatar fill tone (initial fallback). Defaults to "gray". */
+  avatarTone?: AvatarTone;
+  /** Teardrop pin diameter in px. Defaults to 28 (matches the comments page). */
   pinSize?: number;
+  /**
+   * Header status label. Defaults to "Open" so the dialog matches the comments
+   * page; pass an empty string to drop the whole action header.
+   */
+  status?: string;
+  /** Whether the header flag pill is shown. Defaults to true. */
+  showFlag?: boolean;
+  /** Whether the header resolve check is shown. Defaults to true. */
+  resolvable?: boolean;
+  /** Reply-row label. Defaults to "1 Reply"; pass "" to hide the row. */
+  replyLabel?: string;
+  /** Whether the muted "(EDITED)" tag is shown. Defaults to true. */
+  edited?: boolean;
 }
 
 /**
- * A pinned review comment — the shared {@link CommentPin} teardrop beside the
- * shared {@link CommentThreadCard} dialog. Reused across every scene so the
- * comment popover is the same component the comments page uses (single source
- * of truth), never bespoke markup. Position is owned by the caller's class.
+ * A pinned review comment — the shared {@link CommentPin} teardrop anchored to
+ * the corner of the shared {@link CommentThreadCard} dialog. This is the exact
+ * same rich popover the comments feature page renders (status header, photo
+ * avatar, author row, "@mention" body and reply row), so the authenticated-pages
+ * artifact reuses the single source of truth rather than a stripped-down card.
+ * Position is owned by the caller's class.
  *
- * @param root0 - The comment content, tone and positioning class.
+ * @param root0 - The comment content, avatar, header toggles and positioning class.
  * @param root0.className - Positioning class for the group.
  * @param root0.author - Comment author's name.
  * @param root0.timeAgo - Relative timestamp.
  * @param root0.avatarInitial - Avatar initial for the pin + card fallback.
  * @param root0.bodyText - Comment body text.
+ * @param root0.mention - Optional purple "@mention" chip.
+ * @param root0.avatarSrc - Optional photo avatar for the pin + card header.
  * @param root0.tone - Pin teardrop tone.
  * @param root0.avatarTone - Card avatar fill tone.
  * @param root0.pinSize - Pin diameter in px.
+ * @param root0.status - Header status label ("" drops the header).
+ * @param root0.showFlag - Whether the header flag pill is shown.
+ * @param root0.resolvable - Whether the header resolve check is shown.
+ * @param root0.replyLabel - Reply-row label ("" hides the row).
+ * @param root0.edited - Whether the "(EDITED)" tag is shown.
  * @returns The pinned review comment group, or `null` on failure.
  */
 function ReviewComment({
@@ -307,9 +327,16 @@ function ReviewComment({
   timeAgo,
   avatarInitial,
   bodyText,
+  mention,
+  avatarSrc,
   tone = "#635cf4",
   avatarTone = "gray",
-  pinSize = 26,
+  pinSize = 28,
+  status = REVIEW_STATUS,
+  showFlag = true,
+  resolvable = true,
+  replyLabel = REVIEW_REPLY_LABEL,
+  edited = true,
 }: ReviewCommentProps): ReactNode {
   try {
     const groupClass = className
@@ -317,84 +344,36 @@ function ReviewComment({
       : styles.reviewGroup;
     return (
       <div className={groupClass}>
-        <CommentPin
-          className={styles.reviewPin}
-          size={pinSize}
-          tone={tone}
-          hasImage={false}
-          character={avatarInitial}
-        />
+        {avatarSrc ? (
+          <CommentPin
+            className={styles.reviewPin}
+            size={pinSize}
+            avatarSrc={avatarSrc}
+          />
+        ) : (
+          <CommentPin
+            className={styles.reviewPin}
+            size={pinSize}
+            tone={tone}
+            hasImage={false}
+            character={avatarInitial}
+          />
+        )}
         <CommentThreadCard
           className={styles.reviewCard}
+          avatarSrc={avatarSrc}
           author={author}
           timeAgo={timeAgo}
+          edited={edited}
           avatarInitial={avatarInitial}
           avatarTone={avatarTone}
           bodyText={bodyText}
+          mention={mention}
+          status={status || undefined}
+          showFlag={showFlag}
+          resolvable={resolvable}
+          replyLabel={replyLabel || undefined}
         />
-      </div>
-    );
-  } catch {
-    return null;
-  }
-}
-
-/* ------------------------------------------------------------------ *
- * Shared inner-page body (the content behind the auth gate).          *
- * ------------------------------------------------------------------ */
-
-/**
- * The reviewed in-session page: a flat, full-width {@link BrowserChrome} band
- * over a page body (hero band + skeleton copy lines) with a pinned Superflow
- * review comment and a green "You're signed in" pill. Shared by all three
- * "behind-*" gate scenes as the page the login protects.
- *
- * In `hero` mode the chrome + body span the whole hero window edge-to-edge (the
- * comments-hero look); in feature mode the page is the right half of the split
- * with the gate card overlapping its left edge.
- *
- * @param root0 - The component props.
- * @param root0.address - The browser chrome address to display.
- * @param root0.hero - Whether to render the full-width hero page.
- * @returns The reviewed page, or `null` on failure.
- */
-function InnerPage({
-  address,
-  hero = false,
-}: {
-  address: string;
-  hero?: boolean;
-}): ReactNode {
-  try {
-    const pageClass = hero
-      ? `${styles.innerPage} ${styles.innerPageHero}`
-      : styles.innerPage;
-    return (
-      <div className={pageClass}>
-        <div className={styles.innerChrome}>
-          <BrowserChrome address={address} />
-        </div>
-        <div className={styles.innerBody}>
-          <div className={styles.innerHero} />
-          <div className={styles.innerLine} />
-          <div className={`${styles.innerLine} ${styles.innerLineShort}`} />
-          <div className={styles.innerTiles}>
-            <div className={styles.innerTile} />
-            <div className={styles.innerTile} />
-          </div>
-          {/* Pinned comment on the revealed page (shared dialog) */}
-          <ReviewComment
-            className={styles.innerReview}
-            author={REVIEW_AUTHOR}
-            timeAgo={REVIEW_TIME}
-            avatarInitial={REVIEW_INITIAL}
-            bodyText={REVIEW_BODY}
-          />
-        </div>
-        <span className={styles.sessionPill}>
-          <span className={styles.sessionDot} aria-hidden="true" />
-          {SESSION_PILL}
-        </span>
       </div>
     );
   } catch {
@@ -405,13 +384,13 @@ function InnerPage({
 /* ------------------------------------------------------------------ *
  * Shared "behind login" shell.                                        *
  *                                                                     *
- * A left→right split: the specific login card (front, overlapping)    *
- * beside the reviewed in-session page (right, behind). Both stay       *
- * visible in the settled state, so a viewer instantly sees which login *
- * (password / Okta / SSO) AND that the page behind it is reviewed.    *
- * The gate's submit control carries an idle button that flips to a     *
- * green "Signed in ✓" pill in the settled/reduced-motion end state —  *
- * it reads as "the login you came through," not a wall still blocking. *
+ * The reviewed in-session page sits edge-to-edge behind the specific   *
+ * login card (password / Okta / SSO), which floats in front like a     *
+ * sign-in modal. On load the gate's field types / cursor presses, the  *
+ * submit button flips to a green "Signed in ✓" pill, and then the      *
+ * modal LIFTS AWAY — its job done — to reveal the reviewed page and its *
+ * pinned comment. The settled / reduced-motion end state is the        *
+ * gate-gone, page-revealed state (see the module's choreography block).*
  * ------------------------------------------------------------------ */
 
 /** Props for {@link SignedInControl}. */
@@ -426,8 +405,8 @@ interface SignedInControlProps {
 
 /**
  * The gate's submit control: an idle button that flips to a green
- * "Signed in ✓" pill. In the settled/reduced-motion end state the "Signed in"
- * pill is what shows, so the card reads as passed-through rather than blocking.
+ * "Signed in ✓" pill mid-sequence, confirming the viewer is through the login
+ * for a beat before the whole modal lifts away.
  *
  * @param root0 - The idle label, optional idle-button class and cursor flag.
  * @param root0.idleLabel - The idle submit label.
@@ -472,12 +451,14 @@ interface BehindSceneProps {
 
 /**
  * The shared behind-login shell: a login card (front) over the reviewed
- * in-session page. Both persist in the settled state.
+ * in-session page. The gate lifts away after "sign-in", so the settled state
+ * is the revealed page with its pinned comment.
  *
- * In FEATURE mode the reviewed page is the right half of a split and the login
- * card overlaps its left edge. In HERO mode the reviewed page fills the window
- * edge-to-edge under a flat full-width {@link BrowserChrome}, and the login card
- * floats centered over it like a sign-in modal over the page it protects.
+ * In both FEATURE and HERO mode the reviewed page (the shared PinnedCommentScene)
+ * fills the surface, and the login card sits centred over it like a sign-in modal
+ * — centred within the visible ~630px region in the feature panel (whose 1204px
+ * window clips off the right) and in the full window in hero — then lifts away
+ * once the viewer is through, revealing the pinned comment.
  *
  * @param root0 - The variant, page address, caption, hero flag and card body.
  * @param root0.variant - The variant hook driving animation timings.
@@ -495,28 +476,62 @@ function BehindScene({
   children,
 }: BehindSceneProps): ReactNode {
   try {
-    if (hero) {
-      return (
-        <div
-          className={`${styles.behindRoot} ${styles.behindRootHero}`}
-          data-variant={variant}
-        >
-          <div className={styles.behindHero}>
-            <InnerPage address={address} hero />
-            <div className={`${styles.gateCard} ${styles.gateCardFloat}`}>{children}</div>
-          </div>
+    const rootClass = hero
+      ? `${styles.behindRoot} ${styles.behindRootHero}`
+      : styles.behindRoot;
+    // The revealed page + pinned comment are the SHARED PinnedCommentScene — the
+    // exact surface + dialog the comments page and the client-review "Behind a
+    // login too" tab use — so the copy stays the reviewer's ("Milton" · @Sara).
+    const revealedPage = hero ? (
+      // Hero: the shared scene rides a zoomed-out canvas beneath a full-width
+      // chrome band (its own panel chrome is suppressed via `hero`), matching
+      // the comments hero fit.
+      <div className={styles.behindHeroFit}>
+        <div className={styles.behindCanvas}>
+          <PinnedCommentScene
+            dataArtifact={`auth-${variant}-site`}
+            hero
+            author={REVIEW_AUTHOR}
+            timeAgo={REVIEW_TIME}
+            bodyText={REVIEW_BODY}
+            mention={REVIEW_MENTION}
+          />
         </div>
-      );
-    }
+        <div className={styles.behindHeroChrome}>
+          <BrowserChrome address={address} />
+        </div>
+      </div>
+    ) : (
+      // Feature: the shared scene fills the panel with its own chrome (the URL
+      // is centred so this login's real domain stays readable in the frame).
+      <div className={styles.behindSite}>
+        <PinnedCommentScene
+          dataArtifact={`auth-${variant}-site`}
+          address={address}
+          addressAlign="center"
+          author={REVIEW_AUTHOR}
+          timeAgo={REVIEW_TIME}
+          bodyText={REVIEW_BODY}
+          mention={REVIEW_MENTION}
+        />
+      </div>
+    );
     return (
-      <div className={styles.behindRoot} data-variant={variant}>
-        <div className={styles.behindSplit}>
-          <div className={styles.behindPage}>
-            <InnerPage address={address} />
+      <div className={rootClass} data-variant={variant}>
+        <div className={styles.behindStack}>
+          {revealedPage}
+          {/* The login "page" (this variant's gate) sits over the reviewed page
+              and lifts away once signed in, revealing it. The card centres in
+              the left-anchored `.gateFrame` (the visible ~630px of the clipped
+              panel window) rather than the full 1204px, so it never drifts to
+              the visible edge — as in BehindLoginArtifact. */}
+          <div className={styles.behindGate}>
+            <div className={styles.gateFrame}>
+              <div className={styles.gateCard}>{children}</div>
+            </div>
           </div>
-          <div className={styles.gateCard}>{children}</div>
         </div>
-        <p className={styles.sceneCaption}>{caption}</p>
+        {hero ? null : <p className={styles.sceneCaption}>{caption}</p>}
       </div>
     );
   } catch {
@@ -678,13 +693,16 @@ function ClientPortalScene({ hero = false }: { hero?: boolean }): ReactNode {
               <div className={styles.portalDashTile} />
             </div>
           </div>
-          {/* Pinned comment (shared dialog) */}
+          {/* Pinned comment — the same rich dialog the comments page uses (full
+              status header: Open pill + flag + resolve), from the client's side
+              with a green initial avatar. */}
           <ReviewComment
             className={styles.portalReview}
             author={CLIENT_REVIEW_AUTHOR}
             timeAgo={CLIENT_REVIEW_TIME}
             avatarInitial={CLIENT_REVIEW_INITIAL}
             bodyText={CLIENT_REVIEW_BODY}
+            mention={CLIENT_REVIEW_MENTION}
             avatarTone="green"
           />
           {/* Approve action bar */}
@@ -712,10 +730,12 @@ function ClientPortalScene({ hero = false }: { hero?: boolean }): ReactNode {
  * ------------------------------------------------------------------ */
 
 /**
- * `on-site-snippet` scene — a snippet card (one-line install) connected by a
- * dashed arrow to an in-session reviewed page card with a green badge, contrasted
- * with a greyed proxy-tool error card that bleeds off the right edge in feature
- * mode. Conveys that Superflow is on the site, not a proxy.
+ * `on-site-snippet` scene — a vertical two-beat story matching the Figma design:
+ * step one is just the one-line embed snippet (an `index.html` tab over a
+ * syntax-highlighted `<script>` card, nothing else); step two is the site with
+ * the snippet live — a browser window ({@link SNIPPET_SITE_ADDRESS}) whose page
+ * carries a dropped review pin. Conveys that Superflow runs on the real site,
+ * loaded by a single tag.
  *
  * @returns The on-site-snippet scene, or `null` on failure.
  */
@@ -723,60 +743,40 @@ function OnSiteSnippetScene(): ReactNode {
   try {
     return (
       <div className={styles.snippetRoot}>
-        {/* Left: the snippet install card */}
-        <div className={styles.snippetCard} style={delayStyle(80)}>
-          <span className={styles.snippetHeading}>{SNIPPET_HEADING}</span>
-          <div className={styles.snippetCodeBox}>
-            <Glyph name="code" size={14} className={styles.snippetCodeIcon} />
-            <code className={styles.snippetCode}>{SNIPPET_CODE}</code>
+        {/* Step 1: just the embed snippet — an index.html tab over the one-line
+            <script> tag, syntax-highlighted (tag coral, attributes teal). */}
+        <div className={styles.snippetStep} style={delayStyle(80)}>
+          <span className={styles.snippetFileTab}>{SNIPPET_FILE_TAB}</span>
+          <div className={styles.snippetCodeCard}>
+            <code className={styles.snippetCodeText}>
+              &lt;<span className={styles.codeTag}>script</span>{" "}
+              <span className={styles.codeAttr}>src</span>=&quot;{SNIPPET_SRC}&quot;{" "}
+              <span className={styles.codeAttr}>async</span>&gt;&lt;/
+              <span className={styles.codeTag}>script</span>&gt;
+            </code>
           </div>
-          <p className={styles.snippetNote}>{SNIPPET_NOTE}</p>
-          <span className={styles.snippetDone}>
-            <Glyph name="check" size={13} />
-            {SNIPPET_DONE}
-          </span>
         </div>
 
-        {/* Dashed connector arrow */}
-        <span className={styles.snippetConnector} aria-hidden="true">
-          <span className={styles.snippetConnLine} />
-          <Glyph name="arrowRight" size={16} className={styles.snippetConnArrow} />
-        </span>
-
-        {/* Centre: the in-session page card */}
-        <div className={styles.sessionCard} style={delayStyle(280)}>
-          <BrowserChrome address={ADDRESS_ACME} showActions={false} compactAddress />
-          <div className={styles.sessionBody}>
-            <div className={styles.sessionHero} />
-            <div className={styles.sessionLine} />
-            <div className={`${styles.sessionLine} ${styles.sessionLineShort}`} />
-            {/* Pinned comment (shared dialog, scaled to fit the compact card) */}
-            <ReviewComment
-              className={styles.sessionReview}
-              author={REVIEW_AUTHOR}
-              timeAgo={REVIEW_TIME}
-              avatarInitial={REVIEW_INITIAL}
-              bodyText={REVIEW_BODY}
-              pinSize={20}
-            />
+        {/* Step 2: the site, now with the snippet live — a browser window whose
+            page carries a dropped review pin. */}
+        <div className={styles.siteWindow} style={delayStyle(280)}>
+          <div className={styles.siteChrome}>
+            <span className={styles.siteDots} aria-hidden="true">
+              <span className={`${styles.siteDot} ${styles.siteDotRed}`} />
+              <span className={`${styles.siteDot} ${styles.siteDotAmber}`} />
+              <span className={`${styles.siteDot} ${styles.siteDotGreen}`} />
+            </span>
+            <span className={styles.siteAddress}>{SNIPPET_SITE_ADDRESS}</span>
           </div>
-          <span className={styles.sessionBadge}>
-            <span className={styles.sessionBadgeDot} aria-hidden="true" />
-            {SESSION_BADGE}
-          </span>
-        </div>
-
-        {/* Right: proxy error card (left portion peeks into view in feature mode) */}
-        <div className={styles.proxyCard} style={delayStyle(0)}>
-          <span className={styles.proxyHeading}>
-            <Glyph name="lock" size={13} />
-            {PROXY_HEADING}
-          </span>
-          <div className={styles.proxyErrorBox}>
-            <Glyph name="xCircle" size={16} className={styles.proxyErrorIcon} />
-            <span className={styles.proxyErrorText}>{PROXY_ERROR}</span>
+          <div className={styles.siteBody}>
+            <div className={styles.siteHero} aria-hidden="true" />
+            <div className={styles.siteLines} aria-hidden="true">
+              <span className={`${styles.siteLine} ${styles.siteLineTall}`} />
+              <span className={styles.siteLine} />
+              <span className={`${styles.siteLine} ${styles.siteLineShort}`} />
+            </div>
+            <span className={styles.snippetPin} aria-hidden="true" />
           </div>
-          <span className={styles.proxySub}>{PROXY_SUB}</span>
         </div>
       </div>
     );
