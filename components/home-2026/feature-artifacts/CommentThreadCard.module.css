@@ -286,6 +286,21 @@
   object-fit: cover;
 }
 
+/* ------------------------------------------- recording media (audio/video) */
+
+/* Voice-note / video recording rendered inside the comment body via the shared
+   RecordingMedia primitives. Spans nearly the full card width (like the
+   reference), so the clip reads as a prominent block rather than a text run. */
+.media {
+  margin: 12px 16px 0;
+}
+
+/* When the recording is the card's last element it owns the bottom padding so
+   the media doesn't crowd the card's rounded bottom edge. */
+.media:last-child {
+  margin-bottom: 18px;
+}
+
 /* ----------------------------------------------------------- file attach */
 
 /* Positioned wrapper so the opt-in drop-in glyph can fall over the chip without

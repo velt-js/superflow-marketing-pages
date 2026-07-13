@@ -60,6 +60,14 @@ import {
 } from "./feature-artifacts/AuthenticatedPagesArtifact";
 import PinnedCommentsArtifact from "./feature-artifacts/PinnedCommentsArtifact";
 import AutoScreenshotArtifact from "./feature-artifacts/AutoScreenshotArtifact";
+import {
+  ScreenshotCaptureArtifact,
+  ScreenshotNoExtensionArtifact,
+  ScreenshotThenAndNowArtifact,
+  ScreenshotFullPageArtifact,
+  ScreenshotClientViewArtifact,
+  ScreenshotRecordArtifact,
+} from "./feature-artifacts/ScreenshotArtifact";
 import BehindLoginArtifact from "./feature-artifacts/BehindLoginArtifact";
 import AllDevicesArtifact from "./feature-artifacts/AllDevicesArtifact";
 import WebhooksArtifact from "./feature-artifacts/WebhooksArtifact";
@@ -85,6 +93,15 @@ import {
 import VersioningArtifact from "./feature-artifacts/VersioningArtifact";
 import LiveSiteArtifact from "./feature-artifacts/LiveSiteArtifact";
 import RecordWalkthroughArtifact from "./feature-artifacts/RecordWalkthroughArtifact";
+import {
+  RecordingsScreenArtifact,
+  RecordingsCameraArtifact,
+  RecordingsVoiceArtifact,
+  RecordingsPinnedArtifact,
+  RecordingsComposerArtifact,
+  RecordingsClientArtifact,
+  RecordingsThreadArtifact,
+} from "./feature-artifacts/RecordingsArtifacts";
 import AgentFindingArtifact from "./feature-artifacts/AgentFindingArtifact";
 import ReviewAgentsMemoryArtifact from "./feature-artifacts/ReviewAgentsMemoryArtifact";
 import ValidateFixesArtifact from "./feature-artifacts/ValidateFixesArtifact";
@@ -154,6 +171,12 @@ const MOCKS = {
   "agent-finding": AgentFindingArtifact,
   "validate-fixes": ValidateFixesArtifact,
   "auto-screenshot": AutoScreenshotArtifact,
+  "screenshot-capture": ScreenshotCaptureArtifact,
+  "screenshot-no-extension": ScreenshotNoExtensionArtifact,
+  "screenshot-then-and-now": ScreenshotThenAndNowArtifact,
+  "screenshot-full-page": ScreenshotFullPageArtifact,
+  "screenshot-client-view": ScreenshotClientViewArtifact,
+  "screenshot-record": ScreenshotRecordArtifact,
   "private-comments": PrivateArtifact,
   "private-team-thread": PrivateTeamThreadArtifact,
   "private-just-you": PrivateJustYouArtifact,
@@ -196,6 +219,13 @@ const MOCKS = {
   versioning: VersioningArtifact,
   "live-site": LiveSiteArtifact,
   "record-walkthrough": RecordWalkthroughArtifact,
+  "recordings-screen": RecordingsScreenArtifact,
+  "recordings-camera": RecordingsCameraArtifact,
+  "recordings-voice": RecordingsVoiceArtifact,
+  "recordings-pinned": RecordingsPinnedArtifact,
+  "recordings-composer": RecordingsComposerArtifact,
+  "recordings-client": RecordingsClientArtifact,
+  "recordings-thread": RecordingsThreadArtifact,
   "text-comments": TextCommentsArtifact,
   "thread-comments": ThreadCommentsArtifact,
   "tracking-task-management": TrackingTaskManagementArtifact,

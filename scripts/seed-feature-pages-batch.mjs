@@ -798,7 +798,7 @@ const screenshots = {
     heading: "Proof that outlives the page",
     subheading:
       "Every comment captures the page as the reviewer saw it — so the fix never starts from a guess.",
-    variant: "comments",
+    variant: "screenshots",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -812,7 +812,7 @@ const screenshots = {
           "Every comment saves the page as the reviewer saw it, on public and gated sites, no extension.",
         icon: "camera",
         accent: "#a21caf",
-        mock: "auto-screenshot",
+        mock: "screenshot-capture",
         tabs: [
           {
             _key: "comment-time-capture",
@@ -820,6 +820,7 @@ const screenshots = {
             icon: "camera",
             oneLiner:
               "Every comment saves the page as the reviewer saw it, automatically.",
+            mock: "screenshot-capture",
           },
           {
             _key: "no-extension",
@@ -827,6 +828,7 @@ const screenshots = {
             icon: "checks",
             oneLiner:
               "Capture runs from the site install itself; reviewers and clients add nothing.",
+            mock: "screenshot-no-extension",
           },
           {
             _key: "password-capture",
@@ -845,7 +847,7 @@ const screenshots = {
           "When an edit costs a comment its anchor, the snapshot still shows the original page.",
         icon: "history",
         accent: "#433df3",
-        mock: "versioning",
+        mock: "screenshot-then-and-now",
         tabs: [
           {
             _key: "lost-anchor",
@@ -853,6 +855,7 @@ const screenshots = {
             icon: "pin",
             oneLiner:
               "When an element is edited away, the comment keeps its snapshot.",
+            mock: "screenshot-then-and-now",
           },
           {
             _key: "then-and-now",
@@ -860,6 +863,7 @@ const screenshots = {
             icon: "devices",
             oneLiner:
               "Open a comment and see the captured page beside the live one.",
+            mock: "screenshot-then-and-now",
           },
         ],
       },
@@ -870,7 +874,7 @@ const screenshots = {
           "You and your client look at the same full page, from any device.",
         icon: "share",
         accent: "#109534",
-        mock: "auto-screenshot",
+        mock: "screenshot-client-view",
         tabs: [
           {
             _key: "client-snapshots",
@@ -878,6 +882,7 @@ const screenshots = {
             icon: "user-check",
             oneLiner:
               "Your client sees the same snapshot from their link — no account, from their phone.",
+            mock: "screenshot-client-view",
           },
           {
             _key: "full-page-context",
@@ -885,6 +890,7 @@ const screenshots = {
             icon: "layout-dashboard",
             oneLiner:
               "The capture holds the whole page, not a cropped fragment.",
+            mock: "screenshot-full-page",
           },
         ],
       },
@@ -895,7 +901,7 @@ const screenshots = {
           "The review record keeps the pages as reviewers saw them, comment by comment.",
         icon: "checks",
         accent: "#e0820a",
-        mock: "auto-screenshot",
+        mock: "screenshot-record",
         tabs: [
           {
             _key: "approvals-context",
@@ -903,6 +909,7 @@ const screenshots = {
             icon: "circle-check",
             oneLiner:
               "The review record keeps the pages as reviewers saw them, comment by comment.",
+            mock: "screenshot-record",
           },
         ],
       },
@@ -1492,7 +1499,7 @@ const recordings = {
     heading: "Some feedback has to be shown",
     subheading:
       "Record your screen, camera, or voice right where you review — and it lands as a pinned comment.",
-    variant: "comments",
+    variant: "recordings",
   },
   featureSet: {
     headerTitle: "Superflow gets you from",
@@ -1506,12 +1513,13 @@ const recordings = {
           "Screen, camera, or voice — record whichever carries the feedback text can't.",
         icon: "video",
         accent: "#a21caf",
-        mock: "workflow",
+        mock: "recordings-screen",
         tabs: [
           {
             _key: "screen-recordings",
             label: "Screen recordings",
             icon: "video",
+            mock: "recordings-screen",
             oneLiner:
               "Record the screen and talk over it: the stutter, the flow, the thing text can't carry.",
           },
@@ -1519,6 +1527,7 @@ const recordings = {
             _key: "camera-video",
             label: "Camera video",
             icon: "camera",
+            mock: "recordings-camera",
             oneLiner:
               "Turn the camera on when tone matters, so hard feedback lands the way you meant it.",
           },
@@ -1526,6 +1535,7 @@ const recordings = {
             _key: "voice-notes",
             label: "Voice notes",
             icon: "message-circle",
+            mock: "recordings-voice",
             oneLiner:
               "Say the feedback and skip the keyboard, so spoken nuance isn't flattened into text.",
           },
@@ -1538,12 +1548,13 @@ const recordings = {
           "The clip lands as a pinned comment, recorded straight from the review toolbar.",
         icon: "pin",
         accent: "#433df3",
-        mock: "workflow",
+        mock: "recordings-pinned",
         tabs: [
           {
             _key: "pinned-comment",
             label: "A pinned comment",
             icon: "message-pin",
+            mock: "recordings-pinned",
             oneLiner:
               "The recording is a comment: pinned to the element, in a thread, with a status and an assignee.",
           },
@@ -1551,6 +1562,7 @@ const recordings = {
             _key: "no-separate-app",
             label: "No separate app",
             icon: "checks",
+            mock: "recordings-composer",
             oneLiner:
               "Record from the review toolbar: no extension, no app switch, no upload.",
           },
@@ -1563,12 +1575,13 @@ const recordings = {
           "Your client plays it from a link, and every recording lives in a thread.",
         icon: "user-check",
         accent: "#109534",
-        mock: "workflow",
+        mock: "recordings-client",
         tabs: [
           {
             _key: "client-playback",
             label: "Client playback from the link",
             icon: "user-check",
+            mock: "recordings-client",
             oneLiner:
               "Your client watches from their link: no account, no login, no app, from their phone.",
           },
@@ -1576,6 +1589,7 @@ const recordings = {
             _key: "recordings-in-threads",
             label: "Recordings in threads",
             icon: "message-circle",
+            mock: "recordings-thread",
             oneLiner:
               "Reply to a recording with text, or with another recording.",
           },

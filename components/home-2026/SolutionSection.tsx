@@ -359,6 +359,35 @@ function WindowIcon({ size }: IconProps): ReactNode {
 }
 
 /**
+ * Camera glyph — the "comment captures the page" start of the Screenshots
+ * variant's header cue.
+ * @param size Square pixel dimension for the SVG.
+ */
+function CameraIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
+      <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Archive/history glyph — the "snapshot outlives the page" end of the
+ * Screenshots variant's header cue (a stacked, kept snapshot).
+ * @param size Square pixel dimension for the SVG.
+ */
+function ArchiveIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="4" width="18" height="4" rx="2" />
+      <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+      <path d="M10 12h4" />
+    </SolutionIcon>
+  );
+}
+
+/**
  * The Superflow flower mark (exact Figma vectors) — the "before" brand shown as
  * the logo the White-label upload replaces.
  * @param size Square pixel dimension for the SVG.
@@ -789,6 +818,11 @@ const ANALYTICS_SUBHEADING_TEXT =
 const CLIENT_REVIEW_HEADING_TEXT = "One click to yes. No account.";
 const CLIENT_REVIEW_SUBHEADING_TEXT =
   "A magic link opens the live page — the client sees work AI and your team already cleaned up, then approves right there.";
+
+/* Screenshots-variant fallbacks, used only if the CMS omits the copy. */
+const SCREENSHOTS_HEADING_TEXT = "Proof that outlives the page";
+const SCREENSHOTS_SUBHEADING_TEXT =
+  "Every comment captures the page as the reviewer saw it \u2014 so the fix never starts from a guess.";
 
 /* Private Comments-variant fallbacks, used only if the CMS omits the copy. */
 const PRIVATE_HEADING_TEXT = "Your side of the review.";
@@ -1557,6 +1591,11 @@ const REVIEW_WF_SUBHEADING_TEXT =
 const AUTH_HEADING_TEXT = "Both halves of the work, reviewed";
 const AUTH_SUBHEADING_TEXT =
   "Superflow installs on the site itself, so review runs behind passwords, Okta, and SSO — wherever the viewer is logged in.";
+
+/** Recordings variant heading/subheading defaults (CMS overrides at runtime). */
+const RECORDINGS_HEADING_TEXT = "Some feedback is faster said than typed.";
+const RECORDINGS_SUBHEADING_TEXT =
+  "Record your screen, camera, or voice right where you review — and it lands as a pinned comment your team can watch in context.";
 const REVIEW_WF_MESSY_LABEL = "In your head";
 const REVIEW_WF_FLOW_LABEL = "One visual flow";
 
@@ -1759,6 +1798,70 @@ function LockClosedIcon({ size }: IconProps): ReactNode {
 }
 
 /**
+ * Video-camera glyph for the recordings variant (header cue + "Camera" capture
+ * option): a rounded frame with a lens notch on the right.
+ * @param size Square pixel dimension for the SVG.
+ */
+function VideoCamIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="7" width="12" height="10" rx="2.5" />
+      <path d="M15 10.5 20.5 7v10L15 13.5" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Microphone glyph for the recordings variant's "Voice" capture option.
+ * @param size Square pixel dimension for the SVG.
+ */
+function MicIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M6 11a6 6 0 0 0 12 0" />
+      <path d="M12 17v4" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Screen-share glyph for the recordings variant's "Screen" capture option: a
+ * monitor with an up arrow signalling a live capture.
+ * @param size Square pixel dimension for the SVG.
+ */
+function ScreenShareIcon({ size }: IconProps): ReactNode {
+  return (
+    <SolutionIcon size={size}>
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8" />
+      <path d="M12 9.5v4.5M12 9.5 9.75 11.75M12 9.5l2.25 2.25" />
+    </SolutionIcon>
+  );
+}
+
+/**
+ * Filled play triangle for the pinned recording clip in the recordings flow.
+ * Unlike the stroke-only {@link SolutionIcon} glyphs this is a solid mark so it
+ * reads as a real play button on the tinted clip chip.
+ * @param size Square pixel dimension for the SVG.
+ */
+function PlayTriangleIcon({ size }: IconProps): ReactNode {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>
+  );
+}
+
+/**
  * Authenticated Pages variant of the flow diagram (authenticated-pages feature
  * page): a compact auth-gate card on the left (padlock + Password / Okta /
  * SSO-SAML chips) resolves — through the dashed arrow — into a small browser
@@ -1838,6 +1941,272 @@ function SolutionAuthenticatedFlow(): ReactNode {
   }
 }
 
+/* ---- Recordings "capture it → pinned as a comment" variant ----
+   Left: a compact capture card (a "Record" label over Screen / Camera / Voice
+   option rows, each tinted by capture kind). Through the dashed arrow: a small
+   browser card carrying a tinted recording clip (play triangle + duration) and
+   a green "Pinned as a comment" pill. Only the recordings feature page opts into
+   this via solution.variant = "recordings". Borders + soft lift, no heavy
+   shadows — matches the other flow diagrams. */
+
+/** Capture-card label. */
+const RECORDINGS_CAPTURE_LABEL = "Record";
+/** Browser page label. */
+const RECORDINGS_PAGE_LABEL = "Pinned in place";
+/** Green pill copy shown once the clip lands on the page. */
+const RECORDINGS_PINNED_PILL = "Pinned as a comment";
+/** Duration shown on the pinned recording clip. */
+const RECORDINGS_CLIP_TIME = "00:40";
+/** Placeholder URL shown in the recordings browser bar. */
+const RECORDINGS_SITE_URL = "your-site.com";
+
+/**
+ * Capture options shown in the recordings capture card. Each pairs a glyph with
+ * a capture-kind tint so the three ways to record (screen / camera / voice) read
+ * at a glance.
+ */
+const RECORDINGS_OPTIONS: readonly {
+  id: string;
+  label: string;
+  tone: string;
+  icon: (size: number) => ReactNode;
+}[] = [
+  {
+    id: "screen",
+    label: "Screen",
+    tone: "#433df3",
+    icon: (size) => <ScreenShareIcon size={size} />,
+  },
+  {
+    id: "camera",
+    label: "Camera",
+    tone: "#c026d3",
+    icon: (size) => <VideoCamIcon size={size} />,
+  },
+  {
+    id: "voice",
+    label: "Voice",
+    tone: "#0d9f4f",
+    icon: (size) => <MicIcon size={size} />,
+  },
+];
+
+/* Reveal delays (ms) sequencing the recordings diagram left-to-right. */
+const RECORDINGS_REVEAL_CAPTURE_MS = 500;
+const RECORDINGS_REVEAL_OPTION_STEP_MS = 90;
+const RECORDINGS_REVEAL_CONNECTOR_MS = 950;
+const RECORDINGS_REVEAL_PAGE_MS = 1100;
+const RECORDINGS_REVEAL_CLIP_MS = 1350;
+
+/**
+ * Recordings variant of the flow diagram (recordings feature page): a compact
+ * capture card on the left (a "Record" label over Screen / Camera / Voice option
+ * rows) resolves — through the dashed arrow — into a small browser card on the
+ * right carrying a tinted recording clip (play triangle + duration) and a green
+ * "Pinned as a comment" pill. Entrances use the section's shared `.revealItem`
+ * mechanism, so the whole thing stays prefers-reduced-motion safe.
+ *
+ * @returns The recordings-flow element, or `null` on failure.
+ */
+function SolutionRecordingsFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.recordingsFlow}>
+        <div
+          className={`${styles.recCapture} ${styles.revealItem}`}
+          style={revealDelayStyle(RECORDINGS_REVEAL_CAPTURE_MS)}
+        >
+          <span className={styles.recCaptureLabel}>
+            <span className={styles.recCaptureDot} aria-hidden="true" />
+            {RECORDINGS_CAPTURE_LABEL}
+          </span>
+          <ul className={styles.recOptions}>
+            {RECORDINGS_OPTIONS.map((option, optionIndex) => (
+              <li
+                key={option.id}
+                className={`${styles.recOption} ${styles.revealItem}`}
+                style={revealDelayStyle(
+                  RECORDINGS_REVEAL_CAPTURE_MS +
+                    (optionIndex + 1) * RECORDINGS_REVEAL_OPTION_STEP_MS,
+                )}
+              >
+                <span
+                  className={styles.recOptionIcon}
+                  style={{ color: option.tone }}
+                  aria-hidden="true"
+                >
+                  {option.icon(18)}
+                </span>
+                <span className={styles.recOptionText}>{option.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <SolutionConnector revealDelayMs={RECORDINGS_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.recPage} ${styles.revealItem}`}
+          style={revealDelayStyle(RECORDINGS_REVEAL_PAGE_MS)}
+        >
+          <div className={styles.browserBar}>
+            <span className={styles.browserDots} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.browserUrl}>{RECORDINGS_SITE_URL}</span>
+          </div>
+          <div className={styles.browserBody} aria-hidden="true">
+            <div className={styles.recVideo}>
+              <span
+                className={`${styles.recVideoPlay} ${styles.revealItem}`}
+                style={revealDelayStyle(RECORDINGS_REVEAL_CLIP_MS)}
+              >
+                <PlayTriangleIcon size={16} />
+              </span>
+              <span
+                className={`${styles.recVideoTime} ${styles.revealItem}`}
+                style={revealDelayStyle(RECORDINGS_REVEAL_CLIP_MS)}
+              >
+                {RECORDINGS_CLIP_TIME}
+              </span>
+            </div>
+            <div className={styles.browserLines}>
+              <span className={styles.browserLine} />
+              <span className={`${styles.browserLine} ${styles.browserLineMid}`} />
+              <span
+                className={`${styles.browserLine} ${styles.browserLineShort}`}
+              />
+            </div>
+            <span
+              className={`${styles.recPin} ${styles.revealItem}`}
+              style={revealDelayStyle(RECORDINGS_REVEAL_CLIP_MS)}
+            />
+          </div>
+          <span
+            className={`${styles.recPinnedPill} ${styles.revealItem}`}
+            style={revealDelayStyle(RECORDINGS_REVEAL_CLIP_MS)}
+          >
+            <CheckLineIcon size={13} />
+            {RECORDINGS_PINNED_PILL}
+          </span>
+          <span className={styles.recPageLabel}>{RECORDINGS_PAGE_LABEL}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/* ---- Screenshots "comment captures the page → snapshot outlives it" variant ----
+   Left: a compact captured-page card (browser mini + comment pin + a green
+   camera "Snapshot saved" pill). Through the dashed arrow: a then/now stack —
+   a faint "Live · changed" card (its anchor lost) behind the solid saved
+   snapshot with a green "As reviewed" marker. Only the screenshots feature
+   page opts into this via solution.variant = "screenshots". Borders only, no
+   drop shadows. */
+
+/** Captured-page column label. */
+const SHOT_CAPTURE_LABEL = "Comment captures the page";
+/** Green "snapshot saved" pill copy. */
+const SHOT_SAVED_PILL = "Snapshot saved";
+/** Then/now stack label. */
+const SHOT_STACK_LABEL = "The snapshot outlives it";
+/** Faint "live, changed" card tag. */
+const SHOT_LIVE_TAG = "Live \u00b7 changed";
+/** Green "as reviewed" marker on the saved snapshot. */
+const SHOT_AS_REVIEWED = "As reviewed";
+/** Placeholder URL shown in the captured-page browser bar. */
+const SHOT_SITE_URL = "your-site.com";
+
+/* Reveal delays (ms) sequencing the screenshots diagram left-to-right. */
+const SHOT_REVEAL_CAPTURE_MS = 500;
+const SHOT_REVEAL_CONNECTOR_MS = 950;
+const SHOT_REVEAL_STACK_MS = 1100;
+const SHOT_REVEAL_MARKER_MS = 1350;
+
+/**
+ * Screenshots variant of the flow diagram (screenshots feature page): a compact
+ * captured-page card on the left (browser mini + comment pin + a green camera
+ * "Snapshot saved" pill) resolves — through the dashed arrow — into a then/now
+ * stack on the right: a faint "Live · changed" card (its anchor lost) behind
+ * the solid saved snapshot carrying a green "As reviewed" marker. Entrances use
+ * the section's shared `.revealItem` mechanism, so it stays
+ * prefers-reduced-motion safe.
+ *
+ * @returns The screenshots-flow element, or `null` on failure.
+ */
+function SolutionScreenshotsFlow(): ReactNode {
+  try {
+    return (
+      <div className={styles.shotFlow}>
+        <div
+          className={`${styles.shotCapture} ${styles.revealItem}`}
+          style={revealDelayStyle(SHOT_REVEAL_CAPTURE_MS)}
+        >
+          <div className={styles.shotCard}>
+            <div className={styles.shotCardBar} aria-hidden="true">
+              <span className={styles.shotCardDots}>
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className={styles.shotCardUrl}>{SHOT_SITE_URL}</span>
+            </div>
+            <div className={styles.shotCardBody} aria-hidden="true">
+              <span className={styles.shotCardMedia} />
+              <span className={styles.shotCardLines}>
+                <span className={styles.shotCardLine} />
+                <span className={`${styles.shotCardLine} ${styles.shotCardLineShort}`} />
+              </span>
+              <span className={styles.shotCardPin} />
+            </div>
+          </div>
+          <span className={styles.shotSavedPill}>
+            <CameraIcon size={14} />
+            {SHOT_SAVED_PILL}
+          </span>
+          <span className={styles.shotColLabel}>{SHOT_CAPTURE_LABEL}</span>
+        </div>
+
+        <SolutionConnector revealDelayMs={SHOT_REVEAL_CONNECTOR_MS} />
+
+        <div
+          className={`${styles.shotStack} ${styles.revealItem}`}
+          style={revealDelayStyle(SHOT_REVEAL_STACK_MS)}
+        >
+          <div className={styles.shotStackInner}>
+            <div className={styles.shotLive} aria-hidden="true">
+              <span className={styles.shotLiveTag}>{SHOT_LIVE_TAG}</span>
+              <span className={styles.shotLiveGhost} />
+            </div>
+            <div className={styles.shotSnap}>
+              <span className={styles.shotSnapMedia} aria-hidden="true" />
+              <span className={styles.shotSnapLines} aria-hidden="true">
+                <span className={styles.shotSnapLine} />
+                <span className={`${styles.shotSnapLine} ${styles.shotSnapLineShort}`} />
+              </span>
+              <span className={styles.shotSnapPin} aria-hidden="true" />
+              <span
+                className={`${styles.shotMarker} ${styles.revealItem}`}
+                style={revealDelayStyle(SHOT_REVEAL_MARKER_MS)}
+              >
+                <CameraIcon size={13} />
+                {SHOT_AS_REVIEWED}
+              </span>
+            </div>
+          </div>
+          <span className={styles.shotColLabel}>{SHOT_STACK_LABEL}</span>
+        </div>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Per-page overrides for the Solution section copy. Omit a field to fall back
  * to the homepage default (so /home-preview renders unchanged). Feature pages
@@ -1865,7 +2234,9 @@ export interface SolutionSectionProps {
     | "white-label"
     | "kanban"
     | "review-workflows"
-    | "authenticated-pages";
+    | "authenticated-pages"
+    | "screenshots"
+    | "recordings";
   /**
    * Optional named override for the header cue. When set to a known name (see
    * {@link SOLUTION_HEADER_ICONS}) the variant's default before→after glyph
@@ -2045,6 +2416,36 @@ function SolutionHeaderIcons({
         </>
       );
     }
+    if (variant === "screenshots") {
+      return (
+        <>
+          <span className={styles.headerIconCamera}>
+            <CameraIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconArchive}>
+            <ArchiveIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
+    if (variant === "recordings") {
+      return (
+        <>
+          <span className={styles.headerIconVideo}>
+            <VideoCamIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+          <span className={styles.headerIconArrow}>
+            <ArrowRightIcon size={22} />
+          </span>
+          <span className={styles.headerIconMessage}>
+            <MessageIcon size={HEADER_GLYPH_SIZE} />
+          </span>
+        </>
+      );
+    }
     if (variant === "comments") {
       return (
         <>
@@ -2100,6 +2501,8 @@ export default function SolutionSection({
   const isKanban = variant === "kanban";
   const isReviewWorkflows = variant === "review-workflows";
   const isAuthenticated = variant === "authenticated-pages";
+  const isScreenshots = variant === "screenshots";
+  const isRecordings = variant === "recordings";
   const defaultHeading = isComments
     ? COMMENTS_HEADING_TEXT
     : isAskAi
@@ -2118,7 +2521,11 @@ export default function SolutionSection({
                   ? REVIEW_WF_HEADING_TEXT
                   : isAuthenticated
                     ? AUTH_HEADING_TEXT
-                    : HEADING_TEXT;
+                    : isScreenshots
+                      ? SCREENSHOTS_HEADING_TEXT
+                      : isRecordings
+                        ? RECORDINGS_HEADING_TEXT
+                        : HEADING_TEXT;
   const defaultSubheading = isComments
     ? COMMENTS_SUBHEADING_TEXT
     : isAskAi
@@ -2137,7 +2544,11 @@ export default function SolutionSection({
                   ? REVIEW_WF_SUBHEADING_TEXT
                   : isAuthenticated
                     ? AUTH_SUBHEADING_TEXT
-                    : SUBHEADING_TEXT;
+                    : isScreenshots
+                      ? SCREENSHOTS_SUBHEADING_TEXT
+                      : isRecordings
+                        ? RECORDINGS_SUBHEADING_TEXT
+                        : SUBHEADING_TEXT;
   const headingText = heading ?? defaultHeading;
   const subheadingText = subheading ?? defaultSubheading;
 
@@ -2169,6 +2580,10 @@ export default function SolutionSection({
             <SolutionReviewWorkflowFlow />
           ) : variant === "authenticated-pages" ? (
             <SolutionAuthenticatedFlow />
+          ) : variant === "screenshots" ? (
+            <SolutionScreenshotsFlow />
+          ) : variant === "recordings" ? (
+            <SolutionRecordingsFlow />
           ) : variant === "ask-ai" ? (
             <SolutionAskAiInsights />
           ) : variant === "comments" ? (

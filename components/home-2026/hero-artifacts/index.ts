@@ -60,12 +60,25 @@ import {
   HeroAuthClientPortalArtifact,
 } from "./AuthenticatedPagesHeroFit";
 import {
+  HeroScreenshotCaptureArtifact,
+  HeroScreenshotThenAndNowArtifact,
+  HeroScreenshotBehindPasswordArtifact,
+  HeroScreenshotClientViewArtifact,
+} from "./ScreenshotsHeroFit";
+import {
   HeroCarryTheContextArtifact,
   HeroPinAnElementArtifact,
   HeroSelectTheWordsArtifact,
   HeroThreadItArtifact,
   HeroTrackItArtifact,
 } from "./CommentsHeroFit";
+import {
+  HeroRecordingsScreenArtifact,
+  HeroRecordingsVoiceArtifact,
+  HeroRecordingsCameraArtifact,
+  HeroRecordingsPinnedArtifact,
+  HeroRecordingsClientArtifact,
+} from "./RecordingsHeroFit";
 
 /**
  * Registry of per-tab hero artifacts, keyed by the tab `id` (see `HOME_TABS`
@@ -191,5 +204,28 @@ export const SCOPED_HERO_ARTIFACTS: Readonly<
     "behind-okta": HeroAuthBehindOktaArtifact,
     "behind-sso": HeroAuthBehindSsoArtifact,
     "the-client-s-own-portal": HeroAuthClientPortalArtifact,
+  },
+  // Screenshots hero tabs. "Comment, snapshot saved" / "The page changed" /
+  // "The client's view" slugify to generic ids (and "the-client-s-view"
+  // collides with the private-comments client view claimed globally), so they
+  // are scoped to this page. Each reuses the variant-driven ScreenshotArtifact
+  // fitted to the hero window; "Behind a password" reuses the Authenticated
+  // Pages behind-password gate.
+  screenshots: {
+    "comment-snapshot-saved": HeroScreenshotCaptureArtifact,
+    "the-page-changed": HeroScreenshotThenAndNowArtifact,
+    "behind-a-password": HeroScreenshotBehindPasswordArtifact,
+    "the-client-s-view": HeroScreenshotClientViewArtifact,
+  },
+  // Recordings hero tabs. The labels ("Record the screen", "Say it in voice",
+  // …) slugify to generic ids, so they're scoped to this page. The four
+  // page-based beats reuse the RecordingsArtifacts scenes fitted to the hero
+  // window; "The client watches" renders the phone centred (no chrome band).
+  recordings: {
+    "record-the-screen": HeroRecordingsScreenArtifact,
+    "say-it-in-voice": HeroRecordingsVoiceArtifact,
+    "on-camera": HeroRecordingsCameraArtifact,
+    "it-s-a-comment": HeroRecordingsPinnedArtifact,
+    "the-client-watches": HeroRecordingsClientArtifact,
   },
 };

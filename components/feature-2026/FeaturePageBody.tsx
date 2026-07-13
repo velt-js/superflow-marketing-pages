@@ -84,6 +84,8 @@ export interface FeaturePageDoc {
       | "kanban"
       | "review-workflows"
       | "authenticated-pages"
+      | "screenshots"
+      | "recordings"
       | null;
     /**
      * Optional single-glyph override for the section-header cue (e.g. "brain"
@@ -150,6 +152,10 @@ const KANBAN_BOARD_PAGE_SLUG = "kanban-board";
 const REVIEW_WORKFLOWS_PAGE_SLUG = "review-workflows";
 /** Slug of the Authenticated Pages page that gets auth mock + solution mapping. */
 const AUTHENTICATED_PAGES_PAGE_SLUG = "authenticated-pages";
+/** Slug of the Screenshots page that gets screenshot mock + solution mapping. */
+const SCREENSHOTS_PAGE_SLUG = "screenshots";
+/** Slug of the Recordings page that gets recordings mock + solution mapping. */
+const RECORDINGS_PAGE_SLUG = "recordings";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -330,6 +336,48 @@ const AUTHENTICATED_PAGES_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>
   "one-review-process-everywhere": "auth-types",
   "portals-member-areas-intranets": "auth-client-portal",
   "client-review-on-their-own-portal": "auth-client-portal",
+};
+
+/**
+ * Screenshots-page tab labels mapped to their per-tab screenshot artifact
+ * variant. The feature beats render the variant-driven {@link ScreenshotArtifact}:
+ * the comment-time capture (snapshot saved), the no-extension capture, the
+ * then-and-now page-changed pair (both the lost-anchor and then-and-now beats),
+ * the full-page context capture, the client-visible phone snapshot and the
+ * approvals review record. The "Password-protected capture" tab keeps its
+ * explicit `behind-login` CMS mock (explicit values still win, mirroring the
+ * hero's behind-password reuse). Applied client-side so the artifacts render
+ * without a Sanity re-seed; the seed script carries the same per-tab mocks for
+ * anyone who re-seeds the dataset.
+ */
+const SCREENSHOTS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "comment-time-capture": "screenshot-capture",
+  "no-browser-extension": "screenshot-no-extension",
+  "lost-anchor-fallback": "screenshot-then-and-now",
+  "then-and-now-view": "screenshot-then-and-now",
+  "client-visible-snapshots": "screenshot-client-view",
+  "full-page-context": "screenshot-full-page",
+  "approvals-with-context": "screenshot-record",
+};
+
+/**
+ * Recordings-page tab labels mapped to their per-tab recording artifact variant.
+ * The three capture beats render the pinned-comment scene carrying the matching
+ * clip (a screen walkthrough, a webcam video card or a voice note); "A pinned
+ * comment" leads with the same pinned scene, "No separate app" shows the
+ * record-from-the-toolbar composer, "Client playback from the link" the mobile
+ * client view and "Recordings in threads" a thread of clips. Applied
+ * client-side so the artifacts render without a Sanity re-seed; the seed script
+ * carries the same per-tab mocks for anyone who re-seeds the dataset.
+ */
+const RECORDINGS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "screen-recordings": "recordings-screen",
+  "camera-video": "recordings-camera",
+  "voice-notes": "recordings-voice",
+  "a-pinned-comment": "recordings-pinned",
+  "no-separate-app": "recordings-composer",
+  "client-playback-from-the-link": "recordings-client",
+  "recordings-in-threads": "recordings-thread",
 };
 
 /** Base path for feature preview pages (related-capability link targets). */
@@ -685,6 +733,34 @@ function getAuthenticatedPagesTabMock(
 }
 
 /**
+ * Resolve a tab's Screenshots artifact variant from its label, preserving
+ * explicit CMS values when the label is not one of the mapped screenshot beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no screenshots mapping applies.
+ */
+function getScreenshotsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return SCREENSHOTS_TAB_MOCKS?.[labelKey];
+}
+
+/**
+ * Resolve a tab's Recordings artifact variant from its label, preserving
+ * explicit CMS values when the label is not one of the mapped recording beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no recordings mapping applies.
+ */
+function getRecordingsTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return RECORDINGS_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -735,6 +811,8 @@ function toFeatureSetBlock(
   const isKanbanBoardPage = pageSlug === KANBAN_BOARD_PAGE_SLUG;
   const isReviewWorkflowsPage = pageSlug === REVIEW_WORKFLOWS_PAGE_SLUG;
   const isAuthenticatedPagesPage = pageSlug === AUTHENTICATED_PAGES_PAGE_SLUG;
+  const isScreenshotsPage = pageSlug === SCREENSHOTS_PAGE_SLUG;
+  const isRecordingsPage = pageSlug === RECORDINGS_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => {
@@ -782,6 +860,19 @@ function toFeatureSetBlock(
         resolvedMock =
           (tab.mock as FeatureSetMockName | undefined) ??
           getAuthenticatedPagesTabMock(tab);
+      } else if (isScreenshotsPage) {
+        // Explicit CMS mock (e.g. the password tab's behind-login) wins;
+        // otherwise each screenshot beat maps to its variant, replacing the
+        // block-level auto-screenshot / versioning fallbacks.
+        resolvedMock =
+          (tab.mock as FeatureSetMockName | undefined) ??
+          getScreenshotsTabMock(tab);
+      } else if (isRecordingsPage) {
+        // Each recording beat maps to its variant; a mapped label wins over the
+        // pre-reseed CMS mock (the seed carries a generic "workflow" fallback).
+        resolvedMock =
+          getRecordingsTabMock(tab) ??
+          (tab.mock as FeatureSetMockName | undefined);
       } else {
         resolvedMock = tab.mock as FeatureSetMockName | undefined;
       }
@@ -945,7 +1036,11 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
                     ? "review-workflows"
                     : doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG
                       ? "authenticated-pages"
-                      : (doc?.solution?.variant ?? undefined);
+                      : doc?.slug === SCREENSHOTS_PAGE_SLUG
+                        ? "screenshots"
+                        : doc?.slug === RECORDINGS_PAGE_SLUG
+                          ? "recordings"
+                          : (doc?.solution?.variant ?? undefined);
   const solutionIcon = doc?.solution?.icon ?? undefined;
 
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
@@ -991,7 +1086,9 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
           doc?.slug === WHITE_LABEL_PAGE_SLUG ||
           doc?.slug === KANBAN_BOARD_PAGE_SLUG ||
           doc?.slug === REVIEW_WORKFLOWS_PAGE_SLUG ||
-          doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG
+          doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG ||
+          doc?.slug === SCREENSHOTS_PAGE_SLUG ||
+          doc?.slug === RECORDINGS_PAGE_SLUG
             ? doc.slug
             : undefined
         }

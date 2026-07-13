@@ -2,6 +2,12 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import styles from "./CommentThreadCard.module.css";
 import FakeCursor from "./FakeCursor";
+import {
+  AudioPlayer,
+  VideoAttachment,
+  type AudioPlayerProps,
+  type VideoAttachmentProps,
+} from "./RecordingMedia";
 
 /**
  * Shared "posted comment" thread card for the feature-section artifacts.
@@ -138,6 +144,8 @@ export interface CommentThreadReply {
   mention?: string;
   /** Mention placement around the body text. Defaults to "end". */
   mentionPlacement?: MentionPlacement;
+  /** Optional recording (voice note / video) rendered inside this reply. */
+  mediaAttachment?: CommentMediaAttachment;
 }
 
 /** File attachment rendered inside the comment dialog. */
@@ -149,6 +157,17 @@ export interface CommentAttachment {
   /** Whether a remove X affordance is shown. Defaults to true. */
   removable?: boolean;
 }
+
+/**
+ * A recording rendered inside the comment dialog via the shared
+ * {@link AudioPlayer} / {@link VideoAttachment} primitives. This is what makes a
+ * recording "just a comment": the clip lives in the thread like any other body.
+ * The `kind` discriminant picks which primitive renders; the remaining fields
+ * are forwarded straight through to it.
+ */
+export type CommentMediaAttachment =
+  | ({ kind: "audio" } & AudioPlayerProps)
+  | ({ kind: "video" } & VideoAttachmentProps);
 
 /** One emoji reaction chip. */
 export interface CommentReaction {
@@ -261,6 +280,13 @@ export interface CommentThreadCardProps {
   /** Optional screenshot image source rendered inside the snapshot block. */
   screenshotSrc?: string;
   /**
+   * Optional arbitrary content rendered inside the embedded snapshot block
+   * instead of an image (e.g. a CSS wireframe "captured page"). Takes
+   * precedence over {@link screenshotSrc} when both are supplied. Lets the
+   * Screenshots artifacts embed a live page mock rather than a raster image.
+   */
+  screenshotNode?: ReactNode;
+  /**
    * Height (px) of the embedded screenshot block. Defaults to
    * {@link DEFAULT_SCREENSHOT_HEIGHT}.
    */
@@ -271,6 +297,12 @@ export interface CommentThreadCardProps {
   replies?: readonly CommentThreadReply[];
   /** Optional file attachment row. */
   attachment?: CommentAttachment;
+  /**
+   * Optional recording (voice note / video) rendered inside the comment body,
+   * between the body text and any file attachment. This is how a screen, camera
+   * or voice recording lands as "just a comment" on the Recordings feature page.
+   */
+  mediaAttachment?: CommentMediaAttachment;
   /** Optional reaction chips rendered below the comment body. */
   reactions?: readonly CommentReaction[];
   /** Whether the add-reaction button is shown beside reaction chips. */
@@ -845,6 +877,31 @@ function AttachmentRow({
 }
 
 /**
+ * Render a recording (voice note / video) inside the comment body using the
+ * shared {@link AudioPlayer} / {@link VideoAttachment} primitives, indented to
+ * align under the author name like the file chip and screenshot.
+ *
+ * @param root0 - Media props.
+ * @param root0.media - The recording to render.
+ * @returns The media block, or `null` on failure.
+ */
+function MediaBlock({ media }: { media: CommentMediaAttachment }): ReactNode {
+  try {
+    return (
+      <div className={styles.media}>
+        {media?.kind === "audio" ? (
+          <AudioPlayer {...media} />
+        ) : (
+          <VideoAttachment {...media} />
+        )}
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Render reaction chips and an optional add-reaction button.
  *
  * @param root0 - Reaction props.
@@ -1107,10 +1164,12 @@ export default function CommentThreadCard({
   resolvable = true,
   showScreenshot = false,
   screenshotSrc,
+  screenshotNode,
   screenshotHeight = DEFAULT_SCREENSHOT_HEIGHT,
   replyLabel,
   replies,
   attachment,
+  mediaAttachment,
   reactions,
   showAddReaction = false,
   composer,
@@ -1228,6 +1287,8 @@ export default function CommentThreadCard({
           mentionPlacement={mentionPlacement}
         />
 
+        {mediaAttachment ? <MediaBlock media={mediaAttachment} /> : null}
+
         {attachment ? (
           <AttachmentRow attachment={attachment} animate={animation === "attachment"} />
         ) : null}
@@ -1240,7 +1301,9 @@ export default function CommentThreadCard({
             style={{ height: screenshotHeight }}
             aria-hidden="true"
           >
-            {screenshotSrc ? (
+            {screenshotNode ? (
+              screenshotNode
+            ) : screenshotSrc ? (
               <Image
                 className={styles.attachmentImage}
                 src={screenshotSrc}
@@ -1277,6 +1340,9 @@ export default function CommentThreadCard({
                   mention={reply?.mention}
                   mentionPlacement={reply?.mentionPlacement}
                 />
+                {reply?.mediaAttachment ? (
+                  <MediaBlock media={reply.mediaAttachment} />
+                ) : null}
               </div>
             ))}
           </div>

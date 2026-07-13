@@ -254,6 +254,13 @@ const COMPOSER_TOOLS: readonly ComposerToolIcon[] = [
   ScreenShareIcon,
 ];
 
+/*
+ * Exposed so sibling artifacts can reuse the exact Figma composer toolbar
+ * glyphs (e.g. the Recordings "record from the toolbar" composer) instead of
+ * redrawing them: the ordered tool icons and the purple send arrow.
+ */
+export { COMPOSER_TOOLS, SendArrowIcon };
+
 /**
  * Navy "Visible to → <team>" header strip drawn above the composer body. Omit
  * the whole object (default) for the header-less Guest Mode composer.
