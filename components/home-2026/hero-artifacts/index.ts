@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import AgentsAtWorkArtifact from "./AgentsAtWorkArtifact";
+import IntegrationsHubHeroArtifact from "./IntegrationsHubHeroArtifact";
 import BuildAgentsArtifact from "./BuildAgentsArtifact";
 import BuiltInChecksArtifact from "./BuiltInChecksArtifact";
 import GuestModeArtifact from "./GuestModeArtifact";

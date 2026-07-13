@@ -28,6 +28,11 @@ import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
 import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import {
+  MondaySyncCrosses,
+  MondayLinkOnce,
+  MondayUnlocks,
+} from "./MondaySections";
 
 /** A tab / "features that help" row within a Feature Set block. */
 export interface IntegrationPageBlockTab {
@@ -109,6 +114,20 @@ const DEFAULT_HERO_TAB_ICON = "plug";
  * feature-page voice when the CMS omits one.
  */
 const GET_STARTED_HEADING = "Connect in a minute";
+
+/**
+ * Slug of the Monday integration page. Only this page swaps its FeatureSet +
+ * GetStarted sections for the bespoke Monday sections and renders the flat,
+ * Monday-only hero sync artifact; every other integration page is unchanged.
+ */
+const MONDAY_SLUG = "monday";
+
+/**
+ * Key selecting the Monday hero's static sync artifact (registered in
+ * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the shared task-and-comment sync
+ * board restricted to a single Monday logo on top.
+ */
+const MONDAY_HERO_ARTIFACT = "integrations-monday";
 
 /**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
@@ -282,6 +301,10 @@ interface IntegrationPageBodyProps {
  * @param props - The resolved Sanity document to render.
  */
 export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
+  const isMonday = doc?.slug === MONDAY_SLUG;
+  // The kicker eyebrow is rendered on the Monday hero only, so every other
+  // integration page keeps its current (eyebrow-less) hero exactly as before.
+  const heroKicker = isMonday ? doc?.hero?.kicker ?? undefined : undefined;
   const heroHeadlineLines = doc?.hero?.headlineLines ?? undefined;
   const heroSubhead = doc?.hero?.subhead ?? undefined;
   const heroShowcase = doc?.hero?.showcase ?? undefined;
@@ -306,30 +329,47 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
     <main>
       <SiteNav />
       <Hero
+        kicker={heroKicker}
         headlineLines={heroHeadlineLines}
         subhead={heroSubhead}
         variant="feature"
         showcase={heroShowcase}
         tabs={heroTabs}
+        staticArtifact={isMonday ? MONDAY_HERO_ARTIFACT : undefined}
+        staticArtifactFlat={isMonday}
       />
-      <SolutionSection
-        heading={solutionHeading}
-        subheading={solutionSubheading}
-        variant={solutionVariant}
-      />
-      <FeatureSet
-        headerTitle={doc?.featureSet?.headerTitle ?? undefined}
-        journeyStart={doc?.featureSet?.journeyStart ?? undefined}
-        journeyEnd={doc?.featureSet?.journeyEnd ?? undefined}
-        blocks={featureBlocks.length > 0 ? featureBlocks : undefined}
-      />
-      <GetStarted
-        heading={getStartedHeading}
-        subheading={getStartedSubheading}
-        steps={getStartedSteps}
-      />
-      <SolutionsSection />
-      <CostSection />
+      {isMonday ? (
+        <>
+          <MondaySyncCrosses />
+          <MondayLinkOnce />
+          <MondayUnlocks />
+        </>
+      ) : (
+        <>
+          <SolutionSection
+            heading={solutionHeading}
+            subheading={solutionSubheading}
+            variant={solutionVariant}
+          />
+          <FeatureSet
+            headerTitle={doc?.featureSet?.headerTitle ?? undefined}
+            journeyStart={doc?.featureSet?.journeyStart ?? undefined}
+            journeyEnd={doc?.featureSet?.journeyEnd ?? undefined}
+            blocks={featureBlocks.length > 0 ? featureBlocks : undefined}
+          />
+          <GetStarted
+            heading={getStartedHeading}
+            subheading={getStartedSubheading}
+            steps={getStartedSteps}
+          />
+        </>
+      )}
+      {!isMonday && (
+        <>
+          <SolutionsSection />
+          <CostSection />
+        </>
+      )}
       <TestimonialsSection />
       <TrustSection />
       <IntegrationsSection />

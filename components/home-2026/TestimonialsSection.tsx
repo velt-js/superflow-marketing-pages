@@ -70,8 +70,7 @@ const AGENCY_METRICS: AgencyMetric[] = [
     icon: "message",
     color: "#dc7713",
     value: "3 fewer rounds",
-    // "of feedbck" is a typo carried over verbatim from the Figma source.
-    label: "of feedbck",
+    label: "of feedback",
   },
   {
     id: "days",
@@ -95,7 +94,7 @@ const FEATURED_TESTIMONIAL: FeaturedTestimonial = {
   body: "Wonderist runs every client site through Superflow before it ships. Their senior designers stopped doing first-pass QA by hand.",
   stats: [
     { value: "47 hrs", label: "back every mo" },
-    { value: "3 Less", label: "Feedback Rounds" },
+    { value: "3 Fewer", label: "Feedback Rounds" },
     { value: "3 Days", label: "to approval" },
   ],
 };

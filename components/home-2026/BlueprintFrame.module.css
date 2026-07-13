@@ -1,0 +1,150 @@
+/*
+ * Shared decorative "blueprint" frame — extracted verbatim from the 2026
+ * homepage Solution section so every surface (homepage Solution, integrations
+ * Problem) draws the identical crossing rule-lines + registration "bolt" marks.
+ * Values mirror Figma node 582:3943.
+ *
+ * Two horizontal rules bleed the full viewport width and two vertical rules
+ * bleed the full section height, crossing each other with a registration mark
+ * at each of the four intersections (the lines are not a closed box). Purely
+ * visual. Geometry is tunable per section via the --bp-* custom properties
+ * (see BlueprintFrame.tsx).
+ *
+ * Entrance: the rules draw outward from center, then the corner bolts fade and
+ * scale in, once `.revealed` is set on the root by the IntersectionObserver in
+ * BlueprintFrame.tsx.
+ */
+
+.frame {
+  /* Frame-line placement: horizontal rules sit this far from the section's
+     top/bottom edges; vertical rules sit at the edges of the 1200px content
+     zone (120px from the viewport edge on the 1440px Figma frame), clamped so
+     they never leave the viewport on narrower screens. */
+  --bp-frame-line: #e5e5e4;
+  --bp-frame-inset-y: 88px;
+  --bp-frame-inset-x: max(20px, calc(50% - 600px));
+
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.frame *,
+.frame *::after {
+  box-sizing: border-box;
+}
+
+/* The rules dissolve toward their ends (transparent → line color →
+   transparent) instead of terminating hard at the section edges. */
+.frameLineHorizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right,
+      transparent 0%,
+      var(--bp-frame-line) 18%,
+      var(--bp-frame-line) 82%,
+      transparent 100%);
+  transform: scaleX(0);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frameLineTop {
+  top: var(--bp-frame-inset-y);
+}
+
+.frameLineBottom {
+  bottom: var(--bp-frame-inset-y);
+}
+
+.frameLineVertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      var(--bp-frame-line) 18%,
+      var(--bp-frame-line) 82%,
+      transparent 100%);
+  transform: scaleY(0);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frameLineLeft {
+  left: var(--bp-frame-inset-x);
+}
+
+.frameLineRight {
+  right: var(--bp-frame-inset-x);
+}
+
+.revealed .frameLineHorizontal {
+  transform: scaleX(1);
+}
+
+.revealed .frameLineVertical {
+  transform: scaleY(1);
+}
+
+/* Registration marks ("bolts"), centered on each line intersection. The 16px
+   squares are offset by inset − 7px so their centers land on the middle of the
+   2px rules (inset + 1px). Positioning is done with top/left/right/bottom only,
+   keeping `transform` free for the entrance scale animation. Bolts fade in
+   after the lines finish drawing, with a small per-corner stagger via
+   --bp-bolt-delay. */
+.corner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 350ms ease-out calc(650ms + var(--bp-bolt-delay, 0ms)),
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1) calc(650ms + var(--bp-bolt-delay, 0ms));
+}
+
+.revealed .corner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.corner::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #000000;
+  border-radius: 6px;
+}
+
+.cornerTopLeft {
+  --bp-bolt-delay: 0ms;
+  top: calc(var(--bp-frame-inset-y) - 7px);
+  left: calc(var(--bp-frame-inset-x) - 7px);
+}
+
+.cornerTopRight {
+  --bp-bolt-delay: 80ms;
+  top: calc(var(--bp-frame-inset-y) - 7px);
+  right: calc(var(--bp-frame-inset-x) - 7px);
+}
+
+.cornerBottomLeft {
+  --bp-bolt-delay: 160ms;
+  bottom: calc(var(--bp-frame-inset-y) - 7px);
+  left: calc(var(--bp-frame-inset-x) - 7px);
+}
+
+.cornerBottomRight {
+  --bp-bolt-delay: 240ms;
+  bottom: calc(var(--bp-frame-inset-y) - 7px);
+  right: calc(var(--bp-frame-inset-x) - 7px);
+}

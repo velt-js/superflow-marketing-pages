@@ -62,7 +62,7 @@ const COST_SLIDERS: CostSliderConfig[] = [
   },
   {
     id: "rate",
-    label: "Hourly Billing rate",
+    label: "Hourly Billing Rate",
     min: 40,
     max: 300,
     step: 5,

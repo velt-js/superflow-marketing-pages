@@ -11,8 +11,8 @@ import { notFound } from "next/navigation";
 
 import IntegrationsHubBody, {
   type IntegrationsHubDoc,
+  INTEGRATION_FAQ_ITEMS,
 } from "@/components/integration-2026/IntegrationsHubBody";
-import { FAQ_ITEMS } from "@/components/home-2026/FaqSection";
 import {
   getIntegrationPreviewHub,
   getAllIntegrationPreviewsForHub,
@@ -88,7 +88,9 @@ export default async function IntegrationsPreviewHubPage() {
     doc.metaDescription ?? doc.hero?.subhead ?? FALLBACK_DESCRIPTION;
 
   const faqEntries =
-    doc.faq?.items && doc.faq.items.length > 0 ? doc.faq.items : FAQ_ITEMS;
+    doc.faq?.items && doc.faq.items.length > 0
+      ? doc.faq.items
+      : INTEGRATION_FAQ_ITEMS;
   const faqSchema = buildFaqPageSchema(faqEntries);
   const itemListSchema = buildIntegrationsItemList(catalogItems ?? []);
 

@@ -5,7 +5,7 @@ const SECTION_HEADING = "AI-first, with a human on every decision.";
 const HEADING_ID = "trust-section-heading";
 
 const PRIMARY_CTA_LABEL = "Book Demo";
-const PRIMARY_CTA_HREF = "#";
+const PRIMARY_CTA_HREF = "/book-demo";
 const SECONDARY_CTA_LABEL = "View Trust Centre";
 const SECONDARY_CTA_HREF = "/security";
 

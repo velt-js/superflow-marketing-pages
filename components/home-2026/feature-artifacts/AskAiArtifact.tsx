@@ -173,7 +173,7 @@ const VARIANTS: Readonly<Record<AskAiVariant, VariantContent>> = {
   "ask-ai": {
     prompt: "Tell me common client issues",
     headingLead: "Copy Issues",
-    headingRest: " are the most common, Here is a breakdown",
+    headingRest: " are the most common — here's a breakdown",
     body: {
       type: "stacked-bar",
       segments: [

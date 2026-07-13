@@ -154,7 +154,7 @@ export const integrationPreviewHero = defineType({
       name: "kicker",
       title: "Kicker (eyebrow)",
       description:
-        "Category scent line from the source, e.g. \"· CHAT · THE AI QA REVIEWER FOR AGENCIES\". Stored for parity; the shared Hero has no eyebrow slot, so it is not rendered today.",
+        "Category scent line from the source, e.g. \"· CHAT · THE AI QA REVIEWER FOR AGENCIES\". Rendered as the mono eyebrow above the hero headline when set.",
       type: "string",
     }),
     defineField({

@@ -83,7 +83,7 @@ const SOFTWARE_APPLICATION_SCHEMA = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.",
+    "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.",
   image: ORG_OG_IMAGE,
   // Tiers: Starter ($0), Growth ($24/seat/mo annual), Scale ($28/seat/mo annual),
   // Enterprise (custom — excluded from highPrice per schema best-practice).
@@ -104,7 +104,7 @@ export default function HomePage() {
     <main>
       <PageJsonLd
         name="Superflow: Creative Assets Review & Collaboration Tool"
-        description="With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more."
+        description="With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more."
         path="/"
       />
       <JsonLd id="ld-software-application" data={SOFTWARE_APPLICATION_SCHEMA} />

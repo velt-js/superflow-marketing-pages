@@ -23,7 +23,7 @@ import styles from "./ClientMemoryArtifact.module.css";
  */
 
 const CAPTION_TEXT = "From 13 Client interactions";
-const MEMORY_TEXT = "Client Acme always want their primary CTAs capitalized";
+const MEMORY_TEXT = "Client Acme always wants their primary CTAs capitalized";
 
 const AVATAR_ONE_SRC = "/images/home-2026/feature-set/client-memory-avatar-1.png";
 const AVATAR_TWO_SRC = "/images/home-2026/feature-set/client-memory-avatar-2.png";

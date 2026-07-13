@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode, SVGProps } from "react";
 import styles from "./SolutionSection.module.css";
+import BlueprintFrame from "./BlueprintFrame";
 import {
   BrainGlyph,
   DEFAULT_PDF_TINT,
@@ -773,28 +774,6 @@ function SolutionReviewCard(): ReactNode {
       <button type="button" className={styles.reviewButton}>
         {REVIEW_ACTION_TEXT}
       </button>
-    </div>
-  );
-}
-
-/**
- * Decorative "blueprint" frame: horizontal rules bleeding the full viewport
- * width, vertical rules bleeding the full section height, and registration
- * "bolt" marks at the four intersections. Its entrance (lines draw, bolts
- * fade in) is driven by the shared reveal class from SolutionSectionReveal.
- * Non-interactive and hidden from assistive tech.
- */
-function SolutionFrame(): ReactNode {
-  return (
-    <div className={styles.frame} aria-hidden="true">
-      <span className={`${styles.frameLineHorizontal} ${styles.frameLineTop}`} />
-      <span className={`${styles.frameLineHorizontal} ${styles.frameLineBottom}`} />
-      <span className={`${styles.frameLineVertical} ${styles.frameLineLeft}`} />
-      <span className={`${styles.frameLineVertical} ${styles.frameLineRight}`} />
-      <span className={`${styles.corner} ${styles.cornerTopLeft}`} />
-      <span className={`${styles.corner} ${styles.cornerTopRight}`} />
-      <span className={`${styles.corner} ${styles.cornerBottomLeft}`} />
-      <span className={`${styles.corner} ${styles.cornerBottomRight}`} />
     </div>
   );
 }
@@ -2555,7 +2534,7 @@ export default function SolutionSection({
   return (
     <section className={styles.section} data-section="solution">
       <SolutionSectionReveal>
-        <SolutionFrame />
+        <BlueprintFrame />
         <div className={styles.inner}>
           <header className={styles.header}>
             <div className={styles.headerIcons}>

@@ -51,6 +51,38 @@
   padding-bottom: 96px;
 }
 
+/* Integrations hub background: orange→yellow "sunset" gradient (Figma node
+   959:3824), swapped in for the homepage blue bitmap. Inherits .hero's
+   background-size/position (incl. the responsive overrides) so the colored
+   band stretches to cover the taller stacked layouts before fading to white. */
+.heroSunset {
+  background-image: url("/images/home-2026/integrations/hero-sunset.svg");
+}
+
+/* Plain white card holding a single static (chrome-less) hero artifact — no
+   tab strip, no black window frame. Sits where the workflow showcase would. */
+.staticCard {
+  position: relative;
+  margin-top: 8px;
+  /* Internal breathing room so the composition never sits flush to the card
+     edges (the query container inside scales to fit the padded width). */
+  padding-inline: clamp(16px, 2.4vw, 40px);
+  border-radius: 24px;
+  background: var(--hero-card);
+  /* Crisp near-black hairline instead of a drop shadow (integrations hero). */
+  border: 1px solid var(--hero-ink);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Flat variant of the static card: shadow-less with a clean solid black
+   hairline border (Monday integration hero, whose sync artifact sits on a
+   shadow-less, black-bordered card per its design reference). */
+.staticCardFlat {
+  box-shadow: none;
+  border: 1px solid var(--hero-dark);
+}
+
 .inner {
   width: 100%;
   max-width: calc(var(--hero-max-width) + var(--hero-gutter) * 2);
@@ -76,6 +108,20 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+/* Optional eyebrow above the headline (integration pages that carry a
+   category kicker, e.g. Monday). Rendered only when a `kicker` prop is set,
+   so the homepage and other heroes are unaffected. */
+.kicker {
+  margin: 0;
+  font-family: var(--hero-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .headline {

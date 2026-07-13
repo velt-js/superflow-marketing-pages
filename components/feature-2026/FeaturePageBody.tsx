@@ -405,7 +405,7 @@ const RELATED_TARGETS: Readonly<
   "authenticated-pages": { title: "Authenticated pages", href: `${FEATURE_BASE_PATH}/authenticated-pages`, icon: "lock" },
   "white-label": { title: "White-label", href: `${FEATURE_BASE_PATH}/white-label`, icon: "palette" },
   integrations: { title: "Integrations", href: "/preview/integrations", icon: "plug" },
-  trust: { title: "Trust", href: "/trust", icon: "checks" },
+  trust: { title: "Trust", href: "/security", icon: "checks" },
 };
 
 /** One item in {@link RELATED_CAPABILITIES_BY_SLUG}, resolved from a target. */
@@ -489,7 +489,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
     heading: "Related capabilities",
     items: [
       relatedItem("kanban-board", "The flow's statuses become the board's columns."),
-      relatedItem("review-agents", "The agent packs your flow's machine steps run."),
+      relatedItem("review-agents", "The agent packs that run your flow's machine steps."),
       relatedItem("client-review", "The gate at the end of every flow — the no-account link."),
     ],
   },

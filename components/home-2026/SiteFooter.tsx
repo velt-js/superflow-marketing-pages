@@ -9,10 +9,12 @@ const APP_PREVIEW_SRC = "/images/home-2026/footer/app-preview.png";
 const PLACEHOLDER_HREF = "#";
 /** Product sign-up entry point (mirrors the legacy footer's CTA target). */
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
+/** Shared route prefix for the new feature detail pages (mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
+const FEATURE_PATH = "/preview/features/";
 const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
-const CTA_HEADING = "Start your 14 Days Trial";
+const CTA_HEADING = "Start Your 14-Day Trial";
 const CTA_SUBTITLE = "Your first 3 agent reviews are on us!";
 const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 
@@ -24,10 +26,10 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "AI Layer",
     links: [
-      { label: "AI Review Agent", href: PLACEHOLDER_HREF },
+      { label: "AI Review Agents", href: `${FEATURE_PATH}review-agents` },
       { label: "Reviewer Twin", href: PLACEHOLDER_HREF },
-      { label: "Brand Memory", href: PLACEHOLDER_HREF },
-      { label: "Ask AI", href: PLACEHOLDER_HREF },
+      { label: "Brand Memory", href: `${FEATURE_PATH}memory` },
+      { label: "Ask AI", href: `${FEATURE_PATH}ask-ai` },
     ],
   },
   {
@@ -43,10 +45,10 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Operations",
     links: [
-      { label: "Workflows", href: PLACEHOLDER_HREF },
-      { label: "Kanban", href: PLACEHOLDER_HREF },
+      { label: "Workflows", href: `${FEATURE_PATH}review-workflows` },
+      { label: "Kanban", href: `${FEATURE_PATH}kanban-board` },
       { label: "Integrations", href: "/integrations" },
-      { label: "White-label", href: PLACEHOLDER_HREF },
+      { label: "White-label", href: `${FEATURE_PATH}white-label` },
     ],
   },
   {
@@ -223,7 +225,7 @@ export default function SiteFooter() {
               <p className={styles.ctaSubtitle}>{CTA_SUBTITLE}</p>
             </div>
             <div className={styles.ctaButtons}>
-              <Link href={PLACEHOLDER_HREF} className={`${styles.btn} ${styles.btnOutline}`}>
+              <Link href="/book-demo" className={`${styles.btn} ${styles.btnOutline}`}>
                 Book Demo
               </Link>
               <Link href={SIGNUP_URL} className={`${styles.btn} ${styles.btnFilled}`}>

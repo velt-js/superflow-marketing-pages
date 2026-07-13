@@ -325,11 +325,12 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* The card's inner grid. */
+/* The card's inner grid. Top padding matches the Assets list dropdown so both
+   panels sit the same distance below their trigger. */
 .megaInner {
   box-sizing: border-box;
   width: 100%;
-  padding: 24px 12px 12px;
+  padding: 8px 12px 12px;
   display: grid;
   /* Three equal-width groups: AI layer · Review anywhere · Workflow & ops. */
   grid-template-columns: repeat(3, 1fr);
@@ -419,6 +420,76 @@
 
 .navTrigger:focus-visible,
 .megaLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* --- Assets list dropdown (desktop) ----------------------------------- */
+
+/* Compact white card anchored under the "Assets" trigger (left-aligned, unlike
+   the centred Product sheet). Same solid-white treatment so the plain review
+   links stay legible over the transparent-at-top header. */
+.listMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 216px;
+  box-sizing: border-box;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  background-color: #ffffff;
+  border: 1px solid rgba(17, 20, 45, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px -28px rgba(17, 20, 45, 0.4);
+  /* Closed: lifted, faded, and non-interactive. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 20;
+}
+
+/* Invisible hover bridge covering the sliver between the trigger and the card,
+   so the pointer never crosses an unhovered dead-zone on the way down. */
+.listMenu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 10px;
+}
+
+.listMenuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.listLink {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.1px;
+  color: #16161a;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.listLink:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.listLink:focus-visible {
   outline: 2px solid #4093ee;
   outline-offset: 2px;
 }
@@ -513,12 +584,36 @@
   outline-offset: 2px;
 }
 
+/* Plain, indented review link inside the mobile Assets accordion (no icon or
+   description, matching the compact desktop list dropdown). */
+.mobileListLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #101012;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileListLink:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mobileListLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
 /* Narrower desktops: tighten the column gaps so the four columns keep
    comfortable breathing room without crowding. */
 @media (max-width: 1000px) {
   .megaInner {
     gap: 18px 22px;
-    padding: 24px 22px 24px;
+    padding: 8px 22px 24px;
   }
 }
 
@@ -569,7 +664,10 @@
   .megaMenu,
   .megaLink,
   .megaLinkIcon,
-  .mobileSubLink {
+  .mobileSubLink,
+  .listMenu,
+  .listLink,
+  .mobileListLink {
     transition: none;
   }
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ComponentType } from "react";
 import styles from "./Hero.module.css";
 import { GlobeIcon } from "./HeroIcons";
 import HeroChecksDropdown from "./HeroChecksDropdown";
@@ -6,13 +7,26 @@ import HeroWorkflowShowcase, {
   type HeroCmsTab,
   type HeroWorkflowVariant,
 } from "./HeroWorkflowShowcase";
+import IntegrationsHubHeroArtifact from "./hero-artifacts/IntegrationsHubHeroArtifact";
+import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtifact";
+
+/**
+ * Chrome-less hero artifacts that render inside a plain white card (no tab
+ * strip, no black window frame), keyed by a stable string so a page can select
+ * one across the server/client boundary. Used by pages whose hero shows a
+ * single static composition instead of the interactive workflow showcase.
+ */
+const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
+  "integrations-hub": IntegrationsHubHeroArtifact,
+  "integrations-monday": IntegrationsMondayArtifact,
+};
 
 const URL_PLACEHOLDER = "Enter your website URL";
 const START_LABEL = "Start";
 const CTA_MICROCOPY =
   "Free to start. No credit card. Your client reviews without an account.";
 
-const HEADLINE_LINES: readonly string[] = ["Watch AI do", "your QA Work"];
+const HEADLINE_LINES: readonly string[] = ["Watch AI do", "your QA work"];
 
 const SUBHEAD_TEXT =
   "Turn your agency's QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
@@ -36,6 +50,12 @@ const SUBHEAD_TEXT =
  * they take precedence over `showcase`; the window UI is unchanged.
  */
 export interface HeroProps {
+  /**
+   * Optional mono eyebrow rendered above the headline (integration pages that
+   * carry a category kicker, e.g. Monday's "· TASK MANAGEMENT · …"). Omit to
+   * render no eyebrow, so the homepage and other heroes are unaffected.
+   */
+  kicker?: string;
   headlineLines?: readonly string[];
   subhead?: string;
   variant?: "home" | "feature";
@@ -48,6 +68,26 @@ export interface HeroProps {
    * already exists in the global registry.
    */
   heroArtifactScope?: string;
+  /**
+   * Hero section background treatment:
+   *  - "default" (omitted): the homepage blue gradient bitmap.
+   *  - "sunset": the orange→yellow integrations gradient (Figma node 959:3824).
+   */
+  background?: "default" | "sunset";
+  /**
+   * Key into {@link STATIC_HERO_ARTIFACTS}. When set, the hero renders that
+   * single static, chrome-less artifact on a white card instead of the
+   * interactive {@link HeroWorkflowShowcase} (no tab strip, no window frame).
+   */
+  staticArtifact?: string;
+  /**
+   * When true (and a `staticArtifact` is set), the static card drops its drop
+   * shadow for a flat, thin-bordered card. Used by the Monday integration hero
+   * whose sync artifact must sit on a shadow-less card.
+   */
+  staticArtifactFlat?: boolean;
+  /** Hide the "Trusted by" logo strip (pages that carry their own logo strip). */
+  hideTrusted?: boolean;
 }
 
 /** A customer/partner logo shown in the trust strip. */
@@ -95,12 +135,17 @@ const CAROUSEL_LOGOS: readonly TrustLogo[] = [...TRUST_LOGOS, ...TRUST_LOGOS];
  *   /home-preview homepage exactly.
  */
 export default function Hero({
+  kicker,
   headlineLines,
   subhead,
   variant = "home",
   showcase = "workflow",
   tabs,
   heroArtifactScope,
+  background = "default",
+  staticArtifact,
+  staticArtifactFlat = false,
+  hideTrusted = false,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
     headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
@@ -110,12 +155,20 @@ export default function Hero({
     showcase === "comments" || showcase === "review-agents"
       ? showcase
       : "home";
+  const StaticArtifact = staticArtifact
+    ? STATIC_HERO_ARTIFACTS[staticArtifact]
+    : undefined;
+  const sectionClassName =
+    background === "sunset"
+      ? `${styles.hero} ${styles.heroSunset}`
+      : styles.hero;
 
   return (
-    <section className={styles.hero} data-section="hero">
+    <section className={sectionClassName} data-section="hero">
       <div className={styles.inner}>
         <div className={styles.body}>
           <div className={styles.copy}>
+            {kicker ? <p className={styles.kicker}>{kicker}</p> : null}
             <h1 className={styles.headline}>
               {resolvedHeadlineLines.map((line) => (
                 <span key={line} className={styles.headlineLine}>
@@ -155,12 +208,27 @@ export default function Hero({
           )}
         </div>
 
-        <HeroWorkflowShowcase
-          variant={showcaseVariant}
-          tabs={tabs}
-          heroArtifactScope={heroArtifactScope}
-        />
+        {StaticArtifact ? (
+          <div className={styles.showcase}>
+            <div
+              className={
+                staticArtifactFlat
+                  ? `${styles.staticCard} ${styles.staticCardFlat}`
+                  : styles.staticCard
+              }
+            >
+              <StaticArtifact />
+            </div>
+          </div>
+        ) : (
+          <HeroWorkflowShowcase
+            variant={showcaseVariant}
+            tabs={tabs}
+            heroArtifactScope={heroArtifactScope}
+          />
+        )}
 
+        {!hideTrusted && (
         <div className={styles.trusted}>
           <p className={styles.trustedLabel}>
             {"Trusted by "}
@@ -191,6 +259,7 @@ export default function Hero({
             </div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );

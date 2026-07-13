@@ -148,10 +148,12 @@
 .featuredLogo {
   position: relative;
   z-index: 1;
+  /* Keep the SVG at its natural width and pinned to the card's left edge;
+     without this the flex column stretches the box and the wordmark's
+     default preserveAspectRatio (xMidYMid) renders it centered. */
+  align-self: flex-start;
   width: auto;
   height: 34px;
-  object-fit: contain;
-  object-position: left center;
 }
 
 .featuredContent {

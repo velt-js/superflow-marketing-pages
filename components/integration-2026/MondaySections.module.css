@@ -1,0 +1,465 @@
+/* Bespoke, hand-authored sections for the Monday integration page
+   (/preview/integrations/monday). Content is verbatim from
+   superflow-page-integration-monday-v1-1.md; layout/aesthetic follow the 2026
+   marketing design language (Adamina serif display, Urbanist UI, Geist Mono
+   labels, light theme, hairline cards) so these sit seamlessly among the shared
+   home-2026 sections around them. */
+
+.section {
+  --mon-ink: #1e1e1f;
+  --mon-muted: rgba(30, 30, 31, 0.62);
+  --mon-faint: rgba(30, 30, 31, 0.45);
+  --mon-line: #e7e7e4;
+  --mon-card: #ffffff;
+  --mon-card-border: rgba(0, 0, 0, 0.08);
+  --mon-bg: #ffffff;
+  --mon-bg-soft: #f7f7f5;
+  --mon-accent: #5b57f5;
+  --mon-green: #17974a;
+  --mon-green-soft: #f1faf4;
+  --mon-magenta: #e5389f;
+  --mon-red: #f62b54;
+
+  --mon-font-serif: var(--font-adamina), Georgia, serif;
+  --mon-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --mon-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --mon-content: 1080px;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 104px 24px;
+  background: var(--mon-bg);
+  color: var(--mon-ink);
+  font-family: var(--mon-font-ui);
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--mon-content);
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------- Shared headings */
+
+.headCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.display {
+  margin: 0;
+  font-family: var(--mon-font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -1.4px;
+  color: var(--mon-ink);
+}
+
+.lede {
+  margin: 18px auto 0;
+  max-width: 56ch;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+  color: var(--mon-muted);
+  text-wrap: balance;
+}
+
+/* ============================================= Section 2 — What crosses */
+
+/* Extra vertical padding gives the wrapping <BlueprintFrame /> room so its
+   horizontal rules sit clear of the content (mirrors the homepage Solution
+   section + integrations hub Problem section). */
+.crossesSection {
+  padding-top: 148px;
+  padding-bottom: 148px;
+}
+
+/* Foreground content sits above the decorative <BlueprintFrame /> (z-index 0). */
+.crossesInner {
+  position: relative;
+  z-index: 1;
+}
+
+.crossIconRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.crossChat {
+  display: inline-flex;
+  color: var(--mon-accent);
+}
+
+.crossArrow {
+  display: inline-flex;
+  color: var(--mon-magenta);
+}
+
+.crossBoard {
+  display: inline-flex;
+  color: var(--mon-red);
+}
+
+/* Center the two flow columns as a grouped pair with a controlled gap, rather
+   than stretching them edge-to-edge (which left a large dead space between the
+   4-card and 2-card columns). */
+.crossGrid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 72px;
+  margin: 56px auto 0;
+}
+
+.crossCol {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  max-width: 100%;
+}
+
+.crossColHead {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.crossPairArrow {
+  display: inline-flex;
+  color: var(--mon-faint);
+}
+
+.crossCards {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.crossCard {
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: var(--mon-card);
+  border: 1px solid var(--mon-card-border);
+  box-shadow: 0 8px 22px -16px rgba(0, 0, 0, 0.4);
+}
+
+.crossCardText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+  color: var(--mon-ink);
+}
+
+/* ============================================= Section 3 — Link once */
+
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 52px;
+}
+
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  padding: 28px 28px 0;
+  border-radius: 20px;
+  background: var(--mon-card);
+  border: 1px solid var(--mon-card-border);
+  overflow: hidden;
+}
+
+.linkNum {
+  font-family: var(--mon-font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--mon-accent);
+}
+
+.linkCard:nth-child(1) .linkNum {
+  color: var(--mon-magenta);
+}
+
+.linkCard:nth-child(2) .linkNum {
+  color: var(--mon-accent);
+}
+
+.linkCard:nth-child(3) .linkNum {
+  color: var(--mon-green);
+}
+
+.linkTitle {
+  margin: 18px 0 8px;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--mon-ink);
+}
+
+.linkDesc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--mon-muted);
+}
+
+/* Illustration area — a soft surface flush with the card's bottom edge, equal
+   height across all three cards, with the artifact centered inside. Its bottom
+   corners inherit the card's radius via the card's own overflow clip. */
+.linkArt {
+  position: relative;
+  margin-top: auto;
+  margin-left: -28px;
+  margin-right: -28px;
+  height: 148px;
+  overflow: hidden;
+}
+
+.linkStage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 26px;
+  border-radius: 18px 18px 0 0;
+  background: var(--mon-bg-soft);
+}
+
+/* Connect artifact — chat bubble → repeat → Monday logo, centered. */
+.linkConnectRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.linkBubble {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--mon-accent);
+  border-radius: 24px 24px 24px 4px;
+}
+
+.linkRepeat {
+  display: inline-flex;
+  color: #9a9aa0;
+}
+
+.linkMonday {
+  display: inline-flex;
+}
+
+/* Map artifact — a full-width "Choose Board" select pill, centered. */
+.linkMapPill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: rgba(104, 96, 217, 0.08);
+}
+
+.linkMapPlug {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: #6860d9;
+}
+
+.linkMapText {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--mon-font-mono);
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  color: #0a0a0a;
+  white-space: nowrap;
+}
+
+.linkMapChevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-left: auto;
+  color: rgba(0, 0, 0, 0.32);
+}
+
+/* Work artifact — "2 New Update" chip + outlined Approve, centered as a pair. */
+.linkWorkRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.linkWorkChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--mon-card-border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--mon-ink);
+  white-space: nowrap;
+}
+
+.linkWorkGrid {
+  display: inline-flex;
+  color: #2f6bff;
+}
+
+.linkApprove {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 18px;
+  border-radius: 50px;
+  background: #ffffff;
+  border: 1px solid var(--mon-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--mon-ink);
+  white-space: nowrap;
+}
+
+/* ============================================= Section 4 — Unlocks */
+
+.unlockGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 52px;
+}
+
+.unlockCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 268px;
+  padding: 30px 34px 32px;
+  border-radius: 24px;
+  background: var(--mon-green-soft);
+}
+
+/* The fifth card spans both columns (reference bottom row). */
+.unlockCard:last-child {
+  grid-column: 1 / -1;
+  min-height: 216px;
+}
+
+.unlockCheck {
+  display: inline-flex;
+  color: var(--mon-green);
+  margin-bottom: 20px;
+}
+
+.unlockTitle {
+  margin: 0 0 10px;
+  font-family: var(--mon-font-serif);
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 1.15;
+  letter-spacing: -0.6px;
+  color: var(--mon-ink);
+}
+
+.unlockDesc {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.1px;
+  color: var(--mon-muted);
+}
+
+.unlockWithout {
+  margin-top: auto;
+  padding-top: 26px;
+}
+
+.unlockWithoutLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: var(--mon-faint);
+}
+
+.unlockWithoutIcon {
+  display: inline-flex;
+  color: var(--mon-faint);
+}
+
+.unlockWithoutText {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--mon-muted);
+}
+
+/* ---------------------------------------------------------- Responsive */
+
+@media (max-width: 960px) {
+  .linkGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .crossGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .crossCol {
+    width: 420px;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 76px 20px;
+  }
+
+  .crossesSection {
+    padding-top: 112px;
+    padding-bottom: 112px;
+  }
+
+  .unlockGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .unlockCard:last-child {
+    grid-column: auto;
+  }
+
+  .crossCol {
+    width: 100%;
+  }
+}

@@ -52,12 +52,18 @@ type FeatureGroup = {
   links: readonly FeatureLink[];
 };
 
+/** A plain label + href row rendered inside the Assets list dropdown. */
+type AssetLink = {
+  label: string;
+  href: string;
+};
+
 const BRAND_NAME = "Superflow";
 /** Transparent Superflow logo mark (shared brand asset). */
 const BRAND_MARK_SRC = "/images/home-2026/nav/superflow-mark.png";
 const CTA_LABEL = "Get Started";
 /** Destination for the "Get Started" CTA (shared by desktop bar + mobile menu). */
-const CTA_HREF = "#get-started";
+const CTA_HREF = "https://app.usesuperflow.com/signup";
 
 /** Accessible labels for the mobile menu toggle in its two states. */
 const MENU_OPEN_LABEL = "Open menu";
@@ -65,22 +71,25 @@ const MENU_CLOSE_LABEL = "Close menu";
 
 /** Label of the nav item that owns the feature mega-menu. */
 const PRODUCT_LABEL = "Product";
+/** Label of the nav item that owns the Assets (review surfaces) list menu. */
+const ASSETS_LABEL = "Assets";
 /** Shared route prefix for every feature detail page. */
 const FEATURE_ROUTE_PREFIX = "/preview/features/";
 
 /** ScrollY (px) past which the header switches to its solid white state. */
 const SCROLL_THRESHOLD_PX = 48;
 
-/** Grace period (ms) before the hovered Product mega-menu closes, so a quick
-    diagonal move from the trigger into the panel does not dismiss it. */
-const PRODUCT_MENU_CLOSE_DELAY_MS = 200;
+/** Grace period (ms) before a hovered dropdown closes, so a quick diagonal move
+    from the trigger into the panel does not dismiss it. */
+const DROPDOWN_CLOSE_DELAY_MS = 200;
 
 const NAV_ITEMS: readonly NavItem[] = [
   { label: PRODUCT_LABEL, href: "#product", hasMenu: true },
-  { label: "Integrations", href: "#integrations" },
+  { label: ASSETS_LABEL, href: "#assets", hasMenu: true },
+  { label: "Integrations", href: "/integrations" },
   { label: "Resources", href: "#resources", hasMenu: true },
-  { label: "Demo", href: "#demo" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Demo", href: "/demo" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
 /**
@@ -194,6 +203,19 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
   },
 ];
 
+/**
+ * Review surfaces grouped by asset type, surfaced in the Assets dropdown. Each
+ * links to its dedicated `/<asset>-review` marketing page. Shared by the desktop
+ * list dropdown and the mobile accordion so both stay in sync.
+ */
+const ASSET_LINKS: readonly AssetLink[] = [
+  { label: "Website Review", href: "/website-review" },
+  { label: "Video Review", href: "/video-review" },
+  { label: "Lottie Review", href: "/lottie-files-review" },
+  { label: "PDF Review", href: "/pdf-review" },
+  { label: "Image Review", href: "/image-review" },
+];
+
 /** Maps a group's colour tone to its CSS-module accent class. */
 function toneClassName(tone: FeatureTone): string {
   try {
@@ -222,22 +244,31 @@ function toneClassName(tone: FeatureTone): string {
 export default function SiteNav() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isProductMenuOpen, setIsProductMenuOpen] = useState<boolean>(false);
-  const [isMobileProductOpen, setIsMobileProductOpen] = useState<boolean>(false);
+  /* Label of the desktop dropdown currently open, or null. A single value keeps
+     the Product and Assets menus mutually exclusive. */
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  /* Label of the mobile accordion currently expanded, or null. */
+  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
+    null
+  );
   const menuId = useId();
   const productMenuId = useId();
+  const assetsMenuId = useId();
   const mobileProductId = useId();
+  const mobileAssetsId = useId();
   const headerRef = useRef<HTMLElement | null>(null);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const productMenuRef = useRef<HTMLDivElement | null>(null);
   const productPanelRef = useRef<HTMLDivElement | null>(null);
   const productTriggerRef = useRef<HTMLButtonElement | null>(null);
-  /* Pending hover-intent close timer id (see scheduleProductMenuClose). */
-  const productCloseTimerRef = useRef<number | null>(null);
-  /* Tracks whether the trigger was focused by a pointer press, so pointer-driven
+  const assetsMenuRef = useRef<HTMLDivElement | null>(null);
+  const assetsTriggerRef = useRef<HTMLButtonElement | null>(null);
+  /* Pending hover-intent close timer id (see scheduleDropdownClose). */
+  const dropdownCloseTimerRef = useRef<number | null>(null);
+  /* Tracks whether a trigger was focused by a pointer press, so pointer-driven
      focus does not also open the menu (the hover/click handlers own that). */
-  const productPointerFocusRef = useRef<boolean>(false);
+  const dropdownPointerFocusRef = useRef<boolean>(false);
 
   useEffect(() => {
     let frameId = 0;
@@ -282,106 +313,108 @@ export default function SiteNav() {
   }
 
   /** Clear any pending hover-intent close timer. */
-  function clearProductCloseTimer() {
+  function clearDropdownCloseTimer() {
     try {
-      if (productCloseTimerRef?.current) {
-        window.clearTimeout(productCloseTimerRef.current);
+      if (dropdownCloseTimerRef?.current) {
+        window.clearTimeout(dropdownCloseTimerRef.current);
       }
     } finally {
-      productCloseTimerRef.current = null;
+      dropdownCloseTimerRef.current = null;
     }
   }
 
-  /** Whether a node lives inside the Product trigger or the panel (one region). */
-  function isWithinProductRegion(node: Node | null): boolean {
+  /** Whether a node lives inside any dropdown trigger or panel (one region). */
+  function isWithinDropdownRegion(node: Node | null): boolean {
     try {
-      const trigger = productMenuRef?.current;
-      const panel = productPanelRef?.current;
       if (!node) {
         return false;
       }
-      return Boolean(trigger?.contains(node)) || Boolean(panel?.contains(node));
+      return (
+        Boolean(productMenuRef?.current?.contains(node)) ||
+        Boolean(productPanelRef?.current?.contains(node)) ||
+        Boolean(assetsMenuRef?.current?.contains(node))
+      );
     } catch {
       return false;
     }
   }
 
-  /** Open the desktop Product mega-menu, cancelling any pending close. */
-  function openProductMenu() {
+  /** Open the given desktop dropdown, cancelling any pending close. */
+  function openDropdownMenu(label: string) {
     try {
-      clearProductCloseTimer();
-      setIsProductMenuOpen(true);
+      clearDropdownCloseTimer();
+      setOpenDropdown(label);
     } catch {
-      setIsProductMenuOpen(false);
+      setOpenDropdown(null);
     }
   }
 
-  /** Close the desktop Product mega-menu immediately (no grace period). */
-  function closeProductMenu() {
-    clearProductCloseTimer();
-    setIsProductMenuOpen(false);
+  /** Close the open desktop dropdown immediately (no grace period). */
+  function closeDropdownMenu() {
+    clearDropdownCloseTimer();
+    setOpenDropdown(null);
   }
 
   /** Close after a short grace period so a diagonal move to the panel is safe.
-      Any subsequent re-enter of the trigger/panel cancels this pending close. */
-  function scheduleProductMenuClose() {
+      Any subsequent re-enter of a trigger/panel cancels this pending close. */
+  function scheduleDropdownClose() {
     try {
-      clearProductCloseTimer();
-      productCloseTimerRef.current = window.setTimeout(() => {
-        productCloseTimerRef.current = null;
-        setIsProductMenuOpen(false);
-      }, PRODUCT_MENU_CLOSE_DELAY_MS);
+      clearDropdownCloseTimer();
+      dropdownCloseTimerRef.current = window.setTimeout(() => {
+        dropdownCloseTimerRef.current = null;
+        setOpenDropdown(null);
+      }, DROPDOWN_CLOSE_DELAY_MS);
     } catch {
-      setIsProductMenuOpen(false);
+      setOpenDropdown(null);
     }
   }
 
-  /** Toggle the desktop Product mega-menu (click / Enter / Space). */
-  function handleProductToggle() {
+  /** Toggle the given desktop dropdown (click / Enter / Space). */
+  function toggleDropdownMenu(label: string) {
     try {
-      clearProductCloseTimer();
-      setIsProductMenuOpen((previous) => !previous);
+      clearDropdownCloseTimer();
+      setOpenDropdown((previous) => (previous === label ? null : label));
     } catch {
-      setIsProductMenuOpen(false);
+      setOpenDropdown(null);
     }
   }
 
   /** Note a pointer press so the following focus event does not double-open. */
-  function handleProductPointerDown() {
-    productPointerFocusRef.current = true;
+  function handleDropdownPointerDown() {
+    dropdownPointerFocusRef.current = true;
   }
 
   /** Open on keyboard focus only; pointer focus is handled by hover/click. */
-  function handleProductTriggerFocus() {
+  function handleTriggerFocus(label: string) {
     try {
-      if (!productPointerFocusRef?.current) {
-        openProductMenu();
+      if (!dropdownPointerFocusRef?.current) {
+        openDropdownMenu(label);
       }
     } catch {
-      setIsProductMenuOpen(false);
+      setOpenDropdown(null);
     } finally {
-      productPointerFocusRef.current = false;
+      dropdownPointerFocusRef.current = false;
     }
   }
 
-  /** Close the mega-menu when focus leaves the trigger and the panel entirely. */
-  function handleProductBlur(event: ReactFocusEvent<HTMLDivElement>) {
+  /** Close the open dropdown when focus leaves its trigger and panel entirely. */
+  function handleDropdownBlur(event: ReactFocusEvent<HTMLDivElement>) {
     try {
       const nextTarget = event?.relatedTarget as Node | null;
-      if (nextTarget && !isWithinProductRegion(nextTarget)) {
-        closeProductMenu();
+      if (nextTarget && !isWithinDropdownRegion(nextTarget)) {
+        closeDropdownMenu();
       }
     } catch {
-      setIsProductMenuOpen(false);
+      setOpenDropdown(null);
     }
   }
 
-  /** Toggle the mobile Product accordion within the overlay menu. */
-  function handleMobileProductToggle() {
+  /** Toggle the given mobile accordion within the overlay menu. */
+  function handleMobileDropdownToggle(label: string) {
     try {
-      setIsMobileProductOpen((previous) => !previous);
+      setOpenMobileDropdown((previous) => (previous === label ? null : label));
     } catch {
-      setIsMobileProductOpen(false);
+      setOpenMobileDropdown(null);
     }
   }
 
@@ -456,67 +489,72 @@ export default function SiteNav() {
     }
   }, [isMenuOpen]);
 
-  /* Collapse the mobile Product accordion whenever the overlay menu closes so
+  /* Collapse any expanded mobile accordion whenever the overlay menu closes so
      it always reopens in its default (collapsed) state. */
   useEffect(() => {
     if (!isMenuOpen) {
-      setIsMobileProductOpen(false);
+      setOpenMobileDropdown(null);
     }
   }, [isMenuOpen]);
 
-  /* While the desktop Product mega-menu is open, close it on Escape (restoring
-     focus to its trigger) or on a pointer press outside the Product nav item. */
+  /* While a desktop dropdown is open, close it on Escape (restoring focus to its
+     trigger) or on a pointer press outside every dropdown trigger + panel. */
   useEffect(() => {
-    if (!isProductMenuOpen) {
+    if (!openDropdown) {
       return undefined;
     }
 
-    /** Close the mega-menu and refocus the trigger when Escape is pressed. */
-    function handleProductKeyDown(event: KeyboardEvent) {
+    /** Close the dropdown and refocus its trigger when Escape is pressed. */
+    function handleDropdownKeyDown(event: KeyboardEvent) {
       try {
         if (event?.key === "Escape") {
-          closeProductMenu();
-          productTriggerRef.current?.focus();
+          const label = openDropdown;
+          closeDropdownMenu();
+          if (label === PRODUCT_LABEL) {
+            productTriggerRef.current?.focus();
+          } else if (label === ASSETS_LABEL) {
+            assetsTriggerRef.current?.focus();
+          }
         }
       } catch {
-        setIsProductMenuOpen(false);
+        setOpenDropdown(null);
       }
     }
 
-    /** Close the mega-menu when a pointer press lands outside trigger + panel. */
-    function handleProductPointer(event: PointerEvent) {
+    /** Close the dropdown when a pointer press lands outside trigger + panel. */
+    function handleDropdownPointer(event: PointerEvent) {
       try {
         const target = event?.target as Node | null;
-        if (target && !isWithinProductRegion(target)) {
-          closeProductMenu();
+        if (target && !isWithinDropdownRegion(target)) {
+          closeDropdownMenu();
         }
       } catch {
-        setIsProductMenuOpen(false);
+        setOpenDropdown(null);
       }
     }
 
-    document.addEventListener("keydown", handleProductKeyDown);
-    document.addEventListener("pointerdown", handleProductPointer);
+    document.addEventListener("keydown", handleDropdownKeyDown);
+    document.addEventListener("pointerdown", handleDropdownPointer);
     return () => {
-      document.removeEventListener("keydown", handleProductKeyDown);
-      document.removeEventListener("pointerdown", handleProductPointer);
+      document.removeEventListener("keydown", handleDropdownKeyDown);
+      document.removeEventListener("pointerdown", handleDropdownPointer);
     };
-  }, [isProductMenuOpen]);
+  }, [openDropdown]);
 
   /* Clear any outstanding hover-intent close timer when the component unmounts. */
   useEffect(() => {
     return () => {
-      if (productCloseTimerRef.current) {
-        window.clearTimeout(productCloseTimerRef.current);
-        productCloseTimerRef.current = null;
+      if (dropdownCloseTimerRef.current) {
+        window.clearTimeout(dropdownCloseTimerRef.current);
+        dropdownCloseTimerRef.current = null;
       }
     };
   }, []);
 
   /* The bar wears its solid white treatment when scrolled AND, mirroring
-     Asana's nav, whenever the Product mega-menu is open at the top of the page —
-     so the full-width white sheet connects seamlessly to a white bar. */
-  const isHeaderSolid = isScrolled || isProductMenuOpen;
+     Asana's nav, whenever a dropdown is open at the top of the page — so the
+     white panel connects seamlessly to a white bar. */
+  const isHeaderSolid = isScrolled || openDropdown !== null;
 
   return (
     <header
@@ -545,28 +583,83 @@ export default function SiteNav() {
                   key={item.label}
                   ref={productMenuRef}
                   className={styles.navItem}
-                  onMouseEnter={openProductMenu}
-                  onMouseLeave={scheduleProductMenuClose}
-                  onBlur={handleProductBlur}
+                  onMouseEnter={() => openDropdownMenu(PRODUCT_LABEL)}
+                  onMouseLeave={scheduleDropdownClose}
+                  onBlur={handleDropdownBlur}
                 >
                   <button
                     type="button"
                     ref={productTriggerRef}
                     className={`${styles.navLink} ${styles.navTrigger}`}
-                    aria-expanded={isProductMenuOpen}
+                    aria-expanded={openDropdown === PRODUCT_LABEL}
                     aria-controls={productMenuId}
-                    onClick={handleProductToggle}
-                    onPointerDown={handleProductPointerDown}
-                    onFocus={handleProductTriggerFocus}
+                    onClick={() => toggleDropdownMenu(PRODUCT_LABEL)}
+                    onPointerDown={handleDropdownPointerDown}
+                    onFocus={() => handleTriggerFocus(PRODUCT_LABEL)}
                   >
                     {item.label}
                     <ChevronDownIcon
                       size={16}
                       className={`${styles.navChevron} ${
-                        isProductMenuOpen ? styles.navChevronOpen : ""
+                        openDropdown === PRODUCT_LABEL
+                          ? styles.navChevronOpen
+                          : ""
                       }`}
                     />
                   </button>
+                </div>
+              );
+            }
+
+            if (item?.label === ASSETS_LABEL) {
+              return (
+                <div
+                  key={item.label}
+                  ref={assetsMenuRef}
+                  className={styles.navItem}
+                  onMouseEnter={() => openDropdownMenu(ASSETS_LABEL)}
+                  onMouseLeave={scheduleDropdownClose}
+                  onBlur={handleDropdownBlur}
+                >
+                  <button
+                    type="button"
+                    ref={assetsTriggerRef}
+                    className={`${styles.navLink} ${styles.navTrigger}`}
+                    aria-expanded={openDropdown === ASSETS_LABEL}
+                    aria-controls={assetsMenuId}
+                    onClick={() => toggleDropdownMenu(ASSETS_LABEL)}
+                    onPointerDown={handleDropdownPointerDown}
+                    onFocus={() => handleTriggerFocus(ASSETS_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={16}
+                      className={`${styles.navChevron} ${
+                        openDropdown === ASSETS_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={assetsMenuId}
+                    className={`${styles.listMenu} ${
+                      openDropdown === ASSETS_LABEL ? styles.listMenuOpen : ""
+                    }`}
+                    aria-label={`${ASSETS_LABEL} links`}
+                  >
+                    {ASSET_LINKS.map((link) => (
+                      <a
+                        key={link.href}
+                        className={styles.listLink}
+                        href={link.href}
+                        onClick={closeDropdownMenu}
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               );
             }
@@ -603,12 +696,12 @@ export default function SiteNav() {
         id={productMenuId}
         ref={productPanelRef}
         className={`${styles.megaMenu} ${
-          isProductMenuOpen ? styles.megaMenuOpen : ""
+          openDropdown === PRODUCT_LABEL ? styles.megaMenuOpen : ""
         }`}
         aria-label={`${PRODUCT_LABEL} features`}
-        onMouseEnter={openProductMenu}
-        onMouseLeave={scheduleProductMenuClose}
-        onBlur={handleProductBlur}
+        onMouseEnter={() => openDropdownMenu(PRODUCT_LABEL)}
+        onMouseLeave={scheduleDropdownClose}
+        onBlur={handleDropdownBlur}
       >
         <div className={styles.megaInner}>
           {FEATURE_GROUPS.map((group) => (
@@ -623,7 +716,7 @@ export default function SiteNav() {
                     key={link.href}
                     className={styles.megaLink}
                     href={link.href}
-                    onClick={closeProductMenu}
+                    onClick={closeDropdownMenu}
                   >
                     <span className={styles.megaLinkIcon}>
                       <link.Icon size={20} />
@@ -652,15 +745,17 @@ export default function SiteNav() {
                   <button
                     type="button"
                     className={`${styles.mobileNavLink} ${styles.mobileNavToggle}`}
-                    aria-expanded={isMobileProductOpen}
+                    aria-expanded={openMobileDropdown === PRODUCT_LABEL}
                     aria-controls={mobileProductId}
-                    onClick={handleMobileProductToggle}
+                    onClick={() => handleMobileDropdownToggle(PRODUCT_LABEL)}
                   >
                     {item.label}
                     <ChevronDownIcon
                       size={18}
                       className={`${styles.mobileNavChevron} ${
-                        isMobileProductOpen ? styles.navChevronOpen : ""
+                        openMobileDropdown === PRODUCT_LABEL
+                          ? styles.navChevronOpen
+                          : ""
                       }`}
                     />
                   </button>
@@ -668,7 +763,9 @@ export default function SiteNav() {
                   <div
                     id={mobileProductId}
                     className={`${styles.mobileSubMenu} ${
-                      isMobileProductOpen ? styles.mobileSubMenuOpen : ""
+                      openMobileDropdown === PRODUCT_LABEL
+                        ? styles.mobileSubMenuOpen
+                        : ""
                     }`}
                   >
                     {FEATURE_GROUPS.map((group) => (
@@ -702,6 +799,50 @@ export default function SiteNav() {
                           </a>
                         ))}
                       </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === ASSETS_LABEL) {
+              return (
+                <div key={item.label} className={styles.mobileNavGroup}>
+                  <button
+                    type="button"
+                    className={`${styles.mobileNavLink} ${styles.mobileNavToggle}`}
+                    aria-expanded={openMobileDropdown === ASSETS_LABEL}
+                    aria-controls={mobileAssetsId}
+                    onClick={() => handleMobileDropdownToggle(ASSETS_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={18}
+                      className={`${styles.mobileNavChevron} ${
+                        openMobileDropdown === ASSETS_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={mobileAssetsId}
+                    className={`${styles.mobileSubMenu} ${
+                      openMobileDropdown === ASSETS_LABEL
+                        ? styles.mobileSubMenuOpen
+                        : ""
+                    }`}
+                  >
+                    {ASSET_LINKS.map((link) => (
+                      <a
+                        key={link.href}
+                        className={styles.mobileListLink}
+                        href={link.href}
+                        onClick={closeMenu}
+                      >
+                        {link.label}
+                      </a>
                     ))}
                   </div>
                 </div>

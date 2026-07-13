@@ -634,12 +634,31 @@ function PostedComment() {
   );
 }
 
+/** Props for the {@link IntegrationsArtifact} hero artifact. */
+export interface IntegrationsArtifactProps {
+  /**
+   * Restrict the board's integration-logo row to these chip ids (see
+   * {@link LOGO_CHIPS}). Omit to render every logo (the default homepage
+   * composition). The Monday integration hero passes `["monday"]` so only the
+   * Monday mark sits on top of the board.
+   */
+  logoIds?: readonly string[];
+}
+
 /**
  * Render the "Integrations" hero artifact.
  *
+ * @param props - Optional overrides; `logoIds` filters the top logo row.
  * @returns The composer + connector + Kanban board composition.
  */
-export default function IntegrationsArtifact() {
+export default function IntegrationsArtifact({
+  logoIds,
+}: IntegrationsArtifactProps = {}) {
+  const visibleLogoChips =
+    logoIds && logoIds.length > 0
+      ? LOGO_CHIPS.filter((chip) => logoIds.includes(chip?.id))
+      : LOGO_CHIPS;
+
   return (
     <div className={styles.root} data-artifact="integrations">
       {/* Fixed-ratio stage holding the desktop-native absolute composition; it
@@ -727,7 +746,7 @@ export default function IntegrationsArtifact() {
       <div className={styles.board} aria-hidden="true" />
 
       <div className={styles.logos}>
-        {LOGO_CHIPS.map((chip) => {
+        {visibleLogoChips.map((chip) => {
           const ChipLogo = chip?.Logo;
           return (
             <span

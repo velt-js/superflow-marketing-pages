@@ -38,7 +38,7 @@ const adamina = Adamina({
 
 const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
 const DEFAULT_DESCRIPTION =
-  "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.";
+  "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.";
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
 
 export const viewport: Viewport = {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     locale: "en_US",
-    images: [{ url: DEFAULT_OG_IMAGE }],
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
