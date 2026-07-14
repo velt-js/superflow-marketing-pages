@@ -10,7 +10,6 @@ const HEADING_ID = "solutions-section-heading";
 interface SolutionCard {
   id: string;
   label: string;
-  href: string;
   /** Soft pastel ticket fill. */
   tint: string;
   /** Per-industry icon stroke color, tuned to the tint. */
@@ -26,7 +25,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "dental",
     label: "Dental Marketing Agencies",
-    href: "#",
     tint: "#fcf5fc",
     iconColor: "#dc3ac5",
     icon: (
@@ -38,7 +36,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "medical",
     label: "Medical and healthcare content",
-    href: "#",
     tint: "#f6f5fe",
     iconColor: "#5434e3",
     icon: (
@@ -50,7 +47,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "home-services",
     label: "Home-services marketing",
-    href: "#",
     tint: "#f4faf5",
     iconColor: "#2ca23d",
     icon: (
@@ -64,7 +60,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "real-estate",
     label: "Real estate marketing",
-    href: "#",
     tint: "#fcf9f5",
     iconColor: "#d6903d",
     icon: (
@@ -83,7 +78,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "in-house",
     label: "In-house content and brand teams",
-    href: "#",
     tint: "#fcf4fb",
     iconColor: "#cb2cb4",
     icon: (
@@ -95,7 +89,6 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: "freelancers",
     label: "Freelancers and studios",
-    href: "#",
     tint: "#f6f4fc",
     iconColor: "#4c2ed3",
     icon: (
@@ -143,10 +136,10 @@ export default function SolutionsSection() {
             } as CSSProperties;
             return (
               <li key={card.id} className={styles.cell}>
-                <a className={styles.ticket} href={card.href} style={ticketStyle}>
+                <div className={styles.ticket} style={ticketStyle}>
                   <span className={styles.icon}>{card.icon}</span>
                   <h3 className={styles.label}>{card.label}</h3>
-                </a>
+                </div>
               </li>
             );
           })}
