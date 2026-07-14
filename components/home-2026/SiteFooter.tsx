@@ -9,8 +9,8 @@ const APP_PREVIEW_SRC = "/images/home-2026/footer/app-preview.png";
 const PLACEHOLDER_HREF = "#";
 /** Product sign-up entry point (mirrors the legacy footer's CTA target). */
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
-/** Shared route prefix for the new feature detail pages (mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
-const FEATURE_PATH = "/preview/features/";
+/** Shared route prefix for the new feature detail pages (served at the root slug; mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
+const FEATURE_PATH = "/";
 /** Category route prefixes for the migrated marketing/SEO pages (mirror the legacy footer). */
 const INTEGRATIONS_PATH = "/integrations";
 const ALTERNATIVES_PATH = "/alternative";
@@ -32,7 +32,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "AI Layer",
     links: [
-      { label: "AI Review Agents", href: `${FEATURE_PATH}review-agents` },
+      { label: "AI Review Agents", href: `${FEATURE_PATH}ai-review-agents` },
       { label: "Reviewer Twin", href: PLACEHOLDER_HREF },
       { label: "Brand Memory", href: `${FEATURE_PATH}memory` },
       { label: "Ask AI", href: `${FEATURE_PATH}ask-ai` },

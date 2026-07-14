@@ -2,7 +2,7 @@
 /**
  * Batch-seed ten `featurePage` documents in Sanity.
  *
- * Each page serves at /preview/features/<slug> and reuses the 2026 homepage
+ * Each page serves at /<slug> and reuses the 2026 homepage
  * sections (components/home-2026/*) as a fixed template — only the hero copy,
  * the hero tab strip, the "solution" intro, the FeatureSet blocks, the FAQ and
  * SEO vary per page, so this seed is pure text/config with NO asset uploads.
@@ -227,21 +227,21 @@ const memory = {
         _key: "rc-review-agents",
         title: "AI review agents",
         description: "The checks Memory makes client-specific.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
       {
         _key: "rc-ask-ai",
         title: "Ask AI",
         description: "The questions Memory makes answerable.",
-        href: "/preview/features/ask-ai",
+        href: "/ask-ai",
         icon: "message-chatbot",
       },
       {
         _key: "rc-client-review",
         title: "Client review",
         description: "The approvals that teach Memory what each client accepts.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
     ],
@@ -449,21 +449,21 @@ const kanbanBoard = {
         _key: "rc-review-workflows",
         title: "Review workflows",
         description: "Where statuses, gates, and escalation rules get defined.",
-        href: "/preview/features/review-workflows",
+        href: "/review-workflows",
         icon: "route",
       },
       {
         _key: "rc-integrations",
         title: "Integrations",
         description: "The full hub behind the two-way sync, webhooks, and the API.",
-        href: "/preview/integrations",
+        href: "/integrations",
         icon: "plug",
       },
       {
         _key: "rc-review-agents",
         title: "AI review agents",
         description: "The first pass whose findings move cards before anyone looks.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],
@@ -698,7 +698,7 @@ const authenticatedPages = {
         title: "Automatic screenshots",
         description:
           "The capture that backs every comment, behind the login included.",
-        href: "/preview/features/screenshots",
+        href: "/screenshots",
         icon: "camera",
       },
       {
@@ -706,7 +706,7 @@ const authenticatedPages = {
         title: "Client review",
         description:
           "The no-account link; here the client is logged into their own system.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
       {
@@ -943,7 +943,7 @@ const screenshots = {
         _key: "rc-authenticated-pages",
         title: "Authenticated pages",
         description: "The full behind-login review story.",
-        href: "/preview/features/authenticated-pages",
+        href: "/authenticated-pages",
         icon: "lock",
       },
       {
@@ -951,7 +951,7 @@ const screenshots = {
         title: "AI review agents",
         description:
           "Agents leave findings as comments on the same pages your team snapshots.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],
@@ -1177,21 +1177,21 @@ const reviewWorkflows = {
         _key: "rc-kanban-board",
         title: "Kanban board",
         description: "The flow's statuses become the board's columns.",
-        href: "/preview/features/kanban-board",
+        href: "/kanban-board",
         icon: "layout-kanban",
       },
       {
         _key: "rc-review-agents",
         title: "AI review agents",
         description: "The agent packs your flow's machine steps run.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
       {
         _key: "rc-client-review",
         title: "Client review",
         description: "The gate at the end of every flow — the no-account link.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
     ],
@@ -1412,7 +1412,7 @@ const privateComments = {
         title: "Client review",
         description:
           "The client's half — the magic-link path through the clean view private comments protect.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
       {
@@ -1420,7 +1420,7 @@ const privateComments = {
         title: "AI review agents",
         description:
           "The first pass. Findings land as comments on the same elements your threads sit on.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],
@@ -1625,21 +1625,21 @@ const recordings = {
         title: "Comments",
         description:
           "The primitive every recording lands as — pinning, threads, statuses.",
-        href: "/preview/features/comments",
+        href: "/comments",
         icon: "message-circle",
       },
       {
         _key: "rc-private-comments",
         title: "Private comments",
         description: "Record for your team only; the client's view never shows it.",
-        href: "/preview/features/private-comments",
+        href: "/private-comments",
         icon: "eye-off",
       },
       {
         _key: "rc-client-review",
         title: "Client review",
         description: "The link your client plays it from, no account.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
     ],
@@ -1815,14 +1815,14 @@ const whiteLabel = {
         _key: "rc-client-review",
         title: "Client review",
         description: "The sign-off moment this page brands.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
       {
         _key: "rc-kanban-board",
         title: "Kanban board",
         description: "One of the admin surfaces that carries your logo.",
-        href: "/preview/features/kanban-board",
+        href: "/kanban-board",
         icon: "layout-kanban",
       },
       {
@@ -2038,7 +2038,7 @@ const analytics = {
         title: "Ask AI",
         description:
           "Analytics curates the week; Ask AI answers the question you just thought of.",
-        href: "/preview/features/ask-ai",
+        href: "/ask-ai",
         icon: "message-chatbot",
       },
       {
@@ -2046,7 +2046,7 @@ const analytics = {
         title: "Kanban board",
         description:
           "The board shows today's state; Analytics says what the states add up to.",
-        href: "/preview/features/kanban-board",
+        href: "/kanban-board",
         icon: "layout-kanban",
       },
       {
@@ -2054,7 +2054,7 @@ const analytics = {
         title: "AI review agents",
         description:
           "The most common one-click action is adding an agent to catch the pattern next time.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],
@@ -2285,14 +2285,14 @@ const askAi = {
         title: "Memory",
         description:
           "The source of every answer — what you upload and what reviews teach it.",
-        href: "/preview/features/memory",
+        href: "/memory",
         icon: "brain",
       },
       {
         _key: "rc-review-agents",
         title: "AI review agents",
         description: "The checks that write much of the data.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],

@@ -18,7 +18,50 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return [];
+    return [
+      {
+        source: "/trust",
+        destination: "/security",
+        permanent: true,
+      },
+      // Launch redirects: short/legacy URLs → the live feature-page root slugs.
+      {
+        source: "/board",
+        destination: "/kanban-board",
+        permanent: true,
+      },
+      {
+        source: "/brand-memory",
+        destination: "/memory",
+        permanent: true,
+      },
+      {
+        source: "/workflows",
+        destination: "/review-workflows",
+        permanent: true,
+      },
+      {
+        source: "/approval-workflows",
+        destination: "/review-workflows",
+        permanent: true,
+      },
+      {
+        source: "/review-agents",
+        destination: "/ai-review-agents",
+        permanent: true,
+      },
+      // Retired preview routes → their promoted production destinations.
+      {
+        source: "/home-preview",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/preview/features/:slug",
+        destination: "/:slug",
+        permanent: true,
+      },
+    ];
   },
   async rewrites() {
     return {

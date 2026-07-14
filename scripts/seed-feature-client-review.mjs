@@ -2,7 +2,7 @@
 /**
  * Seed the "Client Review" `featurePage` document in Sanity.
  *
- * Serves at /preview/features/client-review. Like every feature page it reuses
+ * Serves at /client-review. Like every feature page it reuses
  * the 2026 homepage sections (components/home-2026/*) as a fixed template — only
  * the hero copy, the hero tab strip, the "solution" intro, the FeatureSet
  * blocks, the FAQ and SEO vary per page, so this seed is pure text/config with
@@ -99,7 +99,7 @@ const doc = {
             oneLiner:
               "Even work behind a login gets the same client link — the gate lifts and they review in context.",
             mock: "behind-login",
-            href: "/preview/features/authenticated-pages",
+            href: "/authenticated-pages",
           },
         ],
       },
@@ -135,7 +135,7 @@ const doc = {
             oneLiner:
               "Your internal debate stays internal; the client reads none of it.",
             mock: "private-comments",
-            href: "/preview/features/private-comments",
+            href: "/private-comments",
           },
         ],
       },
@@ -207,14 +207,14 @@ const doc = {
         _key: "rc-cross-device",
         title: "Cross-device review",
         description: "The phone your client is already holding.",
-        href: "/preview/features/cross-device-review",
+        href: "/cross-device-review",
         icon: "devices",
       },
       {
         _key: "rc-review-workflows",
         title: "Review workflows",
         description: "The client gate is one node in the path you design.",
-        href: "/preview/features/review-workflows",
+        href: "/review-workflows",
         icon: "route",
       },
     ],

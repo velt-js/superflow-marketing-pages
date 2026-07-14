@@ -380,8 +380,8 @@ const RECORDINGS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "recordings-in-threads": "recordings-thread",
 };
 
-/** Base path for feature preview pages (related-capability link targets). */
-const FEATURE_BASE_PATH = "/preview/features";
+/** Base path for feature pages (root-served; related-capability link targets). */
+const FEATURE_BASE_PATH = "";
 
 /**
  * Canonical link metadata for each related-capability target — title, href and
@@ -395,7 +395,7 @@ const RELATED_TARGETS: Readonly<
   "client-review": { title: "Client review", href: `${FEATURE_BASE_PATH}/client-review`, icon: "circle-check" },
   "cross-device-review": { title: "Cross-device review", href: `${FEATURE_BASE_PATH}/cross-device-review`, icon: "devices" },
   "review-workflows": { title: "Review workflows", href: `${FEATURE_BASE_PATH}/review-workflows`, icon: "route" },
-  "review-agents": { title: "AI review agents", href: `${FEATURE_BASE_PATH}/review-agents`, icon: "robot" },
+  "review-agents": { title: "AI review agents", href: `${FEATURE_BASE_PATH}/ai-review-agents`, icon: "robot" },
   screenshots: { title: "Automatic screenshots", href: `${FEATURE_BASE_PATH}/screenshots`, icon: "camera" },
   "kanban-board": { title: "Kanban board", href: `${FEATURE_BASE_PATH}/kanban-board`, icon: "layout-kanban" },
   "ask-ai": { title: "Ask AI", href: `${FEATURE_BASE_PATH}/ask-ai`, icon: "message-chatbot" },
@@ -404,7 +404,7 @@ const RELATED_TARGETS: Readonly<
   "private-comments": { title: "Private comments", href: `${FEATURE_BASE_PATH}/private-comments`, icon: "eye-off" },
   "authenticated-pages": { title: "Authenticated pages", href: `${FEATURE_BASE_PATH}/authenticated-pages`, icon: "lock" },
   "white-label": { title: "White-label", href: `${FEATURE_BASE_PATH}/white-label`, icon: "palette" },
-  integrations: { title: "Integrations", href: "/preview/integrations", icon: "plug" },
+  integrations: { title: "Integrations", href: "/integrations", icon: "plug" },
   trust: { title: "Trust", href: "/security", icon: "checks" },
 };
 
@@ -547,7 +547,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
       relatedItem("review-agents", "The checks that write much of the data."),
     ],
   },
-  "review-agents": {
+  "ai-review-agents": {
     heading: "Related capabilities",
     items: [
       relatedItem("memory", "The agents get sharper because Memory feeds them each client's brand and past decisions."),

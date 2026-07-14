@@ -75,8 +75,8 @@ const PRODUCT_LABEL = "Product";
 const ASSETS_LABEL = "Assets";
 /** Label of the nav item that owns the Resources list menu. */
 const RESOURCES_LABEL = "Resources";
-/** Shared route prefix for every feature detail page. */
-const FEATURE_ROUTE_PREFIX = "/preview/features/";
+/** Shared route prefix for every feature detail page (served at the root slug). */
+const FEATURE_ROUTE_PREFIX = "/";
 
 /** ScrollY (px) past which the header switches to its solid white state. */
 const SCROLL_THRESHOLD_PX = 48;
@@ -107,7 +107,7 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
     links: [
       {
         label: "AI Review Agents",
-        href: `${FEATURE_ROUTE_PREFIX}review-agents`,
+        href: `${FEATURE_ROUTE_PREFIX}ai-review-agents`,
         description: "Autonomous agents that triage every review",
         Icon: RobotIcon,
       },

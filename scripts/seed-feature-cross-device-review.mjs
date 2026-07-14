@@ -2,7 +2,7 @@
 /**
  * Seed the "Cross-Device Review" `featurePage` document in Sanity.
  *
- * Serves at /preview/features/cross-device-review. Like every feature page it
+ * Serves at /cross-device-review. Like every feature page it
  * reuses the 2026 homepage sections (components/home-2026/*) as a fixed
  * template — only the hero copy, the hero tab strip, the "solution" intro, the
  * FeatureSet blocks, the FAQ and SEO vary per page, so this seed is pure
@@ -147,7 +147,7 @@ const doc = {
             icon: "link",
             oneLiner:
               "The full no-account sign-off flow is its own page.",
-            href: "/preview/features/client-review",
+            href: "/client-review",
             listOnly: true,
           },
         ],
@@ -193,14 +193,14 @@ const doc = {
         _key: "rc-screenshots",
         title: "Screenshots",
         description: "Captures carry the view they were taken on.",
-        href: "/preview/features/screenshots",
+        href: "/screenshots",
         icon: "camera",
       },
       {
         _key: "rc-review-agents",
         title: "AI review agents",
         description: "The checklist that runs against both views.",
-        href: "/preview/features/review-agents",
+        href: "/ai-review-agents",
         icon: "robot",
       },
     ],

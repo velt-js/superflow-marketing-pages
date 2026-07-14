@@ -2,7 +2,7 @@
 /**
  * Seed the sample `featurePage` document (Review Agents) in Sanity.
  *
- * The /preview/features/<slug> template reuses the 2026 homepage sections
+ * The /<slug> template reuses the 2026 homepage sections
  * (components/home-2026/*), whose product mocks are hard-coded React — so a
  * feature page is pure text/config and this seed needs NO asset uploads.
  * Copy is taken (where present) from the "Superflow Marketing — 2026" Figma
@@ -42,10 +42,12 @@ const client = DRY_RUN
     });
 
 const doc = {
+  // _id kept stable across the review-agents → ai-review-agents slug rename so
+  // the live doc is replaced in place (no orphaned/duplicate document).
   _id: "featurePage-review-agents",
   _type: "featurePage",
   title: "Review Agents",
-  slug: { _type: "slug", current: "review-agents" },
+  slug: { _type: "slug", current: "ai-review-agents" },
   hero: {
     headlineLines: ["Paste a QA checklist.", "Get AI agents."],
     subhead:
@@ -227,7 +229,7 @@ const doc = {
         title: "Memory",
         description:
           "The agents get sharper because Memory feeds them each client's brand and past decisions.",
-        href: "/preview/features/memory",
+        href: "/memory",
         icon: "brain",
       },
       {
@@ -235,7 +237,7 @@ const doc = {
         title: "Client review",
         description:
           "Where the human half lives — the no-account link a client signs off with.",
-        href: "/preview/features/client-review",
+        href: "/client-review",
         icon: "circle-check",
       },
     ],
@@ -281,9 +283,9 @@ const doc = {
       },
     ],
   },
-  metaTitle: "Review Agents — Superflow",
+  metaTitle: "AI QA Review Agents for Agencies | Superflow",
   metaDescription:
-    "Superflow's AI review agents check every page on every change and leave findings as comments pinned to the exact element. Your team approves, then your client.",
+    "Paste your QA checklist. AI agents review every asset for broken links and brand drift, on desktop and mobile, then your team and client sign off.",
 };
 
 async function main() {

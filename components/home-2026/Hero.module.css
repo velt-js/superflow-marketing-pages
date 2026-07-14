@@ -110,6 +110,23 @@
   gap: 16px;
 }
 
+/* Single-column centered hero (home variant with the RHS interactive panel
+   hidden). Without the right-hand column the text would sit stranded on the
+   left, so the copy column centers its content horizontally and its text is
+   center-aligned. The copy keeps its full-width flex sizing and centers its own
+   children (via align-items), so it stays centered at every breakpoint —
+   including the stacked `@media` layout where `.body` switches to
+   `align-items: stretch`. Scoped to `.bodyCentered` so the feature variant
+   (which still renders `.subheadRight` in the right column) is unaffected. */
+.bodyCentered {
+  justify-content: center;
+  text-align: center;
+}
+
+.bodyCentered .copy {
+  align-items: center;
+}
+
 /* Optional eyebrow above the headline (integration pages that carry a
    category kicker, e.g. Monday). Rendered only when a `kicker` prop is set,
    so the homepage and other heroes are unaffected. */
@@ -128,7 +145,10 @@
   margin: 0;
   font-family: var(--hero-font-display);
   font-weight: 400;
-  font-size: clamp(40px, 4.4vw, 60px);
+  /* Modest ~15% bump over the original clamp(40px, 4.4vw, 60px). All three
+     stops scale together so the fluid mobile→desktop ramp stays balanced and
+     the (now single, centered) headline never overflows small screens. */
+  font-size: clamp(46px, 5vw, 70px);
   line-height: 1.2;
   letter-spacing: -1.8px;
   color: #ffffff;

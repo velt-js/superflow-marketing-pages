@@ -1,8 +1,11 @@
 import Image from "next/image";
 import type { ComponentType } from "react";
 import styles from "./Hero.module.css";
-import { GlobeIcon } from "./HeroIcons";
-import HeroChecksDropdown from "./HeroChecksDropdown";
+// Temporarily unused while the hero RHS interactive panel is hidden (see the
+// commented-out <div className={styles.panel}> block in the JSX below). Restore
+// these two imports alongside that block.
+// import { GlobeIcon } from "./HeroIcons";
+// import HeroChecksDropdown from "./HeroChecksDropdown";
 import HeroWorkflowShowcase, {
   type HeroCmsTab,
   type HeroWorkflowVariant,
@@ -21,10 +24,13 @@ const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-monday": IntegrationsMondayArtifact,
 };
 
-const URL_PLACEHOLDER = "Enter your website URL";
-const START_LABEL = "Start";
-const CTA_MICROCOPY =
-  "Free to start. No credit card. Your client reviews without an account.";
+// Temporarily unused while the hero RHS interactive panel is hidden (see the
+// commented-out <div className={styles.panel}> block in the JSX below). Restore
+// these three constants alongside that block.
+// const URL_PLACEHOLDER = "Enter your website URL";
+// const START_LABEL = "Start";
+// const CTA_MICROCOPY =
+//   "Free to start. No credit card. Your client reviews without an account.";
 
 const HEADLINE_LINES: readonly string[] = ["Watch AI do", "your QA work"];
 
@@ -166,7 +172,11 @@ export default function Hero({
   return (
     <section className={sectionClassName} data-section="hero">
       <div className={styles.inner}>
-        <div className={styles.body}>
+        <div
+          className={
+            isFeature ? styles.body : `${styles.body} ${styles.bodyCentered}`
+          }
+        >
           <div className={styles.copy}>
             {kicker ? <p className={styles.kicker}>{kicker}</p> : null}
             <h1 className={styles.headline}>
@@ -184,7 +194,14 @@ export default function Hero({
               {resolvedSubhead}
             </p>
           ) : (
-            <div className={styles.panel}>
+            // RHS interactive block (URL-capture field + "N of 6 agents done"
+            // checks dropdown) temporarily hidden so the home hero renders as a
+            // single centered column. To restore: delete `null`, uncomment the
+            // <div className={styles.panel}> block below, and re-enable the
+            // GlobeIcon / HeroChecksDropdown imports + the URL_PLACEHOLDER /
+            // START_LABEL / CTA_MICROCOPY constants near the top of this file.
+            null
+            /* <div className={styles.panel}>
               <div className={styles.urlRow}>
                 <div className={styles.urlField}>
                   <GlobeIcon size={24} className={styles.urlIcon} />
@@ -204,7 +221,7 @@ export default function Hero({
               <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
 
               <HeroChecksDropdown />
-            </div>
+            </div> */
           )}
         </div>
 

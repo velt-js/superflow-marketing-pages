@@ -2,7 +2,7 @@
 /**
  * Seed the "Comments" `featurePage` document in Sanity.
  *
- * Serves at /preview/features/comments. Like every feature page it reuses the
+ * Serves at /comments. Like every feature page it reuses the
  * 2026 homepage sections (components/home-2026/*) as a fixed template — only
  * the hero copy, the "solution" intro, the FeatureSet blocks, the FAQ and SEO
  * vary per page, so this seed is pure text/config with NO asset uploads.
@@ -233,14 +233,14 @@ const doc = {
         _key: "rc-private-comments",
         title: "Private comments",
         description: "The threads your client never sees.",
-        href: "/preview/features/private-comments",
+        href: "/private-comments",
         icon: "eye-off",
       },
       {
         _key: "rc-screenshots",
         title: "Automatic screenshots",
         description: "The proof of the page each comment was left on.",
-        href: "/preview/features/screenshots",
+        href: "/screenshots",
         icon: "camera",
       },
     ],
@@ -292,9 +292,9 @@ const doc = {
       },
     ],
   },
-  metaTitle: "Comments — Superflow",
+  metaTitle: "Website Comments for Agencies | Superflow",
   metaDescription:
-    "Leave feedback right where your website or assets live. Pin comments to any element, hold rich threaded conversations, and track every review to done — your team and your clients, in one place.",
+    "Pin feedback to the exact element, or select the words themselves. Threads, mentions, attachments, statuses. Your team and your client, in one place.",
 };
 
 async function main() {
