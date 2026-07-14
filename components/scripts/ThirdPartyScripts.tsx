@@ -15,7 +15,7 @@ const REWARDFUL_KEY = "626baf";
 const MIXPANEL_TOKEN = "15f22bfd89315cb10f7cd65937b149cb";
 const INTERCOM_APP_ID = "gkjq60px";
 const SUPERFLOW_TOOLBAR_API_KEY = "aU1MxKP0rca2UXwKi8bl";
-const SUPERFLOW_TOOLBAR_PROJECT_ID = "3024977291570041";
+const SUPERFLOW_TOOLBAR_PROJECT_ID = "8818554835635078";
 const TERMLY_ID = "2bc67d1d-a9a0-4aab-8562-dcd9c354bff2";
 const RB2B_KEY = "Q6J2RH2WVE6D";
 
@@ -73,12 +73,10 @@ mixpanel.init('${MIXPANEL_TOKEN}', {track_pageview: "full-url", persistence: 'lo
       </Script>
 
       {/* Superflow Toolbar — dogfooding own product */}
-      <Script id="superflow-toolbar-config" strategy="afterInteractive">
-        {`var SUPERFLOW_TOOLBAR_API_KEY="${SUPERFLOW_TOOLBAR_API_KEY}"; var SUPERFLOW_TOOLBAR_PROJECT_ID="${SUPERFLOW_TOOLBAR_PROJECT_ID}";`}
-      </Script>
       <Script
-        id="superflow-toolbar"
-        src="https://cdn.jsdelivr.net/npm/@usesuperflow/toolbar/superflow.min.js"
+        id="superflowToolbarScript"
+        data-sf-platform="other-manual"
+        src={`https://cdn.velt.dev/lib/superflow.js?apiKey=${SUPERFLOW_TOOLBAR_API_KEY}&projectId=${SUPERFLOW_TOOLBAR_PROJECT_ID}`}
         strategy="afterInteractive"
       />
 

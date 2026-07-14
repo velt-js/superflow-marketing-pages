@@ -1,0 +1,395 @@
+/*
+ * 08 / Integrations — 2026 homepage redesign.
+ * A centered header sits above a responsive grid of category cards.
+ * Each card is a light, bordered "folder": a header row (accent icon chip +
+ * label) over a row of integration tiles (logo/glyph + mono label).
+ * ≥768px the cards form a 2-up grid; below that they stack in one column.
+ * Each category card sets --accent / --tone / --glyph via inline style.
+ */
+
+.section {
+  --ink: #1e1e1f;
+  --section-bg: #feffff;
+  --card-border: #e4e4e7;
+  --tile-hover: #fafafa;
+
+  position: relative;
+  background: var(--section-bg);
+  color: var(--ink);
+  padding: 80px 24px;
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* ---- Header --------------------------------------------------------- */
+
+/* The header is the top cell of the bento: it spans every column and sits
+   over the same 1px hairline gap as the cards, so the copy and the grid read
+   as one continuous visual. Mobile-first it stacks centered; >=768px it
+   becomes a split banner (title left, subtitle + CTA right). */
+.header {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 56px 24px 48px;
+  text-align: center;
+  background: var(--section-bg);
+}
+
+.headerAside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Figma: Adamina Regular 52 / -1.56px. */
+.title {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.25rem, 1.2rem + 3vw, 3.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+/* Figma: Inter Regular 18 / -0.54px @ 78% opacity. Falls back to the
+   inherited Poppins stack. */
+.subtitle {
+  margin: 0;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(30, 30, 31, 0.78);
+}
+
+/* Figma: Urbanist SemiBold 16 / 0.16px, 1px black border, 32px radius. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 1px solid #000;
+  border-radius: 32px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--ink);
+  color: var(--section-bg);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---- Category grid -------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  width: 100%;
+  /* The 1px gap + this background paint the hairline dividers between
+     cells, so the four cards read as one continuous bento grid. */
+  background: var(--card-border);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Split banner: display title flush left, supporting line + CTA flush
+     right, both vertically centered against the same baseline. */
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    padding: 44px 40px;
+    text-align: left;
+  }
+
+  .header .title {
+    flex: 1 1 auto;
+    max-width: 540px;
+  }
+
+  .headerAside {
+    flex: 0 0 auto;
+    align-items: flex-end;
+    gap: 22px;
+    text-align: right;
+  }
+
+  .headerAside .subtitle {
+    max-width: 320px;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--section-bg);
+}
+
+/* Card header row: accent icon chip + label, over a hairline divider. */
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--card-border);
+  background: var(--section-bg);
+}
+
+.tabIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--glyph);
+}
+
+.tabIcon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.tabLabel {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Card body: tiles sit edge-to-edge and the 1px grid gap over the
+   border-coloured background paints hairline dividers between them — the
+   same treatment as the outer bento and the header divider. Per-category
+   column counts (with spans where needed) keep every row full so no empty
+   cell shows through. Tiles stretch to fill the body height so there is no
+   bare background showing. Mobile-first layout; widened at >=768px. */
+.body {
+  display: grid;
+  gap: 1px;
+  align-content: stretch;
+  grid-auto-rows: minmax(110px, 1fr);
+  background: var(--card-border);
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Mobile: never more than two tiles across. Odd counts use column spans so
+   the trailing row still fills the full width. */
+.body[data-cat="developer"],
+.body[data-cat="installation"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.body[data-cat="delivery"],
+.body[data-cat="task-management"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.body[data-cat="delivery"] > .tile {
+  grid-column: span 3;
+}
+
+.body[data-cat="delivery"] > .tile:nth-child(3) {
+  grid-column: span 6;
+}
+
+.body[data-cat="task-management"] > .tile {
+  grid-column: span 3;
+}
+
+.body[data-cat="task-management"] > .tile:nth-child(5) {
+  grid-column: span 6;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 18px 16px;
+  background: var(--section-bg);
+  transition: background-color 0.2s ease;
+}
+
+.tile:hover {
+  background: var(--tile-hover);
+}
+
+/* Desktop: Developer 2-up and Installation 2x2 stay as-is; Delivery is a
+   single 3-up row; Task Management is a 3 + 2 layout (six tracks, spans). */
+@media (min-width: 768px) {
+  .body[data-cat="delivery"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .body[data-cat="delivery"] > .tile,
+  .body[data-cat="delivery"] > .tile:nth-child(3) {
+    grid-column: auto;
+  }
+
+  .body[data-cat="task-management"] > .tile {
+    grid-column: span 2;
+  }
+
+  .body[data-cat="task-management"] > .tile:nth-child(4),
+  .body[data-cat="task-management"] > .tile:nth-child(5) {
+    grid-column: span 3;
+  }
+}
+
+.tileIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.tileIcon svg {
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.logoImage {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.tileLabel {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 64px 20px;
+  }
+
+  .header {
+    padding: 40px 20px 36px;
+    gap: 20px;
+  }
+
+  .tab {
+    padding: 16px 18px;
+  }
+
+  .body {
+    grid-auto-rows: minmax(92px, 1fr);
+  }
+
+  .tile {
+    padding: 14px 10px;
+    gap: 10px;
+  }
+}
+
+/* ---- Entrance reveal -------------------------------------------------- */
+
+/* Play-once reveal driven by .revealed (set via IntersectionObserver).
+   Cards fade up from a blurred state with a stagger; the header gets a
+   gentle fade + blur. Under prefers-reduced-motion the hidden states are
+   skipped, so the section renders static. Stagger order follows the DOM:
+   Developer → Delivery → Installation → Task Management. */
+.placeDeveloper {
+  --reveal-delay: 300ms;
+}
+
+.placeDelivery {
+  --reveal-delay: 420ms;
+}
+
+.placeInstallation {
+  --reveal-delay: 540ms;
+}
+
+.placeTaskManagement {
+  --reveal-delay: 660ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Cards live inside the clipped bento grid, so the reveal is a fade +
+     blur only (no transform) to avoid clipping against the rounded edge. */
+  .card {
+    opacity: 0;
+    filter: blur(8px);
+    transition:
+      opacity 0.6s ease-out,
+      filter 0.6s ease-out;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .header {
+    opacity: 0;
+    filter: blur(6px);
+    transition:
+      opacity 0.6s ease-out,
+      filter 0.6s ease-out;
+  }
+
+  .revealed .card {
+    opacity: 1;
+    filter: none;
+  }
+
+  .revealed .header {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .card,
+  .tile {
+    transition: none;
+  }
+}

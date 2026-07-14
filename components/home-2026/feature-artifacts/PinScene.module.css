@@ -1,0 +1,649 @@
+/* Shared "pinned comment" page scene for the Durable Comments feature-section
+   artifacts (Pinned Comments + Auto Screenshot): a wide browser chrome whose
+   address pill bleeds off the right panel edge, a dashed purple-selected target
+   element and a couple of skeleton content blocks to its right. There is no
+   separate pin badge — each artifact's comment avatar + dialog acts as the
+   anchor. Elements are absolutely positioned relative to the artifact root at
+   native pixel coordinates, left-anchored inside the visible panel frame (the
+   panel window is a wider 1204px that intentionally bleeds off the right). */
+
+/* --------------------------------------------------------- browser chrome */
+
+/* Intentionally wider than the visible frame: the right-aligned address pill
+   runs off the right panel edge, so its "YOUR-SITE.COM" text clips at the edge
+   and the bar has no visible right border — matching the design. */
+.chrome {
+  position: absolute;
+  top: 14px;
+  left: 24px;
+  width: 676px;
+  animation: sceneSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Contained variant for a custom, centred, fully-readable URL (the
+   authenticated-pages behind-login scenes). The default bar is 676px and bleeds
+   off the panel's right edge; here we narrow + nudge it in so the nav controls
+   and the address pill both keep a ~28px margin inside the visible ~630px panel
+   region, and the domain never runs off the edge. */
+.chromeInset {
+  left: 28px;
+  width: 574px;
+}
+
+/* ---------------------------------------------------- stale (static) copy */
+
+/* Only rendered in the Live Site variant: a dimmed, grayscale, slightly rotated
+   "static copy" of the page peeking out from behind the selected element — the
+   frozen screenshot the comment would otherwise be stuck on. It sits below the
+   live element in the DOM so the crisp element paints over it. */
+.stale {
+  position: absolute;
+  left: 16px;
+  top: 80px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #e3e5ea;
+  border-radius: 18px;
+  background: #eef0f2;
+  filter: grayscale(1);
+  opacity: 0.55;
+  transform: rotate(-6deg);
+  transform-origin: center;
+  animation: staleFade 0.4s ease 0.08s both;
+}
+
+.staleTag {
+  position: absolute;
+  left: 22px;
+  top: 62px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border: 1px solid #e6e6ec;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #8a8a94;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  box-shadow: 0 6px 16px rgba(20, 20, 43, 0.08);
+  animation: sceneFade 0.4s ease 0.18s both;
+}
+
+.staleStamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #b4b4bd;
+  font-weight: 600;
+}
+
+/* Middot separating the label from the timestamp. */
+.staleStamp::before {
+  content: "";
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #cfcfd6;
+}
+
+/* -------------------------------------------------------- version rail */
+
+/* Only rendered in the Versioning variant: a left column of stacked VERSION
+   buttons overlaying the page area. The first (active) button is accent-filled;
+   the rest are muted history, in mono uppercase to match the address type. */
+.versionRail {
+  position: absolute;
+  left: 24px;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 164px;
+  animation: sceneFade 0.4s ease 0.12s both;
+}
+
+.versionButton {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: #f1f1f4;
+  color: #9a9aa4;
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* The active version (the one the pinned comment is anchored to). */
+.versionButtonActive {
+  background: #433df3;
+  color: #ffffff;
+}
+
+/* ------------------------------------------------------- view switcher */
+
+/* Robust Anchor variant: a small List/Grid switcher floats under the chrome,
+   making the comment feel anchored across a real layout mode change. */
+.viewSwitch {
+  position: absolute;
+  left: 24px;
+  top: 80px;
+  z-index: 1;
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #ffffff;
+  animation: sceneFade 0.4s ease 0.12s both;
+}
+
+.viewSwitchItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+/* Robust Anchor rests in Grid View: "List View" is inactive and "Grid View"
+   is the dark active pill. The animation below starts them swapped (List active)
+   and flips them on the fake click. */
+.viewSwitchGrid {
+  background: #1e1e1f;
+  color: #ffffff;
+}
+
+.viewSwitchIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* -------------------------------------------------------------- page body */
+
+/* The selected element the comment is pinned to (empty dashed purple outline). */
+.heroElement {
+  position: absolute;
+  left: 40px;
+  top: 96px;
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #625df5;
+  border-radius: 18px;
+  background: #f6f6f5;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+/* Versioning variant: the element shifts right to clear the left rail column
+   and grows a little to anchor the centred comment. Its top aligns with the
+   rail so the scene sits higher (tighter under the chrome). */
+.heroElementVersions {
+  left: 228px;
+  top: 88px;
+  width: 352px;
+  height: 352px;
+}
+
+/* -------------------------------------------------- text-selection surface */
+
+/* Text Comments variant: a page content block, a peach highlighted run of copy
+   the comment is pinned to, and skeleton text lines below — conveying that the
+   comment attaches to an exact text selection rather than a whole element. */
+.textSelect {
+  position: absolute;
+  inset: 0;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+/* A neutral page content block sitting above the highlighted copy. */
+.textSelectBlock {
+  position: absolute;
+  left: 40px;
+  top: 96px;
+  width: 620px;
+  height: 92px;
+  border-radius: 16px;
+  background: #f2f2f1;
+}
+
+/* The highlighted text run: a warm peach bar whose right edge meets the pin. */
+.textHighlight {
+  position: absolute;
+  left: 40px;
+  top: 192px;
+  width: 188px;
+  height: 44px;
+  border-radius: 8px;
+  background: #fbe3c8;
+}
+
+/* Text Comments choreography (opt-in via `textSelectAnimate`): the run settles
+   on a warm, semi-opaque marker yellow (so text underneath would stay readable)
+   and is revealed left→right like a dragged text selection. Only the reveal
+   animates — the yellow is the resting colour so the reduced-motion / settled
+   state reads as "already highlighted". */
+.textSelectAnim .textHighlight {
+  background: rgba(255, 209, 71, 0.82);
+  clip-path: inset(0 0 0 0);
+  animation: tsSelectSweep 0.62s cubic-bezier(0.45, 0, 0.35, 1) 0.55s both;
+}
+
+/* Fake pointer that glides in, presses at the run's start and drags across it
+   to "select" the copy, then lifts just before the comment drops onto it. */
+.textSelectCursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.4));
+  animation: tsSelectCursor 1.6s cubic-bezier(0.5, 0, 0.4, 1) 0.2s both;
+}
+
+.textSelectCursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Skeleton copy lines below the highlighted selection. */
+.textLines {
+  position: absolute;
+  left: 40px;
+  top: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 300px;
+}
+
+.textLine {
+  height: 14px;
+  border-radius: 7px;
+  background: #eeeeed;
+}
+
+.textLineShort {
+  width: 66%;
+}
+
+/* Neutral skeleton content sitting to the right of the selected element; it
+   peeks out from behind the comment card and bleeds off the right edge. */
+.contentBlocks {
+  position: absolute;
+  left: 372px;
+  top: 108px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 560px;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+/* Versioning variant: content shifts right so it clears the widened element and
+   still bleeds off the right panel edge behind the comment card, and up to track
+   the raised element. */
+.contentBlocksVersions {
+  left: 660px;
+  top: 92px;
+}
+
+.contentBlock {
+  height: 72px;
+  border-radius: 16px;
+  background: #f2f2f1;
+}
+
+.contentBlockTall {
+  height: 150px;
+}
+
+/* ------------------------------------------------- robust anchor reflow */
+
+/* Robust Anchor animated surface: a stacked list of cards that reflow into a
+   two-column grid when the fake pointer taps "Grid View". The first card is the
+   selected element the comment is pinned to; it holds its top-left corner so the
+   comment stays anchored while the others fly into their grid slots. */
+.reflow {
+  position: absolute;
+  inset: 0;
+  animation: sceneFade 0.4s ease 0.1s both;
+}
+
+/* Base = final grid layout, so the settled/reduced-motion state is the grid;
+   each `.reflowItemN` animation plays *from* the stacked list layout. */
+.reflowItem {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.reflowItemSelected {
+  border: 2px dashed #625df5;
+  background: #f6f6f5;
+}
+
+.reflowThumb {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #e9e9ee;
+}
+
+.reflowLines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding-top: 5px;
+}
+
+.reflowBar {
+  height: 9px;
+  border-radius: 5px;
+  background: #ececeb;
+}
+
+.reflowBarShort {
+  width: 58%;
+}
+
+/* Grid slots (resting layout). */
+.reflowItem1 {
+  left: 40px;
+  top: 158px;
+  width: 280px;
+  height: 150px;
+  animation: raItem1 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+}
+
+.reflowItem2 {
+  left: 344px;
+  top: 158px;
+  width: 280px;
+  height: 150px;
+  animation: raItem2 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+}
+
+.reflowItem3 {
+  left: 40px;
+  top: 324px;
+  width: 280px;
+  height: 150px;
+  animation: raItem3 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+}
+
+.reflowItem4 {
+  left: 344px;
+  top: 324px;
+  width: 280px;
+  height: 150px;
+  animation: raItem4 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+}
+
+/* Fake pointer that glides onto "Grid View" and presses it. */
+.reflowCursor {
+  position: absolute;
+  top: 92px;
+  left: 205px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.4));
+  animation: raCursor 2.6s cubic-bezier(0.5, 0, 0.4, 1) 0.4s both;
+}
+
+.reflowCursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Pill active-state swap, timed to the pointer press. */
+.reflow .viewSwitchList {
+  animation: raSwitchOff 0.3s ease 1.8s both;
+}
+
+.reflow .viewSwitchGrid {
+  animation: raSwitchOn 0.3s ease 1.8s both;
+}
+
+/* --- Robust anchor keyframes (list layout -> grid slot) ----------------- */
+
+@keyframes raItem1 {
+  from {
+    left: 40px;
+    top: 158px;
+    width: 320px;
+    height: 58px;
+  }
+  to {
+    left: 40px;
+    top: 158px;
+    width: 280px;
+    height: 150px;
+  }
+}
+
+@keyframes raItem2 {
+  from {
+    left: 40px;
+    top: 230px;
+    width: 320px;
+    height: 58px;
+  }
+  to {
+    left: 344px;
+    top: 158px;
+    width: 280px;
+    height: 150px;
+  }
+}
+
+@keyframes raItem3 {
+  from {
+    left: 40px;
+    top: 302px;
+    width: 320px;
+    height: 58px;
+  }
+  to {
+    left: 40px;
+    top: 324px;
+    width: 280px;
+    height: 150px;
+  }
+}
+
+@keyframes raItem4 {
+  from {
+    left: 40px;
+    top: 374px;
+    width: 320px;
+    height: 58px;
+  }
+  to {
+    left: 344px;
+    top: 324px;
+    width: 280px;
+    height: 150px;
+  }
+}
+
+@keyframes raCursor {
+  0% {
+    opacity: 0;
+    transform: translate(60px, 80px) scale(1);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  46% {
+    transform: translate(0, 0) scale(0.82);
+  }
+  56% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes raSwitchOff {
+  from {
+    background: #1e1e1f;
+    color: #ffffff;
+  }
+  to {
+    background: transparent;
+    color: #000000;
+  }
+}
+
+@keyframes raSwitchOn {
+  from {
+    background: transparent;
+    color: #000000;
+  }
+  to {
+    background: #1e1e1f;
+    color: #ffffff;
+  }
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * The chrome settles and the page body fades in. Shared easing/duration keep
+ * both artifacts cohesive. */
+
+@keyframes sceneSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sceneFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The stale copy rests at its dimmed 0.55 opacity rather than full. */
+@keyframes staleFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* --- Text-selection choreography keyframes ------------------------------ *
+ * The marker yellow wipes in left→right; the pointer glides to the run's
+ * start, "presses", drags to the end, releases and fades before the drop. */
+
+@keyframes tsSelectSweep {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes tsSelectCursor {
+  0% {
+    opacity: 0;
+    transform: translate(150px, 250px) scale(1);
+  }
+  19% {
+    opacity: 1;
+    transform: translate(34px, 206px) scale(1);
+  }
+  24% {
+    opacity: 1;
+    transform: translate(34px, 206px) scale(0.82);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(214px, 206px) scale(0.82);
+  }
+  66% {
+    opacity: 1;
+    transform: translate(214px, 206px) scale(1);
+  }
+  78% {
+    opacity: 0;
+    transform: translate(214px, 206px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(214px, 206px) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .stale,
+  .staleTag,
+  .heroElement,
+  .contentBlocks,
+  .versionRail,
+  .viewSwitch,
+  .reflow,
+  .reflowItem1,
+  .reflowItem2,
+  .reflowItem3,
+  .reflowItem4,
+    .viewSwitchList,
+    .viewSwitchGrid,
+    .textSelect {
+    animation: none;
+  }
+
+  /* Rest on the fully-revealed marker yellow (already-highlighted copy). */
+  .textSelectAnim .textHighlight {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Rest on the settled grid / highlight; the pointers are meaningless without
+     motion. */
+  .reflowCursor,
+  .textSelectCursor {
+    display: none;
+  }
+}

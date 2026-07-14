@@ -1,0 +1,1094 @@
+/* 01 / Hero — 2026 homepage redesign.
+   Figma: node 582:1898 (file aVubXS2jMWMDlRK42zvgoy).
+   All layout is authored with flex/grid; Figma absolute positions are NOT copied.
+   Colors, copy and typography sizes are taken from the Figma source of truth. */
+
+.hero {
+  /* Design tokens extracted from Figma. */
+  --hero-ink: #1e1e1f;
+  --hero-dark: #010001;
+  --hero-card: #feffff;
+  --hero-accent-blue: #1a78e0;
+  --hero-cyan: #7adffe;
+  --hero-rail-active: #4093ee;
+  --hero-check-green: #22c55e;
+  --hero-perf: #ff5744;
+  --hero-grammar: #3555dd;
+  --hero-broken: #038e31;
+  --hero-seo: #b26d0a;
+  --hero-placeholder: #e5e5e5;
+
+  /* Font stacks. Urbanist and Adamina are loaded by the app layout;
+     Geist Mono (labels) is NOT loaded, so it falls back to system mono. */
+  --hero-font-display: var(--font-adamina), Georgia, serif;
+  --hero-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --hero-font-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+
+  --hero-max-width: 1204px;
+  --hero-gutter: 40px;
+  /* Height of the fixed SiteNav overlay; reserved as top padding so hero
+     content is never hidden behind it. Keep in sync with SiteNav's height. */
+  --site-nav-height: 70px;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: var(--hero-font-ui);
+  /* Real gradient bitmap from Figma ("Frame 1707483135"): blue sky with a
+     white arc glow fading to white at the bottom. In the 1440px Figma frame
+     it covers the top 922px; the fixed heights (here and in the media
+     queries) stretch the soft gradient so white hero text stays on blue
+     even when content stacks taller on smaller screens. */
+  background-color: var(--hero-card);
+  background-image: url("/images/home-2026/hero/hero-gradient.png");
+  background-repeat: no-repeat;
+  /* Stretched beyond Figma's nominal 922px because the bitmap's white arc
+     glow starts well before its bottom edge — this keeps the showcase
+     window sitting mostly on blue before the fade to white. */
+  background-size: 100% 1150px;
+  background-position: top center;
+  padding-bottom: 96px;
+}
+
+/* Integrations hub background: orange→yellow "sunset" gradient (Figma node
+   959:3824), swapped in for the homepage blue bitmap. Inherits .hero's
+   background-size/position (incl. the responsive overrides) so the colored
+   band stretches to cover the taller stacked layouts before fading to white. */
+.heroSunset {
+  background-image: url("/images/home-2026/integrations/hero-sunset.svg");
+}
+
+/* Plain white card holding a single static (chrome-less) hero artifact — no
+   tab strip, no black window frame. Sits where the workflow showcase would. */
+.staticCard {
+  position: relative;
+  margin-top: 8px;
+  /* Internal breathing room so the composition never sits flush to the card
+     edges (the query container inside scales to fit the padded width). */
+  padding-inline: clamp(16px, 2.4vw, 40px);
+  border-radius: 24px;
+  background: var(--hero-card);
+  /* Crisp near-black hairline instead of a drop shadow (integrations hero). */
+  border: 1px solid var(--hero-ink);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Flat variant of the static card: shadow-less with a clean solid black
+   hairline border (Monday integration hero, whose sync artifact sits on a
+   shadow-less, black-bordered card per its design reference). */
+.staticCardFlat {
+  box-shadow: none;
+  border: 1px solid var(--hero-dark);
+}
+
+.inner {
+  width: 100%;
+  max-width: calc(var(--hero-max-width) + var(--hero-gutter) * 2);
+  margin: 0 auto;
+  /* Top padding reserves space for the fixed SiteNav so the hero content
+     keeps the same offset it had when the nav lived in this section. */
+  padding: var(--site-nav-height) var(--hero-gutter) 0;
+}
+
+/* ------------------------------------------------------------ Hero body */
+
+.body {
+  display: flex;
+  align-items: center;
+  gap: 96px;
+  padding-top: 88px;
+  padding-bottom: 72px;
+}
+
+.copy {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Single-column centered hero (home variant with the RHS interactive panel
+   hidden). Without the right-hand column the text would sit stranded on the
+   left, so the copy column centers its content horizontally and its text is
+   center-aligned. The copy keeps its full-width flex sizing and centers its own
+   children (via align-items), so it stays centered at every breakpoint —
+   including the stacked `@media` layout where `.body` switches to
+   `align-items: stretch`. Scoped to `.bodyCentered` so the feature variant
+   (which still renders `.subheadRight` in the right column) is unaffected. */
+.bodyCentered {
+  justify-content: center;
+  text-align: center;
+}
+
+.bodyCentered .copy {
+  align-items: center;
+}
+
+/* Optional eyebrow above the headline (integration pages that carry a
+   category kicker, e.g. Monday). Rendered only when a `kicker` prop is set,
+   so the homepage and other heroes are unaffected. */
+.kicker {
+  margin: 0;
+  font-family: var(--hero-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--hero-font-display);
+  font-weight: 400;
+  /* Modest ~15% bump over the original clamp(40px, 4.4vw, 60px). All three
+     stops scale together so the fluid mobile→desktop ramp stays balanced and
+     the (now single, centered) headline never overflows small screens. */
+  font-size: clamp(46px, 5vw, 70px);
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+  color: #ffffff;
+}
+
+.headlineLine {
+  display: block;
+}
+
+.subhead {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.54px;
+  color: rgba(255, 255, 255, 0.78);
+  /* Even out the wrap so the copy sits on fewer, balanced lines instead of a
+     ragged 4-line block with an orphaned word. */
+  text-wrap: balance;
+}
+
+/* Feature-page hero (variant="feature"): there is no URL-capture panel, so the
+   subhead occupies the right column instead. It aligns to the top of the row
+   so its first line sits just below the headline's cap (Figma feature frame
+   node 678:3023 — headline y=172, subhead y=208). */
+.subheadRight {
+  flex-shrink: 0;
+  width: 420px;
+  max-width: 100%;
+  align-self: flex-start;
+  padding-top: 14px;
+}
+
+/* --------------------------------------------------------- URL + checks */
+
+.panel {
+  flex-shrink: 0;
+  width: 530px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 var(--hero-gutter);
+}
+
+.urlRow {
+  display: flex;
+  /* Stretch both children to the row's tallest content so the URL field and
+     the Start button always share the same height (the field is taller because
+     of its 24px globe icon + padding + border; the button grows to match). */
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Restored friction-killer line sitting just beneath the URL input; the
+   negative top margin tightens it to the input against the panel's 16px gap. */
+.microcopy {
+  margin: -8px 0 0;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.urlField {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 19px 14px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(240, 240, 240, 0.16);
+}
+
+.urlIcon {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.urlInput {
+  flex: 1 1 0;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--hero-font-ui);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.576px;
+}
+
+.urlInput::placeholder {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.startButton {
+  flex-shrink: 0;
+  /* Center the label vertically now that the row stretches the button to the
+     taller URL-field height (otherwise line-height:1 pins "Start" to the top). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 24px;
+  border-radius: 32px;
+  background: var(--hero-ink);
+  color: #ffffff;
+  font-family: var(--hero-font-ui);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.192px;
+  line-height: 1;
+  border: none;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.startButton:hover {
+  opacity: 0.6;
+}
+
+/* Checks dropdown card. When expanded it keeps the fixed Figma height
+   (166px) and the list scrolls inside; collapsed it shrinks to the header. */
+.checksCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  width: 100%;
+}
+
+.checksCardOpen {
+  height: 166px;
+}
+
+.checksHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.checksTitle {
+  font-family: var(--hero-font-mono);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.checksTitleCount {
+  font-weight: 700;
+}
+
+.checksChevron {
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.checksChevronOpen {
+  transform: scaleY(-1);
+}
+
+/* Scroll viewport for the six checks: fills the space left by the fixed
+   header inside the fixed-height card and scrolls internally. */
+.checksList {
+  /* Per-edge fade sizes, toggled by the fade classes below. 0 = no fade. */
+  --checks-fade-top: 0px;
+  --checks-fade-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0 4px 0 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+  /* Dissolve rows at whichever scroll edge still hides checks, so partially
+     visible rows fade out instead of being chopped by the card edge. */
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000000 var(--checks-fade-top),
+    #000000 calc(100% - var(--checks-fade-bottom)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000000 var(--checks-fade-top),
+    #000000 calc(100% - var(--checks-fade-bottom)),
+    transparent 100%
+  );
+}
+
+.checksList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.checksList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.checksList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+}
+
+/* Fades the top scroll edge once the user has scrolled past the first checks. */
+.checksListFadeTop {
+  --checks-fade-top: 28px;
+}
+
+/* Fades the bottom scroll edge while more checks remain below the viewport. */
+.checksListFadeBottom {
+  --checks-fade-bottom: 28px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.checkMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 36px;
+  flex-shrink: 0;
+}
+
+.checkMarkOn {
+  background: var(--hero-check-green);
+  color: #ffffff;
+}
+
+.checkMarkOff {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.checkLabel {
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: -0.45px;
+  color: #ffffff;
+}
+
+.checkLabelOn {
+  font-weight: 600;
+}
+
+.checkLabelOff {
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* ---------------------------------------------------- Product showcase */
+
+.showcase {
+  margin-top: 8px;
+}
+
+/* Tab strip sits flush on top of the window; the active tab's black
+   background must merge seamlessly with the window's black border, so the
+   strip has no leading padding and no gap to the window below. */
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  transition: padding-left 0.15s ease;
+}
+
+/* Applied when the first tab is NOT active: insets the strip so the frosted
+   first tab's square bottom edge no longer overhangs the window frame's
+   rounded top-left corner. */
+.tabsInset {
+  padding-left: 16px;
+}
+
+/* Inactive tabs: dark tinted-glass pills sitting on the gradient, slightly
+   shorter than the active tab so it reads as the front-most tab. */
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* Figma: 12px vertical, 14px horizontal insets (40px visible height). */
+  padding: 12px 14px;
+  border: none;
+  border-radius: 16px 16px 0 0;
+  background: rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.88);
+  /* Buttons don't inherit font-family; without this labels fall back to the
+     wider system font and inflate the tabs. */
+  font-family: var(--hero-font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tab:hover {
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+/* Active tab metrics from Figma (rect 582:1986 vs frame 582:1993): 12px top
+   and left insets around the 24px icon chip, 10px chip-to-label gap, 8px
+   bottom padding onto the 2px black frame — 44px visible tab height. */
+.tabActive {
+  gap: 10px;
+  padding: 12px 18px 8px 12px;
+  background: #000000;
+  color: #ffffff;
+  font-weight: 700;
+  /* Lifts the flare pseudo-elements above adjacent frosted tabs so the
+     black curve wraps under their rounded corners, as in Figma. */
+  z-index: 1;
+}
+
+.tabActive:hover {
+  background: #000000;
+}
+
+/* Concave flares at the active tab's base (Figma "Vector 56/57": 26px
+   inverted-radius joins). A square hugging the tab's bottom outer corner is
+   painted black outside a circle centred on the square's top outer corner,
+   cutting the browser-tab "gooey" curve into the window frame below. */
+.tabActive::before,
+.tabActive::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+
+.tabActive::after {
+  left: 100%;
+  background: radial-gradient(
+    circle 26px at 100% 0%,
+    transparent 25px,
+    #000000 26px
+  );
+}
+
+.tabActive::before {
+  right: 100%;
+  background: radial-gradient(
+    circle 26px at 0% 0%,
+    transparent 25px,
+    #000000 26px
+  );
+}
+
+/* The first tab merges flush into the frame's left edge — no left flare. */
+.tabActive:first-child::before {
+  content: none;
+}
+
+/* Cyan icon chip inside the active tab: 4px inner padding, ~10px radius. */
+.tabMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--hero-cyan);
+  color: #0a0a0a;
+}
+
+/* Black window frame: 2px reveal around the white card, whose own 16px
+   rounded top corners sit inset within the frame exactly as in Figma. The
+   active tab's black merges straight into this frame. */
+.window {
+  background: #000000;
+  border-radius: 16px;
+  padding: 2px;
+}
+
+/* Applied while the leftmost tab is active: squares the frame's top-left
+   outer corner so the tab above merges into it flush. */
+.windowMerged {
+  border-top-left-radius: 0;
+}
+
+/* Fixed-height frame for the per-tab hero artifacts. Every tab renders at the
+   exact same height regardless of its content; any content taller than this
+   (e.g. Build Agents' skeleton rows) is clipped, matching the Figma frames'
+   bottom bleed. Keeps tab-switching from jumping the layout. */
+.artifactFrame {
+  display: flex;
+  height: 578px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.artifactFrame > * {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+
+.windowInner {
+  display: flex;
+  gap: 16px;
+  background: var(--hero-card);
+  border-radius: 16px;
+  padding: 16px;
+  color: #000000;
+  overflow: hidden;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.railItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 32px;
+  color: #101012;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.railItem:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.railItemActive {
+  background: var(--hero-rail-active);
+  color: #ffffff;
+}
+
+.railItemActive:hover {
+  background: var(--hero-rail-active);
+}
+
+.railMark {
+  object-fit: contain;
+}
+
+.canvasWrap {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.windowHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.windowTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.54px;
+  color: #000000;
+}
+
+.windowMeta {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.52);
+}
+
+.windowMetaStrong {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.windowActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 10px 10px;
+  border-radius: 32px;
+  font-family: var(--hero-font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.42px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.actionShare {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000001;
+}
+
+.actionShare:hover {
+  background: #f4f4f5;
+}
+
+.actionRun {
+  background: #000001;
+  color: #ffffff;
+  border: 1px solid #000001;
+}
+
+.actionRun:hover {
+  transform: translateY(-1px);
+}
+
+/* Workflow canvas — a product illustration placeholder built with CSS.
+   The dotted grid is a CSS radial pattern (no bitmap needed). */
+.canvas {
+  position: relative;
+  flex: 1 1 0;
+  /* Figma: the canvas inside the 650px showcase group is 494px tall. */
+  min-height: 494px;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* No gap: the branch connector (a flex child) must physically touch the
+     "New Update" node on its left and the checks column's dashed trunk on its
+     right. A flex gap here would leave the dashed line stranded ~40px short of
+     each, reading as broken connectors. */
+  gap: 0;
+  background-color: #ffffff;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.16) 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+  background-position: 0 0;
+  /* Hairline card edge (Figma "image 16", node 751:1935). Drawn as an inset
+     ring so the white fade overlay below dissolves it at the bottom/right
+     corner, matching the design's border that fades into the frame. */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Soft fade to white at the bottom and right of the canvas so the workflow
+   nodes that bleed past those edges dissolve into the frame instead of being
+   chopped off abruptly. Two stacked gradients keep the corner fully white. */
+.canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, #ffffff 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) calc(100% - 110px), #ffffff 100%);
+  pointer-events: none;
+}
+
+.canvasSources {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  /* No gap: the site→update connector spans the whole distance itself (see
+     .connector width) so the dashed line touches both nodes instead of
+     floating between two 40px gaps. */
+  gap: 0;
+}
+
+/* Horizontal lead of the branch connector: links the "New Update" node to the
+   vertical trunk in front of the check pills (Figma "Line 4", node 751:1975).
+   Grows to fill the gap so the dashed line stays continuous at any canvas
+   width, meeting the checks column's dashed trunk at its vertical centre. */
+.branchConnector {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 24px;
+  height: 0;
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.3);
+}
+
+.node {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.525px;
+  white-space: nowrap;
+}
+
+.nodeSite {
+  background: var(--hero-dark);
+  color: #ffffff;
+}
+
+.nodeSiteTld {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.nodeUpdate {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  font-family: var(--hero-font-mono);
+}
+
+/* Dashed connector between the two source nodes. Its width is the full node-
+   to-node distance (the old 48px line + the two 40px gaps that used to flank
+   it) so the dashes run edge-to-edge and touch both nodes. */
+.connector {
+  width: 128px;
+  height: 0;
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.canvasChecks {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  /* Pills hug their own content and left-align on a shared edge (Figma pills
+     have different widths); without this they stretch to a uniform width. */
+  align-items: flex-start;
+  gap: 12px;
+  padding-left: 40px;
+  border-left: 1.5px dashed rgba(0, 0, 0, 0.3);
+}
+
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 32px;
+  font-family: var(--hero-font-mono);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.525px;
+  white-space: nowrap;
+}
+
+/* Dashed stub linking each check pill back to the vertical trunk. */
+.pill::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 40px;
+  height: 0;
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.3);
+}
+
+.pillPerf {
+  background: color-mix(in srgb, var(--hero-perf) 12%, #ffffff);
+  color: var(--hero-perf);
+}
+
+.pillGrammar {
+  background: color-mix(in srgb, var(--hero-grammar) 12%, #ffffff);
+  color: var(--hero-grammar);
+}
+
+.pillBroken {
+  background: color-mix(in srgb, var(--hero-broken) 12%, #ffffff);
+  color: var(--hero-broken);
+}
+
+.pillSeo {
+  background: color-mix(in srgb, var(--hero-seo) 14%, #ffffff);
+  color: var(--hero-seo);
+}
+
+/* --------------------------------------------------------- Trusted-by */
+
+.trusted {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.trustedLabel {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 2.1px;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+.trustedAccent {
+  font-weight: 700;
+  color: var(--hero-accent-blue);
+}
+
+/* Single-line marquee: the track holds two identical logo sets and scrolls
+   left forever, translating by exactly half its width so the loop is seamless.
+   The container clips the overflow and fades both edges. */
+.logoCarousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+}
+
+.logoTrack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: logoMarquee 34s linear infinite;
+}
+
+.logoCarousel:hover .logoTrack {
+  animation-play-state: paused;
+}
+
+.logoItem {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 26px;
+}
+
+@keyframes logoMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Motion-averse users get a static, centered, wrapping row (no clones). */
+@media (prefers-reduced-motion: reduce) {
+  .logoCarousel {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logoTrack {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    row-gap: 24px;
+  }
+
+  .logoItem[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* Real customer logos carried over from the previous homepage. The source
+   PNGs are white marks on transparent backgrounds, so `brightness(0)` inverts
+   them to solid black and the reduced opacity yields the muted gray tone a
+   trust bar reads best with. Height is normalized so mixed logo aspect ratios
+   line up on a common baseline. */
+.logoImage {
+  width: auto;
+  height: 26px;
+  object-fit: contain;
+  opacity: 0.5;
+  filter: brightness(0);
+  transition: opacity 0.15s ease;
+}
+
+.logoImage:hover {
+  opacity: 0.72;
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1080px) {
+  .hero {
+    background-size: 100% 1500px;
+  }
+
+  .body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+    padding-top: 56px;
+  }
+
+  .subhead {
+    max-width: 46ch;
+  }
+
+  /* Stacked layout: the feature subhead spans the column like the panel does,
+     and drops the top nudge that only made sense beside the headline. */
+  .subheadRight {
+    width: 100%;
+    align-self: stretch;
+    padding-top: 0;
+  }
+
+  .panel {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .canvas {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 28px;
+    /* Stacked layout sizes itself; the desktop canvas height would leave
+       large empty space here. */
+    min-height: 360px;
+  }
+
+  .canvasChecks {
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+  }
+
+  .pill::before {
+    display: none;
+  }
+
+  .canvasSources {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .connector,
+  .branchConnector {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    --hero-gutter: 20px;
+    background-size: 100% 1700px;
+  }
+
+  .urlRow {
+    flex-wrap: wrap;
+  }
+
+  .startButton {
+    width: 100%;
+  }
+
+  /* On mobile the CTA note sits centered under the full-width Start button. */
+  .microcopy {
+    text-align: center;
+  }
+
+  /* Keep horizontal scroll for the tab strip, but no bottom padding: the 2px
+     gap it created let the blue hero gradient show between the black active tab
+     and the black window, breaking their flush merge. */
+  .tabs {
+    overflow-x: auto;
+  }
+
+  .windowInner {
+    flex-direction: column;
+  }
+
+  .rail {
+    flex-direction: row;
+  }
+
+  .logoImage {
+    height: 22px;
+  }
+
+  .logoItem {
+    padding: 0 18px;
+  }
+}

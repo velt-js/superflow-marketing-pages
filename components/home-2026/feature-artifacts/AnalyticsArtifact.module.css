@@ -1,0 +1,1040 @@
+/* Feature-section artifact — "Analytics".
+ *
+ * A stylized Superflow Analytics dashboard window (app header + product tabs +
+ * range pill) over a per-variant body: the curated insight feed (the star), the
+ * status line chart + metric cards Overview, per-client / team / personal views,
+ * and the pin-dismiss / filters interactions. The root fills the shared feature
+ * panel (1204×602); `data-hero` widens the type + padding for the hero window.
+ * All motion is gated behind `prefers-reduced-motion` at the bottom of the file;
+ * the settled state is what renders when motion is reduced. */
+
+.root {
+  --an-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --an-ink: #101114;
+  --an-muted: #6b7280;
+  --an-line: rgba(17, 17, 17, 0.08);
+  --an-card: #ffffff;
+  --an-indigo: #5b53f0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f6f7f9;
+  color: var(--an-ink);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* The app window fills the panel; left-anchored so the wider dashboard bleeds
+   off the clipped right edge like the real product screen. */
+.window {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 28px 0 32px;
+}
+
+.root[data-hero="true"] .window {
+  padding: 26px 40px 0;
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+/* ------------------------------------------------------------------ chrome */
+
+.chrome {
+  flex: 0 0 auto;
+}
+
+.chromeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chromeTitle {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: #0b0c0f;
+}
+
+.rangePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--an-line);
+  border-radius: 10px;
+  background: #fff;
+  color: #3b3f46;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.rangePill svg {
+  color: var(--an-muted);
+}
+
+.tabRow {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-top: 16px;
+  border-bottom: 1px solid var(--an-line);
+}
+
+.chromeTab {
+  position: relative;
+  padding-bottom: 12px;
+  color: var(--an-muted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+.chromeTabActive {
+  color: var(--an-indigo);
+}
+
+.chromeTabActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--an-indigo);
+}
+
+/* -------------------------------------------------------------------- body */
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 20px;
+}
+
+/* Shared card chrome. */
+.card {
+  border: 1px solid var(--an-line);
+  border-radius: 16px;
+  background: var(--an-card);
+  padding: 18px 20px;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cardTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #1b1d22;
+}
+
+.cardRight {
+  color: var(--an-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.infoDot {
+  display: inline-flex;
+  color: #c2c6cd;
+}
+
+.rankSub {
+  color: var(--an-muted);
+  font-weight: 400;
+}
+
+/* ----------------------------------------------------------- overview view */
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chartCard {
+  padding-bottom: 14px;
+}
+
+/* ------------------------------------------------------------------- chart */
+
+.chartWrap {
+  width: 100%;
+}
+
+/* Uniform scale: the viewbox aspect (~5:1) drives the height, so lines and
+   vertex dots never stretch horizontally. */
+.chartSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chartGrid {
+  stroke: rgba(17, 17, 17, 0.07);
+  stroke-width: 1;
+}
+
+.chartYLabel {
+  fill: #9aa0a8;
+  font-size: 11px;
+  text-anchor: end;
+}
+
+.chartXLabel {
+  fill: #9aa0a8;
+  font-size: 11px;
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  margin-top: 10px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #4b5058;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.legendSwatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------- stat cards */
+
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid var(--an-line);
+  border-radius: 14px;
+  background: var(--an-card);
+  padding: 16px 18px;
+}
+
+.statValue {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.6px;
+  color: #0b0c0f;
+}
+
+.statLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--an-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------- metric row */
+
+.metricRow {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border: 1px solid var(--an-line);
+  border-radius: 14px;
+  background: var(--an-card);
+  padding: 16px 22px;
+}
+
+.metricRowTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  width: 92px;
+  color: #3b3f46;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.metricRowItems {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 34px;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricValue {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  color: #0b0c0f;
+}
+
+.metricLabel {
+  color: var(--an-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------- ranked list */
+
+.rankList {
+  display: flex;
+  flex-direction: column;
+}
+
+.rankRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 2px;
+  border-top: 1px solid var(--an-line);
+}
+
+.rankRow:first-child {
+  border-top: 0;
+}
+
+.rankGlyph {
+  display: inline-flex;
+  color: #7c828b;
+}
+
+.rankAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.rankLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1b1d22;
+}
+
+.rankValue {
+  flex: 0 0 auto;
+  color: #1b1d22;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.rankValue strong {
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------- ranking bars */
+
+.rankingBars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rankingBarRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rankingBarLabel {
+  flex: 0 0 auto;
+  width: 66px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1b1d22;
+}
+
+.rankingBarTrack {
+  flex: 1 1 auto;
+  height: 12px;
+  border-radius: 7px;
+  background: rgba(17, 17, 17, 0.05);
+  overflow: hidden;
+}
+
+.rankingBarFill {
+  display: block;
+  height: 100%;
+  border-radius: 7px;
+  transform-origin: left center;
+}
+
+.rankingBarValue {
+  flex: 0 0 auto;
+  width: 44px;
+  text-align: right;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1b1d22;
+}
+
+.teamCaption {
+  margin: 18px 0 0;
+  color: var(--an-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------- two-up / solo */
+
+.twoUp {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.forMe {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.soloWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.soloKicker {
+  color: var(--an-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.teamCard {
+  max-width: 560px;
+}
+
+/* --------------------------------------------------------------- insight feed */
+
+.insightsFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feedLead {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.feedKicker {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #1b1d22;
+}
+
+.feedNote {
+  color: var(--an-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.feedCards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+}
+
+/* Hero: constrain + center the whole feed (lead + cards stay left-aligned to
+   each other) so the "This week" line sits directly above its cards. */
+.root[data-hero="true"] .insightsFeed {
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------- insight card */
+
+/* Calm white card (Steep/Rox-inspired): flat, hairline border, soft shadow.
+   Severity colour lives only in the status chip's dot and the action arrow.
+   Feed cards lay out horizontally (content | action); solo cards stack. */
+.insightCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #ecedf0;
+  border-radius: 14px;
+  background: #fff;
+  padding: 15px 18px;
+  box-shadow: 0 1px 2px rgba(16, 17, 20, 0.04);
+}
+
+/* The solo showcase card (act / interpretation): stacked, larger, more lift. */
+.insightCardSolo {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 8px 24px rgba(16, 17, 20, 0.05);
+}
+
+/* The insight content column: chip → pattern → meaning. */
+.insightMain {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Status chip: neutral pill carrying a small accent dot. Keeps the severity
+   colour present but legible (a coloured amber/red label on white reads poorly). */
+.insightKicker {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 21px;
+  padding: 0 9px 0 8px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #5f656d;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.insightDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--insight-accent, var(--an-indigo));
+}
+
+.insightPattern {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: #14161a;
+}
+
+.insightCardSolo .insightPattern {
+  font-size: 18px;
+}
+
+.insightPattern strong {
+  font-weight: 700;
+}
+
+.insightMeaning {
+  margin: 0;
+  color: #757a82;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.insightMeaningHi {
+  position: relative;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(91, 83, 240, 0.06);
+  color: #2b2f36;
+}
+
+.meaningTag {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--an-indigo);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* The action sits to the right of the content in the feed, or below it in a
+   solo card. Fixed width so the whole feed's actions line up. */
+.insightFoot {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* Feed / interpretation action — a quiet ghost pill (Rox-style): dark label,
+   hairline border, and the arrow tinted with the insight's severity colour. */
+.insightActionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid #e6e8ec;
+  border-radius: 10px;
+  background: #fff;
+  color: #262a30;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.insightActionLink svg {
+  color: var(--insight-accent, var(--an-indigo));
+}
+
+/* Solid button, only on the "one-click action" tab (it presses → Applied). */
+.insightAction {
+  position: relative;
+  display: inline-flex;
+}
+
+.insightActionDefault,
+.insightActionDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.insightActionDefault {
+  background: var(--insight-accent, var(--an-indigo));
+  color: #fff;
+}
+
+.insightActionDone {
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  background: #109534;
+  color: #fff;
+  opacity: 0;
+}
+
+/* cursor for the animated solo cards (positioned/animated below). */
+.insightCursor,
+.pinCursor {
+  position: absolute;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* -------------------------------------------------------- morning-view doc */
+
+/* The calm document curated insights get pinned to — a light sheet, a header
+   and a few one-line pinned insights. Reads like a page, not a dashboard. */
+.morningDoc {
+  position: relative;
+  max-width: 560px;
+  border: 1px solid #ebedf0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(16, 17, 20, 0.05);
+  padding: 20px 26px 8px;
+}
+
+.morningHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #f1f2f4;
+}
+
+.morningKicker {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #14161a;
+}
+
+.morningDate {
+  color: var(--an-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.morningList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.morningItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 2px;
+  border-bottom: 1px solid #f4f5f6;
+}
+
+.morningItem:last-child {
+  border-bottom: 0;
+}
+
+.morningDot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--insight-accent, var(--an-indigo));
+}
+
+.morningText {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #1b1d22;
+}
+
+.morningPin {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: #c2c6cd;
+}
+
+/* --------------------------------------------------------------- filters view */
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterLabel {
+  color: var(--an-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--an-line);
+  border-radius: 999px;
+  background: #fff;
+  color: #4b5058;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.filterChipActive {
+  border-color: var(--an-indigo);
+  color: var(--an-indigo);
+  background: rgba(91, 83, 240, 0.07);
+}
+
+.recurateNote {
+  margin-left: auto;
+  color: var(--an-muted);
+  font-size: 12.5px;
+  font-style: italic;
+}
+
+/* ============================================================ animations == */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes an-line-draw {
+    from {
+      stroke-dashoffset: 1500;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes an-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes an-dot-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes an-bar-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Line chart: draw each series left-to-right, then pop the vertex dots. */
+  .chartLine {
+    stroke-dasharray: 1500;
+    animation: an-line-draw 1100ms var(--an-ease) backwards;
+    animation-delay: 120ms;
+  }
+
+  .chartDot {
+    animation: an-dot-in 400ms ease backwards;
+    animation-delay: 900ms;
+  }
+
+  .rankingBarFill {
+    animation: an-bar-grow 700ms var(--an-ease) backwards;
+    animation-delay: 260ms;
+  }
+
+  /* Feed cards drift up in sequence. */
+  .feedCards .insightCard {
+    animation: an-fade-up 520ms var(--an-ease) backwards;
+    animation-delay: calc(160ms + var(--insight-index, 0) * 130ms);
+  }
+
+  .statCard,
+  .metricRow,
+  .rankRow {
+    animation: an-fade-up 460ms var(--an-ease) backwards;
+    animation-delay: 220ms;
+  }
+
+  /* --- "Act on one": cursor glides to the button and presses; it flips to
+         Applied and holds. One-shot on mount (the panel remounts per tab). --- */
+  /* Anchored to the button centre (left/top: 50%); the cursor glides in from
+     the lower-right and presses. Layout-independent, so it stays aligned no
+     matter how the card reflows. */
+  @keyframes an-act-cursor {
+    0% {
+      opacity: 0;
+      transform: translate(78px, 54px);
+    }
+    18% {
+      opacity: 1;
+    }
+    55% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    62% {
+      transform: translate(0, 3px) scale(0.9);
+    }
+    70% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes an-action-swap {
+    0%,
+    62% {
+      opacity: 0;
+    }
+    72%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes an-action-hide {
+    0%,
+    62% {
+      opacity: 1;
+    }
+    72%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .insightCard[data-mode="act"] .insightCursor {
+    left: 50%;
+    top: 50%;
+    animation: an-act-cursor 2400ms var(--an-ease) 400ms forwards;
+  }
+
+  .insightCard[data-mode="act"] .insightActionDone {
+    animation: an-action-swap 2400ms ease 400ms forwards;
+  }
+
+  .insightCard[data-mode="act"] .insightActionDefault {
+    animation: an-action-hide 2400ms ease 400ms forwards;
+  }
+
+  /* --- "Pin or dismiss": the freshest line settles into the morning-view
+         document as the cursor taps its pin (grey → accent). --- */
+  @keyframes an-pin-cursor2 {
+    0% {
+      opacity: 0;
+      transform: translate(44px, 66px);
+    }
+    22% {
+      opacity: 1;
+    }
+    55% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    62% {
+      transform: translate(0, 3px) scale(0.9);
+    }
+    70% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes an-pin-pop {
+    0%,
+    58% {
+      color: #c2c6cd;
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(1.28);
+    }
+    100% {
+      color: var(--insight-accent, var(--an-indigo));
+      transform: scale(1);
+    }
+  }
+
+  .morningDoc .pinCursor {
+    right: 22px;
+    top: 70px;
+    animation: an-pin-cursor2 2200ms var(--an-ease) 500ms forwards;
+  }
+
+  .morningItem[data-fresh="true"] {
+    animation: an-fade-up 520ms var(--an-ease) 200ms backwards;
+  }
+
+  .morningItem[data-fresh="true"] .morningPin {
+    animation: an-pin-pop 2200ms ease 500ms forwards;
+  }
+
+  /* --- Filters: the result block re-curates (fades + drifts) once. --- */
+  @keyframes an-recurate {
+    0% {
+      opacity: 0.35;
+      transform: translateY(6px);
+      filter: blur(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .filterResult {
+    animation: an-recurate 620ms var(--an-ease) 220ms backwards;
+  }
+
+  .recurateNote {
+    animation: an-dot-in 500ms ease 3 alternate;
+  }
+}
+
+/* When motion is reduced, hold the settled end state (Applied shown, pinned
+   badge visible, cursors hidden, no chart/bar draw-in). */
+@media (prefers-reduced-motion: reduce) {
+  .insightActionDone {
+    opacity: 1;
+  }
+
+  .insightActionDefault {
+    opacity: 0;
+  }
+
+  .morningItem[data-fresh="true"] .morningPin {
+    color: var(--insight-accent, var(--an-indigo));
+  }
+
+  .insightCursor,
+  .pinCursor {
+    display: none;
+  }
+
+  .recurateNote {
+    display: none;
+  }
+}

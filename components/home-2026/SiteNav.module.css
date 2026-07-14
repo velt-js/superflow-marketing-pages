@@ -1,0 +1,723 @@
+/* Sticky site header for the 2026 homepage.
+   Transparent over the hero at the top; solid white once scrolled. Fixed +
+   high z-index keeps it above every section's sticky/pinned scroll stages. */
+
+.header {
+  --nav-gutter: 40px;
+  --nav-content-width: 1204px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  /* Transparent, edge-to-edge bar over the hero; the surface morphs to solid
+     white on the full-width header itself (not an inset island) once scrolled. */
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Scrolled: solid white bar flush to the top, spanning the full viewport width
+   with just a subtle hairline bottom border. */
+.scrolled {
+  background-color: #ffffff;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Menu open (mobile only): solidify the bar so it reads as one white surface
+   with the dropdown panel, even at the top of the page over the hero. */
+.menuOpen {
+  background-color: #ffffff;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--nav-content-width) + var(--nav-gutter) * 2);
+  margin: 0 auto;
+  padding: 16px var(--nav-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.scrolled .brand,
+.menuOpen .brand {
+  color: #101012;
+}
+
+.brandMark {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.14px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.25s ease;
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.scrolled .navLink {
+  color: #101012;
+}
+
+.scrolled .navLink:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.navChevron {
+  opacity: 0.85;
+}
+
+/* Dark pill CTA — legible on both the blue hero and the white scrolled bar,
+   so its colors stay constant across states. (#1e1e1f mirrors --hero-ink.) */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 32px;
+  background-color: #1e1e1f;
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.ctaButton:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.ctaButton:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Mobile hamburger toggle — hidden on desktop, revealed in the mobile
+   breakpoint. Inherits the header's white → dark color swap. */
+.menuToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.25s ease;
+}
+
+.menuToggle:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.scrolled .menuToggle,
+.menuOpen .menuToggle {
+  color: #101012;
+}
+
+.scrolled .menuToggle:hover,
+.menuOpen .menuToggle:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.menuToggle:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Drop-down mobile menu panel. Present only within the mobile breakpoint;
+   animates between closed/open via .mobileMenuOpen. Solid white so its dark
+   links stay legible over the transparent-at-top header. */
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 12px var(--nav-gutter) 20px;
+  /* Room past the last row for the iOS home indicator / any floating widget. */
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.12);
+  /* The panel opens under the fixed bar with body scroll locked, so the long
+     Product accordion would otherwise run off-screen with no way to reach the
+     lower groups or the CTA. Cap it to the space below the bar (`100%` here is
+     the fixed header's own height) and scroll inside; `dvh` tracks the mobile
+     browser chrome, with a `vh` fallback for older engines. `overscroll-behavior`
+     keeps the bounce from chaining to the locked page. */
+  max-height: calc(100vh - 100%);
+  max-height: calc(100dvh - 100%);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Closed: lifted, faded, and non-interactive. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.mobileMenuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobileMenuLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14px;
+  color: #101012;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileNavLink:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.mobileCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 32px;
+  background-color: #1e1e1f;
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileCta:hover {
+  background-color: #000000;
+}
+
+.mobileNavLink:focus-visible,
+.mobileCta:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* --- Product mega-menu (desktop) --------------------------------------- */
+
+/* Positioning context for the dropdown; keeps the trigger inline with the
+   other nav links. */
+.navItem {
+  position: relative;
+  display: inline-flex;
+}
+
+/* The "Product" trigger reuses .navLink for its typography/colour (so it stays
+   legible in both the transparent-over-hero and scrolled-white states) and only
+   resets the intrinsic <button> chrome here. */
+.navTrigger {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+/* Animate the chevron rotation for both the desktop trigger and mobile toggle. */
+.navChevron,
+.mobileNavChevron {
+  transition: transform 0.2s ease;
+}
+
+.navChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* The panel is always a solid white surface with dark text, so its content is
+   legible regardless of the header's transparent/scrolled state. */
+/* Floating card: a contained, rounded white panel centred under the nav bar
+   (not a full-width sheet). It tucks right up under the bar (nudged into the
+   bar's bottom padding) so it reads as one connected white surface with the
+   solid header, then animates in. */
+.megaMenu {
+  position: absolute;
+  top: calc(100% - 8px);
+  left: 50%;
+  width: min(720px, calc(100vw - 40px));
+  box-sizing: border-box;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  background-color: #ffffff;
+  border: 1px solid rgba(17, 20, 45, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -28px rgba(17, 20, 45, 0.4);
+  /* Closed: lifted, faded, and non-interactive. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 20;
+}
+
+/* Invisible hover bridge covering the sliver between the nav bar and the card,
+   so the pointer never crosses an unhovered dead-zone on the way down. */
+.megaMenu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 14px;
+}
+
+.megaMenuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* The card's inner grid. Top padding matches the Assets list dropdown so both
+   panels sit the same distance below their trigger. */
+.megaInner {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 12px 12px;
+  display: grid;
+  /* Three equal-width groups: AI layer · Review anywhere · Workflow & ops. */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 32px;
+  align-items: start;
+}
+
+.megaColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.megaHeading {
+  margin: 0 12px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* Neutral grey across every group (icons stay tinted per tone). */
+  color: #8a8f9a;
+}
+
+.megaLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Plain row: a bare icon glyph + label. No tile, no border — the card is the
+   surrounding panel. Only a soft accent wash on hover. */
+.megaLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #101012;
+  transition: background-color 0.15s ease;
+}
+
+.megaLink:hover {
+  background-color: var(--menu-wash, rgba(0, 0, 0, 0.04));
+}
+
+.megaLinkIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  /* Bare coloured glyph, themed per group — no background tile. */
+  color: var(--menu-accent, #3a3a40);
+}
+
+.megaLinkLabel {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.1px;
+  color: #16161a;
+}
+
+/* Per-group colour tones. Each sets the accent (heading + icon glyph), the soft
+   icon-tile tint, and the row hover wash. Applied to both the desktop column and
+   the mobile accordion group so the two stay visually in sync. Pastel tints keep
+   everything legible on white without shouting. */
+.toneAi {
+  --menu-accent: #6a5cf0;
+  --menu-tint: #efecfe;
+  --menu-wash: rgba(106, 92, 240, 0.08);
+}
+
+.toneReview {
+  --menu-accent: #2b7fd4;
+  --menu-tint: #e8f2fd;
+  --menu-wash: rgba(43, 127, 212, 0.08);
+}
+
+.toneOps {
+  --menu-accent: #1f9d6a;
+  --menu-tint: #e4f6ed;
+  --menu-wash: rgba(31, 157, 106, 0.1);
+}
+
+.navTrigger:focus-visible,
+.megaLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* --- Assets list dropdown (desktop) ----------------------------------- */
+
+/* Compact white card anchored under the "Assets" trigger (left-aligned, unlike
+   the centred Product sheet). Same solid-white treatment so the plain review
+   links stay legible over the transparent-at-top header. */
+.listMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 216px;
+  box-sizing: border-box;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  background-color: #ffffff;
+  border: 1px solid rgba(17, 20, 45, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px -28px rgba(17, 20, 45, 0.4);
+  /* Closed: lifted, faded, and non-interactive. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 20;
+}
+
+/* Invisible hover bridge covering the sliver between the trigger and the card,
+   so the pointer never crosses an unhovered dead-zone on the way down. */
+.listMenu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 10px;
+}
+
+.listMenuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.listLink {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.1px;
+  color: #16161a;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.listLink:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.listLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Small "$" chip trailing a resource link (e.g. Cost Calculator), matching the
+   footer's paid/tool cue. Shared shape across the desktop list + mobile list. */
+.listLinkBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  border: 1px solid rgba(17, 20, 45, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6a6a72;
+}
+
+/* --- Product accordion (mobile) --------------------------------------- */
+
+.mobileNavGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Reuses .mobileNavLink for typography; adds button reset + trailing chevron. */
+.mobileNavToggle {
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  text-align: left;
+}
+
+.mobileNavChevron {
+  flex-shrink: 0;
+  opacity: 0.55;
+}
+
+.mobileSubMenu {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0 12px 6px;
+}
+
+.mobileSubMenuOpen {
+  display: flex;
+}
+
+.mobileSubGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileSubHeading {
+  margin: 8px 12px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--menu-accent, #9a9aa2);
+}
+
+.mobileSubLink {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #101012;
+  transition: background-color 0.15s ease;
+}
+
+.mobileSubLink:hover {
+  background-color: var(--menu-wash, rgba(0, 0, 0, 0.05));
+}
+
+.mobileSubLinkText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mobileSubLinkLabel {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #101012;
+}
+
+.mobileSubLinkDesc {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #6a6a72;
+}
+
+.mobileNavToggle:focus-visible,
+.mobileSubLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Plain, indented review link inside the mobile Assets accordion (no icon or
+   description, matching the compact desktop list dropdown). */
+.mobileListLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #101012;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileListLink:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mobileListLink:focus-visible {
+  outline: 2px solid #4093ee;
+  outline-offset: 2px;
+}
+
+/* Mobile counterpart of .listLinkBadge — a touch larger for the bigger rows. */
+.mobileListLinkBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(17, 20, 45, 0.16);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6a6a72;
+}
+
+/* Narrower desktops: tighten the column gaps so the four columns keep
+   comfortable breathing room without crowding. */
+@media (max-width: 1000px) {
+  .megaInner {
+    gap: 18px 22px;
+    padding: 8px 22px 24px;
+  }
+}
+
+@media (max-width: 860px) {
+  .navLinks {
+    display: none;
+  }
+
+  /* The desktop full-width panel is driven by hover only; hide it entirely at
+     mobile widths where the accordion inside the overlay takes over. */
+  .megaMenu {
+    display: none;
+  }
+
+  .ctaButton {
+    display: none;
+  }
+
+  .menuToggle {
+    display: inline-flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    --nav-gutter: 20px;
+  }
+}
+
+/* Reduced motion: keep the accessible color/background swap, drop the eased
+   transition so it flips instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .inner,
+  .brand,
+  .navLink,
+  .ctaButton,
+  .menuToggle,
+  .mobileMenu,
+  .mobileNavLink,
+  .mobileCta,
+  .navChevron,
+  .mobileNavChevron,
+  .megaMenu,
+  .megaLink,
+  .megaLinkIcon,
+  .mobileSubLink,
+  .listMenu,
+  .listLink,
+  .mobileListLink {
+    transition: none;
+  }
+}

@@ -4,6 +4,7 @@ import { visionTool } from "@sanity/vision";
 import { codeInput } from "@sanity/code-input";
 import { table } from "@sanity/table";
 import { schemaTypes } from "./sanity/schemas";
+import { structure } from "./sanity/structure";
 import { projectId, dataset } from "./sanity/env";
 
 export default defineConfig({
@@ -16,7 +17,7 @@ export default defineConfig({
   // syntax-highlighted snippets). table powers `{ type: "table" }` in
   // blogPost.body for tabular content MainTouch will push. Both must
   // be registered here for the Studio + GraphQL deploy to validate.
-  plugins: [structureTool(), visionTool(), codeInput(), table()],
+  plugins: [structureTool({ structure }), visionTool(), codeInput(), table()],
   schema: {
     types: schemaTypes,
   },

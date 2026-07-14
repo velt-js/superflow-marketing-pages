@@ -1,0 +1,1000 @@
+/* Hero tab artifact — "Private Comments". Figma node 759:3734.
+   Static visual mock: a mock browser window (chrome bar + light page body)
+   holding a team-only comment composer, a dashed selection region with
+   skeleton content, a "Private Mode Enabled" pill and a dark product toolbar.
+
+   Positions are expressed as percentages of the Figma 1200 x 602 frame so the
+   composition keeps its proportions inside the fluid hero window; element
+   sizes stay in pixels to keep text and icons crisp. */
+
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the "Agents at Work" artifact height so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--hero-font-ui);
+  overflow: hidden;
+}
+
+/* Navy inset frame — the deep-indigo window border with its soft inner glow,
+   drawn on top so it always outlines the whole card (Figma node 759:3843). */
+.frame {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(22, 16, 128, 0.55);
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px 0 rgba(22, 16, 128, 0.06);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page body — light-gray content standing in for the reviewed site.  *
+ * ------------------------------------------------------------------ */
+
+.pageBlock {
+  position: absolute;
+  left: 22.17%;
+  top: 17.61%;
+  width: 26.75%;
+  height: 47.01%;
+  background: #f7f7f6;
+  border-radius: 12px;
+  animation: privateFade 0.24s ease 0.06s both;
+}
+
+.rightTop {
+  position: absolute;
+  left: 51.08%;
+  top: 17.61%;
+  width: 26.75%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: privateFade 0.24s ease 0.06s both;
+}
+
+.dashedBox {
+  width: 100%;
+  height: 56px;
+  border: 2px dashed #625df5;
+  border-radius: 16px;
+  background: #f7f7f7;
+}
+
+.skeletonBlock {
+  width: 81%;
+  height: 56px;
+  background: #f7f7f6;
+  border-radius: 12px;
+}
+
+.rightBars {
+  position: absolute;
+  left: 51.08%;
+  top: 47.34%;
+  width: 26.75%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  animation: privateFade 0.24s ease 0.06s both;
+}
+
+.bar {
+  width: 100%;
+  height: 27px;
+  background: #f7f7f6;
+  border-radius: 12px;
+}
+
+.barShort {
+  width: 90.65%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Browser chrome bar.                                                 *
+ * ------------------------------------------------------------------ */
+
+.chrome {
+  position: absolute;
+  left: 50%;
+  top: 3.65%;
+  transform: translateX(-50%);
+  width: 96.33%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  animation: privateChromeSettle 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chromeControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #0a0a0a;
+}
+
+.addressBar {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.addressText {
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  color: #000000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Comment composer popover + its avatar pin.                          *
+ * ------------------------------------------------------------------ */
+
+/* Positions the shared `HeroCommentComposer` group; the composer card, navy
+   header and avatar pin are all rendered by that component (CommentComposer.tsx). */
+.composerGroup {
+  position: absolute;
+  left: 21.17%;
+  top: 21.26%;
+  /* The team-only comment composer pops in. */
+  transform-origin: left top;
+  animation: privateComposerIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+/* ------------------------------------------------------------------ *
+ * "Private Mode Enabled" pill.                                        *
+ * ------------------------------------------------------------------ */
+
+.privatePill {
+  position: absolute;
+  left: 50%;
+  top: 79.65%;
+  transform: translate(-50%, -50%);
+  padding: 6px 12px;
+  border-radius: 24px;
+  background: linear-gradient(to top, #222238, #2c2c53);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.1;
+  white-space: nowrap;
+  /* Appears once private mode has been toggled on. */
+  animation: privatePillIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) 1.14s both;
+}
+
+/* Navy "Visible to → Only your Team" header that reveals inside the composer
+   once private mode is enabled — the comment gains its private header. Base =
+   revealed (final) state; the keyframe collapses it for the entrance. */
+.composerHeaderReveal {
+  overflow: hidden;
+  animation: privateHeaderReveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) 1.08s both;
+}
+
+/* ------------------------------------------------------------------ *
+ * Floating dark product toolbar.                                      *
+ * ------------------------------------------------------------------ */
+
+.toolbar {
+  position: absolute;
+  left: 50%;
+  top: 83.72%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 53px;
+  border: 1px solid transparent;
+  /* Base = final "private" (dark) state, so reduced-motion shows it settled.
+     The theme keyframe starts from the light state and switches to dark when
+     private mode is toggled on. */
+  background: #141517;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  color: #80808a;
+  animation:
+    privateToolbarRise 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both,
+    privateToolbarTheme 0.3s ease 0.87s both;
+}
+
+.toolbarLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 22px;
+  border-radius: 8px;
+  background: rgba(238, 238, 238, 0.12);
+  flex-shrink: 0;
+  animation: privateDividerTheme 0.3s ease 0.87s both;
+}
+
+/* Purple pill toggle with the white lock knob pushed to the "on" side. Base =
+   the final "on" state; the toggle keyframes flip it from off (gray track,
+   knob left) to on when private mode is enabled. */
+.lockToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 53px;
+  padding: 4px;
+  border-radius: 32px;
+  background: #625cf4;
+  animation: privateToggleTrack 0.27s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+}
+
+.lockKnob {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #625cf4;
+  /* Slid to the "on" (right) side; the knob keyframe slides it in from the
+     left as the toggle flips. */
+  transform: translateX(19px);
+  animation: privateToggleKnob 0.27s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+}
+
+.commentButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  background: #635cf4;
+  color: #feffff;
+}
+
+.huddle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.inboxWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inboxDot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff7162;
+  border: 1px solid #141517;
+  animation: privateDotTheme 0.3s ease 0.87s both;
+}
+
+.countText {
+  font-size: 14px;
+  line-height: 1;
+  /* Follows the toolbar's animated color (dark-gray in light mode → the muted
+     gray of the dark toolbar). */
+  color: inherit;
+}
+
+.toolbarIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toolbarAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd5a8 0%, #f79bb4 45%, #7a6cff 100%);
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "a private, team-only comment": the browser chrome settles, the page
+ * body fades in, the team-only composer pops in, the "Private Mode Enabled"
+ * pill scales in and the dark toolbar rises up. Keyframes fold in each
+ * element's base positioning transform so the final state is pixel-identical
+ * to the static design. Shared easing/duration keep this cohesive across tabs.
+ * The navy `.frame` border is intentionally left static. */
+
+@keyframes privateFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes privateChromeSettle {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes privateComposerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes privatePillIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes privateToolbarRise {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* --- Private-mode toggle sequence ------------------------------------- *
+ * After the entrance settles: the lock toggle flips on, the toolbar switches
+ * from a light to a dark theme, and the composer reveals its private header
+ * with the "Private Mode Enabled" pill. The "from" states are the pre-toggle
+ * (light / off) look; the "to" states match the settled design. */
+
+/* Toolbar light → dark theme. */
+@keyframes privateToolbarTheme {
+  from {
+    background: #ffffff;
+    color: #52525b;
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+  to {
+    background: #141517;
+    color: #80808a;
+    border-color: transparent;
+  }
+}
+
+@keyframes privateDividerTheme {
+  from {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  to {
+    background: rgba(238, 238, 238, 0.12);
+  }
+}
+
+/* Inbox notification dot's ring matches the toolbar surface. */
+@keyframes privateDotTheme {
+  from {
+    border-color: #ffffff;
+  }
+  to {
+    border-color: #141517;
+  }
+}
+
+/* Toggle track: gray (off) → purple (on). */
+@keyframes privateToggleTrack {
+  from {
+    background: #cbccd6;
+  }
+  to {
+    background: #625cf4;
+  }
+}
+
+/* Toggle knob: slides left → right and the lock glyph goes gray → purple. */
+@keyframes privateToggleKnob {
+  from {
+    transform: translateX(0);
+    color: #8b8b95;
+  }
+  to {
+    transform: translateX(19px);
+    color: #625cf4;
+  }
+}
+
+/* Composer private header collapses shut before it reveals; padding and height
+   fold away so nothing peeks out above the draft text beforehand. */
+@keyframes privateHeaderReveal {
+  from {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 44px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageBlock,
+  .rightTop,
+  .rightBars,
+  .chrome,
+  .composerGroup,
+  .composerHeaderReveal,
+  .privatePill,
+  .toolbar,
+  .toolbarDivider,
+  .inboxDot,
+  .lockToggle,
+  .lockKnob {
+    animation: none;
+  }
+}
+
+/* ================================================================== *
+ * Private-comments feature-page scenes (variant-driven).             *
+ * A soft stage holds a reviewed element + its threads; each variant   *
+ * flips the scope chip, the threads shown and the client-view toggle.  *
+ * Base styling is the settled state (screenshot / reduced-motion safe);*
+ * a gentle entrance lives in the no-preference block below.           *
+ * ================================================================== */
+
+.sceneRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #14161a;
+  font-family: var(--hero-font-ui);
+}
+
+.sceneRoot[data-hero="true"] {
+  min-height: 520px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  /* The feature panel window is a fixed 1204px that bleeds off the right edge,
+     so the board is left-anchored to stay inside the visible left portion. The
+     hero window is fully visible, so it re-centres there. */
+  justify-content: flex-start;
+  padding-left: 104px;
+}
+
+.sceneRoot[data-hero="true"] .stage {
+  justify-content: center;
+  padding-left: 0;
+}
+
+/* The side-by-side triptych is the widest composition; shift it further left
+   (much smaller stage inset) so the right-hand client-visible card clears the
+   feature panel's right edge instead of clipping. Feature-panel only — the hero
+   window is fully visible and re-centres via the [data-hero] rule above. */
+.sceneRoot[data-variant="side-by-side"]:not([data-hero="true"]) .stage {
+  padding-left: 16px;
+}
+
+.board {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.boardTriptych {
+  gap: 16px;
+}
+
+/* One-settled-answer beat: a vertical stack — private thread card, a down arrow,
+   then the client-visible settled-answer card. */
+.flowVertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sideWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.threadCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 300px;
+}
+
+/* ---------------------------------------------------------- reviewed element */
+
+.siteCard {
+  flex: 0 0 auto;
+  width: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid #ececf2;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 18px 40px rgba(20, 20, 43, 0.12);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.boardTriptych .siteCard {
+  width: 214px;
+}
+
+.siteBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px;
+  background: #f4f5f8;
+  border-bottom: 1px solid #ececf2;
+}
+
+.siteDots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.siteDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d3d6de;
+}
+
+.siteUrl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #9aa0a8;
+}
+
+.scopeToggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: #e4e6ee;
+}
+
+.toggleSeg {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.toggleSegActive {
+  background: #ffffff;
+  color: #14161a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.siteBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+}
+
+/* A neutral skeleton placeholder (same gray family as .siteLine) rather than a
+   colored hero — keeps the mock reading as a generic page, not a branded one. */
+.siteHero {
+  height: 60px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e6e8ed 100%);
+}
+
+.siteLine {
+  height: 8px;
+  border-radius: 5px;
+  background: #eceef2;
+}
+
+.siteLineShort {
+  width: 62%;
+}
+
+.ctaWrap {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px;
+  border: 2px dashed #625df5;
+  border-radius: 12px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: #e0820a;
+}
+
+.ctaText {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #ffffff;
+}
+
+.pinDot {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 2px;
+  background: #635cf4;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(53, 45, 180, 0.4);
+}
+
+/* ------------------------------------------------------------- scope chip */
+
+/* A full-width header bar flush to the private card's top/left/right edges (the
+   card's overflow:hidden + radius rounds its top corners, bottom stays square).
+   Its CONTENT stays grouped hard-left — open padlock + "Visible to" + the scope
+   pill adjacent with one small gap — never justified apart to opposite ends. */
+.scopeChip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 14px;
+  background: #1f1c3e;
+  color: #ffffff;
+}
+
+.scopeChipLabel {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.scopePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 6px 3px 10px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.scopePillText {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------- thread cards */
+
+.threadCard {
+  width: 300px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.boardTriptych .threadCard {
+  width: 228px;
+}
+
+/* Private thread: a white card with an indigo border, visibly marked apart from
+   the client thread (its compact navy scope chip also reads the scope). */
+.privateCard {
+  border: 1.5px solid rgba(98, 93, 245, 0.4);
+  background: #ffffff;
+}
+
+.privateCardMarked {
+  border-width: 2px;
+  box-shadow:
+    0 0 0 3px rgba(98, 93, 245, 0.12),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+}
+
+.clientCard {
+  border: 1px solid #e7e9ee;
+}
+
+.clientCardMarked {
+  border-color: #cfeecf;
+  box-shadow:
+    0 0 0 3px rgba(16, 149, 52, 0.1),
+    0 12px 30px rgba(20, 20, 43, 0.08);
+}
+
+/* The client thread's "client-visible" mark — plainly different from the navy
+   private scope chip (that contrast is the point of the scope-marks beat). */
+.clientTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 12px 0;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #eef7f0;
+  color: #2f7d47;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.msgRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.tAvatar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.msgBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.msgName {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #14161a;
+}
+
+.msgText {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #3b3f47;
+}
+
+.settledRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 12px 12px;
+  color: #2f7d47;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------- captions */
+
+.sceneCaption {
+  max-width: 300px;
+  color: #6b7280;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.threadCol .sceneCaption {
+  text-align: left;
+}
+
+/* ----------------------------------------------------------- flow (arrow) */
+
+/* The one-settled-answer beat stacks vertically, so its connector arrow points
+   down (the shared right-arrow glyph rotated a quarter turn). */
+.flowArrowDown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b3c2;
+  transform: rotate(90deg);
+}
+
+/* ------------------------------------------------ scope-aware notifications */
+
+.notifCard {
+  width: 300px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e7e9ee;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 30px rgba(20, 20, 43, 0.1);
+  animation: pcRise 520ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+.notifHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f1f4;
+}
+
+.notifBell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #f1f0fe;
+  color: #635cf4;
+}
+
+.notifHeadText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.notifTitle {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  color: #14161a;
+}
+
+.notifSub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.routeList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 10px;
+}
+
+.routeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #f7f8fa;
+}
+
+.routeRowBlocked {
+  background: #fbf3f3;
+}
+
+.routeName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #14161a;
+}
+
+.routeRole {
+  padding: 1px 7px;
+  border-radius: 20px;
+  background: #e9eaf0;
+  color: #6b7280;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.routeStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.routeStatusOk {
+  color: #2f7d47;
+}
+
+.routeStatusBlocked {
+  color: #c0473f;
+}
+
+.routeStatusText {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------- entrance */
+
+@keyframes pcRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siteCard,
+  .threadCard,
+  .notifCard {
+    animation: none;
+  }
+}

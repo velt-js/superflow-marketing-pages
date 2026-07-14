@@ -1,0 +1,179 @@
+/* Feature-section tab artifact — "Client Memory". Figma node 775:2901. */
+
+.root {
+  --client-memory-mono: ui-monospace, "SF Mono", "Geist Mono", Menlo, Consolas,
+    monospace;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Frame background is a near-white vertical gradient (white → #f2f2f2). */
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  color: #000000;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/*
+ * Fixed-size scene matching the Figma frame (631×545). This 631px width is the
+ * panel's *visible* frame — the shared window frame (.panelWindow) is a fixed
+ * 1204px that bleeds off and is clipped, so the root box is far wider than what
+ * shows. The card + branch are centred within this scene (exactly as in Figma),
+ * and the scene is nudged toward centre-right of the visible frame: it shifts
+ * right by half of the slack between the card and the frame, leaving comfortable
+ * breathing room on the left while the card and its dashed connector stay fully
+ * inside the 631px frame (no right-edge clipping). Vertically centred so the
+ * branch still bleeds in from the top edge; overflow is clipped by .root.
+ */
+.scene {
+  --memory-frame-width: 631px;
+  --memory-card-width: 387px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--memory-frame-width);
+  height: 545px;
+  transform: translate(
+    calc((var(--memory-frame-width) - var(--memory-card-width)) / 4),
+    -50%
+  );
+}
+
+/* Hero product-window reuse: the frame is wider and fully visible, so center
+   the scene and scale it up to fill (the branch still bleeds in from the top
+   edge). Feature-section usage is unaffected. */
+.root[data-hero="true"] .scene {
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* Dashed branch vector, centered on the frame, meeting the card top at y=184. */
+.branch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 366px;
+  height: 184px;
+  transform: translateX(-50%);
+  animation: memoryBranchDraw 0.6s ease 0.05s both;
+}
+
+/* Centered white memory card (Figma node 778:3174). */
+.card {
+  position: absolute;
+  top: 184px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: var(--memory-card-width);
+  padding: 32px;
+  border: 1.611px solid rgba(0, 0, 0, 0.12);
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0px 6.444px 9.667px rgba(0, 0, 0, 0.08);
+  transform: translateX(-50%);
+  animation: memoryCardRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+/* Overlapping trio of client avatars. */
+.avatars {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* White ring separates the overlapping avatars, per the Figma stroke. */
+  box-shadow: 0 0 0 2px #ffffff;
+  overflow: hidden;
+}
+
+.avatar:not(:first-child) {
+  margin-left: -16px;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Third avatar is the design's blue gradient sphere (no photo asset). */
+.avatarSphere {
+  background: radial-gradient(
+    circle at 68% 74%,
+    #d7e9fb 0%,
+    #6bb0ee 34%,
+    #2f7fd6 68%,
+    #245fae 100%
+  );
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  word-break: break-word;
+}
+
+.caption {
+  margin: 0;
+  font-family: var(--client-memory-mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.24px;
+  text-transform: uppercase;
+  color: #000000;
+  opacity: 0.52;
+}
+
+.memory {
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #000000;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys a memory being captured: the dashed branch fades in from the top,
+ * then the card lifts into place. Easing mirrors the sibling feature
+ * artifacts so tab switches feel cohesive. */
+
+@keyframes memoryBranchDraw {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes memoryCardRise {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .branch,
+  .card {
+    animation: none;
+  }
+}

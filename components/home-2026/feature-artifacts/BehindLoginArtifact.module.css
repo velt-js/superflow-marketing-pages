@@ -1,0 +1,189 @@
+/* Feature-section app-window artifact — "Behind Login".
+   A password gate types itself in, then lifts to reveal the gated site with a
+   pinned Superflow comment (the shared PinnedCommentScene). Two stacked layers
+   fill the root: the site (behind) and the login gate (in front). The gate
+   fades/scales out while the site fades/scales in, so it reads as "the page
+   opens once you're in". Every animation replays on tab mount. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* -------------------------------------------------------- revealed site */
+
+.site {
+  position: absolute;
+  inset: 0;
+  transform-origin: 40% 45%;
+  animation: blSiteReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2.3s both;
+}
+
+/* --------------------------------------------------------- login gate */
+
+.login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  /* The window bleeds off the right; only the left 631px is visible, so the
+     gate is constrained to that width and its contents centre in the frame. */
+  width: 631px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #feffff;
+  transform-origin: 50% 45%;
+  animation: blLoginOut 0.6s cubic-bezier(0.7, 0, 0.84, 0) 2.3s both;
+}
+
+/* Gate contents (heading + field). Nudged right by 50% of its own width so the
+   prompt sits right-of-centre in the visible frame; kept as a separate element
+   from .login so this static offset never collides with .login's exit
+   transform animation. */
+.gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  transform: translateX(50%);
+}
+
+.lockRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: blFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.lockIcon {
+  display: inline-flex;
+  color: #625df5;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #0a0a0a;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 304px;
+  height: 56px;
+  border-radius: 22px;
+  background: #f3f3f3;
+  animation: blFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+/* Typed masked value: width grows one character at a time (steps) so the
+   password reads as if it's being typed. Monospace so `ch` maps to characters. */
+.fieldReveal {
+  display: inline-block;
+  overflow: hidden;
+  width: 0;
+  font-family: ui-monospace, "Geist Mono", Menlo, monospace;
+  font-size: 22px;
+  white-space: nowrap;
+  animation: blType 1.35s steps(12) 0.7s both;
+}
+
+.dots {
+  color: #0a0a0a;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.caret {
+  width: 2px;
+  height: 22px;
+  margin-left: 6px;
+  background: #0a0a0a;
+  animation: blBlink 0.9s steps(1, end) 0.7s infinite;
+}
+
+/* --- Entrance / exit animations (replay whenever the tab mounts) -------- */
+
+@keyframes blFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blType {
+  from {
+    width: 0;
+  }
+  to {
+    /* 12 masked chars + the 2px letter-spacing between them. */
+    width: calc(12ch + 22px);
+  }
+}
+
+@keyframes blBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blLoginOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes blSiteReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion: skip the sequence and show the end state (the gated site). */
+@media (prefers-reduced-motion: reduce) {
+  .login {
+    display: none;
+  }
+
+  .site {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .lockRow,
+  .field,
+  .fieldReveal,
+  .caret {
+    animation: none;
+  }
+}

@@ -1,0 +1,47 @@
+/* Shared "dropped comment" pin visual — a purple teardrop marker wrapping a
+   circular photo avatar. Owns ONLY the look (silhouette, padding, fill, shadow
+   and the avatar clip); absolute position, z-index and entrance animation are
+   supplied by each consumer through the merged `className`. */
+
+.pin {
+  display: inline-flex;
+  padding: 5px;
+  /* Tone comes from the `tone` prop via the --pin-tone custom property. */
+  background: var(--pin-tone, #635cf4);
+  /* Teardrop silhouette: round except a pointed bottom-left corner. */
+  border-radius: 50% 50% 50% 5px;
+  box-shadow: 0 5px 14px rgba(45, 40, 120, 0.26);
+}
+
+.pinAvatar {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Character-mode avatar: a white disc with the tone-colored glyph centered,
+   matching the pin's pre-photo look. Diameter + font-size come inline from the
+   `size` prop; color follows the shared --pin-tone. */
+.pinChar {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--pin-tone, #635cf4);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Glyph-mode avatar: an arbitrary white icon centered directly on the tone
+   teardrop (no inner disc). Diameter comes inline from the `size` prop. */
+.pinGlyph {
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+}
+
+.pinGlyph > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

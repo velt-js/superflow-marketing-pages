@@ -1,0 +1,328 @@
+/* Hero tab artifact — "Guest Mode". Figma node 754:2924.
+   A static browser-window mock: chrome bar, dashed selection region + skeleton
+   page content, a floating guest comment composer, a "You are a guest" pill and
+   the Superflow floating toolbar. Positions mirror the 1200×578 Figma frame. */
+
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the "Agents at Work" artifact height so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #feffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  /* Falls back to Urbanist when rendered outside the hero (e.g. reused as the
+     Feature Set "Guest Mode" mock), where --hero-font-ui isn't defined. */
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+}
+
+/* --- Browser chrome bar ------------------------------------------------- */
+
+.chrome {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  animation: guestSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chromeNav,
+.chromeActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #000000;
+}
+
+/* The disabled "forward" affordance is the same glyph at 20% opacity. */
+.chromeForward {
+  opacity: 0.2;
+}
+
+.address {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.addressText {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* --- Page body: dashed selection + skeleton blocks --------------------- */
+
+.dashedRegion {
+  position: absolute;
+  top: 106px;
+  left: 266px;
+  width: 321px;
+  height: 283px;
+  background: #f7f7f7;
+  border: 2px dashed #625df5;
+  border-radius: 16px;
+  animation: guestFade 0.4s ease 0.1s both;
+}
+
+.skeletonTop {
+  position: absolute;
+  top: 106px;
+  left: 613px;
+  width: 321px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: guestFade 0.4s ease 0.1s both;
+}
+
+.skeletonBottom {
+  position: absolute;
+  top: 285px;
+  left: 613px;
+  width: 321px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  animation: guestFade 0.4s ease 0.1s both;
+}
+
+.skelBlock {
+  width: 100%;
+  height: 56px;
+  border-radius: 12px;
+  background: #f7f7f6;
+}
+
+.skelBlockNarrow {
+  width: 261px;
+}
+
+.skelLine {
+  width: 100%;
+  height: 27px;
+  border-radius: 12px;
+  background: #f7f7f6;
+}
+
+.skelLineNarrow {
+  width: 291px;
+}
+
+/* --- Floating comment composer popover --------------------------------- */
+
+/* The composer card + avatar chip are the shared `HeroCommentComposer`
+   component (see CommentComposer.tsx); this rule only positions the group. */
+.popover {
+  position: absolute;
+  top: 230px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Pop in from near the avatar anchor (a guest drops a comment). */
+  transform-origin: left top;
+  animation: guestPopover 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.26s both;
+}
+
+/* --- "You are a guest" pill -------------------------------------------- */
+
+.guestPill {
+  position: absolute;
+  /* Raised so the pill + toolbar stack keeps clear breathing room above the
+     fixed 578px frame edge (toolbar bottom lands ~34px above it). */
+  top: 436px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 4px 4px 12px;
+  border-radius: 24px;
+  background: linear-gradient(to top, #222238, #2c2c53);
+  animation: guestPillIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+.guestPillText {
+  font-size: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 32px;
+  background: #625cf4;
+  color: #fefeff;
+  font-size: 14px;
+}
+
+/* --- Floating Superflow toolbar ---------------------------------------- */
+
+.toolbar {
+  position: absolute;
+  /* 480 + 64px tall = 544px bottom, ~34px clear of the 578px frame edge. */
+  top: 480px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 53px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  animation: guestToolbarRise 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 22px;
+  border-radius: 8px;
+  background: #eeeeee;
+}
+
+.logoMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toolCommentBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  background: #635cf4;
+  color: #feffff;
+}
+
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 8px;
+  color: #80808a;
+}
+
+.toolIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #80808a;
+}
+
+.count {
+  font-size: 14px;
+  color: #80808a;
+}
+
+.inboxWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.inboxDot {
+  position: absolute;
+  top: 0;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff7162;
+  border: 1px solid #ffffff;
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "a guest drops a comment, no login": the browser chrome settles,
+ * the page body fades in, the comment composer pops in near its anchor and the
+ * floating toolbar + guest pill rise up. Keyframes fold in each element's base
+ * positioning transform so the final state is pixel-identical to the static
+ * design. Shared easing/duration keep this cohesive across the hero tabs. */
+
+@keyframes guestSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes guestFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes guestPopover {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes guestPillIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes guestToolbarRise {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .dashedRegion,
+  .skeletonTop,
+  .skeletonBottom,
+  .popover,
+  .guestPill,
+  .toolbar {
+    animation: none;
+  }
+}

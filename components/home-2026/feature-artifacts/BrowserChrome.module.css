@@ -1,0 +1,122 @@
+/* Shared browser chrome bar for the Durable Comments feature-section artifacts
+   (Pinned Comments / Auto Screenshot / Private). Mirrors the chrome drawn
+   privately inside the Guest Mode / Private Comment hero artifacts. The caller
+   positions the bar by passing its own absolute-positioning class through the
+   component's `className` prop. */
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #0a0a0a;
+}
+
+.addressBar {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+/* Right-aligned variant for the wide address bar that bleeds off the panel
+   edge: the text hugs the pill's right padding so it reads "…SITE.COM" as the
+   bar runs off-screen. */
+.addressBarRight {
+  justify-content: flex-end;
+  padding: 12px 20px;
+}
+
+.addressText {
+  font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* The right-aligned wide bar uses a larger address type, matching the design. */
+.addressBarRight .addressText {
+  font-size: 18px;
+}
+
+/* Compact address: one step smaller than the wide right-aligned default. The
+   selector matches the right-aligned bar so it overrides the 18px above (equal
+   specificity, later in source); scoped to callers passing `compactAddress`. */
+.addressBarRight .addressTextCompact {
+  font-size: 14px;
+}
+
+/* -------------------------------------------------------------- "Live" pill */
+
+/* Green "Live" pill pinned to the address bar's leading edge; the address text
+   stays centered in the full bar since the pill is taken out of flow. Rendered
+   only when the caller sets `liveTag` (the "Live Site" view). */
+.livePill {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px 4px 9px;
+  border-radius: 9999px;
+  background: rgba(18, 161, 80, 0.12);
+  color: #12a150;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.liveDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #12a150;
+}
+
+/* Expanding ring conveying the site is live. */
+.liveDot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #12a150;
+  transform: translate(-50%, -50%);
+  animation: liveChromePulse 1.8s ease-out infinite;
+}
+
+@keyframes liveChromePulse {
+  0% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liveDot::after {
+    animation: none;
+    opacity: 0;
+  }
+}

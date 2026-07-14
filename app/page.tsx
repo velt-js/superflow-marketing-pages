@@ -1,79 +1,48 @@
-import type { Metadata } from "next";
-import Nav from "@/components/home/Nav";
-import Hero from "@/components/home/Hero";
-import LogoBar from "@/components/home/LogoBar";
-import HeroShowcase from "@/components/home/HeroShowcase";
-import EliminateRedundant from "@/components/home/EliminateRedundant";
-import Testimonial from "@/components/home/Testimonial";
-import ConsistentCollab from "@/components/home/ConsistentCollab";
-import WorkflowStats from "@/components/home/WorkflowStats";
-import FeatureCards, { type FeatureCardOverride } from "@/components/home/FeatureCards";
-import CollaborationTools from "@/components/home/CollaborationTools";
-import WhatElse from "@/components/home/WhatElse";
-import SuperSecure from "@/components/home/SuperSecure";
-import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
-import DarkSection from "@/components/home/DarkSection";
-import Footer from "@/components/home/Footer";
-import IntercomButton from "@/components/home/IntercomButton";
+import SiteNav from "@/components/home-2026/SiteNav";
+import Hero from "@/components/home-2026/Hero";
+import ProblemSection from "@/components/home-2026/ProblemSection";
+import SolutionSection from "@/components/home-2026/SolutionSection";
+import FeatureSet from "@/components/home-2026/FeatureSet";
+import GetStarted from "@/components/home-2026/GetStarted";
+import CostSection from "@/components/home-2026/CostSection";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
+import TrustSection from "@/components/home-2026/TrustSection";
+import SolutionsSection from "@/components/home-2026/SolutionsSection";
+import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
+import FaqSection from "@/components/home-2026/FaqSection";
+import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
+import SiteFooter from "@/components/home-2026/SiteFooter";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
-import { ORG_ID, ORG_OG_IMAGE, ORG_SAME_AS, SITE_URL } from "@/app/_seo/schema";
+import {
+  ORG_ID,
+  ORG_OG_IMAGE,
+  ORG_SAME_AS,
+  SITE_URL,
+  buildFaqPageSchema,
+} from "@/app/_seo/schema";
 
-// Title, description, openGraph, and twitter all inherited from the root
-// layout (app/layout.tsx) which already encodes the usesuperflow.com home-
-// page values. Only the canonical URL is page-specific.
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
+// The 2026 homepage (v4.1). Title/description are the launch values; the
+// helper emits the canonical, og:image, twitter:image, and index directives.
+// metadataBase, icons, and the site-wide Organization/WebSite JSON-LD stay
+// inherited from app/layout.tsx.
+//
+// NOTE: app/page.tsx shares the ROOT route segment with app/layout.tsx, so the
+// layout's `title.template` ("%s | Superflow") does NOT apply here (Next.js only
+// applies a template to CHILD segments). We therefore pass the brand suffix in
+// the title ourselves — buildPageMetadata detects it and emits an absolute
+// title so the tab reads exactly "Watch AI Do Your QA Work | Superflow".
+const PAGE_TITLE = "Watch AI Do Your QA Work";
+const PAGE_TITLE_WITH_BRAND = `${PAGE_TITLE} | Superflow`;
+const PAGE_DESCRIPTION =
+  "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
 
-const HOME_CARDS: FeatureCardOverride[] = [
-  {
-    type: "simple",
-    iconType: "comment",
-    title: "Review creative assets\nwith precision",
-    subtitle: "Comment directly on assets for clearer feedback",
-    imageSrc: "/images/sections/home-cards/review-creative-assets.png",
-    cursors: [
-      { side: "left", label: "Designer", color: "#4dd5ff", topPct: 25 },
-      { side: "right", label: "Photographer", color: "#3772ff", textColor: "#fff", topPct: 55 },
-    ],
-  },
-  {
-    type: "integrationIcons",
-    iconType: "prioritize",
-    title: "Manage, prioritize\n& assign",
-    subtitle: "Use our built-in task manager or integrate your own.",
-    imageSrc: "/images/sections/home-cards/manage-prioritize.png",
-    imageAspectRatio: "1460/620",
-    cursors: [
-      { side: "left", label: "Manager", color: "#ff62a4", textColor: "#fff", topPct: 50 },
-      { side: "right", label: "Team Lead", color: "#ffcd2e", topPct: 25 },
-    ],
-  },
-  {
-    type: "simple",
-    iconType: "approve",
-    title: "Get approvals\nat hyper speed",
-    subtitle: "Built-in approvals for less back-and-forth-ing.",
-    imageSrc: "/images/sections/home-cards/get-approvals.png",
-    cursors: [
-      { side: "left", label: "Client", color: "#b1ff4d", topPct: 20 },
-      { side: "right", label: "Designer", color: "#ff62a4", topPct: 60 },
-    ],
-  },
-  {
-    type: "integrationPills",
-    iconType: "integrate",
-    title: "Sync with\nyour tools",
-    subtitle: "Seamlessly integrate your Slack or favorite task manager",
-    imageSrc: "/images/sections/home-cards/sync-with-tools.png",
-    imageAspectRatio: "1400/300",
-    cursors: [
-      { side: "left", label: "Manager", color: "#ff9e2c", topPct: 30 },
-      { side: "right", label: "Team Lead", color: "#ffcd2e", topPct: 60 },
-    ],
-  },
-];
+export const metadata = buildPageMetadata({
+  title: PAGE_TITLE_WITH_BRAND,
+  description: PAGE_DESCRIPTION,
+  path: "/",
+});
 
 const SOFTWARE_APPLICATION_SCHEMA = {
   "@context": "https://schema.org",
@@ -83,7 +52,7 @@ const SOFTWARE_APPLICATION_SCHEMA = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.",
+    "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.",
   image: ORG_OG_IMAGE,
   // Tiers: Starter ($0), Growth ($24/seat/mo annual), Scale ($28/seat/mo annual),
   // Enterprise (custom — excluded from highPrice per schema best-practice).
@@ -99,51 +68,31 @@ const SOFTWARE_APPLICATION_SCHEMA = {
   creator: { "@id": ORG_ID },
 };
 
+const FAQ_SCHEMA = buildFaqPageSchema(FAQ_ITEMS);
+
 export default function HomePage() {
   return (
     <main>
       <PageJsonLd
-        name="Superflow: Creative Assets Review & Collaboration Tool"
-        description="With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more."
+        name={PAGE_TITLE_WITH_BRAND}
+        description={PAGE_DESCRIPTION}
         path="/"
       />
       <JsonLd id="ld-software-application" data={SOFTWARE_APPLICATION_SCHEMA} />
-      <Nav />
+      <JsonLd id="ld-faq-home" data={FAQ_SCHEMA} />
+      <SiteNav />
       <Hero />
-      <LogoBar />
-      <HeroShowcase />
-      <EliminateRedundant />
-      <Testimonial
-        name="Riley Hennigh"
-        role="Product Designer @Headway.io"
-        headline="Everybody has loved how easy it is to get started"
-        quote='"Superflow has enabled fast feedback from stakeholders"'
-        avatar="/images/sections/riley.png"
-      />
-      <ConsistentCollab />
-      <WorkflowStats />
-      <FeatureCards cards={HOME_CARDS} />
-      <Testimonial
-        name="Calbie Creative"
-        role="Digital Designer @Calbie Creative"
-        headline="No more juggling multiple feedback"
-        quote='"Highly recommended for an efficient and open-door workflow!"'
-        avatar="/images/sections/calbie-creative.png"
-      />
-      <CollaborationTools />
-      <Testimonial
-        name="Simon Smallchua"
-        role="COO @Harvey"
-        headline="Clear, Simple & Saves time for everyone involved"
-        quote='"It saves time clarifying feedback, assigning tasks, and resolving actions in real-time."'
-        avatar="/images/sections/simon-smallchua.png"
-      />
-      <WhatElse />
-      <SuperSecure />
-      <CustomerLoveCarousel />
-      <DarkSection />
-      <Footer />
-      <IntercomButton />
+      <ProblemSection />
+      <SolutionSection />
+      <FeatureSet />
+      <GetStarted />
+      <CostSection />
+      <TestimonialsSection />
+      <TrustSection />
+      <SolutionsSection />
+      <IntegrationsSection />
+      <FaqSection />
+      <SiteFooter />
     </main>
   );
 }

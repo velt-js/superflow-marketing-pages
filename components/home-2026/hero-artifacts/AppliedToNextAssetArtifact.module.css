@@ -1,0 +1,236 @@
+/* Hero tab artifact — "Applied to the next asset" (memory feature page).
+
+   A static browser window: a full-width chrome bar over a centered row of three
+   dog-eared project sheets (Project 1 / 2 / 3). Under each sheet, pulled up to
+   overlap its lower edge, sits what Memory has learned — a compact "N New
+   Behaviour Learned" pill under Projects 1 and 2, and a full "Superflow Memory"
+   card recalling a concrete fact under Project 3. The scene is essentially
+   static; a subtle staggered rise-in plays on mount and is disabled under
+   prefers-reduced-motion. */
+
+.root {
+  --memory-pink: #e5389f;
+  --memory-ink: #101014;
+  position: relative;
+  width: 100%;
+  /* Match the sibling hero artifacts so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #feffff;
+  color: var(--memory-ink);
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+}
+
+/* ---------------------------------------------------------- browser chrome */
+
+/* Full-width chrome bar pinned at the top with a hairline divider below it. */
+.heroChrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #0a0a0a;
+}
+
+/* --------------------------------------------------------------- the stage */
+
+/* The area below the chrome; the project row is centered within it. */
+.stage {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48px 32px;
+}
+
+/* --------------------------------------------- feature-section (no chrome) */
+
+/* Feature Set variant: the chrome bar is dropped, so reclaim its top offset and
+   left-anchor the project row. The scene is wider than the panel's visible
+   (left-clipped) frame, so its fit wrapper scales it down from the left — this
+   keeps all three project sheets, both pills and the memory card on-screen,
+   matching the reference. */
+.noChrome .stage {
+  top: 0;
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+.projects {
+  display: flex;
+  /* Align the sheet tops; the taller memory card under Project 3 hangs lower. */
+  align-items: flex-start;
+  justify-content: center;
+  gap: 150px;
+}
+
+/* --------------------------------------------------------------- a project */
+
+.project {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  /* Subtle staggered rise-in on mount (replays on tab remount). */
+  opacity: 0;
+  transform: translateY(14px);
+  animation: appliedRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.05s + var(--col, 0) * 0.09s);
+}
+
+/* --- The dog-eared project sheet --- */
+
+.sheet {
+  position: relative;
+  width: 150px;
+  aspect-ratio: 190 / 202;
+  flex-shrink: 0;
+  filter: drop-shadow(0 14px 22px rgba(60, 80, 140, 0.14));
+}
+
+.sheetSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sheetLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(14px);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #9aa3b8;
+}
+
+/* --- "N New Behaviour Learned" pill (Projects 1 & 2) --- */
+
+.pill {
+  position: relative;
+  z-index: 2;
+  /* Pull up to overlap the sheet's lower edge; the pill hangs below it. */
+  margin-top: -16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(24, 28, 50, 0.05);
+  box-shadow:
+    0 20px 34px rgba(24, 28, 50, 0.1),
+    0 2px 6px rgba(24, 28, 50, 0.05);
+  white-space: nowrap;
+}
+
+.pillMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--memory-pink);
+}
+
+.pillText {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.1px;
+  color: #17171c;
+}
+
+/* --- "Superflow Memory" card (Project 3) --- */
+
+.card {
+  position: relative;
+  z-index: 2;
+  /* The taller card overlaps a little more of the sheet than the pills. */
+  margin-top: -28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(24, 28, 50, 0.05);
+  box-shadow:
+    0 20px 36px rgba(24, 28, 50, 0.12),
+    0 2px 6px rgba(24, 28, 50, 0.05);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--memory-pink);
+}
+
+.cardSource {
+  font-weight: 600;
+  font-size: 16px;
+  color: #33333b;
+  white-space: nowrap;
+}
+
+.cardTime {
+  margin-left: auto;
+  font-size: 14px;
+  color: #9a9aa5;
+}
+
+.cardMenu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #9a9aa5;
+}
+
+.cardFact {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  color: #0b0b0f;
+}
+
+/* ------------------------------------------------------------- animations */
+
+@keyframes appliedRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion: no entrance; rest on the settled frame. */
+@media (prefers-reduced-motion: reduce) {
+  .project {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

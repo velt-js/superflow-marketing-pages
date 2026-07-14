@@ -483,3 +483,244 @@ export async function getReviewPageBySlug(slug: string) {
     { slug }
   );
 }
+
+// Feature page queries (/preview/features/<slug>) — new 2026 template that
+// reuses the home-2026 sections. Separate from reviewPage; legacy pages are
+// left untouched.
+export async function getAllFeatureSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "featurePage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getFeaturePageBySlug(slug: string) {
+  return client.fetch(
+    `
+    *[_type == "featurePage" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      hero {
+        headlineLines,
+        subhead,
+        showcase,
+        tabs[]{ label, icon }
+      },
+      solution {
+        heading,
+        subheading,
+        variant,
+        icon
+      },
+      featureSet {
+        headerTitle,
+        journeyStart,
+        journeyEnd,
+        blocks[] {
+          "id": _key,
+          title,
+          description,
+          icon,
+          accent,
+          mock,
+          initialTabIndex,
+          tabs[] {
+            label,
+            icon,
+            oneLiner,
+            loss,
+            href,
+            listOnly,
+            collapsesFirstTab,
+            mock
+          }
+        }
+      },
+      getStarted {
+        heading,
+        subheading,
+        steps[] {
+          title,
+          description,
+          accent
+        }
+      },
+      relatedCapabilities {
+        heading,
+        boundaryLine,
+        items[] {
+          title,
+          description,
+          href,
+          icon
+        }
+      },
+      faq {
+        heading,
+        items[] {
+          question,
+          answer
+        }
+      },
+      metaTitle,
+      metaDescription,
+      "ogImage": ogImage.asset->url
+    }
+  `,
+    { slug }
+  );
+}
+
+// Integration preview page queries (/preview/integrations + /preview/integrations/<slug>)
+// New 2026 template that reuses the home-2026 sections, mirroring the feature
+// pages. Deliberately separate from the legacy `integrationPage` type and its
+// getIntegrationPageBySlug / getAllIntegrationSlugs helpers above, which are
+// left untouched.
+
+/** Shared projection for an integration preview detail document. */
+const INTEGRATION_PREVIEW_PAGE_PROJECTION = `
+  _id,
+  title,
+  "slug": slug.current,
+  family,
+  cardBlurb,
+  hero {
+    kicker,
+    headlineLines,
+    subhead,
+    showcase,
+    tabs[]{ label, icon }
+  },
+  solution {
+    heading,
+    subheading,
+    variant
+  },
+  featureSet {
+    headerTitle,
+    journeyStart,
+    journeyEnd,
+    blocks[] {
+      "id": _key,
+      title,
+      description,
+      icon,
+      accent,
+      mock,
+      initialTabIndex,
+      tabs[] {
+        label,
+        icon,
+        oneLiner,
+        loss,
+        href,
+        listOnly,
+        collapsesFirstTab,
+        mock
+      }
+    }
+  },
+  getStarted {
+    heading,
+    subheading,
+    steps[] {
+      title,
+      description,
+      accent
+    }
+  },
+  faq {
+    heading,
+    items[] {
+      question,
+      answer
+    }
+  },
+  metaTitle,
+  metaDescription,
+  "ogImage": ogImage.asset->url
+`;
+
+export async function getAllIntegrationPreviewSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "integrationPreviewPage" && defined(slug.current)].slug.current`
+  );
+}
+
+export async function getIntegrationPreviewPageBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "integrationPreviewPage" && slug.current == $slug][0] {
+      ${INTEGRATION_PREVIEW_PAGE_PROJECTION}
+    }`,
+    { slug }
+  );
+}
+
+/** Lightweight catalog entries for the hub, ordered by title. */
+export async function getAllIntegrationPreviewsForHub() {
+  return client.fetch(
+    `*[_type == "integrationPreviewPage" && defined(slug.current)] | order(title asc) {
+      _id,
+      title,
+      "slug": slug.current,
+      family,
+      cardBlurb
+    }`
+  );
+}
+
+/** The single hub document that drives /preview/integrations. */
+export async function getIntegrationPreviewHub() {
+  return client.fetch(
+    `*[_type == "integrationPreviewHub"][0] {
+      _id,
+      title,
+      hero {
+        kicker,
+        headlineLines,
+        subhead,
+        showcase,
+        tabs[]{ label, icon }
+      },
+      solution {
+        heading,
+        subheading,
+        variant
+      },
+      catalog {
+        headerTitle,
+        journeyStart,
+        journeyEnd,
+        blocks[] {
+          "id": _key,
+          title,
+          description,
+          icon,
+          accent,
+          mock,
+          initialTabIndex,
+          tabs[] {
+            label,
+            icon,
+            oneLiner,
+            loss,
+            href,
+            listOnly,
+            collapsesFirstTab,
+            mock
+          }
+        }
+      },
+      faq {
+        heading,
+        items[] {
+          question,
+          answer
+        }
+      },
+      metaTitle,
+      metaDescription,
+      "ogImage": ogImage.asset->url
+    }`
+  );
+}

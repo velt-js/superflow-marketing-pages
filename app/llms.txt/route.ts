@@ -6,6 +6,7 @@ import {
   getAllCaseStudySlugs,
   getAllChecklistSlugs,
   getAllComparisonSlugs,
+  getAllFeatureSlugs,
   getAllIntegrationSlugs,
   getAllReviewSlugs,
   getAllUseCaseSlugs,
@@ -52,6 +53,7 @@ export async function GET() {
     comparisonSlugsCms,
     reviewSlugs,
     checklistSlugs,
+    featureSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationSlugs),
@@ -62,6 +64,7 @@ export async function GET() {
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
     safeFetch(getAllChecklistSlugs),
+    safeFetch(getAllFeatureSlugs),
   ]);
 
   const core = [
@@ -112,6 +115,11 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
+  const features = unique(featureSlugs).map((slug) => ({
+    path: `/${slug}`,
+    title: toTitle(slug),
+  }));
+
   const blogs = unique(blogSlugs).map((slug) => ({
     path: `/blog/${slug}`,
     title: toTitle(slug),
@@ -129,6 +137,7 @@ export async function GET() {
     "Superflow supports review on live websites, staging environments, PDFs, images, videos, and Lottie animations. Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
     "",
     section("Core pages", core),
+    section("Features", features),
     section("Review surfaces", reviews),
     section("Integrations", integrations),
     section("Use cases", useCases),

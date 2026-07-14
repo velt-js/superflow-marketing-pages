@@ -1,0 +1,464 @@
+/* Hero tab artifact — "Upload once" (memory feature page).
+
+   A looping browser window telling the Memory story: a PDF is dropped in, its
+   bits stream into Memory ("Saved to memory"), then insights fan back out of
+   Memory into three "Superflow Memory" cards. The active phase is held on the
+   root as `data-phase` (drop / save / insights); every element below keys its
+   entrance or stream off that attribute so nothing is re-mounted. Rests on the
+   settled "save" frame under prefers-reduced-motion. */
+
+.root {
+  --memory-pink: #e5389f;
+  --memory-pink-soft: #fbeaf4;
+  --memory-ink: #101014;
+  --memory-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, Consolas,
+    monospace;
+  position: relative;
+  width: 100%;
+  /* Match the sibling hero artifacts so switching tabs never jumps. */
+  min-height: 578px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: #feffff;
+  color: var(--memory-ink);
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+}
+
+/* ---------------------------------------------------------- browser chrome */
+
+.chromeWrap {
+  flex-shrink: 0;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.chrome {
+  animation: memSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --------------------------------------------------------------- the stage */
+
+/* Both scenes stack in the same area below the chrome; only one is visible at
+   a time, cross-faded by the phase. */
+.stage {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.uploadScene,
+.insightsScene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.uploadScene {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.insightsScene {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+/* Phase swap: upload scene out, insights scene in. */
+.root[data-phase="insights"] .uploadScene {
+  opacity: 0;
+}
+
+.root[data-phase="insights"] .insightsScene {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------- upload scene */
+
+.uploadRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+  width: 100%;
+  max-width: 840px;
+}
+
+/* --- The dropped PDF file --- */
+
+.pdf {
+  position: relative;
+  flex-shrink: 0;
+  width: 156px;
+  height: 166px;
+  /* Land the squash onto its base, so the bounce reads as hitting a surface. */
+  transform-origin: bottom center;
+}
+
+.root[data-phase="drop"] .pdf {
+  animation: memPdfDrop 1.05s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.pdfSheet {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pdfLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(6px);
+  font-weight: 800;
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  color: #3f63d8;
+}
+
+/* --- The streaming bits --- */
+
+.bits {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.bitRow {
+  display: flex;
+  gap: 6px;
+}
+
+.bit {
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+  font-family: var(--memory-mono);
+  font-size: 15px;
+  line-height: 1;
+  /* Hidden until the save phase lights the stream. */
+  opacity: 0;
+}
+
+.root[data-phase="save"] .bit {
+  animation: memBitWave 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--col, 0) * 0.07s);
+}
+
+.bitGrey {
+  color: #c6c6d3;
+}
+
+.bitBlue {
+  color: #5b6ef0;
+}
+
+.bitCoral {
+  color: #f2708a;
+}
+
+/* --- Pills (shared shape for both scenes) --- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 22px 12px 14px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #fdf1f8 0%, var(--memory-pink-soft) 100%);
+  box-shadow: 0 8px 22px rgba(229, 56, 159, 0.14);
+}
+
+.pillMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--memory-pink);
+}
+
+.pillText {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--memory-ink);
+  white-space: nowrap;
+}
+
+/* Plain variant: soft white pill with dark, sentence-cased text (feature-
+   section memory artifacts). Declared after `.pill` / `.pillText` so its
+   overrides win at equal specificity. */
+.pillPlain {
+  gap: 16px;
+  padding: 18px 30px 18px 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(16, 16, 20, 0.1);
+}
+
+.pillTextPlain {
+  font-size: 26px;
+  letter-spacing: -0.4px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* Card variant: a rounded-rectangle memory card (scoped-memory feature
+   artifacts) — a thin-bordered white card with a tight shadow instead of the
+   fully-rounded pill. Declared after `.pillPlain` / `.pillTextPlain` so its
+   overrides win at equal specificity when both are applied. */
+.pillCard {
+  gap: 10px;
+  padding: 22px 26px;
+  border-radius: 20px;
+  border: 1.25px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.pillTextCard {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  color: #1e1e1f;
+}
+
+/* Saved pill: hidden until the bits arrive in the save phase. */
+.savedPill {
+  flex-shrink: 0;
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.root[data-phase="save"] .savedPill {
+  animation: memSavedIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* ----------------------------------------------------------- insights scene */
+
+.insightsInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Insights pill: hidden until the insights phase. */
+.insightsPill {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.root[data-phase="insights"] .insightsPill {
+  animation: memInsightsIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.branchWrap {
+  width: 100%;
+  max-width: 880px;
+  height: 92px;
+  opacity: 0;
+}
+
+.root[data-phase="insights"] .branchWrap {
+  animation: memFade 0.5s ease 0.22s both;
+}
+
+.branch {
+  width: 100%;
+  height: 100%;
+  color: #e3e3ec;
+}
+
+.cards {
+  display: flex;
+  gap: 22px;
+  width: 100%;
+  max-width: 880px;
+}
+
+.card {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 14px 30px rgba(16, 16, 20, 0.07);
+  /* Hidden until the insights phase rises the cards in. */
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.root[data-phase="insights"] .card {
+  animation: memCardRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.42s + var(--card, 0) * 0.12s);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--memory-pink);
+}
+
+.cardSource {
+  font-weight: 600;
+  font-size: 16px;
+  color: #33333b;
+  white-space: nowrap;
+}
+
+.cardTime {
+  margin-left: auto;
+  font-size: 14px;
+  color: #9a9aa5;
+}
+
+.cardMenu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #9a9aa5;
+}
+
+.cardFact {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  color: #0b0b0f;
+}
+
+/* ------------------------------------------------------------- animations */
+
+@keyframes memSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Drop with a settle bounce: the sheet falls in, overshoots with a squash as it
+   lands, rebounds once, then settles. */
+@keyframes memPdfDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-74px) scale(0.92);
+  }
+  45% {
+    opacity: 1;
+  }
+  62% {
+    transform: translateY(12px) scale(1.05, 0.93);
+  }
+  78% {
+    transform: translateY(-6px) scale(0.98, 1.03);
+  }
+  90% {
+    transform: translateY(2px) scale(1.01, 0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
+/* Traveling brightness wave: staggered per column, so the stream reads as
+   flowing rightward into Memory. */
+@keyframes memBitWave {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes memSavedIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes memInsightsIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes memFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes memCardRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Reduced motion: no loop; rest on the settled "save" frame (file uploaded,
+   bits saved, pill shown). */
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .root[data-phase] .pdf,
+  .root[data-phase] .bit,
+  .root[data-phase] .savedPill,
+  .root[data-phase] .insightsPill,
+  .root[data-phase] .branchWrap,
+  .root[data-phase] .card {
+    animation: none;
+  }
+
+  .bit {
+    opacity: 0.85;
+  }
+
+  .savedPill {
+    opacity: 1;
+    transform: none;
+  }
+}

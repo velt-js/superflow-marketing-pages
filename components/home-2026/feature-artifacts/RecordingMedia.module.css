@@ -1,0 +1,304 @@
+/* Recording-media primitives for the Recordings feature page (Figma 955:2693 /
+   955:3832 / 955:2770): a voice-note audio player pill, a video attachment card
+   and the recording-in-progress composer pill. Presentational + CSS-only so the
+   pieces render from both server and client components. */
+
+/* ------------------------------------------------------------ audio player */
+
+.audioRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+.audioPill,
+.recordPill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px 9px 9px;
+  border-radius: 999px;
+  background: #f4f4f6;
+}
+
+/* Circular play/pause control with a thin indigo ring. */
+.playControl {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.6px solid #625df5;
+  background: #ffffff;
+  color: #625df5;
+}
+
+.audioTimer {
+  flex-shrink: 0;
+  min-width: 44px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #1f1f1f;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- waveform */
+
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 30px;
+  overflow: hidden;
+}
+
+.audioWave {
+  flex: 1;
+  min-width: 0;
+}
+
+.bar {
+  flex-shrink: 0;
+  width: 3px;
+  border-radius: 999px;
+  background: #c2c6d0;
+}
+
+/* Short round ticks between the taller bars, echoing the Figma trace. */
+.barDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+}
+
+.barPlayed {
+  background: #625df5;
+  animation: rmWavePulse 1.6s ease-in-out infinite;
+}
+
+.barIdle {
+  background: #c2c6d0;
+}
+
+/* CC toggle — a rounded outline box; active state is indigo. */
+.ccButton {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 30px;
+  border-radius: 9px;
+  color: #9aa0aa;
+}
+
+.ccButtonActive {
+  color: #625df5;
+}
+
+/* Muted grey icon button (transcript / clipboard). */
+.iconButton {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  color: #9aa0aa;
+}
+
+/* Caption box under the pill. */
+.captionBox {
+  margin: 0;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #f4f4f6;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #1f1f1f;
+}
+
+/* Muted transcript paragraph with an indigo "show more" link. */
+.transcript {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #9aa0aa;
+}
+
+.showMore {
+  color: #625df5;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------- video attachment */
+
+.videoRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 17, 17, 0.07);
+  box-shadow: 0 10px 26px rgba(20, 20, 43, 0.08);
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+.videoThumb {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  background: #d8dde3;
+}
+
+.videoMedia {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoFallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #cfd6de, #aab2be);
+}
+
+.videoScrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 18, 30, 0.14);
+}
+
+/* Centred purple play button carrying the clip duration. */
+.videoPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px 11px 18px;
+  border-radius: 999px;
+  background: #625df5;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(98, 93, 245, 0.4);
+}
+
+.videoPlayIcon {
+  margin-left: 1px;
+}
+
+.videoPlayTime {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.videoFooter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 4px 4px;
+}
+
+.footerAvatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.videoTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.footerIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: #9aa0aa;
+}
+
+.footerIcon {
+  display: grid;
+  place-items: center;
+}
+
+/* ------------------------------------------------------- avatar tones */
+
+.avatarGreen {
+  background: #0dcf82;
+}
+
+.avatarOrange {
+  background: #fe965c;
+}
+
+.avatarGray {
+  background: linear-gradient(135deg, #c7cbd6, #9aa0b0);
+}
+
+/* --------------------------------------------------- recording composer pill */
+
+.recordPill {
+  background: #f3f3f5;
+}
+
+.recordWave {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Coral trash / discard button on the recording pill. */
+.trashButton {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  color: #f0584e;
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+@keyframes rmWavePulse {
+  0%,
+  100% {
+    transform: scaleY(0.82);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barPlayed {
+    animation: none;
+  }
+}

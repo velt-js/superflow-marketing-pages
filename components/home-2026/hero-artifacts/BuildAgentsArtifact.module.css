@@ -1,0 +1,387 @@
+/* Hero tab artifact — "Build Agents". Figma node 751:1980. */
+
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the "Agents at Work" artifact height so switching tabs never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #feffff;
+  color: #000000;
+  overflow: hidden;
+  font-family: var(--hero-font-ui);
+}
+
+/* Left workspace rail (absolute, mirrors the shared hero window rail). */
+.rail {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 34px;
+}
+
+.railMarkButton,
+.railItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 32px;
+  border: none;
+  background: transparent;
+  color: #9da1af;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.railMark {
+  object-fit: contain;
+}
+
+.railItem:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.railItemActive,
+.railItemActive:hover {
+  background: #2673da;
+  color: #ffffff;
+}
+
+/* Centered content column (progress ring, heading, card grid). */
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 24px 0;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Circular progress ring with centered percentage. */
+.ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.ringSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: #e7f1ea;
+  stroke-width: 5;
+}
+
+.ringArc {
+  fill: none;
+  stroke: #40c057;
+  stroke-width: 5;
+  stroke-linecap: round;
+  /* Sweep the 52% arc into place on mount. */
+  animation: buildRingDraw 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.ringLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--hero-font-mono);
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: -0.76px;
+  color: #276536;
+  animation: buildFade 0.4s ease 0.34s both;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  animation: buildFade 0.5s ease 0.16s both;
+}
+
+.headingTop {
+  margin: 0;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 1;
+  letter-spacing: -1.05px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.fileRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.fileIcon {
+  display: inline-flex;
+  color: #2ca74a;
+}
+
+.fileName {
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 1;
+  letter-spacing: -1.05px;
+  color: #266536;
+  white-space: nowrap;
+}
+
+/* Two-column card grid; real cards first, then clipped skeleton rows. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  width: 100%;
+  max-width: 780px;
+  margin-top: 52px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border: 2px solid #f2f3f3;
+  border-radius: 22px;
+  background: #ffffff;
+  /* Real agent cards rise/pop in (per-card stagger below). */
+  animation: buildRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.28s;
+}
+
+.card:nth-child(2) {
+  animation-delay: 0.38s;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gridTile {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3px;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.gridDot {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--hero-font-ui);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.66px;
+  color: #000000;
+}
+
+.cardDescription {
+  margin: 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -0.54px;
+  color: #000000;
+  opacity: 0.5;
+}
+
+.cardMenu {
+  position: absolute;
+  top: 26px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 32px;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+}
+
+/* Skeleton / loading placeholder cards. */
+.skeletonCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border: 2px solid #f2f3f3;
+  border-radius: 22px;
+  background: #ffffff;
+  /* Skeleton/loading cards settle in last, subtly. */
+  animation: buildFade 0.4s ease 0.5s both;
+}
+
+.skeletonHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skeletonTile {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: #f2f3f2;
+}
+
+.skeletonPill {
+  width: 127px;
+  height: 30px;
+  border-radius: 37px;
+  background: #f2f3f2;
+}
+
+.skeletonLines {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.skeletonLine {
+  width: 100%;
+  height: 22px;
+  border-radius: 37px;
+  background: #f2f3f2;
+}
+
+.skeletonLineShort {
+  width: 62%;
+}
+
+.skeletonMenu {
+  position: absolute;
+  top: 36px;
+  right: 26px;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: #f2f3f2;
+}
+
+/* Bottom fade so clipped skeleton cards bleed into white (Figma frame bleed). */
+.fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 155px;
+  background: linear-gradient(
+    to bottom,
+    rgba(254, 255, 255, 0) 0%,
+    #feffff 100%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .headingTop,
+  .fileName {
+    font-size: 28px;
+  }
+
+  .cardTitle {
+    font-size: 20px;
+  }
+
+  .cardDescription {
+    font-size: 16px;
+  }
+}
+
+/* --- Entrance animations (replay whenever the tab mounts) --------------- *
+ * Conveys "agents being generated": the progress ring sweeps in, the two
+ * real agent cards rise/pop in with a slight stagger, and the skeleton cards
+ * fade in last. Shared easing/duration keep this cohesive with the other
+ * four hero artifacts. */
+
+/* The arc's dash pattern is [filledArc, remainingArc] with
+ * filledArc = 2*PI*35*0.52 ≈ 114.354 (RING_RADIUS × RING_PROGRESS in the TSX).
+ * Sweeping stroke-dashoffset from that length back to 0 draws the arc into its
+ * final 52% position; offset 0 is the unchanged static end state. */
+@keyframes buildRingDraw {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 114.354;
+  }
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes buildRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes buildFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringArc,
+  .ringLabel,
+  .heading,
+  .card,
+  .skeletonCard {
+    animation: none;
+  }
+}

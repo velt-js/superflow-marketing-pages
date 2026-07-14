@@ -1,0 +1,161 @@
+/* Shared scene for the Pinned Comments + Auto Screenshot feature-section
+   artifacts. Draws the root surface, then overlays the purple teardrop avatar
+   pin and the comment card (the shared CommentThreadCard) on top of the shared
+   PinScene. The only difference between the two artifacts is the embedded
+   screenshot, toggled by the caller — so the card grows taller for the Auto
+   Screenshot view. Elements are absolutely positioned at native pixel
+   coordinates, left-anchored inside the visible panel frame. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* -------------------------------------------------- pinned comment thread */
+
+/* Positioned group holding the card; the pin is placed relative to it so the
+   avatar sits just off the card's top-left corner (its own anchor — no
+   separate numbered badge, and no overlap onto the card itself). */
+.thread {
+  position: absolute;
+  left: 272px;
+  top: 196px;
+  width: 320px;
+  animation: threadIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+/* Auto Screenshot's card is taller (it embeds the snapshot), so it starts
+   higher to stay centred over the element and keep its reply row clear of the
+   panel's bottom fade. */
+.threadShot {
+  top: 112px;
+}
+
+/* Versioning shifts the comment right so its pin sits inside the widened
+   element (which itself moved right to clear the left VERSION rail), and up to
+   track the raised element. */
+.threadVersions {
+  left: 372px;
+  top: 194px;
+}
+
+/* Text comments sits close to the highlighted copy selection, with the compact
+   one-reply card used in the feature-page comments group. */
+.threadText {
+  left: 272px;
+  top: 204px;
+  width: 360px;
+}
+
+/* Threaded replies / mentions / attachments need the wider dialog and a little
+   more vertical room inside the existing app-window frame. */
+.threadThreaded {
+  left: 262px;
+  top: 128px;
+  width: 360px;
+}
+
+/* Robust Anchor shifts right to show the list/grid switcher and selected card
+   grid while keeping the pin attached to the selected element's edge. */
+.threadRobust {
+  left: 372px;
+  top: 190px;
+  width: 360px;
+}
+
+/* Agent finding (review-agents "Findings" tab): the AgentCommentCard is a touch
+   wider than the threaded dialog, so the group widens to its native card width
+   while keeping the pin on the selected element. Declared after `.thread` so it
+   wins the equal-specificity width override. */
+.threadAgent {
+  width: 360px;
+}
+
+.card {
+  width: 100%;
+}
+
+/* Sits fully off the card's top-left corner (right edge clears the card), so
+   the pin reads as its own marker anchored to the element without lapping over
+   the comment dialog. The teardrop + avatar visual is owned by the shared
+   CommentPin component; this consumer class only positions it. */
+.pin {
+  position: absolute;
+  top: -4px;
+  left: -44px;
+  z-index: 1;
+}
+
+/* Text Comments choreography: the group holds until the highlight sweep
+   finishes, then the pin drops onto the finished selection and the card unfolds
+   from it (staggered). Overrides the shared `threadIn` entrance above. */
+.threadTextAnim {
+  animation: none;
+}
+
+.threadTextAnim .pin {
+  transform-origin: 50% 100%;
+  animation: threadPinDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
+}
+
+.threadTextAnim .card {
+  transform-origin: top left;
+  animation: threadCardDrop 0.46s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
+}
+
+/* --- Entrance animation (replays whenever the tab mounts) --------------- */
+
+@keyframes threadIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* The pin falls onto the just-highlighted run and settles. */
+@keyframes threadPinDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.6);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* The comment card unfolds from the dropped pin's corner. */
+@keyframes threadCardDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thread {
+    animation: none;
+  }
+
+  /* Rest with the pin and card already dropped in. */
+  .threadTextAnim .pin,
+  .threadTextAnim .card {
+    animation: none;
+  }
+}

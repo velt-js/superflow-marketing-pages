@@ -1,0 +1,371 @@
+/* 06 / Cost — 2026 homepage redesign.
+   Tokens extracted from Figma node 582:5501 (file aVubXS2jMWMDlRK42zvgoy):
+   background #111111, accent #e17a15, faint rule #d9d9d9 @ 12%.
+   Screen colors sampled from the exported product visual. */
+
+.section {
+  /* Shared so the visual's edge-bleed math (below) tracks the inner cap. */
+  --inner-max: 1600px;
+  /* The visual's width at the --inner-max breakpoint: the inner width minus the
+     left padding, the content column and the column gap (each at its clamp
+     max). Past that point the device stops scaling and just pins to the right
+     edge, so it never balloons on ultrawide monitors. */
+  --visual-max: calc(var(--inner-max) - 7.5rem - 30rem - 4rem);
+  width: 100%;
+  background: #111111;
+  color: #ffffff;
+  /* The product visual bleeds off the right edge in the Figma frame. */
+  overflow: hidden;
+}
+
+.inner {
+  box-sizing: border-box;
+  max-width: var(--inner-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+  padding-block: clamp(4rem, 8vw, 7.5rem);
+  /* No right padding on desktop so the visual can bleed to the edge. */
+  padding-left: clamp(1.5rem, 8vw, 7.5rem);
+  padding-right: 0;
+}
+
+.content {
+  flex: 0 1 30rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4.875rem);
+}
+
+.heading {
+  margin: 0;
+  max-width: 30rem;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+/* Wraps the preset selector + sliders so they sit tighter together than the
+   heading-to-controls gap set by .content. */
+.calculator {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* Preset team buttons (Solo studio / 10-person agency / 50+ in-house QA). */
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.presetButton {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: 1px solid rgba(217, 217, 217, 0.24);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+
+.presetButton:hover {
+  color: #ffffff;
+  border-color: rgba(217, 217, 217, 0.45);
+}
+
+.presetButton:focus-visible {
+  outline: 2px solid #e17a15;
+  outline-offset: 2px;
+}
+
+/* Active preset reads as a filled accent chip against the dark section. */
+.presetButtonActive,
+.presetButtonActive:hover {
+  color: #111111;
+  background: #e17a15;
+  border-color: #e17a15;
+}
+
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.25rem);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.metricLabel {
+  margin: 0;
+  /* Figma uses "Geist Mono"; approximate with a monospace stack. */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.75;
+}
+
+.metricSuffix {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.metricTrack {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.trackCap {
+  flex: none;
+  width: 2px;
+  height: 17px;
+  border-radius: 999px;
+  background: #d9d9d9;
+  opacity: 0.12;
+}
+
+.trackLine {
+  flex: 1 1 0;
+  min-width: 1px;
+  height: 2px;
+  border-radius: 999px;
+  background: #d9d9d9;
+  opacity: 0.12;
+}
+
+/* Invisible native range input stretched over the whole track: it owns all
+   pointer/keyboard interaction while the pill below renders the value. The
+   thumb is sized to roughly match the pill so the grab hotspot lines up. */
+.rangeInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: grab;
+}
+
+.rangeInput:active {
+  cursor: grabbing;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 58px;
+  height: 32px;
+}
+
+.rangeInput::-moz-range-thumb {
+  width: 58px;
+  height: 32px;
+  border: none;
+  background: transparent;
+}
+
+/* Value pill rides the track at the current value; pointer events pass
+   through to the range input underneath. */
+.metricPill {
+  position: absolute;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background: rgba(225, 122, 21, 0.08);
+  pointer-events: none;
+  transition: background 120ms ease;
+}
+
+.rangeInput:hover ~ .metricPill,
+.rangeInput:active ~ .metricPill {
+  background: rgba(225, 122, 21, 0.18);
+}
+
+.rangeInput:focus-visible ~ .metricPill {
+  outline: 2px solid #e17a15;
+  outline-offset: 2px;
+}
+
+.metricValue {
+  /* Figma uses "Urbanist" Bold — already loaded by the app layout. */
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #e17a15;
+  white-space: nowrap;
+}
+
+.visual {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+  /* Above --inner-max the inner is centred, which would strand the visual at
+     the 1600px boundary and leave a gap to its right (the device appears cut
+     off mid-screen). Pull it into that gap so the visual always bleeds off the
+     true viewport edge. Resolves to 0 at/below --inner-max, so narrower screens
+     are unchanged. */
+  margin-right: min(0px, calc((var(--inner-max) - 100vw) / 2));
+}
+
+/* Sized by the image; the screen overlay positions/scales against it via
+   container-query (cqw) units. Capped at --visual-max and pinned right (via the
+   parent's justify-content: flex-end) so on very wide screens the device holds
+   its design size against the edge instead of scaling up. */
+.visualFrame {
+  position: relative;
+  width: 100%;
+  max-width: var(--visual-max);
+  container-type: inline-size;
+}
+
+/* Product visual exported from Figma. The export is pre-cropped to the visible
+   frame area, so it reads as bleeding off the right edge at full width. */
+.productImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px 0 0 16px;
+}
+
+/* Redrawn screen face laid exactly over the device's glass (which has static
+   text baked into the PNG). Geometry measured on the 1692x1426 export:
+   glass rect x 386 → right edge, y 395–826. */
+.screen {
+  position: absolute;
+  left: 22.81%;
+  top: 27.7%;
+  width: 77.19%;
+  height: 30.22%;
+  overflow: hidden;
+  border-radius: 2.4cqw 0 0 2.4cqw;
+  background:
+    radial-gradient(
+      120% 160% at 30% 25%,
+      #0d2b27 0%,
+      #0b211f 45%,
+      #071413 100%
+    );
+  box-shadow: inset 0 0 3cqw rgba(0, 0, 0, 0.55);
+}
+
+.screenLabel {
+  position: absolute;
+  left: 6.4%;
+  top: 11%;
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 2.4cqw;
+  line-height: 1;
+  color: #dfe6e6;
+}
+
+.screenValue {
+  position: absolute;
+  left: 6.4%;
+  top: 27%;
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 11cqw;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #86f2b6;
+  text-shadow: 0 0 2.4cqw rgba(94, 234, 165, 0.45);
+  white-space: nowrap;
+}
+
+.screenSubline {
+  position: absolute;
+  left: 6.4%;
+  top: 73.5%;
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 2.3cqw;
+  line-height: 1;
+  color: #b9c4c1;
+  white-space: nowrap;
+}
+
+/* Status chip sits near the right edge and is clipped by the image crop,
+   matching the baked artwork ("READY" partially visible). */
+.screenStatus {
+  position: absolute;
+  left: 89.5%;
+  top: 11.6%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7cqw;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 2.1cqw;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: #34d17b;
+  white-space: nowrap;
+}
+
+.screenStatusDot {
+  width: 1.1cqw;
+  height: 1.1cqw;
+  border-radius: 50%;
+  background: #34d17b;
+  box-shadow: 0 0 0.8cqw rgba(52, 209, 123, 0.8);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(2.5rem, 6vw, 3.5rem);
+    padding-left: clamp(1.5rem, 6vw, 3rem);
+    padding-right: clamp(1.5rem, 6vw, 3rem);
+  }
+
+  .content {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .visual {
+    justify-content: stretch;
+  }
+
+  .productImage {
+    border-radius: 16px;
+  }
+}

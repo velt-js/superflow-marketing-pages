@@ -1,0 +1,651 @@
+/* Feature/hero artifact — "White-label".
+   Four scenes (settings upload panel, branded client toolbar, branded admin
+   portal, agent finding under the brand) share one white scene shell. The base
+   rules are the settled state; entrances live in a
+   prefers-reduced-motion:no-preference block so reduced motion + screenshots
+   always show the finished composition.
+
+   The feature-panel window is a fixed 1204px that bleeds off the right edge, so
+   the scene is left-anchored to stay inside the visible left portion; the hero
+   window is fully visible, so it re-centres via the [data-hero] rules. */
+
+.sceneRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #14161a;
+  font-family: var(--hero-font-ui);
+}
+
+.sceneRoot[data-hero="true"] {
+  min-height: 520px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 44px;
+}
+
+.sceneRoot[data-hero="true"] .stage {
+  justify-content: center;
+  padding-left: 0;
+}
+
+/* Vertical column wrapping a branded surface + its "your brand …" caption. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 552px;
+  max-width: 552px;
+}
+
+.sceneRoot[data-hero="true"] .stack {
+  align-items: center;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared brand lockup + edit affordances.                            *
+ * ------------------------------------------------------------------ */
+
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordmark {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #14161a;
+  white-space: nowrap;
+}
+
+.editBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #5b56f0;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(67, 61, 243, 0.32);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: settings — Custom Branding panel.                            *
+ * ------------------------------------------------------------------ */
+
+.settingsCard {
+  width: 552px;
+  padding: 26px 28px 30px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #eceef2;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.04),
+    0 24px 48px rgba(20, 20, 43, 0.08);
+  animation: wlRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.settingsTitle {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #14161a;
+}
+
+.settingsTabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 16px 0 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eceef2;
+}
+
+.settingsTab {
+  padding: 7px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aa0aa;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+
+.settingsTabActive {
+  color: #4b45e6;
+  border: 1.5px solid #6a5cf6;
+  background: rgba(106, 92, 246, 0.05);
+}
+
+.sectionLabel {
+  margin: 20px 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #1f2430;
+}
+
+.uploadRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: #f6f7f9;
+}
+
+.specCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.specRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.specIcon {
+  color: #9aa0aa;
+  flex-shrink: 0;
+}
+
+.specKey {
+  font-weight: 700;
+  color: #2b2f38;
+}
+
+.specVal {
+  color: #8a8f99;
+}
+
+/* Toolbar upload widget — a dashed edit circle around the current mark + the
+   row of gray skeleton tool icons (matches the reference toolbar branding row). */
+.toolbarWidget {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 8px 12px 8px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(20, 20, 43, 0.08);
+}
+
+.dashedCircle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 2px dashed #b7b1f2;
+  flex-shrink: 0;
+}
+
+.dashedCircleBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+}
+
+.skeletonTool {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #eef0f3;
+  flex-shrink: 0;
+}
+
+/* Admin-portal upload widget — a dashed edit pill around the current wordmark
+   with a faint welcome-text ghost behind (matches the reference admin row). */
+.portalWidget {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(20, 20, 43, 0.08);
+  overflow: hidden;
+}
+
+.ghostWelcome {
+  position: absolute;
+  right: 8px;
+  bottom: -8px;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #f0f1f4;
+  pointer-events: none;
+}
+
+.dashedPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 2px dashed #b7b1f2;
+  background: #ffffff;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared: reviewed live site + branded toolbar.                       *
+ * ------------------------------------------------------------------ */
+
+.siteWrap {
+  position: relative;
+  width: 552px;
+}
+
+.siteCard {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 18px 40px rgba(20, 20, 43, 0.08);
+  animation: wlRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.siteBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  background: #f6f7f9;
+  border-bottom: 1px solid #eceef2;
+}
+
+.siteDots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.siteDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #d6d9df;
+}
+
+.siteUrl {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aa0aa;
+}
+
+.siteBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 22px 56px;
+}
+
+.siteHero {
+  height: 96px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e6e8ed 100%);
+}
+
+.siteLine {
+  height: 12px;
+  width: 78%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.siteLineShort {
+  width: 52%;
+}
+
+.siteTiles {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.siteTile {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  background: #f2f3f6;
+}
+
+/* The floating review toolbar overlaps the bottom edge of the site card. */
+.toolbarFloat {
+  position: absolute;
+  left: 50%;
+  bottom: -22px;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: wlToolbarRise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* "Your brand …" caption tag beneath a branded surface. */
+.brandTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(18, 181, 166, 0.1);
+  color: #0e7c6e;
+  font-size: 13px;
+  font-weight: 700;
+  animation: wlFade 420ms ease 260ms both;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: portal — admin portal navbar.                                *
+ * ------------------------------------------------------------------ */
+
+.portalWrap {
+  display: flex;
+  width: 552px;
+  height: 330px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 18px 40px rgba(20, 20, 43, 0.08);
+  animation: wlRise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.portalNav {
+  display: flex;
+  flex-direction: column;
+  width: 208px;
+  flex-shrink: 0;
+  padding: 16px 14px;
+  border-right: 1px solid #eceef2;
+  background: #ffffff;
+}
+
+.portalTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.portalCollapse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #f2f3f6;
+  color: #9aa0aa;
+  flex-shrink: 0;
+}
+
+.portalWorkspace {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #f4f5f7;
+  color: #6b7280;
+}
+
+.portalWorkspaceText {
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portalNavList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.portalNavItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 8px;
+  border-radius: 10px;
+  color: #6b7280;
+}
+
+.portalNavIcon {
+  color: #9aa0aa;
+  flex-shrink: 0;
+}
+
+.portalNavLabel {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.betaPill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.portalMain {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 16px 18px;
+  background: #fafbfc;
+}
+
+.portalHeader {
+  display: flex;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eceef2;
+}
+
+.portalGreeting {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.portalHello {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1f2430;
+}
+
+.portalHelloSub {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aa0aa;
+}
+
+.portalCardLine {
+  height: 12px;
+  width: 82%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.portalCardLineShort {
+  width: 56%;
+}
+
+.portalTiles {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.portalTile {
+  flex: 1;
+  height: 58px;
+  border-radius: 12px;
+  background: #f1f2f5;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: agent-findings — a finding pinned inside the branded toolbar. *
+ * ------------------------------------------------------------------ */
+
+.findingCard {
+  position: absolute;
+  top: 64px;
+  right: 26px;
+  z-index: 3;
+  width: 232px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow: 0 16px 34px rgba(20, 20, 43, 0.16);
+  animation: wlPop 460ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+}
+
+.findingHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.findingAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.findingName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2430;
+}
+
+.findingBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: rgba(91, 86, 240, 0.12);
+  color: #5b56f0;
+}
+
+.findingText {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #3a3f4a;
+}
+
+.findingPin {
+  position: absolute;
+  left: -7px;
+  bottom: 16px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px 999px 999px 2px;
+  background: #5b56f0;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 6px rgba(67, 61, 243, 0.4);
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrances (settled by default; only animate when motion is allowed). *
+ * ------------------------------------------------------------------ */
+
+@keyframes wlRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wlToolbarRise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes wlPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wlFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settingsCard,
+  .siteCard,
+  .portalWrap,
+  .toolbarFloat,
+  .findingCard,
+  .brandTag {
+    animation: none;
+  }
+}

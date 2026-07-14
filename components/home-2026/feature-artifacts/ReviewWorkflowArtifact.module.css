@@ -1,0 +1,1239 @@
+/* Feature/hero artifact — "Review Workflows".
+   One variant-driven component paints every beat of the review-workflow story
+   over a shared flow-builder canvas: a white dot-grid surface carrying a
+   left→right rail of stage nodes joined by dashed connectors.
+
+   The base rules are the settled state (used by prefers-reduced-motion and the
+   screenshots); entrances live in a prefers-reduced-motion:no-preference block
+   and stagger off a per-item --wf-delay custom property.
+
+   The feature-panel window is a fixed ~1204px that clips off the right edge, so
+   scenes left-anchor and the wide sample rail bleeds past the visible ~631px;
+   the hero window is fully visible (~1180px), so the [data-hero] rules re-centre
+   the composition. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  background-image: radial-gradient(circle, #e7e8ee 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+  color: #14161a;
+  font-family: var(--hero-font-ui);
+}
+
+.root[data-hero="true"] {
+  min-height: 520px;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 40px 0 40px 44px;
+}
+
+.root[data-hero="true"] .canvas {
+  align-items: center;
+  padding: 40px 32px;
+}
+
+/* Soft right-edge fade that hides the hard clip in the feature panel. */
+.fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 88%);
+}
+
+.root[data-hero="true"] .fade {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Canvas header — flow name + trigger meta and a "Running" pill.      *
+ * ------------------------------------------------------------------ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  max-width: 1044px;
+}
+
+.headTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #ecebfe;
+  color: #4b45e6;
+  flex-shrink: 0;
+}
+
+.headTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #14161a;
+}
+
+.headMeta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9aa0aa;
+}
+
+.headMetaStrong {
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.runPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 157, 66, 0.1);
+  color: #0e8a3a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.runDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #12b04a;
+  box-shadow: 0 0 0 4px rgba(18, 176, 74, 0.18);
+}
+
+/* ------------------------------------------------------------------ *
+ * The rail + stage nodes.                                             *
+ * ------------------------------------------------------------------ */
+
+.rail {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1044px;
+}
+
+.root[data-hero="true"] .rail {
+  justify-content: center;
+}
+
+.node {
+  position: relative;
+  flex: none;
+  width: 172px;
+  padding: 13px 14px;
+  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 26px rgba(20, 20, 43, 0.06);
+}
+
+/* Per-tone tokens (inherited by the tile + active ring). */
+.node[data-tone="amber"] {
+  --tone: #e0820a;
+  --tone-tint: #fdefda;
+  --tone-ring: rgba(224, 130, 10, 0.42);
+}
+.node[data-tone="indigo"] {
+  --tone: #4b45e6;
+  --tone-tint: #ecebfe;
+  --tone-ring: rgba(75, 69, 230, 0.4);
+}
+.node[data-tone="green"] {
+  --tone: #0f9d42;
+  --tone-tint: #e4f6ea;
+  --tone-ring: rgba(15, 157, 66, 0.4);
+}
+.node[data-tone="blue"] {
+  --tone: #2f6bf5;
+  --tone-tint: #e9f0ff;
+  --tone-ring: rgba(47, 107, 245, 0.4);
+}
+.node[data-tone="teal"] {
+  --tone: #0f9d8e;
+  --tone-tint: #e0f5f2;
+  --tone-ring: rgba(15, 157, 142, 0.42);
+}
+.node[data-tone="coral"] {
+  --tone: #ef5f3c;
+  --tone-tint: #fde9e2;
+  --tone-ring: rgba(239, 95, 60, 0.42);
+}
+
+.node[data-active] {
+  border-color: var(--tone);
+  box-shadow:
+    0 0 0 1px var(--tone),
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 14px 30px var(--tone-ring);
+}
+
+.nodeHead {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.nodeTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--tone-tint, #eef0f4);
+  color: var(--tone, #6b7280);
+  flex-shrink: 0;
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nodeTitle {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #1f2430;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nodeSub {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #9aa0aa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Node size modifiers. */
+.nodeSmall {
+  width: 158px;
+}
+
+.nodeAgents {
+  width: 196px;
+}
+
+.nodeCondition {
+  width: 178px;
+}
+
+.nodeGate {
+  width: 178px;
+}
+
+.nodeNotify {
+  width: 186px;
+}
+
+/* Agent-check rows. */
+.agentChecks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.agentCheck {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4a4f5a;
+}
+
+.agentTick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e4f6ea;
+  color: #0f9d42;
+  flex-shrink: 0;
+}
+
+/* Overlapping avatar stack. */
+.avatars {
+  display: inline-flex;
+  margin-top: 11px;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: -6px;
+  border-radius: 999px;
+  background: #4b45e6;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid #ffffff;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar:nth-child(2) {
+  background: #12b5a6;
+}
+
+/* ------------------------------------------------------------------ *
+ * Connectors.                                                         *
+ * ------------------------------------------------------------------ */
+
+.conn {
+  position: relative;
+  flex: none;
+  align-self: center;
+}
+
+.connHorizontal {
+  width: 44px;
+  height: 2px;
+  margin: 0 3px;
+}
+
+.connVertical {
+  width: 2px;
+  height: 30px;
+  margin: 3px 0;
+}
+
+.connLine {
+  position: absolute;
+  inset: 0 10px 0 0;
+  border-top: 2px dashed #cdd0da;
+}
+
+.connArrow {
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: #c3c6d1;
+}
+
+.connPulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 999px;
+  background: #4b45e6;
+  box-shadow: 0 0 0 4px rgba(75, 69, 230, 0.16);
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: push-trigger — an incoming deploy chip above the rail.       *
+ * ------------------------------------------------------------------ */
+
+.pushEvent {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 9px 10px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  box-shadow: 0 8px 20px rgba(20, 20, 43, 0.1);
+}
+
+.pushIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #ecebfe;
+  color: #4b45e6;
+  flex-shrink: 0;
+}
+
+.pushText {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.pushStrong {
+  font-weight: 700;
+  color: #1f2430;
+}
+
+/* Little tail pointing down toward the trigger node below. */
+.pushArrow {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  margin-left: 2px;
+}
+
+.pushArrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #c3c6d1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: build-step — palette + a canvas with a drop slot.            *
+ * ------------------------------------------------------------------ */
+
+.builder {
+  display: flex;
+  align-items: flex-start;
+  gap: 26px;
+  width: 100%;
+  max-width: 1044px;
+}
+
+.palette {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 156px;
+  flex-shrink: 0;
+  padding: 14px;
+  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 26px rgba(20, 20, 43, 0.06);
+}
+
+.paletteHeading {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9aa0aa;
+  margin-bottom: 2px;
+}
+
+.paletteItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #f6f7f9;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3a3f4a;
+}
+
+.paletteItem[data-drag] {
+  border: 1.5px dashed #b7b1f2;
+  background: rgba(106, 92, 246, 0.06);
+  color: #4b45e6;
+}
+
+.paletteGlyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a8f9a;
+  flex-shrink: 0;
+}
+
+.paletteItem[data-drag] .paletteGlyph {
+  color: #4b45e6;
+}
+
+.builderCanvas {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 6px;
+}
+
+/* Dashed slot the dragged reviewer step lands in. */
+.dropSlot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 158px;
+  height: 66px;
+  border-radius: 15px;
+  border: 2px dashed #b7b1f2;
+  background: rgba(106, 92, 246, 0.05);
+}
+
+.dropGhost {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9a95e0;
+  /* Settled state = the step has already landed, so the hint is gone. The
+     no-preference entrance re-shows it via wfGhost's backwards fill. */
+  opacity: 0;
+}
+
+.dropStep {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #d9d6f7;
+  box-shadow: 0 8px 18px rgba(75, 69, 230, 0.18);
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2430;
+  opacity: 1;
+}
+
+.dropStepTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #e9f0ff;
+  color: #2f6bf5;
+}
+
+.dropCursor {
+  position: absolute;
+  right: 22px;
+  bottom: 6px;
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: condition — a rule editor below the transition.              *
+ * ------------------------------------------------------------------ */
+
+.conditionScene {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.root[data-hero="true"] .conditionScene {
+  align-items: center;
+}
+
+.ruleCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 268px;
+  margin-left: 202px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 16px 34px rgba(20, 20, 43, 0.1);
+}
+
+.root[data-hero="true"] .ruleCard {
+  margin-left: 0;
+}
+
+/* Little pointer joining the card up to the condition node. */
+.ruleCard::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 40px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-left: 1px solid #e9eaf0;
+  border-top: 1px solid #e9eaf0;
+  transform: rotate(45deg);
+}
+
+.root[data-hero="true"] .ruleCard::before {
+  left: 50%;
+  margin-left: -6px;
+}
+
+.ruleHeading {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9aa0aa;
+}
+
+.ruleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.ruleRow[data-on] {
+  color: #1f2430;
+}
+
+.ruleToggle {
+  display: inline-flex;
+  align-items: center;
+  width: 30px;
+  height: 17px;
+  padding: 2px;
+  border-radius: 999px;
+  background: #d6d9df;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.ruleRow[data-on] .ruleToggle {
+  background: #0f9d42;
+  justify-content: flex-end;
+}
+
+.ruleKnob {
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: parallel — two review lanes inside a dashed group.           *
+ * ------------------------------------------------------------------ */
+
+.parallelGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: none;
+  padding: 11px 12px 12px;
+  border-radius: 16px;
+  border: 1.5px dashed #cdd0da;
+  background: rgba(246, 247, 249, 0.7);
+}
+
+.parallelLabel {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8f9a;
+}
+
+.lanes {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.laneNode {
+  width: 194px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: escalation — a stuck review escalates to a senior reviewer.  *
+ * ------------------------------------------------------------------ */
+
+.nodeStuck {
+  width: 176px;
+  border-color: #f2d7a4;
+}
+
+.waitBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 11px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #fdeccd;
+  color: #b5670a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.escConn {
+  width: 118px;
+}
+
+.escConnLabel {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #eceef2;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #9aa0aa;
+}
+
+.escNode {
+  width: 182px;
+}
+
+.escSenior {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 11px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b5432a;
+}
+
+.escSeniorAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #ef5f3c;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: client-gate — the last node + a no-account approval card.    *
+ * ------------------------------------------------------------------ */
+
+.gateScene {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.root[data-hero="true"] .gateScene {
+  align-items: center;
+}
+
+.approvalCard {
+  width: 302px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 18px 40px rgba(20, 20, 43, 0.12);
+}
+
+.approvalBar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  background: #f6f7f9;
+  border-bottom: 1px solid #eceef2;
+}
+
+.approvalDots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.approvalDots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #d6d9df;
+}
+
+.approvalUrl {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9aa0aa;
+}
+
+.approvalNoAccount {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(15, 157, 142, 0.12);
+  color: #0e7c6e;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.approvalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 16px 18px;
+}
+
+.approvalHero {
+  height: 50px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #eef0f4 0%, #e6e8ed 100%);
+}
+
+.approvalLine {
+  height: 9px;
+  width: 82%;
+  border-radius: 999px;
+  background: #eceef2;
+}
+
+.approvalLineShort {
+  width: 54%;
+}
+
+.approveBtn {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  min-height: 36px;
+  margin-top: 4px;
+}
+
+.approveBtnIdle,
+.approveBtnDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.approveBtnIdle {
+  background: #0f9d8e;
+  color: #ffffff;
+  opacity: 0;
+}
+
+.approveBtnDone {
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  background: #e4f6ea;
+  color: #0f9d42;
+  opacity: 1;
+}
+
+.approvedStamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f9d42;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: notifications — a cleared node fans to Slack + email cards.  *
+ * ------------------------------------------------------------------ */
+
+.notifyScene {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1044px;
+}
+
+.clearedMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 11px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f9d42;
+}
+
+.notifyCards {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.notifyCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 320px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e7e9ee;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.05),
+    0 12px 28px rgba(20, 20, 43, 0.08);
+}
+
+.notifyLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f6f7f9;
+  flex-shrink: 0;
+}
+
+.notifyLogoMail {
+  color: #6b7280;
+}
+
+.notifyText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.notifyChannel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2430;
+}
+
+.notifyBody {
+  font-size: 12px;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scene: one-flow — one flow applied across every project.            *
+ * ------------------------------------------------------------------ */
+
+.oneFlowHead {
+  width: 100%;
+  max-width: 620px;
+}
+
+.oneFlowKicker {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8f9a;
+}
+
+.oneFlowRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.miniRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 620px;
+  max-width: 620px;
+  padding: 13px 18px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #eceef2;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.04),
+    0 10px 22px rgba(20, 20, 43, 0.05);
+}
+
+.miniClient {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: 116px;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2430;
+}
+
+.miniDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--wf-client, #625df5);
+  flex-shrink: 0;
+}
+
+.miniStages {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.miniStageWrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.miniStage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: #f2f3f6;
+  color: #9aa0aa;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.miniStage[data-done] {
+  background: var(--wf-client, #625df5);
+  color: #ffffff;
+}
+
+.miniConn {
+  width: 26px;
+  height: 2px;
+  background: #dfe1e8;
+}
+
+.miniConn[data-done] {
+  background: var(--wf-client, #625df5);
+  opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrances — settled by default; only animate when motion allowed.   *
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .node,
+  .conn,
+  .pushEvent,
+  .palette,
+  .dropSlot,
+  .ruleCard,
+  .parallelGroup,
+  .approvalCard,
+  .notifyCard,
+  .miniRow,
+  .oneFlowHead {
+    animation: wfRise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--wf-delay, 0ms);
+  }
+
+  .connPulse {
+    animation: wfPulse 1600ms ease-in-out infinite;
+    animation-delay: calc(var(--wf-delay, 0ms) + 300ms);
+  }
+
+  /* Build-step: the ghost hint fades as the dropped step + cursor arrive. */
+  .dropGhost {
+    animation: wfGhost 1400ms ease both;
+    animation-delay: 520ms;
+  }
+
+  .dropStep {
+    opacity: 0;
+    animation: wfDrop 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 980ms;
+  }
+
+  .dropCursor {
+    animation: wfCursor 1300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: 340ms;
+  }
+
+  /* Client-gate: idle "Approve" click crossfades to the recorded "Approved". */
+  .approveBtnIdle {
+    animation: wfGateIdle 1700ms ease both;
+    animation-delay: 900ms;
+  }
+
+  .approveBtnDone {
+    opacity: 0;
+    animation: wfGateDone 1700ms ease both;
+    animation-delay: 900ms;
+  }
+
+  .approvedStamp {
+    opacity: 0;
+    animation: wfFadeUp 480ms ease both;
+    animation-delay: 2000ms;
+  }
+}
+
+@keyframes wfRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wfFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wfPulse {
+  0% {
+    left: 2%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: 92%;
+    opacity: 0;
+  }
+}
+
+@keyframes wfGhost {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wfDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wfCursor {
+  0% {
+    opacity: 0;
+    transform: translate(64px, -40px);
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes wfGateIdle {
+  0%,
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  62% {
+    transform: scale(0.94);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes wfGateDone {
+  0%,
+  62% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  80%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

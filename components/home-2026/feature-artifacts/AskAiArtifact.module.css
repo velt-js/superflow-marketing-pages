@@ -1,0 +1,784 @@
+/* Feature-section artifact — "Ask AI". Figma node 775:2983.
+ *
+ * Reworked into a chat/conversation UI: a right-aligned user message answered by
+ * a left-aligned assistant turn (avatar + response bubble holding the breakdown),
+ * with a rounded input bar pinned at the bottom. Everything is authored at the
+ * siblings' native type scale (14–18px) and constrained to the panel's visible
+ * 631px frame, so no transform-scale is needed; the root fills the shared
+ * feature-panel screen (full width × 602px) and clips any bleed. */
+
+.root {
+  /* Shared ease-out curve for the mount entrance (see bottom of file). */
+  --ask-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #000000;
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* Chat column, left-anchored to the visible 631px frame (the wider root bleeds
+   off and is clipped by the shared window). Messages stack above a pinned input
+   bar. */
+.chat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 631px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px 32px 64px;
+}
+
+/* Hero product-window reuse: the frame is wider and fully visible, so center
+   the chat column and widen it to fill, and clear the browser-chrome bar pinned
+   at the top. Feature-section usage is unaffected. */
+.root[data-hero="true"] .chat {
+  left: 50%;
+  top: 58px;
+  width: 760px;
+  height: calc(100% - 58px);
+  transform: translateX(-50%);
+}
+
+/* Browser-chrome bar shown only in the hero window: spans the full frame width,
+   pinned at the top with a hairline divider below it. */
+.heroChrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #0a0a0a;
+}
+
+/* Message thread. Vertically centred in the available space so the conversation
+   sits higher in the frame (less empty room above / less bottom-heaviness) while
+   the input bar stays pinned at the bottom. */
+.thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* ------------------------------------------------------------- user message */
+
+.userRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  max-width: 70%;
+  padding: 15px 20px;
+  border-radius: 20px 20px 6px 20px;
+  background: #000000;
+}
+
+.userText {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.24px;
+}
+
+/* -------------------------------------------------------- assistant message */
+
+.assistantRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 82%;
+}
+
+/* Circular AI/assistant avatar (the glossy blue sphere) beside the reply. */
+.assistantAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+}
+
+.assistantBubble {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px 20px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Mixed-weight answer heading (Figma node 781:3198). */
+.heading {
+  margin: 0;
+  color: #000000;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+
+.headingLead {
+  font-weight: 600;
+}
+
+.headingRest {
+  font-weight: 400;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Three-segment stacked progress bar (Figma Frame 1707483198). */
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 8px;
+}
+
+.segment {
+  height: 8px;
+  border-radius: 8px;
+}
+
+/* Legend rows listing each breakdown slice (Figma Frame 1707483201). */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.legendLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.legendDot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+}
+
+.legendLabel,
+.legendValue {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+.legendLabel {
+  color: #000000;
+}
+
+.legendValue {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* ----------------------------------------------------------- scope pill */
+
+/* Small "from <client>" chip pinned above the answer heading, naming the data
+   the answer is scoped to (e.g. a client or project). */
+.scopePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.62);
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------- ranking bars */
+
+/* A ranked list (clients, teams): each row is a label, a proportional bar and
+   its value, sized against the largest row so the leader fills the track. */
+.ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rankingRow {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.rankingLabel {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rankingTrack {
+  position: relative;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.rankingFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 9999px;
+}
+
+.rankingValue {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  color: rgba(0, 0, 0, 0.68);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------- pattern list */
+
+/* Recurring patterns across projects: coloured dot, label and a meta count. */
+.patterns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.patternRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.patternDot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+.patternLabel {
+  flex: 1;
+  min-width: 0;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patternMeta {
+  flex-shrink: 0;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.24px;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------- signal cards */
+
+/* Severity signal cards: a status dot, a title and a supporting detail line. */
+.signals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signalCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.signalDot {
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  margin-top: 5px;
+  border-radius: 9999px;
+}
+
+.signalText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.signalTitle {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.28px;
+  color: #000000;
+}
+
+.signalDetail {
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.24px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* -------------------------------------------------------- mini bar chart */
+
+/* A generated column chart: proportional bars with a month label under each. */
+.chart {
+  width: 100%;
+}
+
+.chartCols {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 118px;
+}
+
+.chartCol {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  min-width: 0;
+}
+
+.chartBarTrack {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.chartBar {
+  width: 100%;
+  max-width: 34px;
+  border-radius: 7px 7px 3px 3px;
+  background: rgba(67, 61, 243, 0.28);
+}
+
+/* The tallest column reads as the headline number. */
+.chartBarPeak {
+  background: #433df3;
+}
+
+.chartColLabel {
+  flex-shrink: 0;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ----------------------------------------------------------- citations */
+
+/* Source chips beneath the answer: each names a comment/decision/Memory source
+   the answer was grounded in (the "cited answers" variant). */
+.citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.citationChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid rgba(67, 61, 243, 0.18);
+  border-radius: 9999px;
+  background: rgba(67, 61, 243, 0.06);
+  color: #433df3;
+  font-family: "Inter", var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- input bar */
+
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 8px 8px 8px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.inputText {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: #000000;
+  color: #ffffff;
+}
+
+/* ----------------------------------------------------- mount entrance anim */
+
+/* A gentle, staged reveal that plays whenever the artifact mounts — it remounts
+   when a hero/feature tab is (re)selected, so the choreography replays each
+   time. Reads top-to-bottom like a real chat turn: the user bubble pops in, a
+   short beat passes, the assistant avatar + reply bubble settle, its heading
+   fades up, the breakdown bar "draws" left→right, the legend rows stagger in,
+   and the input bar rises last (total ~1.66s).
+
+   Every element's DEFAULT (out-of-media-query) style is already its final,
+   settled state, and the whole block below is gated behind
+   `prefers-reduced-motion: no-preference`. Under reduced motion the animations
+   are simply never applied, so the artifact renders fully settled with nothing
+   left hidden or offset — matching the static design exactly.
+
+   The progress segments grow via `scaleX` (transform-origin: left) instead of
+   width/flex, so the inline `flex: 5/3/2` sizing is never touched; each segment
+   rests at `scaleX(1)`, identical to the static bar. Motion is limited to
+   opacity + small translate/scale, all on the shared ease-out curve. */
+@media (prefers-reduced-motion: no-preference) {
+  .userBubble {
+    animation: askBubblePop 0.42s var(--ask-ease) 0.06s both;
+  }
+
+  .assistantAvatar {
+    animation: askAvatarPop 0.4s var(--ask-ease) 0.46s both;
+  }
+
+  .assistantBubble {
+    transform-origin: top left;
+    animation: askBubbleIn 0.46s var(--ask-ease) 0.54s both;
+  }
+
+  .heading {
+    animation: askFadeUp 0.4s var(--ask-ease) 0.66s both;
+  }
+
+  /* Draw the bar in left→right; the flex sizing is untouched (scaleX only). */
+  .segment {
+    transform-origin: left center;
+    animation: askSegmentGrow 0.45s var(--ask-ease) both;
+  }
+
+  .progressBar .segment:nth-child(1) {
+    animation-delay: 0.8s;
+  }
+
+  .progressBar .segment:nth-child(2) {
+    animation-delay: 0.92s;
+  }
+
+  .progressBar .segment:nth-child(3) {
+    animation-delay: 1.04s;
+  }
+
+  .legendRow {
+    animation: askFadeUp 0.38s var(--ask-ease) both;
+  }
+
+  .legend .legendRow:nth-child(1) {
+    animation-delay: 1s;
+  }
+
+  .legend .legendRow:nth-child(2) {
+    animation-delay: 1.09s;
+  }
+
+  .legend .legendRow:nth-child(3) {
+    animation-delay: 1.18s;
+  }
+
+  .inputBar {
+    animation: askRiseIn 0.44s var(--ask-ease) 1.22s both;
+  }
+
+  /* Scope pill settles first, just after the reply bubble arrives. */
+  .scopePill {
+    animation: askFadeUp 0.38s var(--ask-ease) 0.62s both;
+  }
+
+  /* Ranking rows fade up in sequence; their fills draw out left→right. */
+  .rankingRow {
+    animation: askFadeUp 0.4s var(--ask-ease) both;
+  }
+
+  .ranking .rankingRow:nth-child(1) {
+    animation-delay: 0.82s;
+  }
+
+  .ranking .rankingRow:nth-child(2) {
+    animation-delay: 0.92s;
+  }
+
+  .ranking .rankingRow:nth-child(3) {
+    animation-delay: 1.02s;
+  }
+
+  .ranking .rankingRow:nth-child(4) {
+    animation-delay: 1.12s;
+  }
+
+  .rankingFill {
+    transform-origin: left center;
+    animation: askSegmentGrow 0.5s var(--ask-ease) 0.86s both;
+  }
+
+  /* Pattern rows stagger in. */
+  .patternRow {
+    animation: askFadeUp 0.4s var(--ask-ease) both;
+  }
+
+  .patterns .patternRow:nth-child(1) {
+    animation-delay: 0.82s;
+  }
+
+  .patterns .patternRow:nth-child(2) {
+    animation-delay: 0.94s;
+  }
+
+  .patterns .patternRow:nth-child(3) {
+    animation-delay: 1.06s;
+  }
+
+  /* Signal cards rise in one after another. */
+  .signalCard {
+    animation: askRiseIn 0.42s var(--ask-ease) both;
+  }
+
+  .signals .signalCard:nth-child(1) {
+    animation-delay: 0.82s;
+  }
+
+  .signals .signalCard:nth-child(2) {
+    animation-delay: 0.94s;
+  }
+
+  .signals .signalCard:nth-child(3) {
+    animation-delay: 1.06s;
+  }
+
+  /* Chart columns grow up from the baseline in sequence. */
+  .chartBar {
+    transform-origin: bottom center;
+    animation: askColGrow 0.5s var(--ask-ease) both;
+  }
+
+  .chartCols .chartCol:nth-child(1) .chartBar {
+    animation-delay: 0.82s;
+  }
+
+  .chartCols .chartCol:nth-child(2) .chartBar {
+    animation-delay: 0.9s;
+  }
+
+  .chartCols .chartCol:nth-child(3) .chartBar {
+    animation-delay: 0.98s;
+  }
+
+  .chartCols .chartCol:nth-child(4) .chartBar {
+    animation-delay: 1.06s;
+  }
+
+  .chartCols .chartCol:nth-child(5) .chartBar {
+    animation-delay: 1.14s;
+  }
+
+  .chartCols .chartCol:nth-child(6) .chartBar {
+    animation-delay: 1.22s;
+  }
+
+  /* Citation chips fade up last, after the answer body has settled. */
+  .citationChip {
+    animation: askFadeUp 0.38s var(--ask-ease) both;
+  }
+
+  .citations .citationChip:nth-child(1) {
+    animation-delay: 1.14s;
+  }
+
+  .citations .citationChip:nth-child(2) {
+    animation-delay: 1.22s;
+  }
+
+  .citations .citationChip:nth-child(3) {
+    animation-delay: 1.3s;
+  }
+}
+
+/* Right-aligned user turn: fade + small rise/scale. */
+@keyframes askBubblePop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Assistant avatar: a quick, soft pop. */
+@keyframes askAvatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Assistant reply bubble: fade + rise, easing out from its top-left corner. */
+@keyframes askBubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Shared subtle fade-up for the heading and legend rows. */
+@keyframes askFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Progress segment: grows from zero width to its resting scaleX(1). */
+@keyframes askSegmentGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+/* Chart column: grows up from the baseline to its resting scaleY(1). */
+@keyframes askColGrow {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+/* Pinned input bar: rises + fades in last. */
+@keyframes askRiseIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

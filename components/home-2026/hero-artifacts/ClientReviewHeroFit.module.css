@@ -1,0 +1,23 @@
+/* Hero-window fit for the Client Review "Phone view" tab.
+ *
+ * AllDevicesArtifact is authored for the feature panel — its desktop window is
+ * left-anchored at x:30 and bleeds off the right edge. In the fully visible
+ * hero window that reads as left-aligned, so here it is dropped into a
+ * fixed-width box (the composition's own content width, 30 → 750 = 780px with
+ * symmetric 30px margins) and flex-centred, which lands it in the middle. The
+ * white fill matches the artifact's own background so the sides stay seamless. */
+
+.phoneFit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #feffff;
+}
+
+.phoneBox {
+  position: relative;
+  width: 780px;
+  height: 100%;
+}

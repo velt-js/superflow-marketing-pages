@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Urbanist } from "next/font/google";
+import { Adamina, Poppins, Urbanist } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
+  SITE_URL,
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
@@ -28,10 +29,22 @@ const urbanist = Urbanist({
   variable: "--font-urbanist",
 });
 
+// Serif display face for the 2026 homepage headings (single weight).
+const adamina = Adamina({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-adamina",
+});
+
 const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
 const DEFAULT_DESCRIPTION =
-  "With Superflow agencies and marketing teams can deliver high quality assets 10x faster. You can comment and collaborate on assets like live websites, video, pdf, lottie files, images and more.";
+  "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.";
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
+// Alt text for the shared social-share card. Describes the branded image so
+// og:image:alt / twitter:image:alt are populated for accessibility + SEO.
+const DEFAULT_OG_IMAGE_ALT =
+  "Superflow: creative assets review and collaboration tool";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -40,24 +53,42 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://usesuperflow.com"),
+  metadataBase: new URL(SITE_URL),
   title: { default: DEFAULT_TITLE, template: "%s | Superflow" },
   description: DEFAULT_DESCRIPTION,
   openGraph: {
     type: "website",
+    // og:url is page-specific, but the homepage is the only indexable route
+    // that inherits this default (every other page overrides openGraph via
+    // buildPageMetadata), so the site root is the correct value here.
+    url: SITE_URL,
     siteName: "Superflow",
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     locale: "en_US",
-    images: [{ url: DEFAULT_OG_IMAGE }],
+    images: [
+      { url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: DEFAULT_OG_IMAGE_ALT },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE],
+    images: [{ url: DEFAULT_OG_IMAGE, alt: DEFAULT_OG_IMAGE_ALT }],
   },
-  robots: { index: true, follow: true },
+  // Mirror the googleBot directives buildPageMetadata emits for every other
+  // indexable page so the homepage is equally eligible for rich results.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 // Site-wide JSON-LD — emitted once at the root so every page advertises
@@ -69,7 +100,10 @@ const WEBSITE_SCHEMA = buildWebSiteSchema();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${urbanist.variable}`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${urbanist.variable} ${adamina.variable}`}
+    >
       <body className={poppins.className} style={{ overflowX: "hidden" }}>
         <GtmNoScript />
         <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />

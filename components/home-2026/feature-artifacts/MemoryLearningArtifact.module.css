@@ -1,0 +1,188 @@
+/* Feature-section tab artifact — "Learning from reviews" (memory feature page).
+
+   Two agent findings side by side — a soft-red "Rejected" band on the left, a
+   soft-green "Accepted" band on the right — whose bottoms feed a many-to-one
+   connector (an inverted cup merging into one stem) down into a pink Memory
+   pill. The scene is left-anchored inside the shared white panel screen and
+   lets the "Accepted" card bleed off the right edge, matching the design. A
+   subtle rise/fade entrance replays on tab mount and rests settled under
+   prefers-reduced-motion. */
+
+.root {
+  --ml-pink: #e5389f;
+  --ml-card-w: 352px;
+  --ml-gap: 44px;
+  --ml-container-w: calc(var(--ml-card-w) * 2 + var(--ml-gap));
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f9 100%);
+  color: #0a0a0a;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* Left-anchored, vertically centred scene. The container is wider than the
+   panel's visible slice, so the right ("Accepted") card bleeds off the edge. */
+.scene {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 48px;
+  transform: translateY(-50%);
+}
+
+/* ------------------------------------------------------------- the two cards */
+
+.cards {
+  display: flex;
+  align-items: stretch;
+  gap: var(--ml-gap);
+  width: var(--ml-container-w);
+}
+
+/* One review card = coloured band + the shared AgentCommentCard, clipped to a
+   single rounded card with one shadow. */
+.reviewCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--ml-card-w);
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(16, 16, 20, 0.1);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: mlRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cardRejected {
+  animation-delay: 0.05s;
+}
+
+.cardAccepted {
+  animation-delay: 0.14s;
+}
+
+/* Coloured verdict band at the top of each card. */
+.band {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.bandRejected {
+  background: #fdeceb;
+  color: #e5544c;
+}
+
+.bandAccepted {
+  background: #e9f7f0;
+  color: #1a8f64;
+}
+
+/* Neutralise the shared card's own radius/shadow/width cap so it nests cleanly
+   inside .reviewCard (which supplies the single rounded frame + shadow). The
+   two-class selector outranks AgentCommentCard's own `.card` rule. */
+.reviewCard .cardInner {
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------- connector */
+
+.connector {
+  width: var(--ml-container-w);
+  height: 96px;
+  color: #dcdce4;
+  opacity: 0;
+  animation: mlFade 0.5s ease 0.3s both;
+}
+
+.connectorSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------------- pill */
+
+/* Centre the pill under the cup's stem (container centre = card + gap/2). */
+.pillRow {
+  display: flex;
+  justify-content: center;
+  width: var(--ml-container-w);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 260px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(16, 16, 20, 0.12);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: mlRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.42s both;
+}
+
+.pillMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ml-pink);
+}
+
+.pillText {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  color: #0b0b0f;
+}
+
+/* ------------------------------------------------------------- animations */
+
+@keyframes mlRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mlFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reviewCard,
+  .connector,
+  .pill {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

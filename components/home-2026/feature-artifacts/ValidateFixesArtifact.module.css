@@ -1,0 +1,439 @@
+/* Feature-tab artifact — "Validate Fixes".
+
+   The reused pinned-comment surface (wide BrowserChrome, a dashed selected
+   element + skeleton content, and a pinned CommentPin + AgentCommentCard, at the
+   same native coordinates as PinScene / the Findings tab) playing a 3-beat
+   "re-check → fixed → resolved" story on mount:
+
+   1. Checking — the element goes accent-active (magenta dashed + wash) and a
+      "Checking…" spinner pill appears (the agent re-running to verify the fix).
+   2. Issue Fixed — that cross-fades to a green "Issue Fixed" badge and the
+      element settles to a green success tint.
+   3. Resolved — a FakeCursor glides onto the AgentCommentCard's green approve
+      check, presses it (scale dip + ripple), and the card + pin fade/scale away.
+
+   CSS-only and deterministic (no client state); the cursor-press choreography
+   mirrors the "Run on Demand" hero artifact. Replays whenever the tab mounts and
+   rests in the final settled state under prefers-reduced-motion (Issue Fixed +
+   the comment already resolved/gone, no cursor). The block accent is magenta
+   (#da53b9) for the active/checking beat; success moments read green (#109534);
+   the agent pin + card keep their indigo branding. Everything is left-anchored
+   inside the visible ~636px slice of the 1204px app window. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #feffff;
+  color: #0a0a0a;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+  /* Magenta block accent for the "checking/active" beat. */
+  --vf-accent: #da53b9;
+  --vf-accent-wash: rgba(218, 83, 185, 0.08);
+  --vf-accent-soft: rgba(218, 83, 185, 0.22);
+  /* Success green for the "fixed" beat + approve-check ripple. */
+  --vf-green: #109534;
+  --vf-green-wash: rgba(16, 149, 52, 0.09);
+  --vf-green-soft: rgba(16, 149, 52, 0.22);
+}
+
+/* --------------------------------------------------------- browser chrome */
+
+/* Wider than the visible frame: the right-aligned address pill bleeds off the
+   right panel edge, matching the sibling pinned-comment scene. */
+.chrome {
+  position: absolute;
+  top: 14px;
+  left: 24px;
+  width: 676px;
+  animation: vfSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---------------------------------------------------- skeleton page content */
+
+.content {
+  position: absolute;
+  left: 372px;
+  top: 108px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 560px;
+  animation: vfFade 0.4s ease 0.1s both;
+}
+
+.contentBlock {
+  height: 72px;
+  border-radius: 16px;
+  background: #f2f2f1;
+}
+
+.contentBlockTall {
+  height: 150px;
+}
+
+/* --------------------------------------------------- selected element */
+
+/* The element being re-validated. Its border + wash animate neutral → magenta
+   (checking) → green (fixed) on one timeline, then hold green. */
+.element {
+  position: absolute;
+  left: 40px;
+  top: 96px;
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #c7c9d1;
+  border-radius: 18px;
+  background: #f6f6f5;
+  animation:
+    vfFade 0.4s ease 0.1s both,
+    vfElementState 3.4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+/* ------------------------------------------------ checking / fixed status tab */
+
+/* Anchored to the element's top-left like a selection label. The two pills
+   share this spot and cross-fade (checking → fixed). */
+.statusTab {
+  position: absolute;
+  left: 40px;
+  top: 64px;
+  height: 28px;
+}
+
+.tabPill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(20, 20, 43, 0.1);
+}
+
+.checking {
+  border: 1px solid var(--vf-accent-soft);
+  color: var(--vf-accent);
+  animation: vfCheckingLife 2.4s ease 0.85s both;
+}
+
+.fixed {
+  border: 1px solid var(--vf-green-soft);
+  color: var(--vf-green);
+  animation: vfBadgeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 3.1s both;
+}
+
+/* Small spinning ring shown while checking. */
+.spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--vf-accent-soft);
+  border-top-color: var(--vf-accent);
+  border-radius: 50%;
+  animation: vfSpin 0.7s linear infinite;
+}
+
+/* Green disc + white check for the "Issue Fixed" badge. */
+.fixedCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--vf-green);
+  color: #ffffff;
+}
+
+/* ----------------------------------------------------- pinned agent finding */
+
+.thread {
+  position: absolute;
+  left: 272px;
+  top: 196px;
+  width: 360px;
+  animation: vfDrop 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* Sits fully off the card's top-left corner, matching the Findings pin; fades
+   out with the card once the finding is resolved. */
+.pin {
+  position: absolute;
+  top: -4px;
+  left: -44px;
+  z-index: 1;
+  transform-origin: bottom left;
+  animation: vfPinOut 0.5s ease 5.15s both;
+}
+
+.card {
+  width: 100%;
+}
+
+/* The finding fades + scales away once its fix is confirmed and it is resolved
+   by the cursor's approve-check click. */
+.cardWrap {
+  position: relative;
+  transform-origin: 80% 85%;
+  animation: vfCardResolve 0.55s cubic-bezier(0.4, 0, 1, 1) 5.15s both;
+}
+
+/* Ripple over the AgentCommentCard's green approve check (footer, bottom-right).
+   Offsets are measured from the card's bottom-right corner, which is fixed
+   regardless of card height (the footer's action layout is constant). */
+.ripple {
+  position: absolute;
+  right: 50px;
+  bottom: 18px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(26, 143, 100, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  animation: vfRipple 0.7s ease-out 4.85s both;
+}
+
+/* --------------------------------------------------------- fake pointer */
+
+.cursor {
+  position: absolute;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.28));
+  animation: vfCursor 2.7s cubic-bezier(0.4, 0, 0.2, 1) 3.5s both;
+}
+
+/* ============================================================ keyframes */
+
+@keyframes vfSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vfFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vfDrop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Element border/wash across the beats: neutral → magenta → green. */
+@keyframes vfElementState {
+  0% {
+    border-color: #c7c9d1;
+    background: #f6f6f5;
+  }
+  10% {
+    border-color: var(--vf-accent);
+    background: var(--vf-accent-wash);
+  }
+  55% {
+    border-color: var(--vf-accent);
+    background: var(--vf-accent-wash);
+  }
+  75% {
+    border-color: var(--vf-green);
+    background: var(--vf-green-wash);
+  }
+  100% {
+    border-color: var(--vf-green);
+    background: var(--vf-green-wash);
+  }
+}
+
+/* "Checking…" pill: fade in, hold, then fade out before the fixed badge. */
+@keyframes vfCheckingLife {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes vfBadgeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes vfSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fly onto the approve check (0-45%), press + release (45-61%), hold, then fade
+   out. Coordinates target the AgentCommentCard footer's green ✓. */
+@keyframes vfCursor {
+  0% {
+    left: 624px;
+    top: 452px;
+    opacity: 0;
+    transform: scale(1);
+  }
+  8% {
+    opacity: 1;
+  }
+  45% {
+    left: 560px;
+    top: 343px;
+    opacity: 1;
+    transform: scale(1);
+  }
+  53% {
+    left: 560px;
+    top: 343px;
+    transform: scale(0.8);
+  }
+  61% {
+    left: 560px;
+    top: 343px;
+    transform: scale(1);
+  }
+  74% {
+    left: 560px;
+    top: 343px;
+    opacity: 1;
+  }
+  100% {
+    left: 566px;
+    top: 349px;
+    opacity: 0;
+  }
+}
+
+@keyframes vfRipple {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.3);
+  }
+}
+
+@keyframes vfPinOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes vfCardResolve {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(6px);
+  }
+}
+
+/* ---------------------------------------------------- reduced motion rest */
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .content,
+  .element,
+  .thread {
+    animation: none;
+  }
+
+  /* Rest on the final settled state: Issue Fixed + comment resolved (gone). */
+  .element {
+    border-color: var(--vf-green);
+    background: var(--vf-green-wash);
+  }
+
+  .checking {
+    animation: none;
+    opacity: 0;
+  }
+
+  .fixed {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+
+  .cardWrap {
+    animation: none;
+    opacity: 0;
+  }
+
+  .pin {
+    animation: none;
+    opacity: 0;
+  }
+
+  .ripple {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* The pointer is transient; the settled scene is just the resolved outcome. */
+  .cursor {
+    display: none;
+  }
+}

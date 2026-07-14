@@ -1,0 +1,673 @@
+/* Feature/hero artifact — "Client Review".
+ *
+ * The client's side of a review, rendered inside a phone floating on a soft
+ * stage (the pitch is "from their phone"). Three variants share the phone shell
+ * and the polished live page: `magic-link` (a message thread + review link the
+ * cursor taps), `cleaned-up` (the live page + a "reviewed first" banner) and
+ * `approve` (the client bar's one green Approve button pressing → a recorded,
+ * timestamped yes). All motion lives in the no-preference block at the bottom;
+ * the settled state (link highlighted, approval recorded) renders when motion
+ * is reduced. */
+
+.root {
+  --cr-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cr-ink: #14161a;
+  --cr-muted: #757a82;
+  --cr-indigo: #433df3;
+  --cr-green: #109534;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(125% 110% at 50% -10%, #f4f5f8 0%, #e6e8ee 100%);
+  color: var(--cr-ink);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  /* The feature panel window is a fixed 1204px that bleeds off the right edge,
+     so the phone is left-anchored to sit inside the visible left portion. The
+     hero window is fully visible, so there it re-centers (below). */
+  justify-content: flex-start;
+  padding-left: 190px;
+}
+
+.root[data-hero="true"] .stage {
+  justify-content: center;
+  padding-left: 0;
+}
+
+/* ------------------------------------------------------------------- phone */
+
+.phone {
+  position: relative;
+  width: 292px;
+  height: 566px;
+  padding: 10px;
+  border-radius: 46px;
+  background: #16161d;
+  box-shadow:
+    0 2px 3px rgba(16, 17, 20, 0.4),
+    0 30px 60px rgba(20, 20, 43, 0.28);
+  animation: cr-phone-in 560ms var(--cr-ease) both;
+}
+
+/* The hero frame is a fixed 578px; shrink the phone a touch so its shadow
+   isn't clipped flush against the frame edge. */
+.root[data-hero="true"] .phone {
+  width: 282px;
+  height: 548px;
+}
+
+.phoneNotch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 26px;
+  border-radius: 14px;
+  background: #16161d;
+  z-index: 4;
+}
+
+.phoneScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 37px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------- magic-link scene */
+
+.msg {
+  position: relative;
+  height: 100%;
+}
+
+.msgView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* The live page the tapped link opens — sits over the thread and reveals after
+   the press (animated below); hidden at rest so reduced motion keeps the
+   message + highlighted link (the "magic link" identity). */
+.msgSite {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.msgHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 92px;
+  padding: 40px 16px 0;
+  background: linear-gradient(180deg, #17a95c 0%, #139a52 100%);
+  color: #fff;
+}
+
+.msgBack {
+  display: inline-flex;
+  opacity: 0.85;
+}
+
+.msgAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.msgName {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.msgThread {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 16px;
+  background: #fff;
+}
+
+.msgBubble {
+  max-width: 92%;
+  margin: 0;
+  padding: 11px 14px;
+  border-radius: 16px 16px 16px 4px;
+  background: #f0f1f4;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: #23262b;
+  animation: cr-rise 500ms var(--cr-ease) 220ms backwards;
+}
+
+/* Rich link preview card the cursor presses. */
+.linkCard {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e7e9ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(20, 20, 43, 0.08);
+  animation: cr-rise 520ms var(--cr-ease) 420ms backwards;
+}
+
+.linkThumb {
+  flex: 0 0 auto;
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #eef0f4;
+}
+
+.linkThumbHero {
+  position: absolute;
+  inset: 8px 8px auto 8px;
+  height: 24px;
+  border-radius: 5px;
+  background: linear-gradient(120deg, #433df3, #7b76ff);
+}
+
+.linkThumbLine {
+  position: absolute;
+  left: 8px;
+  right: 20px;
+  bottom: 12px;
+  height: 6px;
+  border-radius: 3px;
+  background: #d7dae1;
+}
+
+.linkBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.linkUrl {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cr-indigo);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.linkTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #14161a;
+}
+
+.linkSub {
+  font-size: 12px;
+  color: var(--cr-muted);
+}
+
+.msgCursor {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------- live page body */
+
+.live {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 46px 18px 18px;
+}
+
+.liveTopbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.liveUrl {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aa0a8;
+  letter-spacing: 0.1px;
+}
+
+.liveHero {
+  width: 100%;
+  height: 128px;
+  border-radius: 14px;
+  background:
+    radial-gradient(90% 120% at 15% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
+    linear-gradient(135deg, #433df3 0%, #6b63ff 55%, #8f7bff 100%);
+}
+
+.liveHeadline {
+  width: 72%;
+  height: 15px;
+  border-radius: 6px;
+  background: #d9dce2;
+}
+
+.liveLines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.liveLine {
+  width: 100%;
+  height: 9px;
+  border-radius: 5px;
+  background: #eceef2;
+}
+
+.liveLineShort {
+  width: 64%;
+}
+
+.liveTiles {
+  display: flex;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.liveTile {
+  flex: 1 1 0;
+  height: 78px;
+  border-radius: 12px;
+  background: #f1f2f5;
+}
+
+/* ------------------------------------------------------------ cleaned-up scene */
+
+.cleaned {
+  position: relative;
+  height: 100%;
+}
+
+.cleanBanner {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 14px;
+  border: 1px solid #ccefd7;
+  border-radius: 14px;
+  background: #f0faf3;
+  box-shadow: 0 10px 26px rgba(16, 90, 45, 0.12);
+  animation: cr-rise 560ms var(--cr-ease) 360ms backwards;
+}
+
+.cleanIcon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: var(--cr-green);
+}
+
+.cleanText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.cleanTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #12401f;
+}
+
+.cleanSub {
+  font-size: 12px;
+  color: #4e7458;
+}
+
+/* ---------------------------------------------------------------- approve scene */
+
+.approve {
+  position: relative;
+  height: 100%;
+}
+
+/* Recorded confirmation that rises after the press. */
+.approveToast {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 76px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #14161a;
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(16, 17, 20, 0.28);
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.approveToastIcon {
+  display: inline-flex;
+  color: #4ade80;
+}
+
+.approveToastText {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+
+/* The client bar (agency brand + one Approve button), pinned to the screen. */
+.clientBar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(16, 17, 20, 0.06),
+    0 12px 30px rgba(20, 20, 43, 0.14);
+}
+
+.clientBrand {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(180deg, #17a95c, #139a52);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.approveBtn {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--cr-green);
+  overflow: visible;
+}
+
+.approveDefault,
+.approveDone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+.approveDone {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.approveCursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.28));
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------- entrances */
+
+@keyframes cr-phone-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cr-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------- choreography */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* magic-link: the cursor glides onto the link card and presses once. */
+  @keyframes cr-tap-cursor {
+    0% {
+      opacity: 0;
+      transform: translate(46px, 52px);
+    }
+    22% {
+      opacity: 1;
+    }
+    58% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    66% {
+      transform: translate(0, 3px) scale(0.9);
+    }
+    74% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  .msgCursor {
+    animation: cr-tap-cursor 2200ms var(--cr-ease) 900ms forwards;
+  }
+
+  @keyframes cr-link-press {
+    0%,
+    58% {
+      border-color: #e7e9ee;
+      box-shadow: 0 6px 18px rgba(20, 20, 43, 0.08);
+    }
+    70% {
+      border-color: #433df3;
+      box-shadow: 0 0 0 3px rgba(67, 61, 243, 0.16);
+    }
+    100% {
+      border-color: #cdd0f7;
+      box-shadow: 0 6px 18px rgba(20, 20, 43, 0.08);
+    }
+  }
+
+  .linkCard {
+    animation:
+      cr-rise 520ms var(--cr-ease) 420ms backwards,
+      cr-link-press 2200ms var(--cr-ease) 900ms forwards;
+  }
+
+  /* The tapped link opens the live page: it slides up over the thread just
+     after the press lands (~2.5s), then holds. */
+  @keyframes cr-site-open {
+    0% {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .msgSite {
+    animation: cr-site-open 640ms var(--cr-ease) 2600ms forwards;
+  }
+
+  /* approve: the cursor glides to the button, presses, and the label flips to
+     "Approved" as the recorded confirmation rises. */
+  @keyframes cr-approve-cursor {
+    0% {
+      opacity: 0;
+      transform: translate(64px, 48px);
+    }
+    20% {
+      opacity: 1;
+    }
+    56% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    64% {
+      transform: translate(0, 3px) scale(0.9);
+    }
+    72% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  .approveCursor {
+    animation: cr-approve-cursor 2400ms var(--cr-ease) 700ms forwards;
+  }
+
+  @keyframes cr-swap-in {
+    0%,
+    64% {
+      opacity: 0;
+    }
+    74%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes cr-swap-out {
+    0%,
+    64% {
+      opacity: 1;
+    }
+    74%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .approveDone {
+    animation: cr-swap-in 2400ms ease 700ms forwards;
+  }
+
+  .approveDefault {
+    animation: cr-swap-out 2400ms ease 700ms forwards;
+  }
+
+  @keyframes cr-toast-in {
+    0%,
+    70% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    82%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .approveToast {
+    animation: cr-toast-in 2400ms var(--cr-ease) 700ms forwards;
+  }
+}
+
+/* Settled state for reduced motion: link highlighted, approval recorded,
+   cursors hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .linkCard {
+    border-color: #cdd0f7;
+  }
+
+  .approveDone {
+    opacity: 1;
+  }
+
+  .approveDefault {
+    opacity: 0;
+  }
+
+  .approveToast {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .msgCursor,
+  .approveCursor {
+    display: none;
+  }
+}

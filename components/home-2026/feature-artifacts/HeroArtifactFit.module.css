@@ -1,0 +1,65 @@
+/* Fit wrappers that let the Feature Set panel reuse the hero-section artifacts
+   verbatim (single source of truth). The hero artifacts are authored to fill
+   the hero window at its native ~1200px width; the Feature Set `.panelScreen`
+   is the same 1200px wide, so each renders pixel-identically to the hero. The
+   wrapper carries the panel's height so the fluid/`height:100%` artifacts
+   (e.g. Integrations) resolve against it; the others keep their native 578px
+   hero height and their (white) bottom edge blends into the white panel. The
+   panel window is wider than its card and intentionally bleeds off the right
+   edge, so compositions whose key UI is centred (Guest Mode / Private Comments)
+   or right-heavy (Integrations) are shifted left to stay readable inside the
+   visible panel frame — mirroring the original feature Guest Mode wrapper. */
+
+.fit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Left-anchor the centred Guest Mode composition past the right-edge bleed
+   (matches the value the original feature Guest Mode wrapper used). */
+.shiftGuest {
+  transform: translateX(-250px);
+}
+
+/* Left-anchor the centred Private Comments composition (its composer sits
+   further left than Guest, so a smaller shift keeps the composer on-screen
+   while pulling the centred pill + toolbar fully into view). */
+.shiftPrivate {
+  transform: translateX(-210px);
+}
+
+/* Nudge the Integrations composition left so the integration-logo row + board
+   edge come into the visible panel while the two-way-sync comment (the point of
+   this tab) stays fully in view. */
+.shiftInteg {
+  transform: translateX(-110px);
+}
+
+/* Pull the Built-in checks card grid into the visible panel. The hero artifact
+   centres its two-column agent-card grid (margin:auto, max-width), which would
+   otherwise sit past the panel's right-edge bleed; shifting left drops the
+   groups sidebar off-screen and features the ready-made agent cards instead. */
+.shiftBuiltIn {
+  transform: translateX(-250px);
+}
+
+/* "Applied to the next asset" reused in the Feature Set panel WITHOUT the hero
+   browser chrome. The composition (three project sheets + pills + memory card)
+   is wider than the panel's visible left-anchored frame, so it is scaled down
+   from the left and vertically centred to sit fully inside the panel — keeping
+   all three projects and the memory card visible, matching the reference. */
+.fitApplied {
+  display: flex;
+  align-items: center;
+}
+
+.appliedScale {
+  flex: 0 0 auto;
+  /* Render the artifact at its native panel width, then scale from the left so
+     the left-anchored scene fits the panel's visible (right-clipped) frame. */
+  width: 1200px;
+  transform: scale(0.7);
+  transform-origin: left center;
+}

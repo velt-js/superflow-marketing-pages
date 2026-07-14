@@ -1,0 +1,479 @@
+.problem {
+  /* Palette lifted from Figma node 582:3592 */
+  --sf-bg: #fefeff;
+  --sf-ink: #1e1e1f;
+  --sf-red: #d14746;
+  --sf-red-strong: #d14646;
+  --sf-red-tint: rgba(209, 71, 70, 0.08);
+  --sf-blue: #174cd1;
+  --sf-blue-tint: rgba(93, 139, 255, 0.08);
+  --sf-green: #2a7b4b;
+  --sf-green-strong: #3f8f5f;
+  --sf-green-tint: rgba(42, 123, 75, 0.08);
+  --sf-cyan: #5fd2ff;
+  --sf-tick: #f3f3f3;
+  --sf-tick-strong: #e9e9e9;
+  --sf-chevron: #c4c4c4;
+  --dial-size: min(680px, 90vw);
+
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(48px, 6vw, 96px) 24px clamp(56px, 7vw, 104px);
+  background: var(--sf-bg);
+  color: var(--sf-ink);
+  overflow: hidden;
+}
+
+.problem *,
+.problem *::before,
+.problem *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------- */
+/* Hero: serif headline over a faded clock gauge                     */
+/*                                                                   */
+/* Base styles below are the static final frame (mobile, reduced    */
+/* motion, no-JS). The desktop scroll-scrub overrides live in the   */
+/* media query at the bottom of this section: they pin the stage    */
+/* inside a tall scroll track and drive everything through custom   */
+/* properties whose fallback values equal this final frame.         */
+/* ---------------------------------------------------------------- */
+
+.scrollTrack {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* NOTE: deliberately NOT named `.stage` — that class already exists below
+   for the timeline pills, and CSS Modules would merge the two rule sets. */
+.pinnedStage {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  padding-top: clamp(120px, 30vw, 216px);
+}
+
+.dial {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: var(--dial-size);
+  height: calc(var(--dial-size) * 0.62);
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dialSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dialFade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 58%;
+  background: linear-gradient(to bottom, rgba(254, 254, 255, 0) 0%, var(--sf-bg) 62%);
+}
+
+.dialTick {
+  stroke: #e6e6e5;
+  stroke-width: 2;
+}
+
+.dialTickMajor {
+  stroke: #d8d8d7;
+  stroke-width: 3;
+}
+
+.dialArc {
+  fill: none;
+  stroke: var(--sf-red);
+  stroke-width: 6;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.dialNumber,
+.dialNumberDark,
+.dialNumberIdle {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  opacity: 0.52;
+  transition: fill 0.25s ease;
+}
+
+.dialNumber {
+  fill: var(--sf-red);
+}
+
+.dialNumberDark {
+  fill: #111111;
+}
+
+/* Numerals the red arc has not swept past yet (scrub-start colour). */
+.dialNumberIdle {
+  fill: #9d9d9c;
+}
+
+.headline {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.headlineTitle {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(30px, 4.4vw, 52px);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--sf-ink);
+}
+
+.headlineSubtitle {
+  margin: 12px 0 0;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  opacity: 0.78;
+}
+
+/* ---------------------------------------------------------------- */
+/* Scroll-scrubbed intro (desktop, motion-safe only)                 */
+/*                                                                   */
+/* Keep this media query in sync with ANIMATED_MEDIA_QUERY in       */
+/* ProblemSectionClock.tsx. Every animated value reads a custom     */
+/* property whose fallback is the final frame, so before hydration  */
+/* (and whenever JS clears the properties) this renders exactly     */
+/* like the static base design.                                     */
+/* ---------------------------------------------------------------- */
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  /* `hidden` would make the section a scroll container and break
+     position: sticky for the pinned stage; `clip` clips without that. */
+  .problem {
+    overflow: clip;
+  }
+
+  .scrollTrack {
+    /* Scroll distance dedicated to scrubbing the intro (~0.35 viewports of
+       pinned scrub): kept tight so the stage releases almost immediately
+       after the headline reveal, with no dead scrolling at the end. */
+    height: 135vh;
+    display: block;
+    /* Vertically centring the hero in the 100vh stage leaves ~300px of dead
+       space under the headline at handoff; pull the timeline up to roughly
+       halve the visual gap. */
+    margin-bottom: -160px;
+  }
+
+  .pinnedStage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    /* The full-circle dial box overhangs the 100vh stage on shorter
+       viewports, and as part of a positioned element its white fade overlay
+       would paint over the timeline/callout pulled up by the scrollTrack's
+       negative margin. Everything below the stage is invisible faded area,
+       so clip vertically only — the enlarged clock may still legitimately
+       bleed past the stage's horizontal edges during the entry phase. */
+    overflow: visible clip;
+  }
+
+  .dial {
+    /* Full circle while animating; the fade overlay hides the bottom half
+       at scrub end instead of the base 62% crop. --clock-shift recentres
+       the enlarged circle on the viewport at scrub start; opacity + blur
+       fade the clock in over the first part of the scrub so it never
+       overlaps the previous section. */
+    height: var(--dial-size);
+    overflow: visible;
+    transform: translate(-50%, var(--clock-shift, 0px)) scale(var(--clock-scale, 1));
+    opacity: var(--clock-opacity, 1);
+    filter: blur(var(--clock-blur, 0px));
+    will-change: transform, opacity, filter;
+  }
+
+  .dialFade {
+    /* Same absolute geometry as the base crop-box fade, re-expressed
+       against the full-height dial: top 0.2604 * size, gradient solid
+       0.223 * size below that (30.15% of the new fade height). */
+    top: 26.04%;
+    bottom: auto;
+    height: 73.96%;
+    background: linear-gradient(to bottom, rgba(254, 254, 255, 0) 0%, var(--sf-bg) 30.15%);
+    opacity: var(--fade-opacity, 1);
+  }
+
+  .dialArc {
+    /* pathLength=100 is set on the SVG path, so offset 100 hides the
+       whole arc and offset 0 shows the full static 150deg sweep. */
+    stroke-dasharray: 100;
+    stroke-dashoffset: var(--arc-offset, 0);
+  }
+
+  .headline {
+    opacity: var(--headline-opacity, 1);
+    transform: translateY(var(--headline-shift, 0px));
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Maturity timeline                                                 */
+/* ---------------------------------------------------------------- */
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 1000px;
+  padding-bottom: 64px; /* reserves room for the markers hanging below */
+}
+
+.edgeTicks,
+.tickBlock {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 14px;
+}
+
+.edgeTicks {
+  gap: 14px;
+}
+
+.tick {
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--sf-tick);
+  flex: none;
+}
+
+.tickTall {
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--sf-tick-strong);
+  flex: none;
+}
+
+.separator {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 12px;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--sf-chevron);
+  flex: none;
+}
+
+.stage {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 32px;
+  font-weight: 600;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+}
+
+.pillIcon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.pillRed {
+  background: var(--sf-red-tint);
+  color: var(--sf-red);
+}
+
+.pillBlue {
+  background: var(--sf-blue-tint);
+  color: var(--sf-blue);
+}
+
+.pillGreen {
+  background: var(--sf-green-tint);
+  color: var(--sf-green);
+}
+
+.pillOutline {
+  background: transparent;
+  color: var(--sf-ink);
+  border: 1px solid var(--sf-cyan);
+}
+
+.pillOutline .pillIcon {
+  color: var(--sf-cyan);
+}
+
+.marker {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.markerPointer {
+  display: block;
+  width: 17px;
+  height: 8px;
+}
+
+.markerLabel {
+  margin-top: -1px;
+  padding: 8px 12px;
+  border-radius: 32px;
+  color: #fefeff;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+}
+
+.markerRed .markerPointer {
+  color: var(--sf-red-strong);
+}
+
+.markerRed .markerLabel {
+  background: var(--sf-red-strong);
+}
+
+.markerGreen .markerPointer {
+  color: var(--sf-green-strong);
+}
+
+.markerGreen .markerLabel {
+  background: var(--sf-green-strong);
+}
+
+/* ---------------------------------------------------------------- */
+/* Closing callout                                                   */
+/* ---------------------------------------------------------------- */
+
+.callout {
+  /* Positioned so it paints above the sticky stage it can overlap with. */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 16px 24px;
+  border-radius: 32px;
+  background: var(--sf-ink);
+  color: #ffffff;
+  transition: box-shadow 0.18s ease;
+}
+
+.callout:hover {
+  box-shadow: 0 10px 30px rgba(30, 30, 31, 0.22);
+}
+
+.calloutIcon {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+  flex: none;
+}
+
+.calloutText {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive: collapse the ruler + stack the timeline vertically    */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .timeline {
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 0;
+  }
+
+  .edgeTicks {
+    display: none;
+  }
+
+  /* The full ruler was rotated 90deg on mobile, but rotate() keeps the
+     original (wide) layout box, so the long ruler overflowed its box and
+     painted a line across the adjacent marker pills. Between stacked stages
+     just show the chevron pointing down instead. */
+  .separator .tickBlock {
+    display: none;
+  }
+
+  .chevron {
+    transform: rotate(90deg);
+  }
+
+  .marker {
+    position: static;
+    margin-top: 8px;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .callout {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

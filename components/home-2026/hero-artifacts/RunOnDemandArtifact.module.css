@@ -1,0 +1,564 @@
+/* Hero tab artifact — "Run on Demand".
+
+   The Superflow Agents run screen inside the shared hero browser window: a
+   scrollable list of ready-made QA agents on the left and the reviewed page on
+   the right. A fake pointer presses the Grammar Check agent's play button, then
+   glides across to the page where a highlight, a lego-face comment pin and the
+   shared agent-finding card drop in. CSS-only; the choreography replays whenever
+   the tab mounts and rests settled under prefers-reduced-motion. */
+
+.root {
+  position: relative;
+  width: 100%;
+  /* Match the sibling hero artifacts so switching tabs never jumps. */
+  min-height: 578px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: #feffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui, var(--font-urbanist), system-ui, sans-serif);
+  /* Warm highlight the reviewed element turns when its finding lands. */
+  --rod-highlight: #fbe1b8;
+}
+
+/* ---------------------------------------------------------- browser chrome */
+
+.chromeWrap {
+  flex-shrink: 0;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.chrome {
+  animation: rodSettle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* -------------------------------------------------------------- two panes */
+
+.viewport {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------- agent run list */
+
+.sidebar {
+  flex-shrink: 0;
+  width: 344px;
+  padding: 20px 16px 0 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  animation: rodFade 0.4s ease 0.05s both;
+}
+
+.agentList {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  /* Clip the trailing card so the list reads as scrollable, like the product. */
+  overflow: hidden;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+  padding: 13px 15px;
+  border: 1.5px solid #eef0f2;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.03);
+  animation: rodRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Per-card entrance stagger (top → bottom). */
+.agentList .card:nth-child(1) { animation-delay: 0.1s; }
+.agentList .card:nth-child(2) { animation-delay: 0.16s; }
+.agentList .card:nth-child(3) { animation-delay: 0.22s; }
+.agentList .card:nth-child(4) { animation-delay: 0.28s; }
+
+/* The agent the pointer runs: a purple selection ring fades in on "click". */
+.cardActive::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border: 1.5px solid #6d5cf5;
+  border-radius: 15px;
+  box-shadow: 0 0 0 4px rgba(109, 92, 245, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  animation: rodActiveRing 0.4s ease 1.85s both;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2.5px;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  padding: 6px;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.tileDot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  /* Leave room for the kebab so long titles never collide with it. */
+  padding-right: 20px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16.5px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+  color: #0a0a0a;
+}
+
+.cardDesc {
+  margin: 0;
+  font-weight: 500;
+  font-size: 12.5px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  color: #9a9ea7;
+  /* Single-line truncation with ellipsis, matching the product. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.cardMenu {
+  position: absolute;
+  top: 12px;
+  right: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: none;
+  border-radius: 32px;
+  background: transparent;
+  color: rgba(10, 10, 10, 0.28);
+  cursor: pointer;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.footMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #8b8f9a;
+  white-space: nowrap;
+}
+
+.metaIcon {
+  display: inline-flex;
+}
+
+.metaIconRun {
+  color: #4b8bf5;
+}
+
+.metaIconUsage {
+  color: #ff8a3d;
+}
+
+.footActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.historyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #b4b8c0;
+  cursor: pointer;
+}
+
+/* Wraps the play button so the click ripple can center on it. */
+.playWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.playBtn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  padding: 0;
+  padding-left: 2px;
+  border: none;
+  border-radius: 50%;
+  background: #0a0a0a;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* The run button gets a brief pressed dip synced to the pointer press. */
+.playBtnActive {
+  animation: rodPlayPress 0.5s ease 1.75s both;
+}
+
+/* Expanding ripple emitted from the run button when the pointer presses it. */
+.playRipple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 29px;
+  height: 29px;
+  margin: -14.5px 0 0 -14.5px;
+  border-radius: 50%;
+  background: rgba(109, 92, 245, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  animation: rodRipple 0.7s ease-out 1.75s both;
+}
+
+/* ------------------------------------------------------- reviewed page */
+
+.surface {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.page {
+  padding: 24px 28px 0 26px;
+  animation: rodFade 0.4s ease 0.08s both;
+}
+
+.media {
+  height: 126px;
+  border-radius: 12px;
+  background: #f1f1f4;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.line {
+  height: 24px;
+  border-radius: 8px;
+  background: #ededf0;
+}
+
+.lineShort {
+  width: 62%;
+}
+
+/* --- finding overlay (highlight + lego pin + comment card) --- */
+
+/* Warm highlight sitting on top of a skeleton copy line (the gray line stays
+   behind it). Matches the copy-line height + row so it reads as a highlighted
+   phrase within the reviewed text. */
+.highlight {
+  position: absolute;
+  left: 26px;
+  top: 208px;
+  width: 172px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--rod-highlight);
+  opacity: 0;
+  transform: scaleX(0.7);
+  transform-origin: left center;
+  animation: rodHighlight 0.45s cubic-bezier(0.16, 1, 0.3, 1) 2.9s both;
+}
+
+/* Lego-face comment pin anchoring the finding to the highlighted element. The
+   teardrop visual + shadow come from the shared CommentPin; this consumer class
+   only positions it and drives its pop-in entrance. */
+.pinMarker {
+  position: absolute;
+  left: 184px;
+  top: 186px;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: bottom left;
+  animation: rodPop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 3.35s both;
+}
+
+/* Dropped agent finding (shared AgentCommentCard, held slightly smaller than
+   its native size). This wrapper owns position, scale and the drop-in
+   entrance; the card inside renders at its own intrinsic size. */
+.findingCard {
+  position: absolute;
+  left: 214px;
+  top: 176px;
+  z-index: 3;
+  width: 300px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.86);
+  transform-origin: top left;
+  animation: rodCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 3.5s both;
+}
+
+/* --------------------------------------------------------- fake pointer */
+
+.cursor {
+  position: absolute;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.28));
+  animation: rodCursor 6s cubic-bezier(0.4, 0, 0.2, 1) 0.35s both;
+}
+
+/* ============================================================ keyframes */
+
+@keyframes rodSettle {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rodFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rodRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rodActiveRing {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rodPlayPress {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(0.82);
+  }
+}
+
+@keyframes rodRipple {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.3);
+  }
+}
+
+@keyframes rodHighlight {
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes rodPop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rodCardIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(0.9);
+  }
+}
+
+/* Fly onto the run button (0-20%), press + hold (20-33%), travel to the page
+   and hold while the finding drops (33-66%), then fade out. */
+@keyframes rodCursor {
+  0% {
+    left: 240px;
+    top: 360px;
+    opacity: 0;
+    transform: scale(1);
+  }
+  6% {
+    opacity: 1;
+  }
+  20% {
+    left: 299px;
+    top: 214px;
+    opacity: 1;
+    transform: scale(1);
+  }
+  24% {
+    transform: scale(0.8);
+  }
+  28% {
+    transform: scale(1);
+  }
+  33% {
+    left: 299px;
+    top: 214px;
+  }
+  52% {
+    left: 533px;
+    top: 194px;
+    opacity: 1;
+    transform: scale(1);
+  }
+  66% {
+    left: 533px;
+    top: 194px;
+    opacity: 1;
+  }
+  82% {
+    opacity: 0;
+  }
+  100% {
+    left: 537px;
+    top: 190px;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 300px;
+    padding: 16px 12px 0 16px;
+  }
+
+  .cardTitle {
+    font-size: 15px;
+  }
+
+  .cardDesc {
+    font-size: 12px;
+  }
+}
+
+/* ---------------------------------------------------- reduced motion rest */
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome,
+  .sidebar,
+  .page,
+  .card,
+  .playBtnActive,
+  .playRipple {
+    animation: none;
+  }
+
+  .cardActive::after {
+    animation: none;
+    opacity: 1;
+  }
+
+  .highlight {
+    animation: none;
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .pinMarker {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .findingCard {
+    animation: none;
+    opacity: 1;
+    transform: scale(0.9);
+  }
+
+  .playRipple {
+    opacity: 0;
+  }
+
+  .cursor {
+    /* The pointer is transient; the settled scene is just the dropped finding. */
+    display: none;
+  }
+}

@@ -89,7 +89,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
         title: social,
         description,
         locale: "en_US",
-        images: [{ url: ogImage }],
+        images: [{ url: ogImage, width: 1200, height: 630 }],
       },
       twitter: {
         card: "summary_large_image",

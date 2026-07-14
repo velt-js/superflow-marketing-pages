@@ -1,0 +1,1295 @@
+/* Shared "posted comment" thread card for the feature-section artifacts
+   (Pinned Comments + Auto Screenshot). Renders an optional action header
+   (status pill + flag pill + resolve check), an author row with a photo or
+   initial avatar, the comment body with an optional purple mention chip, an
+   optional embedded page screenshot and an optional reply row. The caller
+   sizes/positions the card by passing its own class through `className`. */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(20, 20, 43, 0.16);
+  color: #0a0a0a;
+  font-family: inherit;
+}
+
+/* Board-style variant: no drop-shadow, just a subtle 1px border. Declared
+   after `.card` so it wins the equal-specificity override. */
+.cardFlat {
+  box-shadow: none;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+/* Allows popovers (read receipts/status menus) to hang outside the dialog. */
+.cardWithPopover {
+  overflow: visible;
+}
+
+/* ---------------------------------------------------------- action header */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 0;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 9px;
+  border-radius: 24px;
+  background: rgba(98, 93, 245, 0.1);
+  color: #625df5;
+}
+
+/* Amber "In progress" tone (overrides the default purple statusPill). */
+.statusProgress {
+  background: rgba(226, 166, 0, 0.12);
+  color: #e2a600;
+}
+
+.statusText {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 7px;
+  border-radius: 24px;
+  background: #f1f1f3;
+  color: #9a9aa4;
+}
+
+/* Pushes the resolve check to the far right of the header. */
+.resolve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  color: #1a1a1a;
+}
+
+.statusMenu {
+  position: absolute;
+  left: 16px;
+  top: 48px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 172px;
+  padding: 8px;
+  border: 2px solid #f0f0f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 15, 15, 0.12);
+}
+
+.statusMenuItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  color: #625df5;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.statusMenuProgress {
+  color: #e2a600;
+}
+
+.statusMenuDone {
+  color: #198f65;
+}
+
+/* Resolved (positive/green) header pill tone used after the status change. */
+.statusResolved {
+  background: rgba(25, 143, 101, 0.12);
+  color: #198f65;
+}
+
+/* Stacks the "Open" and "Resolved" pills in a single grid cell so the cell
+   sizes to the wider "Resolved" label and the "status" choreography can
+   cross-fade one into the other without a layout shift. */
+.statusSwap {
+  display: inline-grid;
+  align-items: start;
+  justify-items: start;
+}
+
+.statusSwap > .statusPill {
+  grid-area: 1 / 1;
+}
+
+/* Hidden until the choreography (or reduced-motion fallback) reveals it. */
+.statusPillResolved {
+  opacity: 0;
+}
+
+/* Rounds the highlight the pointer paints on the target status-menu row. */
+.statusMenuTarget {
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------------------- header */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 0;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.avatarImage {
+  display: block;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarGreen {
+  background: #0dcf82;
+}
+
+.avatarOrange {
+  background: #fe965c;
+}
+
+.avatarGray {
+  background: linear-gradient(135deg, #c7cbd6, #9aa0b0);
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.author {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  color: #111111;
+}
+
+.time {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9a9a9a;
+}
+
+.edited {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #bcbcbc;
+  text-transform: uppercase;
+}
+
+.readBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #f2f2fe;
+  color: #625df5;
+}
+
+/* ----------------------------------------------------------------- body */
+
+.body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  /* Indent to align under the author name (card padding + avatar + gap). */
+  padding: 6px 16px 0 56px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1f1f1f;
+}
+
+.bodyText {
+  white-space: nowrap;
+}
+
+/* When there's no action header above it, balance the card's top padding
+   (minimal board cards). Falls back to 12px when an `.actions` row precedes. */
+.head:first-child {
+  padding-top: 16px;
+}
+
+/* When the body is the card's last element (no attachment / reply row), it must
+   provide the card's bottom padding itself (minimal board cards). */
+.body:last-child {
+  padding-bottom: 16px;
+}
+
+.mention {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: rgba(98, 93, 245, 0.12);
+  color: #625df5;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------- embedded screenshot */
+
+.attachment {
+  position: relative;
+  overflow: hidden;
+  /* Aligns with the body text (indented under the author name). */
+  margin: 12px 16px 0 56px;
+  /* Height is set inline by the caller (defaults to DEFAULT_SCREENSHOT_HEIGHT). */
+  border-radius: 12px;
+  background: #f0f0f0;
+}
+
+.attachmentImage {
+  object-fit: cover;
+}
+
+/* ------------------------------------------- recording media (audio/video) */
+
+/* Voice-note / video recording rendered inside the comment body via the shared
+   RecordingMedia primitives. Spans nearly the full card width (like the
+   reference), so the clip reads as a prominent block rather than a text run. */
+.media {
+  margin: 12px 16px 0;
+}
+
+/* When the recording is the card's last element it owns the bottom padding so
+   the media doesn't crowd the card's rounded bottom edge. */
+.media:last-child {
+  margin-bottom: 18px;
+}
+
+/* ----------------------------------------------------------- file attach */
+
+/* Positioned wrapper so the opt-in drop-in glyph can fall over the chip without
+   the chip's own reveal transform dragging it along. */
+.fileAttachWrap {
+  position: relative;
+  margin: 12px 16px 0 56px;
+}
+
+/* When the attachment is the card's last element, it owns the bottom padding so
+   the file row doesn't crowd the card's rounded bottom edge. */
+.fileAttachWrap:last-child {
+  margin-bottom: 18px;
+}
+
+/* Styled PDF file chip (Figma 858:1307): a bordered rounded card holding the
+   purple Tabler file-type-pdf glyph, the truncated filename, a muted size
+   subline and a red remove "x". */
+.fileAttachment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 8px 8px 14px;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.fileLead {
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 10px;
+}
+
+.filePdfIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  color: #625df5;
+}
+
+.filePdfIcon svg,
+.fileDrop svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fileMeta {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fileName {
+  overflow: hidden;
+  color: #292929;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  color: #b8b8b8;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.fileRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 8px;
+  border-radius: 9px;
+  color: #ff7162;
+}
+
+/* Opt-in "attachment" choreography: a small framed PDF card the cursor carries
+   in and drops. It rests over the chip's own glyph so the fade hands off cleanly
+   to the settled chip. */
+.fileDrop {
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 8px;
+  border: 1px solid #ebebeb;
+  border-radius: 11px;
+  background: #ffffff;
+  color: #625df5;
+  box-shadow: 0 10px 24px rgba(20, 20, 43, 0.18);
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Fake pointer that carries the framed PDF card in and releases it. */
+.dropCursor {
+  position: absolute;
+  left: 44px;
+  top: 0;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.4));
+  opacity: 0;
+}
+
+.dropCursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------- reactions */
+
+.reactions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px 0 56px;
+}
+
+.reactionChip,
+.addReaction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.06);
+  color: #525252;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.reactionChipActive {
+  border: 1px solid #625df5;
+  background: #ffffff;
+  color: #625df5;
+}
+
+.addReaction {
+  width: 30px;
+  color: #999999;
+}
+
+/* --------------------------------------------------------------- replies */
+
+.replies {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 16px 0;
+}
+
+.replyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.replyHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 0;
+}
+
+.replyAvatar,
+.replyAvatarImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  object-fit: cover;
+}
+
+.replyBody {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding-left: 38px;
+  color: #525252;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------------- composer */
+
+.composerWrap {
+  position: relative;
+  padding: 14px 16px 0;
+}
+
+/* When the composer is the card's last element (thread / replies / mentions /
+   tracking), it owns the card's bottom padding so the input + toolbar aren't
+   flush against the card's rounded bottom edge. */
+.composerWrap:last-child {
+  padding-bottom: 16px;
+}
+
+/* The status/tracking card (review-agents "Human signs off" + comments
+   "Track it") renders an absolutely-positioned pointer overlay (`.statusCursor`)
+   after the composer, so the `:last-child` rule above never matches and the
+   "Reply…" input would otherwise sit flush against the card's rounded bottom
+   edge. That cursor is out of flow, so restore the composer's bottom padding
+   here. */
+.animStatus .composerWrap {
+  padding-bottom: 16px;
+}
+
+.composer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 8px 8px 12px;
+  border: 2px solid rgba(98, 93, 245, 0.16);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.composerActive {
+  align-items: stretch;
+  min-height: 96px;
+  border-color: #625df5;
+  flex-wrap: wrap;
+}
+
+/* Richer composer with the Figma action toolbar (859:1569): stacks the text
+   row on top and the toolbar row (icons + send) on the bottom. */
+.composerWithTools {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.composerWithTools .composerText {
+  flex: 0 0 auto;
+  align-self: stretch;
+}
+
+.composerText {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+  color: #0a0a0a;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.composerPlaceholder {
+  color: #b1b5c3;
+  font-size: 12px;
+}
+
+.composerCaret {
+  width: 1.5px;
+  height: 16px;
+  background: #625df5;
+}
+
+/* Toolbar row (Figma 859:1579): a divider on top, the muted action icons on the
+   left and the purple send button on the right. */
+.composerToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.composerToolGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.composerTool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #999999;
+}
+
+.composerTool svg {
+  display: block;
+}
+
+.composerSend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #b1b5c3;
+  color: #ffffff;
+}
+
+.composerActive .composerSend {
+  align-self: flex-end;
+  background: #625df5;
+}
+
+/* In the toolbar composer the send sits inline at the end of the toolbar row. */
+.composerWithTools .composerSend {
+  align-self: center;
+  background: #625df5;
+}
+
+.mentionMenu {
+  position: absolute;
+  left: 68px;
+  top: 58px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 244px;
+  max-height: 136px;
+  overflow: hidden;
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.mentionMenu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff);
+  pointer-events: none;
+}
+
+.mentionOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.mentionOptionActive {
+  background: #f0f0f0;
+}
+
+.suggestionAvatar,
+.suggestionAvatarImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  object-fit: cover;
+}
+
+.suggestionMeta {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.suggestionName {
+  color: #0a0a0a;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.suggestionEmail {
+  color: #666666;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------- read receipts */
+
+.readPanel {
+  position: absolute;
+  right: -10px;
+  top: 104px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  width: 218px;
+  max-height: 152px;
+  overflow: hidden;
+  padding: 4px;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.readPerson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px;
+}
+
+.readIdentity {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+
+.readAvatar,
+.readAvatarImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  object-fit: cover;
+}
+
+.readName {
+  overflow: hidden;
+  color: #292929;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.readTime {
+  flex-shrink: 0;
+  color: rgba(41, 41, 41, 0.3);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ------------------------------------------------------------ reply row */
+
+.reply {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 16px 16px;
+  color: #292929;
+}
+
+.replyText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #292929;
+}
+
+/* =======================================================================
+   Animated choreographies (opt-in via the `animation` prop). Static
+   consumers never receive these classes, so their markup is unaffected.
+   Every timeline replays whenever the owning feature tab remounts.
+   ======================================================================= */
+
+/* ----------------------------------------------------- composer typing */
+
+/* Overlays a "typed" run and a ready placeholder so a submit step can wipe the
+   draft back to the placeholder without a layout jump. */
+.composerTypeLayer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.composerPlaceholderLayer {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b1b5c3;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.composerTyped {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  /* Fully revealed by default; the typing wipe animates from a clipped state. */
+  clip-path: inset(0 0 0 0);
+}
+
+.composerTypedText {
+  white-space: nowrap;
+}
+
+.composerTypedCaret {
+  flex-shrink: 0;
+  width: 1.5px;
+  height: 16px;
+  background: #625df5;
+}
+
+/* --------------------------------------------------------- fake pointer */
+
+.reactCursor,
+.statusCursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, 0.4));
+}
+
+.reactCursor svg,
+.statusCursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------- mentions choreography */
+
+/* Type "Any update @", then open the mention dropdown. */
+.animMentions .composerTyped {
+  animation: ctType 0.95s steps(12, end) 0.5s both;
+}
+
+.animMentions .composerTypedCaret {
+  animation: ctCaret 1.6s steps(1, end) 0.5s 3 both;
+}
+
+.animMentions .composerPlaceholderLayer {
+  display: none;
+}
+
+.animMentions .mentionMenu {
+  transform-origin: top left;
+  animation: ctPopoverIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 1.68s both;
+}
+
+/* --------------------------------------------- thread-reply choreography */
+
+/* Type a reply, then "post" it: the draft clears and the reply expands in. */
+.animThread .composerTyped {
+  animation:
+    ctType 1.05s steps(24, end) 0.5s both,
+    ctFadeOut 0.28s ease 1.82s both;
+}
+
+.animThread .composerTypedCaret {
+  animation: ctCaret 1.6s steps(1, end) 0.5s 1 both;
+}
+
+.animThread .composerPlaceholderLayer {
+  animation: ctFadeIn 0.3s ease 2.02s both;
+}
+
+.animThread .replies {
+  overflow: hidden;
+  animation: ctReplyIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.86s both;
+}
+
+/* ------------------------------------------------ reactions choreography */
+
+/* Pointer taps 👍 (chip pops in), then taps the double-check (panel opens). */
+.animReactions .reactions {
+  padding-bottom: 18px;
+}
+
+.animReactions .reactionChip {
+  overflow: hidden;
+  transform-origin: left center;
+  animation: ctChipIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+}
+
+.animReactions .readPanel {
+  transform-origin: top right;
+  animation: ctPopoverIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 3.2s both;
+}
+
+.animReactions .reactCursor {
+  animation: ctReactCursor 4.4s cubic-bezier(0.45, 0, 0.4, 1) 0.4s both;
+}
+
+/* ----------------------------------------------- attachment choreography */
+
+/* The cursor carries a framed PDF card in and releases it (ctFileDropCursor);
+   the card settles onto the chip's glyph and fades out just as the styled chip
+   reveals underneath it (ctFileDrop → ctChipReveal) — reading as
+   "cursor drops the file, it becomes the attachment". */
+.animAttachment .dropCursor {
+  animation: ctFileDropCursor 1s cubic-bezier(0.45, 0, 0.4, 1) 0.4s both;
+}
+
+.animAttachment .fileDrop {
+  animation: ctFileDrop 1.15s cubic-bezier(0.34, 1.2, 0.64, 1) 0.4s both;
+}
+
+.animAttachment .fileAttachment {
+  transform-origin: top center;
+  animation: ctChipReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
+}
+
+/* --------------------------------------------------- status choreography */
+
+/* Pointer clicks the "Open" pill (dropdown opens), glides to "Resolved" and
+   selects it (dropdown closes), then the header pill swaps Open → Resolved. */
+.animStatus .statusMenu {
+  transform-origin: top left;
+  animation: ctStatusMenu 2.3s ease 0.95s both;
+}
+
+.animStatus .statusMenuTarget {
+  animation: ctStatusTarget 0.95s ease 2s both;
+}
+
+.animStatus .statusPillOpen {
+  animation: ctFadeOut 0.3s ease 2.55s both;
+}
+
+.animStatus .statusPillResolved {
+  animation: ctFadeIn 0.32s ease 2.62s both;
+}
+
+.animStatus .statusCursor {
+  animation: ctStatusCursor 3.9s cubic-bezier(0.45, 0, 0.4, 1) 0.2s both;
+}
+
+/* ------------------------------------------------------------ keyframes */
+
+@keyframes ctType {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ctCaret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes ctFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ctFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ctPopoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ctReplyIn {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-6px);
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    max-height: 160px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ctChipIn {
+  0% {
+    opacity: 0;
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    transform: scale(0.5);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    max-width: 80px;
+    padding-left: 8px;
+    padding-right: 8px;
+    transform: scale(1);
+  }
+}
+
+/* Pointer glides onto the add-reaction smile, presses (👍 pops), rides up to the
+   double-check badge and presses again (read-receipt panel opens). */
+@keyframes ctReactCursor {
+  0% {
+    opacity: 0;
+    transform: translate(120px, 200px) scale(1);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(74px, 132px) scale(1);
+  }
+  18% {
+    transform: translate(74px, 132px) scale(0.82);
+  }
+  24% {
+    transform: translate(74px, 132px) scale(1);
+  }
+  52% {
+    transform: translate(150px, 64px) scale(1);
+  }
+  60% {
+    transform: translate(150px, 64px) scale(0.82);
+  }
+  66% {
+    transform: translate(150px, 64px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(150px, 64px) scale(1);
+  }
+}
+
+/* Framed PDF card is carried in, released, settles onto the chip and fades. */
+@keyframes ctFileDrop {
+  0% {
+    opacity: 0;
+    transform: translate(46px, -66px) rotate(-5deg) scale(0.94);
+  }
+  22% {
+    opacity: 1;
+  }
+  66% {
+    transform: translate(6px, -8px) rotate(-1deg) scale(1);
+  }
+  80% {
+    transform: translate(0, 4px) rotate(0deg) scale(1);
+  }
+  88% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* Pointer carries the card in (in sync with ctFileDrop), pinches to release,
+   then lifts up-and-away and fades. */
+@keyframes ctFileDropCursor {
+  0% {
+    opacity: 0;
+    transform: translate(58px, -60px) scale(1);
+  }
+  20% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 1;
+    transform: translate(18px, -2px) scale(1);
+  }
+  70% {
+    transform: translate(18px, -2px) scale(0.86);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(40px, -34px) scale(1);
+  }
+}
+
+/* Styled file chip reveals as the dropped glyph lands. */
+@keyframes ctChipReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Status dropdown opens, holds while the pointer selects, then closes. */
+@keyframes ctStatusMenu {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  14% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  74% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  92% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+}
+
+/* Target status row highlights as the pointer lands on it. */
+@keyframes ctStatusTarget {
+  0% {
+    background: transparent;
+  }
+  22% {
+    background: #f0f0f0;
+  }
+  100% {
+    background: #f0f0f0;
+  }
+}
+
+/* Pointer rides to the "Open" pill, presses (menu opens), drops to "Resolved",
+   presses again (selects) and drifts off as the pill updates. */
+@keyframes ctStatusCursor {
+  0% {
+    opacity: 0;
+    transform: translate(120px, 250px) scale(1);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(58px, 30px) scale(1);
+  }
+  19% {
+    transform: translate(58px, 30px) scale(0.82);
+  }
+  25% {
+    transform: translate(58px, 30px) scale(1);
+  }
+  52% {
+    transform: translate(44px, 150px) scale(1);
+  }
+  62% {
+    transform: translate(44px, 150px) scale(0.82);
+  }
+  68% {
+    transform: translate(44px, 150px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(78px, 66px) scale(1);
+  }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+/* Skip every choreography and rest on a sensible, fully-revealed final state. */
+@media (prefers-reduced-motion: reduce) {
+  .composerTyped,
+  .composerTypedCaret,
+  .composerPlaceholderLayer,
+  .mentionMenu,
+  .replies,
+  .reactionChip,
+  .readPanel,
+  .reactCursor,
+  .fileDrop,
+  .dropCursor,
+  .fileAttachment,
+  .statusMenuTarget,
+  .statusPillOpen,
+  .statusPillResolved,
+  .statusCursor {
+    animation: none;
+  }
+
+  .composerTyped {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .composerTypedCaret,
+  .composerPlaceholderLayer,
+  .reactCursor,
+  .fileDrop,
+  .dropCursor,
+  .statusCursor {
+    display: none;
+  }
+
+  .animReactions .reactionChip {
+    max-width: 80px;
+    padding-left: 8px;
+    padding-right: 8px;
+    opacity: 1;
+  }
+
+  /* Attachment: rest on the styled chip (no falling glyph). */
+  .animAttachment .fileAttachment {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Status: rest on the resolved pill with the dropdown closed. */
+  .animStatus .statusMenu {
+    display: none;
+  }
+
+  .animStatus .statusPillOpen {
+    display: none;
+  }
+
+  .animStatus .statusPillResolved {
+    opacity: 1;
+  }
+}
