@@ -393,25 +393,50 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 : () => setActiveTabIndex(tabIndex);
               const hoverTab = tab.listOnly
                 ? undefined
-                : (event: ReactPointerEvent<HTMLAnchorElement>) =>
+                : (event: ReactPointerEvent<HTMLElement>) =>
                     activateTabOnHover(tabIndex, event);
+              // Only rows that link to their own feature page get an arrow. Rows
+              // with no destination (just tab switchers) render as a button so
+              // there's no dead "#" link and no misleading arrow.
+              const hasLink =
+                Boolean(tab.href) && tab.href !== FEATURE_LINK_FALLBACK;
 
-              return (
-                <li key={tab.label} className={styles.blockFeatureItem}>
-                  <a
-                    className={linkClass}
-                    href={tab.href ?? FEATURE_LINK_FALLBACK}
-                    onPointerEnter={hoverTab}
-                    onFocus={activateTab}
-                  >
-                    <span className={styles.featureIcon}>
-                      <FeatureSetIcon name={tab.icon} size={18} />
-                    </span>
-                    <span className={styles.featureLabel}>{tab.label}</span>
+              const rowContent = (
+                <>
+                  <span className={styles.featureIcon}>
+                    <FeatureSetIcon name={tab.icon} size={18} />
+                  </span>
+                  <span className={styles.featureLabel}>{tab.label}</span>
+                  {hasLink ? (
                     <span className={styles.featureArrow} aria-hidden="true">
                       <FeatureSetIcon name="arrow-right" size={18} />
                     </span>
-                  </a>
+                  ) : null}
+                </>
+              );
+
+              return (
+                <li key={tab.label} className={styles.blockFeatureItem}>
+                  {hasLink ? (
+                    <a
+                      className={linkClass}
+                      href={tab.href}
+                      onPointerEnter={hoverTab}
+                      onFocus={activateTab}
+                    >
+                      {rowContent}
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      className={linkClass}
+                      onPointerEnter={hoverTab}
+                      onFocus={activateTab}
+                      onClick={activateTab}
+                    >
+                      {rowContent}
+                    </button>
+                  )}
                 </li>
               );
             })}

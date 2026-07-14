@@ -5,8 +5,6 @@ import styles from "./SiteFooter.module.css";
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
 const APP_PREVIEW_SRC = "/images/home-2026/footer/app-preview.png";
-/** Fallback href for labels that have no obvious destination on the current site. */
-const PLACEHOLDER_HREF = "#";
 /** Product sign-up entry point (mirrors the legacy footer's CTA target). */
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
 /** Shared route prefix for the new feature detail pages (served at the root slug; mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
@@ -33,7 +31,6 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     title: "AI Layer",
     links: [
       { label: "AI Review Agents", href: `${FEATURE_PATH}ai-review-agents` },
-      { label: "Reviewer Twin", href: PLACEHOLDER_HREF },
       { label: "Brand Memory", href: `${FEATURE_PATH}memory` },
       { label: "Ask AI", href: `${FEATURE_PATH}ask-ai` },
     ],

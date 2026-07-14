@@ -284,19 +284,28 @@
 }
 
 /*
- * Interactive feature row: a per-view icon and label on the left with a
- * trailing arrow that links through to that feature's own page. Hovering or
- * focusing a row activates the matching tab, swapping the app window on the
- * right — so the whole left list drives the right panel.
+ * Interactive feature row: a per-view icon and label on the left. Rows that
+ * link to their own feature page render as an <a> with a trailing arrow; rows
+ * that only switch the app-window view (no destination page) render as a
+ * <button> with no arrow. Hovering or focusing a row activates the matching
+ * tab, swapping the app window on the right — so the whole left list drives
+ * the right panel. The resets below let the <button> variant match the <a>.
  */
 .featureLink {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  margin: 0;
   padding: 10px 12px;
+  border: none;
   border-radius: 12px;
+  background: none;
   color: #111111;
+  font: inherit;
+  text-align: left;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s ease;
 }
 
