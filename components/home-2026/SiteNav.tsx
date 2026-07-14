@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { ComponentType, FocusEvent as ReactFocusEvent } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import styles from "./SiteNav.module.css";
@@ -619,7 +620,7 @@ export default function SiteNav() {
       }`}
     >
       <nav className={styles.inner} aria-label="Primary">
-        <a className={styles.brand} href="#top">
+        <Link className={styles.brand} href="/" aria-label={`${BRAND_NAME} home`}>
           <Image
             className={styles.brandMark}
             src={BRAND_MARK_SRC}
@@ -628,7 +629,7 @@ export default function SiteNav() {
             height={16}
           />
           {BRAND_NAME}
-        </a>
+        </Link>
 
         <div className={styles.navLinks}>
           {NAV_ITEMS.map((item) => {
