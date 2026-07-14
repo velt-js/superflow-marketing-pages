@@ -4,7 +4,7 @@ import styles from "./SiteFooter.module.css";
 
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
-const APP_PREVIEW_SRC = "/images/home-2026/footer/app-preview.png";
+const APP_PREVIEW_SRC = "/images/home-2026/footer/app-preview-v2.png";
 /** Product sign-up entry point (mirrors the legacy footer's CTA target). */
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
 /** Shared route prefix for the new feature detail pages (served at the root slug; mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
@@ -18,7 +18,7 @@ const PERSONAS_PATH = "/user-persona";
 const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
-const CTA_HEADING = "Start Your 14-Day Trial";
+const CTA_HEADING = "Start Your 10-Day Trial";
 const CTA_SUBTITLE = "Your first 3 agent reviews are on us!";
 const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 
@@ -257,7 +257,7 @@ function FooterLinkColumn({ column }: { column: FooterColumn }) {
 /**
  * 10 / Footer — 2026 homepage redesign.
  *
- * A white CTA card ("Start your 14 Days Trial") sits on a white base; the
+ * A white CTA card ("Start your 10 Days Trial") sits on a white base; the
  * blue gradient wave (SVG exported from Figma node 582:6761) is layered OVER
  * the card's lower half so the card dissolves into the flow, while the footer
  * nav band renders above the wave. Layout is flex/grid, desktop-first per the
@@ -306,7 +306,7 @@ export default function SiteFooter() {
                 Book Demo
               </Link>
               <Link href={SIGNUP_URL} className={`${styles.btn} ${styles.btnFilled}`}>
-                Get Started
+                Start Free
               </Link>
             </div>
           </div>

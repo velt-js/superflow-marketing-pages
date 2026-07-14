@@ -1,10 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { SIGNUP_URL } from "@/lib/use-case-types";
 import styles from "./TestimonialsSection.module.css";
 
 /** Assets exported from Figma node 582:5677. */
 const ASSET_BASE = "/images/home-2026/testimonial";
 const FEATURED_PHOTO_SRC = `${ASSET_BASE}/featured-wonderist.png`;
+
+/** Section CTA pairing — mirrors the global footer (secondary + primary). */
+const BOOK_DEMO_HREF = "/book-demo";
+const SECONDARY_CTA_LABEL = "Book Demo";
+const PRIMARY_CTA_LABEL = "Start Free";
 
 /**
  * 07 / Testimonial — 2026 homepage redesign.
@@ -14,10 +21,6 @@ const FEATURED_PHOTO_SRC = `${ASSET_BASE}/featured-wonderist.png`;
  * Right column stacks one featured (image-backed) testimonial above a set of
  * data-driven compact testimonial cards. All content mirrors the Figma copy.
  */
-
-/** Headline stat quote for the myAdvice testimonial card. */
-const QUOTE_CLIENT_LOAD =
-  "We run twice the client load with the same review team.";
 
 type MetricIconName = "clock" | "message" | "calendar" | "folder";
 
@@ -46,12 +49,18 @@ interface Testimonial {
   id: string;
   company: string;
   quote: string;
+  /** Person the quote is attributed to, shown beneath the quote as
+      "{name} @{company}". */
+  name: string;
   /** Card background tint, matched to the Figma per-card wash. */
   tint: string;
   /** Company logo exported from Figma, plus its natural pixel dimensions. */
   logoSrc: string;
   logoWidth: number;
   logoHeight: number;
+  /** Rendered logo height in px. Tuned per-logo so the marks read at the same
+      optical size despite different intrinsic aspect ratios. */
+  logoDisplayHeight: number;
 }
 
 const AGENCY_METRICS: AgencyMetric[] = [
@@ -98,31 +107,37 @@ const FEATURED_TESTIMONIAL: FeaturedTestimonial = {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    id: "myadvice",
-    company: "myadvice",
-    quote: QUOTE_CLIENT_LOAD,
-    tint: "rgba(29, 153, 212, 0.06)",
-    logoSrc: `${ASSET_BASE}/logo-myadvice.png`,
-    logoWidth: 369,
-    logoHeight: 72,
+    id: "writesonic",
+    company: "Writesonic",
+    quote: "Empowers non-tech users like me.",
+    name: "Manvi Agarwal",
+    tint: "rgba(255, 103, 25, 0.06)",
+    logoSrc: `${ASSET_BASE}/logo-writesonic.svg`,
+    logoWidth: 131,
+    logoHeight: 17,
+    logoDisplayHeight: 16,
   },
   {
-    id: "varonis",
-    company: "Varonis",
-    quote: "AI catches the obvious stuff before our reviewers even open the file.",
-    tint: "rgba(85, 85, 85, 0.06)",
-    logoSrc: `${ASSET_BASE}/logo-varonis.png`,
-    logoWidth: 369,
-    logoHeight: 72,
+    id: "headway",
+    company: "Headway",
+    quote: "Everybody has loved how easy it is to get started.",
+    name: "Riley Hennigh",
+    tint: "rgba(49, 170, 183, 0.06)",
+    logoSrc: `${ASSET_BASE}/logo-headway.svg`,
+    logoWidth: 105,
+    logoHeight: 33,
+    logoDisplayHeight: 30,
   },
   {
-    id: "superpath",
-    company: "superpath",
-    quote: "Client sign-off that took a week now happens in a day.",
-    tint: "rgba(254, 116, 51, 0.06)",
-    logoSrc: `${ASSET_BASE}/logo-superpath.png`,
-    logoWidth: 369,
-    logoHeight: 93,
+    id: "harvey",
+    company: "Harvey",
+    quote: "Clear, Simple & Saves time for everyone involved.",
+    name: "Simon Smallchua",
+    tint: "rgba(30, 30, 31, 0.05)",
+    logoSrc: `${ASSET_BASE}/logo-harvey.webp`,
+    logoWidth: 300,
+    logoHeight: 116,
+    logoDisplayHeight: 30,
   },
 ];
 
@@ -353,8 +368,12 @@ function TestimonialsSectionCard({ testimonial }: { testimonial: Testimonial }) 
         alt={`${testimonial?.company} logo`}
         width={testimonial.logoWidth}
         height={testimonial.logoHeight}
+        style={{ height: testimonial?.logoDisplayHeight }}
       />
       <blockquote className={styles.cardQuote}>{testimonial?.quote}</blockquote>
+      <figcaption className={styles.cardPerson}>
+        {testimonial?.name} @{testimonial?.company}
+      </figcaption>
     </figure>
   );
 }
@@ -393,6 +412,21 @@ export default function TestimonialsSection() {
                 </li>
               ))}
             </ul>
+
+            <div className={styles.ctaButtons}>
+              <Link
+                href={BOOK_DEMO_HREF}
+                className={`${styles.btn} ${styles.btnOutline}`}
+              >
+                {SECONDARY_CTA_LABEL}
+              </Link>
+              <Link
+                href={SIGNUP_URL}
+                className={`${styles.btn} ${styles.btnFilled}`}
+              >
+                {PRIMARY_CTA_LABEL}
+              </Link>
+            </div>
           </div>
 
           <div className={styles.showcase}>

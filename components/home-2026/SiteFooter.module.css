@@ -106,7 +106,7 @@
 .appPreview {
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 19%;
     width: 200px;
     height: 82%;
     overflow: hidden;

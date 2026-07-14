@@ -43,6 +43,54 @@
     gap: 24px;
 }
 
+/* ---- Section CTA (mirrors the global footer pairing) ---- */
+
+.ctaButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14.4px 24px;
+    border-radius: 32px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 19.2px;
+    line-height: 24px;
+    letter-spacing: 0.192px;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease,
+        border-color 0.18s ease, transform 0.18s ease;
+}
+
+.btnOutline {
+    border: 1.5px solid var(--gs-ink);
+    color: var(--gs-ink);
+    background: transparent;
+}
+
+.btnOutline:hover {
+    background: var(--gs-ink);
+    color: #ffffff;
+}
+
+.btnFilled {
+    border: 1.5px solid var(--gs-ink);
+    background: var(--gs-ink);
+    color: #ffffff;
+}
+
+.btnFilled:hover {
+    transform: translateY(-1px);
+    background: #000000;
+    border-color: #000000;
+}
+
 /* Anchors the electric arcs to the bolt's center without affecting layout. */
 .boltWrap {
     position: relative;
@@ -456,6 +504,16 @@
 
     .subhead {
         font-size: 16px;
+    }
+
+    .ctaButtons {
+        width: 100%;
+        max-width: 320px;
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
     }
 
     /* The note wraps to two lines on phones. Constrain the text and center it so

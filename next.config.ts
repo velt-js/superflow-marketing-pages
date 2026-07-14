@@ -56,6 +56,18 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      // No standalone features index — send it to the homepage.
+      {
+        source: "/features",
+        destination: "/",
+        permanent: true,
+      },
+      // Retired landing page → the homepage.
+      {
+        source: "/website-review",
+        destination: "/",
+        permanent: true,
+      },
       {
         source: "/preview/features/:slug",
         destination: "/:slug",

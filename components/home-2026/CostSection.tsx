@@ -1,11 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { SIGNUP_URL } from "@/lib/use-case-types";
 import styles from "./CostSection.module.css";
 
 const SECTION_HEADING = "See the leverage in your own numbers.";
 const HEADING_ID = "cost-section-heading";
+
+/** Section CTA pairing — mirrors the global footer (secondary + primary). */
+const BOOK_DEMO_HREF = "/book-demo";
+const SECONDARY_CTA_LABEL = "Book Demo";
+const PRIMARY_CTA_LABEL = "Start Free";
 /** Product visual exported from Figma node 582:5646 ("image 3021"). */
 const PRODUCT_VISUAL_SRC = "/images/home-2026/cost/product-visual.png";
 const PRODUCT_VISUAL_ALT =
@@ -251,6 +258,21 @@ export default function CostSection() {
                 </div>
               );
             })}
+            </div>
+
+            <div className={styles.ctaButtons}>
+              <Link
+                href={BOOK_DEMO_HREF}
+                className={`${styles.btn} ${styles.btnOutline}`}
+              >
+                {SECONDARY_CTA_LABEL}
+              </Link>
+              <Link
+                href={SIGNUP_URL}
+                className={`${styles.btn} ${styles.btnFilled}`}
+              >
+                {PRIMARY_CTA_LABEL}
+              </Link>
             </div>
           </div>
         </div>

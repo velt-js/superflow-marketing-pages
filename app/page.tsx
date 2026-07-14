@@ -12,6 +12,7 @@ import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
 import FaqSection from "@/components/home-2026/FaqSection";
 import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import IntercomButton from "@/components/home/IntercomButton";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -93,6 +94,7 @@ export default function HomePage() {
       <IntegrationsSection />
       <FaqSection />
       <SiteFooter />
+      <IntercomButton />
     </main>
   );
 }

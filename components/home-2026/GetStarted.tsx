@@ -1,11 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties, ReactElement } from "react";
+import { SIGNUP_URL } from "@/lib/use-case-types";
 import styles from "./GetStarted.module.css";
 
 const SECTION_HEADING = "Get Started in a minute";
 const SECTION_SUBHEADING = "Install, review and approve";
 const PLATFORMS_NOTE = "Website plugins to install Superflow in 30 seconds";
 const HEADING_ID = "get-started-heading";
+
+/** Section CTA pairing — mirrors the global footer (secondary + primary). */
+const BOOK_DEMO_HREF = "/book-demo";
+const SECONDARY_CTA_LABEL = "Book Demo";
+const PRIMARY_CTA_LABEL = "Start Free";
 
 /** Fallback badge accent for numbered steps that omit an explicit color. */
 const DEFAULT_STEP_ACCENT = "#433df3";
@@ -239,6 +246,21 @@ export default function GetStarted({
                 {headingText}
               </h2>
               <p className={styles.subhead}>{subheadingText}</p>
+            </div>
+
+            <div className={styles.ctaButtons}>
+              <Link
+                href={BOOK_DEMO_HREF}
+                className={`${styles.btn} ${styles.btnOutline}`}
+              >
+                {SECONDARY_CTA_LABEL}
+              </Link>
+              <Link
+                href={SIGNUP_URL}
+                className={`${styles.btn} ${styles.btnFilled}`}
+              >
+                {PRIMARY_CTA_LABEL}
+              </Link>
             </div>
           </div>
 

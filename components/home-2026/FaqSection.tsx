@@ -14,11 +14,29 @@ export { FAQ_ITEMS };
 export type { FaqItem };
 
 const HEADING_TEXT = "Frequently Asked Questions";
-const CONTACT_PROMPT = "Have Questions? Reach out to";
-const CONTACT_EMAIL = "emma@usesuperflow.com";
+const CONTACT_PROMPT = "Have Questions? Reach out anytime.";
+const CONTACT_CTA = "Contact us";
 /** Assets exported from Figma node 582:6439. */
-const DOODLE_SRC = "/images/home-2026/faq/question-doodle.svg";
 const AVATAR_SRC = "/images/home-2026/faq/emma-avatar.png";
+
+type IntercomFn = (action: string) => void;
+type WindowWithIntercom = Window & { Intercom?: IntercomFn };
+
+/**
+ * Opens the Intercom messenger. The widget loads site-wide from
+ * components/scripts/ThirdPartyScripts.tsx with `hide_default_launcher: true`,
+ * so this click is the FAQ section's entry-point to chat.
+ */
+function openIntercomMessenger() {
+  try {
+    const intercom = (window as WindowWithIntercom).Intercom;
+    if (typeof intercom === "function") {
+      intercom("show");
+    }
+  } catch (err) {
+    console.error("Intercom show failed:", err);
+  }
+}
 
 /**
  * Inline "plus" icon (Tabler style) used as the accordion indicator. The parent
@@ -133,13 +151,6 @@ export default function FaqSection({ heading, items }: FaqSectionProps = {}) {
       <div className={styles.card}>
         <div className={styles.intro}>
           <div className={styles.introTop}>
-            <Image
-              className={styles.doodle}
-              src={DOODLE_SRC}
-              alt=""
-              width={117}
-              height={89}
-            />
             <h2 id={headingId} className={styles.heading}>
               {headingText}
             </h2>
@@ -154,9 +165,13 @@ export default function FaqSection({ heading, items }: FaqSectionProps = {}) {
                 width={24}
                 height={24}
               />
-              <a className={styles.contactEmail} href={`mailto:${CONTACT_EMAIL}`}>
-                {CONTACT_EMAIL}
-              </a>
+              <button
+                type="button"
+                className={styles.contactButton}
+                onClick={openIntercomMessenger}
+              >
+                {CONTACT_CTA}
+              </button>
             </div>
           </div>
         </div>

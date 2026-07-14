@@ -37,6 +37,54 @@
   gap: 24px;
 }
 
+/* ---- Section CTA (mirrors the global footer pairing) ---- */
+
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14.4px 24px;
+  border-radius: 32px;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 19.2px;
+  line-height: 24px;
+  letter-spacing: 0.192px;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease,
+    border-color 0.18s ease, transform 0.18s ease;
+}
+
+.btnOutline {
+  border: 1.5px solid #1e1e1f;
+  color: #1e1e1f;
+  background: transparent;
+}
+
+.btnOutline:hover {
+  background: #1e1e1f;
+  color: #ffffff;
+}
+
+.btnFilled {
+  border: 1.5px solid #1e1e1f;
+  background: #1e1e1f;
+  color: #ffffff;
+}
+
+.btnFilled:hover {
+  transform: translateY(-1px);
+  background: #000000;
+  border-color: #000000;
+}
+
 .badge {
   display: block;
   flex: none;
@@ -250,6 +298,14 @@
   color: #1e1e1f;
 }
 
+.cardPerson {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #1e1e1f;
+  opacity: 0.55;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1024px) {
@@ -280,6 +336,15 @@
   .heading {
     font-size: 34px;
     letter-spacing: -0.8px;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .btn {
+    width: 100%;
   }
 
   .metric {

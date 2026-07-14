@@ -41,14 +41,6 @@
   gap: 12px;
 }
 
-/* Decorative question-mark illustration exported from Figma. */
-.doodle {
-  width: 117px;
-  height: 89px;
-  object-fit: contain;
-  object-position: left top;
-}
-
 .heading {
   margin: 0;
   font-family: var(--font-adamina), Georgia, serif;
@@ -91,7 +83,11 @@
   flex-shrink: 0;
 }
 
-.contactEmail {
+.contactButton {
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
@@ -99,10 +95,11 @@
   color: #1e1e1f;
   opacity: 0.75;
   text-decoration: underline;
+  cursor: pointer;
 }
 
-.contactEmail:hover,
-.contactEmail:focus-visible {
+.contactButton:hover,
+.contactButton:focus-visible {
   opacity: 1;
 }
 
