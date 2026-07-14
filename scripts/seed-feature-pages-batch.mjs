@@ -1183,7 +1183,7 @@ const reviewWorkflows = {
       {
         _key: "rc-review-agents",
         title: "AI review agents",
-        description: "The agent packs your flow's machine steps run.",
+        description: "The agent runs your flow's machine steps.",
         href: "/ai-review-agents",
         icon: "robot",
       },

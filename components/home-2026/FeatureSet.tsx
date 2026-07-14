@@ -31,6 +31,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Your checklist, run by agents on every site, findings posted as comments.",
         loss: "Without them, senior people burn billable hours catching broken links and typos by hand.",
         mock: "review-agents",
+        href: "/ai-review-agents",
       },
       {
         label: "Memory",
@@ -39,6 +40,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Every client's brand and past decisions, remembered and fed to the agents.",
         loss: "Without it, every project restarts from zero and you re-explain the brand each round.",
         mock: "client-memory",
+        href: "/memory",
       },
       {
         label: "Ask AI",
@@ -47,6 +49,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Ask the review history anything, per client or across every project.",
         loss: "Without it, institutional knowledge stays buried in old threads and walks out when people leave.",
         mock: "ask-ai",
+        href: "/ask-ai",
       },
     ],
     mock: "review-agents",
@@ -66,6 +69,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Pinned to the element, holding through edits and redeploys.",
         loss: "Without them, feedback scatters across email, Slack, and screenshots.",
         mock: "pinned-comments",
+        href: "/comments",
       },
       {
         label: "Auto Screenshot",
@@ -75,6 +79,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         loss: "Without it, there is no record of what the reviewer saw once the page changes.",
         collapsesFirstTab: true,
         mock: "auto-screenshot",
+        href: "/screenshots",
       },
       {
         label: "Private",
@@ -83,6 +88,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         loss: "Without them, your internal back-and-forth happens in front of the client.",
         collapsesFirstTab: true,
         mock: "private-comments",
+        href: "/private-comments",
       },
       {
         label: "Versioning",
@@ -119,6 +125,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Your client reviews from a link: no account, no login, from their phone.",
         loss: "Without it, you lose a week waiting for a client to log in and take a look.",
         mock: "guest-mode",
+        href: "/client-review",
       },
       {
         label: "Behind Login",
@@ -127,6 +134,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Comment on dashboards, portals, and any page that needs an account.",
         loss: "Without it, the gated, logged-in half of the work cannot be reviewed in context.",
         mock: "behind-login",
+        href: "/authenticated-pages",
       },
       {
         label: "All Devices",
@@ -134,6 +142,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Both views, findings tagged by device.",
         loss: "Without it, mobile feedback turns into screenshots texted around.",
         mock: "all-devices",
+        href: "/cross-device-review",
       },
       {
         label: "Record Walkthrough",
@@ -142,6 +151,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "Screen-record feedback right where you review, no separate Loom link.",
         loss: "Without them, nuanced feedback becomes paragraphs nobody reads.",
         mock: "record-walkthrough",
+        href: "/recordings",
       },
     ],
     mock: "workflow",
@@ -168,6 +178,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "Multi-step review flows with client gates and escalation rules.",
         loss: "Without them, approvals run from memory and steps get skipped.",
         mock: "workflows",
+        href: "/review-workflows",
       },
       {
         label: "Kanban",
@@ -175,6 +186,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
         oneLiner: "A built-in kanban board, or sync with the one you already run.",
         loss: "Without it, you run the studio from a spreadsheet and your memory.",
         mock: "kanban",
+        href: "/kanban-board",
       },
       {
         label: "Integrations",
@@ -183,6 +195,7 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
           "One-click installs (WordPress, Webflow, Framer, Shopify); tasks sync to Slack, Asana, Monday, ClickUp.",
         loss: "Without them, Superflow becomes one more silo to copy tasks out of.",
         mock: "integrations",
+        href: "/integrations",
       },
     ],
     mock: "workflow",

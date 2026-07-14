@@ -25,11 +25,11 @@ const INBOX_COUNT = "24";
 const ALERT_COUNT = "4";
 
 /* Comment-composer content — the navy "Visible to → Only your Team" header,
-   the "@Mark, Lets make sure we updat" draft and the team member's avatar. */
+   the "@Mark, Let's make sure we updat" draft and the team member's avatar. */
 const VISIBLE_TO_LABEL = "Visible to";
 const TEAM_LABEL = "Only your Team";
 const COMPOSER_MENTION = "@Mark";
-const COMPOSER_TEXT = ", Lets make sure we updat";
+const COMPOSER_TEXT = ", Let's make sure we updat";
 const COMPOSER_AVATAR_SRC = "/images/home-2026/hero/private-avatar.png";
 
 /** Shared props for every inline icon: an optional pixel size and class. */

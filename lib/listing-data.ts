@@ -40,7 +40,7 @@ export const useCaseListing: ListingPageConfig = {
         title: "Reporting bugs",
         subtitle: "Capture context with every report.",
         icon: "/images/hero/icon-world.svg",
-        href: "/use-case/reporting-bugs",
+        href: "/use-case/bug-reporting",
       },
       {
         title: "UX/UI optimization",

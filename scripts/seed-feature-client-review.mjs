@@ -246,7 +246,7 @@ const doc = {
         _key: "faq-phone",
         question: "Does it work on their phone?",
         answer:
-          "Yes, natively. The link opens the mobile site with the toolbar. The full story is at /cross-device-review.",
+          "Yes, natively. The link opens the mobile site with the toolbar. See our cross-device review page for the full story.",
       },
       {
         _key: "faq-prove",
@@ -258,7 +258,7 @@ const doc = {
         _key: "faq-cost",
         question: "What does client review cost?",
         answer:
-          "Client reviewers are free: unlimited guest seats on every plan. See /pricing for the breakdown.",
+          "Client reviewers are free: unlimited guest seats on every plan. See our pricing page for the breakdown.",
       },
     ],
   },

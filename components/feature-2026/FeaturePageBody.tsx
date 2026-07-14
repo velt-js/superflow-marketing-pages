@@ -489,7 +489,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
     heading: "Related capabilities",
     items: [
       relatedItem("kanban-board", "The flow's statuses become the board's columns."),
-      relatedItem("review-agents", "The agent packs that run your flow's machine steps."),
+      relatedItem("review-agents", "The agent runs your flow's machine steps."),
       relatedItem("client-review", "The gate at the end of every flow — the no-account link."),
     ],
   },

@@ -21,7 +21,7 @@ const REPLY_LABEL = "1 Reply";
 const EDITED_LABEL = "(EDITED)";
 const ONLY_VISIBLE_TO = "Only visible to";
 const YOUR_TEAM = "Your Team";
-const COMPOSER_TEXT = "Lets update the image ";
+const COMPOSER_TEXT = "Let's update the image ";
 /* Composer header — the navy "Visible to → Only your Team" strip. */
 const COMPOSER_VISIBLE_TO = "Visible to";
 const COMPOSER_TEAM = "Only your Team";
@@ -38,7 +38,7 @@ const REPLY_BODY = "On it! Updating the image now";
 const SYNCED_LABEL = "Synced";
 
 /* The left composer submits into this posted comment; its body matches the
-   composer draft and the board's "Lets update the image" card. */
+   composer draft and the board's "Let's update the image" card. */
 const COMMENT_AUTHOR = "Emma";
 const COMMENT_INITIAL = "E";
 const COMMENT_TIME = "now";

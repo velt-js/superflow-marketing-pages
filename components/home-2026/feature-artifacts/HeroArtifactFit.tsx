@@ -176,7 +176,7 @@ export function IntegrationsArtifact(): ReactNode {
  * reporting what Memory has learned) with its chrome bar suppressed. The bare
  * scene is wider than the panel's visible left-anchored frame, so it is scaled
  * down from the left and vertically centred to keep all three sheets, both
- * "New Behaviour Learned" pills and the Superflow Memory card fully in view —
+ * "New Behaviors Learned" pills and the Superflow Memory card fully in view —
  * matching the reference (no browser chrome).
  *
  * @returns The reused hero artifact, chrome-less and fitted to the panel.

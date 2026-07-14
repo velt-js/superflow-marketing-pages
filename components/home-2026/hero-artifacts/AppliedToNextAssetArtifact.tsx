@@ -6,12 +6,12 @@ import styles from "./AppliedToNextAssetArtifact.module.css";
  * Hero tab artifact — "Applied to the next asset" (memory feature page, tab id
  * `applied-to-the-next-asset`).
  *
- * A static browser window showing how remembered behaviour is applied to new
+ * A static browser window showing how remembered behavior is applied to new
  * work: three dog-eared project "sheets" sit in a row (Project 1 / 2 / 3), and
  * under each one Memory reports what it has learned. Projects 1 and 2 each show
- * a compact "N New Behaviour Learned" pill (the pink Superflow Memory brain +
+ * a compact "N New Behaviors Learned" pill (the pink Superflow Memory brain +
  * count); Project 3 shows a full "Superflow Memory" card recalling a concrete
- * remembered fact ("Client's likes Sans-serif font").
+ * remembered fact ("Client prefers sans-serif fonts").
  *
  * The dog-eared sheet reuses the same gradient/fold geometry as the "Upload
  * once" artifact's PDF file, and the memory card mirrors that artifact's
@@ -28,12 +28,12 @@ import styles from "./AppliedToNextAssetArtifact.module.css";
 const ADDRESS = "YOUR-SITE.COM";
 const MEMORY_SOURCE = "Superflow Memory";
 const MEMORY_TIME = "3h";
-const MEMORY_FACT = "Client\u2019s likes Sans-serif font";
+const MEMORY_FACT = "Client prefers sans-serif fonts";
 const PROJECT_ONE_LABEL = "Project 1";
 const PROJECT_TWO_LABEL = "Project 2";
 const PROJECT_THREE_LABEL = "Project 3";
-const PILL_TEXT_ONE = "3 New Behaviour Learned";
-const PILL_TEXT_TWO = "4 New Behaviour Learned";
+const PILL_TEXT_ONE = "3 New Behaviors Learned";
+const PILL_TEXT_TWO = "4 New Behaviors Learned";
 
 /** Tabler `brain` glyph geometry (24×24), inlined so no icon dep is added. */
 const BRAIN_PATHS: readonly string[] = [
@@ -204,11 +204,11 @@ function FileSheet({
 }
 
 /**
- * A compact "N New Behaviour Learned" pill — the pink Superflow Memory brain
- * mark beside the learned-behaviour count. Shown under Projects 1 and 2.
+ * A compact "N New Behaviors Learned" pill — the pink Superflow Memory brain
+ * mark beside the learned-behavior count. Shown under Projects 1 and 2.
  *
  * @param root0 - Pill props.
- * @param root0.text - The pill label (e.g. "3 New Behaviour Learned").
+ * @param root0.text - The pill label (e.g. "3 New Behaviors Learned").
  * @returns The pill element, or `null` on failure.
  */
 function LearnedPill({ text }: { text: string }): ReactNode {

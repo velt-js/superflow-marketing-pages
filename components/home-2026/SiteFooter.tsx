@@ -41,11 +41,11 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Supported Formats",
     links: [
-      { label: "Websites", href: PLACEHOLDER_HREF },
-      { label: "Videos", href: PLACEHOLDER_HREF },
-      { label: "Images", href: PLACEHOLDER_HREF },
-      { label: "PDF", href: PLACEHOLDER_HREF },
-      { label: "Lottie", href: PLACEHOLDER_HREF },
+      { label: "Websites", href: "/website-review" },
+      { label: "Videos", href: "/video-review" },
+      { label: "Images", href: "/image-review" },
+      { label: "PDF", href: "/pdf-review" },
+      { label: "Lottie", href: "/lottie-files-review" },
     ],
   },
   {
@@ -60,7 +60,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Company",
     links: [
-      { label: "Customers", href: PLACEHOLDER_HREF },
+      { label: "Customers", href: "/case-study" },
       { label: "Trust", href: "/security" },
       { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
@@ -117,7 +117,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "UAT & QA testing", href: `${USE_CASES_PATH}/uat-qa-testing` },
       { label: "Client feedback", href: `${USE_CASES_PATH}/client-feedback` },
       { label: "Conversion optimization", href: `${USE_CASES_PATH}/conversion-optimization` },
-      { label: "Reporting bug", href: `${USE_CASES_PATH}/reporting-bugs` },
+      { label: "Reporting bug", href: `${USE_CASES_PATH}/bug-reporting` },
       { label: "UX/UI Optimization", href: `${USE_CASES_PATH}/ux-ui-optimization` },
     ],
   },

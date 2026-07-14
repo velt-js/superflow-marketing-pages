@@ -6,7 +6,7 @@ const HEADING_ID = "trust-section-heading";
 
 const PRIMARY_CTA_LABEL = "Book Demo";
 const PRIMARY_CTA_HREF = "/book-demo";
-const SECONDARY_CTA_LABEL = "View Trust Centre";
+const SECONDARY_CTA_LABEL = "View Trust Center";
 const SECONDARY_CTA_HREF = "/security";
 
 /** A single trust pillar, driving one bordered card. */
@@ -38,7 +38,7 @@ const PILLARS: TrustPillar[] = [
     id: "white-label",
     title: "White-label",
     description:
-      "Your brand on every client-facing surface: toolbar logo, colors, custom domain, optional removal of attribution.",
+      "Your logo on the review toolbar your clients see and the admin panel your team runs. One upload, every project.",
     iconClassName: styles.iconTag,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
