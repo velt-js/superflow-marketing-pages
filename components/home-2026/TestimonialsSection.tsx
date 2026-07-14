@@ -15,7 +15,7 @@ const FEATURED_PHOTO_SRC = `${ASSET_BASE}/featured-wonderist.png`;
  * data-driven compact testimonial cards. All content mirrors the Figma copy.
  */
 
-/** Shared quote reused by two of the compact testimonials in Figma. */
+/** Headline stat quote for the myAdvice testimonial card. */
 const QUOTE_CLIENT_LOAD =
   "We run twice the client load with the same review team.";
 
@@ -118,7 +118,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     id: "superpath",
     company: "superpath",
-    quote: QUOTE_CLIENT_LOAD,
+    quote: "Client sign-off that took a week now happens in a day.",
     tint: "rgba(254, 116, 51, 0.06)",
     logoSrc: `${ASSET_BASE}/logo-superpath.png`,
     logoWidth: 369,

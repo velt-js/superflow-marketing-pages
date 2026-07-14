@@ -253,7 +253,11 @@
     margin-bottom: -31px;
     height: 150px;
     overflow: hidden;
-    border-radius: 16px 16px 0 0;
+    /* The strip bleeds edge-to-edge, so it must sit flush with the card's
+       straight sides — a top radius here left faint curved gaps at the corners
+       where it pulled away from the border. The card's own overflow + radius
+       still clip the strip's bottom corners cleanly. */
+    border-radius: 0;
 }
 
 .stepMediaImage {
