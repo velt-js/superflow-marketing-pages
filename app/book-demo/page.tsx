@@ -24,13 +24,10 @@ export default function BookDemoPage() {
         />
 
         {/* Calendly embed */}
-        <section
-          className="relative w-full bg-black"
-          style={{ padding: "0 80px 80px" }}
-        >
+        <section className="relative w-full bg-black px-4 pb-20 sm:px-10 lg:px-20">
           <div
             className="flex flex-col items-center"
-            style={{ width: 1280, margin: "0 auto" }}
+            style={{ width: "100%", maxWidth: 1280, margin: "0 auto" }}
           >
             <div
               className="calendly-inline-widget"
