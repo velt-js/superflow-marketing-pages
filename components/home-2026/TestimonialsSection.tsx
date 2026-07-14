@@ -15,8 +15,6 @@ const FEATURED_PHOTO_SRC = `${ASSET_BASE}/featured-wonderist.png`;
  * data-driven compact testimonial cards. All content mirrors the Figma copy.
  */
 
-/** Repeated verbatim in Figma across every compact testimonial. */
-const ROLE_BRAND_OPS = "Brand Operation Lead";
 /** Shared quote reused by two of the compact testimonials in Figma. */
 const QUOTE_CLIENT_LOAD =
   "We run twice the client load with the same review team.";
@@ -48,7 +46,6 @@ interface Testimonial {
   id: string;
   company: string;
   quote: string;
-  role: string;
   /** Card background tint, matched to the Figma per-card wash. */
   tint: string;
   /** Company logo exported from Figma, plus its natural pixel dimensions. */
@@ -104,7 +101,6 @@ const TESTIMONIALS: Testimonial[] = [
     id: "myadvice",
     company: "myadvice",
     quote: QUOTE_CLIENT_LOAD,
-    role: ROLE_BRAND_OPS,
     tint: "rgba(29, 153, 212, 0.06)",
     logoSrc: `${ASSET_BASE}/logo-myadvice.png`,
     logoWidth: 369,
@@ -114,7 +110,6 @@ const TESTIMONIALS: Testimonial[] = [
     id: "varonis",
     company: "Varonis",
     quote: "AI catches the obvious stuff before our reviewers even open the file.",
-    role: ROLE_BRAND_OPS,
     tint: "rgba(85, 85, 85, 0.06)",
     logoSrc: `${ASSET_BASE}/logo-varonis.png`,
     logoWidth: 369,
@@ -124,7 +119,6 @@ const TESTIMONIALS: Testimonial[] = [
     id: "superpath",
     company: "superpath",
     quote: QUOTE_CLIENT_LOAD,
-    role: ROLE_BRAND_OPS,
     tint: "rgba(254, 116, 51, 0.06)",
     logoSrc: `${ASSET_BASE}/logo-superpath.png`,
     logoWidth: 369,
@@ -361,7 +355,6 @@ function TestimonialsSectionCard({ testimonial }: { testimonial: Testimonial }) 
         height={testimonial.logoHeight}
       />
       <blockquote className={styles.cardQuote}>{testimonial?.quote}</blockquote>
-      <figcaption className={styles.cardRole}>{testimonial?.role}</figcaption>
     </figure>
   );
 }

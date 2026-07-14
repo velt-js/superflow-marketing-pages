@@ -184,9 +184,22 @@
   gap: 4px;
   box-sizing: border-box;
   padding: 12px var(--nav-gutter) 20px;
+  /* Room past the last row for the iOS home indicator / any floating widget. */
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   background-color: #ffffff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 24px 40px rgba(0, 0, 0, 0.12);
+  /* The panel opens under the fixed bar with body scroll locked, so the long
+     Product accordion would otherwise run off-screen with no way to reach the
+     lower groups or the CTA. Cap it to the space below the bar (`100%` here is
+     the fixed header's own height) and scroll inside; `dvh` tracks the mobile
+     browser chrome, with a `vh` fallback for older engines. `overscroll-behavior`
+     keeps the bounce from chaining to the locked page. */
+  max-height: calc(100vh - 100%);
+  max-height: calc(100dvh - 100%);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   /* Closed: lifted, faded, and non-interactive. */
   opacity: 0;
   visibility: hidden;
@@ -286,10 +299,12 @@
 /* The panel is always a solid white surface with dark text, so its content is
    legible regardless of the header's transparent/scrolled state. */
 /* Floating card: a contained, rounded white panel centred under the nav bar
-   (not a full-width sheet). It sits a few px below the bar and animates in. */
+   (not a full-width sheet). It tucks right up under the bar (nudged into the
+   bar's bottom padding) so it reads as one connected white surface with the
+   solid header, then animates in. */
 .megaMenu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% - 8px);
   left: 50%;
   width: min(720px, calc(100vw - 40px));
   box-sizing: border-box;
@@ -494,6 +509,24 @@
   outline-offset: 2px;
 }
 
+/* Small "$" chip trailing a resource link (e.g. Cost Calculator), matching the
+   footer's paid/tool cue. Shared shape across the desktop list + mobile list. */
+.listLinkBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  border: 1px solid rgba(17, 20, 45, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6a6a72;
+}
+
 /* --- Product accordion (mobile) --------------------------------------- */
 
 .mobileNavGroup {
@@ -606,6 +639,23 @@
 .mobileListLink:focus-visible {
   outline: 2px solid #4093ee;
   outline-offset: 2px;
+}
+
+/* Mobile counterpart of .listLinkBadge — a touch larger for the bigger rows. */
+.mobileListLinkBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(17, 20, 45, 0.16);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6a6a72;
 }
 
 /* Narrower desktops: tighten the column gaps so the four columns keep

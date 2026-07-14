@@ -57,7 +57,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 24px;
 }
 
 .journeyPill {
@@ -86,6 +86,12 @@
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
+  /* overflow:hidden drives the horizontal reveal but also clips the serif
+     font vertically (tall ascenders + the "g"/"p" descenders in labels like
+     "Sign Off"). Pad the clip box vertically for glyph headroom, then pull it
+     back with an equal negative margin so the pill height is unchanged. */
+  padding-block: 0.2em;
+  margin-block: -0.2em;
 }
 
 .journeyPillDraft {
@@ -294,9 +300,17 @@
   transition: background 0.2s ease;
 }
 
-.featureLink:hover,
 .featureLinkActive {
   background: color-mix(in srgb, var(--feature-accent) 9%, transparent);
+}
+
+/* Only paint the hover wash where a pointer can actually hover. On touch a row
+   activates on tap (it's a link), so skipping :hover avoids the sticky-hover
+   state that otherwise swallows the first tap. */
+@media (hover: hover) {
+  .featureLink:hover {
+    background: color-mix(in srgb, var(--feature-accent) 9%, transparent);
+  }
 }
 
 .featureIcon {
@@ -327,11 +341,17 @@
     color 0.2s ease;
 }
 
-.featureLink:hover .featureArrow,
 .featureLink:focus-visible .featureArrow,
 .featureLinkActive .featureArrow {
   color: var(--feature-accent);
   transform: translateX(3px);
+}
+
+@media (hover: hover) {
+  .featureLink:hover .featureArrow {
+    color: var(--feature-accent);
+    transform: translateX(3px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -463,8 +483,13 @@
     padding 0.2s ease;
 }
 
-.panelTab:hover {
-  background: rgba(0, 0, 0, 0.1);
+/* Hover cue only on hover-capable pointers: on a phone the tab has no sticky
+   :hover state, so a single tap fires the click (tab switch) immediately
+   instead of being consumed by the hover-emulation first tap. */
+@media (hover: hover) {
+  .panelTab:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* First tab collapsed to icon-only (label hidden) to free strip space. */
@@ -578,6 +603,21 @@
 
   to {
     opacity: 1;
+  }
+}
+
+/* Transform-free entrance for the mobile fit-scaled screen (below): a plain
+   fade + blur settle, so it never overrides the `transform: scale()` the mobile
+   rules apply to keep the whole mock in view. */
+@keyframes panelScreenFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
   }
 }
 
@@ -838,6 +878,10 @@
     letter-spacing: -1.2px;
   }
 
+  .journey {
+    gap: 18px;
+  }
+
   .journeyPill {
     --pill-pad-y: 12px;
     --pill-pad-start: 14px;
@@ -908,6 +952,10 @@
     letter-spacing: -0.9px;
   }
 
+  .journey {
+    gap: 14px;
+  }
+
   .journeyPill {
     --pill-pad-y: 10px;
     --pill-pad-start: 12px;
@@ -949,9 +997,40 @@
     padding-top: 24px;
   }
 
+  /*
+   * Fit the fixed 1204px app-window mock to the phone. On wider screens the
+   * window deliberately bleeds off the card, which clips it to a readable left
+   * region; a phone is narrower than that region, so rather than showing only
+   * the top-left corner (browser buttons + a sliver of the pinned element) we
+   * scale the white product screen down until its whole composition — chrome,
+   * pinned element and comment card — is visible. The dark frame, caption copy
+   * and tab strip stay full-size so the copy stays legible and the tabs stay
+   * tappable; only the product screen scales. `--panel-fit` steps down with the
+   * viewport (narrower queries below) so the same ~630px region the desktop
+   * shows stays framed at every phone width.
+   */
   .panel {
+    --panel-fit: 0.8;
     margin-top: 32px;
-    height: 360px;
+    height: auto;
+  }
+
+  .panelScreen {
+    height: calc(602px * var(--panel-fit));
+  }
+
+  .panelScreenInner {
+    width: 1200px;
+    height: 602px;
+    transform: scale(var(--panel-fit));
+    transform-origin: top left;
+  }
+
+  /* The tab-swap entrance animates `transform`, which would override the scale
+     above and flash the mock at full size; use the transform-free fade instead
+     so the scale holds throughout the swap. */
+  .panelScreenInner.panelSwapIn {
+    animation-name: panelScreenFadeIn;
   }
 
   .panelTabActive {
@@ -991,6 +1070,48 @@
   }
 }
 
+/* Phones: the "start → end" journey no longer fits on one line, so stack the
+   two pills vertically with the connector pointing down — instead of letting the
+   row wrap awkwardly (the arrow orphaned beside the first pill, the second pill
+   dropping alone below it). */
+@media (max-width: 480px) {
+  .journey {
+    flex-direction: column;
+  }
+
+  /* Point the connector arrow downward for the vertical flow. Rotating the
+     inner glyph (not the .journeyArrow container) leaves the reveal
+     animation's scale transform on the container untouched. */
+  .journeyArrow svg {
+    transform: rotate(90deg);
+  }
+}
+
+/*
+ * Step the mock fit-scale down as the phone narrows so the same ~630px region
+ * the desktop card frames stays fully in view (chrome + pinned element + comment
+ * card) instead of the card getting clipped. Each step only re-sets the
+ * inherited `--panel-fit`; the `.panelScreen` / `.panelScreenInner` rules above
+ * recompute from it.
+ */
+@media (max-width: 560px) {
+  .panel {
+    --panel-fit: 0.6;
+  }
+}
+
+@media (max-width: 440px) {
+  .panel {
+    --panel-fit: 0.48;
+  }
+}
+
+@media (max-width: 360px) {
+  .panel {
+    --panel-fit: 0.42;
+  }
+}
+
 /* --------------------------------------------------------- reduced motion */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1004,6 +1125,12 @@
   .panelTabActiveIcon,
   .panelTabActive::after,
   .panelTabActiveRaised::before {
+    animation: none;
+  }
+
+  /* Higher-specificity than the mobile fade override above, so reduced-motion
+     users get the fit scale with no entrance animation. */
+  .panelScreenInner.panelSwapIn {
     animation: none;
   }
 }

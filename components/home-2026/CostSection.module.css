@@ -4,6 +4,13 @@
    Screen colors sampled from the exported product visual. */
 
 .section {
+  /* Shared so the visual's edge-bleed math (below) tracks the inner cap. */
+  --inner-max: 1600px;
+  /* The visual's width at the --inner-max breakpoint: the inner width minus the
+     left padding, the content column and the column gap (each at its clamp
+     max). Past that point the device stops scaling and just pins to the right
+     edge, so it never balloons on ultrawide monitors. */
+  --visual-max: calc(var(--inner-max) - 7.5rem - 30rem - 4rem);
   width: 100%;
   background: #111111;
   color: #ffffff;
@@ -13,7 +20,7 @@
 
 .inner {
   box-sizing: border-box;
-  max-width: 1600px;
+  max-width: var(--inner-max);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -225,13 +232,22 @@
   min-width: 0;
   display: flex;
   justify-content: flex-end;
+  /* Above --inner-max the inner is centred, which would strand the visual at
+     the 1600px boundary and leave a gap to its right (the device appears cut
+     off mid-screen). Pull it into that gap so the visual always bleeds off the
+     true viewport edge. Resolves to 0 at/below --inner-max, so narrower screens
+     are unchanged. */
+  margin-right: min(0px, calc((var(--inner-max) - 100vw) / 2));
 }
 
 /* Sized by the image; the screen overlay positions/scales against it via
-   container-query (cqw) units. */
+   container-query (cqw) units. Capped at --visual-max and pinned right (via the
+   parent's justify-content: flex-end) so on very wide screens the device holds
+   its design size against the edge instead of scaling up. */
 .visualFrame {
   position: relative;
   width: 100%;
+  max-width: var(--visual-max);
   container-type: inline-size;
 }
 

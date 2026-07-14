@@ -19,6 +19,10 @@ const STEP_ACCENT_VAR = "--gs-step-accent";
 /** Base path for the assets exported from Figma node 582:5284. */
 const ASSET_BASE = "/images/home-2026/get-started";
 
+/** Base URL for the Superflow docs "no-code platform" setup guides. Each pill in
+    the strip links to `<base>/<platform>/setup` (verified live). */
+const DOCS_PLATFORM_BASE = "https://docs.usesuperflow.com/no-code-platforms";
+
 /** A single step in the "Get Started" flow, driving one card. */
 interface GetStartedStep {
   id: string;
@@ -26,7 +30,8 @@ interface GetStartedStep {
   description: string;
   iconClassName: string;
   icon: ReactElement;
-  /** Product-UI illustration exported from Figma (full card; cropped to the media strip). */
+  /** Product-UI illustration strip exported from Figma (illustration only; the
+   *  card's heading/description render as live text above it). */
   media: string;
 }
 
@@ -77,27 +82,31 @@ const STEPS: GetStartedStep[] = [
 /** A supported website-platform logo shown in the footer pill strip. */
 interface PlatformLogo {
   id: string;
-  /** Accessible name; empty for the unbranded marks so they stay decorative. */
+  /** Accessible name used for alt text and the link's aria-label. */
   name: string;
   src: string;
+  /** Docs setup guide for this platform. Omitted when no live guide exists
+      (e.g. plain HTML), in which case the pill renders as a static mark. */
+  href?: string;
 }
 
 // Logos exported from Figma node 582:5427 in their on-canvas order. The last
-// three marks are unbranded in the design, so they render decoratively (the
-// strip carries a group label). Names are best-effort and kept for alt text.
+// three "generic" marks are, in order, Google Tag Manager, Squarespace and
+// HTML5. Each pill links to its live docs setup guide (verified against the docs
+// index); HTML5 has no dedicated guide, so it stays a static mark.
 const PLATFORMS: PlatformLogo[] = [
-  { id: "drupal", name: "Drupal", src: `${ASSET_BASE}/platform-drupal.png` },
-  { id: "framer", name: "Framer", src: `${ASSET_BASE}/platform-framer.png` },
-  { id: "hubspot", name: "HubSpot", src: `${ASSET_BASE}/platform-hubspot.png` },
-  { id: "shopify", name: "Shopify", src: `${ASSET_BASE}/platform-shopify.png` },
-  { id: "bubble", name: "Bubble", src: `${ASSET_BASE}/platform-bubble.png` },
-  { id: "webflow", name: "Webflow", src: `${ASSET_BASE}/platform-webflow.png` },
-  { id: "wix", name: "Wix", src: `${ASSET_BASE}/platform-wix.png` },
-  { id: "wordpress", name: "WordPress", src: `${ASSET_BASE}/platform-wordpress.png` },
-  { id: "elementor", name: "Elementor", src: `${ASSET_BASE}/platform-elementor.png` },
-  { id: "platform-10", name: "", src: `${ASSET_BASE}/platform-generic-1.png` },
-  { id: "platform-11", name: "", src: `${ASSET_BASE}/platform-generic-2.png` },
-  { id: "platform-12", name: "", src: `${ASSET_BASE}/platform-generic-3.png` },
+  { id: "drupal", name: "Drupal", src: `${ASSET_BASE}/platform-drupal.png`, href: `${DOCS_PLATFORM_BASE}/drupal/setup` },
+  { id: "framer", name: "Framer", src: `${ASSET_BASE}/platform-framer.png`, href: `${DOCS_PLATFORM_BASE}/framer/setup` },
+  { id: "hubspot", name: "HubSpot", src: `${ASSET_BASE}/platform-hubspot.png`, href: `${DOCS_PLATFORM_BASE}/hubspot/setup` },
+  { id: "shopify", name: "Shopify", src: `${ASSET_BASE}/platform-shopify.png`, href: `${DOCS_PLATFORM_BASE}/shopify/setup` },
+  { id: "bubble", name: "Bubble", src: `${ASSET_BASE}/platform-bubble.png`, href: `${DOCS_PLATFORM_BASE}/bubble/setup` },
+  { id: "webflow", name: "Webflow", src: `${ASSET_BASE}/platform-webflow.png`, href: `${DOCS_PLATFORM_BASE}/webflow/setup` },
+  { id: "wix", name: "Wix", src: `${ASSET_BASE}/platform-wix.png`, href: `${DOCS_PLATFORM_BASE}/wix/setup` },
+  { id: "wordpress", name: "WordPress", src: `${ASSET_BASE}/platform-wordpress.png`, href: `${DOCS_PLATFORM_BASE}/wordpress/setup` },
+  { id: "elementor", name: "Elementor", src: `${ASSET_BASE}/platform-elementor.png`, href: `${DOCS_PLATFORM_BASE}/elementor/setup` },
+  { id: "google-tag-manager", name: "Google Tag Manager", src: `${ASSET_BASE}/platform-generic-1.png`, href: `${DOCS_PLATFORM_BASE}/google-tag-manager/setup` },
+  { id: "squarespace", name: "Squarespace", src: `${ASSET_BASE}/platform-generic-2.png`, href: `${DOCS_PLATFORM_BASE}/squarespace/setup` },
+  { id: "html5", name: "HTML", src: `${ASSET_BASE}/platform-generic-3.png` },
 ];
 
 /**
@@ -301,12 +310,8 @@ export default function GetStarted({
           </p>
 
           <ul className={styles.platforms} aria-label="Website platforms Superflow supports">
-            {PLATFORMS.map((platform) => (
-              <li
-                key={platform.id}
-                className={styles.platformPill}
-                data-platform={platform.name || platform.id}
-              >
+            {PLATFORMS.map((platform) => {
+              const logo = (
                 <Image
                   className={styles.platformLogo}
                   src={platform.src}
@@ -314,8 +319,29 @@ export default function GetStarted({
                   width={26}
                   height={26}
                 />
-              </li>
-            ))}
+              );
+              return (
+                <li
+                  key={platform.id}
+                  className={styles.platformPill}
+                  data-platform={platform.name || platform.id}
+                >
+                  {platform.href ? (
+                    <a
+                      className={styles.platformLink}
+                      href={platform.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${platform.name} setup guide`}
+                    >
+                      {logo}
+                    </a>
+                  ) : (
+                    <span className={styles.platformLink}>{logo}</span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

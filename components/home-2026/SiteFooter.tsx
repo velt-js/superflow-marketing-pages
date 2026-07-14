@@ -11,6 +11,12 @@ const PLACEHOLDER_HREF = "#";
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
 /** Shared route prefix for the new feature detail pages (mirrors SiteNav's FEATURE_ROUTE_PREFIX). */
 const FEATURE_PATH = "/preview/features/";
+/** Category route prefixes for the migrated marketing/SEO pages (mirror the legacy footer). */
+const INTEGRATIONS_PATH = "/integrations";
+const ALTERNATIVES_PATH = "/alternative";
+const COMPARISONS_PATH = "/comparisons";
+const USE_CASES_PATH = "/use-case";
+const PERSONAS_PATH = "/user-persona";
 const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
@@ -18,7 +24,7 @@ const CTA_HEADING = "Start Your 14-Day Trial";
 const CTA_SUBTITLE = "Your first 3 agent reviews are on us!";
 const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 
-type FooterLink = { label: string; href: string };
+type FooterLink = { label: string; href: string; paid?: boolean };
 type FooterColumn = { title: string; links: FooterLink[] };
 
 /** Navigation columns rendered on the blue footer band. Data-driven so copy/links stay in one place. */
@@ -47,7 +53,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Workflows", href: `${FEATURE_PATH}review-workflows` },
       { label: "Kanban", href: `${FEATURE_PATH}kanban-board` },
-      { label: "Integrations", href: "/integrations" },
+      { label: "Integrations", href: INTEGRATIONS_PATH },
       { label: "White-label", href: `${FEATURE_PATH}white-label` },
     ],
   },
@@ -58,6 +64,75 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Trust", href: "/security" },
       { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
+      { label: "Features", href: "/#features" },
+      { label: "Affiliate", href: "/affiliate", paid: true },
+    ],
+  },
+  {
+    title: "Integrations",
+    links: [
+      { label: "Asana", href: `${INTEGRATIONS_PATH}/asana` },
+      { label: "Slack", href: `${INTEGRATIONS_PATH}/slack` },
+      { label: "ClickUp", href: `${INTEGRATIONS_PATH}/clickup` },
+      { label: "Webflow", href: `${INTEGRATIONS_PATH}/webflow` },
+      { label: "Monday.com", href: `${INTEGRATIONS_PATH}/monday` },
+      { label: "Google Tag Manager", href: `${INTEGRATIONS_PATH}/google-tag-manager` },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Docs", href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup" },
+      { label: "Case Study", href: "/case-study/writesonic" },
+      { label: "SEO Checklist", href: "/seo-checklist-2023" },
+      { label: "Cost Calculator", href: "/calculator", paid: true },
+      { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
+      { label: "Join Community", href: "https://superflowusers.slack.com/ssb/redirect" },
+    ],
+  },
+  {
+    title: "Competition",
+    links: [
+      { label: "Markup Alternative", href: `${ALTERNATIVES_PATH}/markup-alternative` },
+      { label: "Pastel Alternative", href: `${ALTERNATIVES_PATH}/pastel-alternative` },
+      { label: "Bugherd Alternative", href: `${ALTERNATIVES_PATH}/bugherd-alternative` },
+      { label: "Ruttl Alternative", href: `${ALTERNATIVES_PATH}/ruttl-alternative` },
+      { label: "Vercel Comments", href: `${ALTERNATIVES_PATH}/vercel-comments-alternative` },
+      { label: "Webflow Comments", href: `${ALTERNATIVES_PATH}/webflow-comments-alternative` },
+      { label: "Marker.io Comments", href: `${ALTERNATIVES_PATH}/marker-io-alternative` },
+      { label: "Use Bubbles", href: `${ALTERNATIVES_PATH}/use-bubbles-alternative` },
+    ],
+  },
+  {
+    title: "Comparison",
+    links: [
+      { label: "MarkUp vs Pastel", href: `${COMPARISONS_PATH}/markup-vs-pastel` },
+      { label: "MarkUp vs Ruttl", href: `${COMPARISONS_PATH}/markup-vs-ruttl` },
+      { label: "Pastel vs BugHerd", href: `${COMPARISONS_PATH}/pastel-vs-bugherd` },
+    ],
+  },
+  {
+    title: "Use Cases",
+    links: [
+      { label: "UAT & QA testing", href: `${USE_CASES_PATH}/uat-qa-testing` },
+      { label: "Client feedback", href: `${USE_CASES_PATH}/client-feedback` },
+      { label: "Conversion optimization", href: `${USE_CASES_PATH}/conversion-optimization` },
+      { label: "Reporting bug", href: `${USE_CASES_PATH}/reporting-bugs` },
+      { label: "UX/UI Optimization", href: `${USE_CASES_PATH}/ux-ui-optimization` },
+    ],
+  },
+  {
+    title: "User Persona",
+    links: [
+      { label: "QA team", href: `${PERSONAS_PATH}/qa-teams` },
+      { label: "Project Managers", href: `${PERSONAS_PATH}/project-managers` },
+      { label: "Founder", href: `${PERSONAS_PATH}/founders` },
+      { label: "Developer", href: `${PERSONAS_PATH}/developers` },
+      { label: "Product company", href: `${PERSONAS_PATH}/product-companies` },
+      { label: "Marketing agency", href: `${PERSONAS_PATH}/marketing-agencies` },
+      { label: "Designer", href: `${PERSONAS_PATH}/designers` },
+      { label: "Product Manager", href: `${PERSONAS_PATH}/product-managers` },
+      { label: "Marketer", href: `${PERSONAS_PATH}/marketers` },
     ],
   },
 ];
@@ -169,6 +244,11 @@ function FooterLinkColumn({ column }: { column: FooterColumn }) {
           <li key={link.label}>
             <Link href={link.href} className={styles.footerLink}>
               {link.label}
+              {link.paid ? (
+                <span className={styles.linkBadge} aria-hidden="true">
+                  $
+                </span>
+              ) : null}
             </Link>
           </li>
         ))}

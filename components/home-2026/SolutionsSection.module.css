@@ -253,7 +253,7 @@
     .grid {
         display: flex;
         flex-wrap: nowrap;
-        gap: 12px;
+        gap: 16px;
         overflow-x: auto;
         padding: 10px 4px 14px;
         -webkit-overflow-scrolling: touch;
@@ -262,7 +262,7 @@
 
     .cell {
         flex: 0 0 auto;
-        width: 160px;
+        width: 190px;
         scroll-snap-align: start;
     }
 
@@ -278,9 +278,21 @@
     .ticket {
         aspect-ratio: auto;
         justify-content: flex-start;
-        gap: 12px;
-        padding: 20px;
-        padding-inline-end: 20px;
+        gap: 14px;
+        padding: 22px;
+        padding-inline-end: 22px;
+    }
+
+    /* Scale the icon + label down a touch so the roomier card doesn't feel
+       cramped in the horizontal strip. */
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .label {
+        font-size: 16px;
+        letter-spacing: -0.48px;
     }
 
     .heading {

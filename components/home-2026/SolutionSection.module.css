@@ -2745,6 +2745,11 @@
         gap: 28px;
     }
 
+    .recordingsFlow {
+        flex-direction: column;
+        gap: 28px;
+    }
+
     .insightsFlow {
         flex-direction: column;
         gap: 24px;

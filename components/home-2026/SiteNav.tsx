@@ -73,6 +73,8 @@ const MENU_CLOSE_LABEL = "Close menu";
 const PRODUCT_LABEL = "Product";
 /** Label of the nav item that owns the Assets (review surfaces) list menu. */
 const ASSETS_LABEL = "Assets";
+/** Label of the nav item that owns the Resources list menu. */
+const RESOURCES_LABEL = "Resources";
 /** Shared route prefix for every feature detail page. */
 const FEATURE_ROUTE_PREFIX = "/preview/features/";
 
@@ -87,7 +89,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { label: PRODUCT_LABEL, href: "#product", hasMenu: true },
   { label: ASSETS_LABEL, href: "#assets", hasMenu: true },
   { label: "Integrations", href: "/integrations" },
-  { label: "Resources", href: "#resources", hasMenu: true },
+  { label: RESOURCES_LABEL, href: "#resources", hasMenu: true },
   { label: "Demo", href: "/demo" },
   { label: "Pricing", href: "/pricing" },
 ];
@@ -216,6 +218,52 @@ const ASSET_LINKS: readonly AssetLink[] = [
   { label: "Image Review", href: "/image-review" },
 ];
 
+/** A single row in the Resources list dropdown. `badge` shows a small "$" chip
+    (paid/tool cue), and off-site URLs open in a new tab. */
+type ResourceLink = {
+  label: string;
+  href: string;
+  badge?: boolean;
+};
+
+/**
+ * Resource links surfaced in the Resources dropdown. Mirrors the legacy footer's
+ * Resources column so both stay in sync; off-site entries (Docs, YouTube,
+ * community) are absolute URLs opened in a new tab. Shared by the desktop list
+ * dropdown and the mobile accordion.
+ */
+const RESOURCE_LINKS: readonly ResourceLink[] = [
+  {
+    label: "Docs",
+    href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup",
+  },
+  { label: "Case Study", href: "/case-study/writesonic" },
+  { label: "SEO Checklist", href: "/seo-checklist-2023" },
+  { label: "Blog", href: "/blog" },
+  { label: "Cost Calculator", href: "/calculator", badge: true },
+  { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
+  {
+    label: "Join Community",
+    href: "https://superflowusers.slack.com/ssb/redirect",
+  },
+];
+
+/**
+ * Extra anchor attributes for a link, opening off-site (http/https) URLs in a
+ * new tab with a safe `rel`; same-origin routes get no extras.
+ * @param href The link's destination.
+ * @returns `target`/`rel` props to spread onto the anchor.
+ */
+function externalLinkProps(href: string): { target?: string; rel?: string } {
+  try {
+    return /^https?:\/\//i.test(href)
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {};
+  } catch {
+    return {};
+  }
+}
+
 /** Maps a group's colour tone to its CSS-module accent class. */
 function toneClassName(tone: FeatureTone): string {
   try {
@@ -254,8 +302,10 @@ export default function SiteNav() {
   const menuId = useId();
   const productMenuId = useId();
   const assetsMenuId = useId();
+  const resourcesMenuId = useId();
   const mobileProductId = useId();
   const mobileAssetsId = useId();
+  const mobileResourcesId = useId();
   const headerRef = useRef<HTMLElement | null>(null);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
@@ -264,6 +314,8 @@ export default function SiteNav() {
   const productTriggerRef = useRef<HTMLButtonElement | null>(null);
   const assetsMenuRef = useRef<HTMLDivElement | null>(null);
   const assetsTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const resourcesMenuRef = useRef<HTMLDivElement | null>(null);
+  const resourcesTriggerRef = useRef<HTMLButtonElement | null>(null);
   /* Pending hover-intent close timer id (see scheduleDropdownClose). */
   const dropdownCloseTimerRef = useRef<number | null>(null);
   /* Tracks whether a trigger was focused by a pointer press, so pointer-driven
@@ -332,7 +384,8 @@ export default function SiteNav() {
       return (
         Boolean(productMenuRef?.current?.contains(node)) ||
         Boolean(productPanelRef?.current?.contains(node)) ||
-        Boolean(assetsMenuRef?.current?.contains(node))
+        Boolean(assetsMenuRef?.current?.contains(node)) ||
+        Boolean(resourcesMenuRef?.current?.contains(node))
       );
     } catch {
       return false;
@@ -514,6 +567,8 @@ export default function SiteNav() {
             productTriggerRef.current?.focus();
           } else if (label === ASSETS_LABEL) {
             assetsTriggerRef.current?.focus();
+          } else if (label === RESOURCES_LABEL) {
+            resourcesTriggerRef.current?.focus();
           }
         }
       } catch {
@@ -657,6 +712,68 @@ export default function SiteNav() {
                         onClick={closeDropdownMenu}
                       >
                         {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === RESOURCES_LABEL) {
+              return (
+                <div
+                  key={item.label}
+                  ref={resourcesMenuRef}
+                  className={styles.navItem}
+                  onMouseEnter={() => openDropdownMenu(RESOURCES_LABEL)}
+                  onMouseLeave={scheduleDropdownClose}
+                  onBlur={handleDropdownBlur}
+                >
+                  <button
+                    type="button"
+                    ref={resourcesTriggerRef}
+                    className={`${styles.navLink} ${styles.navTrigger}`}
+                    aria-expanded={openDropdown === RESOURCES_LABEL}
+                    aria-controls={resourcesMenuId}
+                    onClick={() => toggleDropdownMenu(RESOURCES_LABEL)}
+                    onPointerDown={handleDropdownPointerDown}
+                    onFocus={() => handleTriggerFocus(RESOURCES_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={16}
+                      className={`${styles.navChevron} ${
+                        openDropdown === RESOURCES_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={resourcesMenuId}
+                    className={`${styles.listMenu} ${
+                      openDropdown === RESOURCES_LABEL ? styles.listMenuOpen : ""
+                    }`}
+                    aria-label={`${RESOURCES_LABEL} links`}
+                  >
+                    {RESOURCE_LINKS.map((link) => (
+                      <a
+                        key={link.href}
+                        className={styles.listLink}
+                        href={link.href}
+                        onClick={closeDropdownMenu}
+                        {...externalLinkProps(link.href)}
+                      >
+                        {link.label}
+                        {link.badge ? (
+                          <span
+                            className={styles.listLinkBadge}
+                            aria-hidden="true"
+                          >
+                            $
+                          </span>
+                        ) : null}
                       </a>
                     ))}
                   </div>
@@ -842,6 +959,59 @@ export default function SiteNav() {
                         onClick={closeMenu}
                       >
                         {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === RESOURCES_LABEL) {
+              return (
+                <div key={item.label} className={styles.mobileNavGroup}>
+                  <button
+                    type="button"
+                    className={`${styles.mobileNavLink} ${styles.mobileNavToggle}`}
+                    aria-expanded={openMobileDropdown === RESOURCES_LABEL}
+                    aria-controls={mobileResourcesId}
+                    onClick={() => handleMobileDropdownToggle(RESOURCES_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={18}
+                      className={`${styles.mobileNavChevron} ${
+                        openMobileDropdown === RESOURCES_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={mobileResourcesId}
+                    className={`${styles.mobileSubMenu} ${
+                      openMobileDropdown === RESOURCES_LABEL
+                        ? styles.mobileSubMenuOpen
+                        : ""
+                    }`}
+                  >
+                    {RESOURCE_LINKS.map((link) => (
+                      <a
+                        key={link.href}
+                        className={styles.mobileListLink}
+                        href={link.href}
+                        onClick={closeMenu}
+                        {...externalLinkProps(link.href)}
+                      >
+                        {link.label}
+                        {link.badge ? (
+                          <span
+                            className={styles.mobileListLinkBadge}
+                            aria-hidden="true"
+                          >
+                            $
+                          </span>
+                        ) : null}
                       </a>
                     ))}
                   </div>

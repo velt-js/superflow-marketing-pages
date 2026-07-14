@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import {
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import styles from "./FeatureSet.module.css";
 import { FeatureSetIcon, type FeatureSetIconName } from "./FeatureSetIcons";
 import { FeatureSetWorkflowMock } from "./FeatureSetMocks";
@@ -308,9 +312,12 @@ interface FeatureSetBlockStyle extends CSSProperties {
  * dark active tab merges seamlessly into the window frame; when a non-first
  * tab is selected it sits raised between the light tabs with concave flares
  * on both sides, and the window's top-left corner rounds itself since the
- * active tab no longer occupies it. Tabs are clickable (visual state only —
- * the window mock is shared across tabs). Every per-block variation flows
- * through the config object, so each block is one instance of this component.
+ * active tab no longer occupies it. On hover-capable (desktop) pointers the
+ * tabs and feature rows swap the view on hover; on touch they switch on tap
+ * (the tab buttons' onClick), so mobile users can change views. Tabs only
+ * change visual state — the window mock is shared across tabs. Every per-block
+ * variation flows through the config object, so each block is one instance of
+ * this component.
  *
  * @param props - The block configuration to render.
  */
@@ -320,6 +327,30 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
   const blockStyle: FeatureSetBlockStyle = {
     "--feature-accent": data?.accent,
     "--feature-tint": data?.tint,
+  };
+
+  /**
+   * Switch to a tab when a *mouse* pointer hovers it — the desktop
+   * hover-to-switch behaviour. Touch and pen report a non-"mouse"
+   * `pointerType` and are ignored here, so they activate the tab on tap via
+   * the control's `onClick` instead. Combined with the hover styles being
+   * gated behind `@media (hover: hover)`, this lets a single tap switch tabs
+   * on mobile (no hover-emulation double-tap).
+   *
+   * @param tabIndex - Index of the hovered tab/feature row.
+   * @param event - The originating pointer-enter event.
+   */
+  const activateTabOnHover = (
+    tabIndex: number,
+    event: ReactPointerEvent<HTMLElement>,
+  ): void => {
+    try {
+      if (event?.pointerType === "mouse") {
+        setActiveTabIndex(tabIndex);
+      }
+    } catch {
+      // Hover is a progressive enhancement over onClick; never let it throw.
+    }
   };
 
   const activeTab = data?.tabs?.[activeTabIndex];
@@ -360,13 +391,17 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
               const activateTab = tab.listOnly
                 ? undefined
                 : () => setActiveTabIndex(tabIndex);
+              const hoverTab = tab.listOnly
+                ? undefined
+                : (event: ReactPointerEvent<HTMLAnchorElement>) =>
+                    activateTabOnHover(tabIndex, event);
 
               return (
                 <li key={tab.label} className={styles.blockFeatureItem}>
                   <a
                     className={linkClass}
                     href={tab.href ?? FEATURE_LINK_FALLBACK}
-                    onMouseEnter={activateTab}
+                    onPointerEnter={hoverTab}
                     onFocus={activateTab}
                   >
                     <span className={styles.featureIcon}>
@@ -414,7 +449,7 @@ export default function FeatureSetBlock({ data }: FeatureSetBlockProps) {
                 title={iconOnly ? tab.label : undefined}
                 className={isActive ? activeClass : inactiveClass}
                 onClick={() => setActiveTabIndex(tabIndex)}
-                onMouseEnter={() => setActiveTabIndex(tabIndex)}
+                onPointerEnter={(event) => activateTabOnHover(tabIndex, event)}
                 onFocus={() => setActiveTabIndex(tabIndex)}
               >
                 {isActive ? (
