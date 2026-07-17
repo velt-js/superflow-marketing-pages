@@ -827,19 +827,19 @@ interface MatrixRow {
 const MATRIX_ROWS: readonly MatrixRow[] = [
   {
     id: "slack",
-    cells: ["Yes, the moment a client comments", "Yes, from the message", "Posts to your channel", NOT_APPLICABLE, "Yes, in threads", NOT_APPLICABLE],
+    cells: ["Yes, the moment a client comments", "From the message", "Posts to your channel", NOT_APPLICABLE, "Yes, in threads", NOT_APPLICABLE],
   },
   {
     id: "asana",
-    cells: ["Yes", "Yes, from the board", "Closes the task", TWO_WAY, "Yes", "Optional"],
+    cells: ["Yes", "From the board", "Closes the task", TWO_WAY, "Yes", "Optional"],
   },
   {
     id: "monday",
-    cells: ["Yes", "Yes, from the board", "Closes the item", TWO_WAY, "Yes", "Optional"],
+    cells: ["Yes", "From the board", "Closes the item", TWO_WAY, "Yes", "Optional"],
   },
   {
     id: "clickup",
-    cells: ["Yes", "Yes, from the board", "Closes the task", TWO_WAY, "Yes", "Optional"],
+    cells: ["Yes", "From the board", "Closes the task", TWO_WAY, "Yes", "Optional"],
   },
 ];
 
@@ -862,7 +862,7 @@ function MatrixCell({ value }: { value: string }): ReactNode {
     if (value === NOT_APPLICABLE) {
       return <span className={styles.matrixNa}>n/a</span>;
     }
-    return <span>{value}</span>;
+    return <span className={styles.matrixCellText}>{value}</span>;
   } catch {
     return null;
   }
@@ -877,7 +877,7 @@ function MatrixCell({ value }: { value: string }): ReactNode {
 export function IntegrationsMatrix(): ReactNode {
   try {
     return (
-      <section className={`${styles.section} ${styles.sectionSoft}`} data-section="int-matrix">
+      <section className={styles.section} data-section="int-matrix">
         <div className={styles.inner}>
           <div className={styles.headCenter}>
             <h2 className={styles.display}>{MATRIX_HEADING}</h2>

@@ -3,9 +3,9 @@
 // Hand-authored, prop-driven sections built from the system-of-record spec
 // (superflow-page-integrations-list.md). Hero copy falls back to the CMS
 // document when present. Section order:
-//   hero (+ logo strip) → problem (with Kanban board) → integrations grid →
-//   how it works → capability matrix → connector behavior → related →
-//   trust strip → FAQ → footer.
+//   hero (+ logo strip) → problem (with Kanban board) → integrations catalog
+//   (the shared home-2026 IntegrationsSection) → how it works → capability
+//   matrix → connector behavior → related → trust strip → FAQ → footer.
 
 import Hero from "@/components/home-2026/Hero";
 import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
@@ -14,13 +14,13 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 
 import {
   IntegrationsProblem,
-  IntegrationsGrid,
   IntegrationsHowItWorks,
   IntegrationsMatrix,
   IntegrationsRelated,
   IntegrationsTrustStrip,
 } from "./IntegrationsHubSections";
 import IntegrationsConnectors from "./IntegrationsConnectors";
+import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
 
 /** Hero headline, split one line per array entry (fallback when CMS is empty). */
 const HERO_HEADLINE_LINES: readonly string[] = [
@@ -136,7 +136,7 @@ export default function IntegrationsHubBody({ doc }: IntegrationsHubBodyProps) {
         staticArtifact="integrations-hub"
       />
       <IntegrationsProblem />
-      <IntegrationsGrid />
+      <IntegrationsSection />
       <IntegrationsHowItWorks />
       <IntegrationsMatrix />
       <IntegrationsConnectors />

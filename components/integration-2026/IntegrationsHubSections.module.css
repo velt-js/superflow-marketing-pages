@@ -39,10 +39,6 @@
   box-sizing: border-box;
 }
 
-.sectionSoft {
-  background: var(--int-bg-soft);
-}
-
 .sectionTight {
   padding-top: 52px;
   padding-bottom: 52px;
@@ -227,6 +223,7 @@
 .problemMsgCol {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 26px;
 }
 
@@ -893,6 +890,13 @@
   color: var(--int-ink);
 }
 
+/* Cap the plain cell width so long phrases (e.g. Slack's "Updates in") wrap to
+   a second line instead of stretching the column onto one line. */
+.matrixCellText {
+  display: inline-block;
+  max-width: 24ch;
+}
+
 .matrixTwoWay {
   display: inline-flex;
   align-items: center;
@@ -928,18 +932,23 @@
 /* =================================================== Connectors */
 
 .connList {
-  display: flex;
-  flex-direction: column;
-  margin-top: 40px;
-  border-top: 1px solid var(--int-line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 44px auto 0;
+  max-width: 920px;
 }
 
+/* Each guarantee is its own centered card (check + text). */
 .connItem {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 20px 4px;
-  border-bottom: 1px solid var(--int-line);
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: var(--int-card);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.05);
   font-size: 16px;
   line-height: 1.5;
   color: var(--int-ink);
@@ -963,8 +972,8 @@
 }
 
 .connToggle {
-  align-self: flex-start;
-  margin-top: 20px;
+  display: block;
+  margin: 24px auto 0;
   padding: 10px 18px;
   border-radius: 30px;
   background: transparent;
@@ -1270,6 +1279,10 @@ a.toolCell:hover {
   }
 
   .chipGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .connList {
     grid-template-columns: 1fr;
   }
 
