@@ -2,6 +2,17 @@
 /**
  * Seed the "Figma" `integrationPreviewPage` document in Sanity.
  *
+ * =========================================================================
+ * WARNING — PUBLICATION HOLD (do not promote this page to the live site).
+ * The source spec says: "HELD: this page does not go live until the registry
+ * marks Figma shipped. Build it, hold it." Seeding the PREVIEW document is
+ * fine (that is what this script does); exposing it at /integrations/figma,
+ * in the sitemap, or in llms.txt is NOT. The hold is enforced in code via
+ * HELD_INTEGRATION_SLUGS in lib/integration-holds.ts — lift the hold there
+ * (and only there) once Figma ships. Never create a live `integrationPage`
+ * document for figma while the hold stands.
+ * =========================================================================
+ *
  * Serves at /preview/integrations/figma. Reuses the 2026 homepage sections as a
  * fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-figma-v1-1.md;
