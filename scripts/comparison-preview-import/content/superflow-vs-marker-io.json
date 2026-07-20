@@ -1,0 +1,231 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Marker.io",
+  "slug": { "current": "superflow-vs-marker-io" },
+  "competitorName": "Marker.io",
+  "grantedNoun": "bug reporting tool",
+  "kicker": "· SUPERFLOW VS MARKER.IO · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Marker.io is a bug reporting tool. Superflow is a bug reporting tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency reviews client sites in Marker.io, this page is for you.",
+  "heroCaption": "It's like Marker.io hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Marker.io was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person finds every issue, then reports it.",
+        "Its AI edits, translates, and titles report text.",
+        "Its MCP sends bug context to outside AI agents like Claude and Cursor, useful for dev handoff. Nothing in Marker.io looks at the site to find problems."
+      ],
+      "rightVerified": "verified marker.io/ai, July 2026",
+      "verdict": "A bug report is a record of what a person already caught. That's the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Reporters submit free from the widget, no account, and can follow their own issues.",
+        "Ongoing client collaborators are paid guest seats: 10 on Starter, 50 on Team.",
+        "A formal approval flow: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Marker.io's free reporting is good. The difference is the gate: in Superflow, the client's yes is a recorded step, not a comment."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "You annotate a screenshot capture of the page; the report carries the picture, not a persistent on-page pin.",
+        "Widget on the live site, browser extension for members on any webpage.",
+        "Behind-login behavior: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Superflow reviews the page itself, live, behind logins and SSO. Marker.io files a picture of it. Behind logins, the Marker.io side is pending verification."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Internal comments on every plan, including Starter."
+      ],
+      "rightVerified": "verified marker.io/pricing, July 2026",
+      "verdict": "Close to even. Marker.io ships internal comments on every plan, including its entry tier, the same job Superflow's internal-only comments do."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Screenshot capture plus environment details (browser, OS, webpage, screen size) on every plan.",
+        "Console logs, network requests, and session replay of the last three minutes, on the Team plan and up."
+      ],
+      "rightVerified": "verified marker.io/pricing, marker.io/features, July 2026",
+      "verdict": "Marker.io's technical capture is genuinely strong. It just starts on the Team plan. Superflow's screenshots and recordings ship on every plan."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Feedback becomes a ticket in your tracker; the tracker is the workspace.",
+        "Thirteen-plus integrations, dev-side especially: GitHub, GitLab, Linear, Bitbucket. Jira from the Team plan. Azure DevOps plan gate: not yet verified.",
+        "Two-way Issue sync is real, but a Team plan feature: Done in Jira flips to Resolved in Marker.io."
+      ],
+      "rightVerified": "verified marker.io/integrations, marker.io/pricing, July 2026",
+      "verdict": "If your delivery runs on a dev tracker, Marker.io fits it deeply. We sync two-way with Asana, Monday, and ClickUp. We have no built-in Jira sync today."
+    }
+  ],
+  "scorecardKicker": "Marker.io is a bug report. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free reporters; paid guest seats; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "annotated screenshot into the tracker; behind logins -",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal comments, all plans",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshot, environment details; console logs, network requests, session replay Team+",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "ticket in your tracker; 13+ integrations; two-way Issue sync Team+",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Starter $39/mo annual, Team $149/mo annual, Business custom (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Starter $39/mo annual ($59 monthly), 3 users, 10 projects, 10 guests, 5k page views/mo. Team $149/mo annual ($199 monthly), 15 users, 50 projects, 50 guests, 25k page views/mo. Business custom, yearly only. No free plan. 15-day trial, no card.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Marker.io projects finish in Marker.io. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Marker.io earned its place. Feedback becomes a ticket in the tracker your team already runs, and status syncs back on the Team plan. Console logs, network requests, and session replay attach to reports with real technical depth, on the Team plan and up. Reporters are free and unlimited, no account needed.",
+  "stayLine": "If a careful human pass filed into the tracker you already run works for your team, and your developers want console logs, network requests, and session replay attached to every report, Marker.io is a strong fit. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/comparison/marker-io-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Marker.io with AI on top?",
+      "answer": "No. Marker.io's AI edits and retitles what a person already reported; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Marker.io projects?",
+      "answer": "Finish them in Marker.io. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We push tickets to Jira from Marker.io.",
+      "answer": "Superflow syncs two-way with Asana, Monday, and ClickUp, plus webhooks and a REST API. Jira is not built in today; if Jira runs your delivery, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Marker.io alternatives",
+      "href": "/preview/comparison/marker-io-alternative"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://marker.io",
+    "https://marker.io/pricing",
+    "https://marker.io/ai",
+    "https://marker.io/features",
+    "https://marker.io/features/session-replay",
+    "https://marker.io/integrations",
+    "https://marker.io/jira-bug-tracking-tool",
+    "https://marker.io/blog/jira-plugins-addons"
+  ],
+  "metaTitle": "Superflow vs Marker.io (2026): A Bug Reporting Tool vs a Tool + a Team",
+  "metaDescription": "Marker.io is a bug reporting tool. Superflow is a bug reporting tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

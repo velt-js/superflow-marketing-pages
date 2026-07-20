@@ -1,0 +1,149 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Markup.io alternatives for agencies (2026)",
+  "slug": { "current": "markup-alternative" },
+  "anchorName": "Markup.io",
+  "kicker": "· MARKUP.IO ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Markup.io alternatives for agencies (2026)",
+  "standfirst": "Markup.io is a fine feedback tool. The gap is usually the hours a person spends finding mistakes. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Markup.io is a feedback tool. Superflow is a feedback tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link; statuses + per-reviewer sign off",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "proxy and iFrame; may break behind logins",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "auto-screenshot via Chrome extension; video via Loom; native recordings -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "none found -",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "workspaces, folders, statuses; Slack, Teams, Loom, Zapier, API",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$79 per month flat, unlimited users (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no native Microsoft Teams or Loom integration today.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs Markup.io",
+      "href": "/preview/comparison/superflow-vs-markup"
+    }
+  ],
+  "entries": [
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies that want a built-in kanban board with client feedback.",
+      "standout": "element pins with browser, OS, and screen size attached; built-in kanban; guests comment free from a link.",
+      "limits": "A person finds every issue, no AI. No memory concept; each project starts blank (checked July 2026). Pricing: $50 / $80 / $150 per month, +$8 per member (July 2026).",
+      "vsAnchor": "BugHerd pins on the live page itself; Markup.io renders the live URL through a proxy and iFrame, which can break on login-gated sites. BugHerd's behind-login behavior: not yet verified. BugHerd has no flat-price plan: per-member pricing from $50 a month, against Markup.io's flat $79 for unlimited users."
+    },
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that live in a tracker.",
+      "standout": "capture into Jira, Linear, Asana, with technical metadata.",
+      "limits": "A person finds every issue. Screenshot-first, not a live-site overlay. A formal client approval gate: not yet verified. Pricing from $39 per month annual (July 2026).",
+      "vsAnchor": "Deeper tracker integrations than Markup.io's outbound-only sync via Zapier, the API, or webhooks. Screenshot-first, not a live overlay, against Markup.io's proxy and iFrame rendering of the live URL. Client approval gate: not yet verified for Marker.io; Markup.io has a Statuses plus Sign off flow."
+    },
+    {
+      "name": "Usersnap",
+      "bestFor": "product teams collecting user feedback.",
+      "standout": "in-product widgets and surveys.",
+      "limits": "Product feedback, not agency client review. Human-found only. Pricing: Starter $49 to Premium from $369 per month billed yearly (July 2026).",
+      "vsAnchor": "Adds in-product widgets Markup.io doesn't have. Less built for reviewing a client's live site than Markup.io's proxy-based review. Per-seat tiers from $49 a month billed yearly, against Markup.io's flat $79 for unlimited users."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds with clients.",
+      "standout": "speed; share links.",
+      "limits": "Proxy-based review, not the live site: not yet verified. Light workflow. Human-found only. Pricing: not yet verified.",
+      "vsAnchor": "Same proxy premise as Markup.io, reviewing a copy rather than the live site: not yet verified for Pastel specifically. Whether Pastel matches Markup.io's Statuses plus Sign off flow: not yet verified."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Markup.io",
+  "stayBody": "Pro is $79 a month, flat, with unlimited users: admins, members, and guests. Guests review free from a share link, no signup required. Statuses plus a per-reviewer Sign off flow track approvals (verified July 2026).",
+  "stayLine": "If flat-price, link-based visual commenting on websites and files, with a simple statuses and sign-off flow, is all you need, stay.",
+  "faq": [
+    {
+      "question": "Which is the best Markup.io alternative?",
+      "answer": "Depends which criterion fails you. If it's the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just Markup.io with AI?",
+      "answer": "No. Agents find the mistakes; a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, Markup.io included; guests join free from a link. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs Markup.io",
+      "href": "/preview/comparison/superflow-vs-markup"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "Markup.io is a feedback tool. Superflow is a feedback tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://www.markup.io",
+    "https://www.markup.io/pricing/",
+    "https://www.markup.io/pricing-page-faqs/",
+    "https://educate.ceros.com/en/articles/12462018-statuses-sign-off",
+    "https://educate.ceros.com/en/articles/12465257-cloudflare-challenge-testing-with-markup-proxy"
+  ],
+  "metaTitle": "5 Best Markup.io Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Markup.io alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}

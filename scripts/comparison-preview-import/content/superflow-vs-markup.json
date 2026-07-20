@@ -1,0 +1,226 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Markup.io",
+  "slug": { "current": "superflow-vs-markup" },
+  "competitorName": "Markup.io",
+  "grantedNoun": "feedback tool",
+  "kicker": "· SUPERFLOW VS MARKUP.IO · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Markup.io is a feedback tool. Superflow is a feedback tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency reviews client sites in Markup.io, this page is for you.",
+  "heroCaption": "It's like Markup.io hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Markup.io was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person checks it. Nothing checks the site automatically.",
+        "No AI features found on markup.io, July 2026."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "A MarkUp is a record of what a person already caught. That's the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Guests comment free from a link with no account.",
+        "Statuses plus a per-reviewer Sign off flow: Open for review, Editing content, On hold, Completed. Only Admins and owners set status."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Markup.io's Sign off flow is real and per-reviewer, a genuine strength. Superflow's gate goes further: your team decides first, then the client approves, from their phone, no account."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Comments on a copy are comments about the past.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "Renders the live URL through its own proxy, inside an iFrame.",
+        "Login-gated or iFrame-blocking sites can break, and may need the Chrome extension or a temporary auth change by your dev team."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Markup.io reviews the live URL through a proxy render; Superflow reviews the site itself, behind logins and SSO, no extension."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Private MarkUps make a whole MarkUp private, a different concept.",
+        "Internal or private comments the client cannot see: not yet verified."
+      ],
+      "verdict": "Renders as a difference only if the Markup.io side resolves to one."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Chrome extension auto-captures a screenshot on every comment or pin.",
+        "Auto screenshots without the extension: not yet verified.",
+        "Native video or screen recording: not yet verified. Loom integration attaches video."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Pinning is even. Capture is the gap: Markup.io's auto-screenshot rides the Chrome extension. Superflow's attaches itself, no extension."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No per-client memory or knowledge concept found: not yet verified."
+      ],
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Workspaces, Folders, and Statuses on a dashboard. No kanban found.",
+        "Native Slack, Microsoft Teams, Loom, and Zapier, plus a public API with webhooks.",
+        "No native two-way sync: outbound only, via Zapier, the API, or webhooks."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Markup.io has native Teams and Loom; Superflow doesn't today. If Teams or Loom is your spine, weigh that honestly. Markup.io's sync runs outbound only; Superflow's runs two-way."
+    }
+  ],
+  "scorecardKicker": "Markup.io is a feedback tool. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link; statuses + per-reviewer sign off",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "proxy and iFrame; may break behind logins",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "auto-screenshot via Chrome extension; video via Loom; native recordings -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "none found -",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "workspaces, folders, statuses; Slack, Teams, Loom, Zapier, API",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$79 per month flat, unlimited users (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Pro is $79 per month, flat, unlimited users (admins, members, guests), 1 Workspace, unlimited MarkUps, 500GB storage, 100MB attachment cap. Enterprise custom, with SSO (SAML) and SOC II. Free tier after a 14-day trial, capped at 5 MarkUps and 10GB. Guests free.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open MarkUps finish in Markup.io. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Markup.io earned its place. The price is flat: $79 a month, unlimited users, guests free. Guests join and comment from a link, no signup. Comment on 30 plus file types in one place: live websites, images, PDFs, videos. Statuses plus a per-reviewer Sign off flow track the work.",
+  "stayLine": "If flat-price, link-based visual commenting on websites and files, with a simple statuses and sign-off flow, is all you need, Markup.io is a fine tool. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/comparison/markup-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Markup.io with AI on top?",
+      "answer": "No. Markup.io files what a person found; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Markup.io projects?",
+      "answer": "Finish them in Markup.io. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "Markup.io renders our client's site through a proxy. What if it blocks iFrames or sits behind a login?",
+      "answer": "Markup.io may need its Chrome extension or a temporary change to your login to work there. Superflow lives on the site itself, behind logins and SSO, no extension."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Markup.io alternatives",
+      "href": "/preview/comparison/markup-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://www.markup.io",
+    "https://www.markup.io/pricing/",
+    "https://www.markup.io/pricing-page-faqs/",
+    "https://educate.ceros.com/en/articles/12462018-statuses-sign-off",
+    "https://educate.ceros.com/en/articles/12465257-cloudflare-challenge-testing-with-markup-proxy",
+    "https://educate.ceros.com/en/articles/12463822-markup-io-chrome-extension"
+  ],
+  "metaTitle": "Superflow vs Markup.io (2026): A Feedback Tool vs a Feedback Tool + a Team",
+  "metaDescription": "Markup.io is a feedback tool. Superflow is a feedback tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

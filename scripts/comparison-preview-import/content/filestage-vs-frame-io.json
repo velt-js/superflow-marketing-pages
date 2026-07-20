@@ -1,0 +1,265 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Filestage vs Frame.io",
+  "slug": { "current": "filestage-vs-frame-io" },
+  "toolLeftName": "Filestage",
+  "toolRightName": "Frame.io",
+  "kicker": "· FILESTAGE VS FRAME.IO · COMPARED FOR AGENCIES",
+  "headline": "Filestage vs Frame.io: which fits your agency?",
+  "standfirst": "Both are proofing tools for reviewing and approving uploaded work, not tools that check a live site on their own. The fork: Filestage covers the widest range of formats, including live websites by URL, inside one formal, staged approval workflow. Frame.io goes deep on one format, video, with frame-accurate review and footage straight from the camera.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from filestage.io and frame.io.",
+  "shortAnswerPickLeft": "if your reviews span many formats, video, images, PDFs, documents, and even live websites by URL, inside one formal, staged approval workflow.",
+  "shortAnswerPickRight": "if your work is video first and you want frame-accurate comments, camera-native uploads, and deep Adobe Premiere integration.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person reviews and approves every file.",
+        "AI Review Agents pre-scan files on Business and up: text, grammar and spelling, image/logo presence, forbidden terms, compliance, barcode and QR, gated by monthly Agent credits."
+      ],
+      "leftVerified": "verified filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "A person leaves every comment. AI does not find issues in the footage.",
+        "AI Assistant is experimental, opt-in Frame.io Labs, available to all account types with plan-based usage limits: it organizes, renames, and summarizes feedback."
+      ],
+      "rightVerified": "verified help.frame.io Frame.io Labs, July 2026",
+      "verdict": "Even on who actually finds the mistake: a person, in both tools. Filestage's Review Agents pre-scan defined issues before a human starts, on Business and up; Frame.io's AI organizes and summarizes but does not evaluate the footage itself."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both let clients comment free. The formality of the yes differs.",
+      "leftFacts": [
+        "No reviewer account needed; comment or approve from a link, email only.",
+        "Formal workflow: reviewer groups per stage, due dates, automated reminders, one-click Approve / Request changes.",
+        "Verified approval (Approve and sign, FDA 21 CFR Part 11) on higher tiers."
+      ],
+      "leftVerified": "verified filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "No account needed; a Share for Review link, name and email saved on the first comment only.",
+        "If approvals are enabled on the link, reviewers set each clip to Approved, In Progress, or Needs Review."
+      ],
+      "rightVerified": "verified help.frame.io review link docs, July 2026",
+      "verdict": "Filestage. Its staged reviewer groups, due dates, reminders, and Verified sign-off option build a more formal approval record than Frame.io's per-clip approval state."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Both are proofing tools for uploaded work. The formats each covers is the real fork.",
+      "leftFacts": [
+        "Reviews video, images, designs, PDFs, documents, audio, and interactive HTML, plus live websites by URL.",
+        "Live-website review loads the URL in real time and does not save site versions; a per-comment screenshot is kept for context.",
+        "Private or authenticated sites need Filestage's static IPs whitelisted and X-Frame-Options set, not a reviewer login."
+      ],
+      "leftVerified": "verified filestage.io/supported-file-types, help.filestage.io, July 2026",
+      "rightFacts": [
+        "Reviews uploaded video, images, audio, and PDFs (multipage viewer), plus a 3D Asset Viewer and Document Markup.",
+        "No live-website or URL review; it does not load or check a running site."
+      ],
+      "rightVerified": "verified frame.io/pricing, help.frame.io, July 2026",
+      "verdict": "Broadest format coverage, including live websites by URL: Filestage. Deepest on one format, video specifically, with frame-accurate tools: Frame.io. Different games more than a ranking."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree before the client sees it.",
+      "leftFacts": [
+        "Team-only comments keep discussion private between teammates and creatives, from the Starter plan."
+      ],
+      "leftVerified": "verified filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "Internal comments separate client and team threads, gated to the Team plan and up.",
+        "Restricted projects and folders on Team; private workspaces on Enterprise."
+      ],
+      "rightVerified": "verified frame.io/pricing, July 2026",
+      "verdict": "Filestage, by a tier. Team-only comments arrive on Starter, its first paid plan; Frame.io holds internal comments until Team, its second paid tier. Which costs less depends on your headcount."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both attach context to feedback. What kind of context differs.",
+      "leftFacts": [
+        "Contextual annotations with version compare, timestamps on video and audio, and to-do lists built from comments.",
+        "Per-comment screenshots on website reviews, plus metadata (URL, screen size, browser).",
+        "Session recordings: not yet verified."
+      ],
+      "leftVerified": "verified filestage.io/pricing, help.filestage.io, July 2026",
+      "rightFacts": [
+        "Frame-accurate and range-based comments, annotations, custom metadata, version stacks, and a comparison viewer.",
+        "Auto transcription, speaker labels, and captions; Camera to Cloud uploads take straight from the camera.",
+        "No website screenshot or browser-session capture; it does not review live pages."
+      ],
+      "rightVerified": "verified frame.io/pricing, frame.io, July 2026",
+      "verdict": "Frame.io, on depth. Frame-accurate and range-based comments, auto transcription with speaker labels, version stacks, and Camera to Cloud capture more per review than Filestage's annotations and timestamps. Filestage counters with breadth across more formats, including per-comment screenshots on website reviews."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No product-wide project memory concept verified; agents only reference context you configure yourself (brand guidelines, forbidden terms, compliance docs)."
+      ],
+      "leftVerified": "checked filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "No memory concept. Media intelligence indexes assets for search, but nothing persists learned context across projects."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: no memory concept verified on either side. Project ten starts with whatever context you configured, not with anything learned."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The tools each plugs into say who it is built for.",
+      "leftFacts": [
+        "Integrations: Jira, Monday, Slack, Teams, Zapier, Make, Adobe apps, and Google Drive (folder sync inbound), plus API and webhooks.",
+        "Full two-way ticket-status sync: not yet verified. Jira and Monday push versions, due dates, and statuses out."
+      ],
+      "leftVerified": "verified filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "Integrations: Adobe Premiere (frame-accurate notes in the panel), Final Cut Pro, a Lightroom connection, plus API, webhooks, Zapier, Make, and Adobe Workfront Fusion.",
+        "Camera to Cloud hardware partners: RED, Teradek, Panasonic LUMIX, Sound Devices, Atomos, FUJIFILM.",
+        "A packaged two-way status sync to a named tool: not yet verified. Approval status is settable and readable via the public API."
+      ],
+      "rightVerified": "verified frame.io/integrations, frame.io/pricing, July 2026",
+      "verdict": "Different centers of gravity. Filestage plugs into the project and ticket tools your whole agency runs on; Frame.io plugs into the NLE and camera gear your video team already uses."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the per-seat math are different numbers.",
+      "leftFacts": [
+        "Free EUR0 / Starter EUR199 per month / Business EUR329 per month / Enterprise custom. Yearly billing gives 2 months free.",
+        "Every plan includes 10 team members; add seats in bundles of 5. Reviewers are unlimited and free, no account required.",
+        "AI Review Agents start on Business, with 50 Agent credits per month."
+      ],
+      "leftVerified": "verified filestage.io/pricing, July 2026",
+      "rightFacts": [
+        "Free $0 (2 members, 2GB storage, 2 projects). Pro $15 per member/mo (5 members, 2TB plus 2TB per extra member, 250GB mounted). Team $25 per member/mo (15 members, 3TB plus 2TB per extra member, 500GB mounted, internal comments).",
+        "Enterprise custom. Billed per member per month; annual billing saves 13%. External reviewers are free and unlimited."
+      ],
+      "rightVerified": "verified frame.io/pricing, July 2026",
+      "verdict": "Lowest entry: Frame.io. A team of two to five pays $30 to $75 per month on Pro against Filestage's EUR199 Starter. Predictable at scale: Filestage, whose flat rate with 10 seats included can cost less once your team passes about eight to ten members. Price both against your actual headcount."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person; AI Review Agents pre-scan, Business+",
+      "rightCell": "a person; AI (Labs) organizes and summarizes, opt-in"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "no account; staged approval, Verified sign-off on higher tiers",
+      "rightCell": "no account; Share for Review link, per-clip approval status"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "files plus live websites by URL",
+      "rightCell": "uploaded video, images, audio, PDFs, 3D; no live sites"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "team-only comments, Starter+",
+      "rightCell": "internal comments, Team+ ($25/member)"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "annotations, timestamps, per-comment website screenshots",
+      "rightCell": "frame-accurate comments, transcription, comparison viewer, Camera to Cloud"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "none verified; agents use configured context only",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "Jira, Monday, Slack, Teams, Zapier, Make, Adobe apps, Drive",
+      "rightCell": "Premiere, Final Cut Pro, Lightroom, camera hardware, Zapier, Make"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free / EUR199 / EUR329 per month, 10 seats included",
+      "rightCell": "Free / $15 / $25 per member/mo, annual saves 13%"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. The agency-shaped comparison: Filestage Business at EUR329 per month (10 seats included, unlimited free reviewers, AI Review Agents with 50 credits/mo) against Frame.io Team at $25 per member per month (15 members, internal comments, unlimited free reviewers). At around a 10-person team, Filestage's flat rate and Frame.io's per-member total land close; check the current EUR/USD rate and each plan's storage caps before deciding.",
+  "thirdOptionBody": "Both Filestage and Frame.io assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Filestage",
+      "href": "/preview/comparison/superflow-vs-filestage"
+    },
+    {
+      "label": "Superflow vs Frame.io",
+      "href": "/preview/comparison/superflow-vs-frame-io"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Filestage if your reviews span many formats, including live websites by URL, inside one formal approval workflow. Frame.io if your work is video first and you want frame-accurate comments and camera-native uploads."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Filestage reviewers comment or approve from a link with just an email; Frame.io reviewers use a Share for Review link and add a name and email only on their first comment."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Frame.io's per-member pricing starts lower for a small team (Pro at $15 per member/mo); Filestage's flat per-plan rate with 10 seats included can cost less once your team grows past about eight to ten members."
+    },
+    {
+      "question": "Can either tool find mistakes on its own?",
+      "answer": "No. Filestage's AI Review Agents (Business and up) pre-scan files for defined issues like spelling or forbidden terms, and Frame.io's AI organizes and summarizes feedback, but a person still finds and confirms every mistake in both. That's the third option above."
+    },
+    {
+      "question": "Does either tool review live websites?",
+      "answer": "Filestage can load a live website by URL for review, though it does not save site versions between visits. Frame.io reviews uploaded video, image, audio, and PDF assets only; it does not review live sites at all."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Filestage alternatives",
+      "href": "/preview/comparison/filestage-alternative"
+    },
+    {
+      "label": "The 5 best Frame.io alternatives",
+      "href": "/preview/comparison/frame-io-alternative"
+    },
+    {
+      "label": "Superflow vs Filestage",
+      "href": "/preview/comparison/superflow-vs-filestage"
+    },
+    {
+      "label": "Superflow vs Frame.io",
+      "href": "/preview/comparison/superflow-vs-frame-io"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://filestage.io",
+    "https://filestage.io/pricing",
+    "https://filestage.io/supported-file-types",
+    "https://help.filestage.io/en/articles/5755744",
+    "https://help.filestage.io/en/articles/5755764",
+    "https://help.filestage.io/en/articles/5977284",
+    "https://frame.io",
+    "https://frame.io/pricing",
+    "https://frame.io/integrations",
+    "https://help.frame.io/en/articles/15305881-frame-io-labs",
+    "https://updates.frame.io/",
+    "https://blog.frame.io/2025/12/01/the-ultimate-guide-to-the-new-frame-io-search-experience/",
+    "https://help.frame.io/en/articles/9090642-getting-started-what-is-a-user",
+    "https://help.frame.io/en/articles/414306-sharing-your-files-and-folders-for-review-legacy",
+    "https://help.frame.io/en/articles/1731442-the-difference-between-adding-a-user-to-your-project-and-sharing-for-review-legacy",
+    "https://next.developer.frame.io/platform/v2/working-with-review-links.md",
+    "https://help.frame.io/en/articles/14501614-getting-started-with-frame-io-drive-mounted-storage",
+    "https://help.frame.io/en/articles/12356206-storage-connect-for-frame-io-registering-assets"
+  ],
+  "metaTitle": "Filestage vs Frame.io (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Filestage and Frame.io, compared honestly: where feedback goes, what gets captured, what clients pay for, real pricing. And one third option, clearly marked."
+}

@@ -1,0 +1,151 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Ruttl alternatives for agencies (2026)",
+  "slug": { "current": "ruttl-alternative" },
+  "anchorName": "Ruttl",
+  "kicker": "· RUTTL ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Ruttl alternatives for agencies (2026)",
+  "standfirst": "Ruttl is a fine feedback tool. The gap is usually the hours a person spends finding mistakes. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Ruttl is a feedback tool. Superflow is a feedback tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person; Ruttl AI: sentiment analysis, performance suggestions",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link, no signup; Approve page locks the page",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live page; Edit mode for visual and code changes; extension for logins",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "private comments listed; client-hidden scope -",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "pixel-pinned comments; video comments; auto-screenshots and metadata -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Slack, Trello, Asana, Jira, ClickUp, Zapier; native two-way sync -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free / $18 per user per month / Custom (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no in-page visual editor: Superflow pins findings, it doesn't edit the live page the way Ruttl's Edit mode does.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    }
+  ],
+  "entries": [
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies that want a built-in kanban board with client feedback.",
+      "standout": "element pins with browser, OS, and screen size attached; built-in kanban; guests comment free from a link.",
+      "limits": "A person finds every issue, no AI. No memory concept; each project starts blank (checked July 2026). Pricing: $50 / $80 / $150 per month, +$8 per member (July 2026).",
+      "vsAnchor": "Both pin comments on the live page. Ruttl adds a live-page Edit mode on top of its pins. Ruttl's Basic plan is free; BugHerd's cheapest tier starts at $50 a month."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds with clients.",
+      "standout": "a zero-install proxy canvas; a Finish Review approval flow on every plan, including Free.",
+      "limits": "A person finds every issue; no AI features found on the vendor site (checked July 2026). Proxy-served, not the live page in place. No memory concept; each canvas starts blank. Pricing: Free $0 / Pro $35 / Team $119 / Enterprise $450 per month.",
+      "vsAnchor": "Pastel serves your site through its proxy; Ruttl's Comment and Edit modes work on the live page itself. Both have a real approval step: Pastel's Finish Review, Ruttl's Approve page."
+    },
+    {
+      "name": "Markup.io",
+      "bestFor": "flat-price teams that want one price for unlimited seats.",
+      "standout": "$79 a month flat, unlimited users; comment on 30+ file types in one place.",
+      "limits": "A person finds every issue; no AI features found on vendor pages (checked July 2026). Proxy and iFrame rendering can break behind logins. Per-client memory: not yet verified.",
+      "vsAnchor": "Markup.io is $79 flat for unlimited users; Ruttl's Pro is $18 per user. Ruttl adds a live-page Edit mode; an equivalent on Markup.io: not yet verified."
+    },
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that live in a tracker.",
+      "standout": "two-way tracker sync; console logs, network requests, and session replay on the Team plan and up.",
+      "limits": "A person finds every issue. No free plan; entry is a paid Starter tier. No Agency plan (checked July 2026, marker.io/pricing). Starter is $39 per month annual.",
+      "vsAnchor": "Marker.io syncs two-way with Jira and other trackers; Ruttl's native two-way sync is not yet verified. Ruttl has a free Basic plan; Marker.io has none."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Ruttl",
+  "stayBody": "Pixel-pinned comments on live websites, web and mobile apps, images, and PDFs. Edit mode changes text, images, layout, and HTML and CSS on the live page, without touching code. Guests comment free from a link, no signup. The Kanban is built in (verified July 2026).",
+  "stayLine": "If pixel-pinned commenting plus live-page visual edits on websites, with free guest links and a built-in Kanban, is what your studio needs, stay.",
+  "faq": [
+    {
+      "question": "Which is the best Ruttl alternative?",
+      "answer": "Depends which criterion fails you. If it's the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just Ruttl with AI?",
+      "answer": "No. Agents find the mistakes; a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, Ruttl included; guests join free from a link. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "Ruttl is a feedback tool. Superflow is a feedback tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://ruttl.com",
+    "https://ruttl.com/website-feedback-tool/",
+    "https://ruttl.com/pricing/",
+    "https://www.ruttl.com/features/comment-on-website",
+    "https://www.ruttl.com/support/using-ruttl",
+    "https://www.ruttl.com/usecases/for-developers",
+    "https://chromewebstore.google.com/detail/ruttl/doecfodblgfnjmmphbedjgllipnbgbld"
+  ],
+  "metaTitle": "5 Best Ruttl Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Ruttl alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}

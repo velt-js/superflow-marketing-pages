@@ -1,0 +1,229 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Userback",
+  "slug": { "current": "superflow-vs-userback" },
+  "competitorName": "Userback",
+  "grantedNoun": "feedback tool",
+  "kicker": "· SUPERFLOW VS USERBACK · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Userback is a feedback tool. Superflow is a feedback tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "Stop waiting on a reporter to notice before your client does."
+  ],
+  "qualifier": "If your agency reviews client sites in Userback, this page is for you.",
+  "heroCaption": "It's like Userback hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Userback was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person reports every issue, through the widget, the browser extension, or a link.",
+        "Userback's AI runs after that report exists: it categorizes, scores sentiment, drafts titles, and clusters themes. It doesn't look at the site itself."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "A report is a record of what a person already caught. Userback's AI organizes that record well. Finding it in the first place is the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Any reporter submits free, from the widget, the browser extension, or a link. No account, no seat, unlimited.",
+        "A formal client approval flow: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Userback's free reporter link is good, and unlimited for everyone who uses it. The difference is the gate: in Superflow, the client's yes is a recorded step, not a submission."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "The widget embeds in your own app; the browser extension captures on any site, including staging.",
+        "Behind third-party logins and SSO: not yet verified."
+      ],
+      "verdict": "Both review live pages, not a copy. Behind third-party logins and SSO, the Userback side is pending verification. If it resolves even, it renders even."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Team Comment Controls can restrict members, like developers, to internal-only comments.",
+        "Gated to the Business plan and up."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Userback grants this too, starting on Business. In Superflow, internal-only comments run on every plan."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "One submission attaches an annotated screenshot, video recording, console logs, network requests, and browser and system metadata.",
+        "Session replay ships with the report, so your team watches what happened before it was filed.",
+        "Session replay, console logs, and network requests start at the Business plan."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Userback's capture is genuinely strong. Replay and logs start at Business. In Superflow, screenshots and recordings run on every plan."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No persistent memory concept. AI Insights clusters themes inside a project, not across projects."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "True two-way sync with Jira, Linear, and ClickUp. Status changes move both directions.",
+        "Support tool integrations like Intercom and Zendesk, plus a REST API and webhooks, are Business Plus only."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Userback's two-way sync is real too. The difference is which tools: Jira and Linear there, Asana and Monday here. If Jira or Linear is your spine, weigh that honestly."
+    }
+  ],
+  "scorecardKicker": "Userback is a widget. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person; AI organizes after the report is submitted",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free reporter link, unlimited; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "widget and extension on any site; third-party SSO -",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal-only comments, Business plan and up",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshots, video, session replay, console and network logs; replay and logs start at Business",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "two-way Jira, Linear, ClickUp; REST API and webhooks at Business Plus",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free $0 / Team $29 / Business $79 / Business Plus $159 per month, billed annually (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Free $0, Team $29, Business $79, Business Plus $159 per month billed annually ($39, $99, $199 monthly). Reporters are unlimited and free on every plan. Feature Portal add-on $31 per month billed annually.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Userback projects finish in Userback. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Userback earned its place. One submission captures an annotated screenshot, video, console logs, network requests, and system metadata. Session replay ships with the report, so your team watches what happened before it was filed. Reporters submit free, with no seat and no account. True two-way sync with Jira, Linear, and ClickUp keeps statuses moving in both directions.",
+  "stayLine": "If you want one platform to collect visual feedback, run surveys, and manage a feature request portal, and a human on your side reports each issue, Userback is a solid fit. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/comparison/userback-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Userback with AI on top?",
+      "answer": "No. Userback's AI organizes what a person reports, after the fact; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Userback projects?",
+      "answer": "Finish them in Userback. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We sync tickets to Jira and Linear from Userback.",
+      "answer": "Superflow syncs two-way with Asana, Monday, and ClickUp, plus webhooks and a REST API. Jira and Linear are not built in today; if either runs your delivery, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Userback alternatives",
+      "href": "/preview/comparison/userback-alternative"
+    },
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://userback.io",
+    "https://userback.io/pricing",
+    "https://userback.io/features/feedback-widget",
+    "https://userback.io/features/session-replay",
+    "https://userback.io/integrations"
+  ],
+  "metaTitle": "Superflow vs Userback (2026): A Feedback Tool vs a Feedback Tool + a Team",
+  "metaDescription": "Userback is a feedback tool. Superflow is a feedback tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

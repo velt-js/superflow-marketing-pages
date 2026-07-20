@@ -1,0 +1,156 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Frame.io alternatives for agencies (2026)",
+  "slug": { "current": "frame-io-alternative" },
+  "anchorName": "Frame.io",
+  "kicker": "· FRAME.IO ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Frame.io alternatives for agencies (2026)",
+  "standfirst": "Frame.io is a strong video and creative review tool, and some agencies searching here also need QA for the live site they ship. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Frame.io is a video review tool. Superflow is a QA tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every live site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person leaves every comment; AI (opt-in Labs) organizes and summarizes, doesn't find issues",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free review links; per-clip approval statuses when enabled",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "uploaded assets only: video, images, audio, PDFs, 3D; no live website",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal comments, Team plan and up ($25/member/mo)",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "frame-accurate comments, version stacks, transcription, captions, Camera to Cloud; no website screenshots",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "Premiere, Final Cut Pro, Lightroom, Camera to Cloud hardware, API, Zapier, Make; two-way status sync -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$0 / $15 / $25 per member per month, Enterprise custom (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira sync or Adobe-app integration today.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs Frame.io",
+      "href": "/preview/comparison/superflow-vs-frame-io"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Filestage",
+      "bestFor": "creative teams that also want live-website review in the same place.",
+      "standout": "reviews video, images, designs, PDFs, documents, audio, and live websites in one workflow.",
+      "limits": "AI Review Agents pre-scan files, Business plan and up, capped at 50 agent credits a month. A person reviews what loads at a live URL. Pricing from EUR 199 per month (July 2026).",
+      "vsAnchor": "reviews live websites by URL, which Frame.io does not. Video comments are timestamped; frame-accurate review and Camera to Cloud: not yet verified."
+    },
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that want live-site reports filed straight into a tracker.",
+      "standout": "console logs, network requests, and session replay attached to every report, Team plan and up.",
+      "limits": "A person finds every issue on the live page. Video and creative-asset review: not yet verified. No Agency plan on its pricing page. Starter from $39 per month annual (July 2026).",
+      "vsAnchor": "built for live-site reports into a tracker, not creative-asset review. Frame-accurate annotation and Camera to Cloud: not yet verified."
+    },
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies pinning feedback straight on the live page.",
+      "standout": "element pins with browser, OS, and screen size attached; built-in kanban.",
+      "limits": "A person finds every issue. Video and creative-asset review: not yet verified. No memory concept. Pricing from $50 per month (July 2026).",
+      "vsAnchor": "built for live-site QA, not creative-asset review. Frame-accurate video tools and Camera to Cloud: not yet verified."
+    },
+    {
+      "name": "Usersnap",
+      "bestFor": "product teams collecting end-user feedback through a widget.",
+      "standout": "annotated screenshots, screen recordings with voice, surveys, and a feature-request portal.",
+      "limits": "A person, usually the end user, reports every issue. Video and creative-asset review: not yet verified. Pricing from $49 per month billed yearly (July 2026).",
+      "vsAnchor": "a feedback widget for products, not creative-asset review. Frame-accurate video tools and Camera to Cloud: not yet verified."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Frame.io",
+  "stayBody": "Camera to Cloud gets footage from the set to the team before anyone leaves the shoot. Frame-accurate comments, version stacks, and a comparison viewer ship on every plan. Reviewers watch and comment free, no account needed (verified July 2026).",
+  "stayLine": "If your work is video and creative assets, and you want frame-accurate review, approvals, and footage straight from the camera, stay.",
+  "faq": [
+    {
+      "question": "Which is the best Frame.io alternative?",
+      "answer": "Depends which criterion fails you. If it's checking the live site, not just footage, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just Frame.io with AI?",
+      "answer": "No. Frame.io's AI organizes and summarizes footage already uploaded. Superflow's agents check the live site itself, and a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, Frame.io included. In Superflow the client's yes is a recorded approval across the whole site, not a per-clip status."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs Frame.io",
+      "href": "/preview/comparison/superflow-vs-frame-io"
+    },
+    {
+      "label": "Superflow vs Filestage",
+      "href": "/preview/comparison/superflow-vs-filestage"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "Frame.io is a video review tool. Superflow is a QA tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://frame.io",
+    "https://frame.io/pricing",
+    "https://frame.io/integrations",
+    "https://help.frame.io/en/articles/15305881-frame-io-labs",
+    "https://updates.frame.io/",
+    "https://blog.frame.io/2025/12/01/the-ultimate-guide-to-the-new-frame-io-search-experience/",
+    "https://help.frame.io/en/articles/9090642-getting-started-what-is-a-user",
+    "https://help.frame.io/en/articles/414306-sharing-your-files-and-folders-for-review-legacy",
+    "https://help.frame.io/en/articles/1731442-the-difference-between-adding-a-user-to-your-project-and-sharing-for-review-legacy",
+    "https://next.developer.frame.io/platform/v2/working-with-review-links.md",
+    "https://help.frame.io/en/articles/14501614-getting-started-with-frame-io-drive-mounted-storage",
+    "https://help.frame.io/en/articles/12356206-storage-connect-for-frame-io-registering-assets"
+  ],
+  "metaTitle": "5 Best Frame.io Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Frame.io alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}

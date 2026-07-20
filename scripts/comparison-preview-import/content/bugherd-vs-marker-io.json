@@ -130,11 +130,11 @@
       ],
       "leftVerified": "verified July 2026",
       "rightFacts": [
-        "Starter $39/mo annual (3 users, 10 projects, 5k page views/mo). Team $149 annual (15 users, 50 projects, 25k page views/mo).",
-        "Agency plan $129/mo, $99 annual: 15 members, 50 projects, 50 guests, conditions apply."
+        "Starter $39/mo annual (3 users, 10 projects, 10 guests, 5k page views/mo). Team $149 annual (15 users, 50 projects, 50 guests, 25k page views/mo).",
+        "Business: custom pricing, yearly only. No free plan; 15-day trial, no card."
       ],
       "rightVerified": "verified July 2026",
-      "verdict": "Lowest entry: Marker.io, if the caps fit. Predictable at client scale: BugHerd. Agencies should price Marker.io Agency against BugHerd Studio, caps included."
+      "verdict": "Lowest entry: Marker.io, if the caps fit. Predictable at client scale: BugHerd. Agencies should price Marker.io Team against BugHerd Studio, caps included."
     }
   ],
   "scorecard": [
@@ -176,10 +176,10 @@
     {
       "label": "What it costs",
       "leftCell": "from $50, guests free",
-      "rightCell": "from $39 annual, capped; Agency $99 to $129"
+      "rightCell": "from $39 annual, capped; Team $149 annual"
     }
   ],
-  "pricingNote": "Both columns verified July 2026. The agency-shaped comparison: BugHerd Studio $80 (10 members, guests free, no caps advertised) against Marker.io Agency $129, $99 annual (15 members, 50 guests, 50 projects, page-view conditions). Which wins depends on how many clients comment and how much traffic the reviewed sites carry.",
+  "pricingNote": "Both columns verified July 2026. The agency-shaped comparison: BugHerd Studio $80 (10 members, guests free, no caps advertised) against Marker.io Team $149 per month annual (15 users, 50 guests, 50 projects, 25k page views per month). Which wins depends on how many clients comment and how much traffic the reviewed sites carry.",
   "thirdOptionBody": "Both BugHerd and Marker.io assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, pin what they find, your team decides, and your client approves from a link. No account, no login, no app, from their phone.",
   "thirdOptionLinks": [
     {

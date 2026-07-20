@@ -1,0 +1,263 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Pastel vs Ruttl",
+  "slug": { "current": "pastel-vs-ruttl" },
+  "toolLeftName": "Pastel",
+  "toolRightName": "Ruttl",
+  "kicker": "· PASTEL VS RUTTL · COMPARED FOR AGENCIES",
+  "headline": "Pastel vs Ruttl: which fits your agency?",
+  "standfirst": "Pastel is a zero-install proxy canvas for markup rounds on a live site. Ruttl is a pixel-pinned feedback tool with a live-page visual editor built in. The fork: Pastel never touches the page itself, it only comments on it. Ruttl lets you edit text, images, and CSS right there.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from usepastel.com and ruttl.com.",
+  "shortAnswerPickLeft": "if you want a zero-install canvas that always mirrors the live site, a formal approval gate on every plan including Free, and unlimited free guest reviewers.",
+  "shortAnswerPickRight": "if you want to make small text, image, layout, or CSS fixes on the live page yourself while you collect feedback, with a built-in Kanban for what you can't fix inline.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person finds every issue, then pins a comment on the canvas.",
+        "No AI features found on the vendor site."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "A person checks it. Nothing scans the site for mistakes on its own.",
+        "Ruttl AI is scoped to comment sentiment analysis and site performance suggestions. Accessibility, SEO, and codebase audit are marked Coming soon."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even. Both leave the checking to a person. Ruttl names three audits as Coming soon; that is a roadmap note, not a shipped capability."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make commenting easy. The question is whether the yes is recorded.",
+      "leftFacts": [
+        "Guests comment with no account and no login, unlimited on every plan.",
+        "The Finish Review button lets anyone approve or request changes, tied to a canvas version. Available on every plan, including Free."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Guests comment free from a shareable link, no signup.",
+        "Approve page locks a page so no more comments or edits can be made, until it is unapproved."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Even. Both have a real sign-off step, not just a comment thread. Pastel's resets on every new canvas version; Ruttl's locks the page until someone unapproves it."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "On the live page, or on a picture of the page.",
+      "leftFacts": [
+        "Your live site is served through Pastel's own proxy in a canvas. Not a copy or a snapshot; it auto-updates when the site changes.",
+        "No extension and no code snippet needed. Private or password-protected sites work by logging in through Browse mode."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "The live page loads in the project panel. Comment mode is the default.",
+        "Edit mode lets you visually change text, images, layout, and HTML and CSS on the live page.",
+        "Password-protected sites, login-based apps, and web apps need the Ruttl Chrome extension."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Install-free everywhere, including behind logins: Pastel. Live-page editing, not just commenting: Ruttl, though it needs its extension for the same behind-login work. Different philosophies more than a ranking."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Private, team-only comments, listed from the Free plan up."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Private comments are listed on the pricing page as a feature, with per-plan caps.",
+        "Whether clients can see them, the internal-only scope: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "As verified today: Pastel, its private comments are confirmed team-only. Ruttl has the feature but the client-hidden scope is still a dash."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The question is what gets attached without asking.",
+      "leftFacts": [
+        "An automatic screenshot attaches to every comment, plus browser type and screen size. Comments pin to real page elements.",
+        "Video Canvases add timestamped comments on uploaded video files.",
+        "Screen or session recording of a reviewer's own screen: not yet verified. OS in captured metadata: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Pixel-pinned comments land on the exact element, on live websites, web and mobile apps, images, and PDFs.",
+        "Screen-recorded video comments.",
+        "Automatic per-comment screenshots: not yet verified. Browser, OS, or screen-size metadata: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Confirmed auto-capture detail: Pastel, its screenshot plus browser and screen size is documented. Ruttl counters with live screen-recorded video comments, a capture Pastel only offers via uploaded video files; auto-screenshots on Ruttl's side are not yet verified."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept in product. Each canvas starts blank, and approvals reset on every new version."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "No memory or knowledge concept found. Versioning keeps old versions with their comments, which is not the same as remembering a client."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: neither remembers a client across projects."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship somewhere.",
+      "leftFacts": [
+        "Export comments to Trello, Monday.com, Asana, Jira, a custom webhook, or Zapier, gated to the Team plan ($119/mo).",
+        "Each export carries text, metadata, screenshot, and a link back. The export itself is one-way; two-way status sync is not yet verified."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Built-in Kanban workflow. Convert comments to tasks, assign owners, set priority and deadlines.",
+        "Integrations: Slack, Trello, Asana, Jira on Basic and up, plus ClickUp on Pro and up, and Zapier. Native two-way sync with a PM tool: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Ruttl: the board is built in, and the core integrations come with the free Basic tier. Pastel's export path is real but one-way and gated to its top plan. For a workspace without paying for the top tier, Ruttl."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the math are different numbers.",
+      "leftFacts": [
+        "Free $0 (1 user, 1 active canvas). Pro $35/mo (2 users, 3 active canvases). Team $119/mo (starts at 5 users, $24 per extra user monthly). Enterprise $450/mo (starts at 10 users, $45 per extra user monthly).",
+        "Annual billing saves 17%. 14-day trial on paid plans, no card. Unlimited guest reviewers on every plan."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Basic is free: 1 project, 5 pages, 10 comments, 1GB storage. The vendor's own pages disagree on seats here: the plan card lists up to 5 users and unlimited guests, the comparison table lists 1 user and up to 5 guests.",
+        "Pro is $18 per month per user, up to 50 users, unlimited projects, pages, and guests, 50GB storage. Business and Enterprise are custom, contact sales."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both have a free tier, so entry cost is even on paper. Ruttl's Basic seat count is disputed on the vendor's own site, so price it carefully. Past Free, Ruttl's per-user math is simple; Pastel's Pro is a flat $35 for two users. Which is cheaper depends on headcount and how many active canvases or projects you run."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person, no AI features",
+      "rightCell": "a person; Ruttl AI: sentiment analysis, performance suggestions; audits Coming soon"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link, no account; Finish Review approval, version-tied, all plans",
+      "rightCell": "free guest link, no signup; Approve page locks the page"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live site via proxy canvas; no extension; Browse mode for logins",
+      "rightCell": "live page; Edit mode for visual and code changes; extension for logins"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "private, team-only comments, from Free",
+      "rightCell": "private comments listed; client-hidden scope -"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "auto screenshot, browser, screen size; video uploads; session recording -",
+      "rightCell": "pixel-pinned comments; screen-recorded video; auto-screenshots and metadata -"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no; approvals reset per version",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "one-way exports to Trello, Asana, Jira, webhook, Zapier, Team plan only",
+      "rightCell": "built-in kanban; Slack, Trello, Asana, Jira on Basic; ClickUp Pro+; two-way sync -"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free $0 / Pro $35 / Team $119 / Enterprise $450 per month",
+      "rightCell": "Basic Free (seat count disputed) / Pro $18 per user / Business, Enterprise custom"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. Pastel: Free $0 (1 user, 1 active canvas, unlimited guests). Pro $35/mo (2 users, 3 active canvases). Team $119/mo (starts at 5 users, $24 per extra user monthly; unlimited canvases; PM-tool exports unlock here). Enterprise $450/mo (starts at 10 users, $45 per extra user monthly; SSO, SOC 2). Annual billing saves 17%; 14-day trial, no card. Ruttl: Basic is free, capped at 1 project, 5 pages, 10 comments, 1GB storage; the plan card lists up to 5 users and unlimited guests while the comparison table lists 1 user and up to 5 guests, a disagreement the vendor has not resolved. Pro is $18 per month per user, up to 50 users, unlimited projects, pages, and guests, 50GB storage. Business and Enterprise are custom, contact sales. Guests are free on both tools. Price the caps that matter to your studio: active-canvas limits on Pastel, project and page limits on Ruttl's Basic tier, against how many client sites you run at once.",
+  "thirdOptionBody": "Both Pastel and Ruttl assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Pastel",
+      "href": "/preview/comparison/superflow-vs-pastel"
+    },
+    {
+      "label": "Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Pastel if you want a zero-install canvas and a free approval gate on every plan. Ruttl if you want to edit live-page text, images, and CSS yourself while you collect feedback."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Guests comment free from a link with no account or signup on either tool."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Both have a free tier. Ruttl's Basic free plan has a seat-count disagreement on the vendor's own pages; Pastel's Free plan is a single confirmed user with one active canvas. Price the caps, not the sticker."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person already found; neither scans a site on its own. That's the third option above."
+    },
+    {
+      "question": "Which one lets you fix mistakes directly on the page?",
+      "answer": "Ruttl's Edit mode changes text, images, layout, and HTML and CSS on the live page without touching code. Pastel centers on markup and approval; a comparable live-page editor is not yet verified on its site."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Pastel alternatives",
+      "href": "/preview/comparison/pastel-alternative"
+    },
+    {
+      "label": "The 5 best Ruttl alternatives",
+      "href": "/preview/comparison/ruttl-alternative"
+    },
+    {
+      "label": "Superflow vs Pastel",
+      "href": "/preview/comparison/superflow-vs-pastel"
+    },
+    {
+      "label": "Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://usepastel.com",
+    "https://usepastel.com/plans",
+    "https://usepastel.com/features",
+    "https://usepastel.com/how-it-works",
+    "https://usepastel.com/website-revisions",
+    "https://help.usepastel.com/en/articles/1996011",
+    "https://help.usepastel.com/en/articles/6443110",
+    "https://help.usepastel.com/en/articles/2098571",
+    "https://help.usepastel.com/en/articles/5899720",
+    "https://help.usepastel.com/en/articles/5324362",
+    "https://help.usepastel.com/en/articles/12084757",
+    "https://help.usepastel.com/en/articles/7852513",
+    "https://ruttl.com",
+    "https://ruttl.com/website-feedback-tool/",
+    "https://ruttl.com/pricing/",
+    "https://www.ruttl.com/features/comment-on-website",
+    "https://www.ruttl.com/support/using-ruttl",
+    "https://www.ruttl.com/usecases/for-developers",
+    "https://chromewebstore.google.com/detail/ruttl/doecfodblgfnjmmphbedjgllipnbgbld"
+  ],
+  "metaTitle": "Pastel vs Ruttl (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Pastel and Ruttl, compared honestly: where feedback goes, what gets captured, what clients pay for, real pricing. And one third option, clearly marked."
+}

@@ -1,0 +1,257 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Markup.io vs BugHerd",
+  "slug": { "current": "markup-vs-bugherd" },
+  "toolLeftName": "Markup.io",
+  "toolRightName": "BugHerd",
+  "kicker": "· MARKUP.IO VS BUGHERD · COMPARED FOR AGENCIES",
+  "headline": "Markup.io vs BugHerd: which fits your agency?",
+  "standfirst": "Both let a client comment free from a link, no account. The fork: Markup.io renders the site through its own proxy so you can comment on live pages, PDFs, and 30-plus file types in one place. BugHerd pins straight onto the live page itself and manages the work on a built-in kanban board.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from markup.io and bugherd.com.",
+  "shortAnswerPickLeft": "if you review websites, PDFs, images, and video in one place, and want a flat price with unlimited internal users.",
+  "shortAnswerPickRight": "if you want pins to live directly on the page with browser, OS, and screen size attached, and a built-in kanban board to run the work.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person checks it. Nothing checks the site automatically.",
+        "No AI features found on markup.io's product, pricing, or docs pages, checked July 2026."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "A person finds every issue, then pins it.",
+        "No AI."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Even. In both tools, the checking is a person's job. That is the premise the third option removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make commenting easy. Only one has a named sign-off step.",
+      "leftFacts": [
+        "Guests comment free from a link, no signup required.",
+        "Statuses plus a per-reviewer Sign off flow: Open for review, Editing content, On hold, Completed. Only Admins and owners set status."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Guests comment free from a link, no account.",
+        "A formal approval flow: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Comment collection: even, both good, both free for guests. A named sign-off step: Markup.io, with its Statuses and per-reviewer Sign off flow."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "On the live page, or on a rendering of it.",
+      "leftFacts": [
+        "Proxy and iFrame rendering of the live URL, pins keyed to URL and query string.",
+        "Chrome extension is optional and helps on authenticated or iFrame-blocked sites. Behind-login support is partial."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Element pins on the live page itself, with browser, OS, and screen size attached.",
+        "Behind-login or authenticated-site behavior: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Direct on-page pinning, no proxy step: BugHerd. Markup.io's proxy and iFrame rendering can break on login-gated or iFrame-blocking sites unless the Chrome extension or a temporary auth change helps."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Private MarkUps make a whole MarkUp private, a different concept.",
+        "Internal or private comments the client cannot see: not yet verified."
+      ],
+      "rightFacts": [
+        "Private or internal comments: not yet verified."
+      ],
+      "verdict": "Even: not yet verified on either side. Markup.io's Private MarkUps controls a whole document, not a per-comment internal note, so it does not resolve the question either."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Chrome extension auto-captures a screenshot on every comment or pin.",
+        "Auto screenshots without the extension: not yet verified.",
+        "Native video or screen recording: not yet verified. Loom integration attaches video."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Browser, OS, and screen size attach to every pin, no extension needed.",
+        "Video feedback.",
+        "Automatic per-comment screenshots: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "BugHerd. Browser, OS, and screen size attach natively to every pin, and video feedback ships in the product. Markup.io's auto-screenshot is verified with the Chrome extension; without it, not yet verified."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No per-client memory or knowledge concept found in docs: not yet verified."
+      ],
+      "rightFacts": [
+        "No memory concept. Each project starts blank, checked July 2026."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: neither. BugHerd's absence is confirmed by the vendor; Markup.io's is not yet verified, but no such feature turned up in its docs either."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "One goes wide on automation. One goes deep on the board.",
+      "leftFacts": [
+        "Workspaces, Folders, and Statuses on a dashboard. No kanban found.",
+        "Native Slack, Microsoft Teams, Loom, and Zapier (5,000-plus apps), plus a public API with webhooks.",
+        "Zapier flows run outbound, with MarkUp as the trigger app, alongside the API and webhooks. Native two-way sync with a PM tool: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Built-in kanban board. The tool is the workspace.",
+        "Integrations: Jira, Trello, Asana, ClickUp, Slack, Teams."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Board-first studio: BugHerd, with its kanban built in. Automation reach: Markup.io, with Zapier, a public API, and webhooks, though its verified Zapier flows run outbound. Neither wins outright; it depends on whether your team needs a board or a pipe."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the math are different numbers.",
+      "leftFacts": [
+        "Pro: $79 per month, flat, unlimited users (admins, members, guests), 1 Workspace, 500GB storage, 100MB attachment cap.",
+        "Enterprise custom, with SSO (SAML) and SOC II. Free tier after a 14-day trial, capped at 5 MarkUps and 10GB. Guests free, no page-view caps advertised."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Standard $50, Studio $80, Premium $150 per month, for 5, 10, and 25 members. Plus $8 per extra member.",
+        "Enterprise custom, with SSO. Guests free, no page-view caps advertised."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Smaller teams: BugHerd Standard at $50 undercuts Markup.io's flat $79. Past about ten internal seats, Markup.io wins outright, since its $79 already covers unlimited users while BugHerd's per-member add-on keeps climbing."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest comments; statuses + per-reviewer sign off",
+      "rightCell": "free guest comments; approval gate -"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "proxy and iFrame rendering of the live URL",
+      "rightCell": "on-page pins, live site, no proxy"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "-"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "auto-screenshot via Chrome extension; video via Loom",
+      "rightCell": "browser, OS, screen size on every pin; video feedback"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "none found -",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "workspaces, folders, statuses; Slack, Teams, Loom, Zapier, API",
+      "rightCell": "built-in kanban; Jira, Trello, Asana, ClickUp, Slack, Teams"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$79 per month flat, unlimited users",
+      "rightCell": "from $50, 5 members; +$8 per extra member"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. Markup.io Pro is $79 a month flat, unlimited admins, members, and guests, 1 Workspace, 500GB storage, 100MB attachments. BugHerd runs Standard $50 for 5 members, Studio $80 for 10, Premium $150 for 25, plus $8 per extra member. The agency math: at 5 internal seats BugHerd's $50 undercuts Markup.io's $79. At 10 seats the two are close, $80 against $79. Past 10 seats Markup.io's flat price wins outright, since BugHerd keeps adding $8 per member. Guests are free and unlimited on both, and neither advertises a page-view cap.",
+  "thirdOptionBody": "Both Markup.io and BugHerd assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Markup.io",
+      "href": "/preview/comparison/superflow-vs-markup"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Markup.io if you review websites, PDFs, images, and video in one place with a flat price; BugHerd if you want pins directly on the page and a built-in kanban board."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Guests comment free from a share link on Markup.io and BugHerd alike, no signup required."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "For a handful of internal seats, BugHerd Standard at $50 undercuts Markup.io's flat $79. Past about ten seats, Markup.io's unlimited-user price wins, since BugHerd adds $8 per extra member."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person found. BugHerd ships no AI, and no AI features were found on markup.io's product, pricing, or docs pages as of July 2026. That's the third option above."
+    },
+    {
+      "question": "Does either tool work behind a client's login?",
+      "answer": "Markup.io's behind-login support is partial: its proxy and iFrame rendering can break unless the Chrome extension or a temporary auth change helps. BugHerd's behind-login behavior is not yet verified."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Markup.io alternatives",
+      "href": "/preview/comparison/markup-alternative"
+    },
+    {
+      "label": "The 5 best BugHerd alternatives",
+      "href": "/preview/comparison/bugherd-alternative"
+    },
+    {
+      "label": "Superflow vs Markup.io",
+      "href": "/preview/comparison/superflow-vs-markup"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://www.markup.io",
+    "https://www.markup.io/pricing/",
+    "https://www.markup.io/pricing-page-faqs/",
+    "https://educate.ceros.com/en/articles/12454880-what-is-markup-io",
+    "https://educate.ceros.com/en/articles/12462018-statuses-sign-off",
+    "https://educate.ceros.com/en/articles/12464684-can-i-mark-up-a-password-protected-website",
+    "https://educate.ceros.com/en/articles/12464815-how-does-markup-io-know-where-on-a-website-a-pin-is",
+    "https://educate.ceros.com/en/articles/12465257-cloudflare-challenge-testing-with-markup-proxy",
+    "https://educate.ceros.com/en/articles/12454966-settings-in-a-markup",
+    "https://educate.ceros.com/en/articles/12463822-markup-io-chrome-extension",
+    "https://chromewebstore.google.com/detail/markup-for-chrome/llbkdcpbiogplgmefnkbgcdfiopfphbc",
+    "https://educate.ceros.com/en/collections/15677212-integrations",
+    "https://educate.ceros.com/en/articles/12463682-zapier-x-markup-io-integration",
+    "https://educate.ceros.com/en/articles/15692798-what-can-you-do-with-the-markup-api",
+    "https://bugherd.com",
+    "https://bugherd.com/pricing"
+  ],
+  "metaTitle": "Markup.io vs BugHerd (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Markup.io and BugHerd, compared honestly: who checks, where feedback goes, what stays private, real pricing. And one third option, clearly marked."
+}

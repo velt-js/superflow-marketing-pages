@@ -1,0 +1,257 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "BugHerd vs Ruttl",
+  "slug": { "current": "bugherd-vs-ruttl" },
+  "toolLeftName": "BugHerd",
+  "toolRightName": "Ruttl",
+  "kicker": "· BUGHERD VS RUTTL · COMPARED FOR AGENCIES",
+  "headline": "BugHerd vs Ruttl: which fits your agency?",
+  "standfirst": "Both let clients pin feedback on a live page and comment for free. The fork: BugHerd manages that feedback on its own built-in board and leaves the page alone. Ruttl adds a genuine edit mode, so you can change text, layout, and code on the live page, plus a real Approve-page sign-off gate.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from bugherd.com and ruttl.com.",
+  "shortAnswerPickLeft": "if you want feedback pinned on the live page and managed on a self-contained board, with deep PM integrations and predictable per-tier pricing as your team grows.",
+  "shortAnswerPickRight": "if you want to make live visual and code edits on the page itself, want a real Approve-page sign-off gate, and are comfortable starting on a free tier with tight caps.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person finds every issue, then pins it on the page.",
+        "BugHerd ships no automated check of the site."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "A person finds every issue too; nothing scans the site for mistakes on its own.",
+        "Ruttl AI is scoped to comment sentiment analysis and site performance suggestions. Accessibility, SEO, and codebase audit are marked Coming soon."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Even. In both tools, finding the mistake is a person's job. Ruttl layers in two narrow AI helpers, comment sentiment and performance suggestions, that assist the review but do not check the site itself."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make commenting easy. The sign-off step is where they differ.",
+      "leftFacts": [
+        "Guests comment free from a link, no account.",
+        "A formal approval flow: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Guests comment free from a shareable link, no signup.",
+        "Approve page locks the page from further comments or edits until unapproved, a real sign-off step."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Comment collection: even, both free and open to guests. A recorded sign-off: Ruttl has a verified gate in Approve page; BugHerd's approval flow is not yet verified."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Both work on the live page. One also lets you change it.",
+      "leftFacts": [
+        "Pins live on the site itself and stay through changes.",
+        "Behind-login and authenticated-site behavior: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "The live page loads in the project panel; Comment mode is the default.",
+        "Edit mode lets you visually change text, images, layout, and HTML and CSS on the live page.",
+        "The Chrome extension covers password-protected sites, login-based apps, and web apps."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Reviewing the live page: even, both do it. Changing the page itself: Ruttl, with Edit mode; a BugHerd equivalent: not yet verified."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree before the client sees it.",
+      "leftFacts": [
+        "Private comments: not yet verified."
+      ],
+      "rightFacts": [
+        "Private comments are listed on the pricing page as a feature, with per-plan caps.",
+        "Whether clients can see them, the internal-only scope: not yet verified."
+      ],
+      "verdict": "Ruttl names the feature; on BugHerd, private comments are not yet verified. The question that matters, whether either tool actually hides the comment from the client, is not yet verified on either."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both pin the exact spot. What rides along with the pin differs.",
+      "leftFacts": [
+        "Browser, OS, and screen size attach to every pin.",
+        "Video feedback.",
+        "Automatic per-comment screenshots: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Pixel-pinned comments on the exact element, on live websites, web and mobile apps, images, and PDFs.",
+        "Screen-recorded video comments.",
+        "Automatic per-comment screenshots: not yet verified. Browser, OS, or screen-size metadata: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Video feedback: even, both real. Metadata: BugHerd has a verified claim (browser, OS, screen size); Ruttl's equivalent is not yet verified. Automatic screenshots: a dash on both."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "No memory or knowledge concept found. Versioning keeps old versions with their comments, which is not the same as remembering a client."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: neither. Ruttl's versioning is project history, not client memory."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "Both ship a built-in board. The integration lists mostly overlap.",
+      "leftFacts": [
+        "Feedback pins to the page and stays there; the kanban is built in.",
+        "Integrations: Jira, Trello, Asana, ClickUp, Slack, Teams."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Built-in Kanban workflow. Convert comments to tasks, assign owners, set priority and deadlines.",
+        "Integrations: Slack, Trello, Asana, Jira, and ClickUp on Pro and up, plus Zapier.",
+        "Native two-way sync with a PM tool: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Even on the core list: both name Jira, Trello, Asana, Slack, and ClickUp, plus a built-in kanban. Ruttl gates ClickUp to Pro and up; BugHerd lists ClickUp among its integrations, and whether a tier gate applies is not yet verified. Native two-way sync: not yet verified on either side."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the seat math are different numbers.",
+      "leftFacts": [
+        "Standard $50, Studio $80, Premium $150 per month, for 5, 10, and 25 members. Plus $8 per extra member; enterprise custom with SSO.",
+        "Guests free, no page-view caps advertised."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Basic is free: 1 project, 5 pages, 10 comments, 1GB storage. The vendor's own pages disagree on the seat count, the plan card says up to 5 users and unlimited guests, the comparison table says 1 user and up to 5 guests; that conflict is unresolved.",
+        "Pro is $18 per user per month: up to 50 users, unlimited projects and pages, 50GB storage. Business and Enterprise are custom.",
+        "Guests free, no page-view caps advertised."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Per seat: BugHerd runs from $10 down to $6 per member as tiers grow; Ruttl Pro is a flat $18 per user regardless of headcount. Smaller teams often land cheaper on Ruttl's free tier or BugHerd's Standard; larger teams often land cheaper on BugHerd's higher tiers. Both keep guests free with no page-view caps advertised."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person; Ruttl AI: sentiment, performance suggestions"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest comments; approval gate -",
+      "rightCell": "free guest comments, no signup; Approve page gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "on-page pins, live site; behind-login -",
+      "rightCell": "live page, Comment and Edit modes; extension for logins"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "private comments named, capped; client-hidden scope -"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "browser, OS, screen size; video; auto-screenshots -",
+      "rightCell": "pixel-pinned comments; video; auto-screenshots -, metadata -"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Jira, Trello, Asana, ClickUp, Slack, Teams",
+      "rightCell": "built-in kanban; Slack, Trello, Asana, Jira, ClickUp Pro+, Zapier; sync -"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$50 / $80 / $150 per month, +$8/member",
+      "rightCell": "Free (seat count conflict) / $18 per user per month / Custom"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. BugHerd: Standard $50 per month (5 members, $10 per seat), Studio $80 (10 members, $8 per seat), Premium $150 (25 members, $6 per seat), plus $8 per extra member above the tier; enterprise custom with SSO. Guests comment free; no page-view caps advertised. Ruttl: Basic is free, but the vendor's own pages disagree on the seat count, the plan card lists up to 5 users and unlimited guests, the comparison table lists 1 user and up to 5 guests, both with 1 project, 5 pages, 10 comments, and 1GB storage; that discrepancy is unresolved, so the free tier's real seat count stays a dash rather than a pick. Pro is a flat $18 per user per month for up to 50 users, unlimited projects and pages, and 50GB storage. Business and Enterprise are custom, contact sales. Guests are free on Ruttl too, and neither vendor advertises page-view caps on its paid tiers. At small team sizes, Ruttl's flat per-seat Pro price often undercuts BugHerd's Standard; at larger member counts, BugHerd's per-tier pricing, as low as $6 per seat on Premium, can undercut Ruttl's flat $18.",
+  "thirdOptionBody": "Both BugHerd and Ruttl assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "BugHerd if feedback should live on a self-contained board with deep PM integrations; Ruttl if you want to edit the live page directly and want a free tier to start on."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. BugHerd and Ruttl guests comment free from a shareable link, no signup on either."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Ruttl's Basic is free with tight caps (1 project, 5 pages, 10 comments) and a seat count its own pages disagree on; its Pro is a flat $18 per user. BugHerd starts at $50 per month for 5 members. Price both against your team size and the caps."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person found. Ruttl's AI adds comment sentiment analysis and performance suggestions; nothing in either tool scans the site for mistakes on its own. That's the third option above."
+    },
+    {
+      "question": "Can I edit the live page directly in either tool?",
+      "answer": "Ruttl's Edit mode lets you change text, images, layout, and HTML and CSS on the live page without touching code. A BugHerd equivalent is not yet verified; BugHerd pins feedback for someone else to fix."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best BugHerd alternatives",
+      "href": "/preview/comparison/bugherd-alternative"
+    },
+    {
+      "label": "The 5 best Ruttl alternatives",
+      "href": "/preview/comparison/ruttl-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "Superflow vs Ruttl",
+      "href": "/preview/comparison/superflow-vs-ruttl"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://bugherd.com",
+    "https://bugherd.com/pricing",
+    "https://ruttl.com",
+    "https://ruttl.com/website-feedback-tool/",
+    "https://ruttl.com/pricing/",
+    "https://www.ruttl.com/features/comment-on-website",
+    "https://www.ruttl.com/support/using-ruttl",
+    "https://www.ruttl.com/usecases/for-developers",
+    "https://chromewebstore.google.com/detail/ruttl/doecfodblgfnjmmphbedjgllipnbgbld"
+  ],
+  "metaTitle": "BugHerd vs Ruttl (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "BugHerd and Ruttl, compared honestly: who checks, where feedback goes, what clients pay for, real pricing. And one third option, clearly marked."
+}

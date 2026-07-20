@@ -1,0 +1,147 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Usersnap alternatives for agencies (2026)",
+  "slug": { "current": "usersnap-alternative" },
+  "anchorName": "Usersnap",
+  "kicker": "· USERSNAP ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Usersnap alternatives for agencies (2026)",
+  "standfirst": "Usersnap is a solid widget for collecting feedback from end users. The gap is agency client review: a human still finds every issue, and a formal approval flow is not yet verified. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Usersnap is a feedback tool. Superflow is a feedback tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person, via the widget",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "anyone submits via widget or survey; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "widget on the live site; behind logins -",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal notes, dashboard-only",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "manual screenshots and screen recordings with voice; auto metadata; console logs on Professional and up",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "50+ integrations plus Zapier; two-way Jira, Jira Product Discovery, Azure DevOps, Linear",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "free for 20 items, then $49 / $109 / $189 / from $369 per month billed yearly (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira sync today.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that live in a tracker.",
+      "standout": "two-way Jira sync, console logs, network requests, and session replay on the Team plan.",
+      "limits": "A person finds every issue, then reports it. Nothing checks the site on its own. Formal client approval flow: not yet verified. Pricing from $39 per month billed annually (July 2026).",
+      "vsAnchor": "Usersnap and Marker.io are both human-reported. Marker.io syncs deeper into trackers like Jira; Usersnap adds surveys and a feature-request portal Marker.io doesn't name."
+    },
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies who want element pins with browser and OS data attached, on a budget.",
+      "standout": "built-in kanban, free guest links, and deep integrations including Jira and Trello.",
+      "limits": "A person finds every issue by hand. No memory concept. Formal approval flow: not yet verified. Pricing: Standard $50, Studio $80, Premium $150 per month, plus $8 per member (verified July 2026).",
+      "vsAnchor": "BugHerd is built for site QA and pinning; Usersnap is built for end-user feedback and surveys. Neither one runs the check itself."
+    },
+    {
+      "name": "Userback",
+      "bestFor": "product teams wanting session replay with every report.",
+      "standout": "annotated screenshots, video, session replay, console logs, and network requests on one submission, plus a native MCP server for AI coding tools.",
+      "limits": "A person reports every issue; AI only organizes after submission. No formal client approval flow verified. Free plan locks feedback after 7 days. Pricing: Free $0, Team $29, Business $79, Business Plus $159 per month billed annually (verified July 2026).",
+      "vsAnchor": "Both are widget-first feedback platforms for end users, not agency client review. Userback adds session replay and an MCP server; Usersnap adds a public guest portal and opportunity roadmapping Userback doesn't name."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds with clients.",
+      "standout": "speed; share links.",
+      "limits": "Proxy-based review, not the live site: not yet verified. Light workflow. Human-found only. Pricing: not yet verified.",
+      "vsAnchor": "Faster to start than Usersnap's widget setup. Reviews a proxy copy, not the live site: not yet verified. Still human-found only, same as Usersnap."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Usersnap",
+  "stayBody": "A visual feedback widget with annotated screenshots and screen recordings with voice, plus auto metadata on every submission. Guests send feedback with no account. Two-way sync reaches Jira, Jira Product Discovery, Azure DevOps, and Linear. Surveys, a feature-request portal, and a changelog live in one platform (verified July 2026).",
+  "stayLine": "If your goal is collecting user feedback, surveys, and feature requests through a widget, and a human reports each issue, Usersnap is a solid feedback platform. Stay.",
+  "faq": [
+    {
+      "question": "Which is the best Usersnap alternative?",
+      "answer": "Depends which criterion fails you. If it's agency client review and the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just Usersnap with AI?",
+      "answer": "No. Usersnap's AI sorts feedback a person already sent. Superflow's agents find the mistakes first, and a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, Usersnap included. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "Usersnap is a feedback tool. Superflow is a feedback tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": ["https://usersnap.com", "https://usersnap.com/pricing"],
+  "metaTitle": "5 Best Usersnap Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Usersnap alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}
