@@ -1,0 +1,236 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "BugHerd vs Marker.io",
+  "slug": { "current": "bugherd-vs-marker-io" },
+  "toolLeftName": "BugHerd",
+  "toolRightName": "Marker.io",
+  "kicker": "· BUGHERD VS MARKER.IO · COMPARED FOR AGENCIES",
+  "headline": "BugHerd vs Marker.io: which fits your agency?",
+  "standfirst": "Both collect website feedback with a pin and a screenshot. The fork: BugHerd keeps feedback on the page and manages it on its own board. Marker.io turns feedback into tickets inside the tracker your team already runs.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from bugherd.com and marker.io.",
+  "shortAnswerPickLeft": "if you want feedback pinned on the live page and managed on a built-in board, with clients commenting free.",
+  "shortAnswerPickRight": "if the fixes live in Jira, GitHub, or Linear and your developers never want to leave, and you want console logs and session replay attached to every report.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person finds every issue, then pins it.",
+        "No AI."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "A person finds every issue, then reports it.",
+        "Its AI translates, retitles, and rewrites report text; it does not look at the site."
+      ],
+      "rightVerified": "verified marker.io/ai, July 2026",
+      "verdict": "Even. In both tools, the checking is a person's job. That is the premise the third option removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make commenting easy. Neither makes the yes formal.",
+      "leftFacts": [
+        "Guests comment free from a link, no account.",
+        "A formal approval flow: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Reporters submit free from the widget, no account.",
+        "Ongoing client collaborators are paid guest seats.",
+        "A formal approval flow: none found on marker.io, July 2026."
+      ],
+      "verdict": "Comment collection: even, both good. A recorded client sign-off: neither, pending verification."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "On the page, or on a picture of the page.",
+      "leftFacts": [
+        "Pins live on the site itself and stay through changes."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "You annotate a captured screenshot of the page; the report carries the picture, not a persistent on-page pin.",
+        "Widget on the live site, extension for members.",
+        "Behind-login behavior on both: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Persistent on-page review: BugHerd. Capture-and-file: Marker.io. Different philosophies more than a ranking."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Private comments: not yet verified."
+      ],
+      "rightFacts": [
+        "Internal comments on every plan."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "As verified today: Marker.io. Firms up once BugHerd's dash resolves."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both capture context. One captures much more of it.",
+      "leftFacts": [
+        "Browser, OS, and screen size attach to every pin.",
+        "Video feedback."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Console logs, network requests, and session replay attach on the Team plan and up.",
+        "Environment details on every plan."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Technical depth: Marker.io, and it is not close. If your developers debug from reports, this dimension may decide the page."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: neither. Worth knowing before you invest years of client history in either."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The biggest difference is where the feedback goes.",
+      "leftFacts": [
+        "Feedback pins to the page and stays there. The kanban is built in. The tool is the workspace.",
+        "Integrations: Jira, Trello, Asana, ClickUp, Slack, Teams."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Feedback becomes a ticket in your tracker. The dashboard is a waypoint; the tracker is the workspace.",
+        "Thirteen-plus integrations, dev-side especially: GitHub, GitLab, Linear, Bitbucket; Jira from the Team plan; Azure DevOps on Business."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Self-contained studio: BugHerd. Tracker-centered dev shop: Marker.io. Note the plan gates: Jira costs Marker.io's Team tier."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the math are different numbers.",
+      "leftFacts": [
+        "$50 / $80 / $150 per month, 5 / 10 / 25 members, +$8 per extra member.",
+        "Guests free, no page-view caps advertised."
+      ],
+      "leftVerified": "verified July 2026",
+      "rightFacts": [
+        "Starter $39/mo annual (3 users, 10 projects, 5k page views/mo). Team $149 annual (15 users, 50 projects, 25k page views/mo).",
+        "Agency plan $129/mo, $99 annual: 15 members, 50 projects, 50 guests, conditions apply."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Lowest entry: Marker.io, if the caps fit. Predictable at client scale: BugHerd. Agencies should price Marker.io Agency against BugHerd Studio, caps included."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest comments; gate -",
+      "rightCell": "free reporters; paid guest seats; gate -"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "on-page pins, live site",
+      "rightCell": "annotated screenshots into the tracker"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "internal comments, all plans"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "browser, OS, screen size; video",
+      "rightCell": "console logs, network requests, session replay Team+"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Jira, Trello, Asana, ClickUp, Slack, Teams",
+      "rightCell": "your tracker; 13+ incl. GitHub, GitLab, Linear; Jira Team+"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "from $50, guests free",
+      "rightCell": "from $39 annual, capped; Agency $99 to $129"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. The agency-shaped comparison: BugHerd Studio $80 (10 members, guests free, no caps advertised) against Marker.io Agency $129, $99 annual (15 members, 50 guests, 50 projects, page-view conditions). Which wins depends on how many clients comment and how much traffic the reviewed sites carry.",
+  "thirdOptionBody": "Both BugHerd and Marker.io assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, pin what they find, your team decides, and your client approves from a link. No account, no login, no app, from their phone.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/preview/comparison/superflow-vs-marker-io"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "BugHerd if feedback should live on the page with clients commenting free; Marker.io if your fixes live in a tracker and you want technical context attached."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. BugHerd guests comment from a link; Marker.io reporters submit without an account. Ongoing client collaborators are paid seats on Marker.io."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Marker.io starts lower ($39 annual); BugHerd is simpler to predict at client scale (guests free, no page-view caps advertised). Price the caps."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person found. Marker.io's AI edits report text; nothing in either tool looks at the site. That's the third option above."
+    },
+    {
+      "question": "Which handles developer handoff better?",
+      "answer": "Marker.io: console logs, network requests, session replay, and the dev-tracker integrations are its center of gravity."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best BugHerd alternatives",
+      "href": "/preview/comparison/bugherd-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://bugherd.com",
+    "https://bugherd.com/pricing",
+    "https://marker.io",
+    "https://marker.io/pricing",
+    "https://marker.io/ai"
+  ],
+  "metaTitle": "BugHerd vs Marker.io (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "BugHerd and Marker.io, compared honestly: who checks, where feedback goes, what clients cost, real pricing. And one third option, clearly marked."
+}

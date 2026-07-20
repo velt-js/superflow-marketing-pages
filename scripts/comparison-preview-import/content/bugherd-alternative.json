@@ -1,0 +1,143 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best BugHerd alternatives for agencies (2026)",
+  "slug": { "current": "bugherd-alternative" },
+  "anchorName": "BugHerd",
+  "kicker": "· BUGHERD ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best BugHerd alternatives for agencies (2026)",
+  "standfirst": "BugHerd is a fine QA tool. The gap is usually the hours a person spends finding mistakes. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "BugHerd is a QA tool. Superflow is a QA tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live site; behind logins -",
+      "rightCell": "live site, behind logins and SSO"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "browser, OS, screen size; video; auto-screenshots -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Jira, Trello + 4 more",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$50 / $80 / $150 per month, +$8 per member (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira sync today.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that live in a tracker.",
+      "standout": "capture into Jira, Linear, Asana, with technical metadata.",
+      "limits": "A person finds every issue. Screenshot-first, not a live-site overlay. A formal client approval gate: not yet verified. Pricing from $39 per month annual (July 2026).",
+      "vsAnchor": "deeper tracker integrations; screenshot-first, not on-page. Still a person finding every mistake."
+    },
+    {
+      "name": "Usersnap",
+      "bestFor": "product teams collecting user feedback.",
+      "standout": "in-product widgets and surveys.",
+      "limits": "Product feedback, not agency client review. Human-found only. Pricing: not yet verified.",
+      "vsAnchor": "adds user-feedback widgets BugHerd doesn't have. Less built for client site review."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds with clients.",
+      "standout": "speed; share links.",
+      "limits": "Proxy-based review, not the live site: not yet verified. Light workflow. Human-found only. Pricing: not yet verified.",
+      "vsAnchor": "faster to start. Reviews a proxy copy, not the live site: not yet verified."
+    },
+    {
+      "name": "Ruttl",
+      "bestFor": "the closest BugHerd-like experience on a budget.",
+      "standout": "suggest-edits mode on live pages.",
+      "limits": "Same premise: people find, the tool records. Full feature set and pricing: not yet verified.",
+      "vsAnchor": "the budget BugHerd. Similar pins, plus suggest-edits, lighter board: not yet verified."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on BugHerd",
+  "stayBody": "Pins with browser and OS attached. Built-in kanban. Free guest links. Deep integrations, Jira and Trello included (verified July 2026).",
+  "stayLine": "If a careful human pass works for your studio, stay.",
+  "faq": [
+    {
+      "question": "Which is the best BugHerd alternative?",
+      "answer": "Depends which criterion fails you. If it's the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just BugHerd with AI?",
+      "answer": "No. Agents find the mistakes; a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, BugHerd included. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "BugHerd is a QA tool. Superflow is a QA tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": ["https://bugherd.com", "https://bugherd.com/pricing"],
+  "metaTitle": "5 Best BugHerd Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest BugHerd alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}
