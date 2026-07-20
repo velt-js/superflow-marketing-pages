@@ -1,8 +1,8 @@
 // Preview route for the 2026 alternatives hub.
 //
-//   /preview/comparison/alternatives  →  the alternatives listicles only,
-//   rendered with ComparisonHubBody. A static segment, so it wins over the
-//   /preview/comparison/[slug] dynamic route.
+//   /preview/alternative  →  the alternatives listicles only, rendered with
+//   ComparisonHubBody. The detail pages stay at
+//   /preview/comparison/<x>-alternative.
 //
 // Shares the comparisonPreviewHub Sanity doc for chrome; the hero copy is
 // overridden here because the alternatives class has its own framing.
@@ -26,7 +26,7 @@ import { SITE_URL } from "@/app/_seo/schema";
 export const revalidate = 60;
 
 const COMPARISON_PATH = "/preview/comparison";
-const BASE_PATH = "/preview/comparison/alternatives";
+const BASE_PATH = "/preview/alternative";
 const HUB_TITLE = "Alternatives, ranked honestly";
 const HUB_DESCRIPTION =
   "The switcher listicles: the best options per tool, every claim from the vendor's own site, dated, including one honest reason to stay.";

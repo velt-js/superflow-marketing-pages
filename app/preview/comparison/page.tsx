@@ -98,7 +98,7 @@ export default async function ComparisonPreviewHubPage() {
         crossLinks={[
           {
             label: "Alternatives, ranked honestly: the listicle hub",
-            href: `${BASE_PATH}/alternatives`,
+            href: "/preview/alternative",
           },
         ]}
       />
