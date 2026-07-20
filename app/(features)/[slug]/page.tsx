@@ -11,7 +11,7 @@ import {
   ReviewPageBody,
   type ReviewPageDoc,
 } from "@/components/review/ReviewPageBody";
-import ChecklistDetailPage from "@/components/checklist/ChecklistDetailPage";
+import ChecklistDetailPage from "@/components/checklist-2026/ChecklistDetailPage";
 import FeaturePageBody, {
   type FeaturePageDoc,
 } from "@/components/feature-2026/FeaturePageBody";

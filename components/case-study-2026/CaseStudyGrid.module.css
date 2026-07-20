@@ -1,0 +1,152 @@
+/* Case-study listing grid — 2026 redesign for the /case-study index page.
+   Reuses the canonical 2026 card idiom from
+   components/feature-2026/RelatedCapabilities.module.css (light card,
+   hairline border, accent hover border/shadow/lift), but leads each card
+   with the customer's company logo instead of a category glyph since
+   case studies ship real brand marks from the CMS. */
+
+.section {
+    --csg-display: var(--font-urbanist), system-ui, sans-serif;
+    --csg-body: var(--font-poppins), system-ui, sans-serif;
+    --csg-ink: #16171a;
+    --csg-muted: #6b7079;
+    --csg-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 96px 24px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    width: 100%;
+    height: 100%;
+    padding: 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    transform: translateY(-2px);
+}
+
+.card:focus-visible {
+    outline: 2px solid var(--csg-accent);
+    outline-offset: 2px;
+}
+
+/* Company logo mark sitting above the copy — brand marks are already
+   colourful, so no tile/disc behind them (per the 2026 icon rules). */
+.logo {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.cardText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.cardTitle {
+    font-family: var(--csg-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    color: var(--csg-ink);
+}
+
+.cardDesc {
+    font-family: var(--csg-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--csg-muted);
+}
+
+.cardCta {
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--csg-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: var(--csg-accent);
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 64px 20px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}

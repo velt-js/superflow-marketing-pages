@@ -1,0 +1,192 @@
+/* Checklist tips section — 2026 redesign. A two-column layout on white:
+   sticky left rail (serif ink heading, muted intro copy, outline CTA, super
+   tips) and a right column of checklist rows separated by hairline borders,
+   each led by a light checkbox square. */
+
+.section {
+  --cs-ink: #16171a;
+  --cs-muted: #6b7079;
+  --cs-accent: #433df3;
+  --cs-border: #ececf1;
+  --cs-font-display: var(--font-adamina), Georgia, serif;
+  --cs-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --cs-font-body: var(--font-poppins), system-ui, sans-serif;
+  --cs-font-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 72px 24px;
+  background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 72px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.rail {
+  position: sticky;
+  top: 110px;
+  align-self: start;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.2vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--cs-ink);
+}
+
+.description {
+  margin-top: 18px;
+  font-family: var(--cs-font-body);
+}
+
+.railCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  padding: 12px 22px;
+  border: 1px solid rgba(67, 61, 243, 0.4);
+  border-radius: 32px;
+  background: #ffffff;
+  color: var(--cs-ink);
+  font-family: var(--cs-font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.railCta:hover {
+  border-color: var(--cs-accent);
+  background: #fbfbfd;
+}
+
+.railCta:focus-visible {
+  outline: 2px solid var(--cs-accent);
+  outline-offset: 2px;
+}
+
+.superTips {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.superTipsLabel {
+  margin: 0;
+  font-family: var(--cs-font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+}
+
+.superTip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--cs-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--cs-muted);
+}
+
+.superTipGlyph {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tips {
+  display: flex;
+  flex-direction: column;
+}
+
+.tip {
+  display: flex;
+  gap: 16px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.tip:first-child {
+  padding-top: 0;
+}
+
+.tip:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Light checkbox square leading each checklist row. */
+.checkbox {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  border: 1.5px solid #d6d7e0;
+  border-radius: 6px;
+  background: #fbfbfd;
+}
+
+.tipBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.tipTitle {
+  margin: 0;
+  font-family: var(--cs-font-ui);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+  color: var(--cs-ink);
+}
+
+.tipDescription {
+  margin-top: 10px;
+  font-family: var(--cs-font-body);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .rail {
+    position: static;
+  }
+
+  .superTips {
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: 56px 20px;
+  }
+}

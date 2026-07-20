@@ -1,4 +1,4 @@
-import ListingPage from "@/components/listing/ListingPage";
+import CaseStudyListingPage from "@/components/case-study-2026/CaseStudyListingPage";
 import { getAllCaseStudyListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -44,20 +44,10 @@ export default async function CaseStudyIndexPage() {
           })),
         }}
       />
-      <ListingPage
-        config={{
-          hero: { heading: HERO_HEADING, subheading: HERO_SUBHEADING },
-          grid: {
-            variant: "icon-vertical",
-            items: items.map((item) => ({
-              title: item.title,
-              subtitle: item.description,
-              icon: item.logo || item.thumbnail || "/images/hero/icon-world.svg",
-              href: `/case-study/${item.slug}`,
-              cta: "Read case study",
-            })),
-          },
-        }}
+      <CaseStudyListingPage
+        heading={HERO_HEADING}
+        subheading={HERO_SUBHEADING}
+        items={items}
       />
     </>
   );

@@ -1,0 +1,184 @@
+/* Case-study detail hero — 2026 redesign.
+   Same blue gradient bitmap + white Adamina serif headline idiom as
+   components/use-case-2026/UseCaseHero.module.css, with the case study's
+   company logo above the headline and a white meta card (industry / teams /
+   company size) sitting on the hero's fade into the white page below. */
+
+.hero {
+    --cshero-card: #feffff;
+    --cshero-ink: #16171a;
+    --cshero-muted: #6b7079;
+    --cshero-serif: var(--font-adamina), Georgia, serif;
+    --cshero-display: var(--font-urbanist), system-ui, sans-serif;
+    --cshero-body: var(--font-poppins), system-ui, sans-serif;
+    --cshero-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    /* Height of the fixed SiteNav overlay; reserved as top padding so hero
+       content is never hidden behind it. Keep in sync with SiteNav's height. */
+    --site-nav-height: 70px;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: var(--cshero-display);
+    background-color: var(--cshero-card);
+    background-image: url("/images/home-2026/hero/hero-gradient.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    /* Taller than the section so the blue stays saturated behind every
+       headline line AND the subhead (case-study titles run 3 lines, and the
+       logo chip + kicker push the subhead deep into the bitmap); the ::after
+       fade dissolves the crop into the white section underneath. */
+    background-size: 100% 1020px;
+}
+
+/* Soft white fade over the hero's lower edge — the meta card below sits on
+   this transition so the section hands off seamlessly to the white page. */
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 240px;
+    background: linear-gradient(180deg, rgba(254, 255, 255, 0) 0%, var(--cshero-card) 92%);
+    pointer-events: none;
+}
+
+.inner {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: calc(var(--site-nav-height) + 64px) 24px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+/* White chip parking the customer's brand mark on the gradient. */
+.logoChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(10, 10, 30, 0.18);
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.kicker {
+    margin: 0;
+    font-family: var(--cshero-mono);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+    margin: 0;
+    max-width: 980px;
+    font-family: var(--cshero-serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.8vw, 56px);
+    line-height: 1.16;
+    letter-spacing: -1.4px;
+    color: #ffffff;
+    text-wrap: balance;
+}
+
+.subhead {
+    margin: 0;
+    max-width: 62ch;
+    font-family: var(--cshero-body);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.34px;
+    color: rgba(255, 255, 255, 0.8);
+    text-wrap: balance;
+}
+
+/* White meta card riding the fade into the page — the light replacement for
+   the old dark #141414 meta strip. */
+.metaCard {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    max-width: 860px;
+    margin-top: 36px;
+    padding: 28px 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+}
+
+.metaItem {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.metaLabel {
+    font-family: var(--cshero-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--cshero-muted);
+}
+
+.metaValue {
+    font-family: var(--cshero-display);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--cshero-ink);
+    text-align: center;
+}
+
+.metaDivider {
+    align-self: stretch;
+    width: 1px;
+    background: #ececf1;
+}
+
+@media (max-width: 700px) {
+    .hero {
+        background-size: 100% 1160px;
+    }
+
+    .inner {
+        padding: calc(var(--site-nav-height) + 44px) 20px 44px;
+        gap: 16px;
+    }
+
+    .metaCard {
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px;
+    }
+
+    .metaDivider {
+        width: 100%;
+        height: 1px;
+        align-self: auto;
+    }
+}

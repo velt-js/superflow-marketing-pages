@@ -1,0 +1,189 @@
+/* Barrier-card artifacts — light-theme decorative mocks that replace the
+   CMS's dark (white-on-transparent) illustrations inside the 2026 cards.
+   Palette mirrors the section: ink #16171a, muted #6b7079, accent #433df3. */
+
+.stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* --- "Lots of screenshots and messages" -------------------------------------- */
+
+.shot {
+    position: absolute;
+    width: 52%;
+    border: 1px solid #e4e4ec;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(20, 20, 43, 0.08);
+    overflow: hidden;
+}
+
+.shotBack {
+    top: 16%;
+    left: 10%;
+    transform: rotate(-4deg);
+}
+
+.shotFront {
+    top: 30%;
+    left: 30%;
+    transform: rotate(3deg);
+}
+
+.shotBar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 9px;
+    border-bottom: 1px solid #f0f0f5;
+    background: #fafafc;
+}
+
+.shotDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #dcdce6;
+}
+
+.shotBody {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px;
+}
+
+.shotBlock {
+    height: 8px;
+    border-radius: 4px;
+    background: #ececf3;
+}
+
+.shotBlockShort {
+    width: 62%;
+}
+
+.chatChip {
+    position: absolute;
+    top: 12%;
+    right: 8%;
+    padding: 6px 10px;
+    border-radius: 10px 10px 10px 3px;
+    background: #433df3;
+    color: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    box-shadow: 0 6px 16px rgba(67, 61, 243, 0.28);
+}
+
+.keyRow {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    display: flex;
+    gap: 8px;
+}
+
+.keycap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border: 1px solid #dfdfe9;
+    border-bottom-width: 3px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #16171a;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+/* --- "No clear owner" ------------------------------------------------------- */
+
+.taskCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 74%;
+    padding: 16px;
+    border: 1px solid #e4e4ec;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(20, 20, 43, 0.08);
+}
+
+.taskHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.taskTitle {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: #16171a;
+}
+
+.taskPill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fef2e4;
+    color: #b25e09;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.taskLine {
+    height: 8px;
+    border-radius: 4px;
+    background: #ececf3;
+}
+
+.taskLineShort {
+    width: 58%;
+}
+
+.taskMeta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f5;
+}
+
+.taskMetaLabel {
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12px;
+    color: #6b7079;
+}
+
+.taskAvatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1.5px dashed #c3c6cd;
+    border-radius: 50%;
+    background: #fafafc;
+    color: #9a9ea7;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}

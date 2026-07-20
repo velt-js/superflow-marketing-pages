@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import CaseStudyPage from "@/components/case-study/CaseStudyPage";
+import CaseStudyDetailBody from "@/components/case-study-2026/CaseStudyDetailPage";
 import {
   getAllCaseStudySlugs,
   getCaseStudyPageBySlug,
@@ -251,7 +251,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
       {faqEntries.length > 0 && (
         <JsonLd id="ld-case-study-faq" data={buildFaqPageSchema(faqEntries)} />
       )}
-      <CaseStudyPage config={config} />
+      <CaseStudyDetailBody config={config} logo={doc.logo} />
     </>
   );
 }

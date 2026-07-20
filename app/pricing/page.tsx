@@ -1,17 +1,18 @@
-// /pricing — composition mirrors the live usesuperflow.com/pricing page.
-// Static page (no Sanity); tier copy + comparison-table content live in
-// components/pricing/pricing-data.ts.
+// /pricing — 2026 light redesign. Static page (no Sanity); tier copy +
+// comparison-table content live in components/pricing/pricing-data.ts and
+// FAQ copy in components/pricing-2026/faq-data.ts.
 
-import Footer from "@/components/home/Footer";
-import LogoBar from "@/components/home/LogoBar";
-import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
-import DarkSection from "@/components/home/DarkSection";
-import { PageHero } from "@/components/library/PageHero";
-import { PricingTiers } from "@/components/pricing/PricingTiers";
-import { PricingComparisonTable } from "@/components/pricing/PricingComparisonTable";
+import SiteNav from "@/components/home-2026/SiteNav";
+import SiteFooter from "@/components/home-2026/SiteFooter";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
+import FaqSection from "@/components/home-2026/FaqSection";
+import IntercomButton from "@/components/home/IntercomButton";
+import ListingHero from "@/components/listing-2026/ListingHero";
+import PricingTiers from "@/components/pricing-2026/PricingTiers";
+import PricingComparisonTable from "@/components/pricing-2026/PricingComparisonTable";
+import { PRICING_FAQ_ITEMS } from "@/components/pricing-2026/faq-data";
 import { BillingProvider } from "@/components/pricing/BillingContext";
-import { pricingFAQ } from "@/components/pricing/pricing-faq";
-import { TIERS, APP_URL } from "@/components/pricing/pricing-data";
+import { TIERS } from "@/components/pricing/pricing-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -24,58 +25,9 @@ import {
 
 export const revalidate = 60;
 
-// Plain-text FAQ answers for the JSON-LD payload. Source of truth for
-// the rendered UI is components/pricing/pricing-faq.tsx, but two of
-// those entries embed inline links via JSX (`paragraphs`). We mirror
-// the prose verbatim here so the FAQPage schema submitted to Google is
-// plain text.
-const PRICING_FAQ_FOR_SCHEMA: Array<{ question: string; answer: string }> = [
-  {
-    question: "What is Superflow?",
-    answer:
-      "Superflow is a collaboration platform for agencies & marketers to review, proof and deliver creative assets fast. Superflow supports websites, videos, lottie animations, PDF and images. With Superflow agencies & marketers deliver more high quality creative assets fast.",
-  },
-  {
-    question: "What formats are supported in Superflow?",
-    answer:
-      "Superflow supports all types of Websites, Videos, Lottie, Images and PDFs.",
-  },
-  {
-    question: "What is counted as a seat?",
-    answer:
-      "Your team member (also called Admin user) that you invite to Superflow will be counted as a seat. Commenter User & Guest users are free.",
-  },
-  {
-    question:
-      "What is the difference between Admin, Commenter & Guest users?",
-    answer:
-      "Admin or team user: Your team members should be added as an admin user. They have full access to the admin panel and get access to all features in your account. Commenter user: Commenter Users can read or write comments but they need to authenticate or sign in to Superflow. You should add external users or your clients as commenters. This is available for all plans. These are free and not counted towards your seats. Guest user: Guest users can read or write comments without authenticating or signing in. You should add external users or your clients as guest users. This is only available on Scale and Enterprise plans. These are free and not counted towards your seats.",
-  },
-  {
-    question: "Does Superflow offer a free plan?",
-    answer:
-      "Superflow offers a free 10-day trial to new users, no credit card needed. During the trial period, you get full access to all features. We also offer a free forever Starter plan that becomes available after your trial has ended.",
-  },
-  {
-    question: "Do you offer any volume discounts?",
-    answer: "Yes, we offer volume discounts. Contact us to get started.",
-  },
-  {
-    question: "Do you offer any discounts for startups or education?",
-    answer:
-      "Yes, we offer discounts for early-stage startups. Contact us to get started.",
-  },
-  {
-    question: "How secure is Superflow?",
-    answer:
-      "Superflow supports Isolated dedicated storage and encrypts data in transit and at rest using industry standards. We are currently going through SOC2 certification.",
-  },
-  {
-    question: "How reliable and scalable is Superflow?",
-    answer:
-      "We guarantee at least 99.9% uptime and provide highly scalable infrastructure.",
-  },
-];
+const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
+const HERO_SUBHEADING =
+  "Transparent per-seat pricing with a free 10-day trial. Start free and upgrade whenever your team is ready.";
 
 // Product schema with one Offer per pricing tier. Starter is free (price
 // "0"), Growth/Scale carry the annual-per-month price, Enterprise is
@@ -125,7 +77,7 @@ const PRICING_BREADCRUMB = buildBreadcrumbList([
   { name: "Pricing", url: `${SITE_URL}/pricing` },
 ]);
 
-const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_FOR_SCHEMA);
+const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 
 export const metadata = buildPageMetadata({
   title: "Pricing — Ship Creative Assets Impossibly Fast",
@@ -141,7 +93,7 @@ export const metadata = buildPageMetadata({
 
 export default function PricingPage() {
   return (
-    <>
+    <main>
       {/* Breadcrumb emitted by the hand-rolled PRICING_BREADCRUMB block
           below, so PageJsonLd is called without a trail to avoid a
           duplicate BreadcrumbList. */}
@@ -153,34 +105,19 @@ export default function PricingPage() {
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />
       <JsonLd id="ld-pricing-faq" data={PRICING_FAQ_SCHEMA} />
       <JsonLd id="ld-pricing-breadcrumb" data={PRICING_BREADCRUMB} />
-      <div
-        className="relative bg-black text-white font-urbanist w-full overflow-x-hidden"
-      >
-        <PageHero
-          decorated
-          heading="Ship Creative Assets Impossibly Fast"
-          primaryCta={{
-            label: "Start Free Trial",
-            href: APP_URL,
-            newTab: true,
-          }}
-          secondaryCta={{ label: "Book Demo", href: "/book-demo" }}
-        />
 
-        <BillingProvider>
-          <PricingTiers />
+      <SiteNav />
+      <ListingHero heading={HERO_HEADING} subheading={HERO_SUBHEADING} hideCta />
 
-          <LogoBar />
+      <BillingProvider>
+        <PricingTiers />
+        <PricingComparisonTable />
+      </BillingProvider>
 
-          <PricingComparisonTable />
-        </BillingProvider>
-
-        <CustomerLoveCarousel />
-
-        <DarkSection faqItems={pricingFAQ} />
-
-        <Footer />
-      </div>
-    </>
+      <TestimonialsSection />
+      <FaqSection items={PRICING_FAQ_ITEMS} />
+      <SiteFooter />
+      <IntercomButton />
+    </main>
   );
 }

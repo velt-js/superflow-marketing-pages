@@ -21,6 +21,9 @@ export interface ListingHeroProps {
   ctaText?: string;
   /** CTA button destination; defaults to {@link DEFAULT_CTA_HREF}. */
   ctaHref?: string;
+  /** Hides the CTA button — used by pages whose primary action sits right
+      below the hero (e.g. /pricing tier cards, /book-demo calendar). */
+  hideCta?: boolean;
 }
 
 /**
@@ -42,6 +45,7 @@ export default function ListingHero({
   subheading,
   ctaText,
   ctaHref,
+  hideCta,
 }: ListingHeroProps) {
   const resolvedCtaText = ctaText ?? DEFAULT_CTA_TEXT;
   const resolvedCtaHref = ctaHref ?? DEFAULT_CTA_HREF;
@@ -52,9 +56,11 @@ export default function ListingHero({
       <div className={styles.inner}>
         <h1 className={styles.headline}>{heading}</h1>
         <p className={styles.subhead}>{subheading}</p>
-        <a className={styles.cta} href={resolvedCtaHref}>
-          {resolvedCtaText}
-        </a>
+        {hideCta ? null : (
+          <a className={styles.cta} href={resolvedCtaHref}>
+            {resolvedCtaText}
+          </a>
+        )}
       </div>
     </section>
   );
