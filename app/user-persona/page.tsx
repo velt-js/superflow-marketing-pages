@@ -1,4 +1,4 @@
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import { titleCase } from "@/lib/user-persona/format";
 import { getAllUserPersonaPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";

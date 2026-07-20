@@ -1,0 +1,123 @@
+/* Persona detail hero — a compact, single-column variant of the 2026
+   homepage hero (components/home-2026/Hero.module.css). Reuses the same blue
+   gradient bitmap and type tokens, tuned to a shorter section so the gradient
+   fades to white before the section ends instead of cutting with a hard edge. */
+
+.hero {
+  --persona-hero-card: #feffff;
+  --persona-hero-font-display: var(--font-adamina), Georgia, serif;
+  --persona-hero-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --persona-hero-font-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+  /* Height of the fixed SiteNav overlay; reserved as top padding so hero
+     content is never hidden behind it. */
+  --site-nav-height: 70px;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: var(--persona-hero-font-ui);
+  background-color: var(--persona-hero-card);
+  background-image: url("/images/home-2026/hero/hero-gradient.png");
+  background-repeat: no-repeat;
+  /* Taller than the section itself so the blue stays behind every headline
+     line (long persona titles wrap to 2–3 lines); the ::after fade below
+     dissolves the cropped bitmap into the white section underneath. */
+  background-size: 100% 880px;
+  background-position: top center;
+}
+
+/* Soft white fade over the hero's lower edge. The bitmap is cropped taller
+   than the section (see background-size above), so without this the crop
+   would end in a hard blue edge instead of the built-in fade-to-white. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 200px;
+  background: linear-gradient(180deg, rgba(254, 255, 255, 0) 0%, var(--persona-hero-card) 92%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  /* Wide enough that long persona titles settle on 2–3 balanced lines
+     instead of a narrow 4+-line stack. */
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  padding: calc(var(--site-nav-height) + 76px) 24px 112px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--persona-hero-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+  margin: 0;
+  max-width: 1000px;
+  font-family: var(--persona-hero-font-display);
+  font-weight: 400;
+  font-size: clamp(38px, 4.4vw, 58px);
+  line-height: 1.15;
+  letter-spacing: -1.4px;
+  color: #ffffff;
+  /* Even out the wrap so long titles land on balanced 2–3 line stacks. */
+  text-wrap: balance;
+}
+
+.subhead {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.4px;
+  color: rgba(255, 255, 255, 0.78);
+  text-wrap: balance;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 16px 28px;
+  border-radius: 32px;
+  background: #ffffff;
+  color: #101012;
+  font-family: var(--persona-hero-font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px rgba(20, 20, 43, 0.18);
+}
+
+@media (max-width: 620px) {
+  .hero {
+    background-size: 100% 980px;
+  }
+
+  .inner {
+    padding: calc(var(--site-nav-height) + 56px) 20px 88px;
+  }
+}

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import UseCaseDetailPage from "@/components/use-case/UseCaseDetailPage";
+import UseCaseDetailPage from "@/components/use-case-2026/UseCaseDetailPage";
 import {
   getAllUseCaseListItems,
   getAllUseCaseSlugs,

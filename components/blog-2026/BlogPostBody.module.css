@@ -1,0 +1,139 @@
+/* Blog post (/blog/[slug]) — 2026 redesign.
+   A centered header on a subtle light wash, a rounded featured-image card,
+   and the article body set at a comfortable reading width. Mirrors the
+   token set used by components/home-2026/Hero.module.css and
+   components/feature-2026/RelatedCapabilities.module.css. */
+
+.page {
+    --post-serif: var(--font-adamina), Georgia, serif;
+    --post-ui: var(--font-urbanist), system-ui, sans-serif;
+    --post-body: var(--font-poppins), system-ui, sans-serif;
+    --post-ink: #16171a;
+    --post-muted: #6b7079;
+    --post-accent: #433df3;
+    --post-border: #ececf1;
+    /* Height of the fixed SiteNav overlay; reserved as top padding. */
+    --site-nav-height: 70px;
+
+    background: #ffffff;
+}
+
+/* ------------------------------------------------------------------ Header */
+
+.header {
+    background: linear-gradient(180deg, #f7f7fb 0%, #ffffff 100%);
+    padding: calc(var(--site-nav-height) + 56px) 24px 40px;
+}
+
+.headerInner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.kicker {
+    margin: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--post-accent);
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--post-serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4.6vw, 52px);
+    line-height: 1.14;
+    letter-spacing: -1px;
+    color: var(--post-ink);
+    text-wrap: balance;
+}
+
+.authorRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ececf1;
+}
+
+.authorName {
+    font-family: var(--post-ui);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--post-ink);
+}
+
+.metaRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--post-body);
+    font-size: 14px;
+    color: var(--post-muted);
+}
+
+.metaDot {
+    opacity: 0.6;
+}
+
+/* ---------------------------------------------------------- Featured image */
+
+.featuredImageSection {
+    padding: 0 24px 48px;
+}
+
+.featuredImageWrap {
+    position: relative;
+    max-width: 1040px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--post-border);
+    background: #f2f2f5;
+}
+
+.featuredImage {
+    object-fit: cover;
+}
+
+/* ------------------------------------------------------------------ Body */
+
+.articleSection {
+    padding: 0 24px 96px;
+}
+
+.articleInner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+@media (max-width: 620px) {
+    .header {
+        padding: calc(var(--site-nav-height) + 32px) 20px 32px;
+    }
+
+    .featuredImageSection {
+        padding: 0 20px 32px;
+    }
+
+    .featuredImageWrap {
+        border-radius: 18px;
+    }
+
+    .articleSection {
+        padding: 0 20px 64px;
+    }
+}

@@ -1,0 +1,108 @@
+/* Feature rows — doc.features rendered as alternating image/text rows on a
+   light 2026 section. Type tokens mirror RelatedCapabilities.module.css. */
+
+.section {
+  --pf-serif: var(--font-adamina), Georgia, serif;
+  --pf-body: var(--font-poppins), system-ui, sans-serif;
+  --pf-ink: #16171a;
+  --pf-muted: #6b7079;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 96px 24px;
+  background: #fbfbfd;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 64px;
+}
+
+.rowReversed .text {
+  order: 2;
+}
+
+.rowReversed .media {
+  order: 1;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--pf-serif);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  color: var(--pf-ink);
+}
+
+.description {
+  margin: 0;
+  max-width: 46ch;
+  font-family: var(--pf-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--pf-muted);
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 560 / 360;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid #ececf1;
+  background: #ffffff;
+}
+
+.mediaImage {
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 860px) {
+  .inner {
+    gap: 64px;
+  }
+
+  .row,
+  .rowReversed {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .rowReversed .text,
+  .rowReversed .media {
+    order: initial;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 64px 20px;
+  }
+}

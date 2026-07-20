@@ -1,0 +1,142 @@
+/* Use-case "problem" section — light-theme restyle of the old dark
+   problemSection, matching the 2026 card idiom shared by
+   components/feature-2026/RelatedCapabilities.module.css. */
+
+.section {
+    --ucp-serif: var(--font-adamina), Georgia, serif;
+    --ucp-display: var(--font-urbanist), system-ui, sans-serif;
+    --ucp-body: var(--font-poppins), system-ui, sans-serif;
+    --ucp-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    --ucp-ink: #16171a;
+    --ucp-muted: #6b7079;
+    --ucp-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 96px 24px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.kicker {
+    margin: 0 0 16px;
+    font-family: var(--ucp-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ucp-accent);
+    text-align: center;
+}
+
+.heading {
+    margin: 0 0 56px;
+    max-width: 780px;
+    font-family: var(--ucp-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.14;
+    letter-spacing: -0.5px;
+    color: var(--ucp-ink);
+    text-align: center;
+}
+
+.headingMuted {
+    color: var(--ucp-muted);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    transform: translateY(-2px);
+}
+
+.cardImageFrame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f1f1f6;
+}
+
+.cardImage {
+    object-fit: contain;
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--ucp-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    color: var(--ucp-ink);
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 64px 20px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}
