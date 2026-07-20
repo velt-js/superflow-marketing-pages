@@ -1,6 +1,11 @@
 import Image from "next/image";
 import styles from "./PersonaFeatureRows.module.css";
+import SectionArtifact from "@/components/shared-2026/SectionArtifact";
+import { resolveSectionArtifact } from "@/lib/section-artifacts";
 import type { PersonaFeatureRow } from "./adapter";
+
+/** Height ÷ width of the row media box (`.media`'s 560 / 360 aspect-ratio). */
+const ROW_MEDIA_ASPECT = 360 / 560;
 
 /** Props for {@link PersonaFeatureRows}. */
 export interface PersonaFeatureRowsProps {
@@ -28,6 +33,13 @@ export default function PersonaFeatureRows({ rows }: PersonaFeatureRowsProps) {
             const rowClassName = isReversed
               ? `${styles.row} ${styles.rowReversed}`
               : styles.row;
+            // Prefer a hand-built product artifact (explicit CMS pick or
+            // keyword match on the copy) over the raw Framer bitmap.
+            const artifact = resolveSectionArtifact(
+              row?.artifact,
+              row?.title,
+              row?.description,
+            );
 
             return (
               <article key={row.title || row.image} className={rowClassName}>
@@ -36,13 +48,20 @@ export default function PersonaFeatureRows({ rows }: PersonaFeatureRowsProps) {
                   <p className={styles.description}>{row.description}</p>
                 </div>
                 <div className={styles.media}>
-                  <Image
-                    className={styles.mediaImage}
-                    src={row.image}
-                    alt={row.imageAlt ?? ""}
-                    fill
-                    sizes="(min-width: 1024px) 560px, 100vw"
-                  />
+                  {artifact ? (
+                    <SectionArtifact
+                      artifact={artifact}
+                      aspect={ROW_MEDIA_ASPECT}
+                    />
+                  ) : (
+                    <Image
+                      className={styles.mediaImage}
+                      src={row.image}
+                      alt={row.imageAlt ?? ""}
+                      fill
+                      sizes="(min-width: 1024px) 560px, 100vw"
+                    />
+                  )}
                 </div>
               </article>
             );

@@ -44,8 +44,9 @@
     text-align: center;
 }
 
+/* Second CMS heading field (title2) — same ink as title1, no two-tone. */
 .headingAccent {
-    color: var(--ucs-accent);
+    color: inherit;
 }
 
 .rows {

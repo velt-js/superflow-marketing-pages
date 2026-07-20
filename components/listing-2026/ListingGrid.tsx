@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
+import CategoryGlyph from "@/components/shared-2026/CategoryGlyph";
 import type { ListingItem } from "@/components/listing/ListingGrid";
 import { toInternalHref } from "@/lib/links";
 import styles from "./ListingGrid.module.css";
 
-/** Pixel size the card icon renders at, matching the RelatedCapabilities glyph. */
+/** Pixel size the card glyph renders at, matching the RelatedCapabilities glyph. */
 const ICON_SIZE = 32;
 
 /** Props for {@link ListingGrid}. */
@@ -13,75 +13,43 @@ export interface ListingGridProps {
       (title/subtitle/icon/iconNode/href/cta) so `lib/listing-data.ts` and the
       Sanity-driven mapping in the two app pages need no changes. */
   items: ListingItem[];
-  /**
-   * Inverts raster/SVG icons whose strokes ship light/white (the Framer
-   * use-case + user-persona icons were designed for dark cards). Mirrors the
-   * legacy grid's `iconInvert` prop so the two app pages pass it unchanged.
-   */
-  iconInvert?: boolean;
 }
 
 /**
- * Renders a listing item's icon, honoring `iconNode` (a pre-built React node)
- * over a plain `icon` image URL. Returns `null` when the item has neither, so
- * cards without an icon render with the same card padding, no empty box.
+ * Renders a listing item's icon: an `iconNode` (a pre-built React node) wins,
+ * otherwise a colourful Tabler {@link CategoryGlyph} resolved from the title.
+ * The CMS's flat white-stroke `icon` images are intentionally ignored — they
+ * were designed for the old dark cards and needed an invert/dark-chip hack on
+ * light ones.
  *
  * @param item - The listing item whose icon should be rendered.
- * @param invert - Whether to invert a light/white-stroke icon for a light card.
  */
-function ListingGridCardIcon({
-  item,
-  invert,
-}: {
-  item: ListingItem;
-  invert?: boolean;
-}) {
+function ListingGridCardIcon({ item }: { item: ListingItem }) {
   try {
     if (item?.iconNode) {
       return <>{item.iconNode}</>;
     }
-    if (item?.icon) {
-      return (
-        <Image
-          src={item.icon}
-          alt=""
-          width={ICON_SIZE}
-          height={ICON_SIZE}
-          className={styles.iconImage}
-          style={invert ? { filter: "invert(1)" } : undefined}
-        />
-      );
-    }
-    return null;
+    return <CategoryGlyph label={item?.title} size={ICON_SIZE} />;
   } catch {
     return null;
   }
 }
 
 /**
- * A single listing card: an optional icon, bold title and muted description,
- * with the whole card acting as the link — the canonical 2026 card idiom
- * from `components/feature-2026/RelatedCapabilities.tsx`.
+ * A single listing card: a colourful category glyph, bold title and muted
+ * description, with the whole card acting as the link — the canonical 2026
+ * card idiom from `components/feature-2026/RelatedCapabilities.tsx`.
  *
  * @param item - The listing item to render.
- * @param invert - Whether the item's icon needs inverting for a light card.
  */
-function ListingGridCard({
-  item,
-  invert,
-}: {
-  item: ListingItem;
-  invert?: boolean;
-}) {
+function ListingGridCard({ item }: { item: ListingItem }) {
   const resolvedHref = toInternalHref(item?.href) ?? item?.href ?? "#";
 
   return (
     <Link href={resolvedHref} className={styles.card}>
-      {item?.icon || item?.iconNode ? (
-        <span className={styles.icon} aria-hidden="true">
-          <ListingGridCardIcon item={item} invert={invert} />
-        </span>
-      ) : null}
+      <span className={styles.icon} aria-hidden="true">
+        <ListingGridCardIcon item={item} />
+      </span>
       <span className={styles.cardText}>
         <span className={styles.cardTitle}>{item?.title}</span>
         {item?.subtitle ? (
@@ -98,9 +66,9 @@ function ListingGridCard({
  * `components/listing/ListingGrid.tsx` with the light 2026 card idiom shared
  * with `components/feature-2026/RelatedCapabilities.tsx`.
  *
- * @param props - The items to render and whether their icons need inverting.
+ * @param props - The items to render.
  */
-export default function ListingGrid({ items, iconInvert }: ListingGridProps) {
+export default function ListingGrid({ items }: ListingGridProps) {
   try {
     if (!items || items.length === 0) {
       return null;
@@ -112,7 +80,7 @@ export default function ListingGrid({ items, iconInvert }: ListingGridProps) {
           <ul className={styles.grid}>
             {items.map((item) => (
               <li key={item?.href ?? item?.title} className={styles.item}>
-                <ListingGridCard item={item} invert={iconInvert} />
+                <ListingGridCard item={item} />
               </li>
             ))}
           </ul>

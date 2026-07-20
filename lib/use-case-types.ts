@@ -18,6 +18,8 @@ export interface UseCaseImageRef {
 export interface UseCaseProblemItem {
   title?: string;
   image?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 export interface UseCaseProblemSection {
@@ -30,6 +32,8 @@ export interface UseCaseSolutionItem {
   title?: string;
   subCopy?: string;
   image?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 export interface UseCaseSolutionSection {

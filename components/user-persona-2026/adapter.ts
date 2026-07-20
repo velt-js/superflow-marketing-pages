@@ -34,6 +34,8 @@ export interface PersonaProblemCard {
   title: string;
   description: string;
   image: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 /** Copy + cards for the "problem" section. */
@@ -49,6 +51,8 @@ export interface PersonaShowcaseContent {
   highlight?: string;
   image: string;
   imageAlt?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 /** One alternating image/text row in the feature-rows section. */
@@ -57,6 +61,8 @@ export interface PersonaFeatureRow {
   description: string;
   image: string;
   imageAlt?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 /** One sibling-persona card in the "related personas" section. */
@@ -136,6 +142,7 @@ interface PersonaJobFeatureLike {
   highlightSubText?: string;
   highlightImage?: string;
   barrierText?: string;
+  artifact?: string;
 }
 
 /** Minimal shape of one `doc.jobs[]` entry, local to this adapter since
@@ -161,6 +168,7 @@ function buildProblemCards(job0?: PersonaJobLike): PersonaProblemCard[] {
         title: feature?.highlightTitle ?? "",
         description: feature?.highlightSubText ?? feature?.barrierText ?? "",
         image: feature?.highlightImage ?? FALLBACK_SHOWCASE_IMAGE,
+        artifact: feature?.artifact,
       }));
   } catch {
     return [];
@@ -182,6 +190,7 @@ function buildFeatureRows(doc: SanityUserPersonaDoc): PersonaFeatureRow[] {
         description: feature?.subText ?? "",
         image: feature?.image ?? FALLBACK_SHOWCASE_IMAGE,
         imageAlt: feature?.title,
+        artifact: feature?.artifact,
       }));
   } catch {
     return [];
@@ -261,6 +270,11 @@ export function mapUserPersonaDocToPageContent(
       doc?.features?.[0]?.image ??
       job0?.features?.[0]?.highlightImage ??
       FALLBACK_SHOWCASE_IMAGE;
+    // The showcase artifact follows the same source precedence as its image.
+    const showcaseArtifact =
+      doc?.jobs?.[1]?.features?.[0]?.artifact ??
+      doc?.features?.[0]?.artifact ??
+      job0?.features?.[0]?.artifact;
 
     return {
       title,
@@ -281,6 +295,7 @@ export function mapUserPersonaDocToPageContent(
         highlight: doc?.solutionTitle2 ?? doc?.featureText2,
         image: showcaseImage,
         imageAlt: title,
+        artifact: showcaseArtifact,
       },
       featureRows: buildFeatureRows(doc),
       related: {

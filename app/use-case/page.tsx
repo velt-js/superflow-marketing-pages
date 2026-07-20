@@ -54,12 +54,10 @@ export default async function UseCaseIndexPage() {
             items: items.map((item) => ({
               title: item.useCase || item.title,
               subtitle: item.description,
-              icon: item.icon || "/images/hero/icon-world.svg",
               href: `/use-case/${item.slug}`,
             })),
           },
         }}
-        iconInvert
       />
     </>
   );

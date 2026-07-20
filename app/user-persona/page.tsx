@@ -47,7 +47,6 @@ export default async function UserPersonaIndexPage() {
           return {
             title: label,
             subtitle: d.description,
-            icon: d.icon,
             href: `/user-persona/${d.slug}`,
           };
         }),
@@ -81,7 +80,7 @@ export default async function UserPersonaIndexPage() {
             })),
         }}
       />
-      <ListingPage config={config} iconInvert />
+      <ListingPage config={config} />
     </>
   );
 }

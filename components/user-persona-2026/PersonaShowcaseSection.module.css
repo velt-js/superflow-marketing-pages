@@ -42,8 +42,9 @@
   color: var(--ps-ink);
 }
 
+/* Second CMS heading field — same ink as the lead, no two-tone. */
 .headingHighlight {
-  color: var(--ps-accent);
+  color: inherit;
 }
 
 .frame {

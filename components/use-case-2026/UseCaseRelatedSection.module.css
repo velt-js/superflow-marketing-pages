@@ -1,7 +1,6 @@
 /* Related use cases — cross-link cards on the 2026 card idiom, matching
-   components/feature-2026/RelatedCapabilities.module.css. The icon chip is
-   dark (--ucr-chip-bg) because the source icons are light/white-stroke SVGs
-   authored for dark backgrounds; a light card would swallow them otherwise. */
+   components/feature-2026/RelatedCapabilities.module.css. Each card leads
+   with a colourful Tabler stroke glyph (CategoryGlyph), no dark chip. */
 
 .section {
     --ucr-serif: var(--font-adamina), Georgia, serif;
@@ -10,7 +9,6 @@
     --ucr-ink: #16171a;
     --ucr-muted: #6b7079;
     --ucr-accent: #433df3;
-    --ucr-chip-bg: #16171a;
 
     position: relative;
     box-sizing: border-box;
@@ -90,19 +88,15 @@
     transform: translateY(-2px);
 }
 
-.iconChip {
+/* Bare colourful glyph (no tile) leading the card; the SVG carries its own
+   per-category accent colour. */
+.iconGlyph {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--ucr-chip-bg);
-}
-
-.icon {
-    object-fit: contain;
+    width: 32px;
+    height: 32px;
 }
 
 .cardText {

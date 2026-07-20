@@ -44,8 +44,9 @@
   color: var(--pp-ink);
 }
 
+/* Second CMS heading field — same ink as the lead, no two-tone. */
 .headingHighlight {
-  color: var(--pp-accent);
+  color: inherit;
 }
 
 .grid {
@@ -109,7 +110,7 @@
   margin: 0;
   font-family: var(--pp-body);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.3px;
   color: var(--pp-ink);
 }

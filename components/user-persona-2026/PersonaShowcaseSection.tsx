@@ -1,9 +1,14 @@
 import Image from "next/image";
 import styles from "./PersonaShowcaseSection.module.css";
+import SectionArtifact from "@/components/shared-2026/SectionArtifact";
+import { resolveSectionArtifact } from "@/lib/section-artifacts";
 import type { PersonaShowcaseContent } from "./adapter";
 
 /** Stable id linking the section to its heading for a11y. */
 const HEADING_ID = "persona-showcase-heading";
+
+/** Height ÷ width of the showcase frame (`.frame`'s 1200 / 700). */
+const FRAME_ASPECT = 700 / 1200;
 
 /** Props for {@link PersonaShowcaseSection}. */
 export interface PersonaShowcaseSectionProps {
@@ -24,8 +29,15 @@ export default function PersonaShowcaseSection({
     const highlight = content?.highlight;
     const image = content?.image;
     const imageAlt = content?.imageAlt ?? "";
+    // Prefer a hand-built product artifact (explicit CMS pick or keyword
+    // match on the section copy) over the raw Framer bitmap.
+    const artifact = resolveSectionArtifact(
+      content?.artifact,
+      heading,
+      highlight,
+    );
 
-    if (!heading && !image) {
+    if (!heading && !image && !artifact) {
       return null;
     }
 
@@ -48,7 +60,11 @@ export default function PersonaShowcaseSection({
             </h2>
           ) : null}
 
-          {image ? (
+          {artifact ? (
+            <div className={styles.frame}>
+              <SectionArtifact artifact={artifact} aspect={FRAME_ASPECT} />
+            </div>
+          ) : image ? (
             <div className={styles.frame}>
               <Image
                 className={styles.frameImage}

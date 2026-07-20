@@ -11,9 +11,6 @@ export interface ListingPageProps {
   /** Hero copy + grid items, shared with the legacy dark listing page so the
       `/use-case` and `/user-persona` routes need no data-shape changes. */
   config: ListingPageConfig;
-  /** Forwarded to {@link ListingGrid} — inverts light/white-stroke icons for
-      the light 2026 card background. */
-  iconInvert?: boolean;
 }
 
 /**
@@ -24,9 +21,9 @@ export interface ListingPageProps {
  * (the old dark theme), which is left in place for any callers not yet
  * migrated.
  *
- * @param props - The listing's hero/grid config and icon-invert flag.
+ * @param props - The listing's hero/grid config.
  */
-export default function ListingPage({ config, iconInvert }: ListingPageProps) {
+export default function ListingPage({ config }: ListingPageProps) {
   return (
     <main>
       <SiteNav />
@@ -36,7 +33,7 @@ export default function ListingPage({ config, iconInvert }: ListingPageProps) {
         ctaText={config?.hero?.ctaText}
         ctaHref={config?.hero?.ctaHref}
       />
-      <ListingGrid items={config?.grid?.items ?? []} iconInvert={iconInvert} />
+      <ListingGrid items={config?.grid?.items ?? []} />
       <TestimonialsSection />
       <SiteFooter />
       <IntercomButton />

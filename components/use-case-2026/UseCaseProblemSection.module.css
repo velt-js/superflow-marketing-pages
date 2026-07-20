@@ -56,8 +56,9 @@
     text-align: center;
 }
 
+/* Second CMS heading field (title2) — same ink as title1, no two-tone. */
 .headingMuted {
-    color: var(--ucp-muted);
+    color: inherit;
 }
 
 .grid {

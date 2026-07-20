@@ -1,12 +1,12 @@
 import Link from "next/link";
+import CategoryGlyph from "@/components/shared-2026/CategoryGlyph";
 import styles from "./RelatedPersonas.module.css";
-import PersonaIconChip from "./PersonaIconChip";
 import type { PersonaRelatedContent } from "./adapter";
 
 /** Stable id linking the section to its heading for a11y. */
 const HEADING_ID = "persona-related-heading";
-/** Chip diameter for each sibling persona's icon. */
-const CHIP_SIZE = 48;
+/** Pixel size of each card's colourful persona glyph. */
+const GLYPH_SIZE = 32;
 
 /** Props for {@link RelatedPersonas}. */
 export interface RelatedPersonasProps {
@@ -16,9 +16,9 @@ export interface RelatedPersonasProps {
 /**
  * "Related personas" section — a card grid cross-linking sibling
  * `/user-persona/<slug>` pages, in the 2026 `RelatedCapabilities` card idiom.
- * Sibling icons are light/white-stroke glyphs designed for dark surfaces, so
- * each renders inside a dark {@link PersonaIconChip} to stay legible on the
- * light card.
+ * Each card leads with a colourful Tabler glyph resolved from the persona's
+ * title (the CMS's flat white-stroke icons needed a dark chip to read on
+ * light cards, so they are no longer used).
  *
  * @param props - The resolved heading + sibling persona items.
  */
@@ -53,11 +53,9 @@ export default function RelatedPersonas({ content }: RelatedPersonasProps) {
             {items.map((item) => (
               <li key={item?.href ?? item?.title} className={styles.item}>
                 <Link className={styles.card} href={item?.href ?? "#"}>
-                  <PersonaIconChip
-                    src={item?.icon}
-                    name={item?.title ?? ""}
-                    size={CHIP_SIZE}
-                  />
+                  <span className={styles.iconGlyph} aria-hidden="true">
+                    <CategoryGlyph label={item?.title} size={GLYPH_SIZE} />
+                  </span>
                   <span className={styles.cardText}>
                     <span className={styles.cardTitle}>{item?.title}</span>
                     {item?.description ? (

@@ -1,9 +1,14 @@
 import Image from "next/image";
 import styles from "./UseCaseSolutionSection.module.css";
+import SectionArtifact from "@/components/shared-2026/SectionArtifact";
+import { resolveSectionArtifact } from "@/lib/section-artifacts";
 import type { UseCaseSolutionSection as UseCaseSolutionSectionData } from "@/lib/use-case-types";
 
 /** Stable id linking the section to its heading for a11y. */
 const HEADING_ID = "use-case-solution-heading";
+
+/** Height ÷ width of the row media box (`.rowMedia`'s 4 / 3 aspect-ratio). */
+const ROW_MEDIA_ASPECT = 3 / 4;
 
 /** Props for the {@link UseCaseSolutionSection} component. */
 export interface UseCaseSolutionSectionProps {
@@ -51,9 +56,23 @@ export default function UseCaseSolutionSection({
                 const rowClassName = isReversed
                   ? `${styles.row} ${styles.rowReversed}`
                   : styles.row;
+                // Prefer a hand-built product artifact (explicit CMS pick or
+                // keyword match on the copy) over the raw Framer bitmap.
+                const artifact = resolveSectionArtifact(
+                  item?.artifact,
+                  item?.title,
+                  item?.subCopy,
+                );
                 return (
                   <div key={item?.title ?? index} className={rowClassName}>
-                    {item?.image ? (
+                    {artifact ? (
+                      <div className={styles.rowMedia}>
+                        <SectionArtifact
+                          artifact={artifact}
+                          aspect={ROW_MEDIA_ASPECT}
+                        />
+                      </div>
+                    ) : item?.image ? (
                       <div className={styles.rowMedia}>
                         <Image
                           className={styles.rowImage}

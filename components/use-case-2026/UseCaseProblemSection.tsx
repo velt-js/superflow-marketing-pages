@@ -1,9 +1,14 @@
 import Image from "next/image";
 import styles from "./UseCaseProblemSection.module.css";
+import SectionArtifact from "@/components/shared-2026/SectionArtifact";
+import { resolveSectionArtifact } from "@/lib/section-artifacts";
 import type { UseCaseProblemSection as UseCaseProblemSectionData } from "@/lib/use-case-types";
 
 /** Stable id linking the section to its heading for a11y. */
 const HEADING_ID = "use-case-problem-heading";
+
+/** Height ÷ width of the card image frame (`.cardImageFrame`'s 4 / 3). */
+const CARD_MEDIA_ASPECT = 3 / 4;
 
 /** Props for the {@link UseCaseProblemSection} component. */
 export interface UseCaseProblemSectionProps {
@@ -54,24 +59,39 @@ export default function UseCaseProblemSection({
           ) : null}
           {items.length > 0 ? (
             <ul className={styles.grid}>
-              {items.map((item, index) => (
-                <li key={item?.title ?? index} className={styles.card}>
-                  {item?.image ? (
-                    <div className={styles.cardImageFrame}>
-                      <Image
-                        className={styles.cardImage}
-                        src={item.image}
-                        alt={item?.title ?? ""}
-                        fill
-                        sizes="(min-width: 900px) 33vw, (min-width: 600px) 50vw, 100vw"
-                      />
-                    </div>
-                  ) : null}
-                  {item?.title ? (
-                    <p className={styles.cardTitle}>{item.title}</p>
-                  ) : null}
-                </li>
-              ))}
+              {items.map((item, index) => {
+                // Prefer a hand-built product artifact (explicit CMS pick or
+                // keyword match on the title) over the raw Framer bitmap.
+                const artifact = resolveSectionArtifact(
+                  item?.artifact,
+                  item?.title,
+                );
+                return (
+                  <li key={item?.title ?? index} className={styles.card}>
+                    {artifact ? (
+                      <div className={styles.cardImageFrame}>
+                        <SectionArtifact
+                          artifact={artifact}
+                          aspect={CARD_MEDIA_ASPECT}
+                        />
+                      </div>
+                    ) : item?.image ? (
+                      <div className={styles.cardImageFrame}>
+                        <Image
+                          className={styles.cardImage}
+                          src={item.image}
+                          alt={item?.title ?? ""}
+                          fill
+                          sizes="(min-width: 900px) 33vw, (min-width: 600px) 50vw, 100vw"
+                        />
+                      </div>
+                    ) : null}
+                    {item?.title ? (
+                      <p className={styles.cardTitle}>{item.title}</p>
+                    ) : null}
+                  </li>
+                );
+              })}
             </ul>
           ) : null}
         </div>
