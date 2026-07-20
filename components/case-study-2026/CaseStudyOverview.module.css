@@ -1,0 +1,112 @@
+/* Case-study "problem & solution" overview — light restyle of the old tinted
+   problem/solution pair, on the 2026 card idiom (hairline border, 20px
+   radius, #fbfbfd fill) with colourful Tabler stroke glyphs instead of the
+   old filled circle icons. */
+
+.section {
+    --cso-display: var(--font-urbanist), system-ui, sans-serif;
+    --cso-body: var(--font-poppins), system-ui, sans-serif;
+    --cso-ink: #16171a;
+    --cso-muted: #6b7079;
+    --cso-problem: #e5484d;
+    --cso-solution: #14a06c;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 96px 24px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.cardHead {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cardIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+.cardIconProblem {
+    color: var(--cso-problem);
+}
+
+.cardIconSolution {
+    color: var(--cso-solution);
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--cso-display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--cso-ink);
+}
+
+.cardBody {
+    margin: 0;
+    font-family: var(--cso-body);
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: -0.2px;
+    color: var(--cso-ink);
+}
+
+@media (max-width: 800px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 64px 20px;
+    }
+
+    .inner {
+        gap: 40px;
+    }
+
+    .card {
+        padding: 24px;
+    }
+}

@@ -349,78 +349,99 @@
 
 /* ============================================= Section 4 — Unlocks */
 
-.unlockGrid {
+/* Editorial numbered list — no card chrome, hairline-separated rows. */
+.unlockList {
+  margin: 48px auto 0;
+  max-width: 940px;
+}
+
+.unlockItem {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin-top: 52px;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 44px;
+  padding: 30px 4px;
+  border-top: 1px solid var(--mon-line);
 }
 
-.unlockCard {
+.unlockItem:last-child {
+  border-bottom: 1px solid var(--mon-line);
+}
+
+.unlockLead {
   display: flex;
-  flex-direction: column;
-  min-height: 268px;
-  padding: 30px 34px 32px;
-  border-radius: 24px;
-  background: var(--mon-green-soft);
+  align-items: baseline;
+  gap: 16px;
 }
 
-/* The fifth card spans both columns (reference bottom row). */
-.unlockCard:last-child {
-  grid-column: 1 / -1;
-  min-height: 216px;
-}
-
-.unlockCheck {
-  display: inline-flex;
+.unlockIndex {
+  flex-shrink: 0;
+  font-family: var(--mon-font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   color: var(--mon-green);
-  margin-bottom: 20px;
 }
 
 .unlockTitle {
-  margin: 0 0 10px;
+  margin: 0;
   font-family: var(--mon-font-serif);
   font-weight: 400;
-  font-size: 25px;
+  font-size: 24px;
   line-height: 1.15;
   letter-spacing: -0.6px;
   color: var(--mon-ink);
 }
 
-.unlockDesc {
+.unlockLines {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 3px;
+}
+
+/* With / without contrast rows. */
+.unlockRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.unlockMark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  margin-top: 1px;
+}
+
+.unlockMarkYes {
+  background: var(--mon-green-soft);
+  color: var(--mon-green);
+}
+
+.unlockMarkNo {
+  background: rgba(246, 43, 84, 0.09);
+  color: var(--mon-red);
+}
+
+.unlockRowText {
   margin: 0;
-  max-width: 46ch;
   font-size: 15px;
   line-height: 1.55;
   letter-spacing: -0.1px;
+  color: var(--mon-ink);
+}
+
+.unlockRowNeg .unlockRowText {
   color: var(--mon-muted);
 }
 
-.unlockWithout {
-  margin-top: auto;
-  padding-top: 26px;
-}
-
-.unlockWithoutLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
+.unlockNegLabel {
   font-weight: 600;
-  letter-spacing: -0.1px;
   color: var(--mon-faint);
-}
-
-.unlockWithoutIcon {
-  display: inline-flex;
-  color: var(--mon-faint);
-}
-
-.unlockWithoutText {
-  margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--mon-muted);
 }
 
 /* ---------------------------------------------------------- Responsive */
@@ -451,12 +472,10 @@
     padding-bottom: 112px;
   }
 
-  .unlockGrid {
+  .unlockItem {
     grid-template-columns: 1fr;
-  }
-
-  .unlockCard:last-child {
-    grid-column: auto;
+    gap: 18px;
+    padding: 26px 0;
   }
 
   .crossCol {

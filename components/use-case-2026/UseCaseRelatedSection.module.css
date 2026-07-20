@@ -1,0 +1,148 @@
+/* Related use cases — cross-link cards on the 2026 card idiom, matching
+   components/feature-2026/RelatedCapabilities.module.css. Each card leads
+   with a colourful Tabler stroke glyph (CategoryGlyph), no dark chip. */
+
+.section {
+    --ucr-serif: var(--font-adamina), Georgia, serif;
+    --ucr-display: var(--font-urbanist), system-ui, sans-serif;
+    --ucr-body: var(--font-poppins), system-ui, sans-serif;
+    --ucr-ink: #16171a;
+    --ucr-muted: #6b7079;
+    --ucr-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 96px 24px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.heading {
+    margin: 0 0 40px;
+    font-family: var(--ucr-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    color: var(--ucr-ink);
+}
+
+.headingAccent {
+    color: var(--ucr-accent);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    width: 100%;
+    height: 100%;
+    padding: 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Bare colourful glyph (no tile) leading the card; the SVG carries its own
+   per-category accent colour. */
+.iconGlyph {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.cardText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.cardTitle {
+    font-family: var(--ucr-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--ucr-ink);
+}
+
+.cardDesc {
+    font-family: var(--ucr-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ucr-muted);
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 64px 20px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}

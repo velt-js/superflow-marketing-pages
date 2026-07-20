@@ -536,9 +536,10 @@ const UNLOCKS: readonly UnlockItem[] = [
 ];
 
 /**
- * Section 4 — "What the Monday sync unlocks." Five green cards, each with a
- * double-check marker, a serif title, a description, and a muted "Without it"
- * footer line (the fifth card spans the full width).
+ * Section 4 — "What the Monday sync unlocks." An editorial numbered list: each
+ * row pairs a mono index + serif title on the left with a green "with it" line
+ * (double-check + the win) and a muted rose "without it" line (clock + the
+ * cost) on the right, separated by hairline rules.
  *
  * @returns The section, or `null` on failure.
  */
@@ -551,22 +552,39 @@ export function MondayUnlocks(): ReactNode {
             <h2 className={styles.display}>{UNLOCKS_HEADING}</h2>
           </div>
 
-          <div className={styles.unlockGrid}>
-            {UNLOCKS.map((item) => (
-              <article key={item.id} className={styles.unlockCard}>
-                <span className={styles.unlockCheck} aria-hidden="true">
-                  <DoubleCheckGlyph size={30} />
-                </span>
-                <h3 className={styles.unlockTitle}>{item.title}</h3>
-                <p className={styles.unlockDesc}>{item.description}</p>
-                <div className={styles.unlockWithout}>
-                  <span className={styles.unlockWithoutLabel}>
-                    <span className={styles.unlockWithoutIcon}>
+          <div className={styles.unlockList}>
+            {UNLOCKS.map((item, index) => (
+              <article key={item.id} className={styles.unlockItem}>
+                <div className={styles.unlockLead}>
+                  <span className={styles.unlockIndex} aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className={styles.unlockTitle}>{item.title}</h3>
+                </div>
+                <div className={styles.unlockLines}>
+                  <div className={styles.unlockRow}>
+                    <span
+                      className={`${styles.unlockMark} ${styles.unlockMarkYes}`}
+                      aria-hidden="true"
+                    >
+                      <DoubleCheckGlyph size={16} />
+                    </span>
+                    <p className={styles.unlockRowText}>{item.description}</p>
+                  </div>
+                  <div className={`${styles.unlockRow} ${styles.unlockRowNeg}`}>
+                    <span
+                      className={`${styles.unlockMark} ${styles.unlockMarkNo}`}
+                      aria-hidden="true"
+                    >
                       <ClockGlyph size={15} />
                     </span>
-                    {UNLOCKS_WITHOUT_LABEL}
-                  </span>
-                  <p className={styles.unlockWithoutText}>{item.without}</p>
+                    <p className={styles.unlockRowText}>
+                      <span className={styles.unlockNegLabel}>
+                        {UNLOCKS_WITHOUT_LABEL}:
+                      </span>{" "}
+                      {item.without}
+                    </p>
+                  </div>
                 </div>
               </article>
             ))}

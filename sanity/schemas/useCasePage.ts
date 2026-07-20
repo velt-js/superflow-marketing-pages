@@ -1,8 +1,26 @@
 import { defineType, defineField } from "sanity";
+import { SECTION_ARTIFACT_OPTIONS } from "../../lib/section-artifacts";
 
 // Mirrors Superflow's Framer `Use Case` collection (IQjSkiXoj, 63 fields).
 // Repeating Framer slots (problem__1..3, solution__1..3, testimonial__1..3,
 // FAQ__1..3) collapse into typed arrays of named sub-types.
+
+/**
+ * Optional per-item artifact picker (additive — existing documents are
+ * untouched and render exactly as before when the field is empty). The 2026
+ * templates prefer this hand-built product artifact over the raw image;
+ * leaving it empty lets the code auto-pick one from the item's copy, and
+ * "None" pins the item to its image.
+ */
+const artifactField = () =>
+  defineField({
+    name: "artifact",
+    title: "Artifact (instead of image)",
+    description:
+      "Hand-built product animation to render in place of the image on the new template. Empty = auto-pick from the copy; None = always show the image.",
+    type: "string",
+    options: { list: [...SECTION_ARTIFACT_OPTIONS] },
+  });
 
 export const useCaseHero = defineType({
   name: "useCaseHero",
@@ -40,6 +58,7 @@ export const useCaseProblemItem = defineType({
       type: "image",
       options: { hotspot: false },
     }),
+    artifactField(),
   ],
   preview: { select: { title: "title", media: "image" } },
 });
@@ -74,6 +93,7 @@ export const useCaseSolutionItem = defineType({
       type: "image",
       options: { hotspot: false },
     }),
+    artifactField(),
   ],
   preview: { select: { title: "title", subtitle: "subCopy", media: "image" } },
 });

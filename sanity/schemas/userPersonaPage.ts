@@ -1,8 +1,26 @@
 import { defineType, defineField } from "sanity";
+import { SECTION_ARTIFACT_OPTIONS } from "../../lib/section-artifacts";
 
 // Mirrors Superflow's Framer `User Persona` collection (tjxr7913u, 93 fields).
 // job_one/two/three × feature_one/two/three slots collapse into `jobs[]`
 // of `userPersonaJob` → `features[]` of `userPersonaJobFeature`.
+
+/**
+ * Optional per-item artifact picker (additive — existing documents are
+ * untouched and render exactly as before when the field is empty). The 2026
+ * templates prefer this hand-built product artifact over the raw image;
+ * leaving it empty lets the code auto-pick one from the item's copy, and
+ * "None" pins the item to its image.
+ */
+const artifactField = () =>
+  defineField({
+    name: "artifact",
+    title: "Artifact (instead of image)",
+    description:
+      "Hand-built product animation to render in place of the image on the new template. Empty = auto-pick from the copy; None = always show the image.",
+    type: "string",
+    options: { list: [...SECTION_ARTIFACT_OPTIONS] },
+  });
 
 export const userPersonaHero = defineType({
   name: "userPersonaHero",
@@ -34,6 +52,7 @@ export const userPersonaJobFeature = defineType({
       type: "image",
       options: { hotspot: false },
     }),
+    artifactField(),
     defineField({ name: "barrierText", title: "Barrier Text", type: "text", rows: 2 }),
   ],
   preview: { select: { title: "highlightTitle", media: "highlightImage" } },
@@ -106,6 +125,7 @@ export const userPersonaFeatureItem = defineType({
       type: "image",
       options: { hotspot: false },
     }),
+    artifactField(),
   ],
   preview: { select: { title: "title", subtitle: "subText", media: "image" } },
 });

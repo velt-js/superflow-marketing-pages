@@ -1,0 +1,429 @@
+/* Comparison table — 2026 light restyle. Monochrome ink + single accent,
+   hairline dividers; sticky tier header + stacked sticky section headers on
+   desktop, per-tier accordion below 1280px. */
+
+.section {
+    --pc-serif: var(--font-adamina), Georgia, serif;
+    --pc-display: var(--font-urbanist), system-ui, sans-serif;
+    --pc-body: var(--font-poppins), system-ui, sans-serif;
+    --pc-ink: #16171a;
+    --pc-muted: #6b7079;
+    --pc-accent: #433df3;
+    --pc-check: #17b26a;
+    --pc-hairline: #ececf1;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 40px 24px 96px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.heading {
+    margin: 0 0 40px;
+    font-family: var(--pc-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    color: var(--pc-ink);
+    text-align: center;
+}
+
+.headingRest {
+    color: inherit;
+}
+
+/* --- Shared cell glyphs ---------------------------------------------------- */
+
+.checkIcon {
+    width: 20px;
+    height: 20px;
+    color: var(--pc-check);
+}
+
+.dash {
+    font-family: var(--pc-display);
+    font-size: 18px;
+    line-height: 1;
+    color: #c3c6cd;
+}
+
+.cellText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+}
+
+.cellValue {
+    font-family: var(--pc-display);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--pc-ink);
+}
+
+.cellSub {
+    font-family: var(--pc-body);
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--pc-muted);
+}
+
+.chevron {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    color: var(--pc-muted);
+    transition: transform 180ms ease;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+/* --- Breakpoint switches ---------------------------------------------------- */
+
+.mobileOnly {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+}
+
+.desktopOnly {
+    display: none;
+    position: relative;
+    width: 100%;
+}
+
+@media (min-width: 1280px) {
+    .mobileOnly {
+        display: none;
+    }
+
+    .desktopOnly {
+        display: block;
+    }
+}
+
+/* --- Desktop table ----------------------------------------------------------- */
+
+.tierHeaderSticky {
+    position: sticky;
+    z-index: 10;
+    background: #ffffff;
+}
+
+.tierHeader {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+    padding: 24px;
+    border-bottom: 1px solid var(--pc-hairline);
+    background: #ffffff;
+}
+
+.tierHeaderLabel {
+    display: flex;
+    align-items: center;
+    font-family: var(--pc-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--pc-ink);
+}
+
+.tierHeaderCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.tierHeaderName {
+    font-family: var(--pc-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+    color: var(--pc-ink);
+}
+
+.tierHeaderPrice {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--pc-serif);
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--pc-ink);
+    white-space: nowrap;
+}
+
+.tierHeaderSuffix {
+    font-family: var(--pc-body);
+    font-size: 12px;
+    color: var(--pc-muted);
+}
+
+.tierHeaderCta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 170px;
+    padding: 8px 12px;
+    border: 1px solid #e2e2ea;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--pc-display);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--pc-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 160ms ease;
+}
+
+.tierHeaderCta:hover {
+    border-color: rgba(67, 61, 243, 0.45);
+}
+
+.sectionHeaderSticky {
+    position: sticky;
+    z-index: 5;
+    background: #ffffff;
+    border-top: 1px solid var(--pc-hairline);
+}
+
+.sectionToggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    padding: 22px 24px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+}
+
+.sectionTitle {
+    font-family: var(--pc-display);
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    color: var(--pc-ink);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(0, 1fr));
+    align-items: center;
+    min-height: 56px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f4f4f8;
+    background: #ffffff;
+}
+
+.rowLast {
+    border-bottom: none;
+}
+
+.rowLabelCell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-right: 16px;
+}
+
+.rowLabel {
+    font-family: var(--pc-body);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #3c3f45;
+}
+
+.rowSublabel {
+    font-family: var(--pc-body);
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--pc-muted);
+}
+
+.rowValueCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Mobile accordion ---------------------------------------------------------- */
+
+.mobileList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.mobileTier {
+    overflow: hidden;
+    border: 1px solid var(--pc-hairline);
+    border-radius: 16px;
+    background: #fbfbfd;
+}
+
+.mobileSummary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.mobileSummary::-webkit-details-marker {
+    display: none;
+}
+
+.mobileTier[open] .mobileSummary .chevron {
+    transform: rotate(180deg);
+}
+
+.mobileSummaryText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mobileSummaryActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobileTierName {
+    font-family: var(--pc-display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--pc-ink);
+}
+
+.mobileTierPrice {
+    font-family: var(--pc-body);
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--pc-muted);
+}
+
+.mobileCta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    border: 1px solid #e2e2ea;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--pc-display);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--pc-ink);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.mobileBody {
+    border-top: 1px solid var(--pc-hairline);
+    background: #ffffff;
+}
+
+.mobileSectionTitle {
+    margin: 0;
+    padding: 14px 20px 8px;
+    font-family: var(--pc-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--pc-muted);
+}
+
+.mobileRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #f4f4f8;
+}
+
+.mobileRowLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: var(--pc-body);
+    font-size: 14px;
+    line-height: 1.4;
+    color: #3c3f45;
+}
+
+.mobileRowSublabel {
+    font-family: var(--pc-body);
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--pc-muted);
+}
+
+.mobileRowValue {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    text-align: right;
+    max-width: 55%;
+}
+
+.mobileRowValue .cellText {
+    align-items: flex-end;
+    text-align: right;
+}
+
+@media (max-width: 620px) {
+    .section {
+        padding: 32px 20px 64px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .chevron {
+        transition: none;
+    }
+}

@@ -1,0 +1,188 @@
+/* Light-theme article typography for the 2026 blog post template. A tonal
+   copy of components/PortableText.tsx's coverage (block styles, marks, list
+   types and custom types), restyled for a white page instead of the dark
+   checklist-page treatment. Do not import this into components/PortableText.tsx
+   or vice versa — the two stay independent per-theme stylesheets. */
+
+.article {
+    --bpt-serif: var(--font-adamina), Georgia, serif;
+    --bpt-ui: var(--font-urbanist), system-ui, sans-serif;
+    --bpt-ink: #16171a;
+    --bpt-body-ink: #33343a;
+    --bpt-muted: #6b7079;
+    --bpt-accent: #433df3;
+    --bpt-border: #ececf1;
+    --bpt-surface: #fbfbfd;
+
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--bpt-body-ink);
+}
+
+.heading1,
+.heading2,
+.heading3,
+.heading4 {
+    font-family: var(--bpt-ui);
+    font-weight: 700;
+    color: var(--bpt-ink);
+    letter-spacing: -0.3px;
+}
+
+.heading1 {
+    margin: 48px 0 20px;
+    font-family: var(--bpt-serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 38px);
+    line-height: 1.15;
+}
+
+.heading2 {
+    margin: 44px 0 18px;
+    font-size: clamp(24px, 2.8vw, 30px);
+    line-height: 1.25;
+}
+
+.heading3 {
+    margin: 36px 0 14px;
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.heading4 {
+    margin: 28px 0 12px;
+    font-size: 19px;
+    line-height: 1.35;
+}
+
+.paragraph {
+    margin: 0 0 20px;
+    color: var(--bpt-body-ink);
+}
+
+.blockquote {
+    margin: 28px 0;
+    padding: 4px 0 4px 20px;
+    border-left: 3px solid var(--bpt-accent);
+    color: var(--bpt-muted);
+    font-style: italic;
+}
+
+.listBullet,
+.listNumber {
+    margin: 0 0 20px;
+    padding-left: 26px;
+    color: var(--bpt-body-ink);
+}
+
+.listBullet {
+    list-style-type: disc;
+}
+
+.listNumber {
+    list-style-type: decimal;
+}
+
+.listItem {
+    margin-bottom: 8px;
+    color: var(--bpt-body-ink);
+}
+
+.strong {
+    font-weight: 700;
+    color: var(--bpt-ink);
+}
+
+.emphasis {
+    font-style: italic;
+}
+
+.inlineCode {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--bpt-surface);
+    border: 1px solid var(--bpt-border);
+    color: var(--bpt-ink);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 0.88em;
+}
+
+.link {
+    color: var(--bpt-accent);
+    text-decoration: underline;
+    text-decoration-color: rgba(67, 61, 243, 0.35);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 160ms ease;
+}
+
+.link:hover {
+    text-decoration-color: var(--bpt-accent);
+}
+
+.codeBlock {
+    margin: 28px 0;
+    padding: 20px;
+    border-radius: 14px;
+    background: var(--bpt-surface);
+    border: 1px solid var(--bpt-border);
+    overflow-x: auto;
+}
+
+.codeBlockText {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--bpt-ink);
+}
+
+.figure {
+    margin: 32px 0;
+}
+
+.figureImage {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--bpt-border);
+}
+
+.figureCaption {
+    margin: 10px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--bpt-muted);
+    text-align: center;
+}
+
+.tableWrap {
+    margin: 32px 0;
+    overflow-x: auto;
+    border: 1px solid var(--bpt-border);
+    border-radius: 14px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+}
+
+.tableHeaderCell {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--bpt-ui);
+    font-weight: 700;
+    color: var(--bpt-ink);
+    background: var(--bpt-surface);
+    border-bottom: 1px solid var(--bpt-border);
+}
+
+.tableCell {
+    padding: 12px 16px;
+    vertical-align: top;
+    color: var(--bpt-body-ink);
+    border-bottom: 1px solid var(--bpt-border);
+}
+
+.tableRow:last-child .tableCell {
+    border-bottom: none;
+}

@@ -1,0 +1,114 @@
+/* Section artifact frame — fits a home-2026 feature-panel artifact (authored
+   for a 1204 x 602 left-anchored white canvas) inside a section media box of
+   any width/aspect (use-case solution rows, persona feature rows, problem
+   cards).
+
+   Scaling reuses the stepped container-query technique the home hero artifacts
+   use (see IntegrationsHubHeroArtifact.module.css): each width band sets a
+   unitless `--sa-w` (the band's lower bound in px), and the canvas scale is
+   `frameHeight / 602` = `--sa-w * --sa-aspect / 602` (the host passes its
+   height ÷ width ratio as `--sa-aspect`), so the canvas height fills the box.
+   The canvas stays left-anchored and its right-edge bleed crops away — the
+   same clipping idiom as the home feature panel, which shows only the left
+   ~630px of the 1204px canvas; a 4:3 box here shows ~800px, so every mock's
+   scene stays comfortably visible. Between steps the canvas rests a few px
+   short of the box, hidden by the shared white background. */
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #ffffff;
+  container-type: inline-size;
+  container-name: sectionartifact;
+  pointer-events: none;
+}
+
+.canvas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1204px;
+  height: 602px;
+  /* Lower bound of the widest band (the persona showcase frame reaches
+     ~1080px; row/card media boxes cap out around ~720px). Stepped down by
+     the container queries below — they target this child because @container
+     rules cannot restyle the container itself. */
+  --sa-w: 1160;
+  transform-origin: left center;
+  transform: translateY(-50%)
+    scale(calc(var(--sa-w) * var(--sa-aspect, 0.75) / 602));
+}
+
+@container sectionartifact (max-width: 1160px) {
+  .canvas { --sa-w: 1120; }
+}
+@container sectionartifact (max-width: 1120px) {
+  .canvas { --sa-w: 1080; }
+}
+@container sectionartifact (max-width: 1080px) {
+  .canvas { --sa-w: 1040; }
+}
+@container sectionartifact (max-width: 1040px) {
+  .canvas { --sa-w: 1000; }
+}
+@container sectionartifact (max-width: 1000px) {
+  .canvas { --sa-w: 960; }
+}
+@container sectionartifact (max-width: 960px) {
+  .canvas { --sa-w: 920; }
+}
+@container sectionartifact (max-width: 920px) {
+  .canvas { --sa-w: 880; }
+}
+@container sectionartifact (max-width: 880px) {
+  .canvas { --sa-w: 840; }
+}
+@container sectionartifact (max-width: 840px) {
+  .canvas { --sa-w: 800; }
+}
+@container sectionartifact (max-width: 800px) {
+  .canvas { --sa-w: 760; }
+}
+@container sectionartifact (max-width: 760px) {
+  .canvas { --sa-w: 720; }
+}
+@container sectionartifact (max-width: 720px) {
+  .canvas { --sa-w: 680; }
+}
+@container sectionartifact (max-width: 680px) {
+  .canvas { --sa-w: 640; }
+}
+@container sectionartifact (max-width: 640px) {
+  .canvas { --sa-w: 600; }
+}
+@container sectionartifact (max-width: 600px) {
+  .canvas { --sa-w: 560; }
+}
+@container sectionartifact (max-width: 560px) {
+  .canvas { --sa-w: 520; }
+}
+@container sectionartifact (max-width: 520px) {
+  .canvas { --sa-w: 480; }
+}
+@container sectionartifact (max-width: 480px) {
+  .canvas { --sa-w: 440; }
+}
+@container sectionartifact (max-width: 440px) {
+  .canvas { --sa-w: 400; }
+}
+@container sectionartifact (max-width: 400px) {
+  .canvas { --sa-w: 360; }
+}
+@container sectionartifact (max-width: 360px) {
+  .canvas { --sa-w: 320; }
+}
+@container sectionartifact (max-width: 320px) {
+  .canvas { --sa-w: 280; }
+}
+@container sectionartifact (max-width: 280px) {
+  .canvas { --sa-w: 240; }
+}
+@container sectionartifact (max-width: 240px) {
+  .canvas { --sa-w: 200; }
+}

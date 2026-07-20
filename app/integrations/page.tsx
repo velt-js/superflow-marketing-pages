@@ -1,5 +1,6 @@
 import ListingPage from "@/components/listing/ListingPage";
 import { getAllIntegrationListItems } from "@/sanity/lib/queries";
+import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -18,7 +19,9 @@ export const metadata = buildPageMetadata({
 });
 
 export default async function IntegrationsIndexPage() {
-  const items = await getAllIntegrationListItems();
+  const allItems = await getAllIntegrationListItems();
+  // Held connectors (lib/integration-holds.ts) never render on the live hub.
+  const items = allItems.filter((item) => !isHeldIntegrationSlug(item.slug));
   return (
     <>
       <PageJsonLd

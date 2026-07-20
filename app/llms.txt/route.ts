@@ -12,6 +12,7 @@ import {
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
+import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 
 const SITE_URL = "https://usesuperflow.com";
 
@@ -80,10 +81,12 @@ export async function GET() {
     { path: "/terms", title: "Terms of service" },
   ];
 
-  const integrations = unique(integrationSlugsCms).map((slug) => ({
-    path: `/integrations/${slug}`,
-    title: `${toTitle(slug)} integration`,
-  }));
+  const integrations = unique(integrationSlugsCms)
+    .filter((slug) => !isHeldIntegrationSlug(slug))
+    .map((slug) => ({
+      path: `/integrations/${slug}`,
+      title: `${toTitle(slug)} integration`,
+    }));
 
   const useCases = unique(useCaseSlugsCms).map((slug) => ({
     path: `/use-case/${slug}`,

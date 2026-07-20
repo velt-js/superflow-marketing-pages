@@ -1,4 +1,4 @@
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import { titleCase } from "@/lib/user-persona/format";
 import { getAllUserPersonaPages } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -47,7 +47,6 @@ export default async function UserPersonaIndexPage() {
           return {
             title: label,
             subtitle: d.description,
-            icon: d.icon,
             href: `/user-persona/${d.slug}`,
           };
         }),
@@ -81,7 +80,7 @@ export default async function UserPersonaIndexPage() {
             })),
         }}
       />
-      <ListingPage config={config} iconInvert />
+      <ListingPage config={config} />
     </>
   );
 }

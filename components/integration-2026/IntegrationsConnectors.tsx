@@ -4,8 +4,10 @@ import { useState } from "react";
 import styles from "./IntegrationsHubSections.module.css";
 
 const HEADING = "How the connectors behave.";
-const VISIBLE_WHEN_COLLAPSED = 6;
-const SHOW_ALL_LABEL = "Show all 7";
+/** Rows shown before the "show more" toggle; the toggle only appears when the
+ *  list is longer than this (i.e. more than 8 items). */
+const VISIBLE_WHEN_COLLAPSED = 8;
+const SHOW_ALL_PREFIX = "Show all";
 const SHOW_LESS_LABEL = "Show less";
 const CTA_TEXT = "See your tools and Superflow in one flow.";
 const CTA_ACTION = "Book a demo";
@@ -70,10 +72,7 @@ export default function IntegrationsConnectors() {
     }
 
     return (
-      <section
-        className={`${styles.section} ${styles.sectionSoft}`}
-        data-section="int-connectors"
-      >
+      <section className={styles.section} data-section="int-connectors">
         <div className={styles.inner}>
           <div className={styles.headCenter}>
             <h2 className={styles.display}>{HEADING}</h2>
@@ -105,7 +104,9 @@ export default function IntegrationsConnectors() {
               onClick={handleToggle}
               aria-expanded={expanded}
             >
-              {expanded ? SHOW_LESS_LABEL : SHOW_ALL_LABEL}
+              {expanded
+                ? SHOW_LESS_LABEL
+                : `${SHOW_ALL_PREFIX} ${CONNECTOR_RULES.length}`}
             </button>
           )}
 

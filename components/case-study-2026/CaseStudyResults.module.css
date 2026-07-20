@@ -1,0 +1,93 @@
+/* Case-study "results" section — light restyle of the old gradient-number
+   metric tiles: light 2026 cards with big Adamina serif accent values over
+   muted labels. */
+
+.section {
+    --csr-serif: var(--font-adamina), Georgia, serif;
+    --csr-display: var(--font-urbanist), system-ui, sans-serif;
+    --csr-body: var(--font-poppins), system-ui, sans-serif;
+    --csr-ink: #16171a;
+    --csr-muted: #6b7079;
+    --csr-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 96px 24px;
+    background: #fbfbfd;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px 28px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.cardValue {
+    font-family: var(--csr-serif);
+    font-weight: 400;
+    font-size: clamp(44px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -1px;
+    color: var(--csr-accent);
+}
+
+.cardLabel {
+    margin: 0;
+    max-width: 26ch;
+    font-family: var(--csr-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    color: var(--csr-ink);
+}
+
+@media (max-width: 860px) {
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 64px 20px;
+    }
+
+    .inner {
+        gap: 40px;
+    }
+}

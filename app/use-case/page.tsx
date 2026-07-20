@@ -1,4 +1,4 @@
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import { getAllUseCaseListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -54,12 +54,10 @@ export default async function UseCaseIndexPage() {
             items: items.map((item) => ({
               title: item.useCase || item.title,
               subtitle: item.description,
-              icon: item.icon || "/images/hero/icon-world.svg",
               href: `/use-case/${item.slug}`,
             })),
           },
         }}
-        iconInvert
       />
     </>
   );

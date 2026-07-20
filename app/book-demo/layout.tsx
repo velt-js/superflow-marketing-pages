@@ -1,4 +1,3 @@
-import Nav from "@/components/home/Nav";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
   SITE_URL,
@@ -28,6 +27,8 @@ const BOOK_DEMO_WEBPAGE = buildWebPageSchema({
   breadcrumb: BOOK_DEMO_BREADCRUMB,
 });
 
+// Nav chrome now comes from the page itself (the 2026 SiteNav), so this
+// layout only contributes the page metadata + JSON-LD.
 export default function BookDemoLayout({
   children,
 }: {
@@ -35,17 +36,6 @@ export default function BookDemoLayout({
 }) {
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-        }}
-      >
-        <Nav />
-      </div>
       <JsonLd id="ld-book-demo-webpage" data={BOOK_DEMO_WEBPAGE} />
       <JsonLd id="ld-book-demo-breadcrumb" data={BOOK_DEMO_BREADCRUMB} />
       {children}

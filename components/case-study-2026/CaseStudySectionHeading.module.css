@@ -1,0 +1,40 @@
+/* Shared centred section header for the 2026 case-study detail sections:
+   a single-colour Adamina serif heading over muted Poppins support copy,
+   matching the type tokens in
+   components/feature-2026/RelatedCapabilities.module.css. */
+
+.header {
+    --csh-serif: var(--font-adamina), Georgia, serif;
+    --csh-body: var(--font-poppins), system-ui, sans-serif;
+    --csh-ink: #16171a;
+    --csh-muted: #6b7079;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.heading {
+    margin: 0;
+    max-width: 780px;
+    font-family: var(--csh-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.14;
+    letter-spacing: -0.5px;
+    color: var(--csh-ink);
+    text-wrap: balance;
+}
+
+.subtitle {
+    margin: 0;
+    max-width: 640px;
+    font-family: var(--csh-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--csh-muted);
+    text-wrap: balance;
+}

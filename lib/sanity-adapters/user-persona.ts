@@ -59,12 +59,16 @@ interface SanityJobFeature {
   highlightSubText?: string;
   highlightImage?: string;
   barrierText?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 interface SanityFeature {
   title?: string;
   subText?: string;
   image?: string;
+  /** Optional hand-built artifact key (see lib/section-artifacts.ts). */
+  artifact?: string;
 }
 
 const FALLBACK_SHOWCASE_IMAGE = "/images/showcase/orange-bg.png";

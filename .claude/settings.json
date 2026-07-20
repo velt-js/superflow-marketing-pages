@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/miri/Desktop/apps/superflow-marketing-pages/public/opengraph-image.png)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Read(//tmp/**)"
+    ]
+  }
+}

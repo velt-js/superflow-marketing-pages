@@ -1,0 +1,73 @@
+/* "Showcase/solution" section — a light section pairing a serif heading with
+   a large framed product image. Frame styling mirrors the 2026 card idiom's
+   hairline border, tuned to a bigger radius for a full-width media block. */
+
+.section {
+  --ps-serif: var(--font-adamina), Georgia, serif;
+  --ps-ink: #16171a;
+  --ps-accent: #433df3;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 24px 96px;
+  background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.heading {
+  margin: 0;
+  max-width: 820px;
+  text-align: center;
+  font-family: var(--ps-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ps-ink);
+}
+
+/* Second CMS heading field — same ink as the lead, no two-tone. */
+.headingHighlight {
+  color: inherit;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1200 / 700;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid #ececf1;
+  background: #fbfbfd;
+  box-shadow: 0 20px 60px rgba(20, 20, 43, 0.08);
+}
+
+.frameImage {
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 0 20px 64px;
+  }
+
+  .frame {
+    border-radius: 16px;
+  }
+}

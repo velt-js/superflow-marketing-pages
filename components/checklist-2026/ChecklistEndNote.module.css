@@ -1,0 +1,57 @@
+/* Checklist end-note section — 2026 redesign. The doc's closing prose inside
+   a light card (hairline border, 20px radius) under a centred serif ink
+   heading, on white. */
+
+.section {
+  --cen-ink: #16171a;
+  --cen-border: #ececf1;
+  --cen-font-display: var(--font-adamina), Georgia, serif;
+  --cen-font-body: var(--font-poppins), system-ui, sans-serif;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 88px 24px;
+  background: #ffffff;
+}
+
+.inner {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--cen-font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 40px);
+  line-height: 1.18;
+  letter-spacing: -0.5px;
+  color: var(--cen-ink);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.body {
+  margin-top: 36px;
+  padding: 36px 40px;
+  border: 1px solid var(--cen-border);
+  border-radius: 20px;
+  background: #fbfbfd;
+  font-family: var(--cen-font-body);
+}
+
+.body > div > :global(p):last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: 64px 20px;
+  }
+
+  .body {
+    padding: 24px 20px;
+  }
+}

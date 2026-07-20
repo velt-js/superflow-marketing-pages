@@ -1,71 +1,26 @@
-"use client";
+// /book-demo — 2026 light redesign: gradient hero + inline Calendly
+// scheduler + homepage testimonials for social proof.
 
-import Footer from "@/components/home/Footer";
-import CustomerLoveCarousel from "@/components/home/CustomerLoveCarousel";
-import { PageHero } from "@/components/library/PageHero";
-import Script from "next/script";
+import SiteNav from "@/components/home-2026/SiteNav";
+import SiteFooter from "@/components/home-2026/SiteFooter";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
+import IntercomButton from "@/components/home/IntercomButton";
+import ListingHero from "@/components/listing-2026/ListingHero";
+import CalendlyEmbed from "@/components/book-demo-2026/CalendlyEmbed";
 
-const CALENDLY_URL = "https://calendly.com/goyalrakesh/30min?embed_domain=velt.dev&embed_type=Inline&hide_gdpr_banner=1&background_color=171717&text_color=ffffff&primary_color=ffffff&hide_event_type_details=1&hide_landing_page_details=1";
+const HERO_HEADING = "Book a demo";
+const HERO_SUBHEADING =
+  "Select a date and time to get on a call with Superflow for a personalized walkthrough";
 
-/**
- * /book-demo — Calendly scheduling page with trust signals.
- * Layout: hero heading + inline Calendly widget + trusted logos + footer.
- */
 export default function BookDemoPage() {
   return (
-    <>
-      <div
-        className="relative bg-black text-white font-urbanist w-full overflow-x-hidden"
-      >
-        <PageHero
-          decorated
-          heading="Book a demo"
-          subheading="Select a date and time to get on a call with Superflow for a demo"
-        />
-
-        {/* Calendly embed */}
-        <section className="relative w-full bg-black px-4 pb-20 sm:px-10 lg:px-20">
-          <div
-            className="flex flex-col items-center"
-            style={{ width: "100%", maxWidth: 1280, margin: "0 auto" }}
-          >
-            <div
-              className="calendly-inline-widget"
-              data-url={CALENDLY_URL}
-              style={{
-                width: "100%",
-                minWidth: 320,
-                height: 700,
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-            />
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-urbanist font-medium"
-              style={{
-                marginTop: 16,
-                fontSize: 14,
-                color: "rgba(255,255,255,0.5)",
-                textDecoration: "underline",
-              }}
-            >
-              Not loading? Click here
-            </a>
-          </div>
-        </section>
-
-        <CustomerLoveCarousel />
-
-        <Footer />
-      </div>
-
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-      />
-    </>
+    <main>
+      <SiteNav />
+      <ListingHero heading={HERO_HEADING} subheading={HERO_SUBHEADING} hideCta />
+      <CalendlyEmbed />
+      <TestimonialsSection />
+      <SiteFooter />
+      <IntercomButton />
+    </main>
   );
 }

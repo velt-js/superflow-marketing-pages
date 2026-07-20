@@ -1,0 +1,60 @@
+/* Calendly embed — /book-demo 2026 light restyle. White card with the 2026
+   hairline border; the widget itself is themed light via URL params (see
+   CalendlyEmbed.tsx). */
+
+.section {
+    --ce-display: var(--font-urbanist), system-ui, sans-serif;
+    --ce-body: var(--font-poppins), system-ui, sans-serif;
+    --ce-muted: #6b7079;
+    --ce-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 24px 72px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.widget {
+    width: 100%;
+    min-width: 320px;
+    height: 700px;
+    overflow: hidden;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.fallback {
+    font-family: var(--ce-body);
+    font-size: 14px;
+    color: var(--ce-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.fallback:hover {
+    color: var(--ce-accent);
+}
+
+@media (max-width: 620px) {
+    .section {
+        padding: 0 20px 56px;
+    }
+}

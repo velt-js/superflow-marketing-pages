@@ -1,4 +1,4 @@
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import { getAllChecklistListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -52,9 +52,7 @@ export default async function ChecklistIndexPage() {
             items: items.map((item) => ({
               title: item.title,
               subtitle: item.description,
-              icon: item.thumbnail || "/images/hero/icon-world.svg",
               href: `/${item.slug}`,
-              cta: "Open checklist",
             })),
           },
         }}

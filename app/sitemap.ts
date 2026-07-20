@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { useCaseDetails } from "@/lib/detail-data";
+import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
@@ -74,7 +75,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const dynamicPaths: string[] = [
-    ...unique(integrationSlugsCms).map((slug) => `/integrations/${slug}`),
+    ...unique(integrationSlugsCms)
+      .filter((slug) => !isHeldIntegrationSlug(slug))
+      .map((slug) => `/integrations/${slug}`),
     ...unique([...Object.keys(useCaseDetails), ...useCaseSlugsCms]).map(
       (slug) => `/use-case/${slug}`,
     ),

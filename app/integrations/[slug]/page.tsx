@@ -6,6 +6,7 @@ import {
   getAllIntegrationListItems,
   getIntegrationPageBySlug,
 } from "@/sanity/lib/queries";
+import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -37,6 +38,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  // Held pages (see lib/integration-holds.ts) must never publish metadata.
+  if (isHeldIntegrationSlug(slug)) return {};
   const doc = await getIntegrationPageBySlug(slug);
   if (!doc) return {};
   const title = doc.metaTitle || doc.title;
@@ -52,11 +55,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export async function generateStaticParams() {
   const slugs = await getAllIntegrationSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return slugs
+    .filter((slug) => !isHeldIntegrationSlug(slug))
+    .map((slug) => ({ slug }));
 }
 
 export default async function IntegrationSlugPage({ params }: PageProps) {
   const { slug } = await params;
+  // Enforced publication hold: held connectors 404 on the live route even if a
+  // CMS document exists. Lift via lib/integration-holds.ts only.
+  if (isHeldIntegrationSlug(slug)) notFound();
   const [doc, all] = await Promise.all([
     getIntegrationPageBySlug(slug),
     getAllIntegrationListItems(),
@@ -66,7 +74,7 @@ export default async function IntegrationSlugPage({ params }: PageProps) {
   const heading = doc.title;
   const canonicalUrl = `${SITE_URL}/integrations/${slug}`;
   const otherIntegrations = all
-    .filter((item) => item.slug !== slug)
+    .filter((item) => item.slug !== slug && !isHeldIntegrationSlug(item.slug))
     .map((item) => ({
       name: item.appName || item.title,
       icon: item.appLogo || "/images/hero/icon-world.svg",

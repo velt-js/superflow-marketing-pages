@@ -1,0 +1,357 @@
+/* Blog listing (/blog) — 2026 redesign.
+   Hero on the shared blue gradient bitmap, then a large featured-post card,
+   then a light card grid of the remaining posts. Mirrors the token set used
+   by components/home-2026/Hero.module.css and
+   components/feature-2026/RelatedCapabilities.module.css. */
+
+.page {
+    --blog-serif: var(--font-adamina), Georgia, serif;
+    --blog-ui: var(--font-urbanist), system-ui, sans-serif;
+    --blog-body: var(--font-poppins), system-ui, sans-serif;
+    --blog-ink: #16171a;
+    --blog-muted: #6b7079;
+    --blog-accent: #433df3;
+    --blog-border: #ececf1;
+    --blog-card-bg: #fbfbfd;
+    /* Height of the fixed SiteNav overlay; reserved as top padding. */
+    --site-nav-height: 70px;
+
+    background: #ffffff;
+}
+
+/* ------------------------------------------------------------------ Hero */
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: var(--blog-ui);
+    background-color: #feffff;
+    background-image: url("/images/home-2026/hero/hero-gradient.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    /* Shorter than the homepage hero, so the bitmap is scaled down
+       proportionally too — otherwise the gradient's fade-to-white (which
+       only completes near the bottom of its native frame) gets clipped by
+       this section's shorter height, leaving a hard blue-to-white edge. */
+    background-size: 100% 620px;
+}
+
+.heroInner {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: calc(var(--site-nav-height) + 72px) 24px 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.kicker {
+    margin: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--blog-serif);
+    font-weight: 400;
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -1.4px;
+    color: #ffffff;
+}
+
+.subhead {
+    margin: 0;
+    max-width: 52ch;
+    font-size: 18px;
+    line-height: 1.55;
+    letter-spacing: -0.4px;
+    color: rgba(255, 255, 255, 0.78);
+    text-wrap: balance;
+}
+
+/* --------------------------------------------------------- Featured post */
+
+.featuredSection {
+    padding: 72px 24px 32px;
+}
+
+.featuredInner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.featuredCard {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid var(--blog-border);
+    border-radius: 24px;
+    background: var(--blog-card-bg);
+    overflow: hidden;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.featuredCard:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    box-shadow: 0 18px 40px rgba(20, 20, 43, 0.1);
+    transform: translateY(-2px);
+}
+
+.featuredImageWrap {
+    position: relative;
+    min-height: 280px;
+    background: #eef0f4;
+}
+
+.featuredImage {
+    object-fit: cover;
+    transition: transform 400ms ease;
+}
+
+.featuredCard:hover .featuredImage {
+    transform: scale(1.03);
+}
+
+.featuredBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: 40px 44px;
+}
+
+.featuredKicker {
+    margin: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--blog-accent);
+}
+
+.featuredTitle {
+    margin: 0;
+    font-family: var(--blog-serif);
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 32px);
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+    color: var(--blog-ink);
+}
+
+.featuredMeta {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--blog-body);
+    font-size: 14px;
+    color: var(--blog-muted);
+}
+
+.featuredCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-family: var(--blog-ui);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blog-accent);
+}
+
+.featuredCtaIcon {
+    transition: transform 160ms ease;
+}
+
+.featuredCard:hover .featuredCtaIcon {
+    transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------- Grid */
+
+.gridSection {
+    padding: 40px 24px 112px;
+}
+
+.gridInner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gridHeading {
+    margin: 0 0 32px;
+    font-family: var(--blog-serif);
+    font-weight: 400;
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.4px;
+    color: var(--blog-ink);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid var(--blog-border);
+    border-radius: 20px;
+    background: var(--blog-card-bg);
+    overflow: hidden;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    transform: translateY(-2px);
+}
+
+.cardImageWrap {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #eef0f4;
+    overflow: hidden;
+}
+
+.cardImage {
+    object-fit: cover;
+    transition: transform 300ms ease;
+}
+
+.card:hover .cardImage {
+    transform: scale(1.04);
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px 26px;
+}
+
+.cardKicker {
+    margin: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--blog-accent);
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--blog-ui);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    color: var(--blog-ink);
+}
+
+.cardMeta {
+    margin: 0;
+    font-family: var(--blog-body);
+    font-size: 13px;
+    color: var(--blog-muted);
+}
+
+.emptyState {
+    font-family: var(--blog-body);
+    font-size: 15px;
+    color: var(--blog-muted);
+}
+
+.emptyStateLink {
+    color: var(--blog-accent);
+    text-decoration: underline;
+    text-decoration-color: rgba(67, 61, 243, 0.35);
+}
+
+.emptyStateLink:hover {
+    text-decoration-color: var(--blog-accent);
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1080px) {
+    .hero {
+        background-size: 100% 760px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .featuredCard {
+        grid-template-columns: 1fr;
+    }
+
+    .featuredImageWrap {
+        min-height: 240px;
+    }
+
+    .featuredBody {
+        padding: 32px;
+    }
+}
+
+@media (max-width: 620px) {
+    .hero {
+        background-size: 100% 900px;
+    }
+
+    .heroInner {
+        padding: calc(var(--site-nav-height) + 48px) 20px 56px;
+    }
+
+    .featuredSection {
+        padding: 48px 20px 24px;
+    }
+
+    .gridSection {
+        padding: 32px 20px 80px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .featuredBody {
+        padding: 24px;
+    }
+}

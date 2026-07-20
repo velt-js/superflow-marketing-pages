@@ -1,0 +1,84 @@
+/* Checklist main-image section — 2026 redesign. Replaces the old full-bleed
+   black band with a white section: serif ink heading, muted mono caption,
+   and the screenshot framed in the 2026 card idiom (hairline border, 20px
+   radius, soft shadow). */
+
+.section {
+  --cmi-ink: #16171a;
+  --cmi-muted: #6b7079;
+  --cmi-border: #ececf1;
+  --cmi-font-display: var(--font-adamina), Georgia, serif;
+  --cmi-font-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 40px 24px 88px;
+  background: #ffffff;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heading {
+  margin: 0;
+  max-width: 820px;
+  font-family: var(--cmi-font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 40px);
+  line-height: 1.18;
+  letter-spacing: -0.5px;
+  color: var(--cmi-ink);
+  text-wrap: balance;
+}
+
+.caption {
+  margin: 14px 0 0;
+  font-family: var(--cmi-font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--cmi-muted);
+}
+
+.imageFrame {
+  width: 100%;
+  margin-top: 44px;
+  border: 1px solid var(--cmi-border);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fbfbfd;
+  box-shadow: 0 24px 60px rgba(20, 20, 43, 0.08);
+}
+
+/* Frame variant for hand-built artifacts — same hairline card, but flat
+   (no shadow) per the light-mode artifact design direction. */
+.imageFrameFlat {
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: 24px 20px 64px;
+  }
+
+  .imageFrame {
+    margin-top: 32px;
+    border-radius: 14px;
+  }
+}

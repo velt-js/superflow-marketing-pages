@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import DetailPage from "@/components/detail/DetailPage";
+import UserPersonaDetailPage from "@/components/user-persona-2026/UserPersonaDetailPage";
+import { resolvePersonaTitle } from "@/components/user-persona-2026/adapter";
 import {
   getUserPersonaPageBySlug,
   getAllUserPersonaSlugs,
   getAllUserPersonaPages,
 } from "@/sanity/lib/queries";
-import {
-  mapUserPersonaDocToConfig,
-  type SanityUserPersonaDoc,
-  type PersonaListItem,
+import type {
+  SanityUserPersonaDoc,
+  PersonaListItem,
 } from "@/lib/sanity-adapters/user-persona";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -61,7 +61,7 @@ export async function generateStaticParams() {
   return slugs.map((slug: string) => ({ slug }));
 }
 
-export default async function UserPersonaDetailPage({ params }: PageProps) {
+export default async function UserPersonaPageRoute({ params }: PageProps) {
   const { slug } = await params;
   const [doc, siblings] = await Promise.all([
     getUserPersonaPageBySlug(slug) as Promise<SanityUserPersonaDoc | null>,
@@ -69,7 +69,7 @@ export default async function UserPersonaDetailPage({ params }: PageProps) {
   ]);
   if (!doc) notFound();
 
-  const config = mapUserPersonaDocToConfig(doc, siblings);
+  const pageTitle = resolvePersonaTitle(doc);
 
   const faqEntries = (doc.faq?.length)
     ? doc.faq
@@ -84,7 +84,7 @@ export default async function UserPersonaDetailPage({ params }: PageProps) {
   return (
     <>
       <PageJsonLd
-        name={config.hero.heading}
+        name={pageTitle}
         description={
           doc.metaDescription ??
           doc.hero?.description ??
@@ -93,13 +93,13 @@ export default async function UserPersonaDetailPage({ params }: PageProps) {
         path={`/user-persona/${slug}`}
         trail={[
           { name: "User Persona", url: `${SITE_URL}/user-persona` },
-          { name: config.hero.heading, url: `${SITE_URL}/user-persona/${slug}` },
+          { name: pageTitle, url: `${SITE_URL}/user-persona/${slug}` },
         ]}
       />
       {faqEntries.length > 0 && (
         <JsonLd id="ld-user-persona-faq" data={buildFaqPageSchema(faqEntries)} />
       )}
-      <DetailPage config={config} />
+      <UserPersonaDetailPage doc={doc} siblings={siblings} />
     </>
   );
 }
