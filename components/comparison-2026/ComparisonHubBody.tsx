@@ -34,35 +34,48 @@ const HUB_GROUPS: readonly {
 ];
 
 /**
- * The /preview/comparison hub: a compact gradient hero plus the catalog of
- * published preview pages, grouped by class.
+ * The comparison hub body: a compact gradient hero plus the catalog of
+ * published preview pages, grouped by class. `visibleTypes` limits which
+ * groups render (the alternatives class gets its own hub); `heroOverride`
+ * replaces the doc's hero copy on hubs without their own Sanity doc;
+ * `crossLinks` renders pointer pills to sibling hubs.
  */
 export default function ComparisonHubBody({
   doc,
   items,
+  visibleTypes,
+  heroOverride,
+  crossLinks,
 }: {
   doc: ComparisonHubDoc | null;
   items: ComparisonHubItem[];
+  visibleTypes?: ComparisonHubItem["_type"][];
+  heroOverride?: { kicker?: string; headline?: string; subhead?: string };
+  crossLinks?: { label: string; href: string }[];
 }) {
+  const kicker = heroOverride?.kicker ?? doc?.kicker;
+  const headline =
+    heroOverride?.headline ?? doc?.headline ?? "Comparisons, done honestly.";
+  const subhead = heroOverride?.subhead ?? doc?.subhead;
+  const groups = HUB_GROUPS.filter(
+    (group) => !visibleTypes || visibleTypes.includes(group.type),
+  );
+
   return (
     <div className={styles.page}>
       <SiteNav />
 
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          {doc?.kicker ? <p className={styles.heroKicker}>{doc.kicker}</p> : null}
-          <h1 className={styles.heroHeadline}>
-            {doc?.headline ?? "Comparisons, done honestly."}
-          </h1>
-          {doc?.subhead ? (
-            <p className={styles.heroSecondary}>{doc.subhead}</p>
-          ) : null}
+          {kicker ? <p className={styles.heroKicker}>{kicker}</p> : null}
+          <h1 className={styles.heroHeadline}>{headline}</h1>
+          {subhead ? <p className={styles.heroSecondary}>{subhead}</p> : null}
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>
 
       <section className={styles.section}>
-        {HUB_GROUPS.map((group) => {
+        {groups.map((group) => {
           const groupItems = (items ?? []).filter(
             (item) => item?._type === group.type,
           );
@@ -112,6 +125,16 @@ export default function ComparisonHubBody({
             </div>
           );
         })}
+
+        {crossLinks && crossLinks.length > 0 ? (
+          <ul className={styles.relatedList}>
+            {crossLinks.map((link) => (
+              <li key={link.href} className={styles.relatedItem}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
 
       <SiteFooter />

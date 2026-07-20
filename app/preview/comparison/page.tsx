@@ -68,6 +68,11 @@ export default async function ComparisonPreviewHubPage() {
     getAllComparisonPreviewsForHub() as Promise<ComparisonHubItem[]>,
   ]);
 
+  // The alternatives class lives on its own hub at /preview/comparison/alternatives.
+  const comparisonItems = (items ?? []).filter(
+    (item) => item?._type !== "comparisonPreviewAlternativesPage",
+  );
+
   const name = doc?.metaTitle ?? `${doc?.title ?? FALLBACK_TITLE} | Superflow`;
   const description = doc?.metaDescription ?? FALLBACK_DESCRIPTION;
 
@@ -81,9 +86,22 @@ export default async function ComparisonPreviewHubPage() {
       />
       <JsonLd
         id="ld-itemlist-comparison-hub"
-        data={buildComparisonItemList(items ?? [])}
+        data={buildComparisonItemList(comparisonItems)}
       />
-      <ComparisonHubBody doc={doc} items={items ?? []} />
+      <ComparisonHubBody
+        doc={doc}
+        items={comparisonItems}
+        visibleTypes={[
+          "comparisonPreviewVsPage",
+          "comparisonPreviewArbiterPage",
+        ]}
+        crossLinks={[
+          {
+            label: "Alternatives, ranked honestly: the listicle hub",
+            href: `${BASE_PATH}/alternatives`,
+          },
+        ]}
+      />
     </>
   );
 }
