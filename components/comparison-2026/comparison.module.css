@@ -781,6 +781,25 @@
   }
 }
 
+.toolNameWithLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  vertical-align: middle;
+}
+
+.toolLogo {
+  flex-shrink: 0;
+  border-radius: 5px;
+  object-fit: contain;
+}
+
+.hubCardLogos {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 @media (max-width: 620px) {
   .heroInner {
     --cmp-gutter: 20px;

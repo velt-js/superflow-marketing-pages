@@ -10,6 +10,7 @@ import {
   ComparisonScorecardTable,
   ComparisonSmartLink,
   ComparisonSources,
+  ToolNameWithLogo,
 } from "./ComparisonSections";
 import type { ComparisonAlternativesDoc } from "./types";
 
@@ -117,7 +118,9 @@ export default function ComparisonAlternativesPageBody({
               <span className={styles.entryRank}>
                 Entry {String(entryIndex + 2).padStart(2, "0")}
               </span>
-              <h2 className={styles.entryName}>{entry.name}</h2>
+              <h2 className={styles.entryName}>
+                <ToolNameWithLogo name={entry.name} size={24} />
+              </h2>
               {entry?.bestFor ? (
                 <p className={styles.entryRow}>
                   <strong>Best for:</strong> {entry.bestFor}

@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./comparison.module.css";
+import { getToolLogoSrc } from "./toolLogos";
 import type {
   ComparisonDimension,
   ComparisonLink,
@@ -53,6 +55,38 @@ export function ComparisonSmartLink({
     <a href={href} className={className} rel="nofollow noopener">
       {link?.label}
     </a>
+  );
+}
+
+/**
+ * A tool's name with its logo mark, used in fact-card headers and scorecard
+ * columns. Falls back to the bare name when no logo is known.
+ */
+export function ToolNameWithLogo({
+  name,
+  size = 18,
+}: {
+  name?: string;
+  size?: number;
+}) {
+  const label = name ?? "";
+  const logoSrc = getToolLogoSrc(label);
+  if (!logoSrc) {
+    return <>{label}</>;
+  }
+  return (
+    <span className={styles.toolNameWithLogo}>
+      <Image
+        src={logoSrc}
+        alt=""
+        aria-hidden="true"
+        width={size}
+        height={size}
+        className={styles.toolLogo}
+        unoptimized
+      />
+      {label}
+    </span>
   );
 }
 
@@ -144,7 +178,9 @@ export function ComparisonDimensionSection({
       ) : null}
       <div className={styles.cardPair}>
         <div className={leftCardClass}>
-          <p className={styles.factCardName}>{leftName}</p>
+          <p className={styles.factCardName}>
+            <ToolNameWithLogo name={leftName} />
+          </p>
           <ul className={styles.factList}>
             {(dimension.leftFacts ?? []).map((fact) => (
               <li key={fact} className={styles.factItem}>
@@ -157,7 +193,9 @@ export function ComparisonDimensionSection({
           ) : null}
         </div>
         <div className={rightCardClass}>
-          <p className={styles.factCardName}>{rightName}</p>
+          <p className={styles.factCardName}>
+            <ToolNameWithLogo name={rightName} />
+          </p>
           <ul className={styles.factList}>
             {(dimension.rightFacts ?? []).map((fact) => (
               <li key={fact} className={styles.factItem}>
@@ -210,10 +248,10 @@ export function ComparisonScorecardTable({
           <tr>
             <th scope="col">The job</th>
             <th scope="col" className={leftCellClass}>
-              {leftName}
+              <ToolNameWithLogo name={leftName} size={16} />
             </th>
             <th scope="col" className={rightCellClass}>
-              {rightName}
+              <ToolNameWithLogo name={rightName} size={16} />
             </th>
           </tr>
         </thead>

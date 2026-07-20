@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 
 import styles from "./comparison.module.css";
+import { getToolLogosFromSlug } from "./toolLogos";
 import type { ComparisonHubDoc, ComparisonHubItem } from "./types";
 
 const BASE_PATH = "/preview/comparison";
@@ -72,21 +74,40 @@ export default function ComparisonHubBody({
               <h2 className={styles.hubGroupHeading}>{group.heading}</h2>
               <p className={styles.hubGroupLead}>{group.lead}</p>
               <ul className={styles.hubGrid}>
-                {groupItems.map((item) => (
-                  <li key={item._id}>
-                    <Link
-                      className={styles.hubCard}
-                      href={`${BASE_PATH}/${item.slug}`}
-                    >
-                      <p className={styles.hubCardTitle}>{item.title}</p>
-                      {item?.metaDescription ? (
-                        <p className={styles.hubCardBlurb}>
-                          {item.metaDescription}
-                        </p>
-                      ) : null}
-                    </Link>
-                  </li>
-                ))}
+                {groupItems.map((item) => {
+                  const logoSrcs = getToolLogosFromSlug(item.slug);
+                  return (
+                    <li key={item._id}>
+                      <Link
+                        className={styles.hubCard}
+                        href={`${BASE_PATH}/${item.slug}`}
+                      >
+                        {logoSrcs.length > 0 ? (
+                          <span className={styles.hubCardLogos}>
+                            {logoSrcs.map((src) => (
+                              <Image
+                                key={src}
+                                src={src}
+                                alt=""
+                                aria-hidden="true"
+                                width={22}
+                                height={22}
+                                className={styles.toolLogo}
+                                unoptimized
+                              />
+                            ))}
+                          </span>
+                        ) : null}
+                        <p className={styles.hubCardTitle}>{item.title}</p>
+                        {item?.metaDescription ? (
+                          <p className={styles.hubCardBlurb}>
+                            {item.metaDescription}
+                          </p>
+                        ) : null}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           );
