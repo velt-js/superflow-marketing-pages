@@ -29,11 +29,16 @@ import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
-  TASK_BOARD_CONFIGS,
-  TaskBoardSyncCrosses,
-  TaskBoardLinkOnce,
-  TaskBoardUnlocks,
-} from "./TaskBoardSections";
+  CONNECTOR_CONFIGS,
+  ConnectorSyncCrosses,
+  ConnectorLinkOnce,
+  ConnectorUnlocks,
+} from "./ConnectorSections";
+import {
+  INSTALL_CONFIGS,
+  InstallWhatItDoes,
+  InstallBehaves,
+} from "./InstallSections";
 
 /** A tab / "features that help" row within a Feature Set block. */
 export interface IntegrationPageBlockTab {
@@ -117,12 +122,12 @@ const DEFAULT_HERO_TAB_ICON = "plug";
 const GET_STARTED_HEADING = "Connect in a minute";
 
 /**
- * Prefix for the task-management heroes' static sync artifacts (registered in
- * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the shared task-and-comment sync
- * board restricted to a single tool logo on top. The full key is
- * `integrations-<slug>` (e.g. "integrations-monday").
+ * Prefix for the connector heroes' static sync artifacts (registered in
+ * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the per-tool sync composition
+ * rendered on the flat hero card. The full key is `integrations-<slug>`
+ * (e.g. "integrations-monday", "integrations-slack").
  */
-const TASK_BOARD_HERO_ARTIFACT_PREFIX = "integrations-";
+const CONNECTOR_HERO_ARTIFACT_PREFIX = "integrations-";
 
 /**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
@@ -296,14 +301,22 @@ interface IntegrationPageBodyProps {
  * @param props - The resolved Sanity document to render.
  */
 export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
-  // Task-management pages (Monday, Asana, ClickUp) swap the shared FeatureSet +
-  // GetStarted sections for the bespoke board-sync sections and render the
-  // flat, single-logo hero sync artifact; every other page is unchanged.
-  const taskBoardConfig = doc?.slug ? TASK_BOARD_CONFIGS[doc.slug] : undefined;
-  const isTaskBoard = Boolean(taskBoardConfig);
-  // The kicker eyebrow is rendered on the task-management heroes only, so
-  // every other integration page keeps its current (eyebrow-less) hero.
-  const heroKicker = isTaskBoard ? doc?.hero?.kicker ?? undefined : undefined;
+  // Connector pages (Monday, Asana, ClickUp, Slack) swap the shared FeatureSet
+  // + GetStarted sections for the bespoke sync sections and render the flat,
+  // single-tool hero sync artifact; every other page is unchanged.
+  const connectorConfig = doc?.slug ? CONNECTOR_CONFIGS[doc.slug] : undefined;
+  const isConnector = Boolean(connectorConfig);
+  // Install pages (Webflow, WordPress, Google Tag Manager) keep the shared
+  // home-replica sections but reorder Get Started before the bands (the build
+  // files put the install steps right after Solution) and append the bespoke
+  // "What the plugin/tag does" + "How the install behaves" sections.
+  const installConfig = doc?.slug ? INSTALL_CONFIGS[doc.slug] : undefined;
+  const isInstall = Boolean(installConfig);
+  // Bespoke-hero pages (connector + install) render the kicker eyebrow and
+  // the flat, single-tool static artifact; every other integration page keeps
+  // its current (eyebrow-less, interactive-showcase) hero.
+  const hasBespokeHero = isConnector || isInstall;
+  const heroKicker = hasBespokeHero ? doc?.hero?.kicker ?? undefined : undefined;
   const heroHeadlineLines = doc?.hero?.headlineLines ?? undefined;
   const heroSubhead = doc?.hero?.subhead ?? undefined;
   const heroShowcase = doc?.hero?.showcase ?? undefined;
@@ -335,17 +348,40 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
         showcase={heroShowcase}
         tabs={heroTabs}
         staticArtifact={
-          taskBoardConfig
-            ? `${TASK_BOARD_HERO_ARTIFACT_PREFIX}${taskBoardConfig.slug}`
+          hasBespokeHero && doc?.slug
+            ? `${CONNECTOR_HERO_ARTIFACT_PREFIX}${doc.slug}`
             : undefined
         }
-        staticArtifactFlat={isTaskBoard}
+        staticArtifactFlat={hasBespokeHero}
       />
-      {taskBoardConfig ? (
+      {connectorConfig ? (
         <>
-          <TaskBoardSyncCrosses config={taskBoardConfig} />
-          <TaskBoardLinkOnce config={taskBoardConfig} />
-          <TaskBoardUnlocks config={taskBoardConfig} />
+          <ConnectorSyncCrosses config={connectorConfig} />
+          <ConnectorLinkOnce config={connectorConfig} />
+          <ConnectorUnlocks config={connectorConfig} />
+        </>
+      ) : installConfig ? (
+        <>
+          <SolutionSection
+            heading={solutionHeading}
+            subheading={solutionSubheading}
+            variant={solutionVariant}
+          />
+          {/* Build-file order: the install steps ride right after Solution;
+              the bands follow, then the bespoke install mechanics sections. */}
+          <GetStarted
+            heading={getStartedHeading}
+            subheading={getStartedSubheading}
+            steps={getStartedSteps}
+          />
+          <FeatureSet
+            headerTitle={doc?.featureSet?.headerTitle ?? undefined}
+            journeyStart={doc?.featureSet?.journeyStart ?? undefined}
+            journeyEnd={doc?.featureSet?.journeyEnd ?? undefined}
+            blocks={featureBlocks.length > 0 ? featureBlocks : undefined}
+          />
+          <InstallWhatItDoes config={installConfig} />
+          <InstallBehaves config={installConfig} />
         </>
       ) : (
         <>
@@ -367,7 +403,7 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
           />
         </>
       )}
-      {!isTaskBoard && (
+      {!isConnector && (
         <>
           <SolutionsSection />
           <CostSection />

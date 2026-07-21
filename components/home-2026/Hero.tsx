@@ -14,6 +14,12 @@ import IntegrationsHubHeroArtifact from "./hero-artifacts/IntegrationsHubHeroArt
 import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtifact";
 import IntegrationsAsanaArtifact from "./hero-artifacts/IntegrationsAsanaArtifact";
 import IntegrationsClickUpArtifact from "./hero-artifacts/IntegrationsClickUpArtifact";
+import IntegrationsSlackArtifact from "./hero-artifacts/IntegrationsSlackArtifact";
+import {
+  IntegrationsWebflowArtifact,
+  IntegrationsWordPressArtifact,
+  IntegrationsGtmArtifact,
+} from "./hero-artifacts/IntegrationsInstallArtifact";
 
 /**
  * Chrome-less hero artifacts that render inside a plain white card (no tab
@@ -26,6 +32,10 @@ const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-monday": IntegrationsMondayArtifact,
   "integrations-asana": IntegrationsAsanaArtifact,
   "integrations-clickup": IntegrationsClickUpArtifact,
+  "integrations-slack": IntegrationsSlackArtifact,
+  "integrations-webflow": IntegrationsWebflowArtifact,
+  "integrations-wordpress": IntegrationsWordPressArtifact,
+  "integrations-google-tag-manager": IntegrationsGtmArtifact,
 };
 
 // Temporarily unused while the hero RHS interactive panel is hidden (see the

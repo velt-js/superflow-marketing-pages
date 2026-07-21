@@ -1,0 +1,337 @@
+/* Slack integration hero artifact — a chrome-less composition on white: the
+   shared comment composer (left) linked by a curved SVG connector to a Slack
+   channel window (right) carrying the landed message card (actor, comment,
+   asset thumbnail, deep link, Resolve / Reply / Approve action row). Authored
+   at the same fixed 1200×578 desktop scale as IntegrationsArtifact and scaled
+   down via container queries so the layout stays pixel-identical. */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* Match the sibling integration artifact so switching pages never jumps. */
+  min-height: 578px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #0a0a0a;
+  overflow: hidden;
+  font-family: var(--hero-font-ui);
+  container-type: inline-size;
+  container-name: integrations-slack;
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1200px;
+  height: 578px;
+  --stage-scale: 1;
+  transform: scale(var(--stage-scale));
+  transform-origin: left center;
+}
+
+@container integrations-slack (max-width: 1000px) {
+  .stage {
+    --stage-scale: 0.83;
+  }
+}
+
+@container integrations-slack (max-width: 900px) {
+  .stage {
+    --stage-scale: 0.75;
+  }
+}
+
+@container integrations-slack (max-width: 820px) {
+  .stage {
+    --stage-scale: 0.68;
+  }
+}
+
+@container integrations-slack (max-width: 740px) {
+  .stage {
+    --stage-scale: 0.61;
+  }
+}
+
+@container integrations-slack (max-width: 660px) {
+  .stage {
+    --stage-scale: 0.55;
+  }
+}
+
+@container integrations-slack (max-width: 580px) {
+  .stage {
+    --stage-scale: 0.48;
+  }
+}
+
+@container integrations-slack (max-width: 520px) {
+  .stage {
+    --stage-scale: 0.43;
+  }
+}
+
+@container integrations-slack (max-width: 460px) {
+  .stage {
+    --stage-scale: 0.38;
+  }
+}
+
+@container integrations-slack (max-width: 410px) {
+  .stage {
+    --stage-scale: 0.34;
+  }
+}
+
+@container integrations-slack (max-width: 370px) {
+  .stage {
+    --stage-scale: 0.305;
+  }
+}
+
+@container integrations-slack (max-width: 340px) {
+  .stage {
+    --stage-scale: 0.28;
+  }
+}
+
+/* ------------------------------------------------------- Curved connector */
+
+.connector {
+  position: absolute;
+  left: 446px;
+  top: 119px;
+  width: 162px;
+  height: 190px;
+  pointer-events: none;
+}
+
+.connectorPath {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-dasharray: 6 7;
+  animation: slackConnectorDraw 0.7s ease 0.35s both;
+}
+
+.syncPulse {
+  filter: drop-shadow(0 0 6px rgba(98, 93, 245, 0.55));
+}
+
+/* ------------------------------------------------------------ Composer */
+
+.composer {
+  position: absolute;
+  left: 72px;
+  top: 232px;
+  transform-origin: left top;
+  animation: slackComposerIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+/* --------------------------------------------------------- Slack window */
+
+.slackWindow {
+  position: absolute;
+  left: 600px;
+  top: 104px;
+  width: 640px;
+  border: 2px solid #ededed;
+  border-radius: 24px;
+  background: #ffffff;
+  overflow: hidden;
+  animation: slackWindowIn 0.45s ease 0.1s both;
+}
+
+.channelBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 26px;
+  border-bottom: 1px solid #ededed;
+}
+
+.channelMark {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.channelName {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #1e1e1f;
+}
+
+/* ------------------------------------------------------------- Message */
+
+/* The landed message enters after the forward pulse arrives (~1.5s). */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 22px 26px 26px;
+  animation: slackMessageLand 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
+}
+
+.messageAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f2994a;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.messageBody {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.messageMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.messageAuthor {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #1e1e1f;
+}
+
+.messageTime {
+  font-size: 12.5px;
+  color: rgba(30, 30, 31, 0.5);
+}
+
+.messageText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+  color: #1e1e1f;
+}
+
+/* Asset thumbnail + deep link to the exact spot. */
+.attachment {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 2px;
+}
+
+.thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 108px;
+  height: 68px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f4f4f6 0%, #e9e9ee 100%);
+  color: #9a9aa0;
+}
+
+.deepLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #5b57f5;
+}
+
+/* Resolve / Reply / Approve — the message's action row. */
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 9px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #1e1e1f;
+}
+
+/* Approve — the Slack-native primary (green outline) action. */
+.actionPrimary {
+  border-color: #1a8f64;
+  color: #1a8f64;
+}
+
+/* --- Entrance animations (replay whenever the hero mounts) -------------- */
+
+@keyframes slackComposerIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slackWindowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slackConnectorDraw {
+  from {
+    stroke-dashoffset: 260;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes slackMessageLand {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion: hold every element in its settled state. */
+@media (prefers-reduced-motion: reduce) {
+  .composer,
+  .slackWindow,
+  .connectorPath,
+  .message {
+    animation: none;
+  }
+
+  .syncPulse {
+    display: none;
+  }
+}

@@ -38,7 +38,6 @@ const ACCENT_PLUM = "#da53b9";
 const ACCENT_BLUE = "#433df3";
 const ACCENT_GREEN = "#109534";
 const ACCENT_UMBER = "#e17a14";
-const ACCENT_PINK = "#d43f8d";
 
 // The four "home bands", home-verbatim (this v3 page replicates the homepage
 // arc, then adds the Webflow plugin install). Shared across the platform pages.
@@ -236,7 +235,7 @@ const doc = {
   family: "Install",
   cardBlurb: "A built-in install for Webflow sites.",
   hero: {
-    kicker: "· WEBFLOW · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "WEBFLOW · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Watch AI review", "your Webflow sites."],
     subhead:
       "Paste your agency's QA checklist. AI agents check every Webflow site change. Then your team approves. Then your client. No client login required. Installed in one click.",
@@ -258,151 +257,10 @@ const doc = {
     headerTitle: "Superflow gets you from",
     journeyStart: "First Draft",
     journeyEnd: "Client Approved",
-    blocks: [
-      ...HOME_BANDS,
-      {
-        _key: "block-install",
-        title: "What the plugin does",
-        description:
-          "Superflow ships as a plugin in the Webflow Marketplace. Install it, authorize, pick your sites — the script is placed for you.",
-        icon: "plug",
-        accent: ACCENT_BLUE,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "install-snippet",
-            label: "Placed for you",
-            icon: "code-asterisk",
-            oneLiner:
-              "The plugin adds the Superflow snippet through Webflow's own custom-code surface. No copy-paste, no developer, nothing else touched.",
-          },
-          {
-            _key: "install-verify",
-            label: "Verified first",
-            icon: "circle-check",
-            oneLiner: "The verifier confirms the script before any review link goes out.",
-          },
-          {
-            _key: "install-updates",
-            label: "Auto-updates",
-            icon: "refresh",
-            oneLiner:
-              "The plugin keeps the script current when Superflow updates it. No re-paste, ever.",
-          },
-          {
-            _key: "install-uninstall",
-            label: "Uninstall removes it",
-            icon: "lock-open",
-            oneLiner: "Uninstalling the plugin removes the script.",
-          },
-          {
-            _key: "install-scope",
-            label: "Minimal access",
-            icon: "lock",
-            oneLiner: "Requests custom-code access only, not full site admin.",
-          },
-          {
-            _key: "install-cta",
-            label: "Get the plugin on the Webflow Marketplace",
-            icon: "plug",
-            oneLiner: "Get the plugin on the Webflow Marketplace.",
-            href: "https://webflow.com/apps/detail/superflow",
-            listOnly: true,
-          },
-        ],
-      },
-      {
-        _key: "block-behaves",
-        title: "How the Webflow install behaves",
-        description:
-          "The guarantees behind the install, so any website still takes the snippet.",
-        icon: "settings",
-        accent: ACCENT_UMBER,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "behave-staging",
-            label: "Staging and published",
-            icon: "world",
-            oneLiner: "Works on staging and published Webflow sites.",
-          },
-          {
-            _key: "behave-sites",
-            label: "Only the sites you pick",
-            icon: "circle-check",
-            oneLiner:
-              "One connection covers the sites you pick, not your whole account.",
-          },
-          {
-            _key: "behave-any",
-            label: "Any website floor",
-            icon: "code-asterisk",
-            oneLiner: "Any website takes the snippet. Webflow just makes it one click.",
-          },
-          {
-            _key: "behave-drop",
-            label: "Resilient to drops",
-            icon: "refresh",
-            oneLiner:
-              "If the connection drops, the site keeps its script. Reviews keep working.",
-          },
-          {
-            _key: "behave-health",
-            label: "Health in settings",
-            icon: "history",
-            oneLiner: "Connection health lives in settings.",
-          },
-          {
-            _key: "behave-remove",
-            label: "Remove removes it",
-            icon: "lock-open",
-            oneLiner: "Removing the integration removes the script.",
-          },
-        ],
-      },
-      {
-        _key: "block-related",
-        title: "Part of the integrations catalog",
-        description:
-          "Webflow is one connector in the catalog. Explore the other install paths.",
-        icon: "plug",
-        accent: ACCENT_PINK,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "related-lead",
-            label: "Every tool, one review",
-            icon: "plug",
-            oneLiner:
-              "Every tool, one review. Superflow connects to the tools your agency already runs.",
-          },
-          {
-            _key: "related-wordpress",
-            label: "WordPress",
-            icon: "world",
-            oneLiner: "A built-in install for WordPress sites.",
-            href: "/preview/integrations/wordpress",
-            listOnly: true,
-          },
-          {
-            _key: "related-gtm",
-            label: "Google Tag Manager",
-            icon: "code-asterisk",
-            oneLiner: "One tag covers any site that runs GTM.",
-            href: "/preview/integrations/google-tag-manager",
-            listOnly: true,
-          },
-          {
-            _key: "related-hub",
-            label: "All integrations",
-            icon: "plug",
-            oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
-            listOnly: true,
-          },
-        ],
-      },
-    ],
+    // The four home bands only. The former "What the plugin does" /
+    // "How the Webflow install behaves" / catalog blocks now render as the
+    // bespoke InstallSections (components/integration-2026/InstallSections.tsx).
+    blocks: [...HOME_BANDS],
   },
   getStarted: {
     heading: "Connect once. Agents check every launch.",

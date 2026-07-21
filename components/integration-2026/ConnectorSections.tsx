@@ -5,25 +5,26 @@ import {
   MondayMark,
   AsanaMark,
   ClickUpMark,
+  SlackMark,
 } from "./IntegrationBrandMarks";
-import styles from "./TaskBoardSections.module.css";
+import styles from "./ConnectorSections.module.css";
 
 /**
- * Bespoke, hand-authored sections shared by the task-management integration
- * pages (/preview/integrations/monday, /asana, /clickup). Layout and aesthetic
- * were established on the Monday page; copy is per-tool, verbatim from the
- * matching superflow-page-integration-<tool>-v1-1.md build file (Monday
- * vocabulary: items, boards, groups, columns — never "tasks"; Asana/ClickUp
- * speak in tasks). These replace the shared FeatureSet + GetStarted sections
- * on the task-management pages only; every other integration page is
- * untouched.
+ * Bespoke, hand-authored sections shared by the connector integration pages
+ * (/preview/integrations/monday, /asana, /clickup, /slack). Layout and
+ * aesthetic were established on the Monday page; copy is per-tool, verbatim
+ * from the matching superflow-page-integration-<tool>-v1-1.md build file
+ * (Monday vocabulary: items, boards, groups, columns — never "tasks";
+ * Asana/ClickUp speak in tasks; Slack speaks in channels and messages). These
+ * replace the shared FeatureSet + GetStarted sections on the connector pages
+ * only; every other integration page is untouched.
  *
- * Three sections are exported, each taking a {@link TaskBoardConfig}:
- *  - {@link TaskBoardSyncCrosses} — "What crosses, and which way." (two-way table)
- *  - {@link TaskBoardLinkOnce}    — "Link once. The board flows." (link process)
- *  - {@link TaskBoardUnlocks}     — "What the <tool> sync unlocks" (five wins)
+ * Three sections are exported, each taking a {@link ConnectorConfig}:
+ *  - {@link ConnectorSyncCrosses} — the two-way table ("What crosses/flows…")
+ *  - {@link ConnectorLinkOnce}    — the Connect / Map / Work process cards
+ *  - {@link ConnectorUnlocks}     — "What the <tool> sync unlocks" (five wins)
  *
- * Per-tool configs live in {@link TASK_BOARD_CONFIGS}, keyed by page slug.
+ * Per-tool configs live in {@link CONNECTOR_CONFIGS}, keyed by page slug.
  */
 
 /* ---------------------------------------------------------------- config */
@@ -35,7 +36,7 @@ interface MarkProps {
 }
 
 /** One "unlock" — a win the sync delivers, plus the cost of not having it. */
-export interface TaskBoardUnlockItem {
+export interface ConnectorUnlockItem {
   id: string;
   title: string;
   description: string;
@@ -43,15 +44,25 @@ export interface TaskBoardUnlockItem {
 }
 
 /** Everything tool-specific the three shared sections need to render. */
-export interface TaskBoardConfig {
+export interface ConnectorConfig {
   /** Page slug — used in `data-section` hooks (e.g. "monday-crosses"). */
   slug: string;
-  /** Display name of the tool ("Monday", "Asana", "ClickUp"). */
+  /** Display name of the tool ("Monday", "Asana", "ClickUp", "Slack"). */
   toolName: string;
   /** The tool's brand mark, matching the hero integration artifacts. */
   Mark: ComponentType<MarkProps>;
-  /** Section 2 lede — the two-way table's rendered closing line. */
-  crossesLede: string;
+  /** Section 2 display heading. */
+  crossesHeading: string;
+  /**
+   * Section 2 lede — the two-way table's rendered closing line. Omit when the
+   * build file supplies none (Slack), and the section renders heading-only.
+   */
+  crossesLede?: string;
+  /**
+   * Right-hand glyph of the section 2 header icon row: the destination the
+   * comment flows into — a `board` (task tools) or a `channel` (chat tools).
+   */
+  crossesTargetGlyph: "board" | "channel";
   /** Superflow → tool flow statements (left column cards). */
   crossesOut: readonly string[];
   /** Tool → Superflow flow statements (right column cards). */
@@ -66,25 +77,36 @@ export interface TaskBoardConfig {
   linkWorkDesc: string;
   /** Label inside the Map illustration's select pill. */
   linkMapPillLabel: string;
+  /**
+   * Work-card illustration: `board` shows the "2 New Update" chip + Approve
+   * pill (task tools); `action-row` shows the Slack message action row
+   * (Resolve / Reply / Approve).
+   */
+  linkWorkArt: "board" | "action-row";
   /** Section 4 display heading. */
   unlocksHeading: string;
   /** The five wins the sync delivers. */
-  unlocks: readonly TaskBoardUnlockItem[];
+  unlocks: readonly ConnectorUnlockItem[];
 }
 
-const CROSSES_HEADING = "What crosses, and which way.";
+const BOARD_CROSSES_HEADING = "What crosses, and which way.";
+const CHAT_CROSSES_HEADING = "What flows, and which way.";
 const UNLOCKS_WITHOUT_LABEL = "Without it";
 const LINK_WORK_CHIP_LABEL = "2 New Update";
 const LINK_WORK_APPROVE_LABEL = "Approve";
+const LINK_ACTION_ROW_LABELS: readonly string[] = ["Resolve", "Reply", "Approve"];
 const LINK_CONNECT_TITLE = "Connect";
 const LINK_MAP_TITLE = "Map";
 const LINK_WORK_TITLE = "Work";
 
 /** Copy verbatim from superflow-page-integration-monday-v1-1.md. */
-const MONDAY_CONFIG: TaskBoardConfig = {
+const MONDAY_CONFIG: ConnectorConfig = {
   slug: "monday",
   toolName: "Monday",
   Mark: MondayMark,
+  crossesHeading: BOARD_CROSSES_HEADING,
+  crossesTargetGlyph: "board",
+  linkWorkArt: "board",
   crossesLede:
     "Superflow writes review state. Monday owns its own item fields. Neither overwrites the other's, and nothing echoes in a loop.",
   crossesOut: [
@@ -143,10 +165,13 @@ const MONDAY_CONFIG: TaskBoardConfig = {
 };
 
 /** Copy verbatim from superflow-page-integration-asana-v1-1.md. */
-const ASANA_CONFIG: TaskBoardConfig = {
+const ASANA_CONFIG: ConnectorConfig = {
   slug: "asana",
   toolName: "Asana",
   Mark: AsanaMark,
+  crossesHeading: BOARD_CROSSES_HEADING,
+  crossesTargetGlyph: "board",
+  linkWorkArt: "board",
   crossesLede:
     "Superflow writes review state. Asana owns its own task fields. Neither overwrites the other's, and nothing echoes in a loop.",
   crossesOut: [
@@ -205,10 +230,13 @@ const ASANA_CONFIG: TaskBoardConfig = {
 };
 
 /** Copy verbatim from superflow-page-integration-clickup-v1-1.md. */
-const CLICKUP_CONFIG: TaskBoardConfig = {
+const CLICKUP_CONFIG: ConnectorConfig = {
   slug: "clickup",
   toolName: "ClickUp",
   Mark: ClickUpMark,
+  crossesHeading: BOARD_CROSSES_HEADING,
+  crossesTargetGlyph: "board",
+  linkWorkArt: "board",
   crossesLede:
     "Superflow writes review state. ClickUp owns its own task fields. Neither overwrites the other's, and nothing echoes in a loop.",
   crossesOut: [
@@ -266,14 +294,79 @@ const CLICKUP_CONFIG: TaskBoardConfig = {
   ],
 };
 
+/** Copy verbatim from superflow-page-integration-slack-v1-1.md. */
+const SLACK_CONFIG: ConnectorConfig = {
+  slug: "slack",
+  toolName: "Slack",
+  Mark: SlackMark,
+  crossesHeading: CHAT_CROSSES_HEADING,
+  crossesTargetGlyph: "channel",
+  linkWorkArt: "action-row",
+  crossesOut: [
+    "A client's comment posts the moment it lands, thumbnail and link to the spot included.",
+    "A client's status change or sign-off posts to the mapped channel.",
+    "Your team's comments and mentions post too; a mention pings the person, not the whole channel.",
+    "A workflow step or full flow completing posts its result.",
+  ],
+  crossesIn: [
+    "Resolve, reply, or approve from the message's action row.",
+    "A thread reply posts back as a Superflow comment, attributed to the Slack user.",
+  ],
+  linkHeading: "Connect once. Slack does the telling.",
+  linkConnectDesc:
+    "Add Superflow to your Slack from settings. One authorization, no code.",
+  linkMapDesc: "Pick a channel per client, or one channel for everything.",
+  linkWorkDesc:
+    "Reviews proceed as usual. The channel hears about it the moment it happens.",
+  linkMapPillLabel: "Choose Channel",
+  unlocksHeading: "What the Slack connector unlocks",
+  unlocks: [
+    {
+      id: "client-reply",
+      title: "The client's reply.",
+      description:
+        "A client comments or changes a status from their link, and the channel knows the moment it lands.",
+      without: "Someone refreshes the review waiting for the client.",
+    },
+    {
+      id: "signoff-announcement",
+      title: "The sign-off announcement.",
+      description:
+        "The client's approval posts itself, thumbnail and deep link included.",
+      without: "Someone announces done by hand.",
+    },
+    {
+      id: "workflow-results",
+      title: "Workflow results in the channel.",
+      description:
+        "A step or a whole flow finishing posts its outcome where the team talks.",
+      without: "You open the flow to learn it finished.",
+    },
+    {
+      id: "channels-clients",
+      title: "Channels that match your clients.",
+      description:
+        "One channel per client, or one for everything. Reviews route where that account already lives.",
+      without: "Every update fights for one channel's attention.",
+    },
+    {
+      id: "action-row",
+      title: "The action row.",
+      description: "Resolve, reply, or approve without switching tabs.",
+      without: "Every notification is a tab switch.",
+    },
+  ],
+};
+
 /**
- * The task-management pages that render the bespoke board-sync template,
- * keyed by their `integrationPreviewPage` slug.
+ * The connector pages that render the bespoke sync template, keyed by their
+ * `integrationPreviewPage` slug.
  */
-export const TASK_BOARD_CONFIGS: Readonly<Record<string, TaskBoardConfig>> = {
+export const CONNECTOR_CONFIGS: Readonly<Record<string, ConnectorConfig>> = {
   monday: MONDAY_CONFIG,
   asana: ASANA_CONFIG,
   clickup: CLICKUP_CONFIG,
+  slack: SLACK_CONFIG,
 };
 
 /* --------------------------------------------------------------- glyphs */
@@ -305,6 +398,37 @@ function ChatBubbleGlyph({ size = 26 }: GlyphProps): ReactNode {
         aria-hidden="true"
       >
         <path d="M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2H9l-4 3v-3H5a2 2 0 0 1 -2 -2V6a2 2 0 0 1 2 -2z" />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Hash / channel glyph (Section 2 header, tool side, chat connectors).
+ *
+ * @param props - Rendered size in pixels.
+ * @returns The inline SVG, or `null` on failure.
+ */
+function HashGlyph({ size = 26 }: GlyphProps): ReactNode {
+  try {
+    return (
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 9h14" />
+        <path d="M5 15h14" />
+        <path d="M11 4l-4 16" />
+        <path d="M17 4l-4 16" />
       </svg>
     );
   } catch {
@@ -542,9 +666,9 @@ function ClockGlyph({ size = 16 }: GlyphProps): ReactNode {
 /* ------------------------------------------ Section 2 — What crosses */
 
 /** Props shared by the three config-driven sections. */
-interface TaskBoardSectionProps {
+interface ConnectorSectionProps {
   /** The per-tool copy + branding. */
-  config: TaskBoardConfig;
+  config: ConnectorConfig;
 }
 
 /**
@@ -562,7 +686,7 @@ function CrossesColumn({
   label,
   cards,
 }: {
-  config: TaskBoardConfig;
+  config: ConnectorConfig;
   direction: "out" | "in";
   label: string;
   cards: readonly string[];
@@ -597,8 +721,8 @@ function CrossesColumn({
 }
 
 /**
- * Section 2 — "What crosses, and which way." A centered icon pair (comment
- * bubble → board) over a serif heading and lede, then two columns of flow
+ * Section 2 — the two-way table. A centered icon pair (comment bubble → board
+ * or channel) over a serif heading and optional lede, then two columns of flow
  * cards showing what syncs Superflow → tool and tool → Superflow. The whole
  * section is wrapped in the shared {@link BlueprintFrame} (the same decorative
  * crosshair/registration-bolt frame the homepage Solution section uses), drawn
@@ -607,10 +731,12 @@ function CrossesColumn({
  * @param props.config - The per-tool copy + branding.
  * @returns The section, or `null` on failure.
  */
-export function TaskBoardSyncCrosses({ config }: TaskBoardSectionProps): ReactNode {
+export function ConnectorSyncCrosses({ config }: ConnectorSectionProps): ReactNode {
   try {
     const outLabel = `Superflow to ${config.toolName}`;
     const inLabel = `${config.toolName} to Superflow`;
+    const TargetGlyph =
+      config.crossesTargetGlyph === "channel" ? HashGlyph : BoardGlyph;
     return (
       <section
         className={`${styles.section} ${styles.crossesSection}`}
@@ -627,11 +753,13 @@ export function TaskBoardSyncCrosses({ config }: TaskBoardSectionProps): ReactNo
                 <ArrowGlyph size={20} />
               </span>
               <span className={styles.crossBoard}>
-                <BoardGlyph size={26} />
+                <TargetGlyph size={26} />
               </span>
             </span>
-            <h2 className={styles.display}>{CROSSES_HEADING}</h2>
-            <p className={styles.lede}>{config.crossesLede}</p>
+            <h2 className={styles.display}>{config.crossesHeading}</h2>
+            {config.crossesLede ? (
+              <p className={styles.lede}>{config.crossesLede}</p>
+            ) : null}
           </div>
 
           <div className={styles.crossGrid}>
@@ -659,13 +787,60 @@ export function TaskBoardSyncCrosses({ config }: TaskBoardSectionProps): ReactNo
 /* ------------------------------------------ Section 3 — Link once */
 
 /**
- * Section 3 — "Link once." Three numbered cards (Connect, Map, Work), each
- * with a small illustration mirroring the design reference. Copy per tool.
+ * Work-card illustration for the board connectors: the "2 New Update" chip
+ * beside the outlined Approve pill.
+ *
+ * @returns The illustration row, or `null` on failure.
+ */
+function WorkArtBoard(): ReactNode {
+  try {
+    return (
+      <span className={styles.linkWorkRow}>
+        <span className={styles.linkWorkChip}>
+          <span className={styles.linkWorkGrid}>
+            <LayoutGridGlyph size={18} />
+          </span>
+          {LINK_WORK_CHIP_LABEL}
+        </span>
+        <span className={styles.linkApprove}>{LINK_WORK_APPROVE_LABEL}</span>
+      </span>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Work-card illustration for the chat connectors: the Slack message's action
+ * row — Resolve and Reply as white chips, Approve as the outlined pill —
+ * matching the build file's "Resolve, reply, or approve from the message".
+ *
+ * @returns The illustration row, or `null` on failure.
+ */
+function WorkArtActionRow(): ReactNode {
+  try {
+    const [resolveLabel, replyLabel, approveLabel] = LINK_ACTION_ROW_LABELS;
+    return (
+      <span className={styles.linkWorkRow}>
+        <span className={styles.linkWorkChip}>{resolveLabel}</span>
+        <span className={styles.linkWorkChip}>{replyLabel}</span>
+        <span className={styles.linkApprove}>{approveLabel}</span>
+      </span>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Section 3 — "Link once." / "Connect once." Three numbered cards (Connect,
+ * Map, Work), each with a small illustration mirroring the design reference.
+ * Copy per tool.
  *
  * @param props.config - The per-tool copy + branding.
  * @returns The section, or `null` on failure.
  */
-export function TaskBoardLinkOnce({ config }: TaskBoardSectionProps): ReactNode {
+export function ConnectorLinkOnce({ config }: ConnectorSectionProps): ReactNode {
   try {
     const ToolMark = config?.Mark;
     return (
@@ -720,15 +895,11 @@ export function TaskBoardLinkOnce({ config }: TaskBoardSectionProps): ReactNode 
               <p className={styles.linkDesc}>{config.linkWorkDesc}</p>
               <div className={styles.linkArt} aria-hidden="true">
                 <span className={styles.linkStage}>
-                  <span className={styles.linkWorkRow}>
-                    <span className={styles.linkWorkChip}>
-                      <span className={styles.linkWorkGrid}>
-                        <LayoutGridGlyph size={18} />
-                      </span>
-                      {LINK_WORK_CHIP_LABEL}
-                    </span>
-                    <span className={styles.linkApprove}>{LINK_WORK_APPROVE_LABEL}</span>
-                  </span>
+                  {config.linkWorkArt === "action-row" ? (
+                    <WorkArtActionRow />
+                  ) : (
+                    <WorkArtBoard />
+                  )}
                 </span>
               </div>
             </article>
@@ -752,7 +923,7 @@ export function TaskBoardLinkOnce({ config }: TaskBoardSectionProps): ReactNode 
  * @param props.config - The per-tool copy + branding.
  * @returns The section, or `null` on failure.
  */
-export function TaskBoardUnlocks({ config }: TaskBoardSectionProps): ReactNode {
+export function ConnectorUnlocks({ config }: ConnectorSectionProps): ReactNode {
   try {
     return (
       <section className={styles.section} data-section={`${config.slug}-unlocks`}>

@@ -37,7 +37,6 @@ const ACCENT_PLUM = "#da53b9";
 const ACCENT_BLUE = "#433df3";
 const ACCENT_GREEN = "#109534";
 const ACCENT_UMBER = "#e17a14";
-const ACCENT_PINK = "#d43f8d";
 
 // The four "home bands", home-verbatim. Band-4 Integrations one-liner leads
 // with WordPress per this page's verified-scope casting.
@@ -235,7 +234,7 @@ const doc = {
   family: "Install",
   cardBlurb: "A built-in install for WordPress sites.",
   hero: {
-    kicker: "· WORDPRESS · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "WORDPRESS · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Watch AI review", "your WordPress sites."],
     subhead:
       "Paste your agency's QA checklist. AI agents check every WordPress site change. Then your team approves. Then your client. No client login required. Installed as a plugin.",
@@ -257,152 +256,10 @@ const doc = {
     headerTitle: "Superflow gets you from",
     journeyStart: "First Draft",
     journeyEnd: "Client Approved",
-    blocks: [
-      ...HOME_BANDS,
-      {
-        _key: "block-install",
-        title: "What the plugin does",
-        description:
-          'Superflow ships as a plugin in the WordPress directory. Search "Superflow" in Plugins > Add New, or grab it from the directory — activate, and the script is placed for you.',
-        icon: "plug",
-        accent: ACCENT_BLUE,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "install-render",
-            label: "On the rendered page",
-            icon: "code-asterisk",
-            oneLiner:
-              "The plugin places the Superflow script on the rendered page. No code paste, no theme edit, nothing else in your content touched.",
-          },
-          {
-            _key: "install-verify",
-            label: "Verified first",
-            icon: "circle-check",
-            oneLiner: "The verifier confirms the script before any review link goes out.",
-          },
-          {
-            _key: "install-updates",
-            label: "Survives updates",
-            icon: "refresh",
-            oneLiner:
-              "Survives theme changes and updates. The plugin carries snippet updates, no re-paste, ever.",
-          },
-          {
-            _key: "install-deactivate",
-            label: "Deactivate removes it",
-            icon: "lock-open",
-            oneLiner: "Deactivating the plugin removes the script.",
-          },
-          {
-            _key: "install-builders",
-            label: "Beneath the builders",
-            icon: "layout-dashboard",
-            oneLiner:
-              "Works beneath the builders on top of WordPress, like Elementor and Divi.",
-          },
-          {
-            _key: "install-cta",
-            label: "Get the plugin on the WordPress directory",
-            icon: "plug",
-            oneLiner: "Get the plugin on the WordPress directory.",
-            href: "https://wordpress.org/plugins/superflow/",
-            listOnly: true,
-          },
-        ],
-      },
-      {
-        _key: "block-behaves",
-        title: "How the WordPress install behaves",
-        description:
-          "The guarantees behind the install, so any website still takes the snippet.",
-        icon: "settings",
-        accent: ACCENT_UMBER,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "behave-builders",
-            label: "Beneath the builders",
-            icon: "layout-dashboard",
-            oneLiner:
-              "Works with the builders on top of WordPress, like Elementor and Divi. The plugin sits beneath them.",
-          },
-          {
-            _key: "behave-multisite",
-            label: "Multisite",
-            icon: "world",
-            oneLiner: "Works across a multisite network.",
-          },
-          {
-            _key: "behave-any",
-            label: "Any website floor",
-            icon: "code-asterisk",
-            oneLiner:
-              "Any website takes the snippet. WordPress just makes it a built-in step.",
-          },
-          {
-            _key: "behave-misbehave",
-            label: "Safe to deactivate",
-            icon: "circle-check",
-            oneLiner: "If the plugin misbehaves, deactivate it. The site is untouched.",
-          },
-          {
-            _key: "behave-health",
-            label: "Health in settings",
-            icon: "history",
-            oneLiner: "Connection health lives in settings.",
-          },
-          {
-            _key: "behave-remove",
-            label: "Deactivate removes it",
-            icon: "lock-open",
-            oneLiner: "Deactivating removes the script.",
-          },
-        ],
-      },
-      {
-        _key: "block-related",
-        title: "Part of the integrations catalog",
-        description:
-          "WordPress is one connector in the catalog. Explore the other install paths.",
-        icon: "plug",
-        accent: ACCENT_PINK,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "related-lead",
-            label: "Every tool, one review",
-            icon: "plug",
-            oneLiner:
-              "Every tool, one review. Superflow connects to the tools your agency already runs.",
-          },
-          {
-            _key: "related-webflow",
-            label: "Webflow",
-            icon: "world",
-            oneLiner: "A built-in install for Webflow sites.",
-            href: "/preview/integrations/webflow",
-            listOnly: true,
-          },
-          {
-            _key: "related-gtm",
-            label: "Google Tag Manager",
-            icon: "code-asterisk",
-            oneLiner: "One tag covers any site that runs GTM.",
-            href: "/preview/integrations/google-tag-manager",
-            listOnly: true,
-          },
-          {
-            _key: "related-hub",
-            label: "All integrations",
-            icon: "plug",
-            oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
-            listOnly: true,
-          },
-        ],
-      },
-    ],
+    // The four home bands only. The former "What the plugin does" /
+    // "How the WordPress install behaves" / catalog blocks now render as the
+    // bespoke InstallSections (components/integration-2026/InstallSections.tsx).
+    blocks: [...HOME_BANDS],
   },
   getStarted: {
     heading: "Activate once. Agents check every launch.",

@@ -482,9 +482,11 @@ const FAMILY_DEVELOPER: GridFamily = {
   iconBg: "#7C5CFC",
   iconFg: "#ffffff",
   cols: 2,
+  // Unlinked until the Webhooks / REST API detail pages ship (they are on the
+  // omitted list in sanity/lib/queries.ts and would 404).
   tools: [
-    { id: "webhooks", name: "Web Hooks", href: `${BASE_PATH}/webhooks` },
-    { id: "rest-api", name: "REST API", href: `${BASE_PATH}/rest-api` },
+    { id: "webhooks", name: "Web Hooks" },
+    { id: "rest-api", name: "REST API" },
   ],
 };
 

@@ -53,7 +53,7 @@ const doc = {
   family: "Chat",
   cardBlurb: "A client comments, your channel knows. Act from the message.",
   hero: {
-    kicker: "· CHAT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "CHAT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Resolve reviews", "from Slack."],
     subhead:
       "A client comments, the channel knows. Mentions, status changes, and sign-offs land there too. Resolve, reply, or approve from the message. One setup in settings.",

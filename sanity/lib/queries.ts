@@ -577,6 +577,20 @@ export async function getFeaturePageBySlug(slug: string) {
 // getIntegrationPageBySlug / getAllIntegrationSlugs helpers above, which are
 // left untouched.
 
+/**
+ * Integration preview pages that are seeded in Sanity but not yet shipped, so
+ * they must not be reachable (the catalog rule: "omit until shipped"). Every
+ * integration-preview query filters these out: the detail route 404s, the
+ * hub's ItemList JSON-LD skips them, and generateStaticParams never emits
+ * them. Ship one by deleting its slug from this list.
+ */
+const OMITTED_INTEGRATION_SLUGS: readonly string[] = [
+  "figma",
+  "api",
+  "webhooks",
+  "rest-api",
+];
+
 /** Shared projection for an integration preview detail document. */
 const INTEGRATION_PREVIEW_PAGE_PROJECTION = `
   _id,
@@ -643,29 +657,34 @@ const INTEGRATION_PREVIEW_PAGE_PROJECTION = `
 
 export async function getAllIntegrationPreviewSlugs(): Promise<string[]> {
   return client.fetch(
-    `*[_type == "integrationPreviewPage" && defined(slug.current)].slug.current`
+    `*[_type == "integrationPreviewPage" && defined(slug.current)
+        && !(slug.current in $omitted)].slug.current`,
+    { omitted: OMITTED_INTEGRATION_SLUGS }
   );
 }
 
 export async function getIntegrationPreviewPageBySlug(slug: string) {
   return client.fetch(
-    `*[_type == "integrationPreviewPage" && slug.current == $slug][0] {
+    `*[_type == "integrationPreviewPage" && slug.current == $slug
+        && !(slug.current in $omitted)][0] {
       ${INTEGRATION_PREVIEW_PAGE_PROJECTION}
     }`,
-    { slug }
+    { slug, omitted: OMITTED_INTEGRATION_SLUGS }
   );
 }
 
 /** Lightweight catalog entries for the hub, ordered by title. */
 export async function getAllIntegrationPreviewsForHub() {
   return client.fetch(
-    `*[_type == "integrationPreviewPage" && defined(slug.current)] | order(title asc) {
+    `*[_type == "integrationPreviewPage" && defined(slug.current)
+        && !(slug.current in $omitted)] | order(title asc) {
       _id,
       title,
       "slug": slug.current,
       family,
       cardBlurb
-    }`
+    }`,
+    { omitted: OMITTED_INTEGRATION_SLUGS }
   );
 }
 
