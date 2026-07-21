@@ -110,23 +110,6 @@
   gap: 16px;
 }
 
-/* Single-column centered hero (home variant with the RHS interactive panel
-   hidden). Without the right-hand column the text would sit stranded on the
-   left, so the copy column centers its content horizontally and its text is
-   center-aligned. The copy keeps its full-width flex sizing and centers its own
-   children (via align-items), so it stays centered at every breakpoint —
-   including the stacked `@media` layout where `.body` switches to
-   `align-items: stretch`. Scoped to `.bodyCentered` so the feature variant
-   (which still renders `.subheadRight` in the right column) is unaffected. */
-.bodyCentered {
-  justify-content: center;
-  text-align: center;
-}
-
-.bodyCentered .copy {
-  align-items: center;
-}
-
 /* Optional eyebrow above the headline (integration pages that carry a
    category kicker, e.g. Monday). Rendered only when a `kicker` prop is set,
    so the homepage and other heroes are unaffected. */
@@ -195,6 +178,15 @@
   padding: 0 var(--hero-gutter);
 }
 
+/* URL-capture form: stacks the input row and, when validation fails, the
+   inline warning line beneath it. */
+.urlForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
 .urlRow {
   display: flex;
   /* Stretch both children to the row's tallest content so the URL field and
@@ -226,6 +218,22 @@
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.08);
   border: 2px solid rgba(240, 240, 240, 0.16);
+  transition: border-color 0.15s ease;
+}
+
+/* Failed validation: the field border warms to the warning tint. */
+.urlFieldError {
+  border-color: rgba(255, 138, 128, 0.75);
+}
+
+/* Inline validation warning under the URL row. */
+.urlWarning {
+  margin: 0;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.13px;
+  color: #ffb4ab;
 }
 
 .urlIcon {
@@ -276,8 +284,20 @@
   opacity: 0.6;
 }
 
-/* Checks dropdown card. When expanded it keeps the fixed Figma height
-   (166px) and the list scrolls inside; collapsed it shrinks to the header. */
+/* Once the user has typed something the button reads fully enabled; hover
+   dims it slightly for feedback. Both rules outrank the base :hover so the
+   ready state never falls back to the dimmed idle treatment. */
+.startButtonReady,
+.startButtonReady:hover {
+  opacity: 1;
+}
+
+.startButtonReady:hover {
+  opacity: 0.85;
+}
+
+/* Agents dropdown card. Auto-sizes to its four fixed agents when expanded;
+   collapsed it shrinks to the header. */
 .checksCard {
   display: flex;
   flex-direction: column;
@@ -287,10 +307,6 @@
   border: 2px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.04);
   width: 100%;
-}
-
-.checksCardOpen {
-  height: 166px;
 }
 
 .checksHeader {
@@ -328,62 +344,14 @@
   transform: scaleY(-1);
 }
 
-/* Scroll viewport for the six checks: fills the space left by the fixed
-   header inside the fixed-height card and scrolls internally. */
+/* Static list of the four fixed agents; no internal scrolling. */
 .checksList {
-  /* Per-edge fade sizes, toggled by the fade classes below. 0 = no fade. */
-  --checks-fade-top: 0px;
-  --checks-fade-bottom: 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   list-style: none;
   margin: 0;
   padding: 0 4px 0 0;
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
-  /* Dissolve rows at whichever scroll edge still hides checks, so partially
-     visible rows fade out instead of being chopped by the card edge. */
-  mask-image: linear-gradient(
-    180deg,
-    transparent 0,
-    #000000 var(--checks-fade-top),
-    #000000 calc(100% - var(--checks-fade-bottom)),
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    transparent 0,
-    #000000 var(--checks-fade-top),
-    #000000 calc(100% - var(--checks-fade-bottom)),
-    transparent 100%
-  );
-}
-
-.checksList::-webkit-scrollbar {
-  width: 4px;
-}
-
-.checksList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.checksList::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 4px;
-}
-
-/* Fades the top scroll edge once the user has scrolled past the first checks. */
-.checksListFadeTop {
-  --checks-fade-top: 28px;
-}
-
-/* Fades the bottom scroll edge while more checks remain below the viewport. */
-.checksListFadeBottom {
-  --checks-fade-bottom: 28px;
 }
 
 .checkItem {
@@ -409,10 +377,6 @@
   color: #ffffff;
 }
 
-.checkMarkOff {
-  border: 1px solid rgba(255, 255, 255, 0.7);
-}
-
 .checkLabel {
   font-size: 15px;
   line-height: 1;
@@ -422,11 +386,6 @@
 
 .checkLabelOn {
   font-weight: 600;
-}
-
-.checkLabelOff {
-  font-weight: 500;
-  opacity: 0.85;
 }
 
 /* ---------------------------------------------------- Product showcase */

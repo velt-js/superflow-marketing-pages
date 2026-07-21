@@ -1,50 +1,33 @@
 "use client";
 
-import { useId, useState, type UIEvent } from "react";
+import { useId, useState } from "react";
 import styles from "./Hero.module.css";
 import { CheckIcon, ChevronDownIcon } from "./HeroIcons";
 
-/** A single QA check offered in the hero's "checks to perform" list. */
-type CheckOption = {
-  label: string;
-  selected: boolean;
-};
-
-/** The six QA checks shown in the hero, three pre-selected per the design. */
-const CHECK_OPTIONS: readonly CheckOption[] = [
-  { label: "Broken Links", selected: true },
-  { label: "Grammar and Spelling", selected: true },
-  { label: "SEO Basics", selected: true },
-  { label: "Performance", selected: false },
-  { label: "Brand Colors", selected: false },
-  { label: "Placeholder Text", selected: false },
+/**
+ * The four fixed QA agents shown in the hero. All are always on and not
+ * togglable — the list is purely informative.
+ */
+const AGENT_LABELS: readonly string[] = [
+  "Accessibility",
+  "Broken Links",
+  "Spell Check",
+  "OG Image Checker",
 ];
 
-const SELECTED_COUNT = CHECK_OPTIONS.filter((option) => option?.selected).length;
-const TITLE_SUFFIX = "";
-const TITLE_TAIL = " agents done.";
-
-/* Pixels of scroll offset within which an edge counts as "at rest", so its
-   fade stays hidden until there are actually hidden checks beyond it. */
-const SCROLL_EDGE_THRESHOLD_PX = 4;
+const TITLE_TAIL = " Agents will run";
 
 /**
- * Expandable "checks to perform" card shown beside the hero URL input.
+ * Expandable "agents" card shown beside the hero URL input.
  *
- * Purely presentational: toggling only shows/hides the list of checks and does
- * not submit anything. Interactivity is intentionally light per the design.
+ * Purely presentational: the header only shows/hides the fixed list of four
+ * agents. The agents themselves are always selected and cannot be toggled.
  */
 export default function HeroChecksDropdown() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  // The six checks always overflow the fixed-height viewport, so the bottom
-  // fade is on until the user scrolls to the end of the list.
-  const [hasMoreBelow, setHasMoreBelow] = useState<boolean>(true);
-  // The list starts pinned to the top, so the top fade only turns on once the
-  // user has scrolled down and checks are hidden above the viewport.
-  const [hasMoreAbove, setHasMoreAbove] = useState<boolean>(false);
   const listId = useId();
 
-  /** Toggle the visibility of the checks list. */
+  /** Toggle the visibility of the agents list. */
   function handleToggle() {
     try {
       setIsOpen((previous) => !previous);
@@ -53,27 +36,8 @@ export default function HeroChecksDropdown() {
     }
   }
 
-  /**
-   * Toggle each edge's fade based on whether checks remain hidden above or
-   * below the current scroll position.
-   * @param event - Scroll event from the checks list viewport.
-   */
-  function handleListScroll(event: UIEvent<HTMLUListElement>) {
-    try {
-      const viewport = event?.currentTarget;
-      const scrollTop = viewport?.scrollTop ?? 0;
-      const distanceFromBottom =
-        (viewport?.scrollHeight ?? 0) - scrollTop - (viewport?.clientHeight ?? 0);
-      setHasMoreAbove(scrollTop > SCROLL_EDGE_THRESHOLD_PX);
-      setHasMoreBelow(distanceFromBottom > SCROLL_EDGE_THRESHOLD_PX);
-    } catch {
-      setHasMoreAbove(false);
-      setHasMoreBelow(true);
-    }
-  }
-
   return (
-    <div className={`${styles.checksCard} ${isOpen ? styles.checksCardOpen : ""}`}>
+    <div className={styles.checksCard}>
       <button
         type="button"
         className={styles.checksHeader}
@@ -82,9 +46,7 @@ export default function HeroChecksDropdown() {
         onClick={handleToggle}
       >
         <span className={styles.checksTitle}>
-          <span className={styles.checksTitleCount}>
-            {`${SELECTED_COUNT} of ${CHECK_OPTIONS.length}${TITLE_SUFFIX}`}
-          </span>
+          <span className={styles.checksTitleCount}>{AGENT_LABELS.length}</span>
           {TITLE_TAIL}
         </span>
         <ChevronDownIcon
@@ -96,34 +58,17 @@ export default function HeroChecksDropdown() {
       </button>
 
       {isOpen ? (
-        <ul
-          id={listId}
-          className={`${styles.checksList} ${
-            hasMoreAbove ? styles.checksListFadeTop : ""
-          } ${hasMoreBelow ? styles.checksListFadeBottom : ""}`}
-          onScroll={handleListScroll}
-        >
-          {CHECK_OPTIONS.map((option) => {
-            const isSelected = option?.selected === true;
-            return (
-              <li key={option?.label} className={styles.checkItem}>
-                <span
-                  className={`${styles.checkMark} ${
-                    isSelected ? styles.checkMarkOn : styles.checkMarkOff
-                  }`}
-                >
-                  {isSelected ? <CheckIcon size={12} strokeWidth={3} /> : null}
-                </span>
-                <span
-                  className={`${styles.checkLabel} ${
-                    isSelected ? styles.checkLabelOn : styles.checkLabelOff
-                  }`}
-                >
-                  {option?.label}
-                </span>
-              </li>
-            );
-          })}
+        <ul id={listId} className={styles.checksList}>
+          {AGENT_LABELS.map((label) => (
+            <li key={label} className={styles.checkItem}>
+              <span className={`${styles.checkMark} ${styles.checkMarkOn}`}>
+                <CheckIcon size={12} strokeWidth={3} />
+              </span>
+              <span className={`${styles.checkLabel} ${styles.checkLabelOn}`}>
+                {label}
+              </span>
+            </li>
+          ))}
         </ul>
       ) : null}
     </div>
