@@ -9,6 +9,21 @@ import { getToolLogosFromSlug } from "./toolLogos";
 import type { ComparisonHubDoc, ComparisonHubItem } from "./types";
 
 const BASE_PATH = "/preview/comparison";
+const ALTERNATIVES_BASE_PATH = "/preview/alternative";
+
+/**
+ * Detail-page base path for a hub item; alternatives listicles live under
+ * their own route.
+ */
+function itemBasePath(itemType: ComparisonHubItem["_type"]): string {
+  try {
+    return itemType === "comparisonPreviewAlternativesPage"
+      ? ALTERNATIVES_BASE_PATH
+      : BASE_PATH;
+  } catch {
+    return BASE_PATH;
+  }
+}
 
 /** Hub group definitions, in render order. */
 const HUB_GROUPS: readonly {
@@ -93,7 +108,7 @@ export default function ComparisonHubBody({
                     <li key={item._id}>
                       <Link
                         className={styles.hubCard}
-                        href={`${BASE_PATH}/${item.slug}`}
+                        href={`${itemBasePath(item._type)}/${item.slug}`}
                       >
                         {logoSrcs.length > 0 ? (
                           <span className={styles.hubCardLogos}>

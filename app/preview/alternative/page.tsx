@@ -48,7 +48,7 @@ function buildAlternativesItemList(
       "@type": "ListItem",
       position: index + 1,
       name: item?.title,
-      url: `${SITE_URL}${COMPARISON_PATH}/${item?.slug}`,
+      url: `${SITE_URL}${BASE_PATH}/${item?.slug}`,
     })),
   };
 }

@@ -5,18 +5,22 @@
 //     comparisonPreviewArbiterPage       <x>-vs-<y>
 //     comparisonPreviewAlternativesPage  <x>-alternative
 //
-// One route resolves the slug across all three document types; the doc's
-// _type picks the body. Isolated from the legacy /comparisons and
-// /alternative routes; noindexed while in preview.
+// One route resolves the slug across the vs and arbiter document types; the
+// doc's _type picks the body. Alternatives listicles live under
+// /preview/alternative/<slug>, and their old URLs here permanently redirect.
+// Isolated from the legacy /comparisons and /alternative routes; noindexed
+// while in preview.
 
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import ComparisonVsPageBody from "@/components/comparison-2026/ComparisonVsPageBody";
 import ComparisonArbiterPageBody from "@/components/comparison-2026/ComparisonArbiterPageBody";
-import ComparisonAlternativesPageBody from "@/components/comparison-2026/ComparisonAlternativesPageBody";
-import type { ComparisonPreviewDoc } from "@/components/comparison-2026/types";
+import type {
+  ComparisonHubItem,
+  ComparisonPreviewDoc,
+} from "@/components/comparison-2026/types";
 import {
-  getAllComparisonPreviewSlugs,
+  getAllComparisonPreviewsForHub,
   getComparisonPreviewBySlug,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -31,8 +35,10 @@ const FALLBACK_DESCRIPTION =
   "An honest comparison for agencies. Every competitor claim from the vendor's own site, dated; unverified renders as a plain hyphen.";
 
 export async function generateStaticParams() {
-  const slugs = await getAllComparisonPreviewSlugs();
-  return (slugs ?? []).map((slug) => ({ slug }));
+  const items = (await getAllComparisonPreviewsForHub()) as ComparisonHubItem[];
+  return (items ?? [])
+    .filter((item) => item?._type !== "comparisonPreviewAlternativesPage")
+    .map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({
@@ -68,8 +74,6 @@ function renderComparisonBody(doc: ComparisonPreviewDoc) {
       return <ComparisonVsPageBody doc={doc} />;
     case "comparisonPreviewArbiterPage":
       return <ComparisonArbiterPageBody doc={doc} />;
-    case "comparisonPreviewAlternativesPage":
-      return <ComparisonAlternativesPageBody doc={doc} />;
     default:
       return null;
   }
@@ -86,6 +90,9 @@ export default async function ComparisonPreviewDetailPage({
   )) as ComparisonPreviewDoc | null;
   if (!doc) {
     notFound();
+  }
+  if (doc._type === "comparisonPreviewAlternativesPage") {
+    permanentRedirect(`/preview/alternative/${slug}`);
   }
 
   const body = renderComparisonBody(doc);
