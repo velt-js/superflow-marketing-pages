@@ -29,10 +29,11 @@ import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
-  MondaySyncCrosses,
-  MondayLinkOnce,
-  MondayUnlocks,
-} from "./MondaySections";
+  TASK_BOARD_CONFIGS,
+  TaskBoardSyncCrosses,
+  TaskBoardLinkOnce,
+  TaskBoardUnlocks,
+} from "./TaskBoardSections";
 
 /** A tab / "features that help" row within a Feature Set block. */
 export interface IntegrationPageBlockTab {
@@ -116,18 +117,12 @@ const DEFAULT_HERO_TAB_ICON = "plug";
 const GET_STARTED_HEADING = "Connect in a minute";
 
 /**
- * Slug of the Monday integration page. Only this page swaps its FeatureSet +
- * GetStarted sections for the bespoke Monday sections and renders the flat,
- * Monday-only hero sync artifact; every other integration page is unchanged.
- */
-const MONDAY_SLUG = "monday";
-
-/**
- * Key selecting the Monday hero's static sync artifact (registered in
+ * Prefix for the task-management heroes' static sync artifacts (registered in
  * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the shared task-and-comment sync
- * board restricted to a single Monday logo on top.
+ * board restricted to a single tool logo on top. The full key is
+ * `integrations-<slug>` (e.g. "integrations-monday").
  */
-const MONDAY_HERO_ARTIFACT = "integrations-monday";
+const TASK_BOARD_HERO_ARTIFACT_PREFIX = "integrations-";
 
 /**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
@@ -301,10 +296,14 @@ interface IntegrationPageBodyProps {
  * @param props - The resolved Sanity document to render.
  */
 export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
-  const isMonday = doc?.slug === MONDAY_SLUG;
-  // The kicker eyebrow is rendered on the Monday hero only, so every other
-  // integration page keeps its current (eyebrow-less) hero exactly as before.
-  const heroKicker = isMonday ? doc?.hero?.kicker ?? undefined : undefined;
+  // Task-management pages (Monday, Asana, ClickUp) swap the shared FeatureSet +
+  // GetStarted sections for the bespoke board-sync sections and render the
+  // flat, single-logo hero sync artifact; every other page is unchanged.
+  const taskBoardConfig = doc?.slug ? TASK_BOARD_CONFIGS[doc.slug] : undefined;
+  const isTaskBoard = Boolean(taskBoardConfig);
+  // The kicker eyebrow is rendered on the task-management heroes only, so
+  // every other integration page keeps its current (eyebrow-less) hero.
+  const heroKicker = isTaskBoard ? doc?.hero?.kicker ?? undefined : undefined;
   const heroHeadlineLines = doc?.hero?.headlineLines ?? undefined;
   const heroSubhead = doc?.hero?.subhead ?? undefined;
   const heroShowcase = doc?.hero?.showcase ?? undefined;
@@ -335,14 +334,18 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
         variant="feature"
         showcase={heroShowcase}
         tabs={heroTabs}
-        staticArtifact={isMonday ? MONDAY_HERO_ARTIFACT : undefined}
-        staticArtifactFlat={isMonday}
+        staticArtifact={
+          taskBoardConfig
+            ? `${TASK_BOARD_HERO_ARTIFACT_PREFIX}${taskBoardConfig.slug}`
+            : undefined
+        }
+        staticArtifactFlat={isTaskBoard}
       />
-      {isMonday ? (
+      {taskBoardConfig ? (
         <>
-          <MondaySyncCrosses />
-          <MondayLinkOnce />
-          <MondayUnlocks />
+          <TaskBoardSyncCrosses config={taskBoardConfig} />
+          <TaskBoardLinkOnce config={taskBoardConfig} />
+          <TaskBoardUnlocks config={taskBoardConfig} />
         </>
       ) : (
         <>
@@ -364,7 +367,7 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
           />
         </>
       )}
-      {!isMonday && (
+      {!isTaskBoard && (
         <>
           <SolutionsSection />
           <CostSection />

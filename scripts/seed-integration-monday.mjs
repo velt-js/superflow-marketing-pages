@@ -44,7 +44,7 @@ const doc = {
   family: "Project boards",
   cardBlurb: "Same two-way sync, mapped to your columns.",
   hero: {
-    kicker: "· TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Monday items", "that close themselves."],
     subhead:
       "A sign-off in Superflow moves the linked Monday item to done. Statuses stay matched both ways, mapped to your groups and columns. Set the mapping once.",

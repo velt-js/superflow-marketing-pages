@@ -12,6 +12,8 @@ import HeroWorkflowShowcase, {
 } from "./HeroWorkflowShowcase";
 import IntegrationsHubHeroArtifact from "./hero-artifacts/IntegrationsHubHeroArtifact";
 import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtifact";
+import IntegrationsAsanaArtifact from "./hero-artifacts/IntegrationsAsanaArtifact";
+import IntegrationsClickUpArtifact from "./hero-artifacts/IntegrationsClickUpArtifact";
 
 /**
  * Chrome-less hero artifacts that render inside a plain white card (no tab
@@ -22,6 +24,8 @@ import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtif
 const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-hub": IntegrationsHubHeroArtifact,
   "integrations-monday": IntegrationsMondayArtifact,
+  "integrations-asana": IntegrationsAsanaArtifact,
+  "integrations-clickup": IntegrationsClickUpArtifact,
 };
 
 // Temporarily unused while the hero RHS interactive panel is hidden (see the
@@ -88,8 +92,9 @@ export interface HeroProps {
   staticArtifact?: string;
   /**
    * When true (and a `staticArtifact` is set), the static card drops its drop
-   * shadow for a flat, thin-bordered card. Used by the Monday integration hero
-   * whose sync artifact must sit on a shadow-less card.
+   * shadow for a flat, thin-bordered card. Used by the task-management
+   * integration heroes (Monday, Asana, ClickUp) whose sync artifacts must sit
+   * on a shadow-less card.
    */
   staticArtifactFlat?: boolean;
   /** Hide the "Trusted by" logo strip (pages that carry their own logo strip). */

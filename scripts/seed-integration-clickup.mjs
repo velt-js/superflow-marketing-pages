@@ -45,7 +45,7 @@ const doc = {
   family: "Project boards",
   cardBlurb: "Same two-way sync, mapped to your statuses.",
   hero: {
-    kicker: "· TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["ClickUp tasks", "that close themselves."],
     subhead:
       "A sign-off in Superflow moves the linked ClickUp task to done. Statuses stay matched both ways, mapped to your spaces and lists. Set the mapping once.",

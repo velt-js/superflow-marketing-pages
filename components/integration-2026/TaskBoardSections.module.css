@@ -1,9 +1,9 @@
-/* Bespoke, hand-authored sections for the Monday integration page
-   (/preview/integrations/monday). Content is verbatim from
-   superflow-page-integration-monday-v1-1.md; layout/aesthetic follow the 2026
-   marketing design language (Adamina serif display, Urbanist UI, Geist Mono
-   labels, light theme, hairline cards) so these sit seamlessly among the shared
-   home-2026 sections around them. */
+/* Bespoke, hand-authored sections shared by the task-management integration
+   pages (/preview/integrations/monday, /asana, /clickup). Content is verbatim
+   from the per-tool superflow-page-integration-<tool>-v1-1.md build files;
+   layout/aesthetic follow the 2026 marketing design language (Adamina serif
+   display, Urbanist UI, Geist Mono labels, light theme, hairline cards) so
+   these sit seamlessly among the shared home-2026 sections around them. */
 
 .section {
   --mon-ink: #1e1e1f;
@@ -245,7 +245,7 @@
   background: var(--mon-bg-soft);
 }
 
-/* Connect artifact — chat bubble → repeat → Monday logo, centered. */
+/* Connect artifact — chat bubble → repeat → tool logo, centered. */
 .linkConnectRow {
   display: inline-flex;
   align-items: center;
@@ -264,7 +264,7 @@
   color: #9a9aa0;
 }
 
-.linkMonday {
+.linkToolMark {
   display: inline-flex;
 }
 

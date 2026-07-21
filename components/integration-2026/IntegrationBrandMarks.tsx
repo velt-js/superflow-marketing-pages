@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 
 /**
- * Shared brand-mark glyphs for the Monday integration page's bespoke sections.
+ * Shared brand-mark glyphs for the task-management integration pages' bespoke
+ * sections (Monday, Asana, ClickUp).
  *
- * Both marks are inline SVGs (no asset dependency, no client boundary) so they
+ * All marks are inline SVGs (no asset dependency, no client boundary) so they
  * can be reused by the server-rendered "What crosses" and "Link once" sections.
  * The Superflow flower geometry mirrors `SuperflowFlowerMark` in
  * `components/home-2026/feature-artifacts/WhiteLabelArtifact.tsx`, and the
- * Monday geometry mirrors the `MondayLogo`/`MondayMark` used by the hero
- * integration artifacts, so the marks stay identical across the site.
+ * tool geometries mirror the logos used by the hero integration artifacts
+ * (`components/home-2026/hero-artifacts/IntegrationsArtifact.tsx`), so the
+ * marks stay identical across the site.
  */
 
 /** Props shared by every brand-mark glyph. */
@@ -102,6 +104,119 @@ export function MondayMark({
           fill="#00CA72"
           d="M293.758 43.4624C296.228 43.4624 298.23 41.4614 298.23 38.993C298.23 36.5247 296.228 34.5237 293.758 34.5237C291.288 34.5237 289.285 36.5247 289.285 38.993C289.285 41.4614 291.288 43.4624 293.758 43.4624Z"
         />
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The Asana mark — three coral dots masked from a warm radial gradient,
+ * mirroring the `AsanaLogo` used by the hero integration artifacts.
+ *
+ * @param props - Rendered size and optional class name.
+ * @returns The inline Asana SVG, or `null` on failure.
+ */
+export function AsanaMark({
+  size = DEFAULT_MARK_SIZE,
+  className,
+}: BrandMarkProps): ReactNode {
+  try {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="38.586 17.925 35.081 35.021"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+        className={className}
+      >
+        <defs>
+          <radialGradient
+            id="brandmark-asana"
+            gradientUnits="userSpaceOnUse"
+            cx="0"
+            cy="0"
+            r="1"
+            gradientTransform="translate(56.1473 35.4204) rotate(-90) scale(17.5032 17.5336)"
+          >
+            <stop stopColor="#FFB900" />
+            <stop offset="0.6" stopColor="#F95D8F" />
+            <stop offset="0.9991" stopColor="#F95353" />
+          </radialGradient>
+          <mask
+            id="brandmark-asana-mask"
+            maskUnits="userSpaceOnUse"
+            x="38"
+            y="17"
+            width="36"
+            height="36"
+          >
+            <path fill="#ffffff" d="M63.0922 25.2028C63.0922 29.0331 59.9678 32.1521 56.1308 32.1521C52.2938 32.1521 49.1694 29.0331 49.1694 25.2028C49.1694 21.3724 52.2938 18.2534 56.1308 18.2534C60.0226 18.2534 63.0922 21.3177 63.0922 25.2028ZM47.0864 33.8484C43.2494 33.8484 40.125 36.9674 40.125 40.7978C40.125 44.6282 43.2494 47.7472 47.0864 47.7472C50.9234 47.7472 54.0479 44.6282 54.0479 40.7978C54.0479 36.9674 50.9782 33.8484 47.0864 33.8484ZM65.1752 33.8484C61.3382 33.8484 58.2137 36.9674 58.2137 40.7978C58.2137 44.6282 61.3382 47.7472 65.1752 47.7472C69.0122 47.7472 72.1366 44.6282 72.1366 40.7978C72.1366 36.9674 69.067 33.8484 65.1752 33.8484Z" />
+          </mask>
+        </defs>
+        <g mask="url(#brandmark-asana-mask)">
+          <path fill="url(#brandmark-asana)" d="M56.1265 17.9255C65.8287 17.9255 73.6671 25.7504 73.6671 35.4357C73.6671 45.1211 65.8287 52.9459 56.1265 52.9459C46.4244 52.9459 38.5859 45.1211 38.5859 35.4357C38.6408 25.7504 46.4792 17.9255 56.1265 17.9255Z" />
+        </g>
+      </svg>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The ClickUp mark — gradient chevron over gradient base strokes, mirroring
+ * the `ClickUpLogo` used by the hero integration artifacts.
+ *
+ * @param props - Rendered size and optional class name.
+ * @returns The inline ClickUp SVG, or `null` on failure.
+ */
+export function ClickUpMark({
+  size = DEFAULT_MARK_SIZE,
+  className,
+}: BrandMarkProps): ReactNode {
+  try {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="362 12.25 37.125 37.125"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+        className={className}
+      >
+        <defs>
+          <linearGradient
+            id="brandmark-clickup-a"
+            gradientUnits="userSpaceOnUse"
+            x1="370.578"
+            y1="39.9558"
+            x2="392.252"
+            y2="39.9558"
+          >
+            <stop stopColor="#8930FD" />
+            <stop offset="1" stopColor="#49CCF9" />
+          </linearGradient>
+          <linearGradient
+            id="brandmark-clickup-b"
+            gradientUnits="userSpaceOnUse"
+            x1="371.049"
+            y1="24.9023"
+            x2="391.816"
+            y2="24.9023"
+          >
+            <stop stopColor="#FF02F0" />
+            <stop offset="1" stopColor="#FFC800" />
+          </linearGradient>
+        </defs>
+        <path fillRule="evenodd" clipRule="evenodd" fill="url(#brandmark-clickup-a)" d="M370.578 38.49L374.57 35.4094C376.704 38.1741 378.956 39.4774 381.446 39.4774C383.936 39.4774 386.149 38.2136 388.164 35.4489L392.234 38.4505C389.31 42.4 385.674 44.4932 381.446 44.4932C377.257 44.4932 373.582 42.4 370.578 38.49Z" />
+        <path fillRule="evenodd" clipRule="evenodd" fill="url(#brandmark-clickup-b)" d="M381.444 25.181L374.331 31.3027L371.051 27.4717L381.484 18.5063L391.838 27.4717L388.518 31.2632L381.444 25.181Z" />
       </svg>
     );
   } catch {

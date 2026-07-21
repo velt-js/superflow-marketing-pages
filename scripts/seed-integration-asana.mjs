@@ -44,7 +44,7 @@ const doc = {
   family: "Project boards",
   cardBlurb: "Sign-offs close tasks, statuses stay matched, two-way.",
   hero: {
-    kicker: "· TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Asana tasks", "that close themselves."],
     subhead:
       "A sign-off in Superflow moves the linked Asana task to done. Statuses stay matched both ways, mapped to your columns. Set the mapping once.",
