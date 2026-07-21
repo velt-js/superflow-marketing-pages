@@ -12,6 +12,7 @@ import {
   ComparisonScorecardTable,
   ComparisonSmartLink,
   ComparisonSources,
+  SuperflowPricingSummary,
   ToolNameWithLogo,
   criteriaItemsFromDimensions,
 } from "./ComparisonSections";
@@ -109,32 +110,30 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
       ) : null}
 
       {doc?.pricingCompetitor || doc?.pricingSuperflow ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
+        <section className={styles.section}>
           <p className={styles.sectionKicker}>What it costs</p>
           <h2 className={styles.sectionHeading}>Pricing, plainly.</h2>
           <div className={styles.cardPair}>
             {doc?.pricingCompetitor ? (
               <div className={styles.factCard}>
                 <p className={styles.factCardName}>
-                  <ToolNameWithLogo name={competitorName} />
+                  <ToolNameWithLogo name={competitorName} size={24} />
                 </p>
                 <p className={styles.bodyText}>{doc.pricingCompetitor}</p>
               </div>
             ) : null}
-            {doc?.pricingSuperflow ? (
-              <div className={`${styles.factCard} ${styles.factCardLead}`}>
-                <p className={styles.factCardName}>
-                  <ToolNameWithLogo name={SUPERFLOW_NAME} />
-                </p>
-                <p className={styles.bodyText}>{doc.pricingSuperflow}</p>
-              </div>
-            ) : null}
+            <div className={`${styles.factCard} ${styles.factCardLead}`}>
+              <p className={styles.factCardName}>
+                <ToolNameWithLogo name={SUPERFLOW_NAME} size={24} />
+              </p>
+              <SuperflowPricingSummary />
+            </div>
           </div>
         </section>
       ) : null}
 
       {doc?.switchingLines && doc.switchingLines.length > 0 ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
+        <section className={styles.section}>
           <p className={styles.sectionKicker}>Switching</p>
           <h2 className={styles.sectionHeading}>
             Switching is an afternoon, not a migration.
@@ -150,7 +149,7 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
       ) : null}
 
       {doc?.honestCloseStrengths || doc?.stayLine ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
+        <section className={styles.section}>
           <p className={styles.sectionKicker}>The honest close</p>
           <h2 className={styles.sectionHeading}>
             What {competitorName} gets right.

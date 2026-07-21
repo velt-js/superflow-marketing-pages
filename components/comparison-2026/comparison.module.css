@@ -13,7 +13,9 @@
   --cmp-font-display: var(--font-adamina), Georgia, serif;
   --cmp-font-ui: var(--font-urbanist), system-ui, sans-serif;
   --cmp-font-body: var(--font-poppins), system-ui, sans-serif;
-  --cmp-max-width: 1080px;
+  /* Matches the 1200px grid used by the hero split, the home FAQ card and
+     the footer, so comparison sections line up with the rest of the page. */
+  --cmp-max-width: 1200px;
   --cmp-narrow-width: 760px;
   --cmp-gutter: 24px;
   --site-nav-height: 70px;
@@ -338,10 +340,6 @@
   padding: 76px var(--cmp-gutter);
 }
 
-.sectionNarrow {
-  max-width: calc(var(--cmp-narrow-width) + var(--cmp-gutter) * 2);
-}
-
 /* Centered section header (kicker + heading + lead), e.g. the scorecard. */
 .sectionCentered .sectionKicker,
 .sectionCentered .sectionHeading {
@@ -585,10 +583,58 @@
 .pricingTakeaway {
   display: grid;
   gap: 12px;
-  max-width: 640px;
   padding: 24px 28px;
   border-radius: 24px;
   background: linear-gradient(180deg, #f8f8f8 0%, #f4f4f4 100%);
+}
+
+/* ---- Superflow tier summary (vs pricing card) ---- */
+
+.pricingTiers {
+  display: grid;
+  gap: 16px;
+}
+
+.pricingTierRow {
+  display: grid;
+  gap: 4px;
+}
+
+.pricingTierRow + .pricingTierRow {
+  padding-top: 16px;
+  border-top: 1px solid rgba(30, 30, 31, 0.08);
+}
+
+.pricingTierHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+}
+
+.pricingTierName {
+  font-family: var(--cmp-font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--cmp-ink);
+}
+
+.pricingTierPrice {
+  font-family: var(--cmp-font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--cmp-accent);
+  text-align: right;
+}
+
+.pricingTierDetail {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--cmp-muted);
 }
 
 /* ---- Scorecard table ---- */
@@ -867,13 +913,116 @@ a.criteriaCard:hover {
   color: var(--cmp-ink);
 }
 
-.thirdOption {
+/* Third-option panel (Figma 1067:1017): soft blue rounded card, copy +
+   vs-links on the left, the product window bleeding off the right edge. */
+.thirdOptionPanel {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: 52px;
+  padding: 52px;
+  border-radius: 52px;
+  background: #f1f7ff;
+  overflow: hidden;
+}
+
+.thirdOptionIntro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 44px;
+}
+
+.thirdOptionCopy {
   display: grid;
   gap: 16px;
-  padding: 30px 32px;
-  border-radius: 18px;
-  border: 1px solid rgba(26, 120, 224, 0.35);
-  background: linear-gradient(180deg, #fbfdff 0%, #eef5fe 100%);
+  justify-items: start;
+}
+
+.thirdOptionHeadline {
+  margin: 0;
+  font-family: var(--cmp-font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.5;
+  letter-spacing: -0.72px;
+  color: var(--cmp-ink);
+}
+
+.thirdOptionPitch {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: rgba(30, 30, 31, 0.75);
+}
+
+.thirdOptionCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  padding: 10px 20px;
+  border-radius: 32px;
+  background: #1e1e1f;
+  color: #fefeff;
+  font-family: var(--cmp-font-body);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.thirdOptionCta:hover {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+.thirdOptionFine {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(30, 30, 31, 0.55);
+}
+
+.thirdOptionLinks {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.thirdOptionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--cmp-font-body);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  color: rgba(30, 30, 31, 0.75);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.thirdOptionLink:hover {
+  color: var(--cmp-accent);
+}
+
+/* The product window overflows the panel to the right, cropped by the
+   panel's overflow, matching the Figma bleed. */
+.thirdOptionArt {
+  align-self: center;
+  min-width: 0;
+}
+
+.thirdOptionArt > figure {
+  width: 135%;
 }
 
 /* ---- Final CTA band ---- */
@@ -974,13 +1123,14 @@ a.criteriaCard:hover {
 .sourcesTooltip {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
   z-index: 20;
   padding-top: 10px;
-  width: min(380px, 78vw);
+  width: min(380px, calc(100vw - 40px));
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-4px);
+  /* Centered on the trigger so it stays inside the viewport on phones. */
+  transform: translateX(-50%) translateY(-4px);
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
 
@@ -989,7 +1139,7 @@ a.criteriaCard:hover {
 .sourcesTrigger:focus-within .sourcesTooltip {
   opacity: 1;
   visibility: visible;
-  transform: none;
+  transform: translateX(-50%);
 }
 
 .sourcesTooltipCard {
@@ -1133,6 +1283,17 @@ a.criteriaCard:hover {
 
   .dimensionVerdict {
     max-width: none;
+  }
+
+  .thirdOptionPanel {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 32px 28px;
+    border-radius: 36px;
+  }
+
+  .thirdOptionArt > figure {
+    width: 100%;
   }
 }
 

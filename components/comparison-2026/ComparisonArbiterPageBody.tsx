@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
@@ -12,9 +13,9 @@ import {
   ComparisonPricingNote,
   ComparisonRelatedLinks,
   ComparisonScorecardTable,
-  ComparisonSmartLink,
   ComparisonSources,
   criteriaItemsFromDimensions,
+  splitSentences,
   CTA_MICROCOPY,
   SIGNUP_URL,
 } from "./ComparisonSections";
@@ -43,6 +44,89 @@ function HeroPickCard({ name, line }: { name: string; line: string }) {
       <div className={styles.pickCardBody}>
         <p className={styles.pickCardTitle}>Pick {name}</p>
         <p className={styles.pickCardLine}>{line}</p>
+      </div>
+    </div>
+  );
+}
+
+/** Tabler `chevron-right` glyph for the third-option vs links. */
+function ChevronRightIcon() {
+  return (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 6l6 6l-6 6" />
+    </svg>
+  );
+}
+
+/**
+ * The third-option module (Figma 1067:1017): a soft blue rounded panel with
+ * a serif headline (the body's first sentence), the remaining pitch, a dark
+ * "Start Free" pill, and the Superflow-vs links bottom-left, while the
+ * agents-at-work product window bleeds off the panel's right edge.
+ */
+function ThirdOptionPanel({
+  body,
+  links,
+}: {
+  body: string;
+  links?: ComparisonArbiterDoc["thirdOptionLinks"];
+}) {
+  const sentences = splitSentences(body);
+  const headline = sentences[0] ?? body;
+  const pitch = sentences.slice(1).join(" ");
+
+  return (
+    <div className={styles.thirdOptionPanel}>
+      <div className={styles.thirdOptionIntro}>
+        <div className={styles.thirdOptionCopy}>
+          <h2 className={styles.thirdOptionHeadline}>{headline}</h2>
+          {pitch ? <p className={styles.thirdOptionPitch}>{pitch}</p> : null}
+          <div>
+            <a className={styles.thirdOptionCta} href={SIGNUP_URL}>
+              Start Free
+            </a>
+          </div>
+          <p className={styles.thirdOptionFine}>{CTA_MICROCOPY}</p>
+        </div>
+        {links && links.length > 0 ? (
+          <div className={styles.thirdOptionLinks}>
+            {links.map((link) =>
+              link?.href?.startsWith("/") ? (
+                <Link
+                  key={`${link.label}-${link.href}`}
+                  className={styles.thirdOptionLink}
+                  href={link.href}
+                >
+                  {link.label}
+                  <ChevronRightIcon />
+                </Link>
+              ) : (
+                <a
+                  key={`${link.label}-${link.href}`}
+                  className={styles.thirdOptionLink}
+                  href={link?.href}
+                  rel="nofollow noopener"
+                >
+                  {link.label}
+                  <ChevronRightIcon />
+                </a>
+              ),
+            )}
+          </div>
+        ) : null}
+      </div>
+      <div className={styles.thirdOptionArt}>
+        <ComparisonArtifactWindow name="agents-at-work" caption="" />
       </div>
     </div>
   );
@@ -166,29 +250,12 @@ export default function ComparisonArbiterPageBody({
       ) : null}
 
       {doc?.thirdOptionBody ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
+        <section className={styles.section}>
           <p className={styles.sectionKicker}>The third option</p>
-          <div className={styles.thirdOption}>
-            <p className={styles.bodyText}>{doc.thirdOptionBody}</p>
-            <ComparisonArtifactWindow name="agents-at-work" />
-            {doc?.thirdOptionLinks && doc.thirdOptionLinks.length > 0 ? (
-              <div className={styles.entryLinks}>
-                {doc.thirdOptionLinks.map((link) => (
-                  <ComparisonSmartLink
-                    key={`${link.label}-${link.href}`}
-                    link={link}
-                    className={styles.inlineLink}
-                  />
-                ))}
-              </div>
-            ) : null}
-            <div>
-              <a className={styles.ctaPrimary} href={SIGNUP_URL} style={{ background: "#1a78e0", color: "#ffffff" }}>
-                Start free
-              </a>
-            </div>
-            <p className={styles.heroFootnoteFine}>{CTA_MICROCOPY}</p>
-          </div>
+          <ThirdOptionPanel
+            body={doc.thirdOptionBody}
+            links={doc?.thirdOptionLinks}
+          />
         </section>
       ) : null}
 

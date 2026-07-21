@@ -3,11 +3,12 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
+import { TIERS, type Tier } from "@/components/pricing/pricing-data";
 
 import styles from "./comparison.module.css";
 import { badgeNumber, dimensionBadgeColor } from "./comparisonBadges";
 import ComparisonReveal from "./ComparisonReveal";
-import { getToolLogoSrc } from "./toolLogos";
+import { getToolLogoSrc, getToolLogosFromSlug } from "./toolLogos";
 import type {
   ComparisonDimension,
   ComparisonLink,
@@ -413,7 +414,12 @@ export function ComparisonScorecardTable({
   );
 }
 
-/** Pill-style related-page links. */
+/**
+ * Related-page links as hub-style cards (same idiom as the comparison
+ * listing page): tool logos derived from the target slug, the page title,
+ * and the hover lift. Internal paths use next/link; anything else falls
+ * back to a plain anchor.
+ */
 export function ComparisonRelatedLinks({
   links,
 }: {
@@ -423,12 +429,50 @@ export function ComparisonRelatedLinks({
     return null;
   }
   return (
-    <ul className={styles.relatedList}>
-      {links.map((link) => (
-        <li key={`${link.label}-${link.href}`} className={styles.relatedItem}>
-          <ComparisonSmartLink link={link} />
-        </li>
-      ))}
+    <ul className={styles.hubGrid}>
+      {links.map((link) => {
+        const href = link?.href ?? "#";
+        const slug = href.split("/").filter(Boolean).pop();
+        const logoSrcs = getToolLogosFromSlug(slug);
+        const cardBody = (
+          <>
+            {logoSrcs.length > 0 ? (
+              <span className={styles.hubCardLogos}>
+                {logoSrcs.map((src) => (
+                  <Image
+                    key={src}
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    width={22}
+                    height={22}
+                    className={styles.toolLogo}
+                    unoptimized
+                  />
+                ))}
+              </span>
+            ) : null}
+            <p className={styles.hubCardTitle}>{link.label}</p>
+          </>
+        );
+        return (
+          <li key={`${link.label}-${href}`}>
+            {href.startsWith("/") ? (
+              <Link className={styles.hubCard} href={href}>
+                {cardBody}
+              </Link>
+            ) : (
+              <a
+                className={styles.hubCard}
+                href={href}
+                rel="nofollow noopener"
+              >
+                {cardBody}
+              </a>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -464,7 +508,7 @@ export function ComparisonFinalCta({ headline }: { headline?: string }) {
  * @param text - The prose to split.
  * @returns The trimmed sentences, or the input as a single entry.
  */
-function splitSentences(text: string): string[] {
+export function splitSentences(text: string): string[] {
   try {
     return (text ?? "")
       .split(/(?<=[.!?])\s+(?=[A-Z$€£0-9])/)
@@ -615,6 +659,77 @@ export function ComparisonPricingNote({
           <p className={styles.verdictText}>{parts.takeaway}</p>
         </div>
       ) : null}
+    </div>
+  );
+}
+
+/**
+ * Price label for a tier on the comparison pages: "Free", "Custom", or
+ * "$29 per seat/mo ($24 annual)".
+ *
+ * @param tier - The pricing tier.
+ * @returns The compact price label.
+ */
+function tierPriceLabel(tier: Tier): string {
+  try {
+    if (tier?.customPrice) {
+      return "Custom";
+    }
+    if (tier?.monthlyPrice === "0") {
+      return "Free";
+    }
+    const annual =
+      tier?.annualPrice && tier.annualPrice !== tier.monthlyPrice
+        ? ` ($${tier.annualPrice} annual)`
+        : "";
+    return `$${tier.monthlyPrice} per seat/mo${annual}`;
+  } catch {
+    return tier?.monthlyPrice ?? "";
+  }
+}
+
+/**
+ * One-line summary of a tier's headline bullets, e.g. "Unlimited Projects,
+ * Pay Per Team Seat, 10GB Storage". Divider rows ("Everything in X, plus")
+ * and "+N More Features" teasers are dropped.
+ *
+ * @param tier - The pricing tier.
+ * @returns The comma-joined bullet summary.
+ */
+function tierBulletSummary(tier: Tier): string {
+  try {
+    return (tier?.bullets ?? [])
+      .filter((bullet) => !bullet.divider && !/^\+\d+ More/i.test(bullet.text))
+      .map((bullet) => bullet.text)
+      .join(", ");
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Superflow's real pricing, inline on the comparison pages — sourced from
+ * the same `TIERS` module that renders /pricing, so the numbers can never
+ * drift. One row per tier (name, price, headline bullets) with a link to
+ * the full breakdown for the feature table.
+ */
+export function SuperflowPricingSummary() {
+  return (
+    <div className={styles.pricingTiers}>
+      {TIERS.map((tier) => (
+        <div key={tier.id} className={styles.pricingTierRow}>
+          <p className={styles.pricingTierHead}>
+            <span className={styles.pricingTierName}>{tier.name}</span>
+            <span className={styles.pricingTierPrice}>
+              {tierPriceLabel(tier)}
+            </span>
+          </p>
+          <p className={styles.pricingTierDetail}>{tierBulletSummary(tier)}</p>
+        </div>
+      ))}
+      <Link className={styles.inlineLink} href="/pricing">
+        Full feature breakdown
+      </Link>
     </div>
   );
 }
