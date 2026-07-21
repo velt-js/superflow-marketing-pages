@@ -1,0 +1,202 @@
+/*
+ * Demo gallery — 2026 light redesign for the /demo page. Reuses the canonical
+ * 2026 card idiom from components/listing-2026/ListingGrid.module.css:
+ * light card, hairline border, accent hover border/shadow/lift. The demo
+ * screenshots are dark app captures, so each sits inside a framed image well
+ * with its own hairline edge.
+ */
+
+.section {
+  --dg-display: var(--font-urbanist), system-ui, sans-serif;
+  --dg-body: var(--font-poppins), system-ui, sans-serif;
+  --dg-ink: #16171a;
+  --dg-muted: #6b7079;
+  --dg-accent: #433df3;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px 24px 112px;
+  background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+/* The lead (website) demo spans the full row so its screenshot reads large. */
+.itemFeatured {
+  grid-column: 1 / -1;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid #ececf1;
+  border-radius: 20px;
+  background: #fbfbfd;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.card:hover {
+  border-color: rgba(67, 61, 243, 0.35);
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--dg-accent);
+  outline-offset: 2px;
+}
+
+/* The featured card pairs the screenshot with the copy side by side. */
+.cardFeatured {
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+}
+
+.cardFeatured .imageFrame {
+  flex: 1 1 62%;
+  min-width: 0;
+}
+
+.cardFeatured .cardBody {
+  flex: 1 1 38%;
+  min-width: 0;
+}
+
+/* Framed well for the dark demo screenshot: its own hairline edge keeps the
+   capture from bleeding into the light card. */
+.imageFrame {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #e4e4ea;
+  background: #101012;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0 4px 4px;
+}
+
+.cardTitleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardTitle {
+  font-family: var(--dg-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dg-ink);
+}
+
+.cardDesc {
+  font-family: var(--dg-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--dg-muted);
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-family: var(--dg-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.14px;
+  color: var(--dg-accent);
+}
+
+.cardCtaArrow {
+  transition: transform 160ms ease;
+}
+
+.card:hover .cardCtaArrow {
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cardFeatured {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 8px 20px 72px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardCtaArrow {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .cardCtaArrow {
+    transform: none;
+  }
+}
