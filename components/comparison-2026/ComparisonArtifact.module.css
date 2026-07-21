@@ -1,0 +1,60 @@
+/* Framed product-artifact window for the /preview/comparison and
+   /preview/alternative pages. Reuses the hero artifacts on their native
+   1200 x 578 canvas, uniformly scaled to the container width (the scale is
+   measured in ComparisonArtifact.tsx), inside the same black 2px reveal frame
+   as the homepage hero product window. */
+
+.artifact {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+/* The dark outer frame: matches the homepage hero `.window` (black, 2px
+   reveal, 16px radius) so the artifact reads as the same product window. */
+.frame {
+  width: 100%;
+  box-sizing: border-box;
+  background: #000000;
+  border-radius: 16px;
+  padding: 2px;
+  box-shadow: 0 24px 60px -30px rgba(30, 30, 31, 0.35);
+}
+
+/* The white screen. `aspect-ratio` keeps the box in lockstep with the
+   uniformly scaled canvas at every width, so nothing is ever clipped or
+   letterboxed. */
+.screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1200 / 578;
+  border-radius: 14px;
+  background: #feffff;
+  overflow: hidden;
+}
+
+/* The artifact's native canvas, scaled from the top-left. Its inline style
+   carries the measured `scale()`; width/height are set inline to the native
+   canvas size so the artifact lays out exactly as it does in the hero. */
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+  display: flex;
+}
+
+.canvas > * {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.caption {
+  font-family: var(--cmp-font-body, system-ui, sans-serif);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--cmp-muted, rgba(30, 30, 31, 0.64));
+  text-align: center;
+}

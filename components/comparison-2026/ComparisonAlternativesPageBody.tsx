@@ -3,7 +3,9 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
 import styles from "./comparison.module.css";
+import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
+  ComparisonCriteriaGrid,
   ComparisonCtas,
   ComparisonFinalCta,
   ComparisonRelatedLinks,
@@ -34,45 +36,36 @@ export default function ComparisonAlternativesPageBody({
       <SiteNav />
 
       <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          {doc?.kicker ? <p className={styles.heroKicker}>{doc.kicker}</p> : null}
-          <h1 className={styles.heroHeadline}>{doc?.headline ?? doc?.title}</h1>
-          {doc?.standfirst ? (
-            <p className={styles.heroSecondary}>{doc.standfirst}</p>
-          ) : null}
-          {doc?.dateline ? (
-            <p className={styles.heroDateline}>{doc.dateline}</p>
-          ) : null}
-          <ComparisonCtas />
+        <div className={`${styles.heroInner} ${styles.heroInnerWide}`}>
+          <div className={styles.heroSplit}>
+            <div className={styles.heroSplitMain}>
+              {doc?.kicker ? (
+                <p className={styles.heroKicker}>{doc.kicker}</p>
+              ) : null}
+              <h1 className={styles.heroHeadline}>
+                {doc?.headline ?? doc?.title}
+              </h1>
+            </div>
+            <div className={styles.heroSplitAside}>
+              {doc?.standfirst ? (
+                <p className={styles.heroStandfirst}>{doc.standfirst}</p>
+              ) : null}
+              {doc?.dateline ? (
+                <p className={styles.heroDateline}>{doc.dateline}</p>
+              ) : null}
+            </div>
+          </div>
+          <div className={styles.heroActions}>
+            <ComparisonCtas />
+          </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>
 
-      {doc?.criteria && doc.criteria.length > 0 ? (
-        <section className={styles.section}>
-          <p className={styles.sectionKicker}>How we judged</p>
-          <h2 className={styles.sectionHeading}>
-            Eight questions, asked of every option.
-          </h2>
-          <ul className={styles.criteriaGrid}>
-            {doc.criteria.map((criterion) => (
-              <li key={criterion.label} className={styles.criteriaItem}>
-                <span>
-                  <span className={styles.criteriaLabel}>{criterion.label}</span>
-                  {criterion.line ? (
-                    <>
-                      {" "}
-                      <span className={styles.criteriaLine}>
-                        {criterion.line}
-                      </span>
-                    </>
-                  ) : null}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <ComparisonCriteriaGrid
+        items={doc?.criteria ?? []}
+        headingNoun="Judging Criteria"
+      />
 
       {doc?.superflowHeadline ? (
         <section className={styles.section}>
@@ -82,6 +75,9 @@ export default function ComparisonAlternativesPageBody({
             {doc?.superflowBody ? (
               <p className={styles.entryRow}>{doc.superflowBody}</p>
             ) : null}
+            <div className={styles.entryArtifact}>
+              <ComparisonArtifactWindow name="agents-at-work" />
+            </div>
             {doc?.superflowBestFor ? (
               <p className={styles.entryRow}>
                 <strong>Best for:</strong> {doc.superflowBestFor}

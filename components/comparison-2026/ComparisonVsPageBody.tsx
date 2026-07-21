@@ -3,9 +3,9 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
 import styles from "./comparison.module.css";
+import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
-  ComparisonAnchorChips,
-  ComparisonCtas,
+  ComparisonCriteriaGrid,
   ComparisonDimensionSection,
   ComparisonFinalCta,
   ComparisonRelatedLinks,
@@ -13,6 +13,7 @@ import {
   ComparisonSmartLink,
   ComparisonSources,
   ToolNameWithLogo,
+  criteriaItemsFromDimensions,
 } from "./ComparisonSections";
 import type { ComparisonVsDoc } from "./types";
 
@@ -20,9 +21,11 @@ const SUPERFLOW_NAME = "Superflow";
 
 /**
  * The head-to-head class: /preview/comparison/superflow-vs-<x>.
- * Section order per the July 2026 vs-x template: compressed hero, dimensions
- * (Superflow left, competitor right), scorecard recap, pricing, switching,
- * the honest close, FAQ, related, final CTA (H1 echo).
+ * Section order per the Figma 1061 redesign: split hero (kicker + serif
+ * headline left, secondary + qualifier right), the agents-at-work product
+ * window (captioned by heroCaption), the blueprint-framed criteria grid,
+ * the dimension panels (Superflow left, competitor right), scorecard recap,
+ * pricing, switching, the honest close, FAQ, related, final CTA.
  */
 export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) {
   const competitorName = doc?.competitorName ?? "The competitor";
@@ -32,50 +35,59 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
       <SiteNav />
 
       <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          {doc?.kicker ? <p className={styles.heroKicker}>{doc.kicker}</p> : null}
-          <h1 className={styles.heroHeadline}>{doc?.headline ?? doc?.title}</h1>
-          {doc?.secondary ? (
-            <p className={styles.heroSecondary}>{doc.secondary}</p>
-          ) : null}
-          {doc?.prevents && doc.prevents.length > 0 ? (
-            <ul className={styles.heroPrevents}>
-              {doc.prevents.map((line) => (
-                <li key={line} className={styles.heroPreventsItem}>
-                  {line}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          {doc?.qualifier ? (
-            <p className={styles.heroQualifier}>{doc.qualifier}</p>
-          ) : null}
-          <ComparisonCtas />
-          <ComparisonAnchorChips dimensions={doc?.dimensions} />
+        <div className={`${styles.heroInner} ${styles.heroInnerWide}`}>
+          <div className={styles.heroSplit}>
+            <div className={styles.heroSplitMain}>
+              {doc?.kicker ? (
+                <p className={styles.heroKicker}>{doc.kicker}</p>
+              ) : null}
+              <h1 className={styles.heroHeadline}>
+                {doc?.headline ?? doc?.title}
+              </h1>
+            </div>
+            <div className={styles.heroSplitAside}>
+              {doc?.secondary ? (
+                <p className={styles.heroStandfirst}>{doc.secondary}</p>
+              ) : null}
+              {doc?.qualifier ? (
+                <p className={styles.heroQualifier}>{doc.qualifier}</p>
+              ) : null}
+            </div>
+          </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>
 
+      <div className={styles.heroArtifact}>
+        <ComparisonArtifactWindow
+          name="agents-at-work"
+          caption={doc?.heroCaption}
+        />
+      </div>
+
+      <ComparisonCriteriaGrid
+        items={criteriaItemsFromDimensions(doc?.dimensions)}
+      />
+
       {doc?.dimensions && doc.dimensions.length > 0 ? (
         <section className={styles.section}>
-          <p className={styles.sectionKicker}>The dimensions</p>
-          <h2 className={styles.sectionHeading}>
-            {SUPERFLOW_NAME} vs {competitorName}, by the job.
-          </h2>
-          {doc.dimensions.map((dimension) => (
-            <ComparisonDimensionSection
-              key={dimension.label}
-              dimension={dimension}
-              leftName={SUPERFLOW_NAME}
-              rightName={competitorName}
-              leadSide="left"
-            />
-          ))}
+          <div className={styles.dimensionStack}>
+            {doc.dimensions.map((dimension, dimensionIndex) => (
+              <ComparisonDimensionSection
+                key={dimension.label}
+                dimension={dimension}
+                leftName={SUPERFLOW_NAME}
+                rightName={competitorName}
+                leadSide="left"
+                index={dimensionIndex}
+              />
+            ))}
+          </div>
         </section>
       ) : null}
 
       {doc?.scorecard && doc.scorecard.length > 0 ? (
-        <section className={styles.section}>
+        <section className={`${styles.section} ${styles.sectionCentered}`}>
           <p className={styles.sectionKicker}>The scorecard</p>
           <h2 className={styles.sectionHeading}>
             {SUPERFLOW_NAME} vs {competitorName}.

@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
+
+import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
 
 import styles from "./comparison.module.css";
+import { badgeNumber, dimensionBadgeColor } from "./comparisonBadges";
+import ComparisonReveal from "./ComparisonReveal";
 import { getToolLogoSrc } from "./toolLogos";
 import type {
   ComparisonDimension,
@@ -110,110 +115,249 @@ export function ComparisonCtas({ onDark = true }: { onDark?: boolean }) {
   );
 }
 
+/** Tabler `layers-difference` icon (Figma 1061:2222) in the site accent. */
+function LayersDifferenceIcon({ size = 40 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M16 16v2a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h2" />
+      <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" />
+      <path d="M11 17l6 -6" />
+      <path d="M8 13l5 -5" />
+      <path d="M14 20l6 -6" />
+    </svg>
+  );
+}
+
+/** Tabler `award` icon used by the dimension-panel verdict label. */
+function AwardIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="9" r="6" />
+      <path d="M9 14.2l-1 7.3l4 -2.5l4 2.5l-1 -7.3" />
+    </svg>
+  );
+}
+
+/** One card of the criteria grid: a numbered color badge + its label. */
+export type ComparisonCriteriaGridItem = {
+  label: string;
+  /** Optional supporting line rendered under the label. */
+  line?: string;
+  /** Optional in-page anchor; when set the card renders as a link. */
+  href?: string;
+};
+
 /**
- * Anchor chips linking to each rendered dimension section, numbered in the
- * canonical order they arrive in.
+ * The numbered criteria overview (Figma 1061:2384): a full-bleed section
+ * wrapped in the homepage {@link BlueprintFrame} (crossing rule-lines +
+ * registration bolts with their draw-in entrance), a serif "NN Comparison
+ * Criteria" heading on the left and a two-column grid of numbered cards on
+ * the right, staggered in by {@link ComparisonReveal}.
  */
-export function ComparisonAnchorChips({
-  dimensions,
+export function ComparisonCriteriaGrid({
+  items,
+  headingNoun = "Comparison Criteria",
 }: {
-  dimensions?: ComparisonDimension[];
+  items?: ComparisonCriteriaGridItem[];
+  headingNoun?: string;
 }) {
-  if (!dimensions || dimensions.length === 0) {
+  if (!items || items.length === 0) {
     return null;
   }
   return (
-    <ul className={styles.anchorChips}>
-      {dimensions.map((dimension) => (
-        <li key={dimension.label}>
-          <a
-            className={styles.anchorChip}
-            href={`#${dimensionAnchorId(dimension.label)}`}
-          >
-            <span className={styles.anchorChipNumber}>{dimension.number}</span>
-            {dimension.label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <section className={styles.criteriaSection}>
+      <BlueprintFrame />
+      <ComparisonReveal>
+        <div className={styles.criteriaInner}>
+          <div className={styles.criteriaHead}>
+            <span className={styles.criteriaHeadIcon}>
+              <LayersDifferenceIcon />
+            </span>
+            <h2 className={styles.criteriaHeading}>
+              {String(items.length).padStart(2, "0")} {headingNoun}
+            </h2>
+          </div>
+          <ul className={styles.criteriaGrid}>
+            {items.map((item, itemIndex) => {
+              const badge = (
+                <span
+                  className={styles.criteriaBadge}
+                  style={{ background: dimensionBadgeColor(itemIndex) }}
+                >
+                  {badgeNumber(itemIndex)}
+                </span>
+              );
+              const body = (
+                <>
+                  {badge}
+                  <span className={styles.criteriaLabel}>{item.label}</span>
+                  {item?.line ? (
+                    <span className={styles.criteriaLine}>{item.line}</span>
+                  ) : null}
+                </>
+              );
+              return (
+                <li
+                  key={item.label}
+                  className={styles.criteriaItem}
+                  style={
+                    { "--reveal-delay": `${itemIndex * 70}ms` } as CSSProperties
+                  }
+                >
+                  {item?.href ? (
+                    <a className={styles.criteriaCard} href={item.href}>
+                      {body}
+                    </a>
+                  ) : (
+                    <span className={styles.criteriaCard}>{body}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </ComparisonReveal>
+    </section>
   );
 }
 
 /**
- * One numbered dimension: framing line, the paired fact cards, and the
- * verdict line. `leadSide` marks which card gets the accent treatment
- * (Superflow on vs pages; none on neutral arbiter pages).
+ * Build the criteria-grid items for a page's dimensions, each linking to its
+ * dimension section anchor.
+ *
+ * @param dimensions - The page's dimensions in canonical order.
+ * @returns Grid items with in-page anchors, or an empty list.
+ */
+export function criteriaItemsFromDimensions(
+  dimensions?: ComparisonDimension[],
+): ComparisonCriteriaGridItem[] {
+  try {
+    return (dimensions ?? []).map((dimension) => ({
+      label: dimension.label,
+      href: `#${dimensionAnchorId(dimension.label)}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/** One tool's fact card inside a dimension panel (Figma 1061:2282). */
+function DimensionToolCard({
+  name,
+  facts,
+  verified,
+  lead = false,
+}: {
+  name: string;
+  facts?: string[];
+  verified?: string;
+  lead?: boolean;
+}) {
+  const cardClass = lead
+    ? `${styles.factCard} ${styles.factCardLead}`
+    : styles.factCard;
+  return (
+    <div className={cardClass}>
+      <p className={styles.factCardName}>
+        <ToolNameWithLogo name={name} size={24} />
+      </p>
+      <ul className={styles.factList}>
+        {(facts ?? []).map((fact) => (
+          <li key={fact} className={styles.factItem}>
+            {fact}
+          </li>
+        ))}
+      </ul>
+      {verified ? <p className={styles.factVerified}>({verified})</p> : null}
+    </div>
+  );
+}
+
+/**
+ * One dimension as a soft rounded panel (Figma 1061:2236): on the left a
+ * colored number badge, the serif label, the framing line, and the verdict
+ * block (award glyph + purple "Verdict" + takeaway); on the right the two
+ * tool fact cards stacked. `leadSide` marks which tool card gets the accent
+ * treatment (Superflow on vs pages; none on neutral arbiter pages).
+ * `index` picks the badge color.
  */
 export function ComparisonDimensionSection({
   dimension,
   leftName,
   rightName,
   leadSide,
+  index = 0,
 }: {
   dimension: ComparisonDimension;
   leftName: string;
   rightName: string;
   leadSide?: "left" | "right";
+  index?: number;
 }) {
-  const leftCardClass =
-    leadSide === "left"
-      ? `${styles.factCard} ${styles.factCardLead}`
-      : styles.factCard;
-  const rightCardClass =
-    leadSide === "right"
-      ? `${styles.factCard} ${styles.factCardLead}`
-      : styles.factCard;
-
   return (
     <section
       id={dimensionAnchorId(dimension.label)}
       className={styles.dimension}
     >
-      <div className={styles.dimensionHeader}>
-        <span className={styles.dimensionNumber}>{dimension.number}</span>
-        <h3 className={styles.dimensionLabel}>{dimension.label}</h3>
-      </div>
-      {dimension.framing ? (
-        <p className={styles.dimensionFraming}>{dimension.framing}</p>
-      ) : null}
-      <div className={styles.cardPair}>
-        <div className={leftCardClass}>
-          <p className={styles.factCardName}>
-            <ToolNameWithLogo name={leftName} />
-          </p>
-          <ul className={styles.factList}>
-            {(dimension.leftFacts ?? []).map((fact) => (
-              <li key={fact} className={styles.factItem}>
-                {fact}
-              </li>
-            ))}
-          </ul>
-          {dimension.leftVerified ? (
-            <p className={styles.factVerified}>({dimension.leftVerified})</p>
+      <div className={styles.dimensionPanel}>
+        <div className={styles.dimensionIntro}>
+          <div className={styles.dimensionIntroTop}>
+            <span
+              className={styles.dimensionBadge}
+              style={{ background: dimensionBadgeColor(index) }}
+            >
+              {dimension?.number ?? badgeNumber(index)}
+            </span>
+            <h3 className={styles.dimensionLabel}>{dimension.label}</h3>
+            {dimension.framing ? (
+              <p className={styles.dimensionFraming}>{dimension.framing}</p>
+            ) : null}
+          </div>
+          {dimension.verdict ? (
+            <div className={styles.dimensionVerdict}>
+              <p className={styles.verdictTag}>
+                <AwardIcon />
+                Verdict
+              </p>
+              <p className={styles.verdictText}>{dimension.verdict}</p>
+            </div>
           ) : null}
         </div>
-        <div className={rightCardClass}>
-          <p className={styles.factCardName}>
-            <ToolNameWithLogo name={rightName} />
-          </p>
-          <ul className={styles.factList}>
-            {(dimension.rightFacts ?? []).map((fact) => (
-              <li key={fact} className={styles.factItem}>
-                {fact}
-              </li>
-            ))}
-          </ul>
-          {dimension.rightVerified ? (
-            <p className={styles.factVerified}>({dimension.rightVerified})</p>
-          ) : null}
+        <div className={styles.dimensionCards}>
+          <DimensionToolCard
+            name={leftName}
+            facts={dimension.leftFacts}
+            verified={dimension.leftVerified}
+            lead={leadSide === "left"}
+          />
+          <DimensionToolCard
+            name={rightName}
+            facts={dimension.rightFacts}
+            verified={dimension.rightVerified}
+            lead={leadSide === "right"}
+          />
         </div>
       </div>
-      {dimension.verdict ? (
-        <p className={styles.verdict}>
-          <span className={styles.verdictTag}>Verdict</span>
-          {dimension.verdict}
-        </p>
-      ) : null}
     </section>
   );
 }
@@ -312,7 +456,189 @@ export function ComparisonFinalCta({ headline }: { headline?: string }) {
   );
 }
 
-/** Dateline + source URLs footnote for the verify protocol. */
+/**
+ * Split prose into sentences at ". " boundaries followed by a capital,
+ * currency sign, or digit — tolerant of vendor names like "Marker.io"
+ * because their inner dot has no trailing space.
+ *
+ * @param text - The prose to split.
+ * @returns The trimmed sentences, or the input as a single entry.
+ */
+function splitSentences(text: string): string[] {
+  try {
+    return (text ?? "")
+      .split(/(?<=[.!?])\s+(?=[A-Z$€£0-9])/)
+      .map((sentence) => sentence.trim())
+      .filter(Boolean);
+  } catch {
+    return [text];
+  }
+}
+
+/** Structured parts of an arbiter pricing note (see splitPricingNote). */
+type PricingNoteParts = {
+  intro?: string;
+  leftFacts: string[];
+  rightFacts: string[];
+  takeaway?: string;
+};
+
+/**
+ * Break an arbiter `pricingNote` blob into scannable parts. The notes follow
+ * an editorial pattern: a "Both columns verified …" lead, a "{LeftTool}: …"
+ * segment, a "{RightTool}: …" segment, and usually a trailing takeaway that
+ * compares the two. The takeaway is detected as the first sentence after the
+ * right tool's opener that names the left tool or says "both".
+ *
+ * @param note - The raw pricing note.
+ * @param leftName - The left tool's display name.
+ * @param rightName - The right tool's display name.
+ * @returns The structured parts, or `null` when the note doesn't follow the
+ * "{Tool}: …" pattern and should render as plain prose.
+ */
+function splitPricingNote(
+  note: string,
+  leftName: string,
+  rightName: string,
+): PricingNoteParts | null {
+  try {
+    const leftMarker = `${leftName}:`;
+    const rightMarker = `${rightName}:`;
+    const leftIndex = note.indexOf(leftMarker);
+    const rightIndex =
+      leftIndex >= 0
+        ? note.indexOf(rightMarker, leftIndex + leftMarker.length)
+        : -1;
+    if (leftIndex < 0 || rightIndex < 0) {
+      return null;
+    }
+    const intro = note.slice(0, leftIndex).trim();
+    const leftText = note
+      .slice(leftIndex + leftMarker.length, rightIndex)
+      .trim();
+    const rightSentences = splitSentences(
+      note.slice(rightIndex + rightMarker.length).trim(),
+    );
+    let takeawayStart = rightSentences.length;
+    for (let index = 1; index < rightSentences.length; index += 1) {
+      const sentence = rightSentences[index] ?? "";
+      if (sentence.includes(leftName) || /\bboth\b/i.test(sentence)) {
+        takeawayStart = index;
+        break;
+      }
+    }
+    const takeaway = rightSentences.slice(takeawayStart).join(" ");
+    return {
+      intro: intro || undefined,
+      leftFacts: splitSentences(leftText),
+      rightFacts: rightSentences.slice(0, takeawayStart),
+      takeaway: takeaway || undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The arbiter "Pricing, side by side" body: instead of one wall-of-text
+ * paragraph, the note renders as a small verified-intro line, one fact card
+ * per tool (logo + sentence bullets), and a highlighted "The math" takeaway.
+ * Notes that don't follow the "{Tool}: …" pattern fall back to prose with
+ * the intro line still lifted out.
+ */
+export function ComparisonPricingNote({
+  note,
+  leftName,
+  rightName,
+}: {
+  note?: string;
+  leftName: string;
+  rightName: string;
+}) {
+  if (!note) {
+    return null;
+  }
+  const parts = splitPricingNote(note, leftName, rightName);
+
+  if (!parts) {
+    const sentences = splitSentences(note);
+    const hasIntro = /^Both columns verified/i.test(sentences[0] ?? "");
+    return (
+      <div className={styles.pricingNote}>
+        {hasIntro ? (
+          <p className={styles.pricingIntro}>{sentences[0]}</p>
+        ) : null}
+        <p className={styles.bodyText}>
+          {(hasIntro ? sentences.slice(1) : sentences).join(" ")}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.pricingNote}>
+      {parts.intro ? (
+        <p className={styles.pricingIntro}>{parts.intro}</p>
+      ) : null}
+      <div className={styles.cardPair}>
+        <div className={styles.factCard}>
+          <p className={styles.factCardName}>
+            <ToolNameWithLogo name={leftName} size={24} />
+          </p>
+          <ul className={styles.factList}>
+            {parts.leftFacts.map((fact) => (
+              <li key={fact} className={styles.factItem}>
+                {fact}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.factCard}>
+          <p className={styles.factCardName}>
+            <ToolNameWithLogo name={rightName} size={24} />
+          </p>
+          <ul className={styles.factList}>
+            {parts.rightFacts.map((fact) => (
+              <li key={fact} className={styles.factItem}>
+                {fact}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      {parts.takeaway ? (
+        <div className={styles.pricingTakeaway}>
+          <p className={styles.verdictTag}>
+            <AwardIcon />
+            The math
+          </p>
+          <p className={styles.verdictText}>{parts.takeaway}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Compact display label for a source URL: protocol and trailing slash
+ * stripped, e.g. "https://ruttl.com/pricing/" → "ruttl.com/pricing".
+ *
+ * @param url - The full source URL.
+ * @returns The shortened label, or the input when parsing fails.
+ */
+function sourceUrlLabel(url: string): string {
+  try {
+    return (url ?? "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * Dateline + sources footnote for the verify protocol: a single "Facts
+ * checked {date}. Sources" line where hovering (or keyboard-focusing) the
+ * "Sources" trigger reveals a tooltip card listing every source link.
+ */
 export function ComparisonSources({
   factsCheckedAt,
   sourceUrls,
@@ -324,11 +650,28 @@ export function ComparisonSources({
     return null;
   }
   return (
-    <p className={styles.sources}>
-      {factsCheckedAt ? `Facts checked ${factsCheckedAt}. ` : null}
-      {sourceUrls && sourceUrls.length > 0
-        ? `Sources: ${sourceUrls.join(" · ")}`
-        : null}
-    </p>
+    <div className={styles.sources}>
+      {factsCheckedAt ? <span>Facts checked {factsCheckedAt}.</span> : null}
+      {sourceUrls && sourceUrls.length > 0 ? (
+        <span className={styles.sourcesTrigger} tabIndex={0}>
+          Sources
+          <span className={styles.sourcesTooltip} role="tooltip">
+            <span className={styles.sourcesTooltipCard}>
+              {sourceUrls.map((url) => (
+                <a
+                  key={url}
+                  className={styles.sourcesTooltipLink}
+                  href={url}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                >
+                  {sourceUrlLabel(url)}
+                </a>
+              ))}
+            </span>
+          </span>
+        </span>
+      ) : null}
+    </div>
   );
 }

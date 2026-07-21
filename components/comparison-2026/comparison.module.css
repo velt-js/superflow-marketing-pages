@@ -33,7 +33,12 @@
   background-color: var(--cmp-card);
   background-image: url("/images/home-2026/hero/hero-gradient.png");
   background-repeat: no-repeat;
-  background-size: 100% 860px;
+  /* Oversize the gradient past the hero's height (never shorter than the
+     bitmap's native 860px) so its pale bottom tail falls below the fold and
+     tall heroes — e.g. the arbiter class with its disclosure + anchor chips —
+     keep white type on blue all the way down; `.heroFade` still hands the
+     last 140px off to the white page. */
+  background-size: 100% max(135%, 900px);
   background-position: top center;
 }
 
@@ -60,6 +65,34 @@
   padding: calc(var(--site-nav-height) + 56px) var(--cmp-gutter) 150px;
 }
 
+/* Split hero (Figma 1061:2160): kicker + serif headline on the left,
+   standfirst on the right, both bottom-aligned on the blue gradient. */
+.heroInnerWide {
+  max-width: calc(1200px + var(--cmp-gutter) * 2);
+  align-items: stretch;
+  text-align: left;
+  gap: 0;
+}
+
+.heroSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 32px 110px;
+  align-items: end;
+  width: 100%;
+}
+
+.heroSplitMain {
+  display: grid;
+  gap: 26px;
+  justify-items: start;
+}
+
+.heroSplitAside {
+  display: grid;
+  gap: 14px;
+}
+
 .heroKicker {
   margin: 0;
   font-family: var(--cmp-font-ui);
@@ -81,6 +114,35 @@
   text-wrap: balance;
 }
 
+.heroInnerWide .heroHeadline {
+  font-size: clamp(36px, 4.4vw, 60px);
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+}
+
+.heroStandfirst {
+  margin: 0;
+  max-width: 460px;
+  font-family: var(--cmp-font-body);
+  font-size: 17.5px;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Prevents pills + CTA pair under the split, left-aligned. */
+.heroActions {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  margin-top: 40px;
+}
+
+.heroActions .heroCtas {
+  justify-content: flex-start;
+  margin-top: 0;
+}
+
 .heroSecondary {
   margin: 0;
   max-width: 58ch;
@@ -92,31 +154,11 @@
   text-wrap: balance;
 }
 
-.heroPrevents {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 2px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.heroPreventsItem {
-  padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
 .heroQualifier {
   margin: 0;
   font-family: var(--cmp-font-body);
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .heroCtas {
@@ -174,49 +216,116 @@
 .heroMicrocopy {
   margin: 0;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .heroDateline {
   margin: 0;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.85);
   font-family: var(--cmp-font-body);
 }
 
-.anchorChips {
+/* ---- Hero "Pick X / Pick Y" cards (arbiter class, Figma 1061:2155) ---- */
+
+/* Soft gradient-tint tray around the pair of pick cards. */
+.pickCardsWrap {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-top: 56px;
+  padding: 12px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.pickCard {
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+  border-radius: 24px;
+  background: var(--cmp-card);
+  color: var(--cmp-ink);
+  text-align: left;
 }
 
-.anchorChip {
-  display: inline-flex;
-  align-items: center;
+.pickCardLogo {
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.pickCardBody {
+  display: grid;
   gap: 6px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  font-size: 12.5px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.08);
-  transition: background-color 0.15s ease;
 }
 
-.anchorChip:hover {
-  background: rgba(255, 255, 255, 0.18);
+.pickCardTitle {
+  margin: 0;
+  font-family: var(--cmp-font-ui);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  color: #000000;
 }
 
-.anchorChipNumber {
+.pickCardLine {
+  margin: 0;
   font-family: var(--cmp-font-body);
-  font-size: 11px;
-  opacity: 0.75;
+  font-size: 15.5px;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Shared line + disclosure + dateline centered under the pick cards, in ink
+   — by then the gradient has faded to its pale tail. */
+.heroFootnotes {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  text-align: center;
+  color: var(--cmp-ink);
+}
+
+.heroFootnoteLead {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(30, 30, 31, 0.72);
+}
+
+.heroFootnoteFine {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(30, 30, 31, 0.62);
+}
+
+/* ---- Product-artifact windows (see ComparisonArtifact.tsx) ---- */
+
+/* Hero product window: pulled up over the hero's bottom fade so the page
+   opens on the product, homepage-style. */
+.heroArtifact {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--cmp-max-width) + var(--cmp-gutter) * 2);
+  margin: -96px auto 0;
+  padding: 0 var(--cmp-gutter);
+}
+
+/* Artifact inside the alternatives Entry 01 lead card. */
+.entryArtifact {
+  margin: 10px 0 6px;
 }
 
 /* ---- Generic sections ---- */
@@ -226,11 +335,23 @@
   width: 100%;
   max-width: calc(var(--cmp-max-width) + var(--cmp-gutter) * 2);
   margin: 0 auto;
-  padding: 56px var(--cmp-gutter);
+  padding: 76px var(--cmp-gutter);
 }
 
 .sectionNarrow {
   max-width: calc(var(--cmp-narrow-width) + var(--cmp-gutter) * 2);
+}
+
+/* Centered section header (kicker + heading + lead), e.g. the scorecard. */
+.sectionCentered .sectionKicker,
+.sectionCentered .sectionHeading {
+  text-align: center;
+}
+
+.sectionCentered .sectionLead {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .sectionKicker {
@@ -271,121 +392,131 @@
   white-space: pre-line;
 }
 
-/* ---- Disclosure / short answer (arbiter class) ---- */
+/* ---- Dimension panels (Figma 1061:2236) ---- */
 
-.disclosure {
-  box-sizing: border-box;
-  max-width: 640px;
-  margin: 4px auto 0;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.5);
-  font-family: var(--cmp-font-body);
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.shortAnswerCard {
+.dimensionStack {
   display: grid;
-  gap: 14px;
-  padding: 28px 30px;
-  border-radius: 18px;
-  border: 1px solid var(--cmp-line);
-  background: linear-gradient(180deg, #fbfdff 0%, #f4f8fe 100%);
-  box-shadow: 0 1px 2px rgba(30, 30, 31, 0.04);
+  gap: 24px;
 }
-
-.shortAnswerLine {
-  margin: 0;
-  font-family: var(--cmp-font-body);
-  font-size: 16.5px;
-  line-height: 1.6;
-  color: var(--cmp-ink);
-}
-
-.shortAnswerLine strong {
-  font-weight: 600;
-}
-
-/* ---- Dimensions ---- */
 
 .dimension {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  scroll-margin-top: calc(var(--site-nav-height) + 24px);
 }
 
-.dimensionHeader {
+/* One dimension = one soft gray panel: intro + verdict on the left, the two
+   tool fact cards stacked on the right. */
+.dimensionPanel {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 44px 52px;
+  padding: 52px;
+  border-radius: 52px;
+  background: linear-gradient(180deg, #f8f8f8 0%, #f4f4f4 100%);
+}
+
+.dimensionIntro {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin: 36px 0 6px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
 }
 
-.dimensionNumber {
-  font-family: var(--cmp-font-body);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--cmp-accent);
-  letter-spacing: 1px;
+.dimensionIntroTop {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+
+.dimensionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-family: var(--cmp-font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #ffffff;
 }
 
 .dimensionLabel {
   margin: 0;
   font-family: var(--cmp-font-display);
   font-weight: 400;
-  font-size: clamp(21px, 2.4vw, 26px);
-  letter-spacing: -0.5px;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -1.2px;
   color: var(--cmp-ink);
 }
 
 .dimensionFraming {
-  margin: 0 0 18px;
+  margin: 4px 0 0;
+  max-width: 46ch;
   font-family: var(--cmp-font-body);
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.6;
   color: var(--cmp-muted);
+}
+
+.dimensionVerdict {
+  display: grid;
+  gap: 16px;
+  max-width: 380px;
+}
+
+.verdictText {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: rgba(30, 30, 31, 0.75);
+}
+
+.dimensionCards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .cardPair {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 20px;
 }
 
 .factCard {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 22px 24px;
-  border-radius: 16px;
-  border: 1px solid var(--cmp-line);
-  background: #ffffff;
+  gap: 18px;
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--cmp-card);
 }
 
 .factCardLead {
-  border-color: rgba(26, 120, 224, 0.35);
-  background: linear-gradient(180deg, #ffffff 0%, var(--cmp-accent-soft) 140%);
+  border-color: rgba(26, 120, 224, 0.28);
 }
 
+/* Tool-name header: 24px logo + bold name, per the panel cards in Figma. */
 .factCardName {
   margin: 0;
-  font-size: 13px;
+  font-family: var(--cmp-font-ui);
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--cmp-ink);
-}
-
-.factCardLead .factCardName {
-  color: var(--cmp-accent);
+  letter-spacing: -0.4px;
+  color: #000000;
 }
 
 .factList {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -397,7 +528,7 @@
   font-family: var(--cmp-font-body);
   font-size: 14.5px;
   line-height: 1.55;
-  color: var(--cmp-ink);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .factItem::before {
@@ -405,11 +536,10 @@
   position: absolute;
   left: 0;
   top: 9px;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: currentColor;
-  opacity: 0.4;
 }
 
 .factVerified {
@@ -419,27 +549,46 @@
   color: var(--cmp-muted);
 }
 
-.verdict {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-  margin: 16px 0 0;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: rgba(30, 30, 31, 0.035);
+/* "Verdict" label with the award glyph (purple, per Figma 1061:2302). */
+.verdictTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
   font-family: var(--cmp-font-body);
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: var(--cmp-ink);
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: #6552ff;
 }
 
-.verdictTag {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
+/* ---- Pricing note (arbiter class) ---- */
+
+.pricingNote {
+  display: grid;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+/* "Both columns verified …" lead, lifted out of the prose. */
+.pricingIntro {
+  margin: 0;
+  font-family: var(--cmp-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   text-transform: uppercase;
-  color: var(--cmp-accent);
+  color: var(--cmp-muted);
+}
+
+/* The comparative takeaway, styled like the dimension-panel verdict. */
+.pricingTakeaway {
+  display: grid;
+  gap: 12px;
+  max-width: 640px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #f8f8f8 0%, #f4f4f4 100%);
 }
 
 /* ---- Scorecard table ---- */
@@ -496,9 +645,9 @@
 
 .entryCard {
   display: grid;
-  gap: 10px;
-  margin-top: 18px;
-  padding: 24px 26px;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 30px 32px;
   border-radius: 16px;
   border: 1px solid var(--cmp-line);
   background: #ffffff;
@@ -558,48 +707,145 @@
   text-decoration: underline;
 }
 
-/* ---- Criteria list (alternatives class) ---- */
+/* ---- Criteria grid inside the blueprint frame (Figma 1061:2384) ---- */
+
+/* Full-bleed section so the shared homepage BlueprintFrame's rules cross the
+   whole viewport; generous vertical padding keeps content inside the frame's
+   88px rule insets. */
+.criteriaSection {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 150px var(--cmp-gutter);
+  background: var(--cmp-card);
+}
+
+.criteriaInner {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  max-width: var(--cmp-max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr);
+  gap: 48px 64px;
+  align-items: start;
+}
+
+.criteriaHead {
+  display: grid;
+  gap: 36px;
+  justify-items: start;
+  align-content: start;
+}
+
+.criteriaHeadIcon {
+  display: inline-flex;
+  color: var(--cmp-accent);
+}
+
+.criteriaHeading {
+  margin: 0;
+  max-width: 320px;
+  font-family: var(--cmp-font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  color: var(--cmp-ink);
+}
 
 .criteriaGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 20px;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: criteria;
 }
 
 .criteriaItem {
-  counter-increment: criteria;
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--cmp-line);
-  background: #ffffff;
+  display: grid;
 }
 
-.criteriaItem::before {
-  content: counter(criteria, decimal-leading-zero);
-  font-family: var(--cmp-font-body);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--cmp-accent);
+.criteriaCard {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 30px 32px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  background: var(--cmp-card);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+a.criteriaCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(26, 120, 224, 0.35);
+  box-shadow: 0 8px 24px rgba(30, 30, 31, 0.07);
+}
+
+/* Small colored number badge, one hue per criterion. */
+.criteriaBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-family: var(--cmp-font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #ffffff;
 }
 
 .criteriaLabel {
-  font-family: var(--cmp-font-ui);
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--cmp-ink);
+  font-family: var(--cmp-font-body);
+  font-size: 16.5px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  color: rgba(30, 30, 31, 0.78);
 }
 
 .criteriaLine {
   font-family: var(--cmp-font-body);
-  font-size: 13.5px;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--cmp-muted);
+}
+
+/* ---- One-shot scroll entrance (ComparisonReveal) ---- */
+
+/* Before reveal: head and cards sit slightly low and transparent. Cards
+   stagger via --reveal-delay set inline per item. */
+.reveal .criteriaHead,
+.reveal .criteriaItem {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 600ms ease var(--reveal-delay, 0ms),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.revealVisible .criteriaHead,
+.revealVisible .criteriaItem {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .criteriaHead,
+  .reveal .criteriaItem {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ---- Stay card / honest close / third option ---- */
@@ -694,12 +940,82 @@
 }
 
 .sources {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   margin: 18px 0 0;
   font-family: var(--cmp-font-body);
   font-size: 12.5px;
   line-height: 1.7;
   color: var(--cmp-muted);
+}
+
+/* "Sources" trigger — hover or keyboard focus reveals the tooltip card. */
+.sourcesTrigger {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--cmp-ink);
+  text-decoration: underline dotted rgba(30, 30, 31, 0.4);
+  text-underline-offset: 3px;
+  outline: none;
+}
+
+.sourcesTrigger:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--cmp-accent);
+  outline-offset: 2px;
+}
+
+/* Transparent hover bridge: the tooltip opens below the trigger (clear of
+   the sticky nav) and carries the visual gap as padding, so the pointer
+   never leaves :hover while travelling from the trigger into the card. */
+.sourcesTooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  padding-top: 10px;
+  width: min(380px, 78vw);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.sourcesTrigger:hover .sourcesTooltip,
+.sourcesTrigger:focus-visible .sourcesTooltip,
+.sourcesTrigger:focus-within .sourcesTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.sourcesTooltipCard {
+  display: grid;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--cmp-line);
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(30, 30, 31, 0.14);
+}
+
+.sourcesTooltipLink {
+  font-family: var(--cmp-font-body);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--cmp-ink);
+  text-decoration: none;
   overflow-wrap: anywhere;
+}
+
+.sourcesTooltipLink:hover {
+  color: var(--cmp-accent);
+  text-decoration: underline;
 }
 
 /* ---- Hub ---- */
@@ -776,8 +1092,47 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .criteriaGrid {
+  .heroSplit {
     grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .heroStandfirst {
+    max-width: 56ch;
+  }
+
+  .pickCardsWrap {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+  }
+
+  .pickCard {
+    padding: 30px 28px;
+  }
+
+  .criteriaSection {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+
+  .criteriaInner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .criteriaHeading {
+    max-width: none;
+  }
+
+  .dimensionPanel {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 32px 28px;
+    border-radius: 36px;
+  }
+
+  .dimensionVerdict {
+    max-width: none;
   }
 }
 
@@ -808,12 +1163,29 @@
   }
 
   .section {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .heroArtifact {
+    margin-top: -40px;
   }
 
   .hubGrid {
     grid-template-columns: 1fr;
+  }
+
+  .criteriaSection {
+    padding-top: 104px;
+    padding-bottom: 104px;
+  }
+
+  .criteriaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .criteriaCard {
+    padding: 24px;
   }
 
   .ctaBand {

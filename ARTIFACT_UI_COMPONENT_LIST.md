@@ -915,6 +915,37 @@ visual lockstep. Geometry mirrors Figma node `925:2667`.
   the right mock — either the tab's explicit `mock` value or, as a fallback, its
   label via `COMMENTS_TAB_MOCKS` / `COMMENTS_BLOCK_MOCKS`.
 
+## Comparison / Alternative Page Artifacts
+
+The `/preview/comparison` and `/preview/alternative` pages reuse the hero
+artifacts verbatim inside `components/comparison-2026/ComparisonArtifact.tsx`
+(`ComparisonArtifactWindow`): a black 2px-reveal frame (matching the homepage
+hero `.window`) whose white screen holds the artifact on its native
+1200 × 578 canvas, uniformly scaled to the container width via a
+ResizeObserver (`ComparisonArtifact.module.css`), plus a muted caption line.
+
+- Registry (in `ComparisonArtifact.tsx`): `agents-at-work` →
+  `AgentsAtWorkArtifact`, `client-approves` →
+  `HeroClientReviewMagicLinkArtifact`, `behind-login` →
+  `HeroAuthBehindPasswordArtifact`, `private-thread` →
+  `HeroPrivateTeamThreadArtifact`, `captured-context` →
+  `HeroScreenshotCaptureArtifact`, `client-memory` →
+  `HeroClientMemoryArtifact`, `integrations` → `IntegrationsArtifact`.
+- `comparisonArtifactMap.ts` (server-safe, no `"use client"`) holds the
+  `ComparisonArtifactName` union so server page bodies can reference artifact
+  keys without crossing the client boundary.
+- Placement: vs pages render the `agents-at-work` window under the hero
+  (captioned by the doc's `heroCaption`); dimension panels carry no
+  artifacts. Alternatives pages render `agents-at-work` inside the Superflow
+  Entry 01 card. Arbiter (neutral x-vs-y) pages render `agents-at-work` only
+  inside the third-option module.
+- The criteria overview on all three classes is `ComparisonCriteriaGrid`
+  (`ComparisonSections.tsx`): a full-bleed section wrapped in the homepage
+  `BlueprintFrame` (same draw-in entrance), with the numbered color-badge
+  cards staggered in by `ComparisonReveal` (`--reveal-delay`). Badge colors
+  live in `comparisonBadges.ts` (server-safe) and are shared with the
+  dimension-panel number badges.
+
 ## Adding Another Artifact
 
 1. Reuse `PinnedCommentScene` (+ `cardProps`) first; drop to `PinScene` /

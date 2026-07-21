@@ -1,25 +1,60 @@
+import Image from "next/image";
+
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
 import styles from "./comparison.module.css";
+import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
-  ComparisonAnchorChips,
+  ComparisonCriteriaGrid,
   ComparisonDimensionSection,
+  ComparisonPricingNote,
   ComparisonRelatedLinks,
   ComparisonScorecardTable,
   ComparisonSmartLink,
   ComparisonSources,
+  criteriaItemsFromDimensions,
   CTA_MICROCOPY,
   SIGNUP_URL,
 } from "./ComparisonSections";
+import { getToolLogoSrc } from "./toolLogos";
 import type { ComparisonArbiterDoc } from "./types";
 
 /**
- * The arbiter class: /preview/comparison/<x>-vs-<y>. Neutral body: no
- * Prevents lines, no qualifier, no logo strip, no CTAs in the hero, and
- * Superflow appears exactly once, in the third-option module, after a
- * rendered disclosure in the hero.
+ * One hero "Pick X" card (Figma 1061:2142): the tool's logo, a bold
+ * "Pick {name}" title and the pick line from the doc.
+ */
+function HeroPickCard({ name, line }: { name: string; line: string }) {
+  const logoSrc = getToolLogoSrc(name);
+  return (
+    <div className={styles.pickCard}>
+      {logoSrc ? (
+        <Image
+          src={logoSrc}
+          alt=""
+          aria-hidden="true"
+          width={40}
+          height={40}
+          className={styles.pickCardLogo}
+          unoptimized
+        />
+      ) : null}
+      <div className={styles.pickCardBody}>
+        <p className={styles.pickCardTitle}>Pick {name}</p>
+        <p className={styles.pickCardLine}>{line}</p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The arbiter class: /preview/comparison/<x>-vs-<y>. Neutral body per the
+ * Figma 1061 redesign: a split hero (kicker + serif headline left, standfirst
+ * right) with the short-answer "Pick X / Pick Y" cards and the rendered
+ * disclosure + dateline beneath, the blueprint-framed criteria grid, the
+ * dimension panels, scorecard, pricing note, and the third-option module —
+ * the only place Superflow appears.
  */
 export default function ComparisonArbiterPageBody({
   doc,
@@ -34,63 +69,72 @@ export default function ComparisonArbiterPageBody({
       <SiteNav />
 
       <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          {doc?.kicker ? <p className={styles.heroKicker}>{doc.kicker}</p> : null}
-          <h1 className={styles.heroHeadline}>{doc?.headline ?? doc?.title}</h1>
-          {doc?.standfirst ? (
-            <p className={styles.heroSecondary}>{doc.standfirst}</p>
+        <div className={`${styles.heroInner} ${styles.heroInnerWide}`}>
+          <div className={styles.heroSplit}>
+            <div className={styles.heroSplitMain}>
+              {doc?.kicker ? (
+                <p className={styles.heroKicker}>{doc.kicker}</p>
+              ) : null}
+              <h1 className={styles.heroHeadline}>
+                {doc?.headline ?? doc?.title}
+              </h1>
+            </div>
+            {doc?.standfirst ? (
+              <p className={styles.heroStandfirst}>{doc.standfirst}</p>
+            ) : null}
+          </div>
+
+          {doc?.shortAnswerPickLeft || doc?.shortAnswerPickRight ? (
+            <div className={styles.pickCardsWrap}>
+              {doc?.shortAnswerPickLeft ? (
+                <HeroPickCard name={leftName} line={doc.shortAnswerPickLeft} />
+              ) : null}
+              {doc?.shortAnswerPickRight ? (
+                <HeroPickCard
+                  name={rightName}
+                  line={doc.shortAnswerPickRight}
+                />
+              ) : null}
+            </div>
           ) : null}
-          {doc?.disclosure ? (
-            <p className={styles.disclosure}>{doc.disclosure}</p>
-          ) : null}
-          {doc?.dateline ? (
-            <p className={styles.heroDateline}>{doc.dateline}</p>
-          ) : null}
-          <ComparisonAnchorChips dimensions={doc?.dimensions} />
+
+          <div className={styles.heroFootnotes}>
+            {doc?.shortAnswerShared ? (
+              <p className={styles.heroFootnoteLead}>{doc.shortAnswerShared}</p>
+            ) : null}
+            {doc?.disclosure ? (
+              <p className={styles.heroFootnoteLead}>{doc.disclosure}</p>
+            ) : null}
+            {doc?.dateline ? (
+              <p className={styles.heroFootnoteFine}>{doc.dateline}</p>
+            ) : null}
+          </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>
 
-      {doc?.shortAnswerPickLeft || doc?.shortAnswerPickRight ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
-          <p className={styles.sectionKicker}>The short answer</p>
-          <div className={styles.shortAnswerCard}>
-            {doc?.shortAnswerPickLeft ? (
-              <p className={styles.shortAnswerLine}>
-                <strong>Pick {leftName}</strong> {doc.shortAnswerPickLeft}
-              </p>
-            ) : null}
-            {doc?.shortAnswerPickRight ? (
-              <p className={styles.shortAnswerLine}>
-                <strong>Pick {rightName}</strong> {doc.shortAnswerPickRight}
-              </p>
-            ) : null}
-            {doc?.shortAnswerShared ? (
-              <p className={styles.shortAnswerLine}>{doc.shortAnswerShared}</p>
-            ) : null}
+      <ComparisonCriteriaGrid
+        items={criteriaItemsFromDimensions(doc?.dimensions)}
+      />
+
+      {doc?.dimensions && doc.dimensions.length > 0 ? (
+        <section className={styles.section}>
+          <div className={styles.dimensionStack}>
+            {doc.dimensions.map((dimension, dimensionIndex) => (
+              <ComparisonDimensionSection
+                key={dimension.label}
+                dimension={dimension}
+                leftName={leftName}
+                rightName={rightName}
+                index={dimensionIndex}
+              />
+            ))}
           </div>
         </section>
       ) : null}
 
-      {doc?.dimensions && doc.dimensions.length > 0 ? (
-        <section className={styles.section}>
-          <p className={styles.sectionKicker}>The dimensions</p>
-          <h2 className={styles.sectionHeading}>
-            {leftName} vs {rightName}, dimension by dimension.
-          </h2>
-          {doc.dimensions.map((dimension) => (
-            <ComparisonDimensionSection
-              key={dimension.label}
-              dimension={dimension}
-              leftName={leftName}
-              rightName={rightName}
-            />
-          ))}
-        </section>
-      ) : null}
-
       {doc?.scorecard && doc.scorecard.length > 0 ? (
-        <section className={styles.section}>
+        <section className={`${styles.section} ${styles.sectionCentered}`}>
           <p className={styles.sectionKicker}>The scorecard</p>
           <h2 className={styles.sectionHeading}>
             {leftName} vs {rightName}, row by row.
@@ -108,12 +152,16 @@ export default function ComparisonArbiterPageBody({
       ) : null}
 
       {doc?.pricingNote ? (
-        <section className={`${styles.section} ${styles.sectionNarrow}`}>
+        <section className={styles.section}>
           <p className={styles.sectionKicker}>Pricing, side by side</p>
           <h2 className={styles.sectionHeading}>
             The sticker and the math are different numbers.
           </h2>
-          <p className={styles.bodyText}>{doc.pricingNote}</p>
+          <ComparisonPricingNote
+            note={doc.pricingNote}
+            leftName={leftName}
+            rightName={rightName}
+          />
         </section>
       ) : null}
 
@@ -122,6 +170,7 @@ export default function ComparisonArbiterPageBody({
           <p className={styles.sectionKicker}>The third option</p>
           <div className={styles.thirdOption}>
             <p className={styles.bodyText}>{doc.thirdOptionBody}</p>
+            <ComparisonArtifactWindow name="agents-at-work" />
             {doc?.thirdOptionLinks && doc.thirdOptionLinks.length > 0 ? (
               <div className={styles.entryLinks}>
                 {doc.thirdOptionLinks.map((link) => (
@@ -138,7 +187,7 @@ export default function ComparisonArbiterPageBody({
                 Start free
               </a>
             </div>
-            <p className={styles.criteriaLine}>{CTA_MICROCOPY}</p>
+            <p className={styles.heroFootnoteFine}>{CTA_MICROCOPY}</p>
           </div>
         </section>
       ) : null}
