@@ -772,6 +772,10 @@
   box-sizing: border-box;
   max-width: var(--cmp-max-width);
   margin: 0 auto;
+  /* Breathing room between the BlueprintFrame's vertical rails (which sit at
+     the edges of the 1200px zone) and the heading / cards, so the content
+     never touches the rule-lines. */
+  padding: 0 clamp(28px, 4vw, 60px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr);
   gap: 48px 64px;
@@ -1343,6 +1347,12 @@ a.criteriaCard:hover {
 
   .criteriaGrid {
     grid-template-columns: 1fr;
+  }
+
+  /* Rails hug the viewport edge (20px) on phones while the section gutter is
+     already 24px, so only a small extra inset is needed here. */
+  .criteriaInner {
+    padding: 0 8px;
   }
 
   .criteriaCard {
