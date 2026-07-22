@@ -1,5 +1,5 @@
-import Nav from "@/components/home/Nav";
-import Footer from "@/components/home/Footer";
+import SiteNav from "@/components/home-2026/SiteNav";
+import SiteFooter from "@/components/home-2026/SiteFooter";
 import IntercomButton from "@/components/home/IntercomButton";
 import Calculator from "@/components/calculator/Calculator";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -22,9 +22,9 @@ export default function CalculatorPage() {
         path="/calculator"
         trail={[{ name: "Creative Review ROI Calculator", url: `${SITE_URL}/calculator` }]}
       />
-      <Nav />
+      <SiteNav />
       <Calculator />
-      <Footer />
+      <SiteFooter />
       <IntercomButton />
     </main>
   );

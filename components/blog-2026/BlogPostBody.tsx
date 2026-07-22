@@ -52,7 +52,7 @@ export default function BlogPostBody({ post }: BlogPostBodyProps) {
 
   return (
     <main className={styles.page}>
-      <SiteNav />
+      <SiteNav solidAtTop />
 
       <header className={styles.header}>
         <div className={styles.headerInner}>

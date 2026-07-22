@@ -1,0 +1,488 @@
+/* Creative Review ROI Calculator — 2026 redesign (light).
+   Mirrors the homepage design language: the blue gradient hero bitmap
+   (components/home-2026/Hero.module.css) introduces the tool and fades into a
+   white stage that carries the interactive calculator, matching the homepage's
+   light content sections (e.g. components/home-2026/ProblemSection).
+   Adamina display headlines, Urbanist UI, orange #e17a15 accent, 32px pill CTAs. */
+
+.page {
+  --calc-ink: #1e1e1f;
+  --calc-card: #feffff;
+  --calc-accent: #e17a15;
+  --calc-loss: #e5484d;
+  --calc-muted: rgba(30, 30, 31, 0.6);
+  --calc-font-display: var(--font-adamina), Georgia, serif;
+  --calc-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --calc-font-body: var(--font-poppins), system-ui, sans-serif;
+  --calc-font-mono: ui-monospace, "Geist Mono", SFMono-Regular, Menlo, Consolas,
+    monospace;
+  /* Height of the fixed SiteNav overlay; reserved as hero top padding so the
+     headline is never hidden behind it. Keep in sync with SiteNav's height. */
+  --site-nav-height: 70px;
+
+  width: 100%;
+  background: var(--calc-card);
+  font-family: var(--calc-font-ui);
+}
+
+/* ------------------------------------------------------------------ Hero */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+  text-align: center;
+  background-color: var(--calc-card);
+  background-image: url("/images/home-2026/hero/hero-gradient.png");
+  background-repeat: no-repeat;
+  /* Tall crop (as on the homepage) so only the bitmap's saturated blue shows
+     within the hero; the .heroFade overlay below dissolves its lower edge into
+     the white stage so there is never a hard blue-to-white seam. */
+  background-size: 100% 1150px;
+  background-position: top center;
+}
+
+/* Fades the hero's lower edge into the white stage below. */
+.heroFade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(254, 255, 255, 0) 0%, var(--calc-card) 92%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: calc(var(--site-nav-height) + 64px) 24px clamp(72px, 9vw, 104px);
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--calc-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--calc-font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 4.8vw, 56px);
+  line-height: 1.14;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+}
+
+.subhead {
+  margin: 0;
+  max-width: 54ch;
+  font-family: var(--calc-font-body);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.34px;
+  color: rgba(255, 255, 255, 0.78);
+  text-wrap: balance;
+}
+
+/* ----------------------------------------------------------------- Stage */
+
+.stage {
+  position: relative;
+  background: var(--calc-card);
+  color: var(--calc-ink);
+  overflow: hidden;
+}
+
+.stageInner {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 64px) 24px clamp(88px, 10vw, 140px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(40px, 5vw, 64px);
+}
+
+/* ---- Money display ---- */
+
+.display {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.valueWrap {
+  position: relative;
+  width: 100%;
+  min-height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ghost "Money Lost" stroke text sitting behind the figure. */
+.valueGhost {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  font-family: var(--calc-font-display);
+  font-weight: 400;
+  font-size: clamp(64px, 10vw, 140px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(229, 72, 77, 0.22);
+}
+
+.value {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--calc-font-display);
+  font-weight: 400;
+  font-size: clamp(68px, 11vw, 156px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--calc-ink);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.valueLost {
+  color: var(--calc-loss);
+  text-shadow: 0 0 52px rgba(229, 72, 77, 0.18);
+}
+
+.formula {
+  margin: 0;
+  text-align: center;
+  font-family: var(--calc-font-body);
+  font-weight: 400;
+  font-size: clamp(16px, 1.8vw, 22px);
+  letter-spacing: -0.01em;
+  color: var(--calc-muted);
+}
+
+.formulaOperator {
+  color: rgba(30, 30, 31, 0.34);
+  padding: 0 0.5ch;
+}
+
+.formulaResult {
+  color: var(--calc-ink);
+  font-weight: 500;
+}
+
+/* ---- Role chips ---- */
+
+.roles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  transition: opacity 0.4s ease;
+}
+
+.rolesHidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.roleChip {
+  --role-color: rgba(30, 30, 31, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 22px;
+  border-radius: 32px;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  color: rgba(30, 30, 31, 0.42);
+  font-family: var(--calc-font-ui);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.roleChip:hover {
+  border-color: rgba(0, 0, 0, 0.24);
+  color: rgba(30, 30, 31, 0.7);
+}
+
+/* Active chip: role-color border and a faint role-color wash, with ink text so
+   every role (incl. light yellows) stays legible on white. */
+.roleChipActive,
+.roleChipActive:hover {
+  border-color: var(--role-color);
+  background: color-mix(in srgb, var(--role-color) 10%, #ffffff);
+  color: var(--calc-ink);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--role-color) 20%, transparent);
+}
+
+.roleChip:focus-visible {
+  outline: 2px solid var(--calc-accent);
+  outline-offset: 2px;
+}
+
+.roleName {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* A small color dot carries the role's brand color on the active chip. */
+.roleDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--role-color);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.roleChipActive .roleDot {
+  opacity: 1;
+}
+
+.roleRate {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--calc-muted);
+}
+
+.roleChipActive .roleRate {
+  color: rgba(30, 30, 31, 0.7);
+}
+
+/* ---- Hours slider ---- */
+
+.slider {
+  width: 100%;
+  max-width: 1080px;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.track {
+  position: relative;
+  height: 56px;
+}
+
+.trackLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 27px;
+  height: 1.5px;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.stop {
+  position: absolute;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.stop:focus-visible {
+  outline: none;
+}
+
+.stop:focus-visible .thumbDot,
+.stop:focus-visible .thumb {
+  outline: 2px solid var(--calc-accent);
+  outline-offset: 4px;
+}
+
+.thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--calc-accent);
+  box-shadow: 0 10px 32px rgba(225, 122, 21, 0.4),
+    0 0 0 6px rgba(225, 122, 21, 0.12);
+}
+
+.thumbDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.28);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stop:hover .thumbDot {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.stopLabels {
+  position: relative;
+  height: 56px;
+  margin-top: 24px;
+}
+
+.stopLabel {
+  position: absolute;
+  top: 0;
+  width: 72px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--calc-font-ui);
+}
+
+.stopLabelTop {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  color: rgba(30, 30, 31, 0.4);
+  transition: color 0.15s ease;
+}
+
+.stopLabelBottom {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgba(30, 30, 31, 0.4);
+  transition: color 0.15s ease;
+}
+
+.stopLabelActive .stopLabelTop {
+  color: var(--calc-ink);
+}
+
+.stopLabelActive .stopLabelBottom {
+  color: rgba(30, 30, 31, 0.7);
+}
+
+.hoursLabel {
+  margin: 0;
+  text-align: center;
+  font-family: var(--calc-font-mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--calc-muted);
+}
+
+/* ---- Section CTA (mirrors the homepage light-section pairing) ---- */
+
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14.4px 24px;
+  border-radius: 32px;
+  font-family: var(--calc-font-ui);
+  font-weight: 600;
+  font-size: 19.2px;
+  line-height: 24px;
+  letter-spacing: 0.192px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease,
+    border-color 0.18s ease, transform 0.18s ease;
+}
+
+.btnOutline {
+  border: 1.5px solid var(--calc-ink);
+  color: var(--calc-ink);
+  background: transparent;
+}
+
+.btnOutline:hover {
+  background: var(--calc-ink);
+  color: #ffffff;
+}
+
+.btnFilled {
+  border: 1.5px solid var(--calc-ink);
+  background: var(--calc-ink);
+  color: #ffffff;
+}
+
+.btnFilled:hover {
+  transform: translateY(-1px);
+  background: #000000;
+  border-color: #000000;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    background-size: 100% 1000px;
+  }
+
+  .heroInner {
+    padding: calc(var(--site-nav-height) + 40px) 20px clamp(56px, 12vw, 88px);
+  }
+
+  .stageInner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .slider {
+    padding: 0 20px;
+  }
+
+  .stopLabelTop {
+    font-size: 16px;
+  }
+}
