@@ -49,10 +49,11 @@ const HOME_BANDS = [
       "Superflow builds them from your checklist. They check every site and leave findings as comments. Every review teaches Memory more. The next project starts already knowing the client.",
     icon: "sparkles",
     accent: ACCENT_PLUM,
-    mock: "agent-gallery",
+    mock: "review-agents",
     tabs: [
       {
         _key: "agents-review",
+        mock: "review-agents",
         label: "AI Review Agents",
         icon: "robot",
         oneLiner:
@@ -62,6 +63,7 @@ const HOME_BANDS = [
       },
       {
         _key: "agents-memory",
+        mock: "client-memory",
         label: "Memory",
         icon: "database",
         oneLiner:
@@ -71,6 +73,7 @@ const HOME_BANDS = [
       },
       {
         _key: "agents-ask",
+        mock: "ask-ai",
         label: "Ask AI",
         icon: "message-chatbot",
         oneLiner:
@@ -91,6 +94,7 @@ const HOME_BANDS = [
     tabs: [
       {
         _key: "comments-pinned",
+        mock: "pinned-comments",
         label: "Pinned Comments",
         icon: "pin",
         oneLiner: "Pinned to the element, holding through edits and redeploys.",
@@ -99,6 +103,7 @@ const HOME_BANDS = [
       },
       {
         _key: "comments-screenshot",
+        mock: "auto-screenshot",
         label: "Automatic Screenshots",
         icon: "camera",
         oneLiner:
@@ -109,6 +114,7 @@ const HOME_BANDS = [
       },
       {
         _key: "comments-private",
+        mock: "private-comments",
         label: "Private Comments",
         icon: "lock",
         oneLiner: "Internal-only notes your team sees and the client never does.",
@@ -118,6 +124,7 @@ const HOME_BANDS = [
       },
       {
         _key: "comments-live",
+        mock: "live-site",
         label: "Live Site",
         icon: "world",
         oneLiner: "Comment on the real site, not a stale copy of it.",
@@ -127,6 +134,7 @@ const HOME_BANDS = [
       },
       {
         _key: "comments-versioning",
+        mock: "versioning",
         label: "Versioning",
         icon: "history",
         oneLiner: "Every thread keeps the page versions it spanned.",
@@ -146,6 +154,7 @@ const HOME_BANDS = [
     tabs: [
       {
         _key: "approve-guest",
+        mock: "guest-mode",
         label: "Guest Mode",
         icon: "user-check",
         oneLiner:
@@ -155,6 +164,7 @@ const HOME_BANDS = [
       },
       {
         _key: "approve-login",
+        mock: "behind-login",
         label: "Behind Login",
         icon: "lock",
         oneLiner:
@@ -164,6 +174,7 @@ const HOME_BANDS = [
       },
       {
         _key: "approve-devices",
+        mock: "all-devices",
         label: "Mobile and Desktop",
         icon: "devices",
         oneLiner: "Both views, findings tagged by device.",
@@ -172,6 +183,7 @@ const HOME_BANDS = [
       },
       {
         _key: "approve-record",
+        mock: "record-walkthrough",
         label: "Record Walkthrough",
         icon: "video",
         oneLiner:
@@ -192,6 +204,7 @@ const HOME_BANDS = [
     tabs: [
       {
         _key: "tasks-statuses",
+        mock: "custom-statuses",
         label: "Custom Statuses",
         icon: "circle-check",
         oneLiner: "Built-in review statuses, plus your own custom ones.",
@@ -200,6 +213,7 @@ const HOME_BANDS = [
       },
       {
         _key: "tasks-workflows",
+        mock: "workflows",
         label: "Workflows",
         icon: "route",
         oneLiner: "Multi-step review flows with client gates and escalation rules.",
@@ -208,6 +222,7 @@ const HOME_BANDS = [
       },
       {
         _key: "tasks-kanban",
+        mock: "kanban",
         label: "Kanban",
         icon: "layout-kanban",
         oneLiner: "A built-in kanban board, or sync with the one you already run.",
@@ -216,6 +231,7 @@ const HOME_BANDS = [
       },
       {
         _key: "tasks-integrations",
+        mock: "integrations",
         label: "Integrations",
         icon: "plug",
         oneLiner:

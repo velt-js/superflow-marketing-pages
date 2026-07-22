@@ -49,6 +49,13 @@ export interface IntegrationPageBlockTab {
   href?: string;
   listOnly?: boolean;
   collapsesFirstTab?: boolean;
+  /**
+   * Which app-window mock renders when this tab is active. When omitted, the
+   * tab label is matched against {@link INSTALL_TAB_MOCKS} so the shared "home
+   * band" tabs reuse the same rich artifacts the homepage / feature pages show
+   * (instead of every tab falling back to the generic workflow canvas).
+   */
+  mock?: string;
 }
 
 /** One Feature Set block as returned by getIntegrationPreviewPageBySlug. */
@@ -130,6 +137,84 @@ const GET_STARTED_HEADING = "Connect in a minute";
 const CONNECTOR_HERO_ARTIFACT_PREFIX = "integrations-";
 
 /**
+ * Shared "home band" tab labels → the rich artifact mock the homepage /
+ * feature pages already use for that capability. The install pages (Webflow,
+ * WordPress, Google Tag Manager) replicate the four homepage feature groups but
+ * seed no per-tab mock, so every tab used to fall back to the generic "New
+ * Website Workflow" canvas — the same artifact repeating on all four blocks.
+ *
+ * Applied client-side (keyed by the slugified tab label, see {@link toLookupKey})
+ * so the correct artifacts render without a Sanity re-seed; an explicit CMS
+ * `tab.mock` still wins. Keys mirror the homepage {@link FEATURE_BLOCKS} tabs
+ * in `components/home-2026/FeatureSet.tsx`. The seed scripts carry the same
+ * per-tab mocks for anyone who re-seeds the dataset.
+ */
+const INSTALL_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  // Build Agents That Review, Comment, and Remember
+  "ai-review-agents": "review-agents",
+  memory: "client-memory",
+  "ask-ai": "ask-ai",
+  // Pin Comments That Capture, Survive, and Stay Private
+  "pinned-comments": "pinned-comments",
+  "automatic-screenshots": "auto-screenshot",
+  "private-comments": "private-comments",
+  "live-site": "live-site",
+  versioning: "versioning",
+  // Your Client Approves From a Link
+  "guest-mode": "guest-mode",
+  "behind-login": "behind-login",
+  "mobile-and-desktop": "all-devices",
+  "record-walkthrough": "record-walkthrough",
+  // Every Comment Becomes a Task
+  "custom-statuses": "custom-statuses",
+  workflows: "workflows",
+  kanban: "kanban",
+  integrations: "integrations",
+};
+
+/**
+ * Slugify a tab label into the lookup-key shape used by {@link INSTALL_TAB_MOCKS}
+ * (lowercase, `&` → `and`, non-alphanumerics collapsed to single hyphens).
+ * Mirrors the `toLookupKey` helper in `FeaturePageBody`.
+ *
+ * @param value - The source tab label.
+ * @returns A lowercase hyphenated key, or an empty string when unusable.
+ */
+function toLookupKey(value?: string | null): string {
+  try {
+    return (value ?? "")
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Resolve the artifact mock for an install-page tab: an explicit CMS `tab.mock`
+ * wins, else the tab label is matched against {@link INSTALL_TAB_MOCKS}.
+ *
+ * @param tab - The CMS tab.
+ * @returns The mock key, or `undefined` when neither source resolves one (so the
+ *   block-level mock is used).
+ */
+function resolveTabMock(
+  tab: IntegrationPageBlockTab,
+): FeatureSetMockName | undefined {
+  try {
+    return (
+      (tab?.mock as FeatureSetMockName | undefined) ??
+      INSTALL_TAB_MOCKS[toLookupKey(tab?.label)]
+    );
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -187,6 +272,7 @@ export function toFeatureSetBlock(
         href: tab.href ?? undefined,
         listOnly: tab.listOnly ?? undefined,
         collapsesFirstTab: tab.collapsesFirstTab ?? undefined,
+        mock: resolveTabMock(tab),
       }));
 
     return {
