@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
  * Seed the single `integrationPreviewHub` document that drives
- * /preview/integrations.
+ * /integrations.
  *
  * Reuses the 2026 homepage sections as a fixed template (no asset uploads).
  * Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integrations-list.md
  * ([bracketed] and *italic* build notes dropped). The catalog reuses the shared
  * FeatureSet: each family is a block whose tabs are list-only cards linking to
- * /preview/integrations/<slug>. Only connectors that have a shipped detail page
+ * /integrations/<slug>. Only connectors that have a shipped detail page
  * in this preview set are listed (Slack, Asana, Monday, ClickUp, Figma, Webflow,
  * WordPress, Google Tag Manager, plus the API/Webhooks page). The capability
  * matrix and trust strip are summarized into FAQ/description copy rather than
@@ -43,7 +43,7 @@ const ACCENT_GREEN = "#109534";
 const ACCENT_UMBER = "#e17a14";
 const ACCENT_PINK = "#d43f8d";
 
-const INTEGRATIONS_HREF = "/preview/integrations";
+const INTEGRATIONS_HREF = "/integrations";
 
 const doc = {
   _id: "integrationPreviewHub",

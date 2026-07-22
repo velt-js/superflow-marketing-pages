@@ -2,7 +2,7 @@
 /**
  * Seed the "WordPress" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/wordpress. Reuses the 2026 homepage sections
+ * Serves at /integrations/wordpress. Reuses the 2026 homepage sections
  * as a fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/wordpress/superflow-page-integration-wordpress-v3.md
  * (a v3 "home replica" page: hero + the four home bands + the plugin install).
@@ -220,7 +220,7 @@ const HOME_BANDS = [
         oneLiner:
           "One-click installs (WordPress, Webflow, Google Tag Manager); tasks sync two-way to Asana, Monday, ClickUp, with Slack notifications.",
         loss: "Without them, Superflow becomes one more silo to copy tasks out of.",
-        href: "/preview/integrations",
+        href: "/integrations",
       },
     ],
   },

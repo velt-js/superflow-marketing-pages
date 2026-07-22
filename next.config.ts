@@ -73,6 +73,17 @@ const nextConfig: NextConfig = {
         destination: "/:slug",
         permanent: true,
       },
+      // Integrations promoted from /preview/integrations to the live hub.
+      {
+        source: "/preview/integrations",
+        destination: "/integrations",
+        permanent: true,
+      },
+      {
+        source: "/preview/integrations/:slug",
+        destination: "/integrations/:slug",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

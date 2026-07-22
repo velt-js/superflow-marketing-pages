@@ -2,7 +2,7 @@
 /**
  * Seed the "Monday" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/monday. Reuses the 2026 homepage sections as a
+ * Serves at /integrations/monday. Reuses the 2026 homepage sections as a
  * fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-monday-v1-1.md
  * (vocabulary: items, boards, groups, columns — never "tasks"); [bracketed] and
@@ -203,7 +203,7 @@ const doc = {
             label: "Asana",
             icon: "layout-kanban",
             oneLiner: "Sign-offs close tasks, statuses stay matched, two-way.",
-            href: "/preview/integrations/asana",
+            href: "/integrations/asana",
             listOnly: true,
           },
           {
@@ -211,7 +211,7 @@ const doc = {
             label: "ClickUp",
             icon: "layout-kanban",
             oneLiner: "Same two-way sync, mapped to your statuses.",
-            href: "/preview/integrations/clickup",
+            href: "/integrations/clickup",
             listOnly: true,
           },
           {
@@ -227,7 +227,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

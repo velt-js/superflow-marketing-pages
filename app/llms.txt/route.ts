@@ -7,7 +7,7 @@ import {
   getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllFeatureSlugs,
-  getAllIntegrationSlugs,
+  getAllIntegrationPreviewSlugs,
   getAllReviewSlugs,
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
@@ -57,7 +57,7 @@ export async function GET() {
     featureSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
-    safeFetch(getAllIntegrationSlugs),
+    safeFetch(getAllIntegrationPreviewSlugs),
     safeFetch(getAllUseCaseSlugs),
     safeFetch(getAllCaseStudySlugs),
     safeFetch(getAllUserPersonaSlugs),

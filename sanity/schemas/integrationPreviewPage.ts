@@ -507,7 +507,7 @@ export const integrationPreviewPage = defineType({
     defineField({
       name: "slug",
       title: "Slug",
-      description: "Served at /preview/integrations/<slug>.",
+      description: "Served at /integrations/<slug>.",
       type: "slug",
       group: "identity",
       options: { source: "title", maxLength: 80 },

@@ -2,7 +2,7 @@
 /**
  * Seed the "Asana" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/asana. Reuses the 2026 homepage sections as a
+ * Serves at /integrations/asana. Reuses the 2026 homepage sections as a
  * fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-asana-v1-1.md;
  * [bracketed] and *italic* build/FLAG notes are dropped, and the shared trust
@@ -203,7 +203,7 @@ const doc = {
             label: "Monday",
             icon: "layout-kanban",
             oneLiner: "Same two-way sync, mapped to your columns.",
-            href: "/preview/integrations/monday",
+            href: "/integrations/monday",
             listOnly: true,
           },
           {
@@ -211,7 +211,7 @@ const doc = {
             label: "ClickUp",
             icon: "layout-kanban",
             oneLiner: "Same two-way sync, mapped to your statuses.",
-            href: "/preview/integrations/clickup",
+            href: "/integrations/clickup",
             listOnly: true,
           },
           {
@@ -235,7 +235,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

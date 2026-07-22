@@ -13,7 +13,7 @@
  * document for figma while the hold stands.
  * =========================================================================
  *
- * Serves at /preview/integrations/figma. Reuses the 2026 homepage sections as a
+ * Serves at /integrations/figma. Reuses the 2026 homepage sections as a
  * fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-figma-v1-1.md;
  * [bracketed] and *italic* notes (incl. the SHIPPED-hold build note) are
@@ -200,7 +200,7 @@ const doc = {
             label: "Asana",
             icon: "layout-kanban",
             oneLiner: "Sign-offs close tasks, statuses stay matched, two-way.",
-            href: "/preview/integrations/asana",
+            href: "/integrations/asana",
             listOnly: true,
           },
           {
@@ -208,7 +208,7 @@ const doc = {
             label: "Slack",
             icon: "message-circle",
             oneLiner: "A client comments, your channel knows. Act from the message.",
-            href: "/preview/integrations/slack",
+            href: "/integrations/slack",
             listOnly: true,
           },
           {
@@ -216,7 +216,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

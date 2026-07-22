@@ -2,7 +2,7 @@
 /**
  * Seed the "Google Tag Manager" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/google-tag-manager. Reuses the 2026 homepage
+ * Serves at /integrations/google-tag-manager. Reuses the 2026 homepage
  * sections as a fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/gtm/superflow-page-integration-google-tag-manager-v3.md
  * (a v3 "home replica" page: hero + the four home bands + the one-tag install).
@@ -221,7 +221,7 @@ const HOME_BANDS = [
         oneLiner:
           "One-tag or one-click installs (Google Tag Manager, WordPress, Webflow); tasks sync two-way to Asana, Monday, ClickUp, with Slack notifications.",
         loss: "Without them, Superflow becomes one more silo to copy tasks out of.",
-        href: "/preview/integrations",
+        href: "/integrations",
       },
     ],
   },

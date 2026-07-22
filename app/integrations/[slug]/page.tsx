@@ -1,128 +1,92 @@
+// Live integration detail pages (promoted from /preview/integrations/<slug>).
+//
+//   /integrations/<slug>  →  integrationPreviewPage (Sanity) rendered with the
+//   reusable home-2026 sections (see IntegrationPageBody).
+//
+// This replaces the legacy IntegrationDetailPage template. The old
+// /preview/integrations/<slug> route now 308-redirects here (next.config.ts).
+
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import IntegrationDetailPage from "@/components/detail/IntegrationDetailPage";
+
+import IntegrationPageBody, {
+  type IntegrationPageDoc,
+} from "@/components/integration-2026/IntegrationPageBody";
+import { FAQ_ITEMS } from "@/components/home-2026/FaqSection";
 import {
-  getAllIntegrationSlugs,
-  getAllIntegrationListItems,
-  getIntegrationPageBySlug,
+  getAllIntegrationPreviewSlugs,
+  getIntegrationPreviewPageBySlug,
 } from "@/sanity/lib/queries";
-import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
-import { ORG_ID, SITE_URL } from "@/app/_seo/schema";
-
-/**
- * Strip HTML tags so rich-text Sanity fields serialise as plain text in
- * JSON-LD payloads.
- *
- * @param html - Raw HTML or plain text string.
- * @returns Plain text with HTML tags removed and whitespace normalised.
- */
-function stripHtml(html: string): string {
-  try {
-    return html
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  } catch {
-    return html;
-  }
-}
+import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 
 export const revalidate = 60;
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
+const BASE_PATH = "/integrations";
+const FALLBACK_DESCRIPTION =
+  "Superflow connects to the tools your agency already runs. Comments land in Slack, sign-offs close your project tasks, and webhooks cover the rest.";
+
+export async function generateStaticParams() {
+  const slugs = await getAllIntegrationPreviewSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  // Held pages (see lib/integration-holds.ts) must never publish metadata.
-  if (isHeldIntegrationSlug(slug)) return {};
-  const doc = await getIntegrationPageBySlug(slug);
-  if (!doc) return {};
-  const title = doc.metaTitle || doc.title;
-  const description = doc.metaDescription || "";
-  const ogImage = doc.appLogo ?? doc.thumbnail;
+  const doc = (await getIntegrationPreviewPageBySlug(
+    slug,
+  )) as IntegrationPageDoc | null;
+  if (!doc) {
+    return {};
+  }
   return buildPageMetadata({
-    title,
-    description,
-    path: `/integrations/${slug}`,
-    ...(ogImage ? { ogImage } : {}),
+    title: doc.metaTitle ?? doc.title,
+    description:
+      doc.metaDescription ?? doc.hero?.subhead ?? FALLBACK_DESCRIPTION,
+    path: `${BASE_PATH}/${slug}`,
+    ogImage: doc.ogImage ?? undefined,
   });
 }
 
-export async function generateStaticParams() {
-  const slugs = await getAllIntegrationSlugs();
-  return slugs
-    .filter((slug) => !isHeldIntegrationSlug(slug))
-    .map((slug) => ({ slug }));
-}
-
-export default async function IntegrationSlugPage({ params }: PageProps) {
+export default async function IntegrationDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  // Enforced publication hold: held connectors 404 on the live route even if a
-  // CMS document exists. Lift via lib/integration-holds.ts only.
-  if (isHeldIntegrationSlug(slug)) notFound();
-  const [doc, all] = await Promise.all([
-    getIntegrationPageBySlug(slug),
-    getAllIntegrationListItems(),
-  ]);
-  if (!doc) notFound();
+  const doc = (await getIntegrationPreviewPageBySlug(
+    slug,
+  )) as IntegrationPageDoc | null;
+  if (!doc) {
+    notFound();
+  }
 
-  const heading = doc.title;
-  const canonicalUrl = `${SITE_URL}/integrations/${slug}`;
-  const otherIntegrations = all
-    .filter((item) => item.slug !== slug && !isHeldIntegrationSlug(item.slug))
-    .map((item) => ({
-      name: item.appName || item.title,
-      icon: item.appLogo || "/images/hero/icon-world.svg",
-      href: `/integrations/${item.slug}`,
-    }));
+  const name = doc.metaTitle ?? `${doc.title} | Superflow`;
+  const description =
+    doc.metaDescription ?? doc.hero?.subhead ?? FALLBACK_DESCRIPTION;
 
-  const softwareAppNode: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: doc.appName ?? heading,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: canonicalUrl,
-    creator: { "@id": ORG_ID },
-  };
-
-  type IntegrationStep = { title?: string; body?: string };
-  const steps: IntegrationStep[] = Array.isArray(doc.steps) ? doc.steps : [];
-  const howToNode: Record<string, unknown> | null = steps.length > 0
-    ? {
-        "@context": "https://schema.org",
-        "@type": "HowTo",
-        name: `How to connect ${doc.appName ?? heading} with Superflow`,
-        step: steps.map((step, index) => ({
-          "@type": "HowToStep",
-          position: index + 1,
-          name: step.title ?? "",
-          text: stripHtml(step.body ?? ""),
-        })),
-      }
-    : null;
+  const faqEntries =
+    doc.faq?.items && doc.faq.items.length > 0 ? doc.faq.items : FAQ_ITEMS;
+  const faqSchema = buildFaqPageSchema(faqEntries);
 
   return (
     <>
       <PageJsonLd
-        name={heading}
-        description={doc.metaDescription || ""}
-        path={`/integrations/${slug}`}
+        name={name}
+        description={description}
+        path={`${BASE_PATH}/${slug}`}
         trail={[
-          { name: "Integrations", url: `${SITE_URL}/integrations` },
-          { name: heading, url: `${SITE_URL}/integrations/${slug}` },
+          { name: "Integrations", url: `${SITE_URL}${BASE_PATH}` },
+          { name: doc.title, url: `${SITE_URL}${BASE_PATH}/${slug}` },
         ]}
       />
-      <JsonLd id="ld-integration-software" data={softwareAppNode} />
-      {howToNode && (
-        <JsonLd id="ld-integration-howto" data={howToNode} />
-      )}
-      <IntegrationDetailPage doc={doc} otherIntegrations={otherIntegrations} />
+      <JsonLd id={`ld-faq-integration-${slug}`} data={faqSchema} />
+      <IntegrationPageBody doc={doc} />
     </>
   );
 }
