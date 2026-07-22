@@ -195,9 +195,13 @@ export default function Hero({
           <div className={styles.copy}>
             {kicker ? <p className={styles.kicker}>{kicker}</p> : null}
             <h1 className={styles.headline}>
-              {resolvedHeadlineLines.map((line) => (
+              {resolvedHeadlineLines.map((line, index) => (
                 <span key={line} className={styles.headlineLine}>
                   {line}
+                  {/* Trailing space keeps the H1's text content
+                      (accessible name / indexed text) from joining lines
+                      into "toolsyou"; the block span still wraps visually. */}
+                  {index < resolvedHeadlineLines.length - 1 ? " " : null}
                 </span>
               ))}
             </h1>

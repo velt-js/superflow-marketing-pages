@@ -278,7 +278,12 @@ export default function AgentsAtWorkArtifact({
             <div className={styles.hero}>
               <div className={styles.heroCopy}>
                 <span className={styles.eyebrow}>{EYEBROW}</span>
-                <h1 className={styles.headline}>
+                {/* Decorative mock-website headline — intentionally NOT an <h1>.
+                    This artifact embeds inside real pages (homepage hero, the
+                    review-agents feature hero, and the Webflow/WordPress/GTM
+                    install pages via the "review-agents" feature mock), so a
+                    real heading here produces a duplicate document H1. */}
+                <div className={styles.headline}>
                   {HEADLINE_LEAD}
                   <br />
                   {HEADLINE_TAIL}
@@ -302,7 +307,7 @@ export default function AgentsAtWorkArtifact({
                       </>
                     ) : null}
                   </span>
-                </h1>
+                </div>
                 <p className={styles.subhead}>{SUBHEAD}</p>
                 <div className={styles.heroButtons}>
                   <span className={`${styles.btn} ${styles.btnPrimary}`}>{HERO_PRIMARY}</span>
