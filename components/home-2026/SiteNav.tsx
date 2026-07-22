@@ -294,7 +294,19 @@ function toneClassName(tone: FeatureTone): string {
  * sticky/pinned scroll stages for the whole page. The scroll handler is
  * rAF-throttled and cleaned up on unmount.
  */
-export default function SiteNav() {
+/** Props for {@link SiteNav}. */
+interface SiteNavProps {
+  /**
+   * When true, the header renders its solid white treatment from the top of
+   * the page instead of waiting for the user to scroll past
+   * {@link SCROLL_THRESHOLD_PX}. Use on routes with light-background heroes
+   * (e.g. blog pages) where the default transparent bar's white links would
+   * be unreadable.
+   */
+  solidAtTop?: boolean;
+}
+
+export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   /* Label of the desktop dropdown currently open, or null. A single value keeps
@@ -613,8 +625,9 @@ export default function SiteNav() {
 
   /* The bar wears its solid white treatment when scrolled AND, mirroring
      Asana's nav, whenever a dropdown is open at the top of the page — so the
-     white panel connects seamlessly to a white bar. */
-  const isHeaderSolid = isScrolled || openDropdown !== null;
+     white panel connects seamlessly to a white bar. Routes that opt in via
+     `solidAtTop` (e.g. blog pages with light heroes) keep it solid throughout. */
+  const isHeaderSolid = solidAtTop || isScrolled || openDropdown !== null;
 
   return (
     <header

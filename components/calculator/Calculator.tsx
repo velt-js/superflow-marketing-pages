@@ -1,7 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import styles from "./Calculator.module.css";
 
+/** Superflow signup destination for the primary CTA. */
+const SIGNUP_URL = "https://app.usesuperflow.com/signup";
+/** Book-a-demo destination for the secondary CTA. */
+const BOOK_DEMO_URL = "/book-demo";
+
+/** Copy shown above the money figure before any hours are selected. */
+const IDLE_FORMULA_TEXT = "Calculate how much money you lose!";
+
+/** A single discrete stop on the hours slider. */
 interface HourStop {
   hours: number;
   top: string;
@@ -9,13 +19,14 @@ interface HourStop {
   approx?: boolean;
 }
 
+/** A selectable team role with its blended hourly rate and brand color. */
 interface Role {
   name: string;
   rate: number;
   color: string;
 }
 
-const STOPS: HourStop[] = [
+const STOPS: readonly HourStop[] = [
   { hours: 0, top: "0", bottom: "Hours" },
   { hours: 50, top: "50", bottom: "Hours" },
   { hours: 100, top: "100", bottom: "Hours" },
@@ -24,13 +35,14 @@ const STOPS: HourStop[] = [
   { hours: 232, top: "Too", bottom: "Many", approx: true },
 ];
 
-const ROLES: Role[] = [
-  { name: "DESIGNER", rate: 25, color: "#5b4dff" },
+const ROLES: readonly Role[] = [
+  { name: "DESIGNER", rate: 25, color: "#8480ff" },
   { name: "DEVELOPER", rate: 90, color: "#f4c842" },
   { name: "MARKETING", rate: 50, color: "#3fd082" },
   { name: "MANAGER", rate: 50, color: "#ff5860" },
 ];
 
+/** Chat-bubble glyph rendered inside the active slider thumb. */
 function ChatBubbleIcon() {
   return (
     <svg
@@ -38,7 +50,7 @@ function ChatBubbleIcon() {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="white"
+      stroke="#ffffff"
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -49,320 +61,221 @@ function ChatBubbleIcon() {
   );
 }
 
+/**
+ * Creative Review ROI Calculator, restyled to the 2026 homepage theme: a blue
+ * gradient hero introduces the tool, then a dark #111111 stage carries the
+ * interactive money figure, role chips and hours slider. The underlying
+ * math is unchanged — money lost equals the selected hours multiplied by the
+ * average hourly rate of the selected roles.
+ */
 export default function Calculator() {
-  const [hoursIdx, setHoursIdx] = useState(0);
+  const [hoursIndex, setHoursIndex] = useState<number>(0);
   const [activeRoles, setActiveRoles] = useState<ReadonlySet<number>>(
     () => new Set([0, 1, 2, 3])
   );
 
-  const stop = STOPS[hoursIdx];
-  const showLost = hoursIdx > 0;
+  const stop = STOPS[hoursIndex];
+  const showLost = hoursIndex > 0;
 
-  const { avgRate, moneyLost, displayValue } = useMemo(() => {
-    const selected = ROLES.filter((_, i) => activeRoles.has(i));
-    const avg =
-      selected.length > 0
-        ? selected.reduce((sum, r) => sum + r.rate, 0) / selected.length
-        : 0;
-    const lost = stop.hours * avg;
-    let label = "$0";
-    if (lost > 0) {
-      if (stop.approx) {
-        const rounded = Math.round(lost / 500) * 500;
-        label = `~$${rounded.toLocaleString()}`;
-      } else {
-        label = `-$${Math.round(lost).toLocaleString()}`;
+  const { moneyLost, displayValue } = useMemo(() => {
+    try {
+      const selected = ROLES.filter((_role, index) => activeRoles.has(index));
+      const averageRate =
+        selected.length > 0
+          ? selected.reduce((sum, role) => sum + role.rate, 0) / selected.length
+          : 0;
+      const lost = (stop?.hours ?? 0) * averageRate;
+      let label = "$0";
+      if (lost > 0) {
+        if (stop?.approx) {
+          const rounded = Math.round(lost / 500) * 500;
+          label = `~$${rounded.toLocaleString()}`;
+        } else {
+          label = `-$${Math.round(lost).toLocaleString()}`;
+        }
       }
+      return { moneyLost: lost, displayValue: label };
+    } catch {
+      return { moneyLost: 0, displayValue: "$0" };
     }
-    return { avgRate: avg, moneyLost: lost, displayValue: label };
   }, [activeRoles, stop]);
 
-  const toggleRole = (i: number) => {
-    setActiveRoles((prev) => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
-      return next;
-    });
-  };
+  /** Toggle whether the role at the given index is included in the average. */
+  function toggleRole(index: number) {
+    try {
+      setActiveRoles((previous) => {
+        const next = new Set(previous);
+        if (next.has(index)) {
+          next.delete(index);
+        } else {
+          next.add(index);
+        }
+        return next;
+      });
+    } catch {
+      setActiveRoles(new Set([0, 1, 2, 3]));
+    }
+  }
 
   return (
-    <section
-      className="relative overflow-hidden pt-[140px] pb-[120px] lg:pt-[180px] lg:pb-[160px]"
-      style={{ background: "#0a0a14" }}
-    >
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none transition-opacity duration-700"
-        style={{
-          background: showLost
-            ? "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(180,30,60,0.20) 0%, rgba(80,20,40,0.10) 40%, transparent 75%)"
-            : "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(70,60,200,0.22) 0%, rgba(40,30,140,0.10) 40%, transparent 75%)",
-        }}
-      />
-
-      <div className="container-page relative z-10 flex flex-col items-center gap-[64px] lg:gap-[80px] max-w-[1200px]">
-        <HeroDisplay
-          showLost={showLost}
-          displayValue={displayValue}
-          moneyLost={moneyLost}
-        />
-
-        <div
-          className={`flex flex-wrap items-center justify-center gap-[16px] lg:gap-[20px] transition-opacity duration-500 ${
-            showLost ? "opacity-100" : "opacity-0 pointer-events-none h-0"
-          }`}
-        >
-          {ROLES.map((role, i) => {
-            const active = activeRoles.has(i);
-            return (
-              <button
-                key={role.name}
-                type="button"
-                onClick={() => toggleRole(i)}
-                className="cursor-pointer rounded-full transition-all px-[22px] py-[12px] flex items-center gap-[12px]"
-                style={{
-                  border: `1.5px solid ${active ? role.color : "rgba(255,255,255,0.10)"}`,
-                  background: active
-                    ? `color-mix(in srgb, ${role.color} 14%, transparent)`
-                    : "rgba(255,255,255,0.02)",
-                  color: active ? role.color : "rgba(255,255,255,0.30)",
-                  boxShadow: active
-                    ? `0 0 24px color-mix(in srgb, ${role.color} 22%, transparent)`
-                    : "none",
-                }}
-              >
-                <span
-                  className="font-semibold uppercase"
-                  style={{
-                    fontFamily: "var(--font-poppins)",
-                    fontSize: 14,
-                    letterSpacing: "1.5px",
-                  }}
-                >
-                  {role.name}
-                </span>
-                <span
-                  aria-hidden
-                  style={{
-                    color: "currentColor",
-                    opacity: 0.45,
-                  }}
-                >
-                  |
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{
-                    fontFamily: "var(--font-poppins)",
-                    fontSize: 14,
-                  }}
-                >
-                  ${role.rate}/hr
-                </span>
-              </button>
-            );
-          })}
+    <div className={styles.page}>
+      <section className={styles.hero} data-section="calculator-hero">
+        <div className={styles.heroFade} aria-hidden="true" />
+        <div className={styles.heroInner}>
+          <p className={styles.kicker}>ROI Calculator</p>
+          <h1 className={styles.headline}>
+            The real cost of slow creative feedback
+          </h1>
+          <p className={styles.subhead}>
+            Pick your team, drag the slider, and watch how much revenue leaks
+            out of every drawn-out round of review.
+          </p>
         </div>
+      </section>
 
-        <HoursSlider
-          stops={STOPS}
-          activeIdx={hoursIdx}
-          onSelect={setHoursIdx}
-        />
+      <section className={styles.stage} data-section="calculator-stage">
+        <div className={styles.stageInner}>
+          <div className={styles.display}>
+            <div className={styles.valueWrap}>
+              {showLost && moneyLost > 0 ? (
+                <span className={styles.valueGhost} aria-hidden="true">
+                  Money Lost
+                </span>
+              ) : null}
+              <p
+                className={`${styles.value} ${
+                  showLost ? styles.valueLost : ""
+                }`}
+                aria-live="polite"
+              >
+                {displayValue}
+              </p>
+            </div>
+            <p className={styles.formula}>
+              {showLost ? (
+                <>
+                  Team&rsquo;s rate
+                  <span className={styles.formulaOperator}>&times;</span>
+                  Number of hours
+                  <span className={styles.formulaOperator}>=</span>
+                  <span className={styles.formulaResult}>{displayValue}</span>
+                </>
+              ) : (
+                IDLE_FORMULA_TEXT
+              )}
+            </p>
+          </div>
 
-        <p
-          className="uppercase text-center"
-          style={{
-            fontFamily: "var(--font-poppins)",
-            fontWeight: 500,
-            fontSize: 13,
-            letterSpacing: "3px",
-            color: "rgba(255,255,255,0.65)",
-          }}
-        >
-          Hours spent on feedback
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function HeroDisplay({
-  showLost,
-  displayValue,
-  moneyLost,
-}: {
-  showLost: boolean;
-  displayValue: string;
-  moneyLost: number;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-[20px] lg:gap-[28px] relative w-full">
-      <div className="relative w-full flex items-center justify-center" style={{ minHeight: "1em" }}>
-        {showLost && moneyLost > 0 && (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 text-center whitespace-nowrap select-none"
-            style={{
-              fontFamily: "var(--font-poppins)",
-              fontWeight: 700,
-              fontSize: "clamp(70px, 11vw, 150px)",
-              letterSpacing: "-0.04em",
-              lineHeight: 1,
-              WebkitTextStroke: "1px rgba(255, 99, 132, 0.32)",
-              color: "transparent",
-              top: "50%",
-              transform: "translateY(-50%)",
-            }}
+          <div
+            className={`${styles.roles} ${showLost ? "" : styles.rolesHidden}`}
           >
-            Money Lost
-          </span>
-        )}
-        <h1
-          className="relative text-white font-bold whitespace-nowrap"
-          style={{
-            fontFamily: "var(--font-poppins)",
-            fontSize: "clamp(72px, 12vw, 168px)",
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-            zIndex: 1,
-            textShadow: showLost
-              ? "0 0 40px rgba(255,180,200,0.18)"
-              : "0 0 40px rgba(180,180,255,0.18)",
-          }}
-        >
-          {displayValue}
-        </h1>
-      </div>
-      <p
-        className="text-center"
-        style={{
-          fontFamily: "var(--font-poppins)",
-          fontWeight: 400,
-          fontSize: "clamp(18px, 2vw, 26px)",
-          letterSpacing: "-0.01em",
-          color: "rgba(255,255,255,0.55)",
-        }}
-      >
-        {showLost ? (
-          <>
-            Team&rsquo;s rate{"   "}
-            <span style={{ color: "rgba(255,255,255,0.35)" }}>X</span>
-            {"   "}Number of Hours{"   "}
-            <span style={{ color: "rgba(255,255,255,0.35)" }}>=</span>
-            {"   "}
-            <span style={{ color: "rgba(255,255,255,0.75)" }}>
-              {displayValue}
-            </span>
-          </>
-        ) : (
-          "Calculate how much money you lose!"
-        )}
-      </p>
+            {ROLES.map((role, index) => {
+              const isActive = activeRoles.has(index);
+              return (
+                <button
+                  key={role.name}
+                  type="button"
+                  onClick={() => toggleRole(index)}
+                  aria-pressed={isActive}
+                  className={`${styles.roleChip} ${
+                    isActive ? styles.roleChipActive : ""
+                  }`}
+                  style={{ "--role-color": role.color } as React.CSSProperties}
+                >
+                  <span className={styles.roleDot} aria-hidden="true" />
+                  <span className={styles.roleName}>{role.name}</span>
+                  <span className={styles.roleRate}>${role.rate}/hr</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <HoursSlider
+            stops={STOPS}
+            activeIndex={hoursIndex}
+            onSelect={setHoursIndex}
+          />
+
+          <p className={styles.hoursLabel}>Hours spent on feedback</p>
+
+          <div className={styles.ctaButtons}>
+            <a
+              className={`${styles.btn} ${styles.btnOutline}`}
+              href={BOOK_DEMO_URL}
+            >
+              Book a demo
+            </a>
+            <a className={`${styles.btn} ${styles.btnFilled}`} href={SIGNUP_URL}>
+              Try Superflow for free
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
 
+/** Discrete-stop hours slider driving the calculator's hours input. */
 function HoursSlider({
   stops,
-  activeIdx,
+  activeIndex,
   onSelect,
 }: {
-  stops: HourStop[];
-  activeIdx: number;
-  onSelect: (i: number) => void;
+  stops: readonly HourStop[];
+  activeIndex: number;
+  onSelect: (index: number) => void;
 }) {
-  return (
-    <div className="w-full max-w-[1080px] px-[28px] lg:px-[40px]">
-      <div className="relative" style={{ height: 56 }}>
-        <div
-          className="absolute h-[1.5px]"
-          style={{
-            left: 0,
-            right: 0,
-            top: 27,
-            background: "rgba(255,255,255,0.14)",
-          }}
-        />
+  /** Left offset (%) of the stop at the given index along the track. */
+  function positionFor(index: number): string {
+    try {
+      return `${(index / (stops.length - 1)) * 100}%`;
+    } catch {
+      return "0%";
+    }
+  }
 
-        {stops.map((stop, i) => {
-          const position = (i / (stops.length - 1)) * 100;
-          const isActive = i === activeIdx;
+  return (
+    <div className={styles.slider}>
+      <div className={styles.track}>
+        <div className={styles.trackLine} aria-hidden="true" />
+        {stops.map((stop, index) => {
+          const isActive = index === activeIndex;
           return (
             <button
-              key={i}
+              key={`${stop.top}-${stop.bottom}`}
               type="button"
-              onClick={() => onSelect(i)}
+              onClick={() => onSelect(index)}
               aria-label={`${stop.top} ${stop.bottom}`}
-              className="cursor-pointer absolute -translate-x-1/2 flex items-center justify-center transition-transform"
-              style={{
-                left: `${position}%`,
-                top: 0,
-                width: 56,
-                height: 56,
-              }}
+              className={styles.stop}
+              style={{ left: positionFor(index) }}
             >
               {isActive ? (
-                <div
-                  className="w-[56px] h-[56px] rounded-full flex items-center justify-center"
-                  style={{
-                    background: "#6C63FF",
-                    boxShadow:
-                      "0 10px 32px rgba(108,99,255,0.45), 0 0 0 6px rgba(108,99,255,0.12)",
-                  }}
-                >
+                <span className={styles.thumb}>
                   <ChatBubbleIcon />
-                </div>
+                </span>
               ) : (
-                <div
-                  className="w-[14px] h-[14px] rounded-full transition-colors hover:bg-white/10"
-                  style={{
-                    border: "1.5px solid rgba(255,255,255,0.30)",
-                  }}
-                />
+                <span className={styles.thumbDot} />
               )}
             </button>
           );
         })}
       </div>
 
-      <div className="relative mt-[24px]" style={{ height: 56 }}>
-        {stops.map((stop, i) => {
-          const position = (i / (stops.length - 1)) * 100;
-          const isActive = i === activeIdx;
+      <div className={styles.stopLabels}>
+        {stops.map((stop, index) => {
+          const isActive = index === activeIndex;
           return (
             <button
-              key={i}
+              key={`label-${stop.top}-${stop.bottom}`}
               type="button"
-              onClick={() => onSelect(i)}
-              className="cursor-pointer absolute -translate-x-1/2 flex flex-col items-center text-center"
-              style={{ left: `${position}%`, top: 0, width: 72 }}
+              onClick={() => onSelect(index)}
+              className={`${styles.stopLabel} ${
+                isActive ? styles.stopLabelActive : ""
+              }`}
+              style={{ left: positionFor(index) }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-poppins)",
-                  fontWeight: 500,
-                  fontSize: 18,
-                  lineHeight: "24px",
-                  color: isActive ? "#fff" : "rgba(255,255,255,0.40)",
-                }}
-              >
-                {stop.top}
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-poppins)",
-                  fontWeight: 400,
-                  fontSize: 14,
-                  lineHeight: "20px",
-                  color: isActive
-                    ? "rgba(255,255,255,0.70)"
-                    : "rgba(255,255,255,0.40)",
-                }}
-              >
-                {stop.bottom}
-              </span>
+              <span className={styles.stopLabelTop}>{stop.top}</span>
+              <span className={styles.stopLabelBottom}>{stop.bottom}</span>
             </button>
           );
         })}
