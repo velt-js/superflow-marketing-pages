@@ -241,6 +241,10 @@ const RESOURCE_LINKS: readonly ResourceLink[] = [
   { label: "Case Study", href: "/case-study/writesonic" },
   { label: "SEO Checklist", href: "/seo-checklist-2023" },
   { label: "Blog", href: "/blog" },
+  // Point at the 2026 redesign hubs the footer surfaces (see SiteFooter's
+  // "All Alternatives" / "All Comparisons"); these are not yet promoted to root.
+  { label: "Alternatives", href: "/preview/alternative" },
+  { label: "Comparisons", href: "/preview/comparison" },
   { label: "Cost Calculator", href: "/calculator", badge: true },
   { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
   {
