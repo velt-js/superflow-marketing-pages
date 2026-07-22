@@ -87,7 +87,11 @@ const CATEGORIES: readonly IntegrationCategory[] = [
     accent: "#e17a14",
     items: [
       { name: "Framer", logo: `${ASSET_BASE}/framer.png` },
-      { name: "WordPress", logo: `${ASSET_BASE}/wordpress.png` },
+      {
+        name: "WordPress",
+        logo: `${ASSET_BASE}/wordpress.png`,
+        href: `${INTEGRATIONS_INDEX_HREF}/wordpress`,
+      },
       {
         name: "Webflow",
         logo: `${ASSET_BASE}/webflow.png`,
