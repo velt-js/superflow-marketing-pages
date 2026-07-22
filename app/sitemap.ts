@@ -9,7 +9,7 @@ import {
   getAllChecklistSlugs,
   getAllComparisonSlugs,
   getAllFeatureSlugs,
-  getAllIntegrationSlugs,
+  getAllIntegrationPreviewSlugs,
   getAllReviewSlugs,
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
@@ -63,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     featureSlugs,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
-    safeFetch(getAllIntegrationSlugs),
+    safeFetch(getAllIntegrationPreviewSlugs),
     safeFetch(getAllUseCaseSlugs),
     safeFetch(getAllCaseStudySlugs),
     safeFetch(getAllUserPersonaSlugs),

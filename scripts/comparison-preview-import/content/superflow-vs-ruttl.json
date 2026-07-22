@@ -1,0 +1,233 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Ruttl",
+  "slug": { "current": "superflow-vs-ruttl" },
+  "competitorName": "Ruttl",
+  "grantedNoun": "feedback tool",
+  "kicker": "· SUPERFLOW VS RUTTL · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Ruttl is a feedback tool. Superflow is a feedback tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency reviews client sites in Ruttl, this page is for you.",
+  "heroCaption": "It's like Ruttl hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Ruttl was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person checks it. Nothing scans the site for mistakes on its own.",
+        "Ruttl AI is scoped to comment sentiment analysis and site performance suggestions. Accessibility, SEO, and codebase audit are marked Coming soon."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "A Ruttl project is a record of what a person already caught. That's the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Guests comment free from a shareable link, no signup.",
+        "Approve page locks the page from further comments or edits until unapproved: a real sign-off step."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Ruttl's Approve page is a genuine gate, not just a comment thread. The difference is what happens before it: Superflow's team gates the work first, then the client approves, still no account, from their phone."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "The live page loads in the project panel. Comment mode is the default.",
+        "Edit mode lets you visually change text, images, layout, and HTML and CSS on the live page, a genuine edge.",
+        "The Chrome extension covers password-protected sites, login-based apps, and web apps."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both review the live page. Ruttl's Edit mode goes further than most tools here: real visual and code changes, not just comments. Behind logins, Ruttl needs the extension; Superflow needs none."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Private comments are listed on the pricing page as a feature, with per-plan caps.",
+        "Whether clients can see them, the internal-only scope: not yet verified."
+      ],
+      "verdict": "Ruttl grants the feature; the scope is still open. Renders as a difference only if the client-hidden scope resolves to one."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Pixel-pinned comments on the exact element, on live websites, web and mobile apps, images, and PDFs.",
+        "Screen-recorded video comments.",
+        "Automatic per-comment screenshots: not yet verified. Browser, OS, or screen-size metadata: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Pinning and video comments are even; both are real. Capture is the gap: proof attaches itself in Superflow without a person choosing to record it."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No memory or knowledge concept found. Versioning keeps old versions with their comments, which is not the same as remembering a client."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Built-in Kanban workflow. Convert comments to tasks, assign owners, set priority and deadlines.",
+        "Integrations: Slack, Trello, Asana, and Jira from the free plan, ClickUp on Pro and up, plus Zapier.",
+        "Native two-way sync with a PM tool: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Ruttl's Kanban is built in and its integration list runs deep. If native two-way sync with your PM tool is your spine, weigh that honestly."
+    }
+  ],
+  "scorecardKicker": "Ruttl is a feedback tool. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person; Ruttl AI: sentiment analysis, performance suggestions",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link, no signup; Approve page locks the page",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live page; Edit mode for visual and code changes; extension for logins",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "private comments listed; client-hidden scope -",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "pixel-pinned comments; video comments; auto-screenshots and metadata -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Slack, Trello, Asana, Jira, ClickUp, Zapier; native two-way sync -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free / $18 per user per month / Custom (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Basic Free, 1 project, 5 pages, 10 comments, 1GB storage. The vendor's own pages disagree on users and guests for this plan: the plan card lists up to 5 users and unlimited guests, the comparison table lists 1 user and up to 5 guests. Pro is $18 per month per user, up to 50 users, unlimited projects and pages, 50GB storage, all integrations. Business is custom, with SAML support. Enterprise is custom, with a custom domain and brand colors. Guests are free. No page-view caps advertised.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Ruttl projects finish in Ruttl. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Ruttl earned its place. Edit mode lets you change text, images, layout, and HTML and CSS on the live page, without touching code. Pixel-pinned comments land on live websites, web and mobile apps, images, and PDFs. Guests comment free from a link, no signup. The Kanban is built in. The Approve page gives you a real sign-off gate, and screen-recorded video comments are part of the toolkit.",
+  "stayLine": "If pixel-pinned commenting plus live-page visual edits on websites, with free guest links and a built-in Kanban, is what your studio needs, Ruttl is a fine tool. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/ruttl-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Ruttl with AI on top?",
+      "answer": "No. Ruttl files what a person found; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Ruttl projects?",
+      "answer": "Finish them in Ruttl. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We use Ruttl's Edit mode to change text and layout right on the live page.",
+      "answer": "Superflow doesn't edit the page. It pins findings for your team to fix and ship. If in-page editing is core to your workflow, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Ruttl alternatives",
+      "href": "/preview/alternative/ruttl-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "Superflow vs Pastel",
+      "href": "/preview/comparison/superflow-vs-pastel"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://ruttl.com",
+    "https://ruttl.com/website-feedback-tool/",
+    "https://ruttl.com/pricing/",
+    "https://www.ruttl.com/features/comment-on-website",
+    "https://www.ruttl.com/support/using-ruttl",
+    "https://www.ruttl.com/usecases/for-developers",
+    "https://chromewebstore.google.com/detail/ruttl/doecfodblgfnjmmphbedjgllipnbgbld"
+  ],
+  "metaTitle": "Superflow vs Ruttl (2026): A Feedback Tool vs a Feedback Tool + a Team",
+  "metaDescription": "Ruttl is a feedback tool. Superflow is a feedback tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

@@ -1,0 +1,252 @@
+/* Bespoke, hand-authored sections shared by the install-family integration
+   pages (/preview/integrations/webflow, /wordpress, /google-tag-manager).
+   Content is verbatim from the per-tool v3 build files; layout/aesthetic
+   follow the 2026 marketing design language (Adamina serif display, Urbanist
+   UI, Geist Mono labels, light theme, hairline cards) and mirror the
+   connector pages' bespoke sections so both families read as one system. */
+
+.section {
+  --ins-ink: #1e1e1f;
+  --ins-muted: rgba(30, 30, 31, 0.62);
+  --ins-faint: rgba(30, 30, 31, 0.45);
+  --ins-line: #e7e7e4;
+  --ins-card: #ffffff;
+  --ins-card-border: rgba(0, 0, 0, 0.08);
+  --ins-bg: #ffffff;
+  --ins-bg-soft: #f7f7f5;
+  --ins-accent: #5b57f5;
+  --ins-green: #17974a;
+  --ins-green-soft: #f1faf4;
+  --ins-magenta: #e5389f;
+
+  --ins-font-serif: var(--font-adamina), Georgia, serif;
+  --ins-font-ui: var(--font-urbanist), system-ui, sans-serif;
+  --ins-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ins-content: 1080px;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 104px 24px;
+  background: var(--ins-bg);
+  color: var(--ins-ink);
+  font-family: var(--ins-font-ui);
+}
+
+.section *,
+.section *::before,
+.section *::after {
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--ins-content);
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------- Shared headings */
+
+.headCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.display {
+  margin: 0;
+  font-family: var(--ins-font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -1.4px;
+  color: var(--ins-ink);
+}
+
+.lede {
+  margin: 18px auto 0;
+  max-width: 56ch;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+  color: var(--ins-muted);
+  text-wrap: balance;
+}
+
+/* ====================================== Section — What the plugin does */
+
+/* Extra vertical padding gives the wrapping <BlueprintFrame /> room so its
+   horizontal rules sit clear of the content (mirrors the connector pages'
+   crosses section). */
+.whatSection {
+  padding-top: 148px;
+  padding-bottom: 148px;
+}
+
+/* Foreground content sits above the decorative <BlueprintFrame /> (z-index 0). */
+.whatInner {
+  position: relative;
+  z-index: 1;
+}
+
+.whatIconRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.whatTool {
+  display: inline-flex;
+}
+
+.whatArrow {
+  display: inline-flex;
+  color: var(--ins-magenta);
+}
+
+.whatFlower {
+  display: inline-flex;
+}
+
+/* Mechanics facts — numbered hairline cards, two columns centered. */
+.factGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 380px));
+  justify-content: center;
+  gap: 18px;
+  margin: 56px auto 0;
+}
+
+.factCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--ins-card);
+  border: 1px solid var(--ins-card-border);
+  box-shadow: 0 8px 22px -16px rgba(0, 0, 0, 0.4);
+}
+
+.factIndex {
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-family: var(--ins-font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--ins-accent);
+}
+
+.factText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+  color: var(--ins-ink);
+}
+
+/* Marketplace / directory CTA. */
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 50px;
+  background: var(--ins-ink);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.ctaButton:hover {
+  background: #000000;
+}
+
+/* ====================================== Section — How the install behaves */
+
+/* The six guarantees — hairline-separated rows, two columns. */
+.behaveGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 440px));
+  justify-content: center;
+  column-gap: 56px;
+  margin: 48px auto 0;
+}
+
+.behaveRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 4px;
+  border-top: 1px solid var(--ins-line);
+}
+
+/* The last row of each column closes the list with a bottom hairline. */
+.behaveRow:nth-last-child(-n + 2) {
+  border-bottom: 1px solid var(--ins-line);
+}
+
+.behaveMark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  margin-top: 1px;
+  background: var(--ins-green-soft);
+  color: var(--ins-green);
+}
+
+.behaveText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.1px;
+  color: var(--ins-ink);
+}
+
+/* ---------------------------------------------------------- Responsive */
+
+@media (max-width: 960px) {
+  .factGrid {
+    grid-template-columns: minmax(0, 480px);
+  }
+
+  .behaveGrid {
+    grid-template-columns: minmax(0, 480px);
+  }
+
+  .behaveRow:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .behaveRow:last-child {
+    border-bottom: 1px solid var(--ins-line);
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 76px 20px;
+  }
+
+  .whatSection {
+    padding-top: 112px;
+    padding-bottom: 112px;
+  }
+}

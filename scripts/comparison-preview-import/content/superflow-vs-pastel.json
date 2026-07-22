@@ -1,0 +1,230 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Pastel",
+  "slug": { "current": "superflow-vs-pastel" },
+  "competitorName": "Pastel",
+  "grantedNoun": "feedback tool",
+  "kicker": "· SUPERFLOW VS PASTEL · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Pastel is a feedback tool. Superflow is a feedback tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more starting each round from a blank canvas."
+  ],
+  "qualifier": "If your agency reviews client sites in Pastel, this page is for you.",
+  "heroCaption": "It's like Pastel hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Pastel was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person finds every issue, then pins a comment on the canvas.",
+        "No AI features found on the vendor site."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "A canvas is a record of what a person already caught. That's the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Guests comment with no account and no login, unlimited on every plan.",
+        "A real approval gate, even: the Finish Review button lets anyone approve or request changes, tied to a canvas version."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both have a recorded yes, not just a comment thread. The gate itself is even."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "Both review the live site, even: Pastel serves it through its own proxy in a canvas, not a snapshot. It auto-updates when the site changes.",
+        "Private and password-protected sites work by logging in through Browse mode. No extension needed."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both review the live site. Pastel routes it through a proxy; Superflow lives on the page itself. Behind logins, both work, said plainly."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Private, team-only comments, even: listed from the Free plan up."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both give your team a place to disagree before the client sees a settled answer. Call it even."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "An automatic screenshot attaches to every comment too, even, plus browser type and screen size. OS in captured metadata: not yet verified.",
+        "Video Canvases add timestamped comments on uploaded video files.",
+        "Screen or session recording of a reviewer's own screen: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Auto-capture is even; both attach proof without asking. Superflow records the reviewer's screen, voice, and video from the toolbar; Pastel reviews video you upload, and recording your own screen there is not yet verified."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No memory concept in product. Each canvas starts blank, and approvals reset on every new version."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first, and the approval shouldn't reset either."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Export comments to Trello, Monday.com, Asana, Jira, a custom webhook, or Zapier, gated to the Team plan ($119/mo).",
+        "Each export carries text, metadata, screenshot, and a link back. Two-way status sync: not yet verified; the export itself is one-way."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Pastel's exports are real but one-way and gated to its Team plan. Superflow syncs two-way from the plan you're already on."
+    }
+  ],
+  "scorecardKicker": "Pastel is a canvas. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person, no AI features",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link, no account; a real approval gate, version-tied",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live site via proxy canvas; behind logins via Browse mode",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "private, team-only comments, from Free",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "automatic screenshots, browser, screen size; video uploads; screen or session recording -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no; approvals reset per version",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "one-way exports to Trello, Asana, Jira, webhook, Zapier, Team plan only",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free $0 / Pro $35 / Team $119 / Enterprise $450 per month (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Free $0 / Pro $35 / Team $119 / Enterprise $450 per month. Team starts at 5 users, $24 per extra user monthly. Enterprise starts at 10 users, $45 per extra user monthly. Annual billing saves 17%. 14-day trial, no card. Unlimited guest reviewers on every plan.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Pastel canvases finish in Pastel. No dedicated importer from Pastel found; nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Pastel earned its place. No install on your live site, no extension, no code snippet: paste a URL and share one link. The canvas stays current on its own; it is not a stale copy. The Finish Review gate is real, and every plan gets unlimited guest reviewers, free.",
+  "stayLine": "If a careful human pass on a live site, plus a simple approve or request-changes sign-off, works for your studio, Pastel is a fast, low-friction fit. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/pastel-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Pastel with AI on top?",
+      "answer": "No. Pastel's canvas files what a person found; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Pastel canvases?",
+      "answer": "Finish them in Pastel. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We export from Pastel to Trello or Asana.",
+      "answer": "Superflow syncs two-way with Asana, Monday, and ClickUp, plus webhooks and a REST API. Pastel's exports are one-way and gated to its Team plan; if you need status to flow back automatically, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Pastel alternatives",
+      "href": "/preview/alternative/pastel-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://usepastel.com",
+    "https://usepastel.com/plans",
+    "https://usepastel.com/features",
+    "https://usepastel.com/how-it-works",
+    "https://usepastel.com/website-revisions",
+    "https://help.usepastel.com/en/articles/1996011",
+    "https://help.usepastel.com/en/articles/6443110",
+    "https://help.usepastel.com/en/articles/2098571",
+    "https://help.usepastel.com/en/articles/5899720",
+    "https://help.usepastel.com/en/articles/12084757"
+  ],
+  "metaTitle": "Superflow vs Pastel (2026): A Feedback Tool vs a Feedback Tool + a Team",
+  "metaDescription": "Pastel is a feedback tool. Superflow is a feedback tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

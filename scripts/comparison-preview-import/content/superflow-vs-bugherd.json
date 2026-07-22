@@ -1,0 +1,217 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs BugHerd",
+  "slug": { "current": "superflow-vs-bugherd" },
+  "competitorName": "BugHerd",
+  "grantedNoun": "QA tool",
+  "kicker": "· SUPERFLOW VS BUGHERD · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "BugHerd is a QA tool. Superflow is a QA tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency reviews client sites in BugHerd, this page is for you.",
+  "heroCaption": "It's like BugHerd hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "BugHerd was built before AI could check a site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person clicks through the pages and pins what they catch.",
+        "Careful work. Slow work."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "A board is a record of what a person already caught. That's the part Superflow removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Guests comment from a link, real and free.",
+        "Statuses track the work. A formal approval flow: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "BugHerd's guest link is good. The difference is the gate: in Superflow, the client's yes is a recorded step, not a comment."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "Reviews the live site, same as Superflow: even, and it says so.",
+        "Behind logins and SSO: not yet verified."
+      ],
+      "verdict": "Both review the live site. Behind logins, the BugHerd side is pending verification; if it resolves even, it renders even."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Private comments: not yet verified."
+      ],
+      "verdict": "Renders as a difference only if the BugHerd side resolves to one."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Element pins with browser, OS, and screen size attached, genuinely good metadata.",
+        "Video feedback.",
+        "Automatic per-comment screenshots: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Pinning is even. Capture is the gap: proof attaches itself in Superflow."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No such concept in product. Each project starts blank."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Custom statuses, built-in kanban.",
+        "Jira, Trello, Asana, ClickUp, Slack, Teams in the list."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "BugHerd syncs Jira and Trello. We don't. If Jira is your spine, weigh that honestly."
+    }
+  ],
+  "scorecardKicker": "BugHerd is a board. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live site; behind logins -",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "-",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "browser, OS, screen size; video; auto-screenshots -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "built-in kanban; Jira, Trello, Asana, ClickUp, Slack, Teams",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$50 / $80 / $150 per month, +$8 per member (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Standard $50, Studio $80, Premium $150 per month. +$8 per extra member. Enterprise custom with SSO. Guests free.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open BugHerd projects finish in BugHerd. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "BugHerd earned its place. Pins land on the element with the browser and OS attached. The kanban is built in. Clients comment free from a link. The integration list runs deep.",
+  "stayLine": "If a careful human pass works for your studio, BugHerd is a fine tool. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/bugherd-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just BugHerd with AI on top?",
+      "answer": "No. BugHerd files what a person found; Superflow's agents do the finding. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our BugHerd projects?",
+      "answer": "Finish them in BugHerd. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We push tasks to Jira from BugHerd.",
+      "answer": "Superflow syncs two-way with Asana, Monday, and ClickUp, plus webhooks and a REST API. Jira is not built in today; if Jira runs your delivery, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best BugHerd alternatives",
+      "href": "/preview/alternative/bugherd-alternative"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": ["https://bugherd.com", "https://bugherd.com/pricing"],
+  "metaTitle": "Superflow vs BugHerd (2026): A QA Tool vs a QA Tool + a Team",
+  "metaDescription": "BugHerd is a QA tool. Superflow is a QA tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

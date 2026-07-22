@@ -1,0 +1,264 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Marker.io vs Usersnap",
+  "slug": { "current": "marker-io-vs-usersnap" },
+  "toolLeftName": "Marker.io",
+  "toolRightName": "Usersnap",
+  "kicker": "· MARKER.IO VS USERSNAP · COMPARED FOR AGENCIES",
+  "headline": "Marker.io vs Usersnap: which fits your agency?",
+  "standfirst": "Marker.io turns an annotated screenshot into a ticket inside the tracker your developers already run. Usersnap turns a widget on your live product into a feedback, survey, and roadmap platform. The fork: one hands fixes to a dev team, the other hands insight to a product team.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from marker.io and usersnap.com.",
+  "shortAnswerPickLeft": "if the fixes live in Jira, GitHub, or Linear and your developers want console logs, network requests, and session replay attached to every report.",
+  "shortAnswerPickRight": "if you want a feedback platform that also runs surveys, a public feature-request portal, and a changelog alongside the reports themselves.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person finds every issue, then reports it.",
+        "Its AI edits, translates, and titles report text; a Marker.io MCP feeds report context to outside AI agents for triage and fix suggestions. Nothing looks at the site to find issues."
+      ],
+      "leftVerified": "verified marker.io/ai, July 2026",
+      "rightFacts": [
+        "A person, usually the end user, reports every issue through the widget.",
+        "Its AI sidekick categorizes, scores sentiment, summarizes, and drafts replies and hypotheses on feedback already submitted, both marked beta. It does not scan or test the live site."
+      ],
+      "rightVerified": "verified usersnap.com/pricing, July 2026",
+      "verdict": "Even. In both tools, a person finds the mistake before either product ever looks at the site."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make sending feedback easy. Neither makes the yes formal.",
+      "leftFacts": [
+        "Reporters submit free from the widget, no account, and can follow their own issues.",
+        "Ongoing client collaborators are paid Guest seats, 10 on Starter, 50 on Team.",
+        "A formal approval flow: not yet verified."
+      ],
+      "rightFacts": [
+        "Anyone submits via the widget or a survey, no account or seat needed.",
+        "A public, limited board lets guests upvote and track tickets without a paid seat.",
+        "A formal approve or reject gate: not yet verified."
+      ],
+      "verdict": "Sending feedback: even, both free and open. A recorded client sign-off: neither, pending verification."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "A picture of the page, or the page itself.",
+      "leftFacts": [
+        "You annotate a captured screenshot of the page; the report carries the picture.",
+        "Widget on the live site, snippet or CMS plugin; browser extension for members on any webpage.",
+        "Session replay adds a video of the last three minutes, Team plan and up.",
+        "Behind-login behavior: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Feedback comes from a widget on your live site or app, or a browser extension, with on-page screenshot annotation; the team reviews in a shared dashboard.",
+        "Authenticated-site review as a named feature: not yet verified."
+      ],
+      "rightVerified": "verified usersnap.com/bug-reporting, July 2026 except where noted",
+      "verdict": "Even shape. Both put a widget or extension on the live page and annotate a screenshot there. Behind logins, both dash the same way."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal comments on every plan, including Starter."
+      ],
+      "leftVerified": "verified marker.io/pricing, July 2026",
+      "rightFacts": [
+        "Internal notes stay team-only in the dashboard; replies to the reporter go out by email."
+      ],
+      "rightVerified": "verified help.usersnap.com/docs/feedback-restored, July 2026",
+      "verdict": "Even. Both keep the internal debate private and separate from what the reporter sees."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both attach context automatically. The depth differs by plan.",
+      "leftFacts": [
+        "Screenshot plus environment details, browser, OS, webpage, screen size, on every plan.",
+        "Console logs, network requests, and session replay of the last three minutes, on the Team plan and up."
+      ],
+      "leftVerified": "verified marker.io/pricing, marker.io/features, July 2026",
+      "rightFacts": [
+        "Manual annotated screenshots and screen recordings with voice, triggered when the reporter submits.",
+        "Auto metadata on every submission: URL, browser, device, OS, screen size.",
+        "Console and error log auto-capture: gated to Professional and up."
+      ],
+      "rightVerified": "verified usersnap.com/bug-reporting, usersnap.com/pricing, July 2026",
+      "verdict": "Both gate their deepest technical capture behind a mid tier, Marker.io's Team plan and Usersnap's Professional plan. Even on structure. Marker.io names an automatic session-replay video; Usersnap's screen recordings start when the reporter triggers them."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "No memory concept. Nothing persists learned context across projects."
+      ],
+      "rightVerified": "checked usersnap.com/pricing, July 2026",
+      "verdict": "Even: neither. Worth knowing before either accumulates years of client history."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "Both promise to sync back. The names on the list differ.",
+      "leftFacts": [
+        "Feedback becomes a ticket in your tracker. Integrations: Jira, GitHub, GitLab, Bitbucket, Linear, Azure DevOps, Trello, Asana, ClickUp, Monday.com, Notion, Basecamp, Shortcut, Teamwork, Wrike, plus Slack, Intercom, Zendesk, Sentry, FullStory, LogRocket.",
+        "Two-way Issue sync is a Team plan feature: Done in Jira flips the issue to Resolved in Marker.io. Azure DevOps plan gate: not yet verified."
+      ],
+      "leftVerified": "verified marker.io/integrations, marker.io/pricing, July 2026",
+      "rightFacts": [
+        "50+ native integrations, plus 2,000+ via Zapier.",
+        "Two-way sync with Jira, Jira Product Discovery, Azure DevOps, and Linear."
+      ],
+      "rightVerified": "verified usersnap.com/pricing, usersnap.com/integrations, July 2026",
+      "verdict": "Both sync two-way into Jira. Usersnap also names two-way sync for Jira Product Discovery, Azure DevOps, and Linear, and its 2,000-plus Zapier reach covers a longer tail; Marker.io's named list runs deepest on dev trackers."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the caps are different numbers.",
+      "leftFacts": [
+        "Starter $39/mo annual, $59 monthly: 3 users, 10 projects, 10 guests, 5k page views/mo.",
+        "Team $149/mo annual, $199 monthly: 15 users, 50 projects, 50 guests, 25k page views/mo.",
+        "Business: custom, yearly billing only. No Agency plan exists on marker.io/pricing. No free plan; 15-day trial, no card."
+      ],
+      "leftVerified": "verified marker.io/pricing, July 2026",
+      "rightFacts": [
+        "Free: first 20 feedback items, 5 seats, 500 feedback storage; deactivates after 90 days if not upgraded.",
+        "Starter $49/mo billed yearly, $59 monthly: 5 seats, 5 live projects, 500 feedback storage, 100k page views/mo.",
+        "Growth $109/mo yearly, $129 monthly: 10 seats, 15 live projects, unlimited storage, 500k page views/mo. Professional $189/mo yearly, $229 monthly, most popular: 20 seats, 20 live projects, 1M page views/mo. Premium from $369/mo yearly, from $449 monthly: 50 seats, 50 live projects, 2M page views/mo. Enterprise custom."
+      ],
+      "rightVerified": "verified usersnap.com/pricing, July 2026",
+      "verdict": "Lowest entry sticker: Marker.io at $39. But Usersnap's $49 Starter allows 100k page views against Marker.io's 5k cap. Price the caps, not just the sticker."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free reporters; paid guest seats; approval gate -",
+      "rightCell": "anyone via widget or survey, no seat; approval gate -"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "annotated screenshot into the tracker; behind-login -",
+      "rightCell": "widget or extension on the live page; behind-login -"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal comments, all plans",
+      "rightCell": "internal notes, dashboard-only; replies emailed"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshot, environment details; console logs, network requests, session replay Team+",
+      "rightCell": "manual screenshots, screen recordings with voice, auto metadata; console/error logs Professional+"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "your tracker; 13+ integrations incl. GitHub, GitLab, Linear; Jira Team+",
+      "rightCell": "50+ native integrations + 2,000+ via Zapier; two-way Jira, JPD, Azure DevOps, Linear"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Starter $39/mo annual, capped 5k views; Team $149/mo annual; no Agency plan",
+      "rightCell": "Free (20 items); Starter $49/mo yearly, 100k views; Growth $109; Professional $189; Premium from $369"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. Marker.io: Starter $39/mo annual, 3 users, 10 projects, 10 guests, 5k page views/mo; Team $149/mo annual, 15 users, 50 projects, 50 guests, 25k page views/mo; Business custom, yearly only. No Agency plan exists on marker.io/pricing. No free plan; 15-day trial, no card. Usersnap: Free for the first 20 feedback items, 5 seats, 500 feedback storage, deactivates after 90 days if not upgraded; then Starter $49/mo billed yearly, 5 seats, 5 live projects, 100k page views/mo; Growth $109, 10 seats, 15 projects, 500k page views/mo; Professional $189, 20 seats, 20 projects, 1M page views/mo, most popular; Premium from $369, 50 seats, 50 projects, 2M page views/mo; Enterprise custom. Feedback volume is unlimited on paid plans of both; both cap page views per tier. Price both against your actual traffic and seat count.",
+  "thirdOptionBody": "Both Marker.io and Usersnap assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/preview/comparison/superflow-vs-marker-io"
+    },
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Marker.io if your fixes live in a dev tracker and you want console logs and session replay attached. Usersnap if you want a broader platform: surveys, a feature-request portal, and a public guest board alongside the reports."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Marker.io reporters submit without an account; Usersnap accepts feedback via widget or survey with no account or seat. Ongoing client collaborators are paid seats on Marker.io."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Marker.io's Starter is $39/mo annual but caps at 5k page views. Usersnap's Starter is $49/mo annual with 100k page views. Price the cap that matches your traffic, not just the sticker."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person already found. Marker.io's AI edits report text; Usersnap's AI sorts and summarizes submitted feedback. Neither scans the live site. That's the third option above."
+    },
+    {
+      "question": "Does either have a public board clients can use without logging in?",
+      "answer": "Usersnap does: a public, limited portal where guests upvote and track tickets with no paid seat. Marker.io's guest access becomes a paid seat once a reporter needs to follow more than their own issue."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Marker.io alternatives",
+      "href": "/preview/alternative/marker-io-alternative"
+    },
+    {
+      "label": "The 5 best Usersnap alternatives",
+      "href": "/preview/alternative/usersnap-alternative"
+    },
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/preview/comparison/superflow-vs-marker-io"
+    },
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://marker.io",
+    "https://marker.io/pricing",
+    "https://marker.io/ai",
+    "https://marker.io/features",
+    "https://marker.io/features/session-replay",
+    "https://marker.io/integrations",
+    "https://marker.io/jira-bug-tracking-tool",
+    "https://marker.io/blog/jira-plugins-addons",
+    "https://usersnap.com",
+    "https://usersnap.com/pricing",
+    "https://usersnap.com/bug-reporting",
+    "https://usersnap.com/integrations",
+    "https://help.usersnap.com/docs/feedback-restored",
+    "https://help.usersnap.com/docs/public-portal-for-your-guest-users",
+    "https://help.usersnap.com/docs/opportunities-board"
+  ],
+  "metaTitle": "Marker.io vs Usersnap (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Marker.io and Usersnap, compared honestly: who checks, where feedback goes, what clients cost, real pricing. And one third option, clearly marked."
+}

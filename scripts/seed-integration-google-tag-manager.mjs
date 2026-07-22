@@ -2,7 +2,7 @@
 /**
  * Seed the "Google Tag Manager" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/google-tag-manager. Reuses the 2026 homepage
+ * Serves at /integrations/google-tag-manager. Reuses the 2026 homepage
  * sections as a fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/gtm/superflow-page-integration-google-tag-manager-v3.md
  * (a v3 "home replica" page: hero + the four home bands + the one-tag install).
@@ -38,7 +38,6 @@ const ACCENT_PLUM = "#da53b9";
 const ACCENT_BLUE = "#433df3";
 const ACCENT_GREEN = "#109534";
 const ACCENT_UMBER = "#e17a14";
-const ACCENT_PINK = "#d43f8d";
 
 // The four "home bands", home-verbatim. Band-4 Integrations one-liner leads
 // with Google Tag Manager per this page's verified-scope casting.
@@ -222,7 +221,7 @@ const HOME_BANDS = [
         oneLiner:
           "One-tag or one-click installs (Google Tag Manager, WordPress, Webflow); tasks sync two-way to Asana, Monday, ClickUp, with Slack notifications.",
         loss: "Without them, Superflow becomes one more silo to copy tasks out of.",
-        href: "/preview/integrations",
+        href: "/integrations",
       },
     ],
   },
@@ -236,7 +235,7 @@ const doc = {
   family: "Install",
   cardBlurb: "One tag covers any site that runs GTM.",
   hero: {
-    kicker: "· GOOGLE TAG MANAGER · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "GOOGLE TAG MANAGER · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Watch AI review every", "site in your container."],
     subhead:
       "Paste your agency's QA checklist. AI agents check every site your container runs on. Then your team approves. Then your client. No client login required. One tag.",
@@ -258,149 +257,10 @@ const doc = {
     headerTitle: "Superflow gets you from",
     journeyStart: "First Draft",
     journeyEnd: "Client Approved",
-    blocks: [
-      ...HOME_BANDS,
-      {
-        _key: "block-install",
-        title: "What the tag does",
-        description:
-          "Superflow ships as one tag for your GTM container. Add it, publish, and every site the container runs on becomes reviewable — no site code, no code access, no per-site install project.",
-        icon: "plug",
-        accent: ACCENT_BLUE,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "install-one-tag",
-            label: "One tag in GTM",
-            icon: "code-asterisk",
-            oneLiner: "One tag, added in GTM. No site code touched.",
-          },
-          {
-            _key: "install-any-platform",
-            label: "Any platform",
-            icon: "world",
-            oneLiner: "Works on any platform underneath the container.",
-          },
-          {
-            _key: "install-verify",
-            label: "Verified first",
-            icon: "circle-check",
-            oneLiner: "The verifier confirms the script before any review link goes out.",
-          },
-          {
-            _key: "install-updates",
-            label: "Updates propagate",
-            icon: "refresh",
-            oneLiner: "Tag updates propagate through the container. No re-paste, ever.",
-          },
-          {
-            _key: "install-remove",
-            label: "Remove the tag",
-            icon: "lock-open",
-            oneLiner: "Removing the tag removes Superflow.",
-          },
-          {
-            _key: "install-cta",
-            label: "See the GTM setup guide",
-            icon: "plug",
-            oneLiner: "See the GTM setup guide.",
-            href: "https://docs.usesuperflow.com/integrations/google-tag-manager",
-            listOnly: true,
-          },
-        ],
-      },
-      {
-        _key: "block-behaves",
-        title: "How the GTM install behaves",
-        description:
-          "The guarantees behind the install, so any website still takes the snippet.",
-        icon: "settings",
-        accent: ACCENT_UMBER,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "behave-fires",
-            label: "Where it fires",
-            icon: "world",
-            oneLiner:
-              "Fires wherever the container fires, staging included if the container is there.",
-          },
-          {
-            _key: "behave-consent",
-            label: "Respects consent",
-            icon: "lock",
-            oneLiner: "Respects the container's consent settings.",
-          },
-          {
-            _key: "behave-any",
-            label: "Any website floor",
-            icon: "code-asterisk",
-            oneLiner:
-              "Any website takes the snippet. GTM is the no-code-access path.",
-          },
-          {
-            _key: "behave-remove",
-            label: "Remove the tag",
-            icon: "lock-open",
-            oneLiner: "Removing the tag removes Superflow. Nothing else changes.",
-          },
-          {
-            _key: "behave-health",
-            label: "Health in settings",
-            icon: "history",
-            oneLiner: "Connection health lives in settings.",
-          },
-          {
-            _key: "behave-updates",
-            label: "Updates propagate",
-            icon: "refresh",
-            oneLiner: "Tag updates propagate through the container.",
-          },
-        ],
-      },
-      {
-        _key: "block-related",
-        title: "Part of the integrations catalog",
-        description:
-          "Google Tag Manager is one connector in the catalog. Explore the other install paths.",
-        icon: "plug",
-        accent: ACCENT_PINK,
-        mock: "workflow",
-        tabs: [
-          {
-            _key: "related-lead",
-            label: "Every tool, one review",
-            icon: "plug",
-            oneLiner:
-              "Every tool, one review. Superflow connects to the tools your agency already runs.",
-          },
-          {
-            _key: "related-wordpress",
-            label: "WordPress",
-            icon: "world",
-            oneLiner: "A built-in install for WordPress sites.",
-            href: "/preview/integrations/wordpress",
-            listOnly: true,
-          },
-          {
-            _key: "related-webflow",
-            label: "Webflow",
-            icon: "world",
-            oneLiner: "A built-in install for Webflow sites.",
-            href: "/preview/integrations/webflow",
-            listOnly: true,
-          },
-          {
-            _key: "related-hub",
-            label: "All integrations",
-            icon: "plug",
-            oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
-            listOnly: true,
-          },
-        ],
-      },
-    ],
+    // The four home bands only. The former "What the tag does" /
+    // "How the GTM install behaves" / catalog blocks now render as the
+    // bespoke InstallSections (components/integration-2026/InstallSections.tsx).
+    blocks: [...HOME_BANDS],
   },
   getStarted: {
     heading: "One tag in. Agents on every site.",

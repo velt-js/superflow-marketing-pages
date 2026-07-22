@@ -1,0 +1,228 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Usersnap",
+  "slug": { "current": "superflow-vs-usersnap" },
+  "competitorName": "Usersnap",
+  "grantedNoun": "feedback tool",
+  "kicker": "· SUPERFLOW VS USERSNAP · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Usersnap is a feedback tool. Superflow is a feedback tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more waiting on a widget report to catch what a checklist could find first."
+  ],
+  "qualifier": "If your agency collects site feedback through Usersnap's widget, this page is for you.",
+  "heroCaption": "It's like Usersnap hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Usersnap's AI reads feedback. It doesn't read the site.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person, usually the end user, reports every issue through the widget.",
+        "Usersnap's AI sidekick categorizes, scores sentiment, summarizes, and drafts replies and hypotheses on feedback already submitted. It never scans or tests the live site."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Usersnap's AI helps after someone reports. Superflow's agents report before anyone has to."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Anyone submits via the widget or a survey. No account or seat needed.",
+        "A formal approve or reject gate: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Usersnap's widget makes sending easy. The difference is the gate: in Superflow, the client's yes is a recorded step, not a comment."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "A widget on your live site or app, plus a browser extension, with on-page screenshot annotation.",
+        "Authenticated-site review as a named feature: not yet verified."
+      ],
+      "verdict": "Both put feedback on the live page. Behind logins, the Usersnap side is pending verification; if it resolves even, it renders even."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Internal notes stay dashboard-only. Replies to the reporter go out by email."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both keep the internal debate private. Even, and it says so."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools capture proof. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Annotated screenshots and screen recordings with voice, triggered when the user submits the widget.",
+        "Auto metadata on every submission: URL, browser, device, OS, screen size.",
+        "Console and error log capture: gated to Professional and up."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Usersnap's capture is rich once someone triggers it. Superflow's proof attaches itself, before anyone has to ask."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No memory concept in product. Nothing persists learned context across projects."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "50+ native integrations, plus 2,000+ via Zapier.",
+        "Two-way sync with Jira, Jira Product Discovery, Azure DevOps, and Linear."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Usersnap's two-way sync is real too. The difference is which tools: Jira, Azure DevOps, and Linear there, Asana, Monday, and ClickUp here. We don't sync Jira today; if Jira is your spine, weigh that honestly."
+    }
+  ],
+  "scorecardKicker": "Usersnap is a widget. Superflow is a team.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person, via the widget",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "anyone submits via widget or survey; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "widget on the live site; behind logins -",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal notes, dashboard-only",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "manual screenshots and screen recordings with voice; auto metadata; console logs on Professional and up",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "50+ integrations plus Zapier; two-way Jira, Jira Product Discovery, Azure DevOps, Linear",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "free for 20 items, then $49 / $109 / $189 / from $369 per month billed yearly (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: free for the first 20 feedback items, then Starter $49, Growth $109, Professional $189, Premium from $369 per month billed yearly (monthly $59 / $129 / $229 / from $449). Enterprise custom.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Usersnap projects finish in Usersnap. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Usersnap's widget captures annotated screenshots and screen recordings with voice, plus auto metadata on every submission. Guests send feedback with no account. Two-way sync reaches Jira, Jira Product Discovery, Azure DevOps, and Linear. Internal notes stay private while replies go to the reporter. Surveys, a feature-request portal, and a changelog live in the same platform.",
+  "stayLine": "If your goal is collecting user feedback, surveys, and feature requests through a widget, and a human reports each issue, Usersnap is a solid feedback platform. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/usersnap-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Usersnap with AI on top?",
+      "answer": "No. Usersnap's AI sorts feedback a person already sent; Superflow's agents find the mistakes first. A person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Usersnap projects?",
+      "answer": "Finish them in Usersnap. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We sync two-way with Jira from Usersnap.",
+      "answer": "Superflow syncs two-way with Asana, Monday, and ClickUp, plus webhooks and a REST API. Jira is not built in today; if Jira runs your delivery, weigh that."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Usersnap alternatives",
+      "href": "/preview/alternative/usersnap-alternative"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://usersnap.com",
+    "https://usersnap.com/pricing",
+    "https://usersnap.com/bug-reporting",
+    "https://usersnap.com/integrations",
+    "https://help.usersnap.com/docs/feedback-restored"
+  ],
+  "metaTitle": "Superflow vs Usersnap (2026): A Feedback Tool vs a Feedback Tool + a Team",
+  "metaDescription": "Usersnap is a feedback tool. Superflow is a feedback tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

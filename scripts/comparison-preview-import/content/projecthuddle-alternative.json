@@ -1,0 +1,154 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best ProjectHuddle alternatives for agencies (2026)",
+  "slug": { "current": "projecthuddle-alternative" },
+  "anchorName": "SureFeedback",
+  "kicker": "· SUREFEEDBACK ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best ProjectHuddle alternatives for agencies (2026)",
+  "standfirst": "ProjectHuddle is now SureFeedback, same self-hosted WordPress plugin, new name. It's still a fine feedback tool. The gap is usually the hours a person spends finding mistakes. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "SureFeedback is a feedback plugin. Superflow is a QA tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person, point and click; no AI",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "guest comment, name + email; 1-click approval",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live sites on any platform, via child plugin or snippet; plus mockups",
+      "rightCell": "live site, behind logins and SSO"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "private comments, limited to chosen roles",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshot annotations; live-page auto-capture, video -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "self-hosted WP plugin; Zapier, Make only",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$99 / $139 / $169 pay-once list; pricing page shows $119 / $159 / $199 yearly renewals (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira sync today.",
+  "superflowLinks": [
+    {
+      "label": "Browse all comparisons",
+      "href": "/preview/comparison"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Atarim",
+      "bestFor": "WordPress agencies that want an AI review team, not just a comment box.",
+      "standout": "six AI agents (the InnerCircle) that scan a live page for design, UX, SEO, copy, and QA issues in seconds, plus Global, Project, and User memory context.",
+      "limits": "AI review is admin and team only; clients and guests never see it. AI use is metered by monthly credits and capped by tier. Priced per seat with active-project caps (July 2026).",
+      "vsAnchor": "AI actually checks the page and remembers project context across reviews, something SureFeedback doesn't do. SureFeedback runs on your own WordPress site under one flat license with no per-seat math."
+    },
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies that want feedback pinned right on the live page, no WordPress required.",
+      "standout": "element pins with browser, OS, and screen size attached; built-in kanban.",
+      "limits": "A person finds every issue, no AI. No memory concept; each project starts blank. Formal client approval flow: not yet verified. Pricing $50 / $80 / $150 per month, +$8 per member (July 2026).",
+      "vsAnchor": "No WordPress install needed on your side, but it's per-member SaaS pricing against SureFeedback's one flat license for unlimited sites and users."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds without touching WordPress at all.",
+      "standout": "zero-install proxy canvas with a formal Finish Review approval flow on every plan, including Free.",
+      "limits": "Reviews the site through Pastel's proxy, not the page in place. PM-tool exports gated to the $119/mo Team plan. No memory concept (checked July 2026).",
+      "vsAnchor": "No install and a built-in approval button, against SureFeedback's own-your-data WordPress plugin with its own page and project approval flow. Pastel shows a proxy of your site; SureFeedback runs natively on it."
+    },
+    {
+      "name": "Markup.io",
+      "bestFor": "teams that want one flat price across websites, images, PDFs, and video.",
+      "standout": "flat $79 per month for unlimited users, plus an auto-screenshot audit trail via the Chrome extension.",
+      "limits": "Proxy and iFrame based; sites that block iFrames or require login can break. Internal or private comments the client can't see: not yet verified. No native two-way PM sync (checked July 2026).",
+      "vsAnchor": "Flat per-workspace pricing instead of SureFeedback's tiered licenses, but it's a proxy and iFrame review of your site, not a native plugin running on your own WordPress install."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on SureFeedback",
+  "stayBody": "One flat license covers unlimited sites, mockups, and users, and the plugin runs on your own WordPress install, so you keep and own the data. Guests comment with just a name and email, and approve with one click. GPL licensed and 100% white label (verified July 2026).",
+  "stayLine": "If you want a self-hosted, own-your-data WordPress feedback plugin with unlimited projects and clients, stay.",
+  "faq": [
+    {
+      "question": "Which is the best SureFeedback alternative?",
+      "answer": "Depends which criterion fails you. If it's the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just SureFeedback with AI?",
+      "answer": "No. SureFeedback collects the feedback a person finds. Superflow's agents find the mistakes first, and a person makes every call."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "On several, SureFeedback included, where guests comment with just a name and email. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    {
+      "label": "Markup.io alternatives",
+      "href": "/preview/alternative/markup-alternative"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" },
+    { "label": "WordPress integration", "href": "/integrations/wordpress" }
+  ],
+  "finalCtaHeadline": "SureFeedback is a feedback plugin. Superflow is a QA tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://surefeedback.com",
+    "https://projecthuddle.com",
+    "https://surefeedback.com/self-hosted-plugin/",
+    "https://surefeedback.com/self-hosted-pricing/",
+    "https://surefeedback.com/pricing/",
+    "https://surefeedback.com/docs/how-private-comments-work/",
+    "https://surefeedback.com/docs/how-to-use-private-comments/",
+    "https://wordpress.org/plugins/projecthuddle-child-site/",
+    "https://surefeedback.com/website-feedback/"
+  ],
+  "metaTitle": "5 Best ProjectHuddle Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest ProjectHuddle (SureFeedback) alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}

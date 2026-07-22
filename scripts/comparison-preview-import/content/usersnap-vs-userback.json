@@ -1,0 +1,268 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Usersnap vs Userback",
+  "slug": { "current": "usersnap-vs-userback" },
+  "toolLeftName": "Usersnap",
+  "toolRightName": "Userback",
+  "kicker": "· USERSNAP VS USERBACK · COMPARED FOR AGENCIES",
+  "headline": "Usersnap vs Userback: which fits your agency?",
+  "standfirst": "Both are visual feedback widgets: a person on your site sends an annotated screenshot or recording, and your team triages it in a dashboard. The fork: Usersnap is a wider feedback platform, with surveys, a public guest portal, and deep two-way sync. Userback attaches session replay to every report and opens an MCP door to your AI coding tools.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from usersnap.com and userback.io.",
+  "shortAnswerPickLeft": "if you want one feedback platform that also runs surveys and a public guest portal, with deep two-way sync to Jira, Jira Product Discovery, Azure DevOps, and Linear.",
+  "shortAnswerPickRight": "if you want session replay and console or network logs attached to every report, and an MCP server that puts feedback in front of AI coding tools like Cursor, Claude, and ChatGPT.",
+  "shortAnswerShared": "Both assume a person finds every mistake.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person reports every issue through the widget.",
+        "AI only categorizes, scores sentiment, summarizes, and drafts replies or hypotheses (both BETA) on feedback already submitted. No AI scans the live site."
+      ],
+      "leftVerified": "verified usersnap.com/pricing, July 2026",
+      "rightFacts": [
+        "A person reports every issue through the widget or the browser extension.",
+        "AI only runs after a human submits: auto-categorize, sentiment, titles, semantic search, theme clustering. No AI agent browses the site."
+      ],
+      "rightVerified": "verified userback.io/features/feedback-widget, July 2026",
+      "verdict": "Even. In both tools, the checking is a person's job, and each tool's AI only works on feedback already in hand."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make sending feedback easy. Neither makes the yes formal.",
+      "leftFacts": [
+        "Anyone submits via the widget or a survey, no account and no seat.",
+        "Guests can also join a public board to comment and upvote without a paid seat.",
+        "A formal approve/reject gate: not yet verified."
+      ],
+      "leftVerified": "verified usersnap.com/pricing, help.usersnap.com/docs/public-portal-for-your-guest-users, July 2026 except where noted",
+      "rightFacts": [
+        "Any reporter submits via the widget, browser extension, or a link, no account and no seat.",
+        "The site describes triage routing with a review-then-push option, not a client approval step.",
+        "A formal approve/reject gate: not yet verified."
+      ],
+      "rightVerified": "verified userback.io/integrations, July 2026 except where noted",
+      "verdict": "Even. Both collect feedback free with no client account. A recorded client sign-off: neither, pending verification."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "The widget goes on the page. The dashboard is where the team actually looks.",
+      "leftFacts": [
+        "Widget on your live site or app, or a browser extension, with on-page screenshot annotation.",
+        "Team reviews in a shared dashboard.",
+        "Authenticated-site review as a named feature: not yet verified."
+      ],
+      "leftVerified": "verified usersnap.com/bug-reporting, July 2026 except where noted",
+      "rightFacts": [
+        "Widget embedded in your own app, plus a browser extension that captures on any site, including staging.",
+        "Dashboard has an inbox and a kanban view.",
+        "Exact behavior on third-party logins: not yet verified."
+      ],
+      "rightVerified": "verified userback.io/features/browser-extension, July 2026 except where noted",
+      "verdict": "Even. Both pair a live-site widget with a browser extension and a dashboard; neither confirms a dedicated authenticated-site review flow."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree before the client sees it.",
+      "leftFacts": [
+        "Internal notes stay dashboard-only; replies go to the reporter by email."
+      ],
+      "leftVerified": "verified help.usersnap.com/docs/feedback-restored, July 2026",
+      "rightFacts": [
+        "Internal comments exist; Team Comment Controls can restrict members, like developers, to internal-only comments.",
+        "Gated to Business and up."
+      ],
+      "rightVerified": "verified userback.io/pricing, July 2026",
+      "verdict": "Usersnap. Both keep a private layer, but Usersnap's internal notes are built in with no plan gate recorded; Userback's internal-only comment controls are Business and up."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both capture context on submission. One also captures what happened before it.",
+      "leftFacts": [
+        "Manual annotated screenshots and screen recordings with voice.",
+        "Auto metadata: URL, browser, device, OS, screen size.",
+        "Auto JS and console error logs, gated to Professional and up."
+      ],
+      "leftVerified": "verified usersnap.com/bug-reporting, usersnap.com/pricing, July 2026",
+      "rightFacts": [
+        "Annotated screenshots, video recordings, and browser or system metadata on one submission.",
+        "Session replay ships with the report so the team can watch what the user did before reporting.",
+        "Session replay, console logs, and network requests are gated to Business and up."
+      ],
+      "rightVerified": "verified userback.io/features/feedback-widget, userback.io/features/session-replay, July 2026",
+      "verdict": "Userback, once you are on Business and up. Session replay plus console and network logs is more technical depth than Usersnap's screenshots, recordings, and gated console logs."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept. Nothing persists learned context across projects."
+      ],
+      "leftVerified": "checked usersnap.com/pricing, July 2026",
+      "rightFacts": [
+        "No persistent memory concept. AI Insights clusters themes inside one project, but nothing carries forward across projects."
+      ],
+      "rightVerified": "checked userback.io/pricing, July 2026",
+      "verdict": "Even: neither. Worth knowing before you invest years of client history in either."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "Both sync out. One also opens a door for your AI tools.",
+      "leftFacts": [
+        "50+ native integrations plus 2,000+ via Zapier.",
+        "Two-way sync with Jira, Jira Product Discovery, Azure DevOps, and Linear.",
+        "REST API, webhooks, PowerBI, CSV/JSON export."
+      ],
+      "leftVerified": "verified usersnap.com/pricing, usersnap.com/integrations, July 2026",
+      "rightFacts": [
+        "20+ integrations, two-way sync with Jira, Linear, and ClickUp; Slack and Teams alerts.",
+        "A native MCP server gives AI coding tools like Cursor, Claude, and ChatGPT read/write access to feedback, logs, and network requests.",
+        "PM integrations gated to Team and up; support tools, REST API, and webhooks gated to Business Plus."
+      ],
+      "rightVerified": "verified userback.io/integrations, userback.io/blog/connect-ai-tools-to-user-feedback, July 2026",
+      "verdict": "Breadth: Usersnap, by a wide margin on integration count. A different kind of fit: Userback's MCP server, if your workflow already lives inside AI coding tools."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The free tier and the ladder both matter.",
+      "leftFacts": [
+        "Free: first 20 feedback items, 5 seats, 500 feedback storage; deactivates after 90 days if not upgraded.",
+        "Starter $49/mo billed yearly ($59 monthly), Growth $109 ($129 monthly), Professional $189 ($229 monthly), Premium from $369 (from $449 monthly).",
+        "Enterprise custom. Feedback items are unlimited on every paid plan."
+      ],
+      "leftVerified": "verified usersnap.com/pricing, July 2026",
+      "rightFacts": [
+        "Free Forever: $0, 2 seats, 2 projects, 7-day feedback availability, unlimited feedback collection.",
+        "Team $29/mo billed annually ($39 monthly), Business $79 ($99 monthly), Business Plus $159 ($199 monthly).",
+        "Feature Portal add-on: $31/mo billed annually ($39 monthly). Reporters are unlimited and free on every plan."
+      ],
+      "rightVerified": "verified userback.io/pricing, July 2026",
+      "verdict": "Lowest entry and a real free tier: Userback. Price your own agency's shape before deciding: Usersnap's Starter has more projects for the money."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free widget/survey submissions, no account; approval gate -",
+      "rightCell": "free reporter submissions, no account; approval gate -"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "widget + browser extension, shared dashboard",
+      "rightCell": "widget + browser extension incl. staging, dashboard inbox + kanban"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal notes, team-only; no gate recorded",
+      "rightCell": "internal comments; internal-only controls Business+"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshots, screen recordings w/ voice, metadata; console logs Professional+",
+      "rightCell": "screenshots, video, session replay, console/network logs Business+"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "50+ native + 2,000+ via Zapier; 2-way Jira, JPD, Azure DevOps, Linear",
+      "rightCell": "20+ integrations; 2-way Jira, Linear, ClickUp; MCP for AI tools"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "free (20 items) then $49 to $369+/mo billed yearly",
+      "rightCell": "free forever then $29 to $159/mo billed annually; Feature Portal add-on $31/mo"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026. Usersnap: Free (first 20 feedback items, 5 seats, 500 feedback storage, deactivates after 90 days if not upgraded), Starter $49/mo billed yearly ($59 monthly, 5 seats, 5 live projects, 100,000 page views/mo), Growth $109 ($129 monthly, 10 seats, 15 projects, 500,000 page views/mo), Professional $189 ($229 monthly, 20 seats, 20 projects, 1,000,000 page views/mo), Premium from $369 (from $449 monthly, 50 seats, 50 projects, 2,000,000 page views/mo), Enterprise custom. Feedback items are unlimited on every paid plan; sending feedback needs no seat. Userback: Free Forever $0 (2 seats, 2 projects, 7-day feedback availability, unlimited feedback collection), Team $29/mo billed annually ($39 monthly, 5 seats, 2 projects), Business $79 ($99 monthly, unlimited seats, 25 projects, session replay and console/network logs), Business Plus $159 ($199 monthly, unlimited seats and projects, SSO), plus a Feature Portal add-on at $31/mo billed annually ($39 monthly). Reporters are unlimited and free on every Userback plan. The agency-shaped comparison: Usersnap Starter (5 seats, 5 projects, 100,000 page views) against Userback Team (5 seats, 2 projects) at a lower sticker; the project cap is the number to check against your client count.",
+  "thirdOptionBody": "Both Usersnap and Userback assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Usersnap if you want one platform for feedback, surveys, and a public guest portal with deep two-way sync; Userback if you want session replay and console logs attached to every report, plus a free tier that never expires."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Usersnap guests submit or join the public board with no account and no seat; Userback reporters submit from the widget or a link with no account and no seat."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Userback's entry tier is lower ($29 annual versus $49) and its free plan never expires; Usersnap's Starter includes more projects for the money. Price the caps against your client count."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person reports, and each tool's AI only organizes feedback already submitted. That's the third option above."
+    },
+    {
+      "question": "Which one has session replay?",
+      "answer": "Userback, gated to Business and up. Usersnap has no session replay verified; it captures manual screenshots, recordings, and console logs gated to Professional and up."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Usersnap alternatives",
+      "href": "/preview/alternative/usersnap-alternative"
+    },
+    {
+      "label": "The 5 best Userback alternatives",
+      "href": "/preview/alternative/userback-alternative"
+    },
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://usersnap.com",
+    "https://usersnap.com/pricing",
+    "https://usersnap.com/bug-reporting",
+    "https://usersnap.com/integrations",
+    "https://help.usersnap.com/docs/feedback-restored",
+    "https://help.usersnap.com/docs/public-portal-for-your-guest-users",
+    "https://help.usersnap.com/docs/opportunities-board",
+    "https://userback.io",
+    "https://userback.io/pricing",
+    "https://userback.io/features/feedback-widget",
+    "https://userback.io/features/session-replay",
+    "https://userback.io/features/browser-extension",
+    "https://userback.io/integrations",
+    "https://userback.io/security",
+    "https://userback.io/blog/connect-ai-tools-to-user-feedback",
+    "https://support.userback.io/en/articles/14696099",
+    "https://support.userback.io/en/articles/5209243"
+  ],
+  "metaTitle": "Usersnap vs Userback (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Usersnap and Userback, compared honestly: where feedback goes, what gets captured, what clients pay for, real pricing. And one third option, clearly marked."
+}

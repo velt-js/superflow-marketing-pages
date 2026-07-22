@@ -1,0 +1,268 @@
+{
+  "_type": "comparisonPreviewArbiterPage",
+  "title": "Marker.io vs Userback",
+  "slug": { "current": "marker-io-vs-userback" },
+  "toolLeftName": "Marker.io",
+  "toolRightName": "Userback",
+  "kicker": "· MARKER.IO VS USERBACK · COMPARED FOR AGENCIES",
+  "headline": "Marker.io vs Userback: which fits your agency?",
+  "standfirst": "Marker.io is a bug reporting tool: reports become tickets in the tracker your team already runs, with deep technical capture attached. Userback is a feedback tool: one visual-feedback platform with session replay, surveys, and a feature-request portal. The fork: where the report ends up, and what it costs to see inside it.",
+  "disclosure": "We make Superflow, a third option in this space. It appears once, at the end, clearly marked. Everything above it is a straight comparison.",
+  "dateline": "Facts checked July 2026, from marker.io and userback.io.",
+  "shortAnswerPickLeft": "if your fixes live in Jira, GitHub, or Linear and you want console logs, network requests, and session replay attached to every report on a single paid tier.",
+  "shortAnswerPickRight": "if you want one platform for visual feedback, surveys, and a feature-request portal, with a free tier to start and true two-way sync to Jira, Linear, and ClickUp.",
+  "shortAnswerShared": "Both assume a person finds every mistake, then reports it.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Start with the question everything else depends on.",
+      "leftFacts": [
+        "A person finds every issue, then reports it.",
+        "Its AI translates (200+ languages, beta), rewrites, and titles report text; a Marker.io MCP feeds report context to outside AI agents like Claude and Cursor for triage. Nothing looks at the site to find issues."
+      ],
+      "leftVerified": "verified marker.io/ai, July 2026",
+      "rightFacts": [
+        "A person reports every issue, through the widget, the browser extension, or a link.",
+        "Userback's AI runs after that report exists: it auto-categorizes, scores sentiment, drafts titles, and clusters themes. It does not look at the site itself."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Even. In both tools, checking the site is a person's job; each vendor's AI works on the report afterward, not the page. That is the premise the third option removes."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Both make submitting easy. Neither makes the yes formal.",
+      "leftFacts": [
+        "Reporters submit free from the widget, no account, and can follow their own issues.",
+        "Ongoing client collaborators are paid guest seats: 10 on Starter, 50 on Team.",
+        "A formal approval flow: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "Any reporter submits free, from the widget, the browser extension, or a link. No account, no seat, unlimited.",
+        "The site shows a triage routing option described as a hybrid, review then push approved items, not a client approval step.",
+        "A formal client approval flow: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Comment collection: even, both free and unlimited for reporters. A recorded client sign-off: neither, pending verification."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "On the page, or on a picture of the page.",
+      "leftFacts": [
+        "You annotate a captured screenshot of the page; the report carries the picture, not a persistent on-page pin.",
+        "Widget on the live site (snippet or CMS plugin); browser extension for members on any webpage.",
+        "Session replay adds a video of the last three minutes, automatically.",
+        "Behind-login behavior: not yet verified."
+      ],
+      "leftVerified": "verified July 2026 except where noted",
+      "rightFacts": [
+        "The widget embeds in your own app; the browser extension captures on any site, including staging.",
+        "A dashboard inbox and kanban sit behind the capture; screenshot annotation and video are included.",
+        "Behind third-party logins and SSO: partially verified, exact behavior not spelled out."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Even on the review surface: both capture a picture of the live page rather than a persistent on-page pin. Behind third-party logins, both sides are pending verification."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal comments on every plan, including Starter."
+      ],
+      "leftVerified": "verified marker.io/pricing, July 2026",
+      "rightFacts": [
+        "Team Comment Controls can restrict members, like developers, to internal-only comments.",
+        "Gated to the Business plan and up."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Marker.io ships internal comments on every plan, including its entry tier. Userback grants the same job starting at Business. On this dimension: Marker.io."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both capture context. The gates land in different places.",
+      "leftFacts": [
+        "Screenshot plus environment details (browser, OS, webpage, screen size) on every plan.",
+        "Console logs, network requests, and session replay of the last three minutes on the Team plan and up."
+      ],
+      "leftVerified": "verified marker.io/pricing, marker.io/features, July 2026",
+      "rightFacts": [
+        "One submission attaches an annotated screenshot, video recording, console logs, network requests, and browser and system metadata.",
+        "Session replay, console logs, and network requests start at the Business plan."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Even in ambition, different in gating. Marker.io's console logs, network requests, and session replay start on its $149 Team plan; Userback's equivalents start on its $79 Business plan. Price the tier you'd actually run."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Does project ten start smarter than project one?",
+      "leftFacts": [
+        "No memory concept. Each project starts blank."
+      ],
+      "leftVerified": "checked July 2026",
+      "rightFacts": [
+        "No persistent memory concept. AI Insights clusters themes inside a project, not across projects."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "Even: neither carries history forward. Worth knowing before you invest years of client history in either."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fixes still have to ship somewhere.",
+      "leftFacts": [
+        "Feedback becomes a ticket in your tracker. Integrations include Jira, GitHub, GitLab, Bitbucket, Linear, Azure DevOps, Trello, Asana, ClickUp, Monday.com, Notion, Basecamp, Shortcut, Teamwork, Wrike, plus Slack, Intercom, Zendesk, Sentry, FullStory, and LogRocket.",
+        "Two-way Issue sync (status flips both directions) is a Team plan feature; the Jira gate for two-way sync is Team specifically. Azure DevOps plan gate: not yet verified."
+      ],
+      "leftVerified": "verified marker.io/integrations, marker.io/pricing, July 2026",
+      "rightFacts": [
+        "True two-way sync with Jira, Linear, and ClickUp; status changes move both directions.",
+        "20+ integrations total, plus Slack and Teams alerts and a native MCP. PM integrations are gated to Team and up; support tools like Intercom and Zendesk, plus a REST API and webhooks, are Business Plus only."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both sync two-way, with different trackers. Marker.io covers Jira on its Team plan plus GitHub, GitLab, and Bitbucket. Userback covers Jira, Linear, and ClickUp two-way, also gated to a paid tier. Match the sync to the tracker your team actually runs."
+    },
+    {
+      "number": "08",
+      "label": "What it costs",
+      "framing": "The sticker and the math are different numbers.",
+      "leftFacts": [
+        "Starter $39/mo annual ($59 monthly): 3 users, 10 projects, 10 guests, 5k page views/mo. Team $149/mo annual ($199 monthly): 15 users, 50 projects, 50 guests, 25k page views/mo.",
+        "Business: custom pricing, yearly billing only. No Agency plan. No free plan. 15-day free trial, no card."
+      ],
+      "leftVerified": "verified marker.io/pricing, July 2026",
+      "rightFacts": [
+        "Free Forever $0: 2 seats, 2 projects, 7-day feedback availability. Team $29/mo annual ($39 monthly): 5 seats, 2 projects. Business $79/mo annual ($99 monthly): unlimited seats, 25 projects, session replay, console/network logs, surveys, AI Feedback & Insights. Business Plus $159/mo annual ($199 monthly): unlimited seats and projects, Mobile SDK, advanced privacy masking, Intercom/Zendesk, REST API, webhooks, SSO.",
+        "Feature Portal add-on $31/mo billed annually ($39 monthly). Reporters are unlimited and free on every plan, including Free."
+      ],
+      "rightVerified": "verified userback.io/pricing, July 2026",
+      "verdict": "Lowest entry: Userback, with a genuine free plan. No free plan at all: Marker.io, entry is $39/mo annual. Compare the plan you'd actually run: Marker.io Team ($149) against Userback Business ($79) for session replay and logs."
+    }
+  ],
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person",
+      "rightCell": "a person; AI organizes after submission"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free reporters; paid guest seats; approval gate -",
+      "rightCell": "free reporter link, unlimited; approval gate -"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "annotated screenshot into the tracker; behind-login -",
+      "rightCell": "widget and extension on any site; third-party SSO -"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal comments, all plans",
+      "rightCell": "internal-only comments, Business+"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshot, environment details; console logs, network requests, session replay Team+",
+      "rightCell": "screenshot, video, metadata; session replay, console/network logs Business+"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "no"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "your tracker; 20+ incl. GitHub, GitLab, Linear; two-way Jira Team+",
+      "rightCell": "two-way Jira, Linear, ClickUp; REST API, webhooks Business Plus"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "from $39/mo annual, capped; no free plan",
+      "rightCell": "Free $0; Business $79/mo annual for replay and logs"
+    }
+  ],
+  "pricingNote": "Both columns verified July 2026 from vendor pricing pages. Marker.io: Starter $39/mo annual (3 users, 10 projects, 10 guests, 5k page views/mo), Team $149/mo annual (15 users, 50 projects, 50 guests, 25k page views/mo), Business custom and yearly only, no Agency plan, 15-day trial no card. Userback: Free $0, Team $29/mo annual, Business $79/mo annual, Business Plus $159/mo annual, Feature Portal add-on $31/mo annual, unlimited free reporters on every plan. The agency-shaped comparison: Marker.io Team against Userback Business, since that is where each vendor's console logs, network requests, and session replay actually turn on.",
+  "thirdOptionBody": "Both Marker.io and Userback assume a person finds every mistake. Superflow is a QA tool + a team: AI agents built from your checklist check every site change, your team decides, your client approves from a link.",
+  "thirdOptionLinks": [
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/preview/comparison/superflow-vs-marker-io"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Which is better for a small agency?",
+      "answer": "Marker.io if your fixes live in a dev tracker and you want console logs and replay attached from a single paid tier; Userback if you want visual feedback, surveys, and a feature-request portal on one platform, with a free tier to start."
+    },
+    {
+      "question": "Do clients need accounts?",
+      "answer": "No on both. Marker.io reporters submit without an account, though ongoing collaborators need paid guest seats. Userback reporters submit free and unlimited on every plan, including Free."
+    },
+    {
+      "question": "Which is cheaper?",
+      "answer": "Userback has a genuine free plan; Marker.io's cheapest tier is $39/mo annual. But Marker.io's console logs and replay need its $149 Team plan, and Userback's need its $79 Business plan, so price the tier you'd actually run."
+    },
+    {
+      "question": "Can either check the site itself?",
+      "answer": "No. Both collect what a person found. Marker.io's AI edits and translates report text; Userback's AI organizes and categorizes reports after submission. Neither looks at the site to find issues. That's the third option above."
+    },
+    {
+      "question": "Which syncs better with my tracker?",
+      "answer": "Both sync two-way with Jira, gated to a paid tier. Userback adds Linear and ClickUp two-way; Marker.io adds GitHub, GitLab, and Bitbucket instead. Match the sync to the tracker your team actually runs."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Marker.io alternatives",
+      "href": "/preview/alternative/marker-io-alternative"
+    },
+    {
+      "label": "The 5 best Userback alternatives",
+      "href": "/preview/alternative/userback-alternative"
+    },
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/preview/comparison/superflow-vs-marker-io"
+    },
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    },
+    {
+      "label": "BugHerd vs Marker.io",
+      "href": "/preview/comparison/bugherd-vs-marker-io"
+    }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://marker.io",
+    "https://marker.io/pricing",
+    "https://marker.io/ai",
+    "https://marker.io/features",
+    "https://marker.io/features/session-replay",
+    "https://marker.io/integrations",
+    "https://marker.io/jira-bug-tracking-tool",
+    "https://marker.io/blog/jira-plugins-addons",
+    "https://userback.io",
+    "https://userback.io/pricing",
+    "https://userback.io/features/feedback-widget",
+    "https://userback.io/features/session-replay",
+    "https://userback.io/features/browser-extension",
+    "https://userback.io/integrations",
+    "https://userback.io/security",
+    "https://userback.io/blog/connect-ai-tools-to-user-feedback",
+    "https://support.userback.io/en/articles/14696099",
+    "https://support.userback.io/en/articles/5209243"
+  ],
+  "metaTitle": "Marker.io vs Userback (2026): Which Fits Your Agency? | Superflow",
+  "metaDescription": "Marker.io and Userback, compared honestly: who checks, what gets captured, what it costs, real pricing. And one third option, clearly marked."
+}

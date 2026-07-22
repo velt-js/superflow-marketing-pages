@@ -94,6 +94,18 @@ import {
   featurePage,
 } from "./featurePage";
 import {
+  comparisonPreviewFaqItem,
+  comparisonPreviewLink,
+  comparisonPreviewScorecardRow,
+  comparisonPreviewDimension,
+  comparisonPreviewCriterion,
+  comparisonPreviewEntry,
+  comparisonPreviewVsPage,
+  comparisonPreviewArbiterPage,
+  comparisonPreviewAlternativesPage,
+  comparisonPreviewHub,
+} from "./comparisonPreviewPage";
+import {
   integrationPreviewHeroTab,
   integrationPreviewHero,
   integrationPreviewSolution,
@@ -124,6 +136,10 @@ export const schemaTypes = [
   featurePage,
   integrationPreviewPage,
   integrationPreviewHub,
+  comparisonPreviewVsPage,
+  comparisonPreviewArbiterPage,
+  comparisonPreviewAlternativesPage,
+  comparisonPreviewHub,
 
   // Inline annotations
   linkAnnotation,
@@ -224,4 +240,12 @@ export const schemaTypes = [
   integrationPreviewGetStarted,
   integrationPreviewFaqItem,
   integrationPreviewFaq,
+
+  // comparisonPreview* sub-types
+  comparisonPreviewFaqItem,
+  comparisonPreviewLink,
+  comparisonPreviewScorecardRow,
+  comparisonPreviewDimension,
+  comparisonPreviewCriterion,
+  comparisonPreviewEntry,
 ];

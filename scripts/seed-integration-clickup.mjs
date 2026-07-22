@@ -2,7 +2,7 @@
 /**
  * Seed the "ClickUp" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/clickup. Reuses the 2026 homepage sections as
+ * Serves at /integrations/clickup. Reuses the 2026 homepage sections as
  * a fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-clickup-v1-1.md;
  * [bracketed] and *italic* build/FIX/FLAG notes are dropped (the FIX note's
@@ -45,7 +45,7 @@ const doc = {
   family: "Project boards",
   cardBlurb: "Same two-way sync, mapped to your statuses.",
   hero: {
-    kicker: "· TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "TASK MANAGEMENT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["ClickUp tasks", "that close themselves."],
     subhead:
       "A sign-off in Superflow moves the linked ClickUp task to done. Statuses stay matched both ways, mapped to your spaces and lists. Set the mapping once.",
@@ -204,7 +204,7 @@ const doc = {
             label: "Asana",
             icon: "layout-kanban",
             oneLiner: "Sign-offs close tasks, statuses stay matched, two-way.",
-            href: "/preview/integrations/asana",
+            href: "/integrations/asana",
             listOnly: true,
           },
           {
@@ -212,7 +212,7 @@ const doc = {
             label: "Monday",
             icon: "layout-kanban",
             oneLiner: "Same two-way sync, mapped to your columns.",
-            href: "/preview/integrations/monday",
+            href: "/integrations/monday",
             listOnly: true,
           },
           {
@@ -237,7 +237,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

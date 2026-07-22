@@ -1,0 +1,154 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Atarim alternatives for agencies (2026)",
+  "slug": { "current": "atarim-alternative" },
+  "anchorName": "Atarim",
+  "kicker": "· ATARIM ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Atarim alternatives for agencies (2026)",
+  "standfirst": "Atarim already ships an AI review team, six agents plus real memory, not just a comment tool. The honest gap is when the agents run: on demand, versus on every change, and who signs off before a client sees a page. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Atarim is a visual collaboration tool. Superflow is a QA tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies who want the AI check running automatically on every change, not on demand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "six AI agents scan on demand, by issue category, metered by AI credits; AI is admin and team only",
+      "rightCell": "agents, from your checklist, run on every change"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free guest link, no account; Page Approvals: client approves or requests changes",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "any URL, Chrome extension, or native WordPress plugin; live, staging, login-protected",
+      "rightCell": "live site, behind logins and SSO"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "yes, Internal Tasks and notes, team only; AI feedback internal by default",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "auto screenshot, browser, OS, screen resolution, URL, element data; screen or video recording -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "yes, Global, Project, and User context layers",
+      "rightCell": "yes, Memory, per client, feeding the agents"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "native Jira, Asana, ClickUp, Trello, Monday.com, Basecamp, Teamwork, Slack, two-way sync; Zapier, Make; integration and API plan gates -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free $0, 200 one-time AI credits, 2 projects, 1 seat; Pro $25/seat/mo yearly ($29 monthly, 5 projects, up to 5 seats); Business $35/seat/mo yearly ($42 monthly, 10 projects, up to 100 seats); Enterprise custom; clients and guests unlimited; annual is 2 months free (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira sync today.",
+  "superflowLinks": [
+    {
+      "label": "How the AI review agents work",
+      "href": "/ai-review-agents"
+    }
+  ],
+  "entries": [
+    {
+      "name": "SureFeedback",
+      "bestFor": "WordPress agencies that want to self-host and own the data.",
+      "standout": "one flat license, self-hosted, unlimited projects, sites, and users; GPL and full white label.",
+      "limits": "A person finds every issue by hand. No AI, no memory concept, projects start blank. No native two-way sync with Jira, Trello, or Asana, automation runs through Zapier or Make. Pricing: Starter $99, Professional $139, Business $169, renews $119, $159, $199 per year (July 2026).",
+      "vsAnchor": "Human-found only, no AI review layer like Atarim's InnerCircle. SureFeedback self-hosts and you own the data outright; Atarim is a hosted SaaS with a native WordPress plugin of its own."
+    },
+    {
+      "name": "BugHerd",
+      "bestFor": "agencies that want feedback pinned right on the live page, on a budget.",
+      "standout": "element pins with browser, OS, and screen size attached; built-in kanban; free guest links.",
+      "limits": "A person finds every issue. No AI, no memory concept, each project starts blank. A formal approval flow: not yet verified. Pricing: Standard $50, Studio $80, Premium $150 per month, plus $8 per member (July 2026).",
+      "vsAnchor": "Human-found only, no AI review layer like Atarim's InnerCircle. Both grant free guests; only Atarim's plugin natively reviews inside WP Admin on staging and login-protected sites."
+    },
+    {
+      "name": "Pastel",
+      "bestFor": "fast markup rounds with clients, zero install.",
+      "standout": "no code snippet or extension; the canvas stays live through a proxy; a Finish Review approval step on every plan, including Free.",
+      "limits": "A person finds every issue, no AI review layer. No memory concept, canvases start blank and approvals reset on each new version. PM-tool exports gated to the Team plan, $119 per month. Pricing: Free $0, Pro $35, Team $119, Enterprise $450 per month (July 2026).",
+      "vsAnchor": "Reviews the site through Pastel's proxy, not in place on the page the way Atarim's WordPress plugin does. Human-found only, no AI review layer like Atarim's InnerCircle."
+    },
+    {
+      "name": "Ruttl",
+      "bestFor": "the closest look-alike, with live-page visual edits on a budget.",
+      "standout": "edit mode changes text, images, layout, and HTML or CSS on the live page; built-in kanban; screen-recorded video comments.",
+      "limits": "A person finds every issue. Ruttl AI is scoped to comment sentiment and performance suggestions; accessibility, SEO, and codebase audit are marked Coming soon. No memory concept found. Pricing: Basic free, Pro $18 per user per month, Business and Enterprise custom (July 2026).",
+      "vsAnchor": "Ruttl's AI sorts sentiment and performance, not page issues, a person still finds every mistake. Atarim's InnerCircle actually scans the page for design, UX, SEO, copy, accessibility, and QA."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Atarim",
+  "stayBody": "Six InnerCircle AI agents review any page for design, UX, SEO, copy, accessibility, and QA issues in seconds, with full page context. A native WordPress plugin reviews the front end and WP Admin on live, staging, and login-protected sites, alongside review by URL or Chrome extension on any site. Clients and guests are unlimited and free on every plan. Global, Project, and User context layers keep brand standards and workflows in memory across reviews (verified July 2026).",
+  "stayLine": "If your work is WordPress-heavy agency delivery, and you want an AI review team plus visual client feedback and page approvals in one place, Atarim is a strong fit. Stay.",
+  "faq": [
+    {
+      "question": "Which is the best Atarim alternative?",
+      "answer": "Depends which criterion fails you. Atarim already runs an AI review team; if the gap is running that check on every change instead of on demand, plus a recorded team-then-client sign-off, Superflow is the fit."
+    },
+    {
+      "question": "Is Superflow just Atarim with AI?",
+      "answer": "No. Atarim already has AI, six agents that scan a page on demand. Superflow's agents run from your checklist on every site change and pin findings as comments before a person looks."
+    },
+    {
+      "question": "Can clients comment without an account?",
+      "answer": "Yes, on both. Atarim's clients use Guest Mode or a shared link. In Superflow the client's yes is a recorded approval, not a comment."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "SureFeedback alternatives",
+      "href": "/preview/alternative/projecthuddle-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" },
+    { "label": "Superflow for WordPress", "href": "/integrations/wordpress" }
+  ],
+  "finalCtaHeadline": "Atarim is a visual collaboration tool. Superflow is a QA tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://atarim.io",
+    "https://atarim.io/pricing",
+    "https://atarim.io/product/visual-collaboration",
+    "https://atarim.io/product/workflow-and-integrations",
+    "https://atarim.io/help/integrations/install-wordpress-plugin",
+    "https://atarim.io/help/getting-started/introduction-to-atarim-overview-and-benefits",
+    "https://atarim.io/help/atarim-ai/how-to-guide-ai-feedback-using-global-project-and-page-context",
+    "https://atarim.io/help/tips-tricks-and-best-practices/best-practices-for-client-onboarding-and-collaboration",
+    "https://atarim.io/help/role-specific-guides/atarim-for-qa-engineers-tracking-and-managing-feedback"
+  ],
+  "metaTitle": "5 Best Atarim Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Atarim alternatives, including the one whose AI agents run automatically on every site change, not on demand, and one reason to stay."
+}

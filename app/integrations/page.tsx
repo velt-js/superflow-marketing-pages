@@ -1,65 +1,115 @@
-import ListingPage from "@/components/listing/ListingPage";
-import { getAllIntegrationListItems } from "@/sanity/lib/queries";
-import { isHeldIntegrationSlug } from "@/lib/integration-holds";
+// Live integrations hub (promoted from /preview/integrations).
+//
+//   /integrations  →  the single integrationPreviewHub (Sanity) document
+//   rendered with the reusable home-2026 sections (see IntegrationsHubBody).
+//
+// This replaces the legacy ListingPage-based hub. The old /preview/integrations
+// route now 308-redirects here (see next.config.ts).
+
+import { notFound } from "next/navigation";
+
+import IntegrationsHubBody, {
+  type IntegrationsHubDoc,
+  INTEGRATION_FAQ_ITEMS,
+} from "@/components/integration-2026/IntegrationsHubBody";
+import {
+  getIntegrationPreviewHub,
+  getAllIntegrationPreviewsForHub,
+} from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
-import { SITE_URL } from "@/app/_seo/schema";
+import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 
 export const revalidate = 60;
 
-const HERO_HEADING = "Superflow integrations";
-const HERO_SUBHEADING =
-  "Plug Superflow into the tools your team already lives in. Push tasks, sync threads, and keep every conversation in context.";
+const BASE_PATH = "/integrations";
+const FALLBACK_TITLE = "Integrations";
+const FALLBACK_DESCRIPTION =
+  "Superflow connects to the tools your agency already runs. Comments land in Slack, sign-offs close your project tasks, and webhooks cover the rest.";
 
-export const metadata = buildPageMetadata({
-  title: "Integrations",
-  description: HERO_SUBHEADING,
-  path: "/integrations",
-});
+/** Catalog entry as returned by getAllIntegrationPreviewsForHub. */
+type HubCatalogItem = {
+  _id: string;
+  title: string;
+  slug: string;
+  family?: string | null;
+  cardBlurb?: string | null;
+};
 
-export default async function IntegrationsIndexPage() {
-  const allItems = await getAllIntegrationListItems();
-  // Held connectors (lib/integration-holds.ts) never render on the live hub.
-  const items = allItems.filter((item) => !isHeldIntegrationSlug(item.slug));
+/**
+ * Build the ItemList JSON-LD so the hub is a crawlable index of the published
+ * detail pages (mirrors the source's structured-data requirement).
+ *
+ * @param items - The published detail-page catalog entries.
+ * @returns A schema.org ItemList node.
+ */
+function buildIntegrationsItemList(
+  items: HubCatalogItem[],
+): Record<string, unknown> {
+  try {
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: (items ?? []).map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item?.title,
+        url: `${SITE_URL}${BASE_PATH}/${item?.slug}`,
+      })),
+    };
+  } catch {
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: [],
+    };
+  }
+}
+
+export async function generateMetadata() {
+  const doc = (await getIntegrationPreviewHub()) as IntegrationsHubDoc | null;
+  return buildPageMetadata({
+    title: doc?.metaTitle ?? doc?.title ?? FALLBACK_TITLE,
+    description:
+      doc?.metaDescription ?? doc?.hero?.subhead ?? FALLBACK_DESCRIPTION,
+    path: BASE_PATH,
+    ogImage: doc?.ogImage ?? undefined,
+  });
+}
+
+export default async function IntegrationsHubPage() {
+  const [doc, catalogItems] = await Promise.all([
+    getIntegrationPreviewHub() as Promise<IntegrationsHubDoc | null>,
+    getAllIntegrationPreviewsForHub() as Promise<HubCatalogItem[]>,
+  ]);
+
+  if (!doc) {
+    notFound();
+  }
+
+  const name = doc.metaTitle ?? `${doc.title ?? FALLBACK_TITLE} | Superflow`;
+  const description =
+    doc.metaDescription ?? doc.hero?.subhead ?? FALLBACK_DESCRIPTION;
+
+  const faqEntries =
+    doc.faq?.items && doc.faq.items.length > 0
+      ? doc.faq.items
+      : INTEGRATION_FAQ_ITEMS;
+  const faqSchema = buildFaqPageSchema(faqEntries);
+  const itemListSchema = buildIntegrationsItemList(catalogItems ?? []);
+
   return (
     <>
       <PageJsonLd
-        name="Integrations | Superflow"
-        description={HERO_SUBHEADING}
-        path="/integrations"
-        trail={[{ name: "Integrations", url: `${SITE_URL}/integrations` }]}
+        name={name}
+        description={description}
+        path={BASE_PATH}
+        trail={[{ name: "Integrations", url: `${SITE_URL}${BASE_PATH}` }]}
       />
-      <JsonLd
-        id="ld-integrations-itemlist"
-        data={{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: "Superflow Integrations",
-          url: `${SITE_URL}/integrations`,
-          numberOfItems: items.length,
-          itemListOrder: "https://schema.org/ItemListOrderAscending",
-          itemListElement: items.map((item, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            url: `${SITE_URL}/integrations/${item.slug}`,
-            name: item.appName ?? item.title,
-          })),
-        }}
-      />
-      <ListingPage
-        config={{
-          hero: { heading: HERO_HEADING, subheading: HERO_SUBHEADING },
-          grid: {
-            variant: "icon-horizontal",
-            items: items.map((item) => ({
-              title: item.appName || item.title,
-              icon: item.appLogo || "/images/hero/icon-world.svg",
-              href: `/integrations/${item.slug}`,
-            })),
-          },
-        }}
-      />
+      <JsonLd id="ld-faq-integrations-hub" data={faqSchema} />
+      <JsonLd id="ld-itemlist-integrations-hub" data={itemListSchema} />
+      <IntegrationsHubBody doc={doc} />
     </>
   );
 }

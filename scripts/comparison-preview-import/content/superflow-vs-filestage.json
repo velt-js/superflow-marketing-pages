@@ -1,0 +1,226 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Filestage",
+  "slug": { "current": "superflow-vs-filestage" },
+  "competitorName": "Filestage",
+  "grantedNoun": "proofing tool",
+  "kicker": "· SUPERFLOW VS FILESTAGE · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Filestage is a proofing tool. Superflow is a QA tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency reviews client sites in Filestage, this page is for you.",
+  "heroCaption": "It's like Filestage hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Filestage's AI checks the files you upload. The live site still waits for a person.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "AI Review Agents scan uploaded files for typos, spelling, logos, and forbidden terms, Business plan and up, capped at 50 agent credits a month.",
+        "For live websites, a person reviews what loads at the URL."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Filestage's agents catch mistakes in a file before a person opens it. Ours catch mistakes on the live site itself, the part a file can't show."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Reviewer groups per stage, due dates, automated reminders, one-click Approve or Request changes.",
+        "No account needed to review. On higher tiers, a Verified approval adds a signed, audit-ready sign-off."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Filestage's approval workflow is as formal as ours. Call this one even: the difference shows up elsewhere, in what gets checked before the gate opens."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Half of client work lives behind a password.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "Live websites load by URL in real time. No saved history of past versions.",
+        "Private or authenticated sites need Filestage's IP addresses whitelisted, not a reviewer login."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Filestage embeds a URL. Superflow reviews the site logged in, with SSO, no extension. Behind a password is where the gap shows."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Team-only comments keep discussion private between teammates and creatives, Starter plan and up."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both keep the argument away from the client. Even."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Timestamped annotations on video and audio, plus comments on images, documents, and live sites.",
+        "A screenshot saves automatically for each website comment. Other file types: not yet verified.",
+        "Session recordings: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Filestage's annotations are detailed. Automatic screenshots on every comment type, and screen, video, and voice recordings: not yet verified on their side."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No project-wide memory concept verified. Agents use only the context you configure per project: brand guidelines, forbidden terms, uploaded compliance docs."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Jira, Monday, Slack, Teams, Zapier, Make, Adobe apps, and Google Drive folder sync, plus API and webhooks.",
+        "Jira and Monday push versions, due dates, and statuses out. Full two-way ticket sync: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Filestage pushes updates out to Monday and Jira. If a two-way board is your spine, weigh that honestly."
+    }
+  ],
+  "scorecardKicker": "Filestage reviews files. Superflow reviews the site.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "AI agents scan files, Business plan and up; a person reviews live sites",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "no account needed; reviewer groups, due dates, reminders, Approve or Request changes; Verified sign-off on higher tiers",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live URL embed, real time, no saved history; private sites need IP whitelisting, not a reviewer login",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "team-only comments, Starter plan and up",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "timestamped video and audio annotations; automatic screenshots on website comments; session recordings -",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "Jira, Monday, Slack, Teams, Zapier, Make, Adobe apps, Google Drive; two-way ticket sync -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "EUR 0 / EUR 199 / EUR 329 per month, 10 seats included, +5 seat bundles (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Free EUR 0, Starter EUR 199, Business EUR 329 per month, Enterprise custom. 10 seats included, add-on bundles of 5. Reviewers are unlimited and free. AI Review Agents start on the Business plan.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Filestage projects finish in Filestage. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Filestage's approval workflow is genuinely thorough. Reviewer groups, due dates, and reminders keep a review on schedule. Reviewers never need an account. It reviews video, images, documents, and live websites in one place, and its AI Review Agents catch typos and brand slips before a person opens the file.",
+  "stayLine": "If your team's real need is gathering feedback and formal sign-off on creative files and assets, Filestage is a strong proofing tool. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/filestage-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Filestage with AI added?",
+      "answer": "No. Filestage's agents scan uploaded files for typos and brand slips. Superflow's agents check the live site itself, every change, and a person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Filestage projects?",
+      "answer": "Finish them in Filestage. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We also proof documents and video in Filestage.",
+      "answer": "Keep Filestage for that. Superflow reviews the live site: pages, forms, and flows a document can't show."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Filestage alternatives",
+      "href": "/preview/alternative/filestage-alternative"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://filestage.io",
+    "https://filestage.io/pricing",
+    "https://filestage.io/supported-file-types",
+    "https://help.filestage.io/en/articles/5755744",
+    "https://help.filestage.io/en/articles/5755764",
+    "https://help.filestage.io/en/articles/5977284"
+  ],
+  "metaTitle": "Superflow vs Filestage (2026): A Proofing Tool vs a QA Tool + a Team",
+  "metaDescription": "Filestage is a proofing tool. Superflow is a QA tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

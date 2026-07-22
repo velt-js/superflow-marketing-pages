@@ -2,7 +2,7 @@
 /**
  * Seed the "Slack" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/slack. Like every integration preview page it
+ * Serves at /integrations/slack. Like every integration preview page it
  * reuses the 2026 homepage sections (components/home-2026/*) as a fixed
  * template — only the hero copy, the FeatureSet blocks, the Get Started steps,
  * the FAQ and SEO vary per page, so this seed is pure text/config with NO asset
@@ -53,7 +53,7 @@ const doc = {
   family: "Chat",
   cardBlurb: "A client comments, your channel knows. Act from the message.",
   hero: {
-    kicker: "· CHAT · THE AI QA REVIEWER FOR AGENCIES",
+    kicker: "CHAT · THE AI QA REVIEWER FOR AGENCIES",
     headlineLines: ["Resolve reviews", "from Slack."],
     subhead:
       "A client comments, the channel knows. Mentions, status changes, and sign-offs land there too. Resolve, reply, or approve from the message. One setup in settings.",
@@ -213,7 +213,7 @@ const doc = {
             label: "Asana",
             icon: "layout-kanban",
             oneLiner: "Sign-offs close tasks, statuses stay matched, two-way.",
-            href: "/preview/integrations/asana",
+            href: "/integrations/asana",
             listOnly: true,
           },
           {
@@ -221,7 +221,7 @@ const doc = {
             label: "Monday",
             icon: "layout-kanban",
             oneLiner: "Same two-way sync, mapped to your columns.",
-            href: "/preview/integrations/monday",
+            href: "/integrations/monday",
             listOnly: true,
           },
           {
@@ -229,7 +229,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

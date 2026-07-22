@@ -2,7 +2,7 @@
 /**
  * Seed the "REST API and Webhooks" `integrationPreviewPage` document in Sanity.
  *
- * Serves at /preview/integrations/api. Reuses the 2026 homepage sections as a
+ * Serves at /integrations/api. Reuses the 2026 homepage sections as a
  * fixed template (no asset uploads). Copy is verbatim from
  * ~/Downloads/superflow-website-6/integrations/superflow-page-integration-api-v1-1.md;
  * [bracketed] and *italic* notes are dropped (incl. the unshipped Zapier
@@ -189,7 +189,7 @@ const doc = {
             label: "All integrations",
             icon: "plug",
             oneLiner: "Every tool, one review.",
-            href: "/preview/integrations",
+            href: "/integrations",
             listOnly: true,
           },
         ],

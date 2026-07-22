@@ -1,0 +1,232 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Frame.io",
+  "slug": { "current": "superflow-vs-frame-io" },
+  "competitorName": "Frame.io",
+  "grantedNoun": "video review tool",
+  "kicker": "· SUPERFLOW VS FRAME.IO · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "Frame.io is a video review tool. Superflow is a QA tool + a team.",
+  "secondary": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If your agency ships client websites, not just video and creative post, this page is for you.",
+  "heroCaption": "It's like Frame.io hired a QA team.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "Frame.io's AI organizes the footage you upload. The live site never enters the picture.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Findings land as pinned comments, rationale attached."
+      ],
+      "rightFacts": [
+        "A person leaves every comment on the footage.",
+        "AI (opt-in Frame.io Labs, experimental, plan-based usage limits) organizes projects, summarizes feedback across revisions, and powers search. It does not find issues."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Frame.io's AI organizes what's already uploaded. Ours checks the live site itself, the part video review never touches."
+    },
+    {
+      "number": "02",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then the client.",
+        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Share for Review links: reviewers need no account, entering name and email only on their first comment.",
+        "If approvals are enabled on the link, reviewers set each clip to Approved, In Progress, or Needs Review."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Frame.io's review link is good and its per-clip approval statuses are real. The difference is the gate: in Superflow, the client's yes is one recorded step across the whole site."
+    },
+    {
+      "number": "03",
+      "label": "Where you review",
+      "framing": "Frame.io reviews the file. Superflow reviews the site it lives on.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device."
+      ],
+      "rightFacts": [
+        "Frame.io reviews uploaded assets only: video, images, audio, PDFs, and 3D, in a cloud player with frame-accurate playback and a comparison viewer.",
+        "It does not load or check a running website at all."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Different games, not a defect. Frame.io is built for finished and in-progress files. If your review is footage, Frame.io is the right tool for it."
+    },
+    {
+      "number": "04",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and the client never does.",
+        "The debate stays private; the client sees one settled answer."
+      ],
+      "rightFacts": [
+        "Internal comments separate client threads from team threads, gated to the Team plan and up ($25 per member per month)."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Both keep the argument away from the client. On Frame.io, team-only threads start on the Team plan, $25 per member per month."
+    },
+    {
+      "number": "05",
+      "label": "What gets captured",
+      "framing": "Both tools pin. The difference is what gets attached without asking.",
+      "leftFacts": [
+        "Element and text pins, area comments.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Frame-accurate and range-based comments, annotations, version stacks, and a comparison viewer on every plan.",
+        "Auto transcription, speaker labels, and captions. Camera to Cloud uploads footage straight from the set.",
+        "No website screenshot or browser-session capture."
+      ],
+      "rightVerified": "verified July 2026",
+      "verdict": "Each captures its own medium well. Frame.io's frame-accurate tools are built for footage; Superflow's automatic screenshots and recordings are built for the live site."
+    },
+    {
+      "number": "06",
+      "label": "What it remembers",
+      "framing": "Boards hold tasks. They don't accumulate a client.",
+      "leftFacts": [
+        "Brand rules and past decisions, learned once, fed to the agents next project."
+      ],
+      "rightFacts": [
+        "No memory concept in product. Media intelligence indexes assets for search, but nothing persists learned context across projects."
+      ],
+      "rightVerified": "checked July 2026",
+      "verdict": "The tenth project should not start like the first."
+    },
+    {
+      "number": "07",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship.",
+      "leftFacts": [
+        "Custom statuses, client gates, kanban.",
+        "Two-way Asana, Monday, ClickUp. Slack built in."
+      ],
+      "rightFacts": [
+        "Premiere, Final Cut Pro, Lightroom, and Camera to Cloud hardware, plus API, webhooks, Zapier, Make, and Adobe Workfront Fusion.",
+        "Approval status is settable and readable via the API. A packaged two-way sync to a named tool: not yet verified."
+      ],
+      "rightVerified": "verified July 2026 except where noted",
+      "verdict": "Frame.io's Adobe and NLE integrations run deep for creative work. We sync two-way with Asana, Monday, and ClickUp; no built-in Jira today."
+    }
+  ],
+  "scorecardKicker": "Frame.io reviews footage. Superflow reviews the site.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person leaves every comment; AI (opt-in Labs) organizes and summarizes, doesn't find issues",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free review links; per-clip approval statuses when enabled",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "uploaded assets only: video, images, audio, PDFs, 3D; no live website",
+      "rightCell": "live site, behind logins and SSO, no extension"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal comments, Team plan and up ($25/member/mo)",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "frame-accurate comments, version stacks, transcription, captions, Camera to Cloud; no website screenshots",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "Premiere, Final Cut Pro, Lightroom, Camera to Cloud hardware, API, Zapier, Make; two-way status sync -",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "$0 / $15 / $25 per member per month, Enterprise custom (July 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified July 2026: Free $0 (2 members, 2GB, 2 projects). Pro $15 per member/mo (5 members). Team $25 per member/mo (15 members, adds internal comments). Enterprise custom. Annual billing saves 13%. Reviewers are free and unlimited.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Open Frame.io projects finish in Frame.io. Nothing migrates on day one."
+  ],
+  "honestCloseStrengths": "Frame.io earned its place. Camera to Cloud gets footage from the set to the team before anyone leaves the shoot. Frame-accurate comments, version stacks, and a comparison viewer ship on every plan. Reviewers watch and comment free, no account needed. Its Premiere integration and NLE depth run deep.",
+  "stayLine": "If your work is video and creative assets, and you want frame-accurate review, approvals, and footage straight from the camera, Frame.io is a strong fit. Stay.",
+  "fieldLink": {
+    "label": "The wider field, ranked honestly",
+    "href": "/preview/alternative/frame-io-alternative"
+  },
+  "faq": [
+    {
+      "question": "Is Superflow just Frame.io with AI added?",
+      "answer": "No. Frame.io's AI organizes and summarizes footage already uploaded. Superflow's agents check the live site itself, every change, and a person makes every call."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "What happens to our Frame.io projects?",
+      "answer": "Finish them in Frame.io. Start new work in Superflow. Nothing migrates on day one."
+    },
+    {
+      "question": "Will our clients have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "We also review video and creative assets in Frame.io.",
+      "answer": "Keep Frame.io for that. Superflow reviews the live site: pages, forms, and flows footage can't show."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "The 5 best Frame.io alternatives",
+      "href": "/preview/alternative/frame-io-alternative"
+    },
+    {
+      "label": "Superflow vs Filestage",
+      "href": "/preview/comparison/superflow-vs-filestage"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://frame.io",
+    "https://frame.io/pricing",
+    "https://frame.io/integrations",
+    "https://help.frame.io/en/articles/15305881-frame-io-labs",
+    "https://updates.frame.io/",
+    "https://blog.frame.io/2025/12/01/the-ultimate-guide-to-the-new-frame-io-search-experience/",
+    "https://help.frame.io/en/articles/9090642-getting-started-what-is-a-user",
+    "https://help.frame.io/en/articles/414306-sharing-your-files-and-folders-for-review-legacy",
+    "https://help.frame.io/en/articles/1731442-the-difference-between-adding-a-user-to-your-project-and-sharing-for-review-legacy",
+    "https://next.developer.frame.io/platform/v2/working-with-review-links.md",
+    "https://help.frame.io/en/articles/14501614-getting-started-with-frame-io-drive-mounted-storage",
+    "https://help.frame.io/en/articles/12356206-storage-connect-for-frame-io-registering-assets"
+  ],
+  "metaTitle": "Superflow vs Frame.io (2026): A Video Review Tool vs a QA Tool + a Team",
+  "metaDescription": "Frame.io is a video review tool. Superflow is a QA tool plus a team of AI agents, built from your checklist. They check every site change. Your client approves from a link."
+}

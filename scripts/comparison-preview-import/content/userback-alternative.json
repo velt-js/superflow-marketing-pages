@@ -1,0 +1,153 @@
+{
+  "_type": "comparisonPreviewAlternativesPage",
+  "title": "The 5 best Userback alternatives for agencies (2026)",
+  "slug": { "current": "userback-alternative" },
+  "anchorName": "Userback",
+  "kicker": "· USERBACK ALTERNATIVES · THE AI QA REVIEWER FOR AGENCIES",
+  "headline": "The 5 best Userback alternatives for agencies (2026)",
+  "standfirst": "Userback is a fine feedback tool. The gap is usually the hours a person spends finding mistakes before anyone reports them. Five options. One is ours. One is staying put.",
+  "dateline": "Facts checked July 2026.",
+  "criteria": [
+    { "label": "Who checks the site", "line": "agents, or a person" },
+    { "label": "How the client says yes", "line": "a recorded approval, or a comment" },
+    { "label": "Where you review", "line": "the live site, behind logins, or a proxy" },
+    { "label": "What stays private", "line": "internal notes the client never sees" },
+    { "label": "What gets captured", "line": "screenshots and recordings, automatic or manual" },
+    { "label": "What it remembers", "line": "does project ten start smarter than project one" },
+    { "label": "How it fits your stack", "line": "boards, statuses, and the tools it syncs with" },
+    { "label": "What it costs", "line": "plan posture and per-seat math, dated" }
+  ],
+  "superflowHeadline": "Userback is a feedback tool. Superflow is a feedback tool + a team.",
+  "superflowBody": "The team is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "superflowBestFor": "agencies where a senior person still checks every site by hand.",
+  "superflowScorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "a person; AI organizes after the report is submitted",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "free reporter link, unlimited; approval gate -",
+      "rightCell": "a recorded approval: team gate, then client gate"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "widget and extension on any site; third-party SSO -",
+      "rightCell": "live site, behind logins and SSO"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "internal-only comments, Business plan and up",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "screenshots, video, session replay, console and network logs; replay and logs start at Business",
+      "rightCell": "automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "no",
+      "rightCell": "Memory, per client"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "two-way Jira, Linear, ClickUp; REST API and webhooks at Business Plus",
+      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "Free $0 / Team $29 / Business $79 / Business Plus $159 per month, billed annually (July 2026)",
+      "rightCell": "From the Growth plan. See /pricing."
+    }
+  ],
+  "superflowHonestLimit": "no built-in Jira or Linear sync today.",
+  "superflowLinks": [
+    {
+      "label": "Full comparison: Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Marker.io",
+      "bestFor": "dev teams that live in a tracker.",
+      "standout": "capture into Jira, Linear, Asana, with technical metadata.",
+      "limits": "A person finds every issue. Screenshot-first, not a live-site overlay. A formal client approval gate: not yet verified. Pricing from $39 per month annual (July 2026).",
+      "vsAnchor": "shares Userback's Jira and Linear two-way sync, gated to its Team plan. Screenshot-first, not the live site. A formal client approval flow: not yet verified for either."
+    },
+    {
+      "name": "Usersnap",
+      "bestFor": "product teams collecting user feedback.",
+      "standout": "in-product widgets and surveys.",
+      "limits": "Product feedback, not agency client review. Human-found only. Pricing from $49 per month billed yearly (July 2026).",
+      "vsAnchor": "the closest cousin to Userback: same feedback-widget class, human-found only, no AI agent that checks the site itself. Usersnap adds a public guest portal; Userback adds session replay from the Business plan."
+    },
+    {
+      "name": "BugHerd",
+      "bestFor": "teams that want a bug tracker with a built-in kanban.",
+      "standout": "element pins with browser, OS, and screen size attached automatically. Deep integrations including Jira and Trello.",
+      "limits": "A person finds every issue. No memory concept, each project starts blank. A formal client approval flow: not yet verified. Pricing from $50 per month (July 2026).",
+      "vsAnchor": "element pins with browser and OS attached, and a built-in kanban. Session replay, console logs, and network requests: not yet verified for BugHerd; Userback's are verified at Business. Neither has an agent that checks the site itself."
+    },
+    {
+      "name": "Ruttl",
+      "bestFor": "the closest BugHerd-like experience on a budget.",
+ "standout": "Edit mode changes text, images, layout, and HTML and CSS on the live page.",
+ "limits": "A person finds every issue; Ruttl AI covers comment sentiment and performance suggestions. Free plan caps are tight: 1 project, 5 pages. Pro runs $18 per month per user (July 2026).",
+ "vsAnchor": "adds live-page edits and a built-in kanban. Session replay and console logs: not yet verified for Ruttl; Userback's are verified at Business. Guests comment free from a link on both."
+    }
+  ],
+  "stayHeading": "The sixth option: stay on Userback",
+  "stayBody": "One submission captures an annotated screenshot, video, console logs, network requests, and system metadata. Session replay ships with the report. Reporters submit free, with no seat and no account, unlimited. True two-way sync with Jira, Linear, and ClickUp (verified July 2026).",
+  "stayLine": "If you want one platform for visual feedback, surveys, and a feature request portal, and a human on your side reports each issue, stay.",
+  "faq": [
+    {
+      "question": "Which is the best Userback alternative?",
+      "answer": "Depends which criterion fails you. If it's the checking hours, Superflow, the only one where the answer is a team, not a tool."
+    },
+    {
+      "question": "Is Superflow just Userback with AI?",
+      "answer": "No. Userback's AI sorts what a person reports, after the fact; Superflow's agents find the mistakes, and a person makes every call."
+    },
+    {
+      "question": "Can clients submit feedback without an account?",
+      "answer": "On several, Userback included, where reporters are always free and unlimited. In Superflow the client's yes is a recorded approval, not a submission."
+    },
+    {
+      "question": "What does switching cost?",
+      "answer": "An afternoon. One snippet, or one click on Webflow, WordPress, GTM. Open projects finish where they are."
+    },
+    {
+      "question": "What does Superflow cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs Userback",
+      "href": "/preview/comparison/superflow-vs-userback"
+    },
+    {
+      "label": "Superflow vs Usersnap",
+      "href": "/preview/comparison/superflow-vs-usersnap"
+    },
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/preview/comparison/superflow-vs-bugherd"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "finalCtaHeadline": "Userback is a feedback tool. Superflow is a feedback tool + a team.",
+  "factsCheckedAt": "July 2026",
+  "sourceUrls": [
+    "https://userback.io",
+    "https://userback.io/pricing",
+    "https://userback.io/features/feedback-widget",
+    "https://userback.io/features/session-replay",
+    "https://userback.io/integrations"
+  ],
+  "metaTitle": "5 Best Userback Alternatives for Agencies (2026) | Superflow",
+  "metaDescription": "Five honest Userback alternatives, including the one that comes with a team of AI agents, and one reason to stay."
+}

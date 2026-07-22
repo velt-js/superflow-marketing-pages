@@ -29,10 +29,16 @@ import FaqSection, { type FaqItem } from "@/components/home-2026/FaqSection";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
-  MondaySyncCrosses,
-  MondayLinkOnce,
-  MondayUnlocks,
-} from "./MondaySections";
+  CONNECTOR_CONFIGS,
+  ConnectorSyncCrosses,
+  ConnectorLinkOnce,
+  ConnectorUnlocks,
+} from "./ConnectorSections";
+import {
+  INSTALL_CONFIGS,
+  InstallWhatItDoes,
+  InstallBehaves,
+} from "./InstallSections";
 
 /** A tab / "features that help" row within a Feature Set block. */
 export interface IntegrationPageBlockTab {
@@ -116,18 +122,12 @@ const DEFAULT_HERO_TAB_ICON = "plug";
 const GET_STARTED_HEADING = "Connect in a minute";
 
 /**
- * Slug of the Monday integration page. Only this page swaps its FeatureSet +
- * GetStarted sections for the bespoke Monday sections and renders the flat,
- * Monday-only hero sync artifact; every other integration page is unchanged.
+ * Prefix for the connector heroes' static sync artifacts (registered in
+ * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the per-tool sync composition
+ * rendered on the flat hero card. The full key is `integrations-<slug>`
+ * (e.g. "integrations-monday", "integrations-slack").
  */
-const MONDAY_SLUG = "monday";
-
-/**
- * Key selecting the Monday hero's static sync artifact (registered in
- * {@link Hero}'s `STATIC_HERO_ARTIFACTS`): the shared task-and-comment sync
- * board restricted to a single Monday logo on top.
- */
-const MONDAY_HERO_ARTIFACT = "integrations-monday";
+const CONNECTOR_HERO_ARTIFACT_PREFIX = "integrations-";
 
 /**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
@@ -301,10 +301,22 @@ interface IntegrationPageBodyProps {
  * @param props - The resolved Sanity document to render.
  */
 export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
-  const isMonday = doc?.slug === MONDAY_SLUG;
-  // The kicker eyebrow is rendered on the Monday hero only, so every other
-  // integration page keeps its current (eyebrow-less) hero exactly as before.
-  const heroKicker = isMonday ? doc?.hero?.kicker ?? undefined : undefined;
+  // Connector pages (Monday, Asana, ClickUp, Slack) swap the shared FeatureSet
+  // + GetStarted sections for the bespoke sync sections and render the flat,
+  // single-tool hero sync artifact; every other page is unchanged.
+  const connectorConfig = doc?.slug ? CONNECTOR_CONFIGS[doc.slug] : undefined;
+  const isConnector = Boolean(connectorConfig);
+  // Install pages (Webflow, WordPress, Google Tag Manager) keep the shared
+  // home-replica sections but reorder Get Started before the bands (the build
+  // files put the install steps right after Solution) and append the bespoke
+  // "What the plugin/tag does" + "How the install behaves" sections.
+  const installConfig = doc?.slug ? INSTALL_CONFIGS[doc.slug] : undefined;
+  const isInstall = Boolean(installConfig);
+  // Bespoke-hero pages (connector + install) render the kicker eyebrow and
+  // the flat, single-tool static artifact; every other integration page keeps
+  // its current (eyebrow-less, interactive-showcase) hero.
+  const hasBespokeHero = isConnector || isInstall;
+  const heroKicker = hasBespokeHero ? doc?.hero?.kicker ?? undefined : undefined;
   const heroHeadlineLines = doc?.hero?.headlineLines ?? undefined;
   const heroSubhead = doc?.hero?.subhead ?? undefined;
   const heroShowcase = doc?.hero?.showcase ?? undefined;
@@ -335,14 +347,41 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
         variant="feature"
         showcase={heroShowcase}
         tabs={heroTabs}
-        staticArtifact={isMonday ? MONDAY_HERO_ARTIFACT : undefined}
-        staticArtifactFlat={isMonday}
+        staticArtifact={
+          hasBespokeHero && doc?.slug
+            ? `${CONNECTOR_HERO_ARTIFACT_PREFIX}${doc.slug}`
+            : undefined
+        }
+        staticArtifactFlat={hasBespokeHero}
       />
-      {isMonday ? (
+      {connectorConfig ? (
         <>
-          <MondaySyncCrosses />
-          <MondayLinkOnce />
-          <MondayUnlocks />
+          <ConnectorSyncCrosses config={connectorConfig} />
+          <ConnectorLinkOnce config={connectorConfig} />
+          <ConnectorUnlocks config={connectorConfig} />
+        </>
+      ) : installConfig ? (
+        <>
+          <SolutionSection
+            heading={solutionHeading}
+            subheading={solutionSubheading}
+            variant={solutionVariant}
+          />
+          {/* Build-file order: the install steps ride right after Solution;
+              the bands follow, then the bespoke install mechanics sections. */}
+          <GetStarted
+            heading={getStartedHeading}
+            subheading={getStartedSubheading}
+            steps={getStartedSteps}
+          />
+          <FeatureSet
+            headerTitle={doc?.featureSet?.headerTitle ?? undefined}
+            journeyStart={doc?.featureSet?.journeyStart ?? undefined}
+            journeyEnd={doc?.featureSet?.journeyEnd ?? undefined}
+            blocks={featureBlocks.length > 0 ? featureBlocks : undefined}
+          />
+          <InstallWhatItDoes config={installConfig} />
+          <InstallBehaves config={installConfig} />
         </>
       ) : (
         <>
@@ -364,7 +403,7 @@ export default function IntegrationPageBody({ doc }: IntegrationPageBodyProps) {
           />
         </>
       )}
-      {!isMonday && (
+      {!isConnector && (
         <>
           <SolutionsSection />
           <CostSection />
