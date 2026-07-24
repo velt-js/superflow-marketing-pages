@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SectionHeading from "./SectionHeading";
 import type { OverviewIconKey, OverviewTableData } from "@/lib/detail-data";
+import { toInternalHref } from "@/lib/links";
 
 const CRITERION_ICONS: Record<OverviewIconKey, string> = {
   commenting: "/images/sections/reasons/commenting.svg",
@@ -158,7 +159,7 @@ export default function OverviewTable({
 
         {ctaText && ctaHref && (
           <a
-            href={ctaHref}
+            href={toInternalHref(ctaHref) ?? "#"}
             className="inline-flex items-center justify-center rounded-[40px] bg-black px-[32px] py-[18px] text-white transition-colors hover:bg-black/80"
             style={{
               fontFamily: "var(--font-poppins)",

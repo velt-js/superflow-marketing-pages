@@ -2,6 +2,7 @@ import Link from "next/link";
 import CategoryGlyph from "@/components/shared-2026/CategoryGlyph";
 import styles from "./UseCaseRelatedSection.module.css";
 import type { UseCaseRelatedItem } from "@/lib/use-case-types";
+import { toInternalHref } from "@/lib/links";
 
 /** Default heading when no other-use-case context requires an override. */
 const DEFAULT_HEADING_LEAD = "Other ways in which";
@@ -51,7 +52,7 @@ export default function UseCaseRelatedSection({
           <ul className={styles.grid}>
             {items.map((item) => (
               <li key={item?.href ?? item?.title} className={styles.item}>
-                <Link className={styles.card} href={item?.href ?? "#"}>
+                <Link className={styles.card} href={toInternalHref(item?.href) ?? "#"}>
                   <span className={styles.iconGlyph} aria-hidden="true">
                     <CategoryGlyph label={item?.title} size={GLYPH_SIZE} />
                   </span>

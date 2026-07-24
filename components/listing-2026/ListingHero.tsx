@@ -1,4 +1,5 @@
 import styles from "./ListingHero.module.css";
+import { toInternalHref } from "@/lib/links";
 
 /** Default CTA copy for the listing hero, matching the pre-2026 listing pages. */
 const DEFAULT_CTA_TEXT = "Try Superflow for Free";
@@ -57,7 +58,7 @@ export default function ListingHero({
         <h1 className={styles.headline}>{heading}</h1>
         <p className={styles.subhead}>{subheading}</p>
         {hideCta ? null : (
-          <a className={styles.cta} href={resolvedCtaHref}>
+          <a className={styles.cta} href={toInternalHref(resolvedCtaHref) ?? "#"}>
             {resolvedCtaText}
           </a>
         )}

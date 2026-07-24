@@ -2,6 +2,7 @@ import Link from "next/link";
 import CategoryGlyph from "@/components/shared-2026/CategoryGlyph";
 import styles from "./RelatedPersonas.module.css";
 import type { PersonaRelatedContent } from "./adapter";
+import { toInternalHref } from "@/lib/links";
 
 /** Stable id linking the section to its heading for a11y. */
 const HEADING_ID = "persona-related-heading";
@@ -52,7 +53,7 @@ export default function RelatedPersonas({ content }: RelatedPersonasProps) {
           <ul className={styles.grid}>
             {items.map((item) => (
               <li key={item?.href ?? item?.title} className={styles.item}>
-                <Link className={styles.card} href={item?.href ?? "#"}>
+                <Link className={styles.card} href={toInternalHref(item?.href) ?? "#"}>
                   <span className={styles.iconGlyph} aria-hidden="true">
                     <CategoryGlyph label={item?.title} size={GLYPH_SIZE} />
                   </span>

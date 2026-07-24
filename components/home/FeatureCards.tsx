@@ -269,7 +269,7 @@ function IntegrationsIconRow({
           );
         })}
       </div>
-      <ViewIntegrationsLink label={ctaLabel} href={ctaHref} dim />
+      <ViewIntegrationsLink label={ctaLabel} href={toInternalHref(ctaHref) ?? "#"} dim />
     </div>
   );
 }
@@ -305,7 +305,7 @@ function IntegrationsPillRow({
           </a>
         ))}
       </div>
-      <ViewIntegrationsLink label={ctaLabel} href={ctaHref} />
+      <ViewIntegrationsLink label={ctaLabel} href={toInternalHref(ctaHref) ?? "#"} />
     </div>
   );
 }

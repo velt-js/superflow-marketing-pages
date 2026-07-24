@@ -1,6 +1,7 @@
 import { Cursor } from "@/components/shared/Cursor";
 import LogoBar from "@/components/home/LogoBar";
 import type { DetailHeroData } from "@/lib/detail-data";
+import { toInternalHref } from "@/lib/links";
 
 const DEFAULT_LEFT_BADGE = { label: "Developer", color: "#4dd5ff" };
 const DEFAULT_RIGHT_BADGE = { label: "Designer", color: "#fc6cba" };
@@ -67,7 +68,7 @@ export default function DetailHero({
           </div>
 
           <a
-            href={ctaHref}
+            href={toInternalHref(ctaHref) ?? "#"}
             className="inline-flex items-center justify-center rounded-[32px] bg-white px-4 py-[11px] text-black transition-colors hover:bg-white/90"
             style={{
               fontFamily: "var(--font-poppins)",

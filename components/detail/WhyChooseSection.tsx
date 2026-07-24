@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { WhyChooseData } from "@/lib/detail-data";
+import { toInternalHref } from "@/lib/links";
 
 const SUPERFLOW_LOGO = (
   <Image src="/images/nav/logo.svg" alt="Superflow" width={32} height={32} />
@@ -108,7 +109,7 @@ export default function WhyChooseSection({
 
           <div className="mt-[36px] flex justify-center">
             <a
-              href={ctaHref}
+              href={toInternalHref(ctaHref) ?? "#"}
               className="inline-flex items-center justify-center rounded-[40px] bg-black px-[28px] py-[16px] text-white transition-colors hover:bg-black/80"
               style={{
                 fontFamily: "var(--font-poppins)",

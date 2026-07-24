@@ -16,6 +16,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { toInternalHref } from "@/lib/links";
 
 import { TIERS, type Tier, type TierBullet } from "./pricing-data";
 import { useBilling, type BillingPeriod } from "./BillingContext";
@@ -317,7 +318,7 @@ function TierCard({
             ) : null}
 
             <Link
-              href={tier.cta.href}
+              href={toInternalHref(tier.cta.href) ?? "#"}
               target={external ? "_blank" : undefined}
               rel={external ? "noopener" : undefined}
               className="flex items-center justify-center font-urbanist"

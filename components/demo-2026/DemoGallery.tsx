@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import styles from "./DemoGallery.module.css";
+import { toInternalHref } from "@/lib/links";
 
 /** Names of the Tabler glyphs used by the demo asset cards. */
 type DemoGlyphName = "world" | "video" | "ease-in-out" | "file-text" | "photo";
@@ -183,7 +184,7 @@ function DemoCard({ asset }: { asset: DemoAsset }): ReactNode {
       <li className={itemClassName}>
         <a
           className={cardClassName}
-          href={asset?.href}
+          href={toInternalHref(asset?.href) ?? "#"}
           target="_blank"
           rel="noopener noreferrer"
         >

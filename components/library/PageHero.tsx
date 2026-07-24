@@ -9,6 +9,7 @@
 import Image from "next/image";
 
 import type { CtaLink } from "./types";
+import { toInternalHref } from "@/lib/links";
 
 export type PageHeroProps = {
   eyebrow?: { label: string; dotColor?: string };
@@ -202,7 +203,7 @@ export function PageHero({
           <div className="flex items-start gap-3 flex-wrap justify-center">
             {secondaryCta?.label && secondaryCta.href && (
               <a
-                href={secondaryCta.href}
+                href={toInternalHref(secondaryCta.href) ?? "#"}
                 target={secondaryCta.newTab ? "_blank" : undefined}
                 rel={secondaryCta.newTab ? "noopener" : undefined}
                 className="flex items-center justify-center gap-2 rounded-lg font-urbanist font-bold text-white"
@@ -220,7 +221,7 @@ export function PageHero({
             )}
             {primaryCta?.label && primaryCta.href && (
               <a
-                href={primaryCta.href}
+                href={toInternalHref(primaryCta.href) ?? "#"}
                 target={primaryCta.newTab ? "_blank" : undefined}
                 rel={primaryCta.newTab ? "noopener" : undefined}
                 className="flex items-center justify-center gap-2 rounded-lg font-urbanist font-bold text-white"

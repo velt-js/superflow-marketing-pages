@@ -13,6 +13,7 @@
 // conflicts and gives a readable single-column layout.
 
 import { Fragment, useEffect, useRef, useState } from "react";
+import { toInternalHref } from "@/lib/links";
 
 import { SECTIONS, TIERS, APP_URL, type CellValue, type Tier } from "./pricing-data";
 import { useBilling, type BillingPeriod } from "./BillingContext";
@@ -213,7 +214,7 @@ function TierHeaderRow({ billing }: { billing: BillingPeriod }) {
                 ) : null}
               </div>
               <a
-                href={cta.href}
+                href={toInternalHref(cta.href) ?? "#"}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener" : undefined}
                 className="font-urbanist flex items-center justify-center"
@@ -288,7 +289,7 @@ function MobileAccordion({ billing }: { billing: BillingPeriod }) {
               </div>
               <div className="flex items-center gap-3">
                 <a
-                  href={cta.href}
+                  href={toInternalHref(cta.href) ?? "#"}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener" : undefined}
                   className="font-urbanist flex items-center justify-center"

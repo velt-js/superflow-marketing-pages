@@ -4,6 +4,7 @@ import KanbanArtifact from "@/components/home-2026/feature-artifacts/KanbanArtif
 import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
 import TrustSection from "@/components/home-2026/TrustSection";
 import styles from "./IntegrationsHubSections.module.css";
+import { toInternalHref } from "@/lib/links";
 
 /**
  * Bespoke, hand-authored sections for the /integrations hub. Content is
@@ -614,7 +615,7 @@ function ToolCell({ tool }: { tool: GridTool }): ReactNode {
     );
     if (tool.href) {
       return (
-        <a className={styles.toolCell} href={tool.href}>
+        <a className={styles.toolCell} href={toInternalHref(tool.href) ?? "#"}>
           {content}
         </a>
       );

@@ -7,6 +7,7 @@
 // accent hover, single #433df3 accent instead of per-tier rainbow colors.
 
 import Link from "next/link";
+import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "@/components/pricing/pricing-data";
 import { useBilling, type BillingPeriod } from "@/components/pricing/BillingContext";
 import styles from "./PricingTiers.module.css";
@@ -142,7 +143,7 @@ function PricingTiersCard({
             <span className={styles.trialLabel}>{tier.trialLabel}</span>
           ) : null}
           <Link
-            href={tier?.cta?.href ?? "#"}
+            href={toInternalHref(tier?.cta?.href) ?? "#"}
             target={external ? "_blank" : undefined}
             rel={external ? "noopener" : undefined}
             className={ctaClassName}

@@ -1,5 +1,6 @@
 import { Cursor } from "@/components/shared/Cursor";
 import LogoBar from "@/components/home/LogoBar";
+import { toInternalHref } from "@/lib/links";
 
 export interface ListingHeroBadge {
   label: string;
@@ -75,7 +76,7 @@ export default function ListingHero({
           </div>
 
           <a
-            href={ctaHref}
+            href={toInternalHref(ctaHref) ?? "#"}
             className="inline-flex items-center justify-center rounded-[32px] bg-white px-4 py-[11px] text-black transition-colors hover:bg-white/90"
             style={{
               fontFamily: "var(--font-poppins)",

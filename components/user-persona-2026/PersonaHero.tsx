@@ -1,5 +1,6 @@
 import styles from "./PersonaHero.module.css";
 import type { PersonaHeroContent } from "./adapter";
+import { toInternalHref } from "@/lib/links";
 
 /**
  * Props for {@link PersonaHero}: the resolved hero copy for one persona.
@@ -32,7 +33,7 @@ export default function PersonaHero({ content }: PersonaHeroProps) {
           <h1 className={styles.headline}>{heading}</h1>
           {subhead ? <p className={styles.subhead}>{subhead}</p> : null}
           {ctaText && ctaHref ? (
-            <a className={styles.cta} href={ctaHref}>
+            <a className={styles.cta} href={toInternalHref(ctaHref) ?? "#"}>
               {ctaText}
             </a>
           ) : null}

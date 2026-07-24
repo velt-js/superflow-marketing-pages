@@ -4,6 +4,7 @@ import {
   FeatureSetIcon,
   type FeatureSetIconName,
 } from "@/components/home-2026/FeatureSetIcons";
+import { toInternalHref } from "@/lib/links";
 
 /** Default section heading when the CMS omits one. */
 const DEFAULT_HEADING = "Related capabilities";
@@ -73,7 +74,7 @@ export default function RelatedCapabilities({
           <ul className={styles.grid}>
             {items.map((item) => (
               <li key={item?.href ?? item?.title} className={styles.item}>
-                <a className={styles.card} href={item?.href ?? "#"}>
+                <a className={styles.card} href={toInternalHref(item?.href) ?? "#"}>
                   <span className={styles.icon} aria-hidden="true">
                     <FeatureSetIcon name={item?.icon ?? DEFAULT_ICON} size={32} />
                   </span>

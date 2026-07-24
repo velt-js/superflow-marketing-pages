@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import SiteNav from "@/components/home-2026/SiteNav";
+import { toInternalHref, isExternalHref } from "@/lib/links";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
@@ -100,12 +101,15 @@ function ThirdOptionPanel({
         </div>
         {links && links.length > 0 ? (
           <div className={styles.thirdOptionLinks}>
-            {links.map((link) =>
-              link?.href?.startsWith("/") ? (
+            {links.map((link) => {
+              // Root bare-relative internal links so they resolve from "/",
+              // and pick the element from the ORIGINAL value's externalness.
+              const normalizedHref = toInternalHref(link?.href) ?? "#";
+              return !isExternalHref(link?.href) ? (
                 <Link
                   key={`${link.label}-${link.href}`}
                   className={styles.thirdOptionLink}
-                  href={link.href}
+                  href={normalizedHref}
                 >
                   {link.label}
                   <ChevronRightIcon />
@@ -114,14 +118,14 @@ function ThirdOptionPanel({
                 <a
                   key={`${link.label}-${link.href}`}
                   className={styles.thirdOptionLink}
-                  href={link?.href}
+                  href={normalizedHref}
                   rel="nofollow noopener"
                 >
                   {link.label}
                   <ChevronRightIcon />
                 </a>
-              ),
-            )}
+              );
+            })}
           </div>
         ) : null}
       </div>

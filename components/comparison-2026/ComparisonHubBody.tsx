@@ -7,6 +7,7 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import styles from "./comparison.module.css";
 import { getToolLogosFromSlug } from "./toolLogos";
 import type { ComparisonHubDoc, ComparisonHubItem } from "./types";
+import { toInternalHref } from "@/lib/links";
 
 const BASE_PATH = "/preview/comparison";
 const ALTERNATIVES_BASE_PATH = "/preview/alternative";
@@ -145,7 +146,7 @@ export default function ComparisonHubBody({
           <ul className={styles.relatedList}>
             {crossLinks.map((link) => (
               <li key={link.href} className={styles.relatedItem}>
-                <Link href={link.href}>{link.label}</Link>
+                <Link href={toInternalHref(link.href) ?? "#"}>{link.label}</Link>
               </li>
             ))}
           </ul>

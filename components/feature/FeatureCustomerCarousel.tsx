@@ -13,6 +13,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { toInternalHref } from "@/lib/links";
 
 type CtaLink = {
   label?: string;
@@ -421,7 +422,7 @@ function CtaButton({
     );
   }
   return (
-    <Link href={cta.href ?? "#"} style={baseStyle}>
+    <Link href={toInternalHref(cta.href) ?? "#"} style={baseStyle}>
       {cta.label}
     </Link>
   );

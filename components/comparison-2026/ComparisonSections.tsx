@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
+import { toInternalHref, isExternalHref } from "@/lib/links";
 import { TIERS, type Tier } from "@/components/pricing/pricing-data";
 
 import styles from "./comparison.module.css";
@@ -49,16 +50,19 @@ export function ComparisonSmartLink({
   className?: string;
 }) {
   const href = link?.href ?? "#";
-  const isInternal = href.startsWith("/");
-  if (isInternal) {
+  // Decide internal vs external from the ORIGINAL value, but render the
+  // normalized href so bare-relative internal links (e.g. "comparisons") are
+  // rooted at "/" instead of compounding onto the current route.
+  const normalizedHref = toInternalHref(href) ?? "#";
+  if (!isExternalHref(href)) {
     return (
-      <Link href={href} className={className}>
+      <Link href={normalizedHref} className={className}>
         {link?.label}
       </Link>
     );
   }
   return (
-    <a href={href} className={className} rel="nofollow noopener">
+    <a href={normalizedHref} className={className} rel="nofollow noopener">
       {link?.label}
     </a>
   );
@@ -432,6 +436,7 @@ export function ComparisonRelatedLinks({
     <ul className={styles.hubGrid}>
       {links.map((link) => {
         const href = link?.href ?? "#";
+        const normalizedHref = toInternalHref(href) ?? "#";
         const slug = href.split("/").filter(Boolean).pop();
         const logoSrcs = getToolLogosFromSlug(slug);
         const cardBody = (
@@ -457,14 +462,14 @@ export function ComparisonRelatedLinks({
         );
         return (
           <li key={`${link.label}-${href}`}>
-            {href.startsWith("/") ? (
-              <Link className={styles.hubCard} href={href}>
+            {!isExternalHref(href) ? (
+              <Link className={styles.hubCard} href={normalizedHref}>
                 {cardBody}
               </Link>
             ) : (
               <a
                 className={styles.hubCard}
-                href={href}
+                href={normalizedHref}
                 rel="nofollow noopener"
               >
                 {cardBody}

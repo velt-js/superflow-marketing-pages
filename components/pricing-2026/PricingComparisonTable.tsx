@@ -12,6 +12,7 @@
 // headers. Below 1280px: a per-tier accordion (one <details> per tier).
 
 import { Fragment, useEffect, useRef, useState } from "react";
+import { toInternalHref } from "@/lib/links";
 import {
   SECTIONS,
   TIERS,
@@ -147,7 +148,7 @@ function ComparisonTierHeader({ billing }: { billing: BillingPeriod }) {
               ) : null}
             </span>
             <a
-              href={cta.href}
+              href={toInternalHref(cta.href) ?? "#"}
               target={external ? "_blank" : undefined}
               rel={external ? "noopener" : undefined}
               className={styles.tierHeaderCta}
@@ -186,7 +187,7 @@ function ComparisonMobileAccordion({ billing }: { billing: BillingPeriod }) {
               </span>
               <span className={styles.mobileSummaryActions}>
                 <a
-                  href={cta.href}
+                  href={toInternalHref(cta.href) ?? "#"}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener" : undefined}
                   className={styles.mobileCta}
