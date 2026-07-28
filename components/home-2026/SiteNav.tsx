@@ -244,14 +244,14 @@ const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
   {
     heading: "Installation",
     links: [
-      { label: "Framer", href: INTEGRATIONS_INDEX_HREF },
-      { label: "WordPress", href: `${INTEGRATIONS_INDEX_HREF}/wordpress` },
       { label: "Webflow", href: `${INTEGRATIONS_INDEX_HREF}/webflow` },
+      { label: "WordPress", href: `${INTEGRATIONS_INDEX_HREF}/wordpress` },
       { label: "Shopify", href: INTEGRATIONS_INDEX_HREF },
       {
         label: "Google Tag Manager",
         href: `${INTEGRATIONS_INDEX_HREF}/google-tag-manager`,
       },
+      { label: "Framer", href: INTEGRATIONS_INDEX_HREF },
     ],
   },
   {
