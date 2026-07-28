@@ -46,9 +46,9 @@ export type Tier = {
    *  Credits rate card: every agent review costs a flat 10 credits;
    *  included credits reset each cycle. */
   aiCredits?: string;
-  /** Numeric form of `aiCredits`, used to derive the "≈ 10 pages with 3
-   *  agents" estimate under the chip. Omitted on custom-contract tiers,
-   *  which have no fixed monthly allowance. */
+  /** Numeric form of `aiCredits`, used to derive the "≈ 30 agent reviews"
+   *  estimate under the chip. Omitted on custom-contract tiers, which
+   *  have no fixed monthly allowance. */
   aiCreditsPerMonth?: number;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;

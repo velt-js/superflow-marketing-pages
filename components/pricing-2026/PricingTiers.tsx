@@ -12,20 +12,17 @@ import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "@/components/pricing/pricing-data";
 import { useBilling, type BillingPeriod } from "@/components/pricing/BillingContext";
 import {
-  AGENTS_PER_PAGE_ESTIMATE,
   CREDIT_PACKS,
   CUSTOM_CREDITS_ESTIMATE,
-  getPagesLabel,
-  getPagesWithAgentsLabel,
+  getAgentReviewsLabel,
 } from "./ai-credits-data";
 import styles from "./PricingTiers.module.css";
 
 /** Copy for the annual toggle's savings hint. */
 const ANNUAL_HINT = "2 months free";
 
-/** Footer copy in the packs dropdown. Restates the agents-per-page
- *  assumption because the open panel covers the chip's estimate line. */
-const PACKS_HINT = `One-time top-ups that roll over month to month. Page counts assume ${AGENTS_PER_PAGE_ESTIMATE} agents per page.`;
+/** Footer copy in the packs dropdown. */
+const PACKS_HINT = "One-time top-ups that roll over month to month.";
 
 /**
  * Tabler "check" bullet glyph, stroked in the section's green accent.
@@ -152,8 +149,8 @@ function PricingTiersCreditsChip({
             <li key={pack.id} className={styles.creditsPackRow}>
               <span className={styles.creditsPackLabel}>
                 <span>{pack.credits.toLocaleString("en-US")} credits</span>
-                <span className={styles.creditsPackPages}>
-                  {getPagesLabel(pack.credits)}
+                <span className={styles.creditsPackReviews}>
+                  {getAgentReviewsLabel(pack.credits)}
                 </span>
               </span>
               {billing === "annual" ? (
@@ -289,7 +286,7 @@ function PricingTiersCard({
                 billing={billing}
               />
               <span className={styles.creditsEstimate}>
-                {getPagesWithAgentsLabel(tier?.aiCreditsPerMonth) ??
+                {getAgentReviewsLabel(tier?.aiCreditsPerMonth) ??
                   CUSTOM_CREDITS_ESTIMATE}
               </span>
             </div>

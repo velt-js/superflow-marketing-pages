@@ -219,7 +219,7 @@
     position: relative;
 }
 
-/* Plain-English translation of the allowance ("≈ 10 pages with 3 agents"). */
+/* Plain-English translation of the allowance ("≈ 30 agent reviews"). */
 .creditsEstimate {
     padding-left: 2px;
     font-family: var(--pt-body);
@@ -345,9 +345,8 @@
     gap: 2px;
 }
 
-/* Same pages-per-credits translation as the chip line, minus the
-   "with 3 agents" qualifier the chip already states. */
-.creditsPackPages {
+/* Same credits-to-reviews translation as the chip line. */
+.creditsPackReviews {
     font-family: var(--pt-body);
     font-size: 11.5px;
     font-weight: 400;
