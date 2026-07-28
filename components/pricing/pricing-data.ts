@@ -46,6 +46,10 @@ export type Tier = {
    *  Credits rate card: every agent review costs a flat 10 credits;
    *  included credits reset each cycle. */
   aiCredits?: string;
+  /** Numeric form of `aiCredits`, used to derive the "≈ 10 pages with 3
+   *  agents" estimate under the chip. Omitted on custom-contract tiers,
+   *  which have no fixed monthly allowance. */
+  aiCreditsPerMonth?: number;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -96,6 +100,7 @@ export const TIERS: Tier[] = [
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
     aiCredits: "60 AI credits/mo",
+    aiCreditsPerMonth: 60,
     cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
@@ -116,6 +121,7 @@ export const TIERS: Tier[] = [
     badge: "Loved by 100+ Agencies",
     highlighted: true,
     aiCredits: "300 AI credits/mo",
+    aiCreditsPerMonth: 300,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
@@ -134,6 +140,7 @@ export const TIERS: Tier[] = [
     annualStrikePrice: "34",
     trialLabel: TRIAL_LABEL,
     aiCredits: "600 AI credits/mo",
+    aiCreditsPerMonth: 600,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
