@@ -786,17 +786,17 @@ const COMMENTS_SUBHEADING_TEXT =
 /* Ask AI-variant fallbacks, used only if the CMS omits the copy. */
 const ASK_AI_HEADING_TEXT = "See where the rounds go";
 const ASK_AI_SUBHEADING_TEXT =
-  "Ask plain-language questions across every review — and every answer is grounded in your own data, cited.";
+  "Ask plain-language questions across every review - and every answer is grounded in your own data, cited.";
 
 /* Analytics-variant fallbacks, used only if the CMS omits the copy. */
 const ANALYTICS_HEADING_TEXT = "The week, already read";
 const ANALYTICS_SUBHEADING_TEXT =
-  "Analytics leads with insights — three to five a week, each with the pattern, what it means, and a one-click action.";
+  "Analytics leads with insights - three to five a week, each with the pattern, what it means, and a one-click action.";
 
 /* Client Review-variant fallbacks, used only if the CMS omits the copy. */
 const CLIENT_REVIEW_HEADING_TEXT = "One click to yes. No account.";
 const CLIENT_REVIEW_SUBHEADING_TEXT =
-  "A magic link opens the live page — the client sees work AI and your team already cleaned up, then approves right there.";
+  "A magic link opens the live page - the client sees work AI and your team already cleaned up, then approves right there.";
 
 /* Screenshots-variant fallbacks, used only if the CMS omits the copy. */
 const SCREENSHOTS_HEADING_TEXT = "Proof that outlives the page";
@@ -806,7 +806,7 @@ const SCREENSHOTS_SUBHEADING_TEXT =
 /* Private Comments-variant fallbacks, used only if the CMS omits the copy. */
 const PRIVATE_HEADING_TEXT = "Your side of the review.";
 const PRIVATE_SUBHEADING_TEXT =
-  "Debate in a thread beside the client's — then the client's view shows one settled answer, never the debate.";
+  "Debate in a thread beside the client's - then the client's view shows one settled answer, never the debate.";
 const COMMENTS_SITE_URL = "your-site.com";
 const COMMENTS_MESSAGE_SLACK =
   "Sent you feedback on Email. Also change the CTA to green";
@@ -1296,7 +1296,7 @@ function SolutionPrivateFlow(): ReactNode {
 
 const WHITE_LABEL_HEADING_TEXT = "Your brand, everywhere they look.";
 const WHITE_LABEL_SUBHEADING_TEXT =
-  "Upload your logo once — the review toolbar your client sees and the admin panel your team runs both carry it.";
+  "Upload your logo once - the review toolbar your client sees and the admin panel your team runs both carry it.";
 const WHITE_LABEL_UPLOAD_TITLE = "acme-logo.svg";
 const WHITE_LABEL_UPLOAD_META = "One upload";
 const WHITE_LABEL_REPLACES_LABEL = "replaces";
@@ -1401,7 +1401,7 @@ function SolutionWhiteLabelFlow(): ReactNode {
 
 const KANBAN_HEADING_TEXT = "The pipeline, finally visible.";
 const KANBAN_SUBHEADING_TEXT =
-  "Every review, across every client, on one board that updates itself from review activity — no dragging.";
+  "Every review, across every client, on one board that updates itself from review activity - no dragging.";
 const KANBAN_ACTIVITY_LABEL = "Review activity";
 const KANBAN_EVENT_RESOLVED = "Thread resolved";
 const KANBAN_EVENT_FINDING = "Agent found 3 issues";
@@ -1557,24 +1557,24 @@ function SolutionKanbanFlow(): ReactNode {
 
 /* ---- Review Workflows "in your head → one visual flow" variant ----
    Left: the process as it lives today — a loose stack of slightly-rotated step
-   notes ("in your head"). Through the dashed arrow: one ordered visual flow —
+   notes ("in your head"). Through the dashed arrow: one ordered visual flow - 
    push → AI agents → team review → client gate — as tidy toned node rows. Only
    the review-workflows page opts into this via solution.variant =
    "review-workflows". */
 
 const REVIEW_WF_HEADING_TEXT = "The process, out of your head.";
 const REVIEW_WF_SUBHEADING_TEXT =
-  "Put your reviewers and AI agents in one visual flow — conditions move work forward, and the client gate comes last.";
+  "Put your reviewers and AI agents in one visual flow - conditions move work forward, and the client gate comes last.";
 
 /** Authenticated Pages variant heading/subheading defaults (CMS overrides at runtime). */
 const AUTH_HEADING_TEXT = "Both halves of the work, reviewed";
 const AUTH_SUBHEADING_TEXT =
-  "Superflow installs on the site itself, so review runs behind passwords, Okta, and SSO — wherever the viewer is logged in.";
+  "Superflow installs on the site itself, so review runs behind passwords, Okta, and SSO - wherever the viewer is logged in.";
 
 /** Recordings variant heading/subheading defaults (CMS overrides at runtime). */
 const RECORDINGS_HEADING_TEXT = "Some feedback is faster said than typed.";
 const RECORDINGS_SUBHEADING_TEXT =
-  "Record your screen, camera, or voice right where you review — and it lands as a pinned comment your team can watch in context.";
+  "Record your screen, camera, or voice right where you review - and it lands as a pinned comment your team can watch in context.";
 const REVIEW_WF_MESSY_LABEL = "In your head";
 const REVIEW_WF_FLOW_LABEL = "One visual flow";
 
@@ -2081,7 +2081,7 @@ function SolutionRecordingsFlow(): ReactNode {
 
 /* ---- Screenshots "comment captures the page → snapshot outlives it" variant ----
    Left: a compact captured-page card (browser mini + comment pin + a green
-   camera "Snapshot saved" pill). Through the dashed arrow: a then/now stack —
+   camera "Snapshot saved" pill). Through the dashed arrow: a then/now stack - 
    a faint "Live · changed" card (its anchor lost) behind the solid saved
    snapshot with a green "As reviewed" marker. Only the screenshots feature
    page opts into this via solution.variant = "screenshots". Borders only, no

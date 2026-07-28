@@ -33,7 +33,7 @@ export const revalidate = 60;
 
 /** Fallback meta description for a feature page missing its own copy. */
 const FEATURE_FALLBACK_DESCRIPTION =
-  "Turn your QA checklist into AI agents that review every site change. Your team approves, then your client — no login required.";
+  "Turn your QA checklist into AI agents that review every site change. Your team approves, then your client - no login required.";
 
 // Per-slug OG image fallbacks for review pages — used when the Sanity
 // `ogImage` field isn't populated. Mirrors the original usesuperflow.com

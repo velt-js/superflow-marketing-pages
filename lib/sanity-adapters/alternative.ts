@@ -205,7 +205,7 @@ export function mapAlternativeDocToConfig(
       heading: `Why choose Superflow over`,
       highlight: c2Name,
       bullets: [
-        "Annotate live websites — no mockups required.",
+        "Annotate live websites - no mockups required.",
         "Centralized feedback that syncs with your project tools.",
         "AI-assisted rewrites for crisp UI copy.",
       ],

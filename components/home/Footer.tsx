@@ -105,7 +105,7 @@ const COLUMNS: Column[] = [
 ];
 
 const SOCIAL_LINKS: Record<string, string> = {
-  slack: "https://usesuperflow.com",
+  slack: "https://usesuperflow.ai",
   linkedin: "https://www.linkedin.com/company/usesuperflow",
   x: "https://x.com/usesuperflow",
   instagram: "https://www.instagram.com/usesuperflow",

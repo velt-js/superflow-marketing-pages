@@ -39,7 +39,7 @@ const PRICING_PRODUCT_SCHEMA = {
   "@type": "Product",
   name: "Superflow",
   description:
-    "Superflow plans — Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
+    "Superflow plans - Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
   brand: { "@id": ORG_ID },
   url: `${SITE_URL}/pricing`,
   offers: TIERS.map((tier) => {
@@ -58,7 +58,7 @@ const PRICING_PRODUCT_SCHEMA = {
         "@type": "PriceSpecification",
         priceCurrency: "USD",
         valueAddedTaxIncluded: false,
-        description: "Custom — contact sales for a quote",
+        description: "Custom - contact sales for a quote",
       };
     } else {
       base.price = tier.annualPrice;
@@ -101,7 +101,7 @@ const PRICING_BREADCRUMB = buildBreadcrumbList([
 const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 
 export const metadata = buildPageMetadata({
-  title: "Pricing — Ship Creative Assets Impossibly Fast",
+  title: "Pricing - Ship Creative Assets Impossibly Fast",
   description:
     "Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is a flat 10 credits. Starter, Growth, Scale & Enterprise plans.",
   path: "/pricing",
@@ -119,7 +119,7 @@ export default function PricingPage() {
           below, so PageJsonLd is called without a trail to avoid a
           duplicate BreadcrumbList. */}
       <PageJsonLd
-        name="Pricing — Ship Creative Assets Impossibly Fast"
+        name="Pricing - Ship Creative Assets Impossibly Fast"
         description="Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is a flat 10 credits. Starter, Growth, Scale & Enterprise plans."
         path="/pricing"
       />

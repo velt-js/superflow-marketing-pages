@@ -21,7 +21,7 @@ import { SITE_URL } from "@/app/_seo/schema";
 
 const PAGE_PATH = "/webflow-plugin";
 const PAGE_TITLE =
-  "Superflow for Webflow — Comment & collaborate on your Webflow sites";
+  "Superflow for Webflow - Comment & collaborate on your Webflow sites";
 const PAGE_DESCRIPTION =
   "Superflow helps your team and clients review and add feedback in one place, so you can iterate and ship your Webflow websites 10x faster.";
 
@@ -40,7 +40,7 @@ const WHY_CARDS: FeatureCardOverride[] = [
     iconType: "comment",
     title: "Iterate on design\n10X faster",
     subtitle:
-      "Leave comments directly on staging and production Webflow sites — no mockups, no screenshots, no email threads.",
+      "Leave comments directly on staging and production Webflow sites - no mockups, no screenshots, no email threads.",
     imageSrc: "/images/sections/home-cards/review-creative-assets.png",
   },
   {
@@ -80,7 +80,7 @@ const INSTALL_CARDS: FeatureCardOverride[] = [
     iconType: "comment",
     title: "UX copy\nsuggestions",
     subtitle:
-      "AI-assisted rewrites for buttons, headers, and microcopy — generated right inside the editor.",
+      "AI-assisted rewrites for buttons, headers, and microcopy - generated right inside the editor.",
     imageSrc: "/images/sections/home-cards/review-creative-assets.png",
   },
 ];

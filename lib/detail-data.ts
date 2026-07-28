@@ -382,7 +382,7 @@ function buildCriteria(competitor: string): ComparisonCriterionData[] {
       icon: "/images/sections/reasons/compatibility.svg",
       title: "Compatibility",
       description:
-        "Your feedback tool should fit into whatever environments you already use — websites, staging, PDFs and images.",
+        "Your feedback tool should fit into whatever environments you already use - websites, staging, PDFs and images.",
       superflow: {
         name: "Superflow",
         score: "3/3",
@@ -590,7 +590,7 @@ function buildWhyChoose(competitor: string): WhyChooseData {
     quote: {
       headline: "It's everything I've wanted",
       quote:
-        "Superflow is the fastest, easiest way to iterate on our apps and marketing pages. The UX is easy, the tech is brilliant, the team is like lightning — it's everything I've wanted and tried to build into our websites myself for 15 years. Finally!",
+        "Superflow is the fastest, easiest way to iterate on our apps and marketing pages. The UX is easy, the tech is brilliant, the team is like lightning - it's everything I've wanted and tried to build into our websites myself for 15 years. Finally!",
       authorName: "Nick Winter",
       authorRole: "CEO @CodeCombat",
       avatar: "/images/hero/icon-world.svg",
@@ -602,7 +602,7 @@ function buildFAQ(competitor: string): FAQItem[] {
   return [
     {
       q: "What is a website feedback tool?",
-      a: `A website feedback tool lets your team and clients leave contextual comments, screenshots, and recordings directly on a live website or app. Superflow and ${competitor} are both examples — but they take very different approaches to how feedback is captured and routed.`,
+      a: `A website feedback tool lets your team and clients leave contextual comments, screenshots, and recordings directly on a live website or app. Superflow and ${competitor} are both examples - but they take very different approaches to how feedback is captured and routed.`,
     },
     {
       q: `Which is the best alternative to ${competitor}?`,
@@ -610,15 +610,15 @@ function buildFAQ(competitor: string): FAQItem[] {
     },
     {
       q: `Is there a website feedback tool better than ${competitor}?`,
-      a: `Superflow beats ${competitor} on commenting depth, integrations, client workflows and AI assistance — see the scorecard above for a side-by-side breakdown.`,
+      a: `Superflow beats ${competitor} on commenting depth, integrations, client workflows and AI assistance - see the scorecard above for a side-by-side breakdown.`,
     },
     {
       q: "Does Superflow offer a free plan?",
-      a: "Yes — Superflow has a 10-day free trial with full feature access, plus a free forever tier for individuals and small teams.",
+      a: "Yes - Superflow has a 10-day free trial with full feature access, plus a free forever tier for individuals and small teams.",
     },
     {
       q: "Can I use Superflow on authenticated pages?",
-      a: "Yes. Superflow works behind logins, on staging environments, and on password-protected pages — so you can review real user flows, not just marketing pages.",
+      a: "Yes. Superflow works behind logins, on staging environments, and on password-protected pages - so you can review real user flows, not just marketing pages.",
     },
     {
       q: "Does Superflow integrate with Jira and Linear?",

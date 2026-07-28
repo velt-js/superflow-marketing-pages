@@ -3,7 +3,11 @@
 // FAQ shapes in sync — important because Google ties duplicates back
 // to a single entity only when the `@id` and `url` match exactly.
 
-export const SITE_URL = "https://usesuperflow.com";
+// Canonical marketing host (apex, non-www). Migrated from
+// usesuperflow.com — the old host 308s here (see next.config.ts
+// redirects). app.usesuperflow.com and other subdomains are separate
+// deployments and intentionally still live on the .com domain.
+export const SITE_URL = "https://usesuperflow.ai";
 export const ORG_NAME = "Superflow";
 // PNG wordmark served from /public — Google's Knowledge Graph and
 // structured-data guidelines prefer raster (PNG/JPG) over SVG for the

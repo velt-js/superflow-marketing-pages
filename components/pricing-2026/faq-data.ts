@@ -19,7 +19,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What is counted as a seat?",
     answer:
-      "Your team member (also called Admin user) that you invite to Superflow will be counted as a seat. Commenter User & Guest users are free.",
+      "Your team member (also called Team user) that you invite to Superflow will be counted as a seat. Guest users are free.",
   },
   {
     question: "What is the difference between Team & Guest users?",

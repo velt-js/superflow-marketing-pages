@@ -22,13 +22,13 @@ interface SanityUserPersonaListItem {
 const HERO = {
   heading: "Built for every role on the team",
   subheading:
-    "Whoever owns the work, Superflow keeps feedback grounded in the asset itself — fewer threads, faster approvals, no context lost between tools.",
+    "Whoever owns the work, Superflow keeps feedback grounded in the asset itself - fewer threads, faster approvals, no context lost between tools.",
 };
 
 export const metadata = buildPageMetadata({
   title: "See if Superflow is right for you and your team",
   description:
-    "Explore every role — designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works.",
+    "Explore every role - designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works.",
   path: "/user-persona",
   noBrandSuffix: true,
 });
@@ -57,7 +57,7 @@ export default async function UserPersonaIndexPage() {
     <>
       <PageJsonLd
         name="See if Superflow is right for you and your team"
-        description="Explore every role — designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works."
+        description="Explore every role - designers, developers, PMs, agency leads, and marketers. See how Superflow fits the way each team member works."
         path="/user-persona"
         trail={[{ name: "User Persona", url: `${SITE_URL}/user-persona` }]}
       />

@@ -14,6 +14,20 @@ import { SITE_URL } from "./schema";
 const SITE_NAME = "Superflow";
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
 
+/**
+ * Site style bans em dashes in rendered copy. Meta titles/descriptions
+ * can arrive from Sanity with them, so normalize here instead of
+ * trusting every content author: any em dash (with or without
+ * surrounding spaces) becomes a spaced hyphen.
+ */
+export function stripEmDashes(value: string): string {
+  try {
+    return value.replace(/\s*—\s*/g, " - ");
+  } catch {
+    return value;
+  }
+}
+
 export type BuildPageMetadataInput = {
   /** Page title without site suffix. The site name is appended automatically. */
   title: string;
@@ -50,14 +64,16 @@ export type BuildPageMetadataInput = {
 export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   try {
     const {
-      title,
-      description,
       path,
       ogImage = DEFAULT_OG_IMAGE,
-      socialTitle,
       noBrandSuffix = false,
       noindex = false,
     } = input;
+    const title = stripEmDashes(input.title);
+    const description = stripEmDashes(input.description);
+    const socialTitle = input.socialTitle
+      ? stripEmDashes(input.socialTitle)
+      : undefined;
 
     // Strip any pre-existing " | Superflow" or " — Superflow" suffix before
     // building the social title — Sanity metaTitle values arrive with either

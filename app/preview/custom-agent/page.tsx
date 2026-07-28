@@ -42,15 +42,15 @@ function Frame({
 export default function CustomAgentPreviewPage() {
   return (
     <div style={{ padding: 24, background: "#e7e7ea" }}>
-      <Frame label="prompt — full canvas (1204×602)" width={FULL_WIDTH} variant="prompt" />
+      <Frame label="prompt - full canvas (1204×602)" width={FULL_WIDTH} variant="prompt" />
       <Frame
-        label="prompt — visible in card (~631px, right edge clipped)"
+        label="prompt - visible in card (~631px, right edge clipped)"
         width={VISIBLE_WIDTH}
         variant="prompt"
       />
-      <Frame label="test — full canvas (1204×602)" width={FULL_WIDTH} variant="test" />
+      <Frame label="test - full canvas (1204×602)" width={FULL_WIDTH} variant="test" />
       <Frame
-        label="test — visible in card (~631px, right edge clipped)"
+        label="test - visible in card (~631px, right edge clipped)"
         width={VISIBLE_WIDTH}
         variant="test"
       />

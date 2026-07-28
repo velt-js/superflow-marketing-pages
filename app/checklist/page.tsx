@@ -9,7 +9,7 @@ export const revalidate = 60;
 
 const HERO_HEADING = "Checklists for shipping better work";
 const HERO_SUBHEADING =
-  "Step-by-step playbooks for SEO, technical, and CRO work — used by 9,000+ teams to ship cleaner, faster.";
+  "Step-by-step playbooks for SEO, technical, and CRO work - used by 9,000+ teams to ship cleaner, faster.";
 
 export const metadata = buildPageMetadata({
   title: "Checklists",

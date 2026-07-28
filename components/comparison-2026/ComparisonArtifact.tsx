@@ -59,7 +59,7 @@ const COMPARISON_ARTIFACTS: Readonly<
   "behind-login": {
     component: HeroAuthBehindPasswordArtifact,
     caption:
-      "Review the live site itself — behind passwords, Okta, and SSO.",
+      "Review the live site itself - behind passwords, Okta, and SSO.",
   },
   "private-thread": {
     component: HeroPrivateTeamThreadArtifact,

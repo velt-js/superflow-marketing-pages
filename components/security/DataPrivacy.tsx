@@ -69,7 +69,7 @@ export default function DataPrivacy() {
               opacity: 0.6,
             }}
           >
-            At Superflow, data privacy is a first-class priority—we strive to be trustworthy stewards of all sensitive data.
+            At Superflow, data privacy is a first-class priority - we strive to be trustworthy stewards of all sensitive data.
           </p>
         </div>
 

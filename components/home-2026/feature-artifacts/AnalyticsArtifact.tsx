@@ -193,8 +193,8 @@ const RESOLUTION_METRICS: readonly Stat[] = [
 const FOR_ME_STATS: readonly Stat[] = [
   { id: "added", value: "0", label: "Comments Added" },
   { id: "resolved", value: "1", label: "Comments Resolved" },
-  { id: "median", value: "—", label: "Median Response" },
-  { id: "p90", value: "—", label: "P90 Response" },
+  { id: "median", value: " - ", label: "Median Response" },
+  { id: "p90", value: " - ", label: "P90 Response" },
 ];
 
 /** "For me" — projects awaiting your response. */
@@ -1037,7 +1037,7 @@ function VariantBody({ variant }: { variant: AnalyticsVariant }): ReactNode {
           <Card title="Review load by team" className={styles.teamCard}>
             <RankingBars rows={TEAM_ROWS} />
             <p className={styles.teamCaption}>
-              For allocation and pairing — no per-person score.
+              For allocation and pairing - no per-person score.
             </p>
           </Card>
         </div>

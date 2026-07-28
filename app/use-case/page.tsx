@@ -14,7 +14,7 @@ const HERO_SUBHEADING =
 export const metadata = buildPageMetadata({
   title: "Explore How We Simplify Collaboration for your Workflow",
   description:
-    "Browse every Superflow use case — from website QA to video review to client approvals. See which workflow fits your team.",
+    "Browse every Superflow use case - from website QA to video review to client approvals. See which workflow fits your team.",
   path: "/use-case",
   noBrandSuffix: true,
 });
@@ -25,7 +25,7 @@ export default async function UseCaseIndexPage() {
     <>
       <PageJsonLd
         name="Use Cases | Superflow"
-        description="Browse every Superflow use case — from website QA to video review to client approvals. See which workflow fits your team."
+        description="Browse every Superflow use case - from website QA to video review to client approvals. See which workflow fits your team."
         path="/use-case"
         trail={[{ name: "Use Cases", url: `${SITE_URL}/use-case` }]}
       />

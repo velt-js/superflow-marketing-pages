@@ -13,8 +13,7 @@ import {
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
-
-const SITE_URL = "https://usesuperflow.com";
+import { SITE_URL } from "@/app/_seo/schema";
 
 export const revalidate = 3600;
 
@@ -138,6 +137,8 @@ export async function GET() {
     "> Superflow is a website and creative-asset review tool. Teams leave contextual feedback, record videos, sync tasks to PM tools, and ship faster with fewer review rounds.",
     "",
     "Superflow supports review on live websites, staging environments, PDFs, images, videos, and Lottie animations. Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
+    "",
+    `Full page content is available in one fetch at ${SITE_URL}/llms-full.txt`,
     "",
     section("Core pages", core),
     section("Features", features),

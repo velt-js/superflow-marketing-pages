@@ -23,7 +23,7 @@ interface SanityComparisonListItem {
 const HERO = {
   heading: "How Superflow stacks up",
   subheading:
-    "See how Superflow compares to other review and feedback tools — pricing, integrations, and where each one fits best.",
+    "See how Superflow compares to other review and feedback tools - pricing, integrations, and where each one fits best.",
 };
 
 export const metadata = buildPageMetadata({

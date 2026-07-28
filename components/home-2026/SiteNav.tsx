@@ -624,7 +624,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   }, []);
 
   /* The bar wears its solid white treatment when scrolled AND, mirroring
-     Asana's nav, whenever a dropdown is open at the top of the page — so the
+     Asana's nav, whenever a dropdown is open at the top of the page - so the
      white panel connects seamlessly to a white bar. Routes that opt in via
      `solidAtTop` (e.g. blog pages with light heroes) keep it solid throughout. */
   const isHeaderSolid = solidAtTop || isScrolled || openDropdown !== null;

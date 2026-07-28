@@ -17,19 +17,19 @@ const HERO_HEIGHT = 578;
 
 /** Every feature-panel scene (the tabs across the four blocks). */
 const FEATURE_VARIANTS: readonly { variant: ScreenshotVariant; label: string }[] = [
-  { variant: "capture", label: "capture — Comment-time capture" },
-  { variant: "no-extension", label: "no-extension — No browser extension" },
-  { variant: "then-and-now", label: "then-and-now — Page changed / lost anchor" },
-  { variant: "full-page", label: "full-page — Full-page context" },
-  { variant: "client-view", label: "client-view — Client-visible snapshot" },
-  { variant: "record", label: "record — Approvals with context" },
+  { variant: "capture", label: "capture - Comment-time capture" },
+  { variant: "no-extension", label: "no-extension - No browser extension" },
+  { variant: "then-and-now", label: "then-and-now - Page changed / lost anchor" },
+  { variant: "full-page", label: "full-page - Full-page context" },
+  { variant: "client-view", label: "client-view - Client-visible snapshot" },
+  { variant: "record", label: "record - Approvals with context" },
 ];
 
 /** The screenshot-driven hero tabs (fully visible, centred). */
 const HERO_VARIANTS: readonly { variant: ScreenshotVariant; label: string }[] = [
-  { variant: "capture", label: "capture — Comment, snapshot saved" },
-  { variant: "then-and-now", label: "then-and-now — The page changed" },
-  { variant: "client-view", label: "client-view — The client's view" },
+  { variant: "capture", label: "capture - Comment, snapshot saved" },
+  { variant: "then-and-now", label: "then-and-now - The page changed" },
+  { variant: "client-view", label: "client-view - The client's view" },
 ];
 
 /**
@@ -116,7 +116,7 @@ export default function ScreenshotsArtifactsPreviewPage() {
         ))}
         <Frame
           key="hero-behind-password"
-          label="behind-password (reused) — Behind a password"
+          label="behind-password (reused) - Behind a password"
           width={HERO_WIDTH}
           height={HERO_HEIGHT}
         >

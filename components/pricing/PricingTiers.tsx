@@ -21,8 +21,8 @@ import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "./pricing-data";
 import { useBilling, type BillingPeriod } from "./BillingContext";
 
-const PRIMARY = "#625df5"; // brand purple — solid CTA fill
-const SECONDARY_BORDER = "#262291"; // dark purple — outlined CTA border
+const PRIMARY = "#625df5"; // brand purple - solid CTA fill
+const SECONDARY_BORDER = "#262291"; // dark purple - outlined CTA border
 const CARD_BORDER = "#1c1c1c";
 const CARD_BG = "#000";
 const HIGHLIGHT_GRADIENT =
