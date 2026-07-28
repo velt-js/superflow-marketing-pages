@@ -74,6 +74,8 @@ const MENU_CLOSE_LABEL = "Close menu";
 const PRODUCT_LABEL = "Product";
 /** Label of the nav item that owns the Assets (review surfaces) list menu. */
 const ASSETS_LABEL = "Assets";
+/** Label of the nav item that owns the Integrations grouped menu. */
+const INTEGRATIONS_LABEL = "Integrations";
 /** Label of the nav item that owns the Resources list menu. */
 const RESOURCES_LABEL = "Resources";
 /** Shared route prefix for every feature detail page (served at the root slug). */
@@ -89,7 +91,7 @@ const DROPDOWN_CLOSE_DELAY_MS = 200;
 const NAV_ITEMS: readonly NavItem[] = [
   { label: PRODUCT_LABEL, href: "#product", hasMenu: true },
   { label: ASSETS_LABEL, href: "#assets", hasMenu: true },
-  { label: "Integrations", href: "/integrations" },
+  { label: INTEGRATIONS_LABEL, href: "/integrations", hasMenu: true },
   { label: RESOURCES_LABEL, href: "#resources", hasMenu: true },
   { label: "Demo", href: "/demo" },
   { label: "Pricing", href: "/pricing" },
@@ -219,6 +221,66 @@ const ASSET_LINKS: readonly AssetLink[] = [
   { label: "Image Review", href: "/image-review" },
 ];
 
+/** A titled category of connector links inside the Integrations dropdown. */
+type IntegrationGroup = {
+  heading: string;
+  links: readonly AssetLink[];
+};
+
+/** Integrations hub index; connectors without a detail page link here. */
+const INTEGRATIONS_INDEX_HREF = "/integrations";
+
+/**
+ * Connector links surfaced in the Integrations dropdown, grouped into the
+ * same four categories (and order) as the catalog on /integrations — see
+ * CATEGORIES in home-2026/IntegrationsSection. Connectors without a public
+ * detail page fall back to the hub index, matching the catalog chips.
+ * Shared by the desktop dropdown and the mobile accordion.
+ */
+const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
+  {
+    heading: "Developer",
+    links: [
+      { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF },
+      { label: "REST API", href: `${INTEGRATIONS_INDEX_HREF}/api` },
+    ],
+  },
+  {
+    heading: "Delivery",
+    links: [
+      { label: "Slack", href: `${INTEGRATIONS_INDEX_HREF}/slack` },
+      { label: "Email", href: INTEGRATIONS_INDEX_HREF },
+      { label: "WhatsApp", href: INTEGRATIONS_INDEX_HREF },
+    ],
+  },
+  {
+    heading: "Installation",
+    links: [
+      { label: "Framer", href: INTEGRATIONS_INDEX_HREF },
+      { label: "WordPress", href: `${INTEGRATIONS_INDEX_HREF}/wordpress` },
+      { label: "Webflow", href: `${INTEGRATIONS_INDEX_HREF}/webflow` },
+      { label: "Shopify", href: INTEGRATIONS_INDEX_HREF },
+      {
+        label: "Google Tag Manager",
+        href: `${INTEGRATIONS_INDEX_HREF}/google-tag-manager`,
+      },
+    ],
+  },
+  {
+    heading: "Task Management",
+    links: [
+      { label: "Asana", href: `${INTEGRATIONS_INDEX_HREF}/asana` },
+      { label: "Trello", href: INTEGRATIONS_INDEX_HREF },
+      { label: "Monday.com", href: `${INTEGRATIONS_INDEX_HREF}/monday` },
+      { label: "ClickUp", href: `${INTEGRATIONS_INDEX_HREF}/clickup` },
+      { label: "Jira", href: INTEGRATIONS_INDEX_HREF },
+    ],
+  },
+];
+
+/** Footer row label in the Integrations dropdown linking to the hub. */
+const INTEGRATIONS_ALL_LABEL = "All Integrations";
+
 /** A single row in the Resources list dropdown. `badge` shows a small "$" chip
     (paid/tool cue), and off-site URLs open in a new tab. */
 type ResourceLink = {
@@ -319,9 +381,11 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   const menuId = useId();
   const productMenuId = useId();
   const assetsMenuId = useId();
+  const integrationsMenuId = useId();
   const resourcesMenuId = useId();
   const mobileProductId = useId();
   const mobileAssetsId = useId();
+  const mobileIntegrationsId = useId();
   const mobileResourcesId = useId();
   const headerRef = useRef<HTMLElement | null>(null);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -331,6 +395,8 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   const productTriggerRef = useRef<HTMLButtonElement | null>(null);
   const assetsMenuRef = useRef<HTMLDivElement | null>(null);
   const assetsTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const integrationsMenuRef = useRef<HTMLDivElement | null>(null);
+  const integrationsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const resourcesMenuRef = useRef<HTMLDivElement | null>(null);
   const resourcesTriggerRef = useRef<HTMLButtonElement | null>(null);
   /* Pending hover-intent close timer id (see scheduleDropdownClose). */
@@ -402,6 +468,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
         Boolean(productMenuRef?.current?.contains(node)) ||
         Boolean(productPanelRef?.current?.contains(node)) ||
         Boolean(assetsMenuRef?.current?.contains(node)) ||
+        Boolean(integrationsMenuRef?.current?.contains(node)) ||
         Boolean(resourcesMenuRef?.current?.contains(node))
       );
     } catch {
@@ -584,6 +651,8 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
             productTriggerRef.current?.focus();
           } else if (label === ASSETS_LABEL) {
             assetsTriggerRef.current?.focus();
+          } else if (label === INTEGRATIONS_LABEL) {
+            integrationsTriggerRef.current?.focus();
           } else if (label === RESOURCES_LABEL) {
             resourcesTriggerRef.current?.focus();
           }
@@ -732,6 +801,80 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         {link.label}
                       </a>
                     ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === INTEGRATIONS_LABEL) {
+              return (
+                <div
+                  key={item.label}
+                  ref={integrationsMenuRef}
+                  className={styles.navItem}
+                  onMouseEnter={() => openDropdownMenu(INTEGRATIONS_LABEL)}
+                  onMouseLeave={scheduleDropdownClose}
+                  onBlur={handleDropdownBlur}
+                >
+                  <button
+                    type="button"
+                    ref={integrationsTriggerRef}
+                    className={`${styles.navLink} ${styles.navTrigger}`}
+                    aria-expanded={openDropdown === INTEGRATIONS_LABEL}
+                    aria-controls={integrationsMenuId}
+                    onClick={() => toggleDropdownMenu(INTEGRATIONS_LABEL)}
+                    onPointerDown={handleDropdownPointerDown}
+                    onFocus={() => handleTriggerFocus(INTEGRATIONS_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={16}
+                      className={`${styles.navChevron} ${
+                        openDropdown === INTEGRATIONS_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={integrationsMenuId}
+                    className={`${styles.listMenu} ${styles.integrationsMenu} ${
+                      openDropdown === INTEGRATIONS_LABEL
+                        ? styles.listMenuOpen
+                        : ""
+                    }`}
+                    aria-label={`${INTEGRATIONS_LABEL} categories`}
+                  >
+                    <div className={styles.integrationsGrid}>
+                      {INTEGRATION_GROUPS.map((group) => (
+                        <div
+                          key={group.heading}
+                          className={styles.integrationsGroup}
+                        >
+                          <p className={styles.integrationsHeading}>
+                            {group.heading}
+                          </p>
+                          {group.links.map((link) => (
+                            <a
+                              key={link.label}
+                              className={styles.listLink}
+                              href={link.href}
+                              onClick={closeDropdownMenu}
+                            >
+                              {link.label}
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <a
+                      className={`${styles.listLink} ${styles.integrationsAllLink}`}
+                      href={INTEGRATIONS_INDEX_HREF}
+                      onClick={closeDropdownMenu}
+                    >
+                      {INTEGRATIONS_ALL_LABEL}
+                    </a>
                   </div>
                 </div>
               );
@@ -979,6 +1122,69 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         {link.label}
                       </a>
                     ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === INTEGRATIONS_LABEL) {
+              return (
+                <div key={item.label} className={styles.mobileNavGroup}>
+                  <button
+                    type="button"
+                    className={`${styles.mobileNavLink} ${styles.mobileNavToggle}`}
+                    aria-expanded={openMobileDropdown === INTEGRATIONS_LABEL}
+                    aria-controls={mobileIntegrationsId}
+                    onClick={() =>
+                      handleMobileDropdownToggle(INTEGRATIONS_LABEL)
+                    }
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={18}
+                      className={`${styles.mobileNavChevron} ${
+                        openMobileDropdown === INTEGRATIONS_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={mobileIntegrationsId}
+                    className={`${styles.mobileSubMenu} ${
+                      openMobileDropdown === INTEGRATIONS_LABEL
+                        ? styles.mobileSubMenuOpen
+                        : ""
+                    }`}
+                  >
+                    {INTEGRATION_GROUPS.map((group) => (
+                      <div
+                        key={group.heading}
+                        className={styles.mobileSubGroup}
+                      >
+                        <p className={styles.mobileSubHeading}>
+                          {group.heading}
+                        </p>
+                        {group.links.map((link) => (
+                          <a
+                            key={link.label}
+                            className={styles.mobileListLink}
+                            href={link.href}
+                            onClick={closeMenu}
+                          >
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    ))}
+                    <a
+                      className={styles.mobileListLink}
+                      href={INTEGRATIONS_INDEX_HREF}
+                      onClick={closeMenu}
+                    >
+                      {INTEGRATIONS_ALL_LABEL}
+                    </a>
                   </div>
                 </div>
               );

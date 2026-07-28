@@ -71,14 +71,27 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
+    // Full connector catalog, mirroring the /integrations page and the
+    // nav dropdown (SiteNav's INTEGRATION_GROUPS). Connectors without a
+    // detail page link to the hub, matching the catalog chips.
     title: "Integrations",
     links: [
       { label: "Asana", href: `${INTEGRATIONS_PATH}/asana` },
-      { label: "Slack", href: `${INTEGRATIONS_PATH}/slack` },
-      { label: "ClickUp", href: `${INTEGRATIONS_PATH}/clickup` },
-      { label: "Webflow", href: `${INTEGRATIONS_PATH}/webflow` },
+      { label: "Trello", href: INTEGRATIONS_PATH },
       { label: "Monday.com", href: `${INTEGRATIONS_PATH}/monday` },
+      { label: "ClickUp", href: `${INTEGRATIONS_PATH}/clickup` },
+      { label: "Jira", href: INTEGRATIONS_PATH },
+      { label: "Framer", href: INTEGRATIONS_PATH },
+      { label: "WordPress", href: `${INTEGRATIONS_PATH}/wordpress` },
+      { label: "Webflow", href: `${INTEGRATIONS_PATH}/webflow` },
+      { label: "Shopify", href: INTEGRATIONS_PATH },
       { label: "Google Tag Manager", href: `${INTEGRATIONS_PATH}/google-tag-manager` },
+      { label: "Slack", href: `${INTEGRATIONS_PATH}/slack` },
+      { label: "Email", href: INTEGRATIONS_PATH },
+      { label: "WhatsApp", href: INTEGRATIONS_PATH },
+      { label: "Webhooks", href: INTEGRATIONS_PATH },
+      { label: "REST API", href: `${INTEGRATIONS_PATH}/api` },
+      { label: "All Integrations", href: INTEGRATIONS_PATH },
     ],
   },
   {
