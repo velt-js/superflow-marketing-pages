@@ -97,7 +97,11 @@ const CATEGORIES: readonly IntegrationCategory[] = [
         logo: `${ASSET_BASE}/webflow.png`,
         href: `${INTEGRATIONS_INDEX_HREF}/webflow`,
       },
-      { name: "Shopify", logo: `${ASSET_BASE}/shopify.svg` },
+      {
+        name: "Shopify",
+        logo: `${ASSET_BASE}/shopify.svg`,
+        href: `${INTEGRATIONS_INDEX_HREF}/shopify`,
+      },
     ],
   },
   {

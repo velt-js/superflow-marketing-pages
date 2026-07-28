@@ -5,6 +5,7 @@ import {
   WebflowMark,
   WordPressMark,
   GtmMark,
+  ShopifyMark,
 } from "./IntegrationBrandMarks";
 import styles from "./InstallSections.module.css";
 
@@ -149,6 +150,37 @@ const GTM_CONFIG: InstallConfig = {
 };
 
 /**
+ * Shopify install copy. Like GTM, no marketplace CTA: there is no public
+ * Shopify App Store listing to link, so the page documents the snippet
+ * path (one paste in the theme's layout file).
+ */
+const SHOPIFY_CONFIG: InstallConfig = {
+  slug: "shopify",
+  toolName: "Shopify",
+  Mark: ShopifyMark,
+  markSize: 32,
+  whatHeading: "What the install does.",
+  whatLede:
+    "Superflow installs on Shopify with one snippet in your theme. Paste it once in the theme's layout file - every page the storefront renders becomes reviewable.",
+  whatFacts: [
+    "One snippet in the theme's layout file. No app permissions, no checkout changes, nothing else in your store touched.",
+    "The verifier confirms the script before any review link goes out.",
+    "Works with Online Store 2.0 and legacy themes alike - the snippet sits in the layout every page renders through.",
+    "Duplicated themes carry the snippet with them, so staging copies stay reviewable.",
+    "Removing the snippet removes Superflow.",
+  ],
+  behavesHeading: "How the Shopify install behaves.",
+  behaves: [
+    "Works on password-protected storefronts, so pre-launch stores review like live ones.",
+    "Works with the page builders on top of Shopify, like PageFly and Shogun. Reviews run on the rendered page.",
+    "Covers every page the theme renders: home, collections, products, pages, blog.",
+    "Any website takes the snippet. Shopify just makes it one paste in the theme.",
+    "Connection health lives in settings.",
+    "Removing the snippet removes Superflow. Nothing else changes.",
+  ],
+};
+
+/**
  * The install-family pages that render the bespoke install template, keyed by
  * their `integrationPreviewPage` slug.
  */
@@ -156,6 +188,7 @@ export const INSTALL_CONFIGS: Readonly<Record<string, InstallConfig>> = {
   webflow: WEBFLOW_CONFIG,
   wordpress: WORDPRESS_CONFIG,
   "google-tag-manager": GTM_CONFIG,
+  shopify: SHOPIFY_CONFIG,
 };
 
 /* ---------------------------------------------------------------- glyphs */

@@ -509,6 +509,46 @@
   outline-offset: 2px;
 }
 
+/* --- Integrations grouped dropdown (desktop) --------------------------- */
+
+/* Wider variant of .listMenu: category columns in a two-column grid with a
+   full-width "All Integrations" footer row. */
+.integrationsMenu {
+  min-width: 440px;
+  padding: 12px;
+}
+
+.integrationsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+}
+
+.integrationsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.integrationsHeading {
+  margin: 0;
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a9aa2;
+}
+
+.integrationsAllLink {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17, 20, 45, 0.08);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  font-weight: 600;
+}
+
 /* Small "$" chip trailing a resource link (e.g. Cost Calculator), matching the
    footer's paid/tool cue. Shared shape across the desktop list + mobile list. */
 .listLinkBadge {
