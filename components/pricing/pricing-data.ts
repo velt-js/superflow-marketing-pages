@@ -42,8 +42,9 @@ export type Tier = {
    *  Growth ("Loved by 100+ Agencies"). */
   badge?: string;
   /** Clay-style AI credits chip rendered under the price ("300 AI
-   *  credits/mo"). From the AI Credits rate card: every agent review
-   *  costs a flat 10 credits; included credits reset each cycle. */
+   *  credits/mo"); expands into an add-on packs dropdown. From the AI
+   *  Credits rate card: every agent review costs a flat 10 credits;
+   *  included credits reset each cycle. */
   aiCredits?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;

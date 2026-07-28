@@ -207,8 +207,13 @@
     color: var(--pt-muted);
 }
 
-/* Clay-style included-credits chip under the price. */
+/* Clay-style included-credits chip under the price; expands into an
+   add-on packs dropdown overlaid on the card. */
 .creditsChip {
+    position: relative;
+}
+
+.creditsSummary {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -222,6 +227,27 @@
     letter-spacing: 0.1px;
     line-height: 1.2;
     color: var(--pt-ink);
+    cursor: pointer;
+    list-style: none;
+    transition: border-color 160ms ease;
+}
+
+.creditsSummary::-webkit-details-marker {
+    display: none;
+}
+
+.creditsSummary:hover {
+    border-color: rgba(67, 61, 243, 0.45);
+}
+
+.creditsSummary:focus-visible {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+}
+
+.creditsLabel {
+    flex: 1;
+    text-align: left;
 }
 
 .creditsIcon {
@@ -229,6 +255,80 @@
     width: 16px;
     height: 16px;
     color: var(--pt-accent);
+}
+
+.creditsChevron {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    color: var(--pt-muted);
+    transition: transform 180ms ease;
+}
+
+.creditsChip[open] .creditsChevron {
+    transform: rotate(180deg);
+}
+
+.creditsPanel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid #e2e2ea;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.12);
+}
+
+.creditsPanelTitle {
+    margin: 0;
+    font-family: var(--pt-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--pt-muted);
+}
+
+.creditsPackList {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.creditsPackRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-family: var(--pt-display);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--pt-ink);
+}
+
+.creditsPackRow + .creditsPackRow {
+    border-top: 1px solid #f1f1f5;
+}
+
+.creditsPackPrice {
+    font-weight: 600;
+}
+
+.creditsPanelHint {
+    margin: 0;
+    font-family: var(--pt-body);
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--pt-muted);
 }
 
 .trialLabel {
@@ -354,7 +454,9 @@
 @media (prefers-reduced-motion: reduce) {
     .card,
     .cta,
-    .toggleOption {
+    .toggleOption,
+    .creditsSummary,
+    .creditsChevron {
         transition: none;
     }
 

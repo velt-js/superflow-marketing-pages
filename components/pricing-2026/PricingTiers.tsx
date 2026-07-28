@@ -10,6 +10,7 @@ import Link from "next/link";
 import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "@/components/pricing/pricing-data";
 import { useBilling, type BillingPeriod } from "@/components/pricing/BillingContext";
+import { CREDIT_PACKS } from "./ai-credits-data";
 import styles from "./PricingTiers.module.css";
 
 /** Copy for the annual toggle's savings hint. */
@@ -55,18 +56,54 @@ function PricingTiersSparklesIcon() {
   );
 }
 
+/** Chevron glyph for the credits dropdown; rotates via CSS when open. */
+function PricingTiersChevronIcon() {
+  return (
+    <svg
+      className={styles.creditsChevron}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6l6 -6" />
+    </svg>
+  );
+}
+
 /**
  * Clay-style AI credits chip under the price: the plan's included
- * monthly credits ("300 AI credits/mo") in a hairline pill row.
+ * monthly credits ("300 AI credits/mo") in a hairline row that expands
+ * into a dropdown listing the one-time add-on packs.
  *
  * @param props.label - The tier's aiCredits label.
  */
 function PricingTiersCreditsChip({ label }: { label: string }) {
   return (
-    <span className={styles.creditsChip}>
-      <PricingTiersSparklesIcon />
-      {label}
-    </span>
+    <details className={styles.creditsChip}>
+      <summary className={styles.creditsSummary}>
+        <PricingTiersSparklesIcon />
+        <span className={styles.creditsLabel}>{label}</span>
+        <PricingTiersChevronIcon />
+      </summary>
+      <div className={styles.creditsPanel}>
+        <p className={styles.creditsPanelTitle}>Add-on packs</p>
+        <ul className={styles.creditsPackList}>
+          {CREDIT_PACKS.map((pack) => (
+            <li key={pack.id} className={styles.creditsPackRow}>
+              <span>{pack.credits.toLocaleString("en-US")} credits</span>
+              <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
+            </li>
+          ))}
+        </ul>
+        <p className={styles.creditsPanelHint}>
+          One-time top-ups &mdash; they roll over month to month.
+        </p>
+      </div>
+    </details>
   );
 }
 

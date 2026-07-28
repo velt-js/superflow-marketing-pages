@@ -29,7 +29,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What are AI credits?",
     answer:
-      "AI credits pay for Superflow's AI agent reviews. Every agent review — one agent reviewing one page — costs a flat 10 credits ($0.40, since 1 credit = $0.04). Running three agents on a page is three reviews, or 30 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
+      "AI credits pay for Superflow's AI agent reviews. Every agent review — one agent reviewing one page — costs a flat 10 credits ($0.40). Running three agents on a page is three reviews, or 30 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
   },
   {
     question: "How many AI credits are included in my plan?",
