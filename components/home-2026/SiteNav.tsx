@@ -309,7 +309,7 @@ const RESOURCE_LINKS: readonly ResourceLink[] = [
   // "All Alternatives" / "All Comparisons"); these are not yet promoted to root.
   { label: "Alternatives", href: "/preview/alternative" },
   { label: "Comparisons", href: "/preview/comparison" },
-  { label: "Cost Calculator", href: "/calculator", badge: true },
+  { label: "ROI Calculator", href: "/calculator", badge: true },
   { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
   {
     label: "Join Community",

@@ -1,0 +1,285 @@
+/* ROI explainer sections for /calculator - 2026 light idiom shared with
+   the pricing components: #fbfbfd cards, #ececf1 hairline, 20px radius,
+   serif headings, single #433df3 accent. */
+
+.section {
+    --roi-serif: var(--font-adamina), Georgia, serif;
+    --roi-display: var(--font-urbanist), system-ui, sans-serif;
+    --roi-body: var(--font-poppins), system-ui, sans-serif;
+    --roi-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    --roi-ink: #16171a;
+    --roi-muted: #6b7079;
+    --roi-accent: #433df3;
+    --roi-check: #17b26a;
+    --roi-hairline: #ececf1;
+    --roi-card: #fbfbfd;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 56px 24px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 28px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--roi-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    color: var(--roi-ink);
+    text-align: center;
+}
+
+.subheading {
+    max-width: 640px;
+    margin: -12px 0 4px;
+    font-family: var(--roi-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--roi-muted);
+    text-align: center;
+}
+
+/* --- How-it-works steps ---------------------------------------------------- */
+
+.stepGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.stepCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px 26px;
+    border: 1px solid var(--roi-hairline);
+    border-radius: 20px;
+    background: var(--roi-card);
+    transition: border-color 160ms ease, background 160ms ease;
+}
+
+.stepCard:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    background: #ffffff;
+}
+
+.stepNumber {
+    font-family: var(--roi-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: var(--roi-accent);
+}
+
+.stepTitle {
+    font-family: var(--roi-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--roi-ink);
+}
+
+.stepDescription {
+    font-family: var(--roi-body);
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #3c3f45;
+}
+
+/* --- Output cards ----------------------------------------------------------- */
+
+.outputGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.outputCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 26px 28px;
+    border: 1px solid var(--roi-hairline);
+    border-radius: 20px;
+    background: var(--roi-card);
+    transition: border-color 160ms ease, background 160ms ease;
+}
+
+.outputCard:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    background: #ffffff;
+}
+
+.outputValue {
+    font-family: var(--roi-serif);
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.15;
+    letter-spacing: -0.4px;
+    color: var(--roi-ink);
+}
+
+.outputDescription {
+    font-family: var(--roi-body);
+    font-size: 14px;
+    line-height: 1.55;
+    color: #3c3f45;
+}
+
+/* --- Cost strip -------------------------------------------------------------- */
+
+.costCard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    padding: 36px 40px;
+    border: 1px solid var(--roi-hairline);
+    border-radius: 20px;
+    background: var(--roi-card);
+}
+
+.costIntro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.costHeading {
+    margin: 0;
+    font-family: var(--roi-serif);
+    font-weight: 400;
+    font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    color: var(--roi-ink);
+}
+
+.costLede {
+    margin: 0;
+    font-family: var(--roi-body);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--roi-muted);
+}
+
+.costPoints {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.costPoint {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--roi-body);
+    font-size: 14px;
+    line-height: 1.55;
+    color: #3c3f45;
+}
+
+.costCheck {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    color: var(--roi-check);
+}
+
+.costCta {
+    grid-column: 1 / -1;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    padding: 11px 20px;
+    border: 1.5px solid var(--roi-ink);
+    border-radius: 999px;
+    background: var(--roi-ink);
+    color: #ffffff;
+    font-family: var(--roi-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    text-decoration: none;
+    transition: background 160ms ease, transform 160ms ease;
+}
+
+.costCta:hover {
+    background: #26272c;
+    transform: translateY(-1px);
+}
+
+.costCta:focus-visible {
+    outline: 2px solid var(--roi-accent);
+    outline-offset: 2px;
+}
+
+/* --- Responsive -------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .stepGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .outputGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .costCard {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        padding: 28px 26px;
+    }
+}
+
+@media (max-width: 620px) {
+    .section {
+        padding: 44px 20px;
+    }
+
+    .stepGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stepCard,
+    .outputCard,
+    .costCta {
+        transition: none;
+    }
+
+    .costCta:hover {
+        transform: none;
+    }
+}

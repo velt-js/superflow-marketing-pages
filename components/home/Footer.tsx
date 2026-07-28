@@ -45,7 +45,7 @@ const COLUMNS: Column[] = [
       { label: "Case Study", href: "/case-study/writesonic" },
       { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "Blog", href: "/blog" },
-      { label: "Cost Calculator", href: "/calculator", dollar: true },
+      { label: "ROI Calculator", href: "/calculator", dollar: true },
       { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
       { label: "Join Community", href: "https://superflowusers.slack.com/ssb/redirect" },
     ],
