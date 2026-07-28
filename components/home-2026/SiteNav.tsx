@@ -72,8 +72,10 @@ const MENU_CLOSE_LABEL = "Close menu";
 
 /** Label of the nav item that owns the feature mega-menu. */
 const PRODUCT_LABEL = "Product";
-/** Label of the nav item that owns the Assets (review surfaces) list menu. */
-const ASSETS_LABEL = "Assets";
+/** Label of the nav item that owns the review-formats list menu (Website /
+    Video / Lottie / PDF / Image review) — matches the footer's "Supported
+    Formats" column. */
+const ASSETS_LABEL = "Formats";
 /** Label of the nav item that owns the Integrations grouped menu. */
 const INTEGRATIONS_LABEL = "Integrations";
 /** Label of the nav item that owns the Resources list menu. */
@@ -232,27 +234,13 @@ const INTEGRATIONS_INDEX_HREF = "/integrations";
 
 /**
  * Connector links surfaced in the Integrations dropdown, grouped into the
- * same four categories (and order) as the catalog on /integrations — see
- * CATEGORIES in home-2026/IntegrationsSection. Connectors without a public
- * detail page fall back to the hub index, matching the catalog chips.
- * Shared by the desktop dropdown and the mobile accordion.
+ * four categories from the /integrations catalog (see CATEGORIES in
+ * home-2026/IntegrationsSection) in nav-specific order, with the catalog's
+ * "Delivery" group surfaced here as "Notifications". Connectors without a
+ * public detail page fall back to the hub index, matching the catalog
+ * chips. Shared by the desktop dropdown and the mobile accordion.
  */
 const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
-  {
-    heading: "Developer",
-    links: [
-      { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF },
-      { label: "REST API", href: `${INTEGRATIONS_INDEX_HREF}/api` },
-    ],
-  },
-  {
-    heading: "Delivery",
-    links: [
-      { label: "Slack", href: `${INTEGRATIONS_INDEX_HREF}/slack` },
-      { label: "Email", href: INTEGRATIONS_INDEX_HREF },
-      { label: "WhatsApp", href: INTEGRATIONS_INDEX_HREF },
-    ],
-  },
   {
     heading: "Installation",
     links: [
@@ -274,6 +262,20 @@ const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
       { label: "Monday.com", href: `${INTEGRATIONS_INDEX_HREF}/monday` },
       { label: "ClickUp", href: `${INTEGRATIONS_INDEX_HREF}/clickup` },
       { label: "Jira", href: INTEGRATIONS_INDEX_HREF },
+    ],
+  },
+  {
+    heading: "Notifications",
+    links: [
+      { label: "Slack", href: `${INTEGRATIONS_INDEX_HREF}/slack` },
+      { label: "Email", href: INTEGRATIONS_INDEX_HREF },
+    ],
+  },
+  {
+    heading: "Developer",
+    links: [
+      { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF },
+      { label: "REST API", href: `${INTEGRATIONS_INDEX_HREF}/api` },
     ],
   },
 ];
