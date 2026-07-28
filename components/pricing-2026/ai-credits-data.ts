@@ -10,11 +10,14 @@ export type CreditPack = {
   name: string;
   credits: number;
   priceUsd: number;
+  /** Discounted pack price shown while annual billing is selected,
+   *  mirroring the seat cards' annual strikethrough treatment. */
+  annualPriceUsd: number;
 };
 
 /** One-time add-on packs. Purchased credits roll over month to month. */
 export const CREDIT_PACKS: CreditPack[] = [
-  { id: "small", name: "Small", credits: 500, priceUsd: 20 },
-  { id: "medium", name: "Medium", credits: 2500, priceUsd: 90 },
-  { id: "large", name: "Large", credits: 10000, priceUsd: 340 },
+  { id: "small", name: "Small", credits: 500, priceUsd: 20, annualPriceUsd: 18 },
+  { id: "medium", name: "Medium", credits: 2500, priceUsd: 90, annualPriceUsd: 80 },
+  { id: "large", name: "Large", credits: 10000, priceUsd: 340, annualPriceUsd: 300 },
 ];

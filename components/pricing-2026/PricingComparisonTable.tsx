@@ -28,7 +28,7 @@ const NAV_OFFSET = 70;
 
 /** Per-tier CTA shown in the comparison-table column headers. */
 const HEADER_CTA: Record<Tier["id"], { label: string; href: string }> = {
-  starter: { label: "Start Free Trial", href: APP_URL },
+  starter: { label: "Start Free", href: APP_URL },
   growth: { label: "Start Free Trial", href: APP_URL },
   scale: { label: "Start Free Trial", href: APP_URL },
   enterprise: { label: "Book Demo", href: "/book-demo" },

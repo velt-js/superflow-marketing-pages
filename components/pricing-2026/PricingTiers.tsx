@@ -80,16 +80,22 @@ function PricingTiersChevronIcon() {
  * monthly credits ("300 AI credits/mo") in a hairline row that expands
  * into a dropdown listing the one-time add-on packs. With `packs`
  * false (Enterprise) it renders as a static chip with no dropdown.
+ * While annual billing is selected, pack prices show the discounted
+ * annual price with the standard price struck through, mirroring the
+ * seat cards.
  *
  * @param props.label - The tier's aiCredits label.
  * @param props.packs - Whether the add-on packs dropdown is shown.
+ * @param props.billing - The active billing period.
  */
 function PricingTiersCreditsChip({
   label,
   packs,
+  billing,
 }: {
   label: string;
   packs: boolean;
+  billing: BillingPeriod;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -135,7 +141,16 @@ function PricingTiersCreditsChip({
           {CREDIT_PACKS.map((pack) => (
             <li key={pack.id} className={styles.creditsPackRow}>
               <span>{pack.credits.toLocaleString("en-US")} credits</span>
-              <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
+              {billing === "annual" ? (
+                <span className={styles.creditsPackPrice}>
+                  ${pack.annualPriceUsd}
+                  <span className={styles.creditsPackStrike}>
+                    ${pack.priceUsd}
+                  </span>
+                </span>
+              ) : (
+                <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
+              )}
             </li>
           ))}
         </ul>
@@ -252,9 +267,12 @@ function PricingTiersCard({
           <h3 className={styles.tierName}>{tier?.name}</h3>
           <PricingTiersPrice tier={tier} billing={billing} />
           {tier?.aiCredits ? (
+            // Packs dropdown only on the paid self-serve tiers; Starter
+            // and Enterprise show the static chip.
             <PricingTiersCreditsChip
               label={tier.aiCredits}
-              packs={!tier?.customPrice}
+              packs={tier?.id === "growth" || tier?.id === "scale"}
+              billing={billing}
             />
           ) : null}
           {tier?.trialLabel ? (

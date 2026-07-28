@@ -96,7 +96,7 @@ export const TIERS: Tier[] = [
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
     aiCredits: "60 AI credits/mo",
-    cta: { label: "Start Free Trial", href: APP_URL },
+    cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
       { text: "1 Team Seat" },

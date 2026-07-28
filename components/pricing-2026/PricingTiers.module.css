@@ -332,6 +332,14 @@
     font-weight: 600;
 }
 
+.creditsPackStrike {
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--pt-muted);
+    text-decoration: line-through;
+}
+
 .creditsPanelHint {
     margin: 0;
     font-family: var(--pt-body);
