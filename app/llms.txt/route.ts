@@ -138,6 +138,8 @@ export async function GET() {
     "",
     "Superflow supports review on live websites, staging environments, PDFs, images, videos, and Lottie animations. Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
     "",
+    `Full page content is available in one fetch at ${SITE_URL}/llms-full.txt`,
+    "",
     section("Core pages", core),
     section("Features", features),
     section("Review surfaces", reviews),
