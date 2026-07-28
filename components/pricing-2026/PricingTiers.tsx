@@ -100,7 +100,7 @@ function PricingTiersCreditsChip({ label }: { label: string }) {
           ))}
         </ul>
         <p className={styles.creditsPanelHint}>
-          One-time top-ups &mdash; they roll over month to month.
+          One-time top-ups that roll over month to month.
         </p>
       </div>
     </details>

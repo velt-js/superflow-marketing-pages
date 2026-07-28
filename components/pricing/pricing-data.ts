@@ -6,9 +6,9 @@
 // the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
 // doesn't fit cleanly in CMS arrays and the copy changes infrequently.
 //
-// The AI credits bullets and the "AI Agent Reviews" comparison section
-// come from the AI Credits rate card (v2, flat pricing) rather than the
-// live site; keep them in sync with
+// The per-tier AI credits chips and the "AI Agent Reviews" comparison
+// section come from the AI Credits rate card (v2, flat pricing) rather
+// than the live site; keep them in sync with
 // components/pricing-2026/ai-credits-data.ts.
 
 export type TierBullet = {

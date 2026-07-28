@@ -85,7 +85,7 @@ const AI_CREDITS_PRODUCT_SCHEMA = {
   url: `${SITE_URL}/pricing`,
   offers: CREDIT_PACKS.map((pack) => ({
     "@type": "Offer",
-    name: `${pack.name} pack — ${pack.credits.toLocaleString("en-US")} AI credits`,
+    name: `${pack.name} pack: ${pack.credits.toLocaleString("en-US")} AI credits`,
     url: `${SITE_URL}/pricing`,
     price: pack.priceUsd,
     priceCurrency: "USD",
@@ -103,7 +103,7 @@ const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 export const metadata = buildPageMetadata({
   title: "Pricing — Ship Creative Assets Impossibly Fast",
   description:
-    "Per-seat pricing with a free trial, plus flat-rate AI credits — every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans.",
+    "Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans.",
   path: "/pricing",
   // Live usesuperflow.com/pricing reuses the homepage OG image — set
   // explicitly here so the override is visible at the call-site, even
@@ -120,7 +120,7 @@ export default function PricingPage() {
           duplicate BreadcrumbList. */}
       <PageJsonLd
         name="Pricing — Ship Creative Assets Impossibly Fast"
-        description="Per-seat pricing with a free trial, plus flat-rate AI credits — every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans."
+        description="Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans."
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />
