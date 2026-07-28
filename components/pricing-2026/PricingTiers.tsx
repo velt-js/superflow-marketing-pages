@@ -7,6 +7,7 @@
 // accent hover, single #433df3 accent instead of per-tier rainbow colors.
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "@/components/pricing/pricing-data";
 import { useBilling, type BillingPeriod } from "@/components/pricing/BillingContext";
@@ -77,13 +78,52 @@ function PricingTiersChevronIcon() {
 /**
  * Clay-style AI credits chip under the price: the plan's included
  * monthly credits ("300 AI credits/mo") in a hairline row that expands
- * into a dropdown listing the one-time add-on packs.
+ * into a dropdown listing the one-time add-on packs. With `packs`
+ * false (Enterprise) it renders as a static chip with no dropdown.
  *
  * @param props.label - The tier's aiCredits label.
+ * @param props.packs - Whether the add-on packs dropdown is shown.
  */
-function PricingTiersCreditsChip({ label }: { label: string }) {
+function PricingTiersCreditsChip({
+  label,
+  packs,
+}: {
+  label: string;
+  packs: boolean;
+}) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  // Native <details> stays open on outside clicks; close the dropdown
+  // when a pointer lands anywhere outside it.
+  useEffect(() => {
+    if (!packs) {
+      return undefined;
+    }
+    const handlePointerDown = (event: PointerEvent) => {
+      const details = detailsRef.current;
+      if (!details?.open) {
+        return;
+      }
+      if (event.target instanceof Node && details.contains(event.target)) {
+        return;
+      }
+      details.open = false;
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [packs]);
+
+  if (!packs) {
+    return (
+      <span className={`${styles.creditsSummary} ${styles.creditsStatic}`}>
+        <PricingTiersSparklesIcon />
+        <span className={styles.creditsLabel}>{label}</span>
+      </span>
+    );
+  }
+
   return (
-    <details className={styles.creditsChip}>
+    <details ref={detailsRef} className={styles.creditsChip}>
       <summary className={styles.creditsSummary}>
         <PricingTiersSparklesIcon />
         <span className={styles.creditsLabel}>{label}</span>
@@ -212,7 +252,10 @@ function PricingTiersCard({
           <h3 className={styles.tierName}>{tier?.name}</h3>
           <PricingTiersPrice tier={tier} billing={billing} />
           {tier?.aiCredits ? (
-            <PricingTiersCreditsChip label={tier.aiCredits} />
+            <PricingTiersCreditsChip
+              label={tier.aiCredits}
+              packs={!tier?.customPrice}
+            />
           ) : null}
           {tier?.trialLabel ? (
             <span className={styles.trialLabel}>{tier.trialLabel}</span>

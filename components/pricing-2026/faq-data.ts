@@ -22,14 +22,19 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
       "Your team member (also called Admin user) that you invite to Superflow will be counted as a seat. Commenter User & Guest users are free.",
   },
   {
-    question: "What is the difference between Admin, Commenter & Guest users?",
+    question: "What is the difference between Team & Guest users?",
     answer:
-      "Admin or team user: Your team members should be added as an admin user. They have full access to the admin panel and get access to all features in your account. Commenter user: Commenter Users can read or write comments but they need to authenticate or sign in to Superflow. You should add external users or your clients as commenters. This is available for all plans. These are free and not counted towards your seats. Guest user: Guest users can read or write comments without authenticating or signing in. You should add external users or your clients as guest users. This is only available on Scale and Enterprise plans. These are free and not counted towards your seats.",
+      "Team user: Your team members should be added as team users. They have full access to the admin panel and get access to all features in your account, and they are the seats you pay for. Guest user: Your clients and external reviewers should be added as guest users. They can read or write comments, they are free, and they are not counted towards your seats. Guests who sign in are available on all plans; guests who comment without signing in are available on Scale and Enterprise plans.",
   },
   {
     question: "What are AI credits?",
     answer:
-      "AI credits pay for Superflow's AI agent reviews. Every agent review (one agent reviewing one page) costs a flat 10 credits ($0.40). Running three agents on a page is three reviews, or 30 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
+      "AI credits pay for Superflow's AI agent reviews. Every agent review (one agent reviewing one page) costs a flat 10 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
+  },
+  {
+    question: "How are agent review credits charged?",
+    answer:
+      "Credits are charged per agent review run: each agent you run on each page counts as one review, and every review costs the same 10 credits. For example, running 1 agent on 1 page is 1 review (10 credits). Running 3 agents on that same page is 3 reviews (30 credits). Running 3 agents across a 50-page site is 150 reviews (1,500 credits). Before every run, Superflow shows the estimated cost (agents × pages × 10 credits) so you can confirm before you go.",
   },
   {
     question: "How many AI credits are included in my plan?",

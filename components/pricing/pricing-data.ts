@@ -226,10 +226,10 @@ export const SECTIONS: Section[] = [
         label: "Flat Rate Per Agent Review",
         sublabel: "1 agent reviewing 1 page = 1 review",
         values: [
-          text("10 credits", "$0.40"),
-          text("10 credits", "$0.40"),
-          text("10 credits", "$0.40"),
-          text("10 credits", "$0.40"),
+          text("10 credits"),
+          text("10 credits"),
+          text("10 credits"),
+          text("10 credits"),
         ],
       },
       {

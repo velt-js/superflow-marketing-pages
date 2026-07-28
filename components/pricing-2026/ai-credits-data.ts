@@ -1,7 +1,7 @@
 // AI credit add-on packs from the AI Credits rate card (v2, flat
 // pricing): every agent review (one agent reviewing one page) costs a
-// flat 10 credits ($0.40). Server-safe module so /pricing can build the
-// packs' Product JSON-LD offers from the same array. Per-plan monthly
+// flat 10 credits. Server-safe module so /pricing can build the packs'
+// Product JSON-LD offers from the same array. Per-plan monthly
 // allowances live with the tier data in
 // components/pricing/pricing-data.ts.
 

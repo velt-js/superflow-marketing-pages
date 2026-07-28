@@ -245,6 +245,15 @@
     outline-offset: 2px;
 }
 
+/* Enterprise variant: same chip box, but no dropdown affordances. */
+.creditsStatic {
+    cursor: default;
+}
+
+.creditsStatic:hover {
+    border-color: #e2e2ea;
+}
+
 .creditsLabel {
     flex: 1;
     text-align: left;
