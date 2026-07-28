@@ -43,7 +43,7 @@ const LINKS_AGENT = "Broken Links";
 const ALT_AGENT = "Alt Text";
 
 /** Agent findings (the dropped comment body). */
-const SPELL_FINDING = "Typo — \u201Ceffortlessly\u201D";
+const SPELL_FINDING = "Typo - \u201Ceffortlessly\u201D";
 const LINKS_FINDING = "Broken link · returns 404";
 const ALT_FINDING = "Image is missing alt text";
 

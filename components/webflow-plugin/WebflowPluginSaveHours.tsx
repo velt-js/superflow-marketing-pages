@@ -13,7 +13,7 @@ const IMG = "/images/sections/webflow-plugin";
 const FEATURES: Feature[] = [
   {
     title: "Accurate Comments",
-    body: "Pin feedback to the exact pixel — never lose context again.",
+    body: "Pin feedback to the exact pixel - never lose context again.",
     image: `${IMG}/accurate-comments.png`,
     imageAlt: "Dashed selection box with a pinned comment avatar",
   },

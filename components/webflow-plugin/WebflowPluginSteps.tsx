@@ -7,7 +7,7 @@ const STEPS = [
   {
     step: "Step 2",
     title: "Authenticate",
-    body: "One-click OAuth — no code, no copy-pasting tokens.",
+    body: "One-click OAuth - no code, no copy-pasting tokens.",
   },
   {
     step: "Step 3",

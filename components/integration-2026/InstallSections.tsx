@@ -67,7 +67,7 @@ const WEBFLOW_CONFIG: InstallConfig = {
   markSize: 34,
   whatHeading: "What the plugin does.",
   whatLede:
-    "Superflow ships as a plugin in the Webflow Marketplace. Install it, authorize, pick your sites — the script is placed for you.",
+    "Superflow ships as a plugin in the Webflow Marketplace. Install it, authorize, pick your sites - the script is placed for you.",
   whatFacts: [
     "The plugin adds the Superflow snippet through Webflow's own custom-code surface. No copy-paste, no developer, nothing else touched.",
     "The verifier confirms the script before any review link goes out.",
@@ -96,7 +96,7 @@ const WORDPRESS_CONFIG: InstallConfig = {
   markSize: 30,
   whatHeading: "What the plugin does.",
   whatLede:
-    "Superflow ships as a plugin in the WordPress directory. Search \u201cSuperflow\u201d in Plugins > Add New, or grab it from the directory — activate, and the script is placed for you.",
+    "Superflow ships as a plugin in the WordPress directory. Search \u201cSuperflow\u201d in Plugins > Add New, or grab it from the directory - activate, and the script is placed for you.",
   whatFacts: [
     "The plugin places the Superflow script on the rendered page. No code paste, no theme edit, nothing else in your content touched.",
     "The verifier confirms the script before any review link goes out.",
@@ -129,7 +129,7 @@ const GTM_CONFIG: InstallConfig = {
   markSize: 30,
   whatHeading: "What the tag does.",
   whatLede:
-    "Superflow ships as one tag for your GTM container. Add it, publish, and every site the container runs on becomes reviewable — no site code, no code access, no per-site install project.",
+    "Superflow ships as one tag for your GTM container. Add it, publish, and every site the container runs on becomes reviewable - no site code, no code access, no per-site install project.",
   whatFacts: [
     "One tag, added in GTM. No site code touched.",
     "Works on any platform underneath the container.",

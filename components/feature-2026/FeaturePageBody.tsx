@@ -480,7 +480,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
   recordings: {
     heading: "Related capabilities",
     items: [
-      relatedItem("comments", "The primitive every recording lands as — pinning, threads, statuses."),
+      relatedItem("comments", "The primitive every recording lands as - pinning, threads, statuses."),
       relatedItem("private-comments", "Record for your team only; the client's view never shows it."),
       relatedItem("client-review", "The link your client plays it from, no account."),
     ],
@@ -490,7 +490,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
     items: [
       relatedItem("kanban-board", "The flow's statuses become the board's columns."),
       relatedItem("review-agents", "The agent runs your flow's machine steps."),
-      relatedItem("client-review", "The gate at the end of every flow — the no-account link."),
+      relatedItem("client-review", "The gate at the end of every flow - the no-account link."),
     ],
   },
   "kanban-board": {
@@ -536,14 +536,14 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
   "private-comments": {
     heading: "Related capabilities",
     items: [
-      relatedItem("client-review", "The client's half — the magic-link path through the clean view private comments protect."),
+      relatedItem("client-review", "The client's half - the magic-link path through the clean view private comments protect."),
       relatedItem("review-agents", "The first pass. Findings land as comments on the same elements your threads sit on."),
     ],
   },
   "ask-ai": {
     heading: "Related capabilities",
     items: [
-      relatedItem("memory", "The source of every answer — what you upload and what reviews teach it."),
+      relatedItem("memory", "The source of every answer - what you upload and what reviews teach it."),
       relatedItem("review-agents", "The checks that write much of the data."),
     ],
   },
@@ -551,7 +551,7 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
     heading: "Related capabilities",
     items: [
       relatedItem("memory", "The agents get sharper because Memory feeds them each client's brand and past decisions."),
-      relatedItem("client-review", "Where the human half lives — the no-account link a client signs off with."),
+      relatedItem("client-review", "Where the human half lives - the no-account link a client signs off with."),
     ],
   },
   memory: {

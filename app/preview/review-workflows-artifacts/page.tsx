@@ -15,24 +15,24 @@ const HERO_HEIGHT = 578;
 
 /** Every feature-panel scene (the nine block tabs across the three blocks). */
 const FEATURE_VARIANTS: readonly { variant: ReviewWorkflowVariant; label: string }[] = [
-  { variant: "build-step", label: "build-step — Visual builder" },
-  { variant: "sample-flow", label: "sample-flow — Human and agent steps" },
-  { variant: "push-trigger", label: "push-trigger — Push-triggered runs" },
-  { variant: "condition", label: "condition — Conditions" },
-  { variant: "parallel", label: "parallel — Parallel steps" },
-  { variant: "escalation", label: "escalation — Escalation" },
-  { variant: "client-gate", label: "client-gate — The client gate" },
-  { variant: "notifications", label: "notifications — Step & flow notifications" },
-  { variant: "one-flow", label: "one-flow — One flow, every project" },
+  { variant: "build-step", label: "build-step - Visual builder" },
+  { variant: "sample-flow", label: "sample-flow - Human and agent steps" },
+  { variant: "push-trigger", label: "push-trigger - Push-triggered runs" },
+  { variant: "condition", label: "condition - Conditions" },
+  { variant: "parallel", label: "parallel - Parallel steps" },
+  { variant: "escalation", label: "escalation - Escalation" },
+  { variant: "client-gate", label: "client-gate - The client gate" },
+  { variant: "notifications", label: "notifications - Step & flow notifications" },
+  { variant: "one-flow", label: "one-flow - One flow, every project" },
 ];
 
 /** The five hero tabs (fully visible, centred). */
 const HERO_VARIANTS: readonly { variant: ReviewWorkflowVariant; label: string }[] = [
-  { variant: "sample-flow", label: "sample-flow — The sample flow" },
-  { variant: "push-trigger", label: "push-trigger — Triggered by a push" },
-  { variant: "build-step", label: "build-step — Build a step" },
-  { variant: "condition", label: "condition — Set a condition" },
-  { variant: "client-gate", label: "client-gate — The client gate" },
+  { variant: "sample-flow", label: "sample-flow - The sample flow" },
+  { variant: "push-trigger", label: "push-trigger - Triggered by a push" },
+  { variant: "build-step", label: "build-step - Build a step" },
+  { variant: "condition", label: "condition - Set a condition" },
+  { variant: "client-gate", label: "client-gate - The client gate" },
 ];
 
 /**

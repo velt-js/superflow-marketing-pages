@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { client } from "@/sanity/client";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
+import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
 import { CREDIT_PACKS } from "@/components/pricing-2026/ai-credits-data";
 
@@ -169,7 +170,7 @@ export async function GET() {
   );
 
   const body = [
-    "# Superflow — full content for LLMs",
+    "# Superflow - full content for LLMs",
     "",
     "> Superflow is a website and creative-asset review tool for agencies and marketing teams. Teams leave contextual feedback on live websites, videos, PDFs, images, and Lottie animations, record videos, sync tasks to PM tools, run AI agent reviews, and ship faster with fewer review rounds.",
     "",
@@ -191,7 +192,9 @@ export async function GET() {
     .filter(Boolean)
     .join("\n");
 
-  return new NextResponse(body, {
+  // CMS-sourced text (descriptions, blog bodies) can carry em dashes;
+  // normalize the whole document to match the site style.
+  return new NextResponse(stripEmDashes(body), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=0, s-maxage=3600",

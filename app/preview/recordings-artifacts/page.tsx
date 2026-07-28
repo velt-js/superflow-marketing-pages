@@ -35,37 +35,37 @@ const FEATURE_SCENES: readonly {
 }[] = [
   {
     id: "feat-screen",
-    label: "recordings-screen — Screen recordings",
+    label: "recordings-screen - Screen recordings",
     render: () => <RecordingsScreenArtifact />,
   },
   {
     id: "feat-camera",
-    label: "recordings-camera — Camera video",
+    label: "recordings-camera - Camera video",
     render: () => <RecordingsCameraArtifact />,
   },
   {
     id: "feat-voice",
-    label: "recordings-voice — Voice notes",
+    label: "recordings-voice - Voice notes",
     render: () => <RecordingsVoiceArtifact />,
   },
   {
     id: "feat-pinned",
-    label: "recordings-pinned — A pinned comment",
+    label: "recordings-pinned - A pinned comment",
     render: () => <RecordingsPinnedArtifact />,
   },
   {
     id: "feat-composer",
-    label: "recordings-composer — No separate app (record from toolbar)",
+    label: "recordings-composer - No separate app (record from toolbar)",
     render: () => <RecordingsComposerArtifact />,
   },
   {
     id: "feat-client",
-    label: "recordings-client — Client playback from the link",
+    label: "recordings-client - Client playback from the link",
     render: () => <RecordingsClientArtifact />,
   },
   {
     id: "feat-thread",
-    label: "recordings-thread — Recordings in threads",
+    label: "recordings-thread - Recordings in threads",
     render: () => <RecordingsThreadArtifact />,
   },
 ];

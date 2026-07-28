@@ -35,7 +35,7 @@ const CAMERA_CLIP_NAME = "Shrey's Recording.mp4";
 /** Client-link domain shown in the phone chrome. */
 const CLIENT_DOMAIN = "acme-client.com";
 const CLIENT_NO_ACCOUNT = "No account";
-const CLIENT_CAPTION = "Playing from your link — no login, no app.";
+const CLIENT_CAPTION = "Playing from your link - no login, no app.";
 
 /** Composer copy for the "record from the toolbar" beat. */
 const COMPOSER_TYPED_TEXT = "Quick note on this section";
@@ -159,7 +159,7 @@ export function RecordingsVoiceArtifact({
             durationLabel: COMPOSER_TIMER,
             caption: "The padding here feels tight on mobile",
             transcript:
-              "Recorded a quick note on the spacing — if the header runs long on smaller screens we should tighten the",
+              "Recorded a quick note on the spacing - if the header runs long on smaller screens we should tighten the",
           },
         }}
       />
@@ -244,7 +244,7 @@ export function RecordingsThreadArtifact({
               timeAgo: "now",
               avatarInitial: "E",
               avatarTone: "orange",
-              bodyText: "On it — replied with a note:",
+              bodyText: "On it - replied with a note:",
               mediaAttachment: {
                 kind: "audio",
                 durationLabel: "00:22",

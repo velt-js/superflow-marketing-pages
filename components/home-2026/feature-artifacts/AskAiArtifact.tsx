@@ -173,7 +173,7 @@ const VARIANTS: Readonly<Record<AskAiVariant, VariantContent>> = {
   "ask-ai": {
     prompt: "Tell me common client issues",
     headingLead: "Copy Issues",
-    headingRest: " are the most common — here's a breakdown",
+    headingRest: " are the most common - here's a breakdown",
     body: {
       type: "stacked-bar",
       segments: [
@@ -191,7 +191,7 @@ const VARIANTS: Readonly<Record<AskAiVariant, VariantContent>> = {
   "ask-ai-cited": {
     prompt: "Why did Acme's homepage take 4 rounds?",
     headingLead: "Mostly copy revisions",
-    headingRest: " — here's what drove the extra rounds",
+    headingRest: " - here's what drove the extra rounds",
     scope: "Acme · Homepage",
     body: {
       type: "stacked-bar",
@@ -225,7 +225,7 @@ const VARIANTS: Readonly<Record<AskAiVariant, VariantContent>> = {
   "ask-ai-copy-vs-bug": {
     prompt: "Is Acme mostly copy or bugs?",
     headingLead: "Acme is mostly copy",
-    headingRest: " — 68% writing, 32% build",
+    headingRest: " - 68% writing, 32% build",
     scope: "Acme",
     body: {
       type: "stacked-bar",

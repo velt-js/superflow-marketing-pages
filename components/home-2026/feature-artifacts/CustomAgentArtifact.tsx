@@ -46,7 +46,7 @@ const ANSWER_NO_LABEL = "No";
  */
 const TEST_CASE_CODE: readonly { text: string; flag?: boolean }[] = [
   { text: "<head>" },
-  { text: "  <title>Acme — Pricing</title>" },
+  { text: "  <title>Acme - Pricing</title>" },
   {
     text: '  <!-- <meta name="description" content="Fair pricing."> -->',
     flag: true,

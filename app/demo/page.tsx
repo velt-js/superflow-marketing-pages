@@ -10,13 +10,13 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
-const PAGE_TITLE = "Live Product Demo — Superflow";
+const PAGE_TITLE = "Live Product Demo - Superflow";
 const PAGE_DESCRIPTION =
   "Click an asset for a live demo of Superflow. Review and collaborate on websites, videos, PDFs, Lottie files, and images.";
 
 const HERO_HEADING = "See Superflow in action";
 const HERO_SUBHEADING =
-  "Pick an asset below for a live demo — no signup needed. Review and collaborate on websites, videos, PDFs, Lottie files, and images.";
+  "Pick an asset below for a live demo - no signup needed. Review and collaborate on websites, videos, PDFs, Lottie files, and images.";
 
 export const metadata = buildPageMetadata({
   title: PAGE_TITLE,

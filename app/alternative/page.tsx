@@ -22,7 +22,7 @@ interface SanityAlternativeListItem {
 const HERO = {
   heading: "Superflow alternatives",
   subheading:
-    "Looking for something different? Browse every tool we stack up against — compare pricing, features, and fit for your creative review workflow.",
+    "Looking for something different? Browse every tool we stack up against - compare pricing, features, and fit for your creative review workflow.",
 };
 
 export const metadata = buildPageMetadata({

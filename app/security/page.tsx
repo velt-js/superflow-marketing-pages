@@ -15,7 +15,7 @@ import { SITE_URL } from "@/app/_seo/schema";
 export const metadata = buildPageMetadata({
   title: "Security and Privacy",
   description:
-    "SOC 2 compliance, end-to-end encryption, SSO, GDPR — Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors.",
+    "SOC 2 compliance, end-to-end encryption, SSO, GDPR - Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors.",
   path: "/security",
 });
 
@@ -24,7 +24,7 @@ export default function SecurityPage() {
     <main>
       <PageJsonLd
         name="Security and Privacy | Superflow"
-        description="SOC 2 compliance, end-to-end encryption, SSO, GDPR — Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors."
+        description="SOC 2 compliance, end-to-end encryption, SSO, GDPR - Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors."
         path="/security"
         trail={[{ name: "Security", url: `${SITE_URL}/security` }]}
       />

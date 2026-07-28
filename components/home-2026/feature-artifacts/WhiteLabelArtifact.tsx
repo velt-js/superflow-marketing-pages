@@ -83,7 +83,7 @@ const TEAM_VIEW_TAG = "Your brand, the panel your team runs";
 
 /* ---- Agent-finding copy (no invented Superflow metrics) ---- */
 const AGENT_NAME = "Review Agent";
-const AGENT_FINDING_TEXT = "CTA contrast is below AA — darken the orange.";
+const AGENT_FINDING_TEXT = "CTA contrast is below AA - darken the orange.";
 const AGENT_FINDING_TAG = "AI finding · under your brand";
 
 /** Shared props for the inline icons: an optional pixel size and class. */

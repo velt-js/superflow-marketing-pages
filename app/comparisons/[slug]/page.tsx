@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description:
       doc.metaDescription ??
       doc.description ??
-      "Compare collaboration apps for reviewing creative assets — see how Superflow stacks up.",
+      "Compare collaboration apps for reviewing creative assets - see how Superflow stacks up.",
     path: `/comparisons/${slug}`,
     ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
   });
@@ -88,7 +88,7 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
         description={
           doc.metaDescription ??
           doc.description ??
-          "Compare collaboration apps for reviewing creative assets — see how Superflow stacks up."
+          "Compare collaboration apps for reviewing creative assets - see how Superflow stacks up."
         }
         path={`/comparisons/${slug}`}
         trail={[

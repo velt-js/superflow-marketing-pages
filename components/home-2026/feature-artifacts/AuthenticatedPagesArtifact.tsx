@@ -97,7 +97,7 @@ const OKTA_HEADING = "Sign in";
 const OKTA_SUBDOMAIN = "acme.okta.com";
 const OKTA_EMAIL = "dana@acme.com";
 const OKTA_BTN = "Sign In";
-const OKTA_CAPTION = "Behind Okta — review still runs.";
+const OKTA_CAPTION = "Behind Okta - review still runs.";
 
 /* behind-sso */
 const SSO_HEADING = "Single sign-on";

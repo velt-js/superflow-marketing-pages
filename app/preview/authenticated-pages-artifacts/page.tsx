@@ -15,20 +15,20 @@ const HERO_HEIGHT = 578;
 
 /** Every feature-panel scene (the tabs across the four blocks). */
 const FEATURE_VARIANTS: readonly { variant: AuthenticatedPagesVariant; label: string }[] = [
-  { variant: "behind-password", label: "behind-password — Review inside the login" },
-  { variant: "on-site-snippet", label: "on-site-snippet — One snippet for IT" },
-  { variant: "auth-types", label: "auth-types — Password, Okta, SSO" },
-  { variant: "client-portal", label: "client-portal — Client's own portal" },
-  { variant: "behind-okta", label: "behind-okta — Behind Okta" },
-  { variant: "behind-sso", label: "behind-sso — Behind SSO" },
+  { variant: "behind-password", label: "behind-password - Review inside the login" },
+  { variant: "on-site-snippet", label: "on-site-snippet - One snippet for IT" },
+  { variant: "auth-types", label: "auth-types - Password, Okta, SSO" },
+  { variant: "client-portal", label: "client-portal - Client's own portal" },
+  { variant: "behind-okta", label: "behind-okta - Behind Okta" },
+  { variant: "behind-sso", label: "behind-sso - Behind SSO" },
 ];
 
 /** The four hero tabs (fully visible, centred). */
 const HERO_VARIANTS: readonly { variant: AuthenticatedPagesVariant; label: string }[] = [
-  { variant: "behind-password", label: "behind-password — Behind a password" },
-  { variant: "behind-okta", label: "behind-okta — Behind Okta" },
-  { variant: "behind-sso", label: "behind-sso — Behind SSO" },
-  { variant: "client-portal", label: "client-portal — The client's own portal" },
+  { variant: "behind-password", label: "behind-password - Behind a password" },
+  { variant: "behind-okta", label: "behind-okta - Behind Okta" },
+  { variant: "behind-sso", label: "behind-sso - Behind SSO" },
+  { variant: "client-portal", label: "client-portal - The client's own portal" },
 ];
 
 /**

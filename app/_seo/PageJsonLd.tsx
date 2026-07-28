@@ -8,6 +8,7 @@
 // app/layout.tsx, so this component never duplicates them.
 
 import { JsonLd } from "./JsonLd";
+import { stripEmDashes } from "./page-metadata";
 import {
   SITE_URL,
   buildBreadcrumbList,
@@ -40,12 +41,18 @@ export interface PageJsonLdProps {
  * @param props - Component props (see PageJsonLdProps).
  */
 export function PageJsonLd({
-  name,
-  description,
+  name: rawName,
+  description: rawDescription,
   path,
   trail,
 }: PageJsonLdProps) {
   try {
+    // Same em-dash normalization as buildPageMetadata, so CMS-fed
+    // names/descriptions match the meta tags exactly.
+    const name = stripEmDashes(rawName);
+    const description = rawDescription
+      ? stripEmDashes(rawDescription)
+      : undefined;
     const url = `${SITE_URL}${path === "/" ? "" : path}`;
     const slug = path === "/" ? "home" : path.replace(/^\/+|\/+$/g, "").replace(/\//g, "-");
 

@@ -14,10 +14,10 @@ const HERO_WIDTH = 1180;
 const HERO_HEIGHT = 578;
 
 const VARIANTS: readonly { variant: KanbanVariant; label: string }[] = [
-  { variant: "cross-client", label: "cross-client — The board" },
-  { variant: "self-moving", label: "self-moving — It moves itself" },
-  { variant: "custom-columns", label: "custom-columns — Custom statuses" },
-  { variant: "filters", label: "filters — Filters" },
+  { variant: "cross-client", label: "cross-client - The board" },
+  { variant: "self-moving", label: "self-moving - It moves itself" },
+  { variant: "custom-columns", label: "custom-columns - Custom statuses" },
+  { variant: "filters", label: "filters - Filters" },
 ];
 
 /**
