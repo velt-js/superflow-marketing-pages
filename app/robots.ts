@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://usesuperflow.com";
+import { SITE_URL } from "@/app/_seo/schema";
 
 /**
  * Generates the robots.txt file for the site.

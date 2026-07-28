@@ -14,8 +14,7 @@ import {
   getAllUseCaseSlugs,
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
-
-const SITE_URL = "https://usesuperflow.com";
+import { SITE_URL } from "@/app/_seo/schema";
 
 const STATIC_PATHS = [
   "/",

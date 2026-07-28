@@ -13,8 +13,7 @@ import {
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
-
-const SITE_URL = "https://usesuperflow.com";
+import { SITE_URL } from "@/app/_seo/schema";
 
 export const revalidate = 3600;
 

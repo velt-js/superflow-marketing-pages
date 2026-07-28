@@ -6,7 +6,7 @@ import styles from "./CalendlyEmbed.module.css";
  * background, ink text and the site accent as the primary color.
  */
 const CALENDLY_URL =
-  "https://calendly.com/goyalrakesh/30min?embed_domain=usesuperflow.com&embed_type=Inline&hide_gdpr_banner=1&background_color=ffffff&text_color=1e1e1f&primary_color=433df3&hide_event_type_details=1&hide_landing_page_details=1";
+  "https://calendly.com/goyalrakesh/30min?embed_domain=usesuperflow.ai&embed_type=Inline&hide_gdpr_banner=1&background_color=ffffff&text_color=1e1e1f&primary_color=433df3&hide_event_type_details=1&hide_landing_page_details=1";
 
 /** Fallback link copy when the embed script fails to load. */
 const FALLBACK_TEXT = "Not loading? Click here";
