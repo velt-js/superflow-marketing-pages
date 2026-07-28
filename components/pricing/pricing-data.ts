@@ -8,8 +8,13 @@
 //
 // The per-tier AI credits chips and the "AI Agent Reviews" comparison
 // section come from the AI Credits rate card (v2, flat pricing) rather
-// than the live site; keep them in sync with
+// than the live site; the rate card itself lives in
 // components/pricing-2026/ai-credits-data.ts.
+
+import {
+  CUSTOM_CREDITS_ESTIMATE,
+  getAgentReviewsLabel,
+} from "@/components/pricing-2026/ai-credits-data";
 
 export type TierBullet = {
   text: string;
@@ -46,6 +51,10 @@ export type Tier = {
    *  Credits rate card: every agent review costs a flat 10 credits;
    *  included credits reset each cycle. */
   aiCredits?: string;
+  /** Numeric form of `aiCredits`, used to derive the "≈ 30 agent reviews"
+   *  estimate under the chip. Omitted on custom-contract tiers, which
+   *  have no fixed monthly allowance. */
+  aiCreditsPerMonth?: number;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -82,6 +91,25 @@ const text = (value: string, sub?: string): CellValue => ({
   sub,
 });
 
+/**
+ * Comparison-table cell for a plan's monthly credit allowance. The
+ * sub-line comes from the same helper as the tier cards' chip line so
+ * the two can't drift apart.
+ *
+ * @param monthlyCredits - The plan's included monthly credits.
+ * @returns The cell value, with the agent-review translation as its sub.
+ */
+const creditsCell = (monthlyCredits: number): CellValue => {
+  try {
+    return text(
+      `${monthlyCredits} / mo`,
+      getAgentReviewsLabel(monthlyCredits) ?? undefined,
+    );
+  } catch {
+    return text(`${monthlyCredits} / mo`);
+  }
+};
+
 export const TRIAL_LABEL = "10 DAY FREE TRIAL";
 export const APP_URL = "https://app.usesuperflow.com";
 
@@ -96,6 +124,7 @@ export const TIERS: Tier[] = [
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
     aiCredits: "60 AI credits/mo",
+    aiCreditsPerMonth: 60,
     cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
@@ -116,6 +145,7 @@ export const TIERS: Tier[] = [
     badge: "Loved by 100+ Agencies",
     highlighted: true,
     aiCredits: "300 AI credits/mo",
+    aiCreditsPerMonth: 300,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
@@ -134,6 +164,7 @@ export const TIERS: Tier[] = [
     annualStrikePrice: "34",
     trialLabel: TRIAL_LABEL,
     aiCredits: "600 AI credits/mo",
+    aiCreditsPerMonth: 600,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
@@ -216,10 +247,10 @@ export const SECTIONS: Section[] = [
         label: "Included AI Credits",
         sublabel: "Reset each billing cycle",
         values: [
-          text("60 / mo", "≈ 2 pages with 3 agents"),
-          text("300 / mo", "≈ 10 pages with 3 agents"),
-          text("600 / mo", "≈ 20 pages with 3 agents"),
-          text("Custom"),
+          creditsCell(60),
+          creditsCell(300),
+          creditsCell(600),
+          text("Custom", CUSTOM_CREDITS_ESTIMATE),
         ],
       },
       {

@@ -21,3 +21,35 @@ export const CREDIT_PACKS: CreditPack[] = [
   { id: "medium", name: "Medium", credits: 2500, priceUsd: 90, annualPriceUsd: 80 },
   { id: "large", name: "Large", credits: 10000, priceUsd: 340, annualPriceUsd: 300 },
 ];
+
+/** Flat credit cost of one agent review (one agent reviewing one page). */
+export const CREDITS_PER_AGENT_REVIEW = 10;
+
+/** Estimate line shown on custom-contract tiers, which have no fixed
+ *  allowance to translate into agent reviews. */
+export const CUSTOM_CREDITS_ESTIMATE = "Sized to your review volume";
+
+/**
+ * Translates a credit amount into the plain-English line shown under the
+ * credits chip and on each add-on pack row ("≈ 30 agent reviews"). Every
+ * agent review is a flat 10 credits.
+ *
+ * @param credits - The credit amount to translate.
+ * @returns The estimate label, or null when the amount is missing or
+ *          covers less than one review.
+ */
+export function getAgentReviewsLabel(credits?: number): string | null {
+  try {
+    if (!credits || credits <= 0) {
+      return null;
+    }
+    const reviews = Math.floor(credits / CREDITS_PER_AGENT_REVIEW);
+    if (reviews < 1) {
+      return null;
+    }
+    const reviewWord = reviews === 1 ? "agent review" : "agent reviews";
+    return `≈ ${reviews.toLocaleString("en-US")} ${reviewWord}`;
+  } catch {
+    return null;
+  }
+}
