@@ -246,7 +246,7 @@ const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
     links: [
       { label: "Webflow", href: `${INTEGRATIONS_INDEX_HREF}/webflow` },
       { label: "WordPress", href: `${INTEGRATIONS_INDEX_HREF}/wordpress` },
-      { label: "Shopify", href: INTEGRATIONS_INDEX_HREF },
+      { label: "Shopify", href: `${INTEGRATIONS_INDEX_HREF}/shopify` },
       {
         label: "Google Tag Manager",
         href: `${INTEGRATIONS_INDEX_HREF}/google-tag-manager`,

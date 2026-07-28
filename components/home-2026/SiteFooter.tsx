@@ -78,7 +78,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Webflow", href: `${INTEGRATIONS_PATH}/webflow` },
       { label: "WordPress", href: `${INTEGRATIONS_PATH}/wordpress` },
-      { label: "Shopify", href: INTEGRATIONS_PATH },
+      { label: "Shopify", href: `${INTEGRATIONS_PATH}/shopify` },
       { label: "Google Tag Manager", href: `${INTEGRATIONS_PATH}/google-tag-manager` },
       { label: "Framer", href: INTEGRATIONS_PATH },
       { label: "Asana", href: `${INTEGRATIONS_PATH}/asana` },
