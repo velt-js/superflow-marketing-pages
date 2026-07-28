@@ -207,6 +207,30 @@
     color: var(--pt-muted);
 }
 
+/* Clay-style included-credits chip under the price. */
+.creditsChip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid #e2e2ea;
+    border-radius: 12px;
+    background: #ffffff;
+    font-family: var(--pt-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+    color: var(--pt-ink);
+}
+
+.creditsIcon {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    color: var(--pt-accent);
+}
+
 .trialLabel {
     font-family: var(--pt-mono);
     font-size: 11px;

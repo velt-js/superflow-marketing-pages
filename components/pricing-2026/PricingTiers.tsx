@@ -35,6 +35,41 @@ function PricingTiersCheckIcon() {
   );
 }
 
+/** Tabler "sparkles" glyph for the AI credits chip. */
+function PricingTiersSparklesIcon() {
+  return (
+    <svg
+      className={styles.creditsIcon}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2" />
+      <path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2" />
+      <path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" />
+    </svg>
+  );
+}
+
+/**
+ * Clay-style AI credits chip under the price: the plan's included
+ * monthly credits ("300 AI credits/mo") in a hairline pill row.
+ *
+ * @param props.label - The tier's aiCredits label.
+ */
+function PricingTiersCreditsChip({ label }: { label: string }) {
+  return (
+    <span className={styles.creditsChip}>
+      <PricingTiersSparklesIcon />
+      {label}
+    </span>
+  );
+}
+
 /**
  * One feature bullet inside a tier card. Divider bullets ("Everything in X,
  * plus") render as a muted lead-in line without a check.
@@ -139,6 +174,9 @@ function PricingTiersCard({
         <div className={styles.cardTop}>
           <h3 className={styles.tierName}>{tier?.name}</h3>
           <PricingTiersPrice tier={tier} billing={billing} />
+          {tier?.aiCredits ? (
+            <PricingTiersCreditsChip label={tier.aiCredits} />
+          ) : null}
           {tier?.trialLabel ? (
             <span className={styles.trialLabel}>{tier.trialLabel}</span>
           ) : null}

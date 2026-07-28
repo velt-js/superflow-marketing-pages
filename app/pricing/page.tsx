@@ -10,6 +10,7 @@ import IntercomButton from "@/components/home/IntercomButton";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import PricingTiers from "@/components/pricing-2026/PricingTiers";
 import PricingComparisonTable from "@/components/pricing-2026/PricingComparisonTable";
+import { CREDIT_PACKS } from "@/components/pricing-2026/ai-credits-data";
 import { PRICING_FAQ_ITEMS } from "@/components/pricing-2026/faq-data";
 import { BillingProvider } from "@/components/pricing/BillingContext";
 import { TIERS } from "@/components/pricing/pricing-data";
@@ -72,6 +73,26 @@ const PRICING_PRODUCT_SCHEMA = {
   }),
 };
 
+// Separate Product schema for the one-time AI credit packs (from the AI
+// Credits rate card; pack details also surface in the pricing FAQ).
+const AI_CREDITS_PRODUCT_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Superflow AI Credits",
+  description:
+    "AI credits for Superflow agent reviews. Every agent review costs a flat 10 credits ($0.40). One-time add-on packs top up any plan, and pack credits roll over month to month.",
+  brand: { "@id": ORG_ID },
+  url: `${SITE_URL}/pricing`,
+  offers: CREDIT_PACKS.map((pack) => ({
+    "@type": "Offer",
+    name: `${pack.name} pack — ${pack.credits.toLocaleString("en-US")} AI credits`,
+    url: `${SITE_URL}/pricing`,
+    price: pack.priceUsd,
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+  })),
+};
+
 const PRICING_BREADCRUMB = buildBreadcrumbList([
   { name: "Home", url: SITE_URL },
   { name: "Pricing", url: `${SITE_URL}/pricing` },
@@ -82,7 +103,7 @@ const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 export const metadata = buildPageMetadata({
   title: "Pricing — Ship Creative Assets Impossibly Fast",
   description:
-    "Transparent per-seat pricing with a free trial. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow.",
+    "Per-seat pricing with a free trial, plus flat-rate AI credits — every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans.",
   path: "/pricing",
   // Live usesuperflow.com/pricing reuses the homepage OG image — set
   // explicitly here so the override is visible at the call-site, even
@@ -99,10 +120,11 @@ export default function PricingPage() {
           duplicate BreadcrumbList. */}
       <PageJsonLd
         name="Pricing — Ship Creative Assets Impossibly Fast"
-        description="Transparent per-seat pricing with a free trial. Starter (free), Growth, Scale, and Enterprise plans for agencies and marketers using Superflow."
+        description="Per-seat pricing with a free trial, plus flat-rate AI credits — every agent review is 10 credits ($0.40). Starter, Growth, Scale & Enterprise plans."
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />
+      <JsonLd id="ld-pricing-ai-credits" data={AI_CREDITS_PRODUCT_SCHEMA} />
       <JsonLd id="ld-pricing-faq" data={PRICING_FAQ_SCHEMA} />
       <JsonLd id="ld-pricing-breadcrumb" data={PRICING_BREADCRUMB} />
 

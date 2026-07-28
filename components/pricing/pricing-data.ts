@@ -5,6 +5,11 @@
 // page). Kept as a plain TS module rather than Sanity content because
 // the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
 // doesn't fit cleanly in CMS arrays and the copy changes infrequently.
+//
+// The AI credits bullets and the "AI Agent Reviews" comparison section
+// come from the AI Credits rate card (v2, flat pricing) rather than the
+// live site; keep them in sync with
+// components/pricing-2026/ai-credits-data.ts.
 
 export type TierBullet = {
   text: string;
@@ -36,6 +41,10 @@ export type Tier = {
   /** Pink "Most Popular" pill rendered above the card. Currently only
    *  Growth ("Loved by 100+ Agencies"). */
   badge?: string;
+  /** Clay-style AI credits chip rendered under the price ("300 AI
+   *  credits/mo"). From the AI Credits rate card: every agent review
+   *  costs a flat 10 credits; included credits reset each cycle. */
+  aiCredits?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -85,6 +94,7 @@ export const TIERS: Tier[] = [
     monthlyPrice: "0",
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
+    aiCredits: "60 AI credits/mo",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "1 Project" },
@@ -104,6 +114,7 @@ export const TIERS: Tier[] = [
     trialLabel: TRIAL_LABEL,
     badge: "Loved by 100+ Agencies",
     highlighted: true,
+    aiCredits: "300 AI credits/mo",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
@@ -121,6 +132,7 @@ export const TIERS: Tier[] = [
     annualPrice: "28",
     annualStrikePrice: "34",
     trialLabel: TRIAL_LABEL,
+    aiCredits: "600 AI credits/mo",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
@@ -138,6 +150,7 @@ export const TIERS: Tier[] = [
     annualPrice: "Let's Talk",
     customPrice: true,
     trialLabel: TRIAL_LABEL,
+    aiCredits: "Custom AI credits",
     cta: { label: "Book Demo", href: "/book-demo" },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
@@ -191,6 +204,42 @@ export const SECTIONS: Section[] = [
       {
         label: "Storage",
         values: [text("1 GB"), text("10 GB"), text("30 GB"), text("100 GB")],
+      },
+    ],
+  },
+  {
+    title: "AI Agent Reviews",
+    accent: "#7C3AED",
+    rows: [
+      {
+        label: "Included AI Credits",
+        sublabel: "Reset each billing cycle",
+        values: [
+          text("60 / mo", "≈ 2 pages with 3 agents"),
+          text("300 / mo", "≈ 10 pages with 3 agents"),
+          text("600 / mo", "≈ 20 pages with 3 agents"),
+          text("Custom"),
+        ],
+      },
+      {
+        label: "Flat Rate Per Agent Review",
+        sublabel: "1 agent reviewing 1 page = 1 review",
+        values: [
+          text("10 credits", "$0.40"),
+          text("10 credits", "$0.40"),
+          text("10 credits", "$0.40"),
+          text("10 credits", "$0.40"),
+        ],
+      },
+      {
+        label: "Signup Bonus Credits",
+        sublabel: "One-time, on workspace creation",
+        values: [text("500"), text("500"), text("500"), text("500")],
+      },
+      {
+        label: "AI Credit Packs",
+        sublabel: "From $20 for 500 credits · roll over monthly",
+        values: [check, check, check, check],
       },
     ],
   },

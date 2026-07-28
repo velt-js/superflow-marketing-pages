@@ -27,6 +27,21 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
       "Admin or team user: Your team members should be added as an admin user. They have full access to the admin panel and get access to all features in your account. Commenter user: Commenter Users can read or write comments but they need to authenticate or sign in to Superflow. You should add external users or your clients as commenters. This is available for all plans. These are free and not counted towards your seats. Guest user: Guest users can read or write comments without authenticating or signing in. You should add external users or your clients as guest users. This is only available on Scale and Enterprise plans. These are free and not counted towards your seats.",
   },
   {
+    question: "What are AI credits?",
+    answer:
+      "AI credits pay for Superflow's AI agent reviews. Every agent review — one agent reviewing one page — costs a flat 10 credits ($0.40, since 1 credit = $0.04). Running three agents on a page is three reviews, or 30 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
+  },
+  {
+    question: "How many AI credits are included in my plan?",
+    answer:
+      "Starter includes 60 credits per month, Growth includes 300, Scale includes 600, and Enterprise plans include a custom amount. Included credits reset with each billing cycle and don't roll over. Every new workspace also gets a one-time signup bonus of 500 credits.",
+  },
+  {
+    question: "What happens when I run out of AI credits?",
+    answer:
+      "You can top up with a one-time add-on pack at any time: $20 buys 500 credits (50 more agent reviews), $90 buys 2,500 credits, and $340 buys 10,000 credits — larger packs cost less per credit. Pack credits roll over month to month until you use them.",
+  },
+  {
     question: "Does Superflow offer a free plan?",
     answer:
       "Superflow offers a free 10-day trial to new users, no credit card needed. During the trial period, you get full access to all features. We also offer a free forever Starter plan that becomes available after your trial has ended.",
