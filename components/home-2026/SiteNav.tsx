@@ -23,7 +23,24 @@ import {
   LayoutKanbanIcon,
   UserCheckIcon,
   DevicesIcon,
+  GlobeIcon,
+  PhotoIcon,
+  FileTextIcon,
+  PlayerPlayIcon,
+  BookIcon,
+  NewsIcon,
+  BriefcaseIcon,
+  ScaleIcon,
+  ArrowsExchangeIcon,
+  CalculatorIcon,
+  ListCheckIcon,
+  UsersIcon,
+  BrandYoutubeIcon,
+  MailIcon,
+  CloudIcon,
+  WebhookIcon,
 } from "./HeroIcons";
+import { GtmMark } from "@/components/integration-2026/IntegrationBrandMarks";
 
 /** A single top-navigation entry. Chevron is shown for menu-style links. */
 type NavItem = {
@@ -53,10 +70,17 @@ type FeatureGroup = {
   links: readonly FeatureLink[];
 };
 
-/** A plain label + href row rendered inside the Assets list dropdown. */
-type AssetLink = {
+/** A row in a nav list or grouped dropdown: label + href with a leading
+    stroke icon or brand logo, and an optional "$" badge chip. */
+type NavMenuLink = {
   label: string;
   href: string;
+  /** Stroke icon rendered before the label (HeroIcons / brand marks). */
+  Icon?: MenuIconComponent;
+  /** Brand logo asset path; takes precedence over `Icon` when set. */
+  logo?: string;
+  /** Renders the small "$" chip after the label (paid/tool cue). */
+  badge?: boolean;
 };
 
 const BRAND_NAME = "Superflow";
@@ -215,22 +239,24 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
  * links to its dedicated `/<asset>-review` marketing page. Shared by the desktop
  * list dropdown and the mobile accordion so both stay in sync.
  */
-const ASSET_LINKS: readonly AssetLink[] = [
-  { label: "Website Review", href: "/website-review" },
-  { label: "Video Review", href: "/video-review" },
-  { label: "Lottie Review", href: "/lottie-files-review" },
-  { label: "PDF Review", href: "/pdf-review" },
-  { label: "Image Review", href: "/image-review" },
+const ASSET_LINKS: readonly NavMenuLink[] = [
+  { label: "Website Review", href: "/website-review", Icon: GlobeIcon },
+  { label: "Video Review", href: "/video-review", Icon: VideoIcon },
+  { label: "Lottie Review", href: "/lottie-files-review", Icon: PlayerPlayIcon },
+  { label: "PDF Review", href: "/pdf-review", Icon: FileTextIcon },
+  { label: "Image Review", href: "/image-review", Icon: PhotoIcon },
 ];
 
-/** A titled category of connector links inside the Integrations dropdown. */
-type IntegrationGroup = {
+/** A titled category of links inside a grouped dropdown panel. */
+type NavMenuGroup = {
   heading: string;
-  links: readonly AssetLink[];
+  links: readonly NavMenuLink[];
 };
 
 /** Integrations hub index; connectors without a detail page link here. */
 const INTEGRATIONS_INDEX_HREF = "/integrations";
+/** Base path for the connector brand logo assets. */
+const INTEGRATION_LOGO_BASE = "/images/home-2026/integrations";
 
 /**
  * Connector links surfaced in the Integrations dropdown, grouped into the
@@ -240,42 +266,87 @@ const INTEGRATIONS_INDEX_HREF = "/integrations";
  * public detail page fall back to the hub index, matching the catalog
  * chips. Shared by the desktop dropdown and the mobile accordion.
  */
-const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
+const INTEGRATION_GROUPS: readonly NavMenuGroup[] = [
   {
     heading: "Installation",
     links: [
-      { label: "Webflow", href: `${INTEGRATIONS_INDEX_HREF}/webflow` },
-      { label: "WordPress", href: `${INTEGRATIONS_INDEX_HREF}/wordpress` },
-      { label: "Shopify", href: `${INTEGRATIONS_INDEX_HREF}/shopify` },
+      {
+        label: "Webflow",
+        href: `${INTEGRATIONS_INDEX_HREF}/webflow`,
+        logo: `${INTEGRATION_LOGO_BASE}/webflow.png`,
+      },
+      {
+        label: "WordPress",
+        href: `${INTEGRATIONS_INDEX_HREF}/wordpress`,
+        logo: `${INTEGRATION_LOGO_BASE}/wordpress.png`,
+      },
+      {
+        label: "Shopify",
+        href: `${INTEGRATIONS_INDEX_HREF}/shopify`,
+        logo: `${INTEGRATION_LOGO_BASE}/shopify.svg`,
+      },
       {
         label: "Google Tag Manager",
         href: `${INTEGRATIONS_INDEX_HREF}/google-tag-manager`,
+        Icon: GtmMark,
       },
-      { label: "Framer", href: INTEGRATIONS_INDEX_HREF },
+      {
+        label: "Framer",
+        href: INTEGRATIONS_INDEX_HREF,
+        logo: `${INTEGRATION_LOGO_BASE}/framer.png`,
+      },
     ],
   },
   {
     heading: "Task Management",
     links: [
-      { label: "Asana", href: `${INTEGRATIONS_INDEX_HREF}/asana` },
-      { label: "Trello", href: INTEGRATIONS_INDEX_HREF },
-      { label: "Monday.com", href: `${INTEGRATIONS_INDEX_HREF}/monday` },
-      { label: "ClickUp", href: `${INTEGRATIONS_INDEX_HREF}/clickup` },
-      { label: "Jira", href: INTEGRATIONS_INDEX_HREF },
+      {
+        label: "Asana",
+        href: `${INTEGRATIONS_INDEX_HREF}/asana`,
+        logo: `${INTEGRATION_LOGO_BASE}/asana.png`,
+      },
+      {
+        label: "Trello",
+        href: INTEGRATIONS_INDEX_HREF,
+        logo: `${INTEGRATION_LOGO_BASE}/trello.png`,
+      },
+      {
+        label: "Monday.com",
+        href: `${INTEGRATIONS_INDEX_HREF}/monday`,
+        logo: `${INTEGRATION_LOGO_BASE}/monday.png`,
+      },
+      {
+        label: "ClickUp",
+        href: `${INTEGRATIONS_INDEX_HREF}/clickup`,
+        logo: `${INTEGRATION_LOGO_BASE}/clickup.png`,
+      },
+      {
+        label: "Jira",
+        href: INTEGRATIONS_INDEX_HREF,
+        logo: `${INTEGRATION_LOGO_BASE}/jira.svg`,
+      },
     ],
   },
   {
     heading: "Notifications",
     links: [
-      { label: "Slack", href: `${INTEGRATIONS_INDEX_HREF}/slack` },
-      { label: "Email", href: INTEGRATIONS_INDEX_HREF },
+      {
+        label: "Slack",
+        href: `${INTEGRATIONS_INDEX_HREF}/slack`,
+        logo: `${INTEGRATION_LOGO_BASE}/slack.png`,
+      },
+      { label: "Email", href: INTEGRATIONS_INDEX_HREF, Icon: MailIcon },
     ],
   },
   {
     heading: "Developer",
     links: [
-      { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF },
-      { label: "REST API", href: `${INTEGRATIONS_INDEX_HREF}/api` },
+      { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF, Icon: WebhookIcon },
+      {
+        label: "REST API",
+        href: `${INTEGRATIONS_INDEX_HREF}/api`,
+        Icon: CloudIcon,
+      },
     ],
   },
 ];
@@ -283,35 +354,59 @@ const INTEGRATION_GROUPS: readonly IntegrationGroup[] = [
 /** Footer row label in the Integrations dropdown linking to the hub. */
 const INTEGRATIONS_ALL_LABEL = "All Integrations";
 
-/** A single row in the Resources list dropdown. `badge` shows a small "$" chip
-    (paid/tool cue), and off-site URLs open in a new tab. */
-type ResourceLink = {
-  label: string;
-  href: string;
-  badge?: boolean;
-};
-
 /**
- * Resource links surfaced in the Resources dropdown. Mirrors the legacy footer's
- * Resources column so both stay in sync; off-site entries (Docs, YouTube,
- * community) are absolute URLs opened in a new tab. Shared by the desktop list
+ * Resource links surfaced in the Resources dropdown, grouped by visitor
+ * intent (learning the product, evaluating it, grabbing a tool, joining
+ * the community). Off-site entries (Docs, YouTube, community) are
+ * absolute URLs opened in a new tab. Shared by the desktop grouped
  * dropdown and the mobile accordion.
  */
-const RESOURCE_LINKS: readonly ResourceLink[] = [
+const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
   {
-    label: "Docs",
-    href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup",
+    heading: "Learn",
+    links: [
+      {
+        label: "Docs",
+        href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup",
+        Icon: BookIcon,
+      },
+      { label: "Blog", href: "/blog", Icon: NewsIcon },
+    ],
   },
-  { label: "Case Study", href: "/case-study/writesonic" },
-  { label: "SEO Checklist", href: "/seo-checklist-2023" },
-  { label: "Blog", href: "/blog" },
-  { label: "Alternatives", href: "/alternative" },
-  { label: "Comparisons", href: "/comparisons" },
-  { label: "ROI Calculator", href: "/calculator", badge: true },
-  { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
   {
-    label: "Join Community",
-    href: "https://superflowusers.slack.com/ssb/redirect",
+    heading: "Evaluate",
+    links: [
+      { label: "Case Studies", href: "/case-study", Icon: BriefcaseIcon },
+      { label: "Alternatives", href: "/alternative", Icon: ArrowsExchangeIcon },
+      { label: "Comparisons", href: "/comparisons", Icon: ScaleIcon },
+    ],
+  },
+  {
+    heading: "Tools",
+    links: [
+      {
+        label: "ROI Calculator",
+        href: "/calculator",
+        Icon: CalculatorIcon,
+        badge: true,
+      },
+      { label: "Checklists", href: "/checklist", Icon: ListCheckIcon },
+    ],
+  },
+  {
+    heading: "Community",
+    links: [
+      {
+        label: "Join Community",
+        href: "https://superflowusers.slack.com/ssb/redirect",
+        Icon: UsersIcon,
+      },
+      {
+        label: "YouTube",
+        href: "https://www.youtube.com/@usesuperflow",
+        Icon: BrandYoutubeIcon,
+      },
+    ],
   },
 ];
 
@@ -328,6 +423,34 @@ function externalLinkProps(href: string): { target?: string; rel?: string } {
       : {};
   } catch {
     return {};
+  }
+}
+
+/**
+ * Leading visual for a dropdown row: the brand logo image when the link
+ * carries one, otherwise its stroke icon, otherwise nothing.
+ *
+ * @param props.link - The menu link whose visual is rendered.
+ */
+function NavLinkVisual({ link }: { link: NavMenuLink }) {
+  try {
+    if (link?.logo) {
+      return (
+        <Image
+          className={styles.listLinkLogo}
+          src={link.logo}
+          alt=""
+          width={18}
+          height={18}
+        />
+      );
+    }
+    if (link?.Icon) {
+      return <link.Icon size={16} className={styles.listLinkIcon} />;
+    }
+    return null;
+  } catch {
+    return null;
   }
 }
 
@@ -798,6 +921,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         href={link.href}
                         onClick={closeDropdownMenu}
                       >
+                        <NavLinkVisual link={link} />
                         {link.label}
                       </a>
                     ))}
@@ -839,22 +963,17 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
 
                   <div
                     id={integrationsMenuId}
-                    className={`${styles.listMenu} ${styles.integrationsMenu} ${
+                    className={`${styles.listMenu} ${styles.groupMenu} ${
                       openDropdown === INTEGRATIONS_LABEL
                         ? styles.listMenuOpen
                         : ""
                     }`}
                     aria-label={`${INTEGRATIONS_LABEL} categories`}
                   >
-                    <div className={styles.integrationsGrid}>
+                    <div className={styles.groupGrid}>
                       {INTEGRATION_GROUPS.map((group) => (
-                        <div
-                          key={group.heading}
-                          className={styles.integrationsGroup}
-                        >
-                          <p className={styles.integrationsHeading}>
-                            {group.heading}
-                          </p>
+                        <div key={group.heading} className={styles.groupColumn}>
+                          <p className={styles.groupHeading}>{group.heading}</p>
                           {group.links.map((link) => (
                             <a
                               key={link.label}
@@ -862,6 +981,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                               href={link.href}
                               onClick={closeDropdownMenu}
                             >
+                              <NavLinkVisual link={link} />
                               {link.label}
                             </a>
                           ))}
@@ -869,7 +989,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                       ))}
                     </div>
                     <a
-                      className={`${styles.listLink} ${styles.integrationsAllLink}`}
+                      className={`${styles.listLink} ${styles.groupAllLink}`}
                       href={INTEGRATIONS_INDEX_HREF}
                       onClick={closeDropdownMenu}
                     >
@@ -913,30 +1033,38 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
 
                   <div
                     id={resourcesMenuId}
-                    className={`${styles.listMenu} ${
+                    className={`${styles.listMenu} ${styles.groupMenu} ${styles.groupMenuRight} ${
                       openDropdown === RESOURCES_LABEL ? styles.listMenuOpen : ""
                     }`}
                     aria-label={`${RESOURCES_LABEL} links`}
                   >
-                    {RESOURCE_LINKS.map((link) => (
-                      <a
-                        key={link.href}
-                        className={styles.listLink}
-                        href={link.href}
-                        onClick={closeDropdownMenu}
-                        {...externalLinkProps(link.href)}
-                      >
-                        {link.label}
-                        {link.badge ? (
-                          <span
-                            className={styles.listLinkBadge}
-                            aria-hidden="true"
-                          >
-                            $
-                          </span>
-                        ) : null}
-                      </a>
-                    ))}
+                    <div className={styles.groupGrid}>
+                      {RESOURCE_GROUPS.map((group) => (
+                        <div key={group.heading} className={styles.groupColumn}>
+                          <p className={styles.groupHeading}>{group.heading}</p>
+                          {group.links.map((link) => (
+                            <a
+                              key={link.href}
+                              className={styles.listLink}
+                              href={link.href}
+                              onClick={closeDropdownMenu}
+                              {...externalLinkProps(link.href)}
+                            >
+                              <NavLinkVisual link={link} />
+                              {link.label}
+                              {link.badge ? (
+                                <span
+                                  className={styles.listLinkBadge}
+                                  aria-hidden="true"
+                                >
+                                  $
+                                </span>
+                              ) : null}
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               );
@@ -1119,6 +1247,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         href={link.href}
                         onClick={closeMenu}
                       >
+                        <NavLinkVisual link={link} />
                         {link.label}
                       </a>
                     ))}
@@ -1173,6 +1302,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                             href={link.href}
                             onClick={closeMenu}
                           >
+                            <NavLinkVisual link={link} />
                             {link.label}
                           </a>
                         ))}
@@ -1219,24 +1349,32 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         : ""
                     }`}
                   >
-                    {RESOURCE_LINKS.map((link) => (
-                      <a
-                        key={link.href}
-                        className={styles.mobileListLink}
-                        href={link.href}
-                        onClick={closeMenu}
-                        {...externalLinkProps(link.href)}
-                      >
-                        {link.label}
-                        {link.badge ? (
-                          <span
-                            className={styles.mobileListLinkBadge}
-                            aria-hidden="true"
+                    {RESOURCE_GROUPS.map((group) => (
+                      <div key={group.heading} className={styles.mobileSubGroup}>
+                        <p className={styles.mobileSubHeading}>
+                          {group.heading}
+                        </p>
+                        {group.links.map((link) => (
+                          <a
+                            key={link.href}
+                            className={styles.mobileListLink}
+                            href={link.href}
+                            onClick={closeMenu}
+                            {...externalLinkProps(link.href)}
                           >
-                            $
-                          </span>
-                        ) : null}
-                      </a>
+                            <NavLinkVisual link={link} />
+                            {link.label}
+                            {link.badge ? (
+                              <span
+                                className={styles.mobileListLinkBadge}
+                                aria-hidden="true"
+                              >
+                                $
+                              </span>
+                            ) : null}
+                          </a>
+                        ))}
+                      </div>
                     ))}
                   </div>
                 </div>

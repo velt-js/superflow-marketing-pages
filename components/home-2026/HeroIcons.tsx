@@ -463,6 +463,168 @@ export function DevicesIcon(props: IconProps) {
   );
 }
 
+/** Photo icon — a framed landscape; represents image review. */
+export function PhotoIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M15 8h.01" />
+      <path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
+      <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
+      <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
+    </IconBase>
+  );
+}
+
+/** File-text icon — a page with lines; represents PDF review. */
+export function FileTextIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+      <path d="M9 9h1" />
+      <path d="M9 13h6" />
+      <path d="M9 17h6" />
+    </IconBase>
+  );
+}
+
+/** Player-play icon — a play triangle; represents Lottie / motion review. */
+export function PlayerPlayIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M7 4v16l13 -8z" />
+    </IconBase>
+  );
+}
+
+/** Book icon — an open spread; represents the docs. */
+export function BookIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+      <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+      <path d="M3 6v13" />
+      <path d="M12 6v13" />
+      <path d="M21 6v13" />
+    </IconBase>
+  );
+}
+
+/** News icon — a folded paper with lines; represents the blog. */
+export function NewsIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+      <path d="M8 8h4" />
+      <path d="M8 12h4" />
+      <path d="M8 16h4" />
+    </IconBase>
+  );
+}
+
+/** Briefcase icon — represents case studies (client work). */
+export function BriefcaseIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9z" />
+      <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+      <path d="M12 12v.01" />
+      <path d="M3 13a20 20 0 0 0 18 0" />
+    </IconBase>
+  );
+}
+
+/** Scale icon — a balance; represents head-to-head comparisons. */
+export function ScaleIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M7 20h10" />
+      <path d="M6 6l6 -1l6 1" />
+      <path d="M12 3v17" />
+      <path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+      <path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+    </IconBase>
+  );
+}
+
+/** Arrows-exchange icon — a swap; represents the alternatives listicles. */
+export function ArrowsExchangeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M7 10h14l-4 -4" />
+      <path d="M17 14h-14l4 4" />
+    </IconBase>
+  );
+}
+
+/** Calculator icon — represents the ROI calculator. */
+export function CalculatorIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 5a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-14z" />
+      <path d="M8 7a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v1a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1v-1z" />
+      <path d="M8 14v.01" />
+      <path d="M12 14v.01" />
+      <path d="M16 14v.01" />
+      <path d="M8 17v.01" />
+      <path d="M12 17v.01" />
+      <path d="M16 17v.01" />
+    </IconBase>
+  );
+}
+
+/** Users icon — a pair of people; represents the community. */
+export function UsersIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+    </IconBase>
+  );
+}
+
+/** YouTube brand icon — a rounded screen with a play triangle. */
+export function BrandYoutubeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z" />
+      <path d="M10 9l5 3l-5 3z" />
+    </IconBase>
+  );
+}
+
+/** Mail icon — an envelope; represents the email connector. */
+export function MailIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+      <path d="M3 7l9 6l9 -6" />
+    </IconBase>
+  );
+}
+
+/** Cloud icon — represents the REST API connector. */
+export function CloudIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878" />
+    </IconBase>
+  );
+}
+
+/** Webhook icon — represents the webhooks connector. */
+export function WebhookIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4.876 13.61a4 4 0 1 0 6.124 3.39h6" />
+      <path d="M15.066 20.502a4 4 0 1 0 1.934 -7.502c-.706 0 -1.424 .179 -2 .5l-3 -5.5" />
+      <path d="M16 8a4 4 0 1 0 -8 0c0 1.506 .77 2.818 2 3.5l-3 5.5" />
+    </IconBase>
+  );
+}
+
 /** A hero-tab icon component: accepts native SVG props plus an optional size. */
 export type HeroTabIconComponent = ComponentType<
   SVGProps<SVGSVGElement> & { size?: number }
