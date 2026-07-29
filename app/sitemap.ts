@@ -17,6 +17,11 @@ import {
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
 
+// Regenerate hourly so CMS-only changes (new docs seeded without a
+// deploy) reach the sitemap without waiting for the next build,
+// matching the llms.txt cadence.
+export const revalidate = 3600;
+
 /** Minimal shape of a 2026 comparison-class catalog entry. */
 type ComparisonCatalogItem = { _type?: string; slug?: string };
 
