@@ -489,6 +489,7 @@
 .listLink {
   display: flex;
   align-items: center;
+  gap: 10px;
   padding: 9px 12px;
   border-radius: 10px;
   font-size: 14px;
@@ -509,28 +510,35 @@
   outline-offset: 2px;
 }
 
-/* --- Integrations grouped dropdown (desktop) --------------------------- */
+/* --- Grouped dropdowns (Integrations / Resources, desktop) ------------- */
 
-/* Wider variant of .listMenu: category columns in a two-column grid with a
-   full-width "All Integrations" footer row. */
-.integrationsMenu {
+/* Wider variant of .listMenu: category columns in a two-column grid,
+   optionally with a full-width footer row (.groupAllLink). */
+.groupMenu {
   min-width: 440px;
   padding: 12px;
 }
 
-.integrationsGrid {
+/* Right-anchored variant for triggers near the bar's right edge
+   (Resources), so the panel never overflows the viewport. */
+.groupMenuRight {
+  left: auto;
+  right: 0;
+}
+
+.groupGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px 16px;
 }
 
-.integrationsGroup {
+.groupColumn {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.integrationsHeading {
+.groupHeading {
   margin: 0;
   padding: 6px 12px 4px;
   font-size: 11px;
@@ -540,13 +548,28 @@
   color: #9a9aa2;
 }
 
-.integrationsAllLink {
+.groupAllLink {
   margin-top: 10px;
   padding-top: 12px;
   border-top: 1px solid rgba(17, 20, 45, 0.08);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   font-weight: 600;
+}
+
+/* Leading visuals on dropdown rows: a stroke icon or a brand logo. */
+.listLinkIcon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: #6a6a72;
+}
+
+.listLinkLogo {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 /* Small "$" chip trailing a resource link (e.g. Cost Calculator), matching the
@@ -662,6 +685,7 @@
 .mobileListLink {
   display: flex;
   align-items: center;
+  gap: 12px;
   padding: 10px 12px;
   border-radius: 10px;
   font-size: 15px;
