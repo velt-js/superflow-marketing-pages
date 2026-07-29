@@ -7,6 +7,7 @@ import {
   getAllBlogSlugs,
   getAllCaseStudySlugs,
   getAllChecklistSlugs,
+  getAllComparisonPreviewsForHub,
   getAllComparisonSlugs,
   getAllFeatureSlugs,
   getAllIntegrationPreviewSlugs,
@@ -15,6 +16,18 @@ import {
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
+
+/** Minimal shape of a 2026 comparison-class catalog entry. */
+type ComparisonCatalogItem = { _type?: string; slug?: string };
+
+/** The 2026 comparison/alternative catalog, empty on fetch failure. */
+async function safeFetchComparisonCatalog(): Promise<ComparisonCatalogItem[]> {
+  try {
+    return (await getAllComparisonPreviewsForHub()) as ComparisonCatalogItem[];
+  } catch {
+    return [];
+  }
+}
 
 const STATIC_PATHS = [
   "/",
@@ -60,6 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     reviewSlugs,
     checklistSlugs,
     featureSlugs,
+    comparisonCatalog,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
@@ -71,7 +85,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllReviewSlugs),
     safeFetch(getAllChecklistSlugs),
     safeFetch(getAllFeatureSlugs),
+    safeFetchComparisonCatalog(),
   ]);
+
+  // 2026 comparison classes serve at the root hubs alongside the legacy
+  // documents (see app/comparisons/[slug] and app/alternative/[slug]).
+  const catalogAlternativeSlugs = comparisonCatalog
+    .filter((item) => item?._type === "comparisonPreviewAlternativesPage")
+    .map((item) => item.slug ?? "");
+  const catalogComparisonSlugs = comparisonCatalog
+    .filter((item) => item?._type !== "comparisonPreviewAlternativesPage")
+    .map((item) => item.slug ?? "");
 
   const dynamicPaths: string[] = [
     ...unique(integrationSlugsCms)
@@ -81,8 +105,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       (slug) => `/use-case/${slug}`,
     ),
     ...unique(userPersonaSlugsCms).map((slug) => `/user-persona/${slug}`),
-    ...unique(alternativeSlugsCms).map((slug) => `/alternative/${slug}`),
-    ...unique(comparisonSlugsCms).map((slug) => `/comparisons/${slug}`),
+    ...unique([...alternativeSlugsCms, ...catalogAlternativeSlugs]).map(
+      (slug) => `/alternative/${slug}`,
+    ),
+    ...unique([...comparisonSlugsCms, ...catalogComparisonSlugs]).map(
+      (slug) => `/comparisons/${slug}`,
+    ),
     ...unique(caseStudySlugsCms).map((slug) => `/case-study/${slug}`),
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),

@@ -1,9 +1,30 @@
-import { notFound } from "next/navigation";
+// /comparisons/<slug> - promoted from /preview/comparison/<slug>.
+//
+// One route serves both generations:
+//   1. The slug resolves against the 2026 preview classes first
+//      (comparisonPreviewVsPage superflow-vs-<x>,
+//      comparisonPreviewArbiterPage <x>-vs-<y>); the doc's _type picks
+//      the body. Alternatives-class slugs permanently redirect to
+//      /alternative/<slug>.
+//   2. Slugs only present as legacy comparisonPage documents fall back
+//      to the original ComparisonDetailPage template, so no indexed URL
+//      breaks. On a slug collision the 2026 document wins.
+
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
+
+import ComparisonVsPageBody from "@/components/comparison-2026/ComparisonVsPageBody";
+import ComparisonArbiterPageBody from "@/components/comparison-2026/ComparisonArbiterPageBody";
+import type {
+  ComparisonHubItem,
+  ComparisonPreviewDoc,
+} from "@/components/comparison-2026/types";
 import ComparisonDetailPage from "@/components/detail/ComparisonDetailPage";
 import {
-  getComparisonPageBySlug,
+  getAllComparisonPreviewsForHub,
   getAllComparisonSlugs,
+  getComparisonPageBySlug,
+  getComparisonPreviewBySlug,
 } from "@/sanity/lib/queries";
 import {
   mapComparisonDocToConfig,
@@ -13,6 +34,16 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
+
+export const revalidate = 60;
+
+const BASE_PATH = "/comparisons";
+const FALLBACK_DESCRIPTION =
+  "An honest comparison for agencies. Every competitor claim from the vendor's own site, dated; unverified renders as a plain hyphen.";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
 
 /**
  * Strip HTML tags so rich-text Sanity fields serialise as plain text in
@@ -32,14 +63,33 @@ function stripHtml(html: string): string {
   }
 }
 
-export const revalidate = 60;
-
-interface PageProps {
-  params: Promise<{ slug: string }>;
+export async function generateStaticParams() {
+  const [previewItems, legacySlugs] = await Promise.all([
+    getAllComparisonPreviewsForHub() as Promise<ComparisonHubItem[]>,
+    getAllComparisonSlugs(),
+  ]);
+  const previewSlugs = (previewItems ?? [])
+    .filter((item) => item?._type !== "comparisonPreviewAlternativesPage")
+    .map((item) => item.slug);
+  return Array.from(new Set([...previewSlugs, ...legacySlugs])).map((slug) => ({
+    slug,
+  }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+
+  const previewDoc = (await getComparisonPreviewBySlug(
+    slug,
+  )) as ComparisonPreviewDoc | null;
+  if (previewDoc && previewDoc._type !== "comparisonPreviewAlternativesPage") {
+    return buildPageMetadata({
+      title: previewDoc.metaTitle ?? previewDoc.title,
+      description: previewDoc.metaDescription ?? FALLBACK_DESCRIPTION,
+      path: `${BASE_PATH}/${slug}`,
+    });
+  }
+
   const doc = (await getComparisonPageBySlug(slug)) as
     | (SanityComparisonDoc & { noIndex?: string })
     | null;
@@ -50,7 +100,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       doc.metaDescription ??
       doc.description ??
       "Compare collaboration apps for reviewing creative assets - see how Superflow stacks up.",
-    path: `/comparisons/${slug}`,
+    path: `${BASE_PATH}/${slug}`,
     ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
   });
   if (doc.noIndex && doc.noIndex.toLowerCase() === "noindex") {
@@ -59,19 +109,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return metadata;
 }
 
-export async function generateStaticParams() {
-  const slugs = await getAllComparisonSlugs();
-  return slugs.map((slug: string) => ({ slug }));
+/**
+ * Pick the class body for a resolved 2026 comparison document.
+ *
+ * @param doc - The comparison document, vs or arbiter class.
+ * @returns The rendered page body, or null for unknown types.
+ */
+function renderComparisonBody(doc: ComparisonPreviewDoc) {
+  switch (doc._type) {
+    case "comparisonPreviewVsPage":
+      return <ComparisonVsPageBody doc={doc} />;
+    case "comparisonPreviewArbiterPage":
+      return <ComparisonArbiterPageBody doc={doc} />;
+    default:
+      return null;
+  }
 }
 
-export default async function ComparisonSlugPage({ params }: PageProps) {
-  const { slug } = await params;
-  const doc = (await getComparisonPageBySlug(slug)) as SanityComparisonDoc | null;
-  if (!doc) notFound();
-
+/**
+ * Render a legacy comparisonPage document with the original template.
+ *
+ * @param slug - The requested comparison slug.
+ * @param doc - The resolved legacy document.
+ * @returns The legacy page composition.
+ */
+function renderLegacyComparison(slug: string, doc: SanityComparisonDoc) {
   const config = mapComparisonDocToConfig(doc);
 
-  const faqEntries = (doc.faq?.length)
+  const faqEntries = doc.faq?.length
     ? doc.faq
         .filter((item) => item?.question)
         .map((item) => ({
@@ -90,10 +155,10 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
           doc.description ??
           "Compare collaboration apps for reviewing creative assets - see how Superflow stacks up."
         }
-        path={`/comparisons/${slug}`}
+        path={`${BASE_PATH}/${slug}`}
         trail={[
-          { name: "Comparisons", url: `${SITE_URL}/comparisons` },
-          { name: config.hero.heading, url: `${SITE_URL}/comparisons/${slug}` },
+          { name: "Comparisons", url: `${SITE_URL}${BASE_PATH}` },
+          { name: config.hero.heading, url: `${SITE_URL}${BASE_PATH}/${slug}` },
         ]}
       />
       {faqEntries.length > 0 && (
@@ -102,4 +167,52 @@ export default async function ComparisonSlugPage({ params }: PageProps) {
       <ComparisonDetailPage config={config} />
     </>
   );
+}
+
+export default async function ComparisonSlugPage({ params }: PageProps) {
+  const { slug } = await params;
+
+  const previewDoc = (await getComparisonPreviewBySlug(
+    slug,
+  )) as ComparisonPreviewDoc | null;
+
+  if (previewDoc) {
+    if (previewDoc._type === "comparisonPreviewAlternativesPage") {
+      permanentRedirect(`/alternative/${slug}`);
+    }
+
+    const body = renderComparisonBody(previewDoc);
+    if (body) {
+      const name = previewDoc.metaTitle ?? `${previewDoc.title} | Superflow`;
+      const description = previewDoc.metaDescription ?? FALLBACK_DESCRIPTION;
+
+      return (
+        <>
+          <PageJsonLd
+            name={name}
+            description={description}
+            path={`${BASE_PATH}/${slug}`}
+            trail={[
+              { name: "Comparisons", url: `${SITE_URL}${BASE_PATH}` },
+              { name: previewDoc.title, url: `${SITE_URL}${BASE_PATH}/${slug}` },
+            ]}
+          />
+          {previewDoc.faq && previewDoc.faq.length > 0 ? (
+            <JsonLd
+              id={`ld-faq-comparison-${slug}`}
+              data={buildFaqPageSchema(previewDoc.faq)}
+            />
+          ) : null}
+          {body}
+        </>
+      );
+    }
+  }
+
+  const legacyDoc = (await getComparisonPageBySlug(
+    slug,
+  )) as SanityComparisonDoc | null;
+  if (!legacyDoc) notFound();
+
+  return renderLegacyComparison(slug, legacyDoc);
 }

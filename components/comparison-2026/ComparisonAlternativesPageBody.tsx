@@ -19,7 +19,7 @@ import type { ComparisonAlternativesDoc } from "./types";
 const SUPERFLOW_NAME = "Superflow";
 
 /**
- * The listicle class: /preview/comparison/<x>-alternative. SERP-shaped:
+ * The listicle class: /alternative/<x>-alternative. SERP-shaped:
  * hero, the eight judging criteria, Superflow as entry #1 with the canonical
  * scorecard, honest fact-gated entries for the real players, the "stay on
  * {X}" entry, FAQ, related, final CTA.
