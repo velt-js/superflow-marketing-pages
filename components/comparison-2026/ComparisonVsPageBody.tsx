@@ -21,7 +21,7 @@ import type { ComparisonVsDoc } from "./types";
 const SUPERFLOW_NAME = "Superflow";
 
 /**
- * The head-to-head class: /preview/comparison/superflow-vs-<x>.
+ * The head-to-head class: /comparisons/superflow-vs-<x>.
  * Section order per the Figma 1061 redesign: split hero (kicker + serif
  * headline left, secondary + qualifier right), the agents-at-work product
  * window (captioned by heroCaption), the blueprint-framed criteria grid,

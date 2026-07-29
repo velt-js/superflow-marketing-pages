@@ -5,6 +5,7 @@ import {
   getAllBlogSlugs,
   getAllCaseStudySlugs,
   getAllChecklistSlugs,
+  getAllComparisonPreviewsForHub,
   getAllComparisonSlugs,
   getAllFeatureSlugs,
   getAllIntegrationPreviewSlugs,
@@ -24,6 +25,18 @@ function unique(values: string[]): string[] {
 async function safeFetch(fn: () => Promise<string[]>): Promise<string[]> {
   try {
     return await fn();
+  } catch {
+    return [];
+  }
+}
+
+/** Minimal shape of a 2026 comparison-class catalog entry. */
+type ComparisonCatalogItem = { _type?: string; slug?: string };
+
+/** The 2026 comparison/alternative catalog, empty on fetch failure. */
+async function safeFetchComparisonCatalog(): Promise<ComparisonCatalogItem[]> {
+  try {
+    return (await getAllComparisonPreviewsForHub()) as ComparisonCatalogItem[];
   } catch {
     return [];
   }
@@ -54,6 +67,7 @@ export async function GET() {
     reviewSlugs,
     checklistSlugs,
     featureSlugs,
+    comparisonCatalog,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
@@ -65,7 +79,17 @@ export async function GET() {
     safeFetch(getAllReviewSlugs),
     safeFetch(getAllChecklistSlugs),
     safeFetch(getAllFeatureSlugs),
+    safeFetchComparisonCatalog(),
   ]);
+
+  // 2026 comparison classes serve at the root hubs alongside the legacy
+  // documents (see app/comparisons/[slug] and app/alternative/[slug]).
+  const catalogAlternativeSlugs = comparisonCatalog
+    .filter((item) => item?._type === "comparisonPreviewAlternativesPage")
+    .map((item) => item.slug ?? "");
+  const catalogComparisonSlugs = comparisonCatalog
+    .filter((item) => item?._type !== "comparisonPreviewAlternativesPage")
+    .map((item) => item.slug ?? "");
 
   const core = [
     { path: "/", title: "Home" },
@@ -97,12 +121,18 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
-  const alternatives = unique(alternativeSlugsCms).map((slug) => ({
+  const alternatives = unique([
+    ...alternativeSlugsCms,
+    ...catalogAlternativeSlugs,
+  ]).map((slug) => ({
     path: `/alternative/${slug}`,
     title: toTitle(slug),
   }));
 
-  const comparisons = unique(comparisonSlugsCms).map((slug) => ({
+  const comparisons = unique([
+    ...comparisonSlugsCms,
+    ...catalogComparisonSlugs,
+  ]).map((slug) => ({
     path: `/comparisons/${slug}`,
     title: toTitle(slug),
   }));

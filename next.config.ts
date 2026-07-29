@@ -112,6 +112,28 @@ const nextConfig: NextConfig = {
         destination: "/integrations/:slug",
         permanent: true,
       },
+      // Comparisons + alternatives promoted from their preview routes to
+      // the live hubs (2026 templates now serve at the root paths).
+      {
+        source: "/preview/comparison",
+        destination: "/comparisons",
+        permanent: true,
+      },
+      {
+        source: "/preview/comparison/:slug",
+        destination: "/comparisons/:slug",
+        permanent: true,
+      },
+      {
+        source: "/preview/alternative",
+        destination: "/alternative",
+        permanent: true,
+      },
+      {
+        source: "/preview/alternative/:slug",
+        destination: "/alternative/:slug",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

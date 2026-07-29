@@ -9,8 +9,10 @@ import { getToolLogosFromSlug } from "./toolLogos";
 import type { ComparisonHubDoc, ComparisonHubItem } from "./types";
 import { toInternalHref } from "@/lib/links";
 
-const BASE_PATH = "/preview/comparison";
-const ALTERNATIVES_BASE_PATH = "/preview/alternative";
+// Promoted from /preview/comparison and /preview/alternative - the 2026
+// templates now serve at the root paths and the previews redirect here.
+const BASE_PATH = "/comparisons";
+const ALTERNATIVES_BASE_PATH = "/alternative";
 
 /**
  * Detail-page base path for a hub item; alternatives listicles live under

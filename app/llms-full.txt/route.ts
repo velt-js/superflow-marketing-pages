@@ -46,6 +46,42 @@ async function fetchPages(docType: string): Promise<PageEntry[]> {
   }
 }
 
+type ComparisonClassEntry = PageEntry & { _type?: string };
+
+/**
+ * The 2026 comparison classes (vs, arbiter, alternatives listicles),
+ * which serve at /comparisons and /alternative alongside the legacy
+ * documents.
+ */
+async function fetchComparisonClasses(): Promise<ComparisonClassEntry[]> {
+  try {
+    return await client.fetch(
+      `*[_type in ["comparisonPreviewVsPage", "comparisonPreviewArbiterPage", "comparisonPreviewAlternativesPage"] && defined(slug.current)]{
+        _type,
+        title,
+        "slug": slug.current,
+        "description": metaDescription
+      }`,
+    );
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Merge two generations of entries for one route, keeping the first
+ * occurrence of each slug (callers list the 2026 documents first so
+ * they win slug collisions).
+ */
+function dedupeBySlug(entries: PageEntry[]): PageEntry[] {
+  const seen = new Set<string>();
+  return entries.filter((entry) => {
+    if (!entry.slug || seen.has(entry.slug)) return false;
+    seen.add(entry.slug);
+    return true;
+  });
+}
+
 /** Blog posts with their portable-text body flattened to plain text. */
 async function fetchBlogPosts(): Promise<BlogEntry[]> {
   try {
@@ -152,6 +188,7 @@ export async function GET() {
     caseStudies,
     checklists,
     blogPosts,
+    comparisonClasses,
   ] = await Promise.all([
     fetchPages("featurePage"),
     fetchPages("reviewPage"),
@@ -163,11 +200,27 @@ export async function GET() {
     fetchPages("caseStudyPage"),
     fetchPages("checklistPage"),
     fetchBlogPosts(),
+    fetchComparisonClasses(),
   ]);
 
   const liveIntegrations = integrations.filter(
     (entry) => entry.slug && !isHeldIntegrationSlug(entry.slug),
   );
+
+  // Both generations serve at the root hubs; 2026 documents win slug
+  // collisions (matching app/comparisons/[slug] and app/alternative/[slug]).
+  const mergedAlternatives = dedupeBySlug([
+    ...comparisonClasses.filter(
+      (entry) => entry._type === "comparisonPreviewAlternativesPage",
+    ),
+    ...alternatives,
+  ]);
+  const mergedComparisons = dedupeBySlug([
+    ...comparisonClasses.filter(
+      (entry) => entry._type !== "comparisonPreviewAlternativesPage",
+    ),
+    ...comparisons,
+  ]);
 
   const body = [
     "# Superflow - full content for LLMs",
@@ -183,8 +236,8 @@ export async function GET() {
     pageSection("Integrations", "/integrations", liveIntegrations),
     pageSection("Use cases", "/use-case", useCases),
     pageSection("Personas", "/user-persona", personas),
-    pageSection("Alternatives", "/alternative", alternatives),
-    pageSection("Comparisons", "/comparisons", comparisons),
+    pageSection("Alternatives", "/alternative", mergedAlternatives),
+    pageSection("Comparisons", "/comparisons", mergedComparisons),
     pageSection("Case studies", "/case-study", caseStudies),
     pageSection("Checklists", "", checklists),
     blogSection(blogPosts),

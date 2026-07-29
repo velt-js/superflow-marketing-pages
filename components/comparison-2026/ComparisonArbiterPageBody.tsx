@@ -137,7 +137,7 @@ function ThirdOptionPanel({
 }
 
 /**
- * The arbiter class: /preview/comparison/<x>-vs-<y>. Neutral body per the
+ * The arbiter class: /comparisons/<x>-vs-<y>. Neutral body per the
  * Figma 1061 redesign: a split hero (kicker + serif headline left, standfirst
  * right) with the short-answer "Pick X / Pick Y" cards and the rendered
  * disclosure + dateline beneath, the blueprint-framed criteria grid, the

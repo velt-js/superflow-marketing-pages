@@ -13,9 +13,6 @@ const FEATURE_PATH = "/";
 const INTEGRATIONS_PATH = "/integrations";
 const ALTERNATIVES_PATH = "/alternative";
 const COMPARISONS_PATH = "/comparisons";
-/** The 2026 comparison preview classes (see app/preview/comparison and app/preview/alternative). */
-const PREVIEW_ALTERNATIVES_PATH = "/preview/alternative";
-const PREVIEW_COMPARISONS_PATH = "/preview/comparison";
 const USE_CASES_PATH = "/use-case";
 const PERSONAS_PATH = "/user-persona";
 const BRAND_NAME = "Superflow";
@@ -107,52 +104,52 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Competition",
     links: [
-      { label: "BugHerd Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/bugherd-alternative` },
-      { label: "Markup Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/markup-alternative` },
-      { label: "Marker.io Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/marker-io-alternative` },
-      { label: "Pastel Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/pastel-alternative` },
-      { label: "Ruttl Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/ruttl-alternative` },
-      { label: "Filestage Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/filestage-alternative` },
-      { label: "Usersnap Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/usersnap-alternative` },
-      { label: "Userback Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/userback-alternative` },
-      { label: "Frame.io Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/frame-io-alternative` },
-      { label: "ProjectHuddle Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/projecthuddle-alternative` },
-      { label: "Atarim Alternative", href: `${PREVIEW_ALTERNATIVES_PATH}/atarim-alternative` },
+      { label: "BugHerd Alternative", href: `${ALTERNATIVES_PATH}/bugherd-alternative` },
+      { label: "Markup Alternative", href: `${ALTERNATIVES_PATH}/markup-alternative` },
+      { label: "Marker.io Alternative", href: `${ALTERNATIVES_PATH}/marker-io-alternative` },
+      { label: "Pastel Alternative", href: `${ALTERNATIVES_PATH}/pastel-alternative` },
+      { label: "Ruttl Alternative", href: `${ALTERNATIVES_PATH}/ruttl-alternative` },
+      { label: "Filestage Alternative", href: `${ALTERNATIVES_PATH}/filestage-alternative` },
+      { label: "Usersnap Alternative", href: `${ALTERNATIVES_PATH}/usersnap-alternative` },
+      { label: "Userback Alternative", href: `${ALTERNATIVES_PATH}/userback-alternative` },
+      { label: "Frame.io Alternative", href: `${ALTERNATIVES_PATH}/frame-io-alternative` },
+      { label: "ProjectHuddle Alternative", href: `${ALTERNATIVES_PATH}/projecthuddle-alternative` },
+      { label: "Atarim Alternative", href: `${ALTERNATIVES_PATH}/atarim-alternative` },
       { label: "Vercel Comments", href: `${ALTERNATIVES_PATH}/vercel-comments-alternative` },
       { label: "Webflow Comments", href: `${ALTERNATIVES_PATH}/webflow-comments-alternative` },
       { label: "Use Bubbles", href: `${ALTERNATIVES_PATH}/use-bubbles-alternative` },
-      { label: "All Alternatives", href: PREVIEW_ALTERNATIVES_PATH },
+      { label: "All Alternatives", href: ALTERNATIVES_PATH },
     ],
   },
   {
     title: "Superflow vs",
     links: [
-      { label: "Superflow vs BugHerd", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-bugherd` },
-      { label: "Superflow vs Markup", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-markup` },
-      { label: "Superflow vs Marker.io", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-marker-io` },
-      { label: "Superflow vs Pastel", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-pastel` },
-      { label: "Superflow vs Ruttl", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-ruttl` },
-      { label: "Superflow vs Filestage", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-filestage` },
-      { label: "Superflow vs Usersnap", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-usersnap` },
-      { label: "Superflow vs Userback", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-userback` },
-      { label: "Superflow vs Frame.io", href: `${PREVIEW_COMPARISONS_PATH}/superflow-vs-frame-io` },
+      { label: "Superflow vs BugHerd", href: `${COMPARISONS_PATH}/superflow-vs-bugherd` },
+      { label: "Superflow vs Markup", href: `${COMPARISONS_PATH}/superflow-vs-markup` },
+      { label: "Superflow vs Marker.io", href: `${COMPARISONS_PATH}/superflow-vs-marker-io` },
+      { label: "Superflow vs Pastel", href: `${COMPARISONS_PATH}/superflow-vs-pastel` },
+      { label: "Superflow vs Ruttl", href: `${COMPARISONS_PATH}/superflow-vs-ruttl` },
+      { label: "Superflow vs Filestage", href: `${COMPARISONS_PATH}/superflow-vs-filestage` },
+      { label: "Superflow vs Usersnap", href: `${COMPARISONS_PATH}/superflow-vs-usersnap` },
+      { label: "Superflow vs Userback", href: `${COMPARISONS_PATH}/superflow-vs-userback` },
+      { label: "Superflow vs Frame.io", href: `${COMPARISONS_PATH}/superflow-vs-frame-io` },
     ],
   },
   {
     title: "Comparison",
     links: [
-      { label: "BugHerd vs Marker.io", href: `${PREVIEW_COMPARISONS_PATH}/bugherd-vs-marker-io` },
-      { label: "BugHerd vs Ruttl", href: `${PREVIEW_COMPARISONS_PATH}/bugherd-vs-ruttl` },
-      { label: "Markup vs BugHerd", href: `${PREVIEW_COMPARISONS_PATH}/markup-vs-bugherd` },
-      { label: "Pastel vs Ruttl", href: `${PREVIEW_COMPARISONS_PATH}/pastel-vs-ruttl` },
-      { label: "Marker.io vs Usersnap", href: `${PREVIEW_COMPARISONS_PATH}/marker-io-vs-usersnap` },
-      { label: "Marker.io vs Userback", href: `${PREVIEW_COMPARISONS_PATH}/marker-io-vs-userback` },
-      { label: "Usersnap vs Userback", href: `${PREVIEW_COMPARISONS_PATH}/usersnap-vs-userback` },
-      { label: "Filestage vs Frame.io", href: `${PREVIEW_COMPARISONS_PATH}/filestage-vs-frame-io` },
+      { label: "BugHerd vs Marker.io", href: `${COMPARISONS_PATH}/bugherd-vs-marker-io` },
+      { label: "BugHerd vs Ruttl", href: `${COMPARISONS_PATH}/bugherd-vs-ruttl` },
+      { label: "Markup vs BugHerd", href: `${COMPARISONS_PATH}/markup-vs-bugherd` },
+      { label: "Pastel vs Ruttl", href: `${COMPARISONS_PATH}/pastel-vs-ruttl` },
+      { label: "Marker.io vs Usersnap", href: `${COMPARISONS_PATH}/marker-io-vs-usersnap` },
+      { label: "Marker.io vs Userback", href: `${COMPARISONS_PATH}/marker-io-vs-userback` },
+      { label: "Usersnap vs Userback", href: `${COMPARISONS_PATH}/usersnap-vs-userback` },
+      { label: "Filestage vs Frame.io", href: `${COMPARISONS_PATH}/filestage-vs-frame-io` },
       { label: "MarkUp vs Pastel", href: `${COMPARISONS_PATH}/markup-vs-pastel` },
       { label: "MarkUp vs Ruttl", href: `${COMPARISONS_PATH}/markup-vs-ruttl` },
       { label: "Pastel vs BugHerd", href: `${COMPARISONS_PATH}/pastel-vs-bugherd` },
-      { label: "All Comparisons", href: PREVIEW_COMPARISONS_PATH },
+      { label: "All Comparisons", href: COMPARISONS_PATH },
     ],
   },
   {
