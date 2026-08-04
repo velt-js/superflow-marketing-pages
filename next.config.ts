@@ -1,6 +1,26 @@
 import path from "node:path";
 import type { NextConfig } from "next";
 
+// Superflow subdomains served by reverse-proxying a velt.dev provider page,
+// so the Superflow hostname stays in the address bar. See `rewrites` below.
+const PROXIED_HOSTS = {
+  "status.usesuperflow.ai": "https://status.velt.dev",
+  "trust.usesuperflow.ai": "https://trust.velt.dev",
+};
+
+type Redirect = Awaited<
+  ReturnType<NonNullable<NextConfig["redirects"]>>
+>[number];
+
+// Next.js applies `redirects` before `rewrites`, so the marketing-site path
+// redirects have to opt out of the proxied hosts — otherwise a request like
+// trust.usesuperflow.ai/trust would be redirected to /security instead of
+// reaching the upstream page. `missing` passes only when none of its
+// conditions match, so this reads as "apply unless the host is proxied".
+const notProxiedHost = Object.keys(PROXIED_HOSTS).map(
+  (value) => ({ type: "host", value }) as const,
+);
+
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   // Pin Turbopack to this project so it doesn't walk up to ~/ and scan
@@ -18,7 +38,7 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return [
+    const hostRedirects: Redirect[] = [
       // Domain migration: usesuperflow.com → usesuperflow.ai. Host-based
       // 301 redirects that preserve the full path and query string 1:1
       // (explicit statusCode instead of `permanent`, which would emit
@@ -47,6 +67,11 @@ const nextConfig: NextConfig = {
         destination: "https://usesuperflow.ai/:path*",
         statusCode: 301,
       },
+    ];
+
+    // Path-only redirects for the marketing site. Every one of these is
+    // scoped away from PROXIED_HOSTS below.
+    const pathRedirects: Redirect[] = [
       {
         source: "/trust",
         destination: "/security",
@@ -135,9 +160,39 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
     ];
+
+    return [
+      ...hostRedirects,
+      ...pathRedirects.map((redirect) => ({
+        ...redirect,
+        missing: notProxiedHost,
+      })),
+    ];
   },
   async rewrites() {
     return {
+      // Host-based reverse proxies. These keep the Superflow hostname in the
+      // address bar while the response is served by the upstream provider —
+      // the browser never sees a redirect, so the URL stays superflow.
+      //
+      // Both upstreams are single-custom-domain products (Atlassian
+      // Statuspage allows one custom domain per status page; Vanta allows one
+      // per Trust Center), and both are already claimed by the velt.dev
+      // hostnames. Proxying is the only way to serve them under a second
+      // hostname without giving up the velt.dev ones.
+      //
+      // These are inert until DNS for the two subdomains is repointed from
+      // the provider CNAMEs to Vercel and the domains are added to this
+      // project. See the deploy notes in the PR/commit body.
+      //
+      // Note: the upstream HTML is Velt-branded and its canonical, RSS and
+      // Atom links still point at velt.dev. That is deliberate — it keeps
+      // Google from indexing the proxied copy as duplicate content.
+      beforeFiles: Object.entries(PROXIED_HOSTS).map(([host, upstream]) => ({
+        source: "/:path*",
+        has: [{ type: "host" as const, value: host }],
+        destination: `${upstream}/:path*`,
+      })),
       fallback: [
         {
           source: "/:path*",
