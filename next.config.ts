@@ -8,6 +8,25 @@ const PROXIED_HOSTS = {
   "trust.usesuperflow.ai": "https://trust.velt.dev",
 };
 
+// Mintlify origin backing usesuperflow.ai/docs. The docs used to be a
+// standalone site on docs.usesuperflow.com; they are now reverse-proxied
+// under /docs so the marketing domain owns the whole surface, matching the
+// velt.dev/docs setup.
+//
+// This must be Mintlify's per-project subdomain, NOT the retired
+// docs.usesuperflow.com custom domain: that host now 301s back here (see
+// `redirects`), so proxying to it would bounce the request straight into a
+// redirect loop. velt.dev hit exactly this and had to switch its rewrite
+// target to velt.mintlify.dev.
+//
+// Inert until the Mintlify dashboard serves the project under the /docs
+// subpath — see the deploy notes in the commit body.
+const MINTLIFY_ORIGIN = "https://superflow.mintlify.dev";
+
+// Retired docs hosts that now fold onto usesuperflow.ai/docs. Kept as 301s
+// so the ~96 indexed docs URLs pass their ranking to the new paths.
+const RETIRED_DOCS_HOSTS = ["docs.usesuperflow.com", "docs.usesuperflow.ai"];
+
 type Redirect = Awaited<
   ReturnType<NonNullable<NextConfig["redirects"]>>
 >[number];
@@ -39,6 +58,22 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     const hostRedirects: Redirect[] = [
+      // Docs migration: docs.usesuperflow.{com,ai} → usesuperflow.ai/docs.
+      // First so it wins before the bare-domain rules below — those match
+      // `usesuperflow.com` exactly and so never see the docs subdomain, but
+      // the docs paths gain a /docs prefix that the generic rules would
+      // drop, and ordering keeps that intent explicit.
+      //
+      // Inert until DNS for the docs host is repointed off Mintlify and onto
+      // this Vercel project. See the deploy notes in the commit body.
+      ...RETIRED_DOCS_HOSTS.map(
+        (value): Redirect => ({
+          source: "/:path*",
+          has: [{ type: "host", value }],
+          destination: "https://usesuperflow.ai/docs/:path*",
+          statusCode: 301,
+        }),
+      ),
       // Domain migration: usesuperflow.com → usesuperflow.ai. Host-based
       // 301 redirects that preserve the full path and query string 1:1
       // (explicit statusCode instead of `permanent`, which would emit
@@ -188,11 +223,37 @@ const nextConfig: NextConfig = {
       // Note: the upstream HTML is Velt-branded and its canonical, RSS and
       // Atom links still point at velt.dev. That is deliberate — it keeps
       // Google from indexing the proxied copy as duplicate content.
-      beforeFiles: Object.entries(PROXIED_HOSTS).map(([host, upstream]) => ({
-        source: "/:path*",
-        has: [{ type: "host" as const, value: host }],
-        destination: `${upstream}/:path*`,
-      })),
+      beforeFiles: [
+        ...Object.entries(PROXIED_HOSTS).map(([host, upstream]) => ({
+          source: "/:path*",
+          has: [{ type: "host" as const, value: host }],
+          destination: `${upstream}/:path*`,
+        })),
+        // Docs, reverse-proxied from Mintlify so they serve as first-party
+        // usesuperflow.ai/docs pages rather than a separate subdomain.
+        //
+        // These sit in `beforeFiles` for two reasons: they must outrank the
+        // `fallback` rewrite below (which would otherwise try to serve
+        // /docs/* out of public/pages-html and 404), and they must stay
+        // *after* the PROXIED_HOSTS entries above so a request for
+        // status.usesuperflow.ai/docs still reaches Statuspage.
+        //
+        // The last three rules are Mintlify's own asset and API surface.
+        // They live at the domain root rather than under /docs, so proxying
+        // only /docs/* would leave the docs shell without its JS, CSS and
+        // search endpoint.
+        { source: "/docs", destination: `${MINTLIFY_ORIGIN}/docs` },
+        { source: "/docs/:path*", destination: `${MINTLIFY_ORIGIN}/docs/:path*` },
+        {
+          source: "/_mintlify/:path*",
+          destination: `${MINTLIFY_ORIGIN}/_mintlify/:path*`,
+        },
+        {
+          source: "/mintlify-assets/:path*",
+          destination: `${MINTLIFY_ORIGIN}/mintlify-assets/:path*`,
+        },
+        { source: "/api/request", destination: `${MINTLIFY_ORIGIN}/_mintlify/api/request` },
+      ],
       fallback: [
         {
           source: "/:path*",

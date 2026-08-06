@@ -126,10 +126,8 @@ export function NotFoundContent() {
           </div>
 
           <div className="flex items-start gap-3 flex-wrap justify-center">
-            <a
-              href="https://docs.velt.dev"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/docs"
               className="flex items-center justify-center gap-2 rounded-lg font-urbanist font-bold text-white"
               style={{
                 minWidth: 150,
@@ -141,7 +139,7 @@ export function NotFoundContent() {
               }}
             >
               Read the docs
-            </a>
+            </Link>
             <Link
               href="/"
               className="flex items-center justify-center gap-2 rounded-lg font-urbanist font-bold text-white"

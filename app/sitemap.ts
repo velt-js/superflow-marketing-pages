@@ -22,6 +22,57 @@ import { SITE_URL } from "@/app/_seo/schema";
 // matching the llms.txt cadence.
 export const revalidate = 3600;
 
+/** Mintlify's auto-generated docs sitemap, proxied at usesuperflow.ai/docs. */
+const MINTLIFY_SITEMAP = "https://superflow.mintlify.dev/docs/sitemap.xml";
+
+/** Docs hosts Mintlify may still emit while the domain move settles. */
+const LEGACY_DOCS_ORIGINS = [
+  "https://docs.usesuperflow.com",
+  "https://docs.usesuperflow.ai",
+  "https://superflow.mintlify.dev",
+];
+
+/**
+ * Normalizes a docs URL onto the canonical usesuperflow.ai/docs origin.
+ *
+ * Mintlify stamps the sitemap with whatever domain the dashboard is set to,
+ * so during the cutover it can still emit docs.usesuperflow.com URLs — and
+ * those 301 to /docs, which would put a redirect chain in our own sitemap.
+ * Rewriting here keeps the sitemap canonical regardless of dashboard state.
+ * The legacy hosts serve docs at the root, so they gain the /docs prefix;
+ * the Mintlify origin already carries it.
+ */
+function canonicalizeDocsUrl(url: string): string | null {
+  if (url.startsWith(`${SITE_URL}/docs`)) return url;
+
+  const origin = LEGACY_DOCS_ORIGINS.find((o) => url.startsWith(`${o}/`));
+  if (!origin) return null;
+
+  const rest = url.slice(origin.length);
+  const path = rest.startsWith("/docs/") || rest === "/docs" ? rest : `/docs${rest}`;
+  return `${SITE_URL}${path}`;
+}
+
+/**
+ * Fetches the docs sitemap from Mintlify and folds it into ours, so the
+ * proxied /docs pages are discoverable from usesuperflow.ai/sitemap.xml.
+ * Cached for an hour via Next's fetch cache; any failure yields [] so the
+ * rest of the sitemap still emits.
+ */
+async function fetchDocsPaths(): Promise<string[]> {
+  try {
+    const res = await fetch(MINTLIFY_SITEMAP, { next: { revalidate: 3600 } });
+    if (!res.ok) return [];
+    const xml = await res.text();
+    return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+      .map((m) => canonicalizeDocsUrl(m[1].trim()))
+      .filter((url): url is string => Boolean(url))
+      .map((url) => url.slice(SITE_URL.length));
+  } catch {
+    return [];
+  }
+}
+
 /** Minimal shape of a 2026 comparison-class catalog entry. */
 type ComparisonCatalogItem = { _type?: string; slug?: string };
 
@@ -79,6 +130,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     checklistSlugs,
     featureSlugs,
     comparisonCatalog,
+    docsPaths,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
@@ -91,6 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllChecklistSlugs),
     safeFetch(getAllFeatureSlugs),
     safeFetchComparisonCatalog(),
+    fetchDocsPaths(),
   ]);
 
   // 2026 comparison classes serve at the root hubs alongside the legacy
@@ -121,6 +174,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique(reviewSlugs).map((slug) => `/${slug}`),
     ...unique(checklistSlugs).map((slug) => `/${slug}`),
     ...unique(featureSlugs).map((slug) => `/${slug}`),
+    // Proxied Mintlify docs — already absolute-path form, not slugs.
+    ...unique(docsPaths),
   ];
 
   const lastModified = new Date();
