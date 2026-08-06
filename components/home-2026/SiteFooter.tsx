@@ -93,7 +93,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Resources",
     links: [
-      { label: "Docs", href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup" },
+      { label: "Docs", href: "/docs/no-code-platforms/webflow/setup" },
       { label: "Case Study", href: "/case-study/writesonic" },
       { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "ROI Calculator", href: "/calculator", paid: true },

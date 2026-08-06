@@ -26,9 +26,10 @@ const STEP_ACCENT_VAR = "--gs-step-accent";
 /** Base path for the assets exported from Figma node 582:5284. */
 const ASSET_BASE = "/images/home-2026/get-started";
 
-/** Base URL for the Superflow docs "no-code platform" setup guides. Each pill in
-    the strip links to `<base>/<platform>/setup` (verified live). */
-const DOCS_PLATFORM_BASE = "https://docs.usesuperflow.com/no-code-platforms";
+/** Base path for the Superflow docs "no-code platform" setup guides. Each pill
+    in the strip links to `<base>/<platform>/setup`. Same-origin since the docs
+    moved from docs.usesuperflow.com onto /docs. */
+const DOCS_PLATFORM_BASE = "/docs/no-code-platforms";
 
 /** A single step in the "Get Started" flow, driving one card. */
 interface GetStartedStep {

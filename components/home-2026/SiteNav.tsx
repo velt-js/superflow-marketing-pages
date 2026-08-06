@@ -357,9 +357,10 @@ const INTEGRATIONS_ALL_LABEL = "All Integrations";
 /**
  * Resource links surfaced in the Resources dropdown, grouped by visitor
  * intent (learning the product, evaluating it, grabbing a tool, joining
- * the community). Off-site entries (Docs, YouTube, community) are
- * absolute URLs opened in a new tab. Shared by the desktop grouped
- * dropdown and the mobile accordion.
+ * the community). Off-site entries (YouTube, community) are absolute URLs
+ * opened in a new tab; Docs is a same-origin /docs path since the docs moved
+ * off docs.usesuperflow.com, so it opens in place. Shared by the desktop
+ * grouped dropdown and the mobile accordion.
  */
 const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
   {
@@ -367,7 +368,7 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
     links: [
       {
         label: "Docs",
-        href: "https://docs.usesuperflow.com/no-code-platforms/webflow/setup",
+        href: "/docs/no-code-platforms/webflow/setup",
         Icon: BookIcon,
       },
       { label: "Blog", href: "/blog", Icon: NewsIcon },
