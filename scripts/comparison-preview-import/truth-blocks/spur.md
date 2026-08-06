@@ -62,9 +62,12 @@ different job. Write the page so the overlap is granted plainly and the fork is 
   Project Manager. Nothing on the site is addressed to an agency serving clients.
 
 ## Open dashes (re-verify before rendering as fact)
-- Per-client brand memory that carries decisions across projects: not yet verified (intent-based tests
-  adapt and a customer says "the more you use Spur, the smarter it gets", but no memory feature is
-  described in product)
+- A feedback loop that learns from human review decisions, a person accepting or rejecting a finding and
+  that call changing what the next run checks: not yet verified (intent-based tests adapt to the site,
+  and a customer says "the more you use Spur, the smarter it gets", but no such learning loop is
+  described in product). This is the sharpest live difference against Superflow's Memory, so re-verify it
+  specifically before the page renders anything stronger than a dash.
+- Per-client brand memory that carries rules, taste, and decisions across projects: not yet verified
 - Where results land beyond the run report and video playback (Slack/Jira/email delivery of findings):
   not yet verified. The MCP page says "Pair Spur with GitHub, Jira, Linear or Slack" but does not state
   what is delivered where.
@@ -109,7 +112,12 @@ QA testing platform
    shows the shape of a finding: test, failure step, screenshot, and cost, severity-rated.
    (verified spurtest.com, spurtest.com/bug-book-collection)
 6. What it remembers: Intent-based tests adapt when the site changes; plain-English edits when needed.
-   A per-client brand memory concept: not yet verified. (verified spurtest.com FAQ)
+   That is adaptation to the site, not to a client. A per-client memory, and specifically any loop where a
+   human's accept or reject on a finding teaches the next run: not yet verified. Superflow's side of this
+   dimension is the Memory layer, where uploads go in once per client and every accept or reject on an
+   agent comment teaches it, so the next review is grounded in that client's rules, taste, and past
+   decisions and can flag a likely miss before review opens. (verified spurtest.com FAQ; Superflow side
+   from the Memory feature page)
 7. How it fits your stack: CI/CD through GitHub Actions, "for example, on each pull request". Spur MCP
    wires Cursor, Claude, Claude Code, ChatGPT, and VS Code Copilot to the agent, drafts tests from a PR
    diff, and runs them from chat. "Pair Spur with GitHub, Jira, Linear or Slack." Hundreds of tests run

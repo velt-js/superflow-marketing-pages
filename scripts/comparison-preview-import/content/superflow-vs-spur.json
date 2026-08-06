@@ -6,7 +6,7 @@
   "grantedNoun": "QA testing platform",
   "kicker": "· SUPERFLOW VS SPUR · THE AI QA REVIEWER FOR AGENCIES",
   "headline": "Spur is a QA testing platform. Superflow is an AI reviewer + the client's yes.",
-  "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides. Your client approves from a link.",
+  "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides, and every call they make trains the next review. Your client approves from a link.",
   "prevents": [
     "Stop finding every mistake by hand.",
     "No more manual pass before launch."
@@ -96,16 +96,18 @@
     {
       "number": "06",
       "label": "What it remembers",
-      "framing": "Test suites hold coverage. They don't accumulate a client.",
+      "framing": "Spur's agents adapt to the site. Superflow's adapt to the client.",
       "leftFacts": [
-        "Brand rules and past decisions, learned once, fed to the agents next project."
+        "Brand guides, guidelines, and checklists go in once, per client.",
+        "Then your team's calls train it: every accept or reject on an agent's comment teaches that client's Memory.",
+        "The next review starts there. Agents check new work against that client's rules and past decisions, and Memory flags a likely miss before review even opens."
       ],
       "rightFacts": [
         "Intent-based tests adapt when the site changes; when an edit is needed it's plain English, and their team helps.",
-        "A per-client brand memory that carries decisions into the next project: not yet verified."
+        "Learning from a human's accept or reject on a finding, carried into the next run: not yet verified."
       ],
       "rightVerified": "verified August 2026 except where noted",
-      "verdict": "Two kinds of memory. Spur's tests survive a redesign. Superflow remembers that this client rejects sentence case."
+      "verdict": "Two kinds of adaptation. Spur's tests keep passing when the site changes. Superflow's agents get sharper every time a human overrules one, so what your team rejected last month is what they check for next month."
     },
     {
       "number": "07",
@@ -153,8 +155,8 @@
     },
     {
       "label": "What it remembers",
-      "leftCell": "intent-based tests adapt; per-client memory -",
-      "rightCell": "Memory, per client"
+      "leftCell": "intent-based tests adapt to the site; learning from review decisions -",
+      "rightCell": "Memory, per client; every accept or reject teaches the next review"
     },
     {
       "label": "How it fits your stack",
@@ -188,6 +190,10 @@
     {
       "question": "Do the agents replace my reviewers?",
       "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+    },
+    {
+      "question": "Spur's agents adapt too. How is Superflow's memory different?",
+      "answer": "Spur's tests adapt to the site, which keeps them passing through a redesign. Superflow's Memory adapts to the client: every agent comment your team accepts or rejects becomes a rule the next review already checks for."
     },
     {
       "question": "Can we run both?",
