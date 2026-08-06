@@ -23,6 +23,7 @@ const TOOL_LOGO_FILES: Record<string, string> = {
   surefeedback: "surefeedback.png",
   projecthuddle: "surefeedback.png",
   atarim: "atarim.png",
+  spur: "spur.png",
 };
 
 /**

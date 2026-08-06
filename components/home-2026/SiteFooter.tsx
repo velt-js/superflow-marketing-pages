@@ -133,6 +133,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Superflow vs Usersnap", href: `${COMPARISONS_PATH}/superflow-vs-usersnap` },
       { label: "Superflow vs Userback", href: `${COMPARISONS_PATH}/superflow-vs-userback` },
       { label: "Superflow vs Frame.io", href: `${COMPARISONS_PATH}/superflow-vs-frame-io` },
+      { label: "Superflow vs Spur", href: `${COMPARISONS_PATH}/superflow-vs-spur` },
     ],
   },
   {
