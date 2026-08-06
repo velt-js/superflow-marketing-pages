@@ -5,14 +5,14 @@
   "competitorName": "Spur",
   "grantedNoun": "QA testing platform",
   "kicker": "· SUPERFLOW VS SPUR · THE AI QA REVIEWER FOR AGENCIES",
-  "headline": "Spur is a QA testing platform. Superflow is an AI reviewer + the client's yes.",
-  "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team decides, and every call they make trains the next review. Your client approves from a link.",
+  "headline": "Spur is a QA testing platform. Superflow is a QA reviewer + a human in the loop.",
+  "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team makes every call, and every call trains the next review. Your client approves from a link.",
   "prevents": [
     "Stop finding every mistake by hand.",
     "No more manual pass before launch."
   ],
   "qualifier": "If your agency ships work for clients and needs a sign-off, not a CI gate, this page is for you.",
-  "heroCaption": "It's Spur's kind of first pass, ending in your client's yes.",
+  "heroCaption": "The agents find it. Your team calls it. Your client approves it.",
   "dimensions": [
     {
       "number": "01",
@@ -230,6 +230,6 @@
     "https://www.spurtest.com/spur-mcp",
     "https://www.spurtest.com/book-a-demo"
   ],
-  "metaTitle": "Superflow vs Spur (2026): A QA Testing Platform vs an AI Reviewer + Client Approval",
-  "metaDescription": "Spur is agentic QA testing for e-commerce engineering teams. Superflow is an AI reviewer built from your checklist, plus the client approval loop agencies ship work through."
+  "metaTitle": "Superflow vs Spur (2026): A QA Testing Platform vs a QA Reviewer + a Human in the Loop",
+  "metaDescription": "Spur is agentic QA testing for e-commerce engineering teams. Superflow is a QA reviewer with a human in the loop: agents check every change, your team calls it, your client approves from a link."
 }
