@@ -4,7 +4,7 @@
   "slug": { "current": "superflow-vs-spur" },
   "competitorName": "Spur",
   "grantedNoun": "QA testing platform",
-  "kicker": "· SUPERFLOW VS SPUR · THE AI QA REVIEWER FOR AGENCIES",
+  "kicker": "· SUPERFLOW VS SPUR · THE AI QA REVIEWER WITH A HUMAN IN THE LOOP",
   "headline": "Spur is a QA testing platform. Superflow is a QA reviewer + a human in the loop.",
   "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team makes every call, and every call trains the next review. Sign-off happens from a link, no account needed.",
   "prevents": [
@@ -20,7 +20,7 @@
       "framing": "This is the one place the two genuinely overlap, so take it plainly.",
       "leftFacts": [
         "Agents run your checklist. Every change, desktop and mobile.",
-        "Broken links, brand colors and fonts against the client's guide, spelling, accessibility basics, and SEO.",
+        "Broken links, brand colors and fonts against the brand guide, spelling, accessibility basics, and SEO.",
         "Findings land as pinned comments, rationale attached."
       ],
       "rightFacts": [
@@ -36,12 +36,12 @@
       "label": "How the client says yes",
       "framing": "Feedback is easy to collect. A yes is harder.",
       "leftFacts": [
-        "Multi-step review flows: agents check, your team gates, then the client.",
-        "Your client opens a link and taps Approve. No account, no login, no app, from their phone."
+        "Multi-step review flows: agents check, your team gates, then whoever signs off.",
+        "The approver opens a link and taps Approve. No account, no login, no app, from their phone."
       ],
       "rightFacts": [
         "Runs report to the team that owns the site, with full video playback and step-level evidence.",
-        "A client-facing approval or sign-off step: none found on spurtest.com."
+        "An approval or sign-off step for anyone outside that team: none found on spurtest.com."
       ],
       "rightVerified": "checked August 2026",
       "verdict": "Spur reports to the team that owns the product. Superflow carries the finding to the person who has to approve the work."
@@ -61,21 +61,21 @@
         "Web and native mobile apps only. No PDFs, images, or video review."
       ],
       "rightVerified": "verified August 2026",
-      "verdict": "Spur goes deeper on one surface, including native iOS and Android. Superflow goes wider, across every format a client has to approve."
+      "verdict": "Spur goes deeper on one surface, including native iOS and Android. Superflow goes wider, across every format that has to be approved."
     },
     {
       "number": "04",
       "label": "What stays private",
       "framing": "Your team needs somewhere to disagree.",
       "leftFacts": [
-        "Internal-only notes your team sees and the client never does.",
-        "The debate stays private; the client sees one settled answer."
+        "Internal-only notes your team sees and no one outside it does.",
+        "The debate stays private; the approver sees one settled answer."
       ],
       "rightFacts": [
-        "Every run is internal by construction: results go to your team, and there is no client view or comment layer."
+        "Every run is internal by construction: results go to your team, and there is no outside view or comment layer."
       ],
       "rightVerified": "checked August 2026",
-      "verdict": "Not a defect, a consequence. Spur has no client-facing side, so it has nothing to keep private from one."
+      "verdict": "Not a defect, a consequence. Spur has no outward-facing side, so it has nothing to keep private from one."
     },
     {
       "number": "05",
@@ -91,16 +91,16 @@
         "Their public Bug Book shows the format: test, failure step, screenshot, and cost, rated Critical to Mild."
       ],
       "rightVerified": "verified August 2026",
-      "verdict": "Spur's video of a failing run is the better proof for an engineer. Superflow's pin on the element is the better proof for a client. Pick by who reads it."
+      "verdict": "Spur's video of a failing run is the better proof for an engineer. Superflow's pin on the element is the better proof for whoever has to approve it. Pick by who reads it."
     },
     {
       "number": "06",
       "label": "What it remembers",
-      "framing": "Spur's agents adapt to the site. Superflow's adapt to the client.",
+      "framing": "Spur's agents adapt to the site. Superflow's adapt to the brand.",
       "leftFacts": [
-        "Brand guides, guidelines, and checklists go in once, per client.",
-        "Then your team's calls train it: every accept or reject on an agent's comment teaches that client's Memory.",
-        "The next review starts there. Agents check new work against that client's rules and past decisions, and Memory flags a likely miss before review even opens."
+        "Brand guides, guidelines, and checklists go in once, per brand.",
+        "Then your team's calls train it: every accept or reject on an agent's comment teaches that brand's Memory.",
+        "The next review starts there. Agents check new work against that brand's rules and past decisions, and Memory flags a likely miss before review even opens."
       ],
       "rightFacts": [
         "Intent-based tests adapt when the site changes; when an edit is needed it's plain English, and their team helps.",
@@ -114,7 +114,7 @@
       "label": "How it fits your stack",
       "framing": "The fix still has to ship.",
       "leftFacts": [
-        "Custom statuses, client gates, kanban.",
+        "Custom statuses, approval gates, kanban.",
         "Two-way Asana, Monday, ClickUp. Slack built in."
       ],
       "rightFacts": [
@@ -135,8 +135,8 @@
     },
     {
       "label": "How the client says yes",
-      "leftCell": "reports to your team; no client sign-off step",
-      "rightCell": "a recorded approval: team gate, then client gate"
+      "leftCell": "reports to your team; no sign-off step",
+      "rightCell": "a recorded approval: team gate, then final sign-off"
     },
     {
       "label": "Where you review",
@@ -145,7 +145,7 @@
     },
     {
       "label": "What stays private",
-      "leftCell": "no client view, so nothing to keep from one",
+      "leftCell": "no outside view, so nothing to keep from one",
       "rightCell": "internal-only comments"
     },
     {
@@ -156,12 +156,12 @@
     {
       "label": "What it remembers",
       "leftCell": "intent-based tests adapt to the site; learning from review decisions -",
-      "rightCell": "Memory, per client; every accept or reject teaches the next review"
+      "rightCell": "Memory, per brand; every accept or reject teaches the next review"
     },
     {
       "label": "How it fits your stack",
       "leftCell": "GitHub Actions CI; MCP for Cursor, Claude, Copilot; pairs with GitHub, Jira, Linear, Slack",
-      "rightCell": "statuses, client gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+      "rightCell": "statuses, approval gates, kanban; two-way Asana, Monday, ClickUp; Slack"
     },
     {
       "label": "What it costs",
@@ -174,14 +174,14 @@
   "switchingLines": [
     "One snippet on any site; one click on Webflow, WordPress, or GTM.",
     "Paste the checklist you already have; agents assemble from it.",
-    "Nothing has to leave Spur. Its runs gate your release; Superflow gates the client's approval."
+    "Nothing has to leave Spur. Its runs gate your release; Superflow gates the sign-off."
   ],
   "honestCloseStrengths": "Spur earned its logo wall. Its agents drive real journeys, sign in, checkout with a card, a return, chained together and run hundreds at a time across web, iOS, and Android. Every run comes back with video playback and step-level evidence, and customers report about 80% fewer false positives than scripted suites. Alo spent seven months failing to stabilise Selenium; Spur got tests live in days. Living Spaces went from zero to 80% coverage in a month. Their public Bug Book shows the actual production bugs they caught, with the failing step attached.",
   "stayLine": "If the question you need answered is whether the checkout still works, and you have a QA function to own it, Spur is the better tool. Stay.",
   "faq": [
     {
       "question": "Is Superflow a replacement for Spur?",
-      "answer": "No, and for a QA team running regression it shouldn't be. Spur automates functional testing for a product team; Superflow runs the review and approval loop for the people shipping client work."
+      "answer": "No, and for a QA team running regression it shouldn't be. Spur automates functional testing for a product team; Superflow runs the review and approval loop for the people shipping the work."
     },
     {
       "question": "Can Superflow test a checkout flow?",
@@ -189,18 +189,18 @@
     },
     {
       "question": "Do the agents replace my reviewers?",
-      "answer": "No. Agents run the first pass. Your team, then your client, signs off."
+      "answer": "No. Agents run the first pass. Your team decides, then whoever owns the sign-off approves."
     },
     {
       "question": "Spur's agents adapt too. How is Superflow's memory different?",
-      "answer": "Spur's tests adapt to the site, which keeps them passing through a redesign. Superflow's Memory adapts to the client: every agent comment your team accepts or rejects becomes a rule the next review already checks for."
+      "answer": "Spur's tests adapt to the site, which keeps them passing through a redesign. Superflow's Memory adapts to the brand: every agent comment your team accepts or rejects becomes a rule the next review already checks for."
     },
     {
       "question": "Can we run both?",
-      "answer": "Yes, and many teams should. Spur gates the release in CI; Superflow gets the campaign page approved by the client."
+      "answer": "Yes, and many teams should. Spur gates the release in CI; Superflow gets the campaign page reviewed and signed off."
     },
     {
-      "question": "Will our clients have to learn a new tool?",
+      "question": "Will reviewers have to learn a new tool?",
       "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
     },
     {
