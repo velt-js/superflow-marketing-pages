@@ -34,6 +34,39 @@
     },
     {
       "number": "02",
+      "label": "What it remembers",
+      "framing": "Spur's agents adapt to the site. Superflow's adapt to the brand.",
+      "leftFacts": [
+        "Brand guides, guidelines, and checklists go in once, per brand.",
+        "Then your team's calls train it: every accept or reject on an agent's comment teaches that brand's Memory.",
+        "The next review starts there. Agents check new work against that brand's rules and past decisions, and Memory flags a likely miss before review even opens."
+      ],
+      "rightFacts": [
+        "Intent-based tests adapt when the site changes; when an edit is needed it's plain English, and their team helps.",
+        "Learning from a human's accept or reject on a finding, carried into the next run: not yet verified."
+      ],
+      "rightVerified": "verified August 2026 except where noted",
+      "verdict": "Two kinds of adaptation. Spur's tests keep passing when the site changes. Superflow's agents get sharper every time a human overrules one, so what your team rejected last month is what they check for next month."
+    },
+    {
+      "number": "03",
+      "label": "What gets captured",
+      "framing": "Both attach proof without being asked. Only one of them attaches it to the thing on screen.",
+      "leftFacts": [
+        "Element and text pins, area comments: the finding sits on the thing it's about.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Every run produces full video playback and step-level evidence.",
+        "Their public Bug Book shows the format: test, failure step, screenshot, and cost, rated Critical to Mild.",
+        "No contextual comments. A finding lives in the run report, not pinned to the element on the page."
+      ],
+      "rightVerified": "verified August 2026",
+      "verdict": "Spur's video of a failing run is the better proof for an engineer. But nothing is pinned to the page, so a person still has to carry each finding back to the element it belongs to. In Superflow the comment is already sitting on it."
+    },
+    {
+      "number": "04",
       "label": "How the client says yes",
       "framing": "Feedback is easy to collect. A yes is harder.",
       "leftFacts": [
@@ -48,7 +81,7 @@
       "verdict": "Spur reports to the team that owns the product. Superflow carries the finding to the person who has to approve the work."
     },
     {
-      "number": "03",
+      "number": "05",
       "label": "Where you review",
       "framing": "Spur drives the product. Superflow lives on the work.",
       "leftFacts": [
@@ -65,53 +98,7 @@
       "verdict": "Spur goes deeper on one surface, including native iOS and Android. Superflow goes wider, across every format that has to be approved."
     },
     {
-      "number": "04",
-      "label": "What stays private",
-      "framing": "Your team needs somewhere to disagree.",
-      "leftFacts": [
-        "Internal-only notes your team sees and no one outside it does.",
-        "The debate stays private; the approver sees one settled answer."
-      ],
-      "rightFacts": [
-        "Every run is internal by construction: results go to your team, and there is no outside view or comment layer."
-      ],
-      "rightVerified": "checked August 2026",
-      "verdict": "Not a defect, a consequence. Spur has no outward-facing side, so it has nothing to keep private from one; Superflow assumes from the start that someone outside the team will read this."
-    },
-    {
-      "number": "05",
-      "label": "What gets captured",
-      "framing": "Both attach proof without being asked. The proof is a different shape.",
-      "leftFacts": [
-        "Element and text pins, area comments.",
-        "A screenshot attaches to every comment automatically.",
-        "Recordings: screen, video, voice, from the toolbar."
-      ],
-      "rightFacts": [
-        "Every run produces full video playback and step-level evidence.",
-        "Their public Bug Book shows the format: test, failure step, screenshot, and cost, rated Critical to Mild."
-      ],
-      "rightVerified": "verified August 2026",
-      "verdict": "Spur's video of a failing run is the better proof for an engineer. Superflow's pin on the element is the better proof for whoever has to approve it. Pick by who reads it."
-    },
-    {
       "number": "06",
-      "label": "What it remembers",
-      "framing": "Spur's agents adapt to the site. Superflow's adapt to the brand.",
-      "leftFacts": [
-        "Brand guides, guidelines, and checklists go in once, per brand.",
-        "Then your team's calls train it: every accept or reject on an agent's comment teaches that brand's Memory.",
-        "The next review starts there. Agents check new work against that brand's rules and past decisions, and Memory flags a likely miss before review even opens."
-      ],
-      "rightFacts": [
-        "Intent-based tests adapt when the site changes; when an edit is needed it's plain English, and their team helps.",
-        "Learning from a human's accept or reject on a finding, carried into the next run: not yet verified."
-      ],
-      "rightVerified": "verified August 2026 except where noted",
-      "verdict": "Two kinds of adaptation. Spur's tests keep passing when the site changes. Superflow's agents get sharper every time a human overrules one, so what your team rejected last month is what they check for next month."
-    },
-    {
-      "number": "07",
       "label": "How it fits your stack",
       "framing": "The fix still has to ship, and the review has to start on its own.",
       "leftFacts": [
@@ -127,6 +114,20 @@
       ],
       "rightVerified": "verified August 2026",
       "verdict": "Both hang off the pipeline, and both have an MCP. The difference is what the trigger starts: Spur's run returns a pass or fail that gates the merge, Superflow's starts a review that routes to people and ends in a recorded sign-off."
+    },
+    {
+      "number": "07",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and no one outside it does.",
+        "The debate stays private; the approver sees one settled answer."
+      ],
+      "rightFacts": [
+        "Every run is internal by construction: results go to your team, and there is no outside view or comment layer."
+      ],
+      "rightVerified": "checked August 2026",
+      "verdict": "Not a defect, a consequence. Spur has no outward-facing side, so it has nothing to keep private from one; Superflow assumes from the start that someone outside the team will read this."
     }
   ],
   "scorecardKicker": "Spur tests whether the site works. Superflow reviews whether the work is right, then gets it approved.",
@@ -153,8 +154,8 @@
     },
     {
       "label": "What gets captured",
-      "leftCell": "full video playback, step-level evidence, screenshots",
-      "rightCell": "automatic screenshots; screen, video, voice"
+      "leftCell": "full video playback, step-level evidence, screenshots; no comments pinned to the page",
+      "rightCell": "contextual pins on the element; automatic screenshots; screen, video, voice"
     },
     {
       "label": "What it remembers",
