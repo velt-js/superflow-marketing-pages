@@ -1,0 +1,239 @@
+{
+  "_type": "comparisonPreviewVsPage",
+  "title": "Superflow vs Spur",
+  "slug": { "current": "superflow-vs-spur" },
+  "competitorName": "Spur",
+  "grantedNoun": "QA testing platform",
+  "kicker": "· SUPERFLOW VS SPUR · THE AI QA REVIEWER WITH A HUMAN IN THE LOOP",
+  "headline": "Spur is a QA testing platform. Superflow is a QA reviewer + a human in the loop.",
+  "secondary": "The reviewer is AI agents, built from your QA checklist. They check every site change and pin what they find. Your team makes every call, and every call trains the next review. Sign-off happens from a link, no account needed.",
+  "prevents": [
+    "Stop finding every mistake by hand.",
+    "No more manual pass before launch."
+  ],
+  "qualifier": "If you ship work that someone has to approve, not just code that has to pass CI, this page is for you.",
+  "heroCaption": "The agents find it. Your team calls it. Approval takes one link.",
+  "dimensions": [
+    {
+      "number": "01",
+      "label": "Who checks the site",
+      "framing": "The agent half is where the two genuinely overlap. Take that plainly, then look at the other half.",
+      "leftFacts": [
+        "Agents run your checklist. Every change, desktop and mobile.",
+        "Broken links, brand colors and fonts against the brand guide, spelling, accessibility basics, and SEO.",
+        "Findings land as pinned comments, rationale attached.",
+        "Then a human. Agents are the first pass, never the last word: your team confirms or overrules every finding."
+      ],
+      "rightFacts": [
+        "Autonomous agents plan, execute, and report tests. Five types: exploratory, localization, UI/UX, functional, and AI feature testing.",
+        "The UI/UX agent explores the product like a real user and catches typos, content inconsistencies, layout overflows, and broken interactions.",
+        "Written in plain English, no code."
+      ],
+      "rightVerified": "verified August 2026",
+      "verdict": "On the agent half, even, and it says so. The difference is the other half: Spur's agents report and stop, Superflow's hand every finding to a person who confirms it or overrules it."
+    },
+    {
+      "number": "02",
+      "label": "What it remembers",
+      "framing": "Spur's agents adapt to the site. Superflow's adapt to the brand.",
+      "leftFacts": [
+        "Brand guides, guidelines, and checklists go in once, per brand.",
+        "Then your team's calls train it: every accept or reject on an agent's comment teaches that brand's Memory.",
+        "The next review starts there. Agents check new work against that brand's rules and past decisions, and Memory flags a likely miss before review even opens."
+      ],
+      "rightFacts": [
+        "Intent-based tests adapt when the site changes; when an edit is needed it's plain English, and their team helps.",
+        "Learning from a human's accept or reject on a finding, carried into the next run: not yet verified."
+      ],
+      "rightVerified": "verified August 2026 except where noted",
+      "verdict": "Two kinds of adaptation. Spur's tests keep passing when the site changes. Superflow's agents get sharper every time a human overrules one, so what your team rejected last month is what they check for next month."
+    },
+    {
+      "number": "03",
+      "label": "What gets captured",
+      "framing": "Both attach proof without being asked. Only one of them attaches it to the thing on screen.",
+      "leftFacts": [
+        "Element and text pins, area comments: the finding sits on the thing it's about.",
+        "A screenshot attaches to every comment automatically.",
+        "Recordings: screen, video, voice, from the toolbar."
+      ],
+      "rightFacts": [
+        "Every run produces full video playback and step-level evidence.",
+        "Their public Bug Book shows the format: test, failure step, screenshot, and cost, rated Critical to Mild.",
+        "No contextual comments. A finding lives in the run report, not pinned to the element on the page."
+      ],
+      "rightVerified": "verified August 2026",
+      "verdict": "Spur's video of a failing run is the better proof for an engineer. But nothing is pinned to the page, so a person still has to carry each finding back to the element it belongs to. In Superflow the comment is already sitting on it."
+    },
+    {
+      "number": "04",
+      "label": "How the client says yes",
+      "framing": "Feedback is easy to collect. A yes is harder.",
+      "leftFacts": [
+        "Multi-step review flows: agents check, your team gates, then whoever signs off.",
+        "The approver opens a link and taps Approve. No account, no login, no app, from their phone."
+      ],
+      "rightFacts": [
+        "Runs report to the team that owns the site, with full video playback and step-level evidence.",
+        "An approval or sign-off step for anyone outside that team: none found on spurtest.com."
+      ],
+      "rightVerified": "checked August 2026",
+      "verdict": "Spur reports to the team that owns the product. Superflow carries the finding to the person who has to approve the work."
+    },
+    {
+      "number": "05",
+      "label": "Where you review",
+      "framing": "Spur drives the product. Superflow lives on the work.",
+      "leftFacts": [
+        "Superflow lives on the site itself: passwords, Okta, SSO, no extension needed, guests included.",
+        "Findings tagged by device.",
+        "Websites plus video, PDFs, images, and Lottie files, reviewed in the same place."
+      ],
+      "rightFacts": [
+        "Tests from the outside, like a real user: you provide a URL, and a build file for native apps.",
+        "Logins, MFA and OTP handled with test accounts and whitelisted IPs; strict bot protection is worked through with your security team.",
+        "Web and native mobile apps only. No PDFs, images, or video review."
+      ],
+      "rightVerified": "verified August 2026",
+      "verdict": "Spur goes deeper on one surface, including native iOS and Android. Superflow goes wider, across every format that has to be approved."
+    },
+    {
+      "number": "06",
+      "label": "How it fits your stack",
+      "framing": "The fix still has to ship, and the review has to start on its own.",
+      "leftFacts": [
+        "Connect GitHub or Vercel and a push or deploy starts the review flow on its own. Any change to the live site does too.",
+        "Push-triggered runs, steps, conditions, and notifications, for review instead of deployment. No YAML.",
+        "An MCP as well: create and run agents on your site from any LLM.",
+        "Custom statuses, approval gates, kanban. Two-way Asana, Monday, ClickUp; Slack built in."
+      ],
+      "rightFacts": [
+        "CI through GitHub Actions, for example on each pull request.",
+        "Spur MCP wires Cursor, Claude, and Copilot to the agent, drafts tests from a pull request diff, and pairs with GitHub, Jira, Linear, or Slack.",
+        "Hundreds of tests run in parallel across web and native mobile."
+      ],
+      "rightVerified": "verified August 2026",
+      "verdict": "Both hang off the pipeline, and both have an MCP. The difference is what the trigger starts: Spur's run returns a pass or fail that gates the merge, Superflow's starts a review that routes to people and ends in a recorded sign-off."
+    },
+    {
+      "number": "07",
+      "label": "What stays private",
+      "framing": "Your team needs somewhere to disagree.",
+      "leftFacts": [
+        "Internal-only notes your team sees and no one outside it does.",
+        "The debate stays private; the approver sees one settled answer."
+      ],
+      "rightFacts": [
+        "Every run is internal by construction: results go to your team, and there is no outside view or comment layer."
+      ],
+      "rightVerified": "checked August 2026",
+      "verdict": "Not a defect, a consequence. Spur has no outward-facing side, so it has nothing to keep private from one; Superflow assumes from the start that someone outside the team will read this."
+    }
+  ],
+  "scorecardKicker": "Spur tests whether the site works. Superflow reviews whether the work is right, then gets it approved.",
+  "scorecard": [
+    {
+      "label": "Who checks the site",
+      "leftCell": "agents, five types, plain English",
+      "rightCell": "agents, from your checklist"
+    },
+    {
+      "label": "How the client says yes",
+      "leftCell": "reports to your team; no sign-off step",
+      "rightCell": "a recorded approval: team gate, then final sign-off"
+    },
+    {
+      "label": "Where you review",
+      "leftCell": "live web and native mobile, from a URL or build file; logins, MFA, OTP",
+      "rightCell": "live site, behind logins and SSO, no extension; plus video, PDF, images, Lottie"
+    },
+    {
+      "label": "What stays private",
+      "leftCell": "no outside view, so nothing to keep from one",
+      "rightCell": "internal-only comments"
+    },
+    {
+      "label": "What gets captured",
+      "leftCell": "full video playback, step-level evidence, screenshots; no comments pinned to the page",
+      "rightCell": "contextual pins on the element; automatic screenshots; screen, video, voice"
+    },
+    {
+      "label": "What it remembers",
+      "leftCell": "intent-based tests adapt to the site; learning from review decisions -",
+      "rightCell": "Memory, per brand; every accept or reject teaches the next review"
+    },
+    {
+      "label": "How it fits your stack",
+      "leftCell": "GitHub Actions CI; MCP for Cursor, Claude, Copilot; pairs with GitHub, Jira, Linear, Slack",
+      "rightCell": "GitHub and Vercel push triggers; MCP from any LLM; statuses, approval gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+    },
+    {
+      "label": "What it costs",
+      "leftCell": "annual plans on test-run volume, not seats; demo for a quote (August 2026)",
+      "rightCell": "Free plan; Growth $29 per seat/mo ($24 annual); Scale $34; Enterprise custom"
+    }
+  ],
+  "pricingCompetitor": "Verified August 2026: annual plans based on test-run volume, not per seat. No public price list, no free plan, and no free trial stated; you book a demo for a quote tailored to your release cadence. Most teams start with a one to two week POC, and there is a three-phase pilot program with limited slots. Overages are never auto-billed, they're flagged and agreed together.",
+  "pricingSuperflow": "From the Growth plan. See /pricing.",
+  "switchingLines": [
+    "One snippet on any site; one click on Webflow, WordPress, or GTM.",
+    "Paste the checklist you already have; agents assemble from it.",
+    "Nothing has to leave Spur. Its runs gate your release; Superflow gates the sign-off."
+  ],
+  "honestCloseStrengths": "Spur earned its logo wall. Its agents drive real journeys, sign in, checkout with a card, a return, chained together and run hundreds at a time across web, iOS, and Android. Every run comes back with video playback and step-level evidence, and customers report about 80% fewer false positives than scripted suites. Alo spent seven months failing to stabilise Selenium; Spur got tests live in days. Living Spaces went from zero to 80% coverage in a month. Their public Bug Book shows the actual production bugs they caught, with the failing step attached.",
+  "stayLine": "If the question you need answered is whether the checkout still works, and you have a QA function to own it, Spur is the better tool. Stay.",
+  "faq": [
+    {
+      "question": "Is Superflow a replacement for Spur?",
+      "answer": "No, and for a QA team running regression it shouldn't be. Spur automates functional testing for a product team; Superflow runs the review and approval loop for the people shipping the work."
+    },
+    {
+      "question": "Can Superflow test a checkout flow?",
+      "answer": "Not today. Superflow's agents check pages, they don't simulate multi-step journeys, so a checkout that errors on step three is Spur's catch, not ours."
+    },
+    {
+      "question": "Do the agents replace my reviewers?",
+      "answer": "No. Agents run the first pass. Your team decides, then whoever owns the sign-off approves."
+    },
+    {
+      "question": "Spur's agents adapt too. How is Superflow's memory different?",
+      "answer": "Spur's tests adapt to the site, which keeps them passing through a redesign. Superflow's Memory adapts to the brand: every agent comment your team accepts or rejects becomes a rule the next review already checks for."
+    },
+    {
+      "question": "Can we run both?",
+      "answer": "Yes, and many teams should. Spur gates the release in CI; Superflow gets the campaign page reviewed and signed off."
+    },
+    {
+      "question": "Will reviewers have to learn a new tool?",
+      "answer": "No. They get a link and an Approve button. No account, no login, no app, from their phone."
+    },
+    {
+      "question": "What does it cost?",
+      "answer": "From the Growth plan. See /pricing."
+    }
+  ],
+  "related": [
+    {
+      "label": "Superflow vs BugHerd",
+      "href": "/comparisons/superflow-vs-bugherd"
+    },
+    {
+      "label": "Superflow vs Marker.io",
+      "href": "/comparisons/superflow-vs-marker-io"
+    },
+    { "label": "AI review agents", "href": "/ai-review-agents" }
+  ],
+  "factsCheckedAt": "August 2026",
+  "sourceUrls": [
+    "https://www.spurtest.com",
+    "https://www.spurtest.com/agents/ui-ux-feedback",
+    "https://www.spurtest.com/agents/functional-testing",
+    "https://www.spurtest.com/agents/localization-agent",
+    "https://www.spurtest.com/bug-book-collection",
+    "https://www.spurtest.com/case-studies",
+    "https://www.spurtest.com/spur-mcp",
+    "https://www.spurtest.com/book-a-demo"
+  ],
+  "metaTitle": "Superflow vs Spur (2026): A QA Testing Platform vs a QA Reviewer + a Human in the Loop",
+  "metaDescription": "Spur is agentic QA testing for e-commerce engineering teams. Superflow is a QA reviewer with a human in the loop: agents check every change, your team makes the call, and sign-off happens from a link."
+}
