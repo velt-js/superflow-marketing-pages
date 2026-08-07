@@ -122,6 +122,12 @@ QA testing platform
    wires Cursor, Claude, Claude Code, ChatGPT, and VS Code Copilot to the agent, drafts tests from a PR
    diff, and runs them from chat. "Pair Spur with GitHub, Jira, Linear or Slack." Hundreds of tests run
    in parallel across web and native mobile. (verified spurtest.com, spurtest.com/spur-mcp)
+   Do NOT concede the pipeline on this dimension. Superflow connects GitHub and Vercel as triggers: a
+   push or deploy starts the review flow on its own, as do changes to the live site, with steps,
+   conditions, and notifications and no YAML (integrations hub FAQ and the review-workflows page).
+   Superflow also has an MCP: create and run agents on your site from any LLM. The honest difference is
+   what the trigger produces, a merge gate versus a review that ends in a sign-off, not whether
+   Superflow can hang off CI. An earlier draft of this page got that wrong.
 8. What it costs: Annual plans priced on test-run volume, not seats. Demo required for a quote. Most
    teams start with a one to two week POC. Overages flagged, never auto-billed. No free plan, no public
    price list. (verified spurtest.com FAQ)

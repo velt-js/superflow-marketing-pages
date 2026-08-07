@@ -112,10 +112,12 @@
     {
       "number": "07",
       "label": "How it fits your stack",
-      "framing": "The fix still has to ship.",
+      "framing": "The fix still has to ship, and the review has to start on its own.",
       "leftFacts": [
-        "Custom statuses, approval gates, kanban.",
-        "Two-way Asana, Monday, ClickUp. Slack built in."
+        "Connect GitHub or Vercel and a push or deploy starts the review flow on its own. Any change to the live site does too.",
+        "Push-triggered runs, steps, conditions, and notifications, for review instead of deployment. No YAML.",
+        "An MCP as well: create and run agents on your site from any LLM.",
+        "Custom statuses, approval gates, kanban. Two-way Asana, Monday, ClickUp; Slack built in."
       ],
       "rightFacts": [
         "CI through GitHub Actions, for example on each pull request.",
@@ -123,7 +125,7 @@
         "Hundreds of tests run in parallel across web and native mobile."
       ],
       "rightVerified": "verified August 2026",
-      "verdict": "Spur plugs into the release pipeline. Superflow plugs into the delivery workflow. If a pull request is your gate, that's Spur's ground."
+      "verdict": "Both hang off the pipeline, and both have an MCP. The difference is what the trigger starts: Spur's run returns a pass or fail that gates the merge, Superflow's starts a review that routes to people and ends in a recorded sign-off."
     }
   ],
   "scorecardKicker": "Spur tests whether the site works. Superflow reviews whether the work is right, then gets it approved.",
@@ -161,7 +163,7 @@
     {
       "label": "How it fits your stack",
       "leftCell": "GitHub Actions CI; MCP for Cursor, Claude, Copilot; pairs with GitHub, Jira, Linear, Slack",
-      "rightCell": "statuses, approval gates, kanban; two-way Asana, Monday, ClickUp; Slack"
+      "rightCell": "GitHub and Vercel push triggers; MCP from any LLM; statuses, approval gates, kanban; two-way Asana, Monday, ClickUp; Slack"
     },
     {
       "label": "What it costs",
