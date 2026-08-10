@@ -17,6 +17,7 @@ import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og.js";
+import { createCard } from "../../lib/og/card.mjs";
 import {
   DEFAULT_BALANCE,
   DEFAULT_FOOTER,
@@ -24,13 +25,10 @@ import {
   DEFAULT_MAX_LINES,
   DEFAULT_OUT_DIR,
   DEFAULT_WIDTH,
-  FONT_WEIGHT_BOLD,
   LOG_PREFIX,
   LOG_PREFIX_ERROR,
-} from "./constants.mjs";
-import { loadFonts } from "./fonts.mjs";
-import { createMeasurer } from "./measure.mjs";
-import { buildCard, loadLogo } from "./template.mjs";
+} from "../../lib/og/constants.mjs";
+import { getBoldFontData, loadFonts } from "../../lib/og/fonts.mjs";
 
 const PROJECT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -224,8 +222,7 @@ async function fileExists(filePath) {
  * @param {object} card - Normalized card spec from `normalizeCard`.
  * @param {object} context - Shared render context.
  * @param {Array<object>} context.fonts - Font descriptors for `next/og`.
- * @param {{advanceEm: (text: string) => number}} context.measurer - Bold-face measurer.
- * @param {{dataUri: string, aspectRatio: number}} context.logo - Prepared logo.
+ * @param {Buffer} context.boldFontData - Bold face bytes, for measuring.
  * @param {boolean} context.skipExisting - Skip cards whose output already exists.
  * @returns {Promise<{outPath: string, skipped: boolean, overwrote: boolean}>} Render result.
  */
@@ -238,13 +235,12 @@ async function renderCard(card, context) {
       return { outPath, skipped: true, overwrote: false };
     }
 
-    const { element, fontSize, lines } = buildCard({
+    const { element, fontSize, lines } = createCard({
       title: card.title,
+      boldFontData: context.boldFontData,
       footer: card.footer,
       width: card.width,
       height: card.height,
-      measurer: context.measurer,
-      logo: context.logo,
       maxLines: card.maxLines,
       fontSizeOverride: card.fontSizeOverride,
       balance: card.balance,
@@ -300,16 +296,10 @@ async function main() {
       }),
     );
 
-    const fonts = await loadFonts(PROJECT_ROOT);
-    const boldFont = fonts.find((face) => face?.weight === FONT_WEIGHT_BOLD);
-    if (!boldFont) {
-      throw new Error("the bold Urbanist face failed to load");
-    }
-
+    const fonts = await loadFonts();
     const context = {
       fonts,
-      measurer: createMeasurer(boldFont.data),
-      logo: await loadLogo(PROJECT_ROOT),
+      boldFontData: getBoldFontData(fonts),
       skipExisting: Boolean(flags.skipExisting),
     };
 

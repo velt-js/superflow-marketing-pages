@@ -7,6 +7,7 @@ import {
   getUseCasePageBySlug,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     path: `/use-case/${slug}`,
-    ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
+    ogImage: doc.thumbnail ?? ogCardUrl(title),
   });
   if (doc.noIndex && doc.noIndex.toLowerCase() === "noindex") {
     metadata.robots = { index: false, follow: false };

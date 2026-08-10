@@ -15,6 +15,7 @@ import {
   buildBreadcrumbList,
 } from "@/app/_seo/schema";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 
 type PostShape = {
   title?: string;
@@ -83,7 +84,7 @@ export async function generateMetadata({
     title: rawTitle,
     description,
     path: `/blog/${slug}`,
-    ogImage: post.ogImage ?? undefined,
+    ogImage: post.ogImage ?? ogCardUrl(rawTitle),
     socialTitle: rawTitle,
   });
   metadata.title = { absolute: rawTitle };

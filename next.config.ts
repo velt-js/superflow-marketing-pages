@@ -47,6 +47,13 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // /api/og rasterizes social cards at request time and reads the committed
+  // Urbanist TTFs off disk. Satori has no system fonts, so without these
+  // traced into the function bundle the route 500s in production while
+  // working fine locally.
+  outputFileTracingIncludes: {
+    "/api/og": ["./lib/og/fonts/**"],
+  },
   images: {
     remotePatterns: [
       {
