@@ -17,6 +17,7 @@ import {
   getAllIntegrationPreviewsForHub,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -74,7 +75,7 @@ export async function generateMetadata() {
     description:
       doc?.metaDescription ?? doc?.hero?.subhead ?? FALLBACK_DESCRIPTION,
     path: BASE_PATH,
-    ogImage: doc?.ogImage ?? undefined,
+    ogImage: doc?.ogImage ?? PAGE_OG_IMAGES.integrations,
   });
 }
 

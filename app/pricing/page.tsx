@@ -15,6 +15,7 @@ import { PRICING_FAQ_ITEMS } from "@/components/pricing-2026/faq-data";
 import { BillingProvider } from "@/components/pricing/BillingContext";
 import { TIERS } from "@/components/pricing/pricing-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import {
@@ -105,10 +106,7 @@ export const metadata = buildPageMetadata({
   description:
     "Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is a flat 10 credits. Starter, Growth, Scale & Enterprise plans.",
   path: "/pricing",
-  // Live usesuperflow.com/pricing reuses the homepage OG image — set
-  // explicitly here so the override is visible at the call-site, even
-  // though it matches DEFAULT_OG_IMAGE.
-  ogImage: "/opengraph-image.png",
+  ogImage: PAGE_OG_IMAGES.pricing,
   noBrandSuffix: true,
 });
 

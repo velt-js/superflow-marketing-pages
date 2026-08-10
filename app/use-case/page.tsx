@@ -1,6 +1,7 @@
 import ListingPage from "@/components/listing-2026/ListingPage";
 import { getAllUseCaseListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -16,6 +17,7 @@ export const metadata = buildPageMetadata({
   description:
     "Browse every Superflow use case - from website QA to video review to client approvals. See which workflow fits your team.",
   path: "/use-case",
+  ogImage: PAGE_OG_IMAGES.useCase,
   noBrandSuffix: true,
 });
 

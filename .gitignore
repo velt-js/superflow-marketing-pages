@@ -23,3 +23,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .gstack/
+
+# Fonts the meta-image generator downloads and caches on first run.
+scripts/og-image/.fonts/

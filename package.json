@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "og": "node scripts/og-image/generate-og.mjs",
+    "og:pages": "node scripts/og-image/generate-og.mjs --manifest scripts/og-image/pages.json"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.44.4",

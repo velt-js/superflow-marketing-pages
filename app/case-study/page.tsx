@@ -1,6 +1,7 @@
 import CaseStudyListingPage from "@/components/case-study-2026/CaseStudyListingPage";
 import { getAllCaseStudyListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -15,6 +16,7 @@ export const metadata = buildPageMetadata({
   title: "Case Studies",
   description: HERO_SUBHEADING,
   path: "/case-study",
+  ogImage: PAGE_OG_IMAGES.caseStudy,
 });
 
 export default async function CaseStudyIndexPage() {

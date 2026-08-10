@@ -16,6 +16,7 @@ import {
   getComparisonPreviewHub,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -56,6 +57,7 @@ export async function generateMetadata() {
     title: doc?.metaTitle ?? doc?.title ?? FALLBACK_TITLE,
     description: doc?.metaDescription ?? doc?.subhead ?? FALLBACK_DESCRIPTION,
     path: BASE_PATH,
+    ogImage: PAGE_OG_IMAGES.comparisons,
   });
 }
 

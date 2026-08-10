@@ -16,6 +16,7 @@ import WhatElse from "@/components/home/WhatElse";
 import WebflowPluginMobileBrowsers from "@/components/webflow-plugin/WebflowPluginMobileBrowsers";
 import WebflowPluginIntegrations from "@/components/webflow-plugin/WebflowPluginIntegrations";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
@@ -29,6 +30,7 @@ export const metadata = buildPageMetadata({
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   path: PAGE_PATH,
+  ogImage: PAGE_OG_IMAGES.webflowPlugin,
 });
 
 // "Why Superflow is the swiftest annotation tool for Webflow?" — three

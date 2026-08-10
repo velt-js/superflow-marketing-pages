@@ -1,0 +1,28 @@
+[
+  { "title": "Affiliate Program", "out": "public/og/pages/affiliate.png" },
+  { "title": "Alternatives, ranked honestly", "out": "public/og/pages/alternative.png" },
+  { "title": "Blog", "out": "public/og/pages/blog.png" },
+  { "title": "Book a demo", "out": "public/og/pages/book-demo.png" },
+  { "title": "Agency ROI Calculator", "out": "public/og/pages/calculator.png" },
+  { "title": "Case Studies", "out": "public/og/pages/case-study.png" },
+  { "title": "Checklists", "out": "public/og/pages/checklist.png" },
+  { "title": "Comparisons", "out": "public/og/pages/comparisons.png" },
+  { "title": "Live Product Demo", "out": "public/og/pages/demo.png" },
+  { "title": "Integrations", "out": "public/og/pages/integrations.png" },
+  { "title": "Ship Creative Assets Impossibly Fast", "out": "public/og/pages/pricing.png" },
+  { "title": "Privacy Policy", "out": "public/og/pages/privacy.png" },
+  { "title": "Security and Privacy", "out": "public/og/pages/security.png" },
+  { "title": "Terms of Service", "out": "public/og/pages/terms.png" },
+  {
+    "title": "Explore How We Simplify Collaboration for your Workflow",
+    "out": "public/og/pages/use-case.png"
+  },
+  {
+    "title": "See if Superflow is right for you and your team",
+    "out": "public/og/pages/user-persona.png"
+  },
+  {
+    "title": "Comment and collaborate on your Webflow sites",
+    "out": "public/og/pages/webflow-plugin.png"
+  }
+]

@@ -1,6 +1,7 @@
 import ListingPage from "@/components/listing-2026/ListingPage";
 import { getAllChecklistListItems } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -15,6 +16,7 @@ export const metadata = buildPageMetadata({
   title: "Checklists",
   description: HERO_SUBHEADING,
   path: "/checklist",
+  ogImage: PAGE_OG_IMAGES.checklist,
 });
 
 export default async function ChecklistIndexPage() {
