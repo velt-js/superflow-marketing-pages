@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Monday Integration with Superflow",
+    "out": "public/og/cards/integrations/monday.png"
+  },
+  {
+    "title": "Slack Integration with Superflow",
+    "out": "public/og/cards/integrations/slack.png"
+  },
+  {
+    "title": "Pricing",
+    "out": "public/og/cards/pricing.png"
+  },
+  {
+    "title": "Website Review\nmade simple",
+    "out": "public/og/cards/website-review.png"
+  },
+  {
+    "title": "Superflow vs Markup.io",
+    "out": "public/og/cards/comparisons/markup-io.png",
+    "maxLines": 2
+  }
+]

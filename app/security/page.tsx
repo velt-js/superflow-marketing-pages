@@ -9,6 +9,7 @@ import DataProtection from "@/components/security/DataProtection";
 import EnterpriseSecurity from "@/components/security/EnterpriseSecurity";
 import DataPrivacy from "@/components/security/DataPrivacy";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
@@ -17,6 +18,7 @@ export const metadata = buildPageMetadata({
   description:
     "SOC 2 compliance, end-to-end encryption, SSO, GDPR - Superflow establishes policies and controls, monitors compliance, and proves it to third-party auditors.",
   path: "/security",
+  ogImage: PAGE_OG_IMAGES.security,
 });
 
 export default function SecurityPage() {

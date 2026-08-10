@@ -10,6 +10,7 @@ import {
   buildWebPageSchema,
 } from "@/app/_seo/schema";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 
 const BLOG_BREADCRUMB = buildBreadcrumbList([
   { name: "Home", url: SITE_URL },
@@ -32,6 +33,7 @@ export const metadata = buildPageMetadata({
   title: "Blog",
   description: BLOG_DESCRIPTION,
   path: "/blog",
+  ogImage: PAGE_OG_IMAGES.blog,
 });
 
 export default async function BlogListingPage() {

@@ -19,6 +19,7 @@ import {
 } from "@/components/calculator-2026/RoiSections";
 import { CALCULATOR_FAQ_ITEMS } from "@/components/calculator-2026/faq-data";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -39,6 +40,7 @@ export const metadata = buildPageMetadata({
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   path: "/calculator",
+  ogImage: PAGE_OG_IMAGES.calculator,
 });
 
 export default function CalculatorPage() {

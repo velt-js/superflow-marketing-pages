@@ -7,6 +7,7 @@ import IntercomButton from "@/components/home/IntercomButton";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import DemoGallery from "@/components/demo-2026/DemoGallery";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
@@ -22,6 +23,7 @@ export const metadata = buildPageMetadata({
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   path: "/demo",
+  ogImage: PAGE_OG_IMAGES.demo,
   noBrandSuffix: true,
 });
 

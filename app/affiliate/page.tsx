@@ -10,6 +10,7 @@ import ThreeSteps from "@/components/affiliate/ThreeSteps";
 import RevenueShareBanner from "@/components/affiliate/RevenueShareBanner";
 import DosAndDonts from "@/components/affiliate/DosAndDonts";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { buildFaqPageSchema, SITE_URL } from "@/app/_seo/schema";
@@ -19,6 +20,7 @@ export const metadata = buildPageMetadata({
   description:
     "Join the Superflow Affiliate Program. Earn 30% revenue share by sharing Superflow with your audience.",
   path: "/affiliate",
+  ogImage: PAGE_OG_IMAGES.affiliate,
 });
 
 const AFFILIATE_FAQS = [
