@@ -170,11 +170,16 @@ export const TOOLS: readonly ToolEntry[] = [
   {
     slug: "utm-builder",
     name: "UTM Builder",
-    tagline: "Build campaign URLs that follow your agency's conventions",
+    tagline:
+      "Build campaign URLs on one convention, and see the channel each will land in",
     category: "campaigns",
-    status: "planned",
+    status: "live",
     icon: "link",
-    related: ["website-launch-checklist"],
+    related: [
+      "md5-hash-generator",
+      "markdown-viewer",
+      "website-launch-checklist",
+    ],
   },
   {
     slug: "full-page-screenshot",
