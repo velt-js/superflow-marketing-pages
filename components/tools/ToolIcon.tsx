@@ -1,6 +1,6 @@
 // Inline icons for the tool grid.
 //
-// Inline SVG rather than an icon package: eight glyphs is not worth a
+// Inline SVG rather than an icon package: a dozen glyphs is not worth a
 // dependency, and these render inside a server component with no hydration
 // cost.
 
@@ -20,6 +20,32 @@ const PATHS: Record<ToolIconKey, React.ReactNode> = {
       <path d="M14 3v5h5" />
       <path d="M19 8v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7z" />
       <path d="M9 13h6M9 17h4" />
+    </>
+  ),
+  markdown: (
+    <>
+      <rect x="2.5" y="6" width="19" height="12" rx="2" />
+      <path d="M6 15V9l3 3 3-3v6" />
+      <path d="M16.5 9v4.5M14.5 12l2 2 2-2" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  check: (
+    <>
+      <path d="M12 3l7.5 3v5.5c0 4.4-3 8-7.5 9.5-4.5-1.5-7.5-5.1-7.5-9.5V6z" />
+      <path d="m9 12 2.2 2.2L15.5 10" />
+    </>
+  ),
+  code: (
+    <>
+      <path d="m8.5 8.5-4 3.5 4 3.5" />
+      <path d="m15.5 8.5 4 3.5-4 3.5" />
+      <path d="m13.5 5-3 14" />
     </>
   ),
   share: (

@@ -13,6 +13,7 @@ export type ToolStatus = "live" | "planned";
 
 export type ToolCategory =
   | "ai-visibility"
+  | "structured-data"
   | "social"
   | "quality"
   | "campaigns"
@@ -35,6 +36,10 @@ export type ToolEntry = {
 export type ToolIconKey =
   | "robot"
   | "file"
+  | "markdown"
+  | "eye"
+  | "check"
+  | "code"
   | "share"
   | "checklist"
   | "stack"
@@ -53,8 +58,8 @@ export const TOOLS: readonly ToolEntry[] = [
     icon: "robot",
     related: [
       "robots-txt-ai-checker",
+      "markdown-for-agents",
       "llms-txt-generator",
-      "social-preview-checker",
     ],
   },
   {
@@ -77,7 +82,52 @@ export const TOOLS: readonly ToolEntry[] = [
     category: "ai-visibility",
     status: "planned",
     icon: "file",
-    related: ["ai-visibility-checker", "robots-txt-ai-checker"],
+    related: [
+      "ai-visibility-checker",
+      "markdown-for-agents",
+      "robots-txt-ai-checker",
+    ],
+  },
+  {
+    slug: "markdown-for-agents",
+    name: "Markdown for Agents",
+    tagline:
+      "Turn your pages into clean Markdown you can host for AI agents to read",
+    category: "ai-visibility",
+    status: "planned",
+    icon: "markdown",
+    related: [
+      "ai-visibility-checker",
+      "llms-txt-generator",
+      "markdown-viewer",
+    ],
+  },
+  {
+    slug: "json-ld-validator",
+    name: "JSON-LD Validator",
+    tagline:
+      "Check your structured data against Schema.org and what search engines accept",
+    category: "structured-data",
+    status: "planned",
+    icon: "check",
+    related: [
+      "json-ld-generator",
+      "ai-visibility-checker",
+      "social-preview-checker",
+    ],
+  },
+  {
+    slug: "json-ld-generator",
+    name: "JSON-LD Generator",
+    tagline: "Build valid schema markup from a URL, then paste it into your page",
+    category: "structured-data",
+    status: "planned",
+    icon: "code",
+    related: [
+      "json-ld-validator",
+      "ai-visibility-checker",
+      "llms-txt-generator",
+    ],
   },
   {
     slug: "social-preview-checker",
@@ -134,11 +184,25 @@ export const TOOLS: readonly ToolEntry[] = [
     icon: "image",
     related: ["website-launch-checklist", "ai-visibility-checker"],
   },
+  {
+    slug: "markdown-viewer",
+    name: "Markdown Viewer",
+    tagline: "Open and read any Markdown file. Nothing leaves your browser",
+    category: "assets",
+    status: "planned",
+    icon: "eye",
+    related: [
+      "markdown-for-agents",
+      "llms-txt-generator",
+      "ai-visibility-checker",
+    ],
+  },
 ];
 
 /** Human labels for the index page's grouping. */
 export const CATEGORY_LABELS: Record<ToolCategory, string> = {
   "ai-visibility": "AI visibility",
+  "structured-data": "Structured data",
   social: "Social and sharing",
   quality: "Site quality",
   campaigns: "Campaigns",
