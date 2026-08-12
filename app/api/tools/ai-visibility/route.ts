@@ -26,6 +26,10 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import {
+  isBackendConfigured,
+  runToolViaBackend,
+} from "@/lib/toolkit/superflow-api";
 import type { VisibilityReport } from "@/lib/tools/ai-visibility/types";
 
 const TOOL_SLUG = "ai-visibility-checker";
@@ -129,7 +133,14 @@ export async function POST(request: NextRequest): Promise<Response> {
       await invalidateCache(cacheKey);
     }
 
-    const result = await runVisibilityCheck(rawUrl);
+    // Prefer the shared engine in the product backend, so the free tool and
+    // the in-product `ai-visibility` agent can never drift apart. The in-repo
+    // engine is the fallback for local dev and for any deploy that predates
+    // the backend release; once SUPERFLOW_ANONYMOUS_API_URL is set everywhere,
+    // lib/tools/ai-visibility/engine.ts can be deleted.
+    const result = isBackendConfigured()
+      ? await runToolViaBackend({ toolId: "ai-visibility", url: rawUrl, clientIp: ip })
+      : await runVisibilityCheck(rawUrl);
 
     if (!result.ok) {
       return json(
@@ -137,8 +148,8 @@ export async function POST(request: NextRequest): Promise<Response> {
           ok: false,
           code: result.code,
           message: result.message,
-          status: result.status,
-          finalUrl: result.finalUrl,
+          ...("status" in result ? { status: result.status } : {}),
+          ...("finalUrl" in result ? { finalUrl: result.finalUrl } : {}),
         },
         result.code === "invalid-url" ? 400 : 422,
       );
