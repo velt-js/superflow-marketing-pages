@@ -10,7 +10,6 @@ const FULLY_AUTOMATED_ICON_SRC = "/images/home-2026/problem/fully-automated.svg"
 
 /** Exact copy taken from the Figma "02 / Problem Section" node (582:3592). */
 const COPY = {
-  callout: "If a senior person still checks every site by hand, Superflow is for you.",
   youAreHere: "You are here",
   comeHere: "Come here with Superflow",
 } as const;
@@ -23,7 +22,6 @@ const HEADING_ID = "problem-heading";
  */
 export interface ProblemSectionProps {
   headline?: ProblemSectionHeadline;
-  callout?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -96,17 +94,6 @@ function ChevronRightIcon({ className }: IconProps): ReactElement {
   return (
     <svg className={className} {...ICON_BASE_PROPS}>
       <path d="M9 6l6 6-6 6" />
-    </svg>
-  );
-}
-
-/** Info glyph for the closing callout pill. */
-function InfoIcon({ className }: IconProps): ReactElement {
-  return (
-    <svg className={className} {...ICON_BASE_PROPS}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 8h.01" />
-      <path d="M11 12h1v4h1" />
     </svg>
   );
 }
@@ -238,20 +225,16 @@ function Stage({ stage }: { stage: TimelineStage }): ReactElement {
  * 02 / Problem Section — 2026 homepage redesign.
  *
  * A hero statement (a serif money-loss headline sitting inside a faded clock
- * gauge) followed by a "manual → fully automated" maturity timeline and a
- * closing qualifier callout. The clock-gauge hero is a client subcomponent
- * that scrubs a scroll-driven intro animation; the timeline + callout below
- * stay server-rendered and static.
+ * gauge) followed by a "manual → fully automated" maturity timeline. The
+ * clock-gauge hero is a client subcomponent that scrubs a scroll-driven intro
+ * animation; the timeline below stays server-rendered and static.
  *
  * @param props - Optional per-page copy overrides; defaults reproduce the
  *   /home-preview homepage exactly.
  */
 export default function ProblemSection({
   headline,
-  callout,
 }: ProblemSectionProps = {}): ReactElement {
-  const calloutText = callout ?? COPY.callout;
-
   return (
     <section className={styles.problem} data-section="problem" aria-labelledby={HEADING_ID}>
       <ProblemSectionClock headingId={HEADING_ID} headline={headline} />
@@ -265,11 +248,6 @@ export default function ProblemSection({
           </Fragment>
         ))}
         <EdgeTicks />
-      </div>
-
-      <div className={styles.callout}>
-        <InfoIcon className={styles.calloutIcon} />
-        <p className={styles.calloutText}>{calloutText}</p>
       </div>
     </section>
   );

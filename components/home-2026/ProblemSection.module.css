@@ -195,8 +195,8 @@
     height: 100vh;
     /* The full-circle dial box overhangs the 100vh stage on shorter
        viewports, and as part of a positioned element its white fade overlay
-       would paint over the timeline/callout pulled up by the scrollTrack's
-       negative margin. Everything below the stage is invisible faded area,
+       would paint over the timeline pulled up by the scrollTrack's negative
+       margin. Everything below the stage is invisible faded area,
        so clip vertically only — the enlarged clock may still legitimately
        bleed past the stage's horizontal edges during the entry phase. */
     overflow: visible clip;
@@ -401,43 +401,6 @@
 }
 
 /* ---------------------------------------------------------------- */
-/* Closing callout                                                   */
-/* ---------------------------------------------------------------- */
-
-.callout {
-  /* Positioned so it paints above the sticky stage it can overlap with. */
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 100%;
-  padding: 16px 24px;
-  border-radius: 32px;
-  background: var(--sf-ink);
-  color: #ffffff;
-  transition: box-shadow 0.18s ease;
-}
-
-.callout:hover {
-  box-shadow: 0 10px 30px rgba(30, 30, 31, 0.22);
-}
-
-.calloutIcon {
-  width: 22px;
-  height: 22px;
-  color: #ffffff;
-  flex: none;
-}
-
-.calloutText {
-  margin: 0;
-  font-weight: 600;
-  font-size: clamp(15px, 1.4vw, 18px);
-  line-height: 1.5;
-  letter-spacing: -0.03em;
-}
-
-/* ---------------------------------------------------------------- */
 /* Responsive: collapse the ruler + stack the timeline vertically    */
 /* ---------------------------------------------------------------- */
 
@@ -468,12 +431,5 @@
     position: static;
     margin-top: 8px;
     transform: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .callout {
-    align-items: flex-start;
-    text-align: left;
   }
 }
