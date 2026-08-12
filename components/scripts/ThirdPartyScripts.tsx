@@ -1,6 +1,13 @@
 // Third-party scripts loaded site-wide. Mounted once from app/layout.tsx so
-// every route picks them up. Inline snippets are wrapped in <Script id=...>
-// per Next.js requirements; external scripts use <Script src=...>.
+// every route picks them up. Analytics and widget snippets use <Script> with
+// strategy="afterInteractive" — inline ones wrapped in <Script id=...> per
+// Next.js requirements, external ones as <Script src=...> — so they stay off
+// the critical path.
+//
+// The exception is RB2B, a native inline <script>. afterInteractive renders
+// nothing into the server HTML and only injects the tag once React hydrates,
+// which loses every visitor who leaves before then. See the comment on the
+// tag below.
 //
 // `intercomSettings.hide_default_launcher` is set to true so Intercom's
 // built-in chat bubble does not stack on top of the custom IntercomButton
@@ -22,6 +29,32 @@ const RB2B_KEY = "Q6J2RH2WVE6D";
 export function ThirdPartyScripts() {
   return (
     <>
+      {/* RB2B — visitor de-anonymization / person-level identification.
+          Rendered as a native inline <script>, not next/script, and kept
+          first so it is the earliest executable tag in <body>.
+
+          next/script's afterInteractive injects the snippet client-side
+          from an effect, so it never reaches the server HTML — it only runs
+          once React has downloaded, parsed and hydrated the page's ~350 KB
+          of JS. For an analytics tag that is merely late; for RB2B it is
+          lossy, because every visitor who reads and leaves before hydration
+          settles is never identified. It also makes RB2B's own installation
+          scanner report "script only loads after user interaction": the tag
+          is absent on load and appears once simulated scroll/mouse movement
+          buys enough time for hydration to finish.
+
+          A native tag executes during HTML parse instead. The cost is
+          negligible — the snippet is a few hundred bytes and fetches its
+          payload via an async script it creates itself. React only hoists
+          `async src` scripts into <head>, so an inline one stays put (the
+          same reasoning as the Claydar tag in app/layout.tsx). */}
+      <script
+        id="rb2b"
+        dangerouslySetInnerHTML={{
+          __html: `!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s,document.getElementsByTagName("script")[0]);}("${RB2B_KEY}");`,
+        }}
+      />
+
       {/* Rewardful — affiliate attribution */}
       <Script id="rewardful-queue" strategy="afterInteractive">
         {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}
@@ -87,11 +120,6 @@ mixpanel.init('${MIXPANEL_TOKEN}', {track_pageview: "full-url", persistence: 'lo
         src={`https://app.termly.io/resource-blocker/${TERMLY_ID}?autoBlock=off`}
         strategy="afterInteractive"
       />
-
-      {/* RB2B — visitor de-anonymization / person-level identification */}
-      <Script id="rb2b" strategy="afterInteractive">
-        {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s,document.getElementsByTagName("script")[0]);}("${RB2B_KEY}");`}
-      </Script>
     </>
   );
 }
