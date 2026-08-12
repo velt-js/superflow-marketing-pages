@@ -176,7 +176,7 @@ export const TOOLS: readonly ToolEntry[] = [
     status: "live",
     icon: "link",
     related: [
-      "md5-hash-generator",
+      "md5-generator",
       "markdown-viewer",
       "website-launch-checklist",
     ],
@@ -200,9 +200,13 @@ export const TOOLS: readonly ToolEntry[] = [
     related: ["website-launch-checklist", "ai-visibility-checker"],
   },
   {
-    slug: "md5-hash-generator",
+    // The page at this slug predates the registry and lives outside the
+    // shared ToolPage template, in the 2026 listing idiom. Registering it
+    // here is what puts it on the index, in the related-tools mesh, and in
+    // the sitemap. The page itself is untouched.
+    slug: "md5-generator",
     name: "MD5 Hash Generator",
-    tagline: "Hash text to MD5 in your browser, or call it from the command line",
+    tagline: "Hash any text to MD5, or call the same endpoint from a script",
     category: "assets",
     status: "live",
     icon: "hash",
