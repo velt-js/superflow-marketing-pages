@@ -16,6 +16,7 @@ import {
   getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
+import { liveTools, toolPath } from "@/lib/tools/registry";
 
 // Regenerate hourly so CMS-only changes (new docs seeded without a
 // deploy) reach the sitemap without waiting for the next build,
@@ -101,8 +102,13 @@ const STATIC_PATHS = [
   "/privacy",
   "/security",
   "/terms",
+  "/tools",
   "/use-case",
   "/user-persona",
+  // Free tools. Only the ones that are actually built are listed: the
+  // registry marks the rest `planned`, and a sitemap entry for a route that
+  // does not exist is a crawl error, not a roadmap.
+  ...liveTools().map((tool) => toolPath(tool.slug)),
 ];
 
 function unique(values: string[]): string[] {
