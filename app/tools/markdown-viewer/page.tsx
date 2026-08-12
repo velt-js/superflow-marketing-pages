@@ -14,6 +14,7 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
+import { buildToolAppSchema } from "@/app/_seo/tool-schema";
 import type { ToolFaqItem } from "@/components/tools/ToolFaq";
 
 const SLUG = "markdown-viewer";
@@ -90,6 +91,14 @@ export default function MarkdownViewerPage() {
           { name: "Free tools", url: `${SITE_URL}/tools` },
           { name: TITLE, url: `${SITE_URL}${PATH}` },
         ]}
+      />
+      <JsonLd
+        id="ld-markdown-viewer-app"
+        data={buildToolAppSchema({
+          name: TITLE,
+          description: DESCRIPTION,
+          path: PATH,
+        })}
       />
       <JsonLd
         id="ld-markdown-viewer-faq"
