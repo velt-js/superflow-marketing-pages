@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Adamina, Poppins, Urbanist } from "next/font/google";
+import localFont from "next/font/local";
 import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -15,24 +15,50 @@ import {
   ThirdPartyScripts,
 } from "@/components/scripts/ThirdPartyScripts";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+// Fonts are self-hosted from app/fonts rather than fetched with
+// next/font/google.
+//
+// next/font/google downloads the woff2 files from fonts.gstatic.com during
+// the build, so every deploy depends on Google's CDN still serving the exact
+// file URLs Next resolved earlier. On 2026-08-12 that broke: Google converted
+// Urbanist to a variable font and deleted the eight static instances the
+// build cache still pointed at. Eight dead URLs became eight "Module not
+// found" errors and the build failed on a repo nobody had touched.
+//
+// Serving the files from the repo removes the build-time network dependency,
+// and removes the fonts.gstatic.com connection from the critical path at
+// runtime as well.
+//
+// To refresh: see app/fonts/README.md.
+
+const poppins = localFont({
+  src: [
+    { path: "./fonts/poppins-300.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/poppins-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/poppins-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/poppins-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/poppins-700.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-poppins",
 });
 
-const urbanist = Urbanist({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+// One file covers the whole weight range. Google serves the same variable
+// binary for every weight you ask for, so the previous four-weight request
+// downloaded one 27KB file four times over.
+const urbanist = localFont({
+  src: "./fonts/urbanist-variable.woff2",
+  weight: "100 900",
+  style: "normal",
   display: "swap",
   variable: "--font-urbanist",
 });
 
 // Serif display face for the 2026 homepage headings (single weight).
-const adamina = Adamina({
-  subsets: ["latin"],
+const adamina = localFont({
+  src: "./fonts/adamina-400.woff2",
   weight: "400",
+  style: "normal",
   display: "swap",
   variable: "--font-adamina",
 });
