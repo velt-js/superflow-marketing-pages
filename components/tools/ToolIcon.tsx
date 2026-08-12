@@ -35,6 +35,12 @@ const PATHS: Record<ToolIconKey, React.ReactNode> = {
       <circle cx="12" cy="12" r="3" />
     </>
   ),
+  hash: (
+    <>
+      <path d="M5 9h14M5 15h14" />
+      <path d="M10.5 4 8.5 20M15.5 4l-2 16" />
+    </>
+  ),
   check: (
     <>
       <path d="M12 3l7.5 3v5.5c0 4.4-3 8-7.5 9.5-4.5-1.5-7.5-5.1-7.5-9.5V6z" />
