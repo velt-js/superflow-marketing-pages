@@ -6,6 +6,7 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
+import { buildToolListSchema } from "@/app/_seo/tool-schema";
 import {
   CATEGORY_LABELS,
   TOOLS,
@@ -26,6 +27,7 @@ export const metadata = buildPageMetadata({
 /** Category display order on the index. */
 const CATEGORY_ORDER: ToolCategory[] = [
   "ai-visibility",
+  "structured-data",
   "social",
   "quality",
   "campaigns",
@@ -47,19 +49,13 @@ export default function ToolsIndexPage() {
       />
       <JsonLd
         id="ld-tools-itemlist"
-        data={{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: "Superflow free tools",
-          url: `${SITE_URL}/tools`,
-          numberOfItems: liveEntries.length,
-          itemListElement: liveEntries.map((tool, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
+        data={buildToolListSchema({
+          tools: liveEntries.map((tool) => ({
             name: tool.name,
-            url: `${SITE_URL}${toolPath(tool.slug)}`,
+            tagline: tool.tagline,
+            path: toolPath(tool.slug),
           })),
-        }}
+        })}
       />
 
       <header className={styles.hero}>

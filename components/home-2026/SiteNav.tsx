@@ -34,6 +34,7 @@ import {
   ArrowsExchangeIcon,
   CalculatorIcon,
   ListCheckIcon,
+  WandIcon,
   UsersIcon,
   BrandYoutubeIcon,
   MailIcon,
@@ -392,6 +393,7 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
         badge: true,
       },
       { label: "Checklists", href: "/checklist", Icon: ListCheckIcon },
+      { label: "Free Tools", href: "/tools", Icon: WandIcon, badge: true },
     ],
   },
   {

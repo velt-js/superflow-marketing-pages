@@ -1,0 +1,308 @@
+/* Markdown Viewer. Inherits the tool-page custom properties from .page in
+   Tools.module.css, so colours stay in one place. */
+
+.viewer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.secondaryButton {
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.secondaryButton:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.stats {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.notice {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--t-warn, #a86a00);
+    background: var(--t-warn-bg, #fdf2e0);
+    border-radius: 8px;
+}
+
+.panes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    min-height: 480px;
+}
+
+.dragging .pane {
+    border-color: var(--t-ink, #1e1e1f);
+}
+
+.pane {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.15s ease;
+}
+
+.paneLabel {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint, #8a8a90);
+    border-bottom: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+}
+
+.editor {
+    flex: 1;
+    padding: 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t-ink, #1e1e1f);
+    background: transparent;
+    border: 0;
+    resize: none;
+}
+
+.editor:focus {
+    outline: none;
+}
+
+.preview {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.empty {
+    font-size: 14px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+/* Rendered document ------------------------------------------------- */
+
+.rendered {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--t-ink, #1e1e1f);
+    overflow-wrap: break-word;
+}
+
+.rendered h1,
+.rendered h2,
+.rendered h3,
+.rendered h4,
+.rendered h5,
+.rendered h6 {
+    margin: 1.4em 0 0.5em;
+    font-weight: 650;
+    line-height: 1.25;
+    scroll-margin-top: 80px;
+}
+
+.rendered h1 { font-size: 1.7em; }
+.rendered h2 { font-size: 1.4em; }
+.rendered h3 { font-size: 1.18em; }
+.rendered h4,
+.rendered h5,
+.rendered h6 { font-size: 1em; }
+
+.rendered > *:first-child {
+    margin-top: 0;
+}
+
+.rendered p {
+    margin: 0 0 1em;
+}
+
+.rendered ul,
+.rendered ol {
+    margin: 0 0 1em;
+    padding-left: 1.4em;
+}
+
+.rendered li {
+    margin-bottom: 0.35em;
+}
+
+.rendered li > p:last-child {
+    margin-bottom: 0;
+}
+
+.rendered a {
+    color: #1a56db;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.rendered hr {
+    margin: 1.8em 0;
+    border: 0;
+    border-top: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+}
+
+.inlineCode {
+    padding: 0.15em 0.4em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--t-panel-alt, #f7f7f8);
+    border-radius: 4px;
+}
+
+.codeBlock {
+    margin: 0 0 1em;
+    padding: 14px 16px;
+    /* Wide code scrolls inside its own box rather than the page body. */
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 8px;
+}
+
+.quote {
+    margin: 0 0 1em;
+    padding: 2px 0 2px 16px;
+    color: var(--t-ink-soft, #5b5b60);
+    border-left: 3px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+}
+
+.quote > *:last-child {
+    margin-bottom: 0;
+}
+
+.tableWrap {
+    margin: 0 0 1em;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.table th,
+.table td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+}
+
+.table th {
+    font-weight: 600;
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.blockedImage {
+    padding: 2px 6px;
+    font-size: 0.9em;
+    color: var(--t-ink-faint, #8a8a90);
+    background: var(--t-panel-alt, #f7f7f8);
+    border-radius: 4px;
+}
+
+/* Outline ------------------------------------------------------------ */
+
+.outline {
+    padding: 14px 18px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border-radius: 12px;
+}
+
+.outlineLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.outline ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.outline li {
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.outline li[data-level="2"] { padding-left: 14px; }
+.outline li[data-level="3"] { padding-left: 28px; }
+.outline li[data-level="4"] { padding-left: 42px; }
+.outline li[data-level="5"] { padding-left: 56px; }
+.outline li[data-level="6"] { padding-left: 70px; }
+
+.outline a {
+    color: var(--t-ink-soft, #5b5b60);
+    text-decoration: none;
+}
+
+.outline a:hover {
+    color: var(--t-ink, #1e1e1f);
+    text-decoration: underline;
+}
+
+.privacy {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+@media (max-width: 860px) {
+    .panes {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .pane {
+        min-height: 320px;
+    }
+
+    .stats {
+        margin-left: 0;
+        width: 100%;
+    }
+}
