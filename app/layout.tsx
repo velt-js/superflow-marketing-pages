@@ -114,16 +114,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AmplitudePageView />
         </Suspense>
         {children}
-        {/* Clay (Claydar) web intent tracking. Rendered as a native <script>
-            (not next/script) so it appears literally before </body> in the
-            server HTML — Clay's installation verifier fetches static HTML and
-            looks for the tag there. next/script's afterInteractive injects
-            client-side (invisible to the verifier) and beforeInteractive
-            forces it into <head> (which Clay rejects). The `async` prop is
-            intentionally omitted: React 19 hoists async scripts into <head>,
-            so a plain script keeps it in <body>. The Claydar loader is tiny
-            and already loads its payload asynchronously itself. */}
-        <script src="https://static.claydar.com/init.v1.js?id=cgBo1m1XAw" />
       </body>
     </html>
   );
