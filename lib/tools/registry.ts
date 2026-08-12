@@ -8,6 +8,12 @@
 //
 // Adding a tool means adding an entry here and creating its route. Nothing
 // else needs to change.
+//
+// `status: "live"` means the tool WORKS RIGHT NOW for a visitor. A tool whose
+// engine lives in the Firebase backend is only live once that backend is
+// deployed, so those stay "planned" until it is. Listing a tool that 500s is
+// worse than not listing it: the whole suite is a first impression, and the
+// visitor has no account and no reason to come back.
 
 export type ToolStatus = "live" | "planned";
 
@@ -38,6 +44,7 @@ export type ToolIconKey =
   | "file"
   | "markdown"
   | "eye"
+  | "hash"
   | "check"
   | "code"
   | "share"
@@ -54,7 +61,9 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "See whether ChatGPT, Claude, and Perplexity can actually read your site",
     category: "ai-visibility",
-    status: "live",
+    // Backend-dependent: runs through FreeToolsService. Flip to "live" when
+    // snippyly/shared-firebase-function#3784 is deployed.
+    status: "planned",
     icon: "robot",
     related: [
       "robots-txt-ai-checker",
@@ -67,7 +76,8 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "robots.txt AI Checker",
     tagline: "Test your robots.txt against every AI crawler that matters",
     category: "ai-visibility",
-    status: "live",
+    // Backend-dependent: same engine as the AI Visibility Checker.
+    status: "planned",
     icon: "file",
     related: [
       "ai-visibility-checker",
@@ -160,11 +170,16 @@ export const TOOLS: readonly ToolEntry[] = [
   {
     slug: "utm-builder",
     name: "UTM Builder",
-    tagline: "Build campaign URLs that follow your agency's conventions",
+    tagline:
+      "Build campaign URLs on one convention, and see the channel each will land in",
     category: "campaigns",
-    status: "planned",
+    status: "live",
     icon: "link",
-    related: ["website-launch-checklist"],
+    related: [
+      "md5-hash-generator",
+      "markdown-viewer",
+      "website-launch-checklist",
+    ],
   },
   {
     slug: "full-page-screenshot",
@@ -185,11 +200,20 @@ export const TOOLS: readonly ToolEntry[] = [
     related: ["website-launch-checklist", "ai-visibility-checker"],
   },
   {
+    slug: "md5-hash-generator",
+    name: "MD5 Hash Generator",
+    tagline: "Hash text to MD5 in your browser, or call it from the command line",
+    category: "assets",
+    status: "live",
+    icon: "hash",
+    related: ["markdown-viewer", "utm-builder", "ai-visibility-checker"],
+  },
+  {
     slug: "markdown-viewer",
     name: "Markdown Viewer",
     tagline: "Open and read any Markdown file. Nothing leaves your browser",
     category: "assets",
-    status: "planned",
+    status: "live",
     icon: "eye",
     related: [
       "markdown-for-agents",

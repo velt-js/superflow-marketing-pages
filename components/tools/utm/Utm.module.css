@@ -1,0 +1,234 @@
+/* UTM Builder. Inherits the tool-page custom properties from .page in
+   Tools.module.css. */
+
+.tool { display: flex; flex-direction: column; gap: 18px; }
+
+.fieldset { border: 0; margin: 0; padding: 0; display: contents; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.fieldRow {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.label {
+    display: flex; align-items: baseline; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--t-ink-faint, #8a8a90);
+}
+
+.labelHint {
+    font-size: 11px; font-weight: 500; letter-spacing: 0;
+    text-transform: none; color: var(--t-ink-faint, #8a8a90);
+}
+
+.required { color: var(--t-fail, #c8362f); }
+
+.input {
+    width: 100%; padding: 11px 14px;
+    font-size: 14.5px; line-height: 1.4; color: var(--t-ink, #1e1e1f);
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 10px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--t-border-strong, rgba(0, 0, 0, 0.16));
+}
+
+.urlInput { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+
+/* The normalized value, shown under a field whenever the convention changed
+   what was typed. Seeing "Spring Sale" become "spring_sale" is the whole
+   point of having a convention. */
+.normalized {
+    font-size: 12px; color: var(--t-ink-faint, #8a8a90);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    overflow-wrap: anywhere;
+}
+
+.normalizedValue { color: var(--t-ink-soft, #5b5b60); }
+
+.channel {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--t-ink-soft, #5b5b60);
+}
+
+.channelDot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--t-pass, #1a8f5f); flex: none;
+}
+
+.channelUnknown { color: var(--t-warn, #a86a00); }
+.channelUnknown .channelDot { background: var(--t-warn, #a86a00); }
+
+/* ---------------------------------------------------------------- presets */
+
+.presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+.presetsLabel {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--t-ink-faint, #8a8a90);
+}
+
+.preset {
+    padding: 5px 11px; font-size: 13px;
+    color: var(--t-ink-soft, #5b5b60);
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 999px; cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.preset:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+    border-color: var(--t-border-strong, rgba(0, 0, 0, 0.16));
+}
+
+/* ------------------------------------------------------------------ result */
+
+.result {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 16px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 12px;
+}
+
+.resultLabel {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultUrl {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px; line-height: 1.6; color: var(--t-ink, #1e1e1f);
+    overflow-wrap: anywhere;
+}
+
+.resultEmpty { font-size: 14px; color: var(--t-ink-faint, #8a8a90); }
+
+.resultActions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.button {
+    padding: 9px 18px; font-size: 14px; font-weight: 500;
+    color: var(--t-bg, #ffffff); background: var(--t-ink, #1e1e1f);
+    border: 1px solid var(--t-ink, #1e1e1f);
+    border-radius: 10px; cursor: pointer; white-space: nowrap;
+    transition: opacity 0.15s ease;
+}
+
+.button:hover { opacity: 0.86; }
+
+.button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.secondaryButton {
+    padding: 9px 16px; font-size: 14px; font-weight: 500;
+    color: var(--t-ink, #1e1e1f); background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 10px; cursor: pointer; white-space: nowrap;
+    transition: background 0.15s ease;
+}
+
+.secondaryButton:hover { background: var(--t-panel-alt, #f7f7f8); }
+.secondaryButton:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ------------------------------------------------------------------ issues */
+
+.issues { display: flex; flex-direction: column; gap: 8px; list-style: none; margin: 0; padding: 0; }
+
+.issue {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 14px; font-size: 13.5px; line-height: 1.5;
+    border-radius: 10px;
+}
+
+.issueError { color: var(--t-fail, #c8362f); background: var(--t-fail-bg, #fdeceb); }
+.issueWarning { color: var(--t-warn, #a86a00); background: var(--t-warn-bg, #fdf2e0); }
+
+.issueMark { font-weight: 700; flex: none; }
+
+.allClear {
+    padding: 10px 14px; font-size: 13.5px; line-height: 1.5;
+    color: var(--t-pass, #1a8f5f); background: var(--t-pass-bg, #e7f6ef);
+    border-radius: 10px;
+}
+
+/* -------------------------------------------------------------------- list */
+
+.list {
+    display: flex; flex-direction: column; gap: 10px;
+    padding-top: 4px;
+}
+
+.listHeader {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    justify-content: space-between;
+}
+
+.listTitle { font-size: 14px; font-weight: 600; color: var(--t-ink, #1e1e1f); }
+
+.listActions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.listTable { display: flex; flex-direction: column; gap: 8px; }
+
+.listRow {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    border-radius: 10px;
+}
+
+.listUrl {
+    flex: 1; min-width: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px; line-height: 1.55; color: var(--t-ink-soft, #5b5b60);
+    overflow-wrap: anywhere;
+}
+
+.listRemove {
+    flex: none; padding: 2px 8px; font-size: 18px; line-height: 1.2;
+    color: var(--t-ink-faint, #8a8a90); background: none;
+    border: 0; border-radius: 6px; cursor: pointer;
+}
+
+.listRemove:hover { color: var(--t-fail, #c8362f); background: var(--t-fail-bg, #fdeceb); }
+
+/* ------------------------------------------------------------- convention */
+
+.convention {
+    padding: 12px 16px;
+    background: var(--t-panel-alt, #f7f7f8); border-radius: 10px;
+}
+
+.convention summary { cursor: pointer; font-weight: 500; font-size: 14px; color: var(--t-ink, #1e1e1f); }
+
+.conventionBody { display: flex; flex-direction: column; gap: 14px; padding-top: 14px; }
+
+.conventionRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+.conventionLabel {
+    min-width: 130px; font-size: 13px; color: var(--t-ink-soft, #5b5b60);
+}
+
+.radioGroup { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.radio {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px; color: var(--t-ink, #1e1e1f); cursor: pointer;
+}
+
+.conventionNote {
+    font-size: 12.5px; line-height: 1.55; color: var(--t-ink-faint, #8a8a90);
+}
+
+.privacy { font-size: 13px; line-height: 1.55; color: var(--t-ink-faint, #8a8a90); }
+
+@media (max-width: 640px) {
+    .listHeader { flex-direction: column; align-items: stretch; }
+    .conventionLabel { min-width: 0; }
+    .resultActions .button, .resultActions .secondaryButton { flex: 1; }
+}
