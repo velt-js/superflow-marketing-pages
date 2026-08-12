@@ -23,6 +23,16 @@ export const AnalyticsEvents = {
   // Navigation
   NAV_LINK_CLICKED: "navLinkClicked",
   FOOTER_LINK_CLICKED: "footerLinkClicked",
+
+  // Free tools (/tools/*). The funnel the brief measures weekly: views,
+  // runs, results, then the three things a visitor can do with a result.
+  TOOL_VIEW: "toolView",
+  TOOL_RUN: "toolRun",
+  TOOL_RESULT: "toolResult",
+  TOOL_ERROR: "toolError",
+  SHARE_CLICK: "shareClick",
+  DOWNLOAD: "download",
+  CTA_CLICK: "ctaClick",
 } as const;
 
 /** Where in the UI an event originated, attached as an event property. */

@@ -1,0 +1,662 @@
+/* AI Visibility Checker: the form and the report. */
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    background: #feffff;
+    font-family: inherit;
+    font-size: 16px;
+    color: #1e1e1f;
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: #a3a3a9;
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: #1e1e1f;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.formError {
+    margin: 10px auto 0;
+    max-width: 720px;
+    font-size: 14px;
+    color: #c8362f;
+    text-align: center;
+}
+
+/* ---- Progress ---- */
+
+.progress {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.progressBar {
+    height: 4px;
+    border-radius: 9999px;
+    background: #ececee;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.progressFill {
+    height: 100%;
+    border-radius: 9999px;
+    background-image: linear-gradient(
+        90deg,
+        #2d9aff 0%,
+        #8480ff 36%,
+        #ff6bc4 70%,
+        #ffad61 100%
+    );
+    transition: width 400ms ease;
+}
+
+.progressLabel {
+    margin: 0;
+    font-size: 14px;
+    color: #5b5b60;
+}
+
+/* ---- Score header ---- */
+
+.scoreCard {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 28px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #feffff;
+}
+
+.dialWrap {
+    flex: 0 0 auto;
+    position: relative;
+    width: 132px;
+    height: 132px;
+}
+
+.dialText {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.dialScore {
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.dialOutOf {
+    font-size: 12px;
+    color: #8a8a90;
+    margin-top: 4px;
+}
+
+.scoreMeta {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.scoreHost {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.favicon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex: 0 0 auto;
+}
+
+.gradeChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.scoreSummary {
+    margin: 0 0 12px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #5b5b60;
+}
+
+.scoreActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.ghostButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e1e1f;
+    cursor: pointer;
+    transition: border-color 160ms ease;
+}
+
+.ghostButton:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.checkedAt {
+    font-size: 13px;
+    color: #8a8a90;
+}
+
+.thumbnail {
+    flex: 0 0 auto;
+    width: 168px;
+    height: 112px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    object-position: top center;
+}
+
+/* ---- Degraded banner ---- */
+
+.notice {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid #f0dcb4;
+    background: #fdf7ea;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #7a5a12;
+}
+
+/* ---- Redirect chain ---- */
+
+.redirects {
+    font-size: 13px;
+    color: #8a8a90;
+    line-height: 1.6;
+    word-break: break-all;
+}
+
+/* ---- Category cards ---- */
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.categoryCard {
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #feffff;
+}
+
+.categoryLabel {
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.categoryQuestion {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: #8a8a90;
+}
+
+.categoryScore {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.categoryOutOf {
+    font-size: 13px;
+    color: #8a8a90;
+    margin-left: 2px;
+}
+
+.categoryCounts {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #5b5b60;
+}
+
+.categoryTrack {
+    height: 5px;
+    border-radius: 9999px;
+    background: #ececee;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.categoryFill {
+    height: 100%;
+    border-radius: 9999px;
+}
+
+/* ---- Findings ---- */
+
+.findingsHeading {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.findingsLead {
+    margin: 0 0 18px;
+    font-size: 15px;
+    color: #5b5b60;
+}
+
+.findingList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.finding {
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #feffff;
+    overflow: hidden;
+}
+
+.findingHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 18px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.statusDot {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+.findingHeaderText {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* These two are spans, not paragraphs: they live inside a <button>, where
+   block-level elements are invalid HTML. Blockifying them here gives the
+   vertical rhythm without the invalid markup. Without `display: block` the
+   title and the explanation render as one run-on line. */
+.findingTitle {
+    display: block;
+    margin: 0 0 3px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e1e1f;
+}
+
+.findingWhy {
+    display: block;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #5b5b60;
+}
+
+.findingMeta {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #8a8a90;
+}
+
+.effortChip {
+    padding: 3px 9px;
+    border-radius: 9999px;
+    background: #f2f2f4;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #6b6b72;
+    white-space: nowrap;
+}
+
+.chevron {
+    width: 16px;
+    height: 16px;
+    transition: transform 160ms ease;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+.findingBody {
+    padding: 0 18px 18px 52px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 16px;
+}
+
+.fixLabel {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a8a90;
+}
+
+.fixText {
+    margin: 0 0 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #3a3a3f;
+}
+
+.platformFix {
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f2f7ff;
+    border: 1px solid #d8e8ff;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #24486f;
+}
+
+/* ---- Snippet ---- */
+
+.snippetWrap {
+    position: relative;
+    margin-bottom: 6px;
+}
+
+.snippet {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #f7f7f8;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #2c2c31;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.copyButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1e1f;
+    cursor: pointer;
+}
+
+.copyButton:hover {
+    border-color: rgba(0, 0, 0, 0.28);
+}
+
+/* ---- Bot table ---- */
+
+.tableScroll {
+    overflow-x: auto;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 560px;
+}
+
+.table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: #f7f7f8;
+    font-weight: 600;
+    color: #5b5b60;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    vertical-align: top;
+    color: #3a3a3f;
+    line-height: 1.5;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.tierHeading td {
+    background: #fafafb;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a8a90;
+}
+
+.botToken {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pillAllowed {
+    background: #e7f6ef;
+    color: #1a8f5f;
+}
+
+.pillBlocked {
+    background: #fdeceb;
+    color: #c8362f;
+}
+
+.footnote {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #8a8a90;
+}
+
+/* ---- Detail lists inside findings ---- */
+
+.detailList {
+    margin: 0 0 14px;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #5b5b60;
+}
+
+.detailList code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    background: #f2f2f4;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* ---- Per-category CTA ---- */
+
+.categoryCta {
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #5b5b60;
+}
+
+.categoryCta a {
+    color: #2d9aff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ---- Group heading between finding blocks ---- */
+
+.groupHeading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 22px 0 10px;
+}
+
+.groupTitle {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.groupQuestion {
+    font-size: 14px;
+    color: #8a8a90;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 900px) {
+    .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .thumbnail {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .input,
+    .submit {
+        width: 100%;
+    }
+
+    .scoreCard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .categories {
+        grid-template-columns: 1fr;
+    }
+
+    .findingBody {
+        padding-left: 18px;
+    }
+}
