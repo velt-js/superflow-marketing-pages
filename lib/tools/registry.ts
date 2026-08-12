@@ -189,7 +189,7 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Markdown Viewer",
     tagline: "Open and read any Markdown file. Nothing leaves your browser",
     category: "assets",
-    status: "planned",
+    status: "live",
     icon: "eye",
     related: [
       "markdown-for-agents",
