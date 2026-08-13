@@ -33,8 +33,8 @@ import {
 // layout's `title.template` ("%s | Superflow") does NOT apply here (Next.js only
 // applies a template to CHILD segments). We therefore pass the brand suffix in
 // the title ourselves — buildPageMetadata detects it and emits an absolute
-// title so the tab reads exactly "Watch AI Do Your QA Work | Superflow".
-const PAGE_TITLE = "Watch AI Do Your QA Work";
+// title so the tab reads exactly "Your Website QA Reviewer | Superflow".
+const PAGE_TITLE = "Your Website QA Reviewer";
 const PAGE_TITLE_WITH_BRAND = `${PAGE_TITLE} | Superflow`;
 const PAGE_DESCRIPTION =
   "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
