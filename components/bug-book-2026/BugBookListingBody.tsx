@@ -14,7 +14,7 @@ import {
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
 import BugBookSamples from "./BugBookSamples";
-import ClapbackFiles from "./ClapbackFiles";
+import FeaturedQuotes from "./FeaturedQuotes";
 import BugBookFilters, { type BugFilters } from "./BugBookFilters";
 import styles from "./BugBookListingBody.module.css";
 
@@ -240,7 +240,7 @@ export default function BugBookListingBody({
         </div>
       </section>
 
-      <ClapbackFiles entries={entries} />
+      <FeaturedQuotes entries={entries} />
 
       <section className={styles.layout}>
         <div className={styles.layoutInner}>
