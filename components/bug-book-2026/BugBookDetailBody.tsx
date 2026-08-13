@@ -7,7 +7,6 @@ import {
   RAGE_METER_MIN,
   type BugBookEntryDetail,
   type BugBookListEntry,
-  type BugThreadComment,
 } from "@/lib/bug-book";
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
@@ -17,7 +16,6 @@ import {
   FlagTag,
   SeverityChip,
   SourceBadge,
-  SparkleGlyph,
   StatusPill,
 } from "./Chips";
 import RageMeter from "./RageMeter";
@@ -31,8 +29,6 @@ const CAPTURED_FOOTNOTE_AGENT =
   "Every agent finding ships with this context - structured, sourced, and ready to fix.";
 const RELATED_HEADING = "More from the Bug Book";
 const WHY_HEADING = "Why it matters";
-const THREAD_HEADING = "The thread";
-const FINDING_HEADING = "The finding";
 
 function BackArrow() {
   return (
@@ -45,120 +41,6 @@ function BackArrow() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}
-
-function AttachmentChip({
-  attachment,
-}: {
-  attachment: NonNullable<BugThreadComment["attachment"]>;
-}) {
-  const label =
-    attachment === "screen recording"
-      ? "🎥 screen recording attached"
-      : "📎 screenshot attached";
-  return (
-    <span className={styles.attachmentChip} title="Redacted - media not shown">
-      {label}
-    </span>
-  );
-}
-
-/**
- * The human-entry centerpiece: the sanitized thread as a Superflow-style
- * comment UI — pin marker, avatar initial, speaker label, bubble.
- * Alignment alternates by speaker (first-seen speaker left, next right, …)
- * so back-and-forths read like a conversation.
- */
-function Thread({ thread }: { thread: BugThreadComment[] }) {
-  const speakerOrder: string[] = [];
-  for (const comment of thread) {
-    if (!speakerOrder.includes(comment.speaker)) {
-      speakerOrder.push(comment.speaker);
-    }
-  }
-
-  return (
-    <ol className={styles.thread}>
-      {thread.map((comment, i) => {
-        const right = speakerOrder.indexOf(comment.speaker) % 2 === 1;
-        const initial = (comment.speaker[0] ?? "?").toUpperCase();
-        return (
-          <li
-            key={i}
-            className={right ? styles.commentRight : styles.comment}
-          >
-            <span
-              className={right ? styles.avatarRight : styles.avatar}
-              aria-hidden="true"
-            >
-              {initial}
-            </span>
-            <div className={styles.bubbleWrap}>
-              <p className={styles.speaker}>{comment.speaker}</p>
-              <div className={right ? styles.bubbleRight : styles.bubble}>
-                <p className={styles.bubbleText}>{comment.text}</p>
-              </div>
-              {comment.attachment ? (
-                <AttachmentChip attachment={comment.attachment} />
-              ) : null}
-            </div>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
-
-/**
- * The agent-entry centerpiece: a clean diagnostic report card —
- * deliberately tidy, contrasting with the messy human threads.
- */
-function FindingReport({ entry }: { entry: BugBookEntryDetail }) {
-  const finding = entry.finding;
-  if (!finding) return null;
-  const confidence = Math.max(0, Math.min(100, finding.confidence ?? 0));
-
-  return (
-    <div className={styles.findingCard}>
-      <div className={styles.findingHeader}>
-        <span className={styles.findingAgent}>
-          <SparkleGlyph size={14} />
-          {entry.agentName ?? "Superflow Agent"}
-        </span>
-      </div>
-      {finding.title ? (
-        <h3 className={styles.findingTitle}>{finding.title}</h3>
-      ) : null}
-      {finding.description ? (
-        <p className={styles.findingDescription}>{finding.description}</p>
-      ) : null}
-      {finding.suggestion ? (
-        <div className={styles.suggestionBlock}>
-          <p className={styles.suggestionLabel}>Suggested fix</p>
-          <p className={styles.suggestionText}>{finding.suggestion}</p>
-        </div>
-      ) : null}
-      <div className={styles.findingFooter}>
-        {finding.issueType ? (
-          <span className={styles.issueType}>{finding.issueType}</span>
-        ) : null}
-        {finding.confidence != null ? (
-          <span
-            className={styles.confidence}
-            aria-label={`Confidence: ${confidence}%`}
-          >
-            <span className={styles.confidenceTrack} aria-hidden="true">
-              <span
-                className={styles.confidenceFill}
-                style={{ width: `${confidence}%` }}
-              />
-            </span>
-            {confidence}% confident
-          </span>
-        ) : null}
-      </div>
-    </div>
   );
 }
 
@@ -296,18 +178,6 @@ export default function BugBookDetailBody({
           </header>
 
           <BugSceneMock entry={entry} />
-
-          {entry.source === "agent" && entry.finding ? (
-            <section className={styles.threadSection}>
-              <h2 className={styles.sectionHeading}>{FINDING_HEADING}</h2>
-              <FindingReport entry={entry} />
-            </section>
-          ) : entry.thread && entry.thread.length > 0 ? (
-            <section className={styles.threadSection}>
-              <h2 className={styles.sectionHeading}>{THREAD_HEADING}</h2>
-              <Thread thread={entry.thread} />
-            </section>
-          ) : null}
 
           <CapturedGrid entry={entry} />
 

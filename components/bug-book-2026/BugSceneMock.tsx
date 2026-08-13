@@ -3,15 +3,18 @@ import {
   formatBugDate,
   categoryColor,
   type BugBookEntryDetail,
+  type BugThreadComment,
 } from "@/lib/bug-book";
 import { SparkleGlyph } from "./Chips";
 import styles from "./BugSceneMock.module.css";
 
 // Staged recreation of "the moment": a generic wireframe website in a
-// browser frame with the entry's first comment pinned on it, in
-// Superflow's comment UI. Each category gets its own wireframe FLOW -
-// checkout steps, pricing tiers, a form, a phone frame - so the scene
-// reads like the actual part of the site where the bug happened. No real
+// browser frame with the ENTIRE conversation pinned on it in Superflow's
+// comment UI - this is the page's one centerpiece, there is no separate
+// thread section. Each category gets its own wireframe FLOW (checkout
+// steps, pricing tiers, a form, a phone frame) so the scene reads like
+// the actual part of the site where the bug happened. Agent entries
+// show the structured finding report in the popover instead. No real
 // screenshots exist on these pages by design (they contain customer
 // PII) - the wireframes are deliberately abstract and the URL bar is
 // drawn redacted, so the scene demos the product without re-identifying
@@ -19,30 +22,16 @@ import styles from "./BugSceneMock.module.css";
 
 const CAPTION = "Staged recreation. The real screenshot stays redacted.";
 const REDACTED_URL_BLOCKS = "█████████";
+const SUGGESTED_FIX_LABEL = "Suggested fix";
 
-/** The comment to stage: first thread comment, else the agent finding. */
-function pickStagedComment(entry: BugBookEntryDetail): {
-  speaker: string;
-  text: string;
-  isAgent: boolean;
-} | null {
-  const first = entry.thread?.[0];
-  if (first) {
-    return {
-      speaker: first.speaker,
-      text: first.text,
-      isAgent: entry.source === "agent",
-    };
-  }
-  if (entry.finding?.description) {
-    return {
-      speaker: entry.agentName ?? "Superflow Agent",
-      text: entry.finding.description,
-      isAgent: true,
-    };
-  }
-  return null;
-}
+/** Avatar gradients cycled across distinct human speakers, in order of
+    first appearance - matches the two-tone system used site-wide. */
+const SPEAKER_GRADIENTS = [
+  "linear-gradient(135deg, #2d9aff, #8480ff)",
+  "linear-gradient(135deg, #fc6cba, #ffad61)",
+  "linear-gradient(135deg, #0d9488, #4dd5ff)",
+  "linear-gradient(135deg, #8455f6, #fc6cba)",
+];
 
 type SceneProps = { accent: string };
 
@@ -283,47 +272,180 @@ function SecurityScene({ accent }: SceneProps) {
 }
 
 /**
- * Per-category scene + where the pin anchors within it. Anchors are
- * percentages of the frame so scenes stay pinned sensibly as they scale.
+ * Per-category scene + where the pinned thread anchors within the frame.
+ * The anchor is in normal flow (stacked over the wireframe via grid), so
+ * long threads stretch the frame instead of overflowing it.
  */
 const SCENES: Record<
   string,
   { Scene: (props: SceneProps) => ReactElement; anchor: CSSProperties }
 > = {
-  "UI/UX": { Scene: UiUxScene, anchor: { left: "44%", top: "56%" } },
-  Copy: { Scene: CopyScene, anchor: { left: "30%", top: "66%" } },
-  Content: { Scene: ContentScene, anchor: { left: "34%", top: "44%" } },
-  Links: { Scene: LinksScene, anchor: { left: "34%", top: "58%" } },
-  Mobile: { Scene: MobileScene, anchor: { left: "56%", top: "40%" } },
-  Interactions: { Scene: InteractionsScene, anchor: { left: "40%", top: "62%" } },
-  Checkout: { Scene: CheckoutScene, anchor: { left: "48%", top: "64%" } },
-  Pricing: { Scene: PricingScene, anchor: { left: "48%", top: "42%" } },
-  Performance: { Scene: PerformanceScene, anchor: { left: "44%", top: "48%" } },
+  "UI/UX": { Scene: UiUxScene, anchor: { marginLeft: "42%", marginTop: 190 } },
+  Copy: { Scene: CopyScene, anchor: { marginLeft: "30%", marginTop: 240 } },
+  Content: { Scene: ContentScene, anchor: { marginLeft: "36%", marginTop: 150 } },
+  Links: { Scene: LinksScene, anchor: { marginLeft: "34%", marginTop: 190 } },
+  Mobile: { Scene: MobileScene, anchor: { marginLeft: "54%", marginTop: 130 } },
+  Interactions: {
+    Scene: InteractionsScene,
+    anchor: { marginLeft: "40%", marginTop: 210 },
+  },
+  Checkout: {
+    Scene: CheckoutScene,
+    anchor: { marginLeft: "46%", marginTop: 220 },
+  },
+  Pricing: { Scene: PricingScene, anchor: { marginLeft: "46%", marginTop: 140 } },
+  Performance: {
+    Scene: PerformanceScene,
+    anchor: { marginLeft: "42%", marginTop: 160 },
+  },
   "Feature Request": {
     Scene: FeatureRequestScene,
-    anchor: { left: "44%", top: "46%" },
+    anchor: { marginLeft: "42%", marginTop: 150 },
   },
-  Security: { Scene: SecurityScene, anchor: { left: "42%", top: "52%" } },
+  Security: {
+    Scene: SecurityScene,
+    anchor: { marginLeft: "40%", marginTop: 180 },
+  },
 };
 
+function AttachmentChip({
+  attachment,
+}: {
+  attachment: NonNullable<BugThreadComment["attachment"]>;
+}) {
+  return (
+    <span
+      className={styles.commentAttachment}
+      title="Redacted - media not shown"
+    >
+      {attachment === "screen recording"
+        ? "🎥 screen recording"
+        : "📎 screenshot"}
+    </span>
+  );
+}
+
+/** The full conversation inside the popover, Superflow-comment style. */
+function ThreadPopover({ entry }: { entry: BugBookEntryDetail }) {
+  const thread = entry.thread ?? [];
+  const dateLabel = formatBugDate(entry.date);
+  const speakerOrder: string[] = [];
+  for (const comment of thread) {
+    if (!speakerOrder.includes(comment.speaker)) {
+      speakerOrder.push(comment.speaker);
+    }
+  }
+
+  return (
+    <ol className={styles.threadList}>
+      {thread.map((comment, i) => {
+        const speakerIndex = speakerOrder.indexOf(comment.speaker);
+        const gradient =
+          SPEAKER_GRADIENTS[speakerIndex % SPEAKER_GRADIENTS.length];
+        const initial = (comment.speaker[0] ?? "?").toUpperCase();
+        return (
+          <li key={i} className={styles.threadItem}>
+            <div className={styles.popoverHeader}>
+              <span
+                className={styles.avatar}
+                style={{ background: gradient }}
+                aria-hidden="true"
+              >
+                {initial}
+              </span>
+              <span className={styles.speaker}>{comment.speaker}</span>
+              {i === 0 && dateLabel ? (
+                <span className={styles.commentDate}>{dateLabel}</span>
+              ) : null}
+            </div>
+            <p className={styles.commentText}>{comment.text}</p>
+            {comment.attachment ? (
+              <AttachmentChip attachment={comment.attachment} />
+            ) : null}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/** The full agent report inside the popover: finding, fix, confidence. */
+function FindingPopover({ entry }: { entry: BugBookEntryDetail }) {
+  const finding = entry.finding;
+  if (!finding) return null;
+  const dateLabel = formatBugDate(entry.date);
+  const confidence =
+    finding.confidence != null
+      ? Math.max(0, Math.min(100, finding.confidence))
+      : null;
+
+  return (
+    <div className={styles.findingBody}>
+      <div className={styles.popoverHeader}>
+        <span className={styles.agentAvatar} aria-hidden="true">
+          <SparkleGlyph size={13} />
+        </span>
+        <span className={styles.speaker}>
+          {entry.agentName ?? "Superflow Agent"}
+        </span>
+        {dateLabel ? (
+          <span className={styles.commentDate}>{dateLabel}</span>
+        ) : null}
+      </div>
+      {finding.title ? (
+        <p className={styles.findingTitle}>{finding.title}</p>
+      ) : null}
+      {finding.description ? (
+        <p className={styles.commentText}>{finding.description}</p>
+      ) : null}
+      {finding.suggestion ? (
+        <div className={styles.suggestionBlock}>
+          <span className={styles.suggestionLabel}>{SUGGESTED_FIX_LABEL}</span>
+          <span className={styles.suggestionText}>{finding.suggestion}</span>
+        </div>
+      ) : null}
+      {finding.issueType || confidence != null ? (
+        <div className={styles.findingFooter}>
+          {finding.issueType ? (
+            <span className={styles.issueType}>{finding.issueType}</span>
+          ) : null}
+          {confidence != null ? (
+            <span
+              className={styles.confidence}
+              aria-label={`Confidence: ${confidence}%`}
+            >
+              <span className={styles.confidenceTrack} aria-hidden="true">
+                <span
+                  className={styles.confidenceFill}
+                  style={{ width: `${confidence}%` }}
+                />
+              </span>
+              {confidence}% confident
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 /**
- * Wireframe site + pinned comment hero visual for the detail page.
- * Decorative wireframe is aria-hidden; the comment text itself is
- * repeated in the thread/finding section below, so the whole figure is
- * presented as an illustration.
+ * Wireframe site + pinned full-thread visual: THE centerpiece of the
+ * detail page. The decorative wireframe is aria-hidden; the thread
+ * itself is real content (an <ol> for screen readers), so it lives
+ * only here.
  */
 export default function BugSceneMock({
   entry,
 }: {
   entry: BugBookEntryDetail;
 }) {
-  const staged = pickStagedComment(entry);
-  if (!staged) return null;
+  const isAgent = entry.source === "agent" && entry.finding;
+  const hasThread = (entry.thread?.length ?? 0) > 0;
+  if (!isAgent && !hasThread) return null;
 
   const { accent, tint } = categoryColor(entry.category);
   const { Scene, anchor } = SCENES[entry.category] ?? SCENES["UI/UX"];
-  const initial = (staged.speaker[0] ?? "?").toUpperCase();
-  const dateLabel = formatBugDate(entry.date);
 
   return (
     <figure className={styles.figure}>
@@ -353,44 +475,28 @@ export default function BugSceneMock({
           </span>
         </div>
 
-        {/* Category-specific wireframe flow - no real brand */}
-        <div className={styles.site} aria-hidden="true">
-          <Scene accent={accent} />
-        </div>
+        <div className={styles.stage}>
+          {/* Category-specific wireframe flow - no real brand */}
+          <div className={styles.site} aria-hidden="true">
+            <Scene accent={accent} />
+          </div>
 
-        {/* The pinned Superflow comment */}
-        <div className={styles.commentAnchor} style={anchor}>
-          <span
-            className={styles.pin}
-            style={{ background: accent }}
-            aria-hidden="true"
-          >
-            1
-          </span>
-          <div className={styles.popover}>
-            <div className={styles.popoverHeader}>
-              {staged.isAgent ? (
-                <span className={styles.agentAvatar} aria-hidden="true">
-                  <SparkleGlyph size={13} />
-                </span>
+          {/* The pinned Superflow thread / agent report */}
+          <div className={styles.commentAnchor} style={anchor}>
+            <span
+              className={styles.pin}
+              style={{ background: accent }}
+              aria-hidden="true"
+            >
+              1
+            </span>
+            <div className={styles.popover}>
+              {isAgent ? (
+                <FindingPopover entry={entry} />
               ) : (
-                <span className={styles.avatar} aria-hidden="true">
-                  {initial}
-                </span>
+                <ThreadPopover entry={entry} />
               )}
-              <span className={styles.speaker}>{staged.speaker}</span>
-              {dateLabel ? (
-                <span className={styles.commentDate}>{dateLabel}</span>
-              ) : null}
             </div>
-            <p className={styles.commentText}>{staged.text}</p>
-            {entry.thread?.[0]?.attachment ? (
-              <span className={styles.commentAttachment}>
-                {entry.thread[0].attachment === "screen recording"
-                  ? "🎥 screen recording"
-                  : "📎 screenshot"}
-              </span>
-            ) : null}
           </div>
         </div>
       </div>
