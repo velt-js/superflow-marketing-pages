@@ -1,7 +1,10 @@
+import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import styles from "@/components/tools/Tools.module.css";
 import { ToolCard } from "@/components/tools/RelatedTools";
+import { CodeBlock } from "@/components/tools/CodeBlock";
+import { MCP_PATH } from "@/lib/tools/api-catalog";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -98,6 +101,31 @@ export default function ToolsIndexPage() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionAlt}`}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>Or give them to your agent</h2>
+          <p className={styles.sectionLead}>
+            Every tool here is also an MCP tool and an HTTP endpoint. One URL,
+            no account, no API key: your agent can check AI visibility, read
+            robots.txt the way a crawler does, write schema markup, or draft
+            alt text on any site, without you writing any glue.
+          </p>
+          <CodeBlock
+            label="Add the server once"
+            language="bash"
+            tool="tools-index"
+            code={`claude mcp add --transport http superflow ${SITE_URL}${MCP_PATH}`}
+          />
+          <p className={styles.apiNote}>
+            <Link className={styles.apiLink} href="/tools/mcp">
+              Setup for Claude Code, Claude Desktop, Cursor and VS Code, the
+              tool list, and the HTTP API reference
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>Why we give these away</h2>
           <div className={styles.prose}>

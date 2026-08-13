@@ -109,6 +109,9 @@ const STATIC_PATHS = [
   "/state-of-agency-tools",
   "/terms",
   "/tools",
+  // The MCP and API reference for the tools. Not in the tool registry (it is
+  // documentation, not a tool), so it is listed explicitly.
+  "/tools/mcp",
   "/use-case",
   "/user-persona",
   // Free tools. Only the ones that are actually built are listed: the

@@ -399,12 +399,221 @@ a.toolCard:hover {
     color: var(--t-ink-faint);
 }
 
+/* ---- API and MCP ---- */
+
+.apiGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    align-items: start;
+}
+
+.apiCol {
+    min-width: 0;
+}
+
+.apiHeading {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint);
+}
+
+.codeBlock {
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+    background: var(--t-panel);
+    overflow: hidden;
+}
+
+.codeBlock + .codeBlock {
+    margin-top: 12px;
+}
+
+.codeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--t-border);
+    background: var(--t-panel-alt);
+}
+
+.codeLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--t-ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.codeLang {
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--t-unknown-bg);
+    font-size: 11px;
+    color: var(--t-ink-faint);
+}
+
+.codeCopy {
+    flex: none;
+    padding: 4px 10px;
+    border: 1px solid var(--t-border-strong);
+    border-radius: 999px;
+    background: var(--t-bg);
+    font: inherit;
+    font-size: 12px;
+    color: var(--t-ink);
+    cursor: pointer;
+}
+
+.codeCopy:hover {
+    background: var(--t-panel-alt);
+}
+
+/* The one place on these pages where horizontal scrolling is correct: a curl
+   line must stay one line to be copyable, and wrapping it would hide the fact
+   that it is one command. */
+.code {
+    margin: 0;
+    padding: 14px 12px;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t-ink);
+}
+
+.inlineCode {
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--t-unknown-bg);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    overflow-wrap: anywhere;
+}
+
+.apiNote {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft);
+}
+
+.apiLink {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.apiLink:hover {
+    color: var(--t-ink);
+}
+
+.apiDetails {
+    margin-top: 12px;
+}
+
+.apiSummary {
+    font-size: 14px;
+    color: var(--t-ink-soft);
+    cursor: pointer;
+}
+
+.apiSummary:hover {
+    color: var(--t-ink);
+}
+
+.apiDetails[open] .apiSummary {
+    margin-bottom: 12px;
+}
+
+/* ---- API reference table (the MCP page) ---- */
+
+.tableWrap {
+    overflow-x: auto;
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+}
+
+.table th,
+.table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--t-border);
+    vertical-align: top;
+}
+
+.table th {
+    background: var(--t-panel-alt);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.tableCode {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Monospace, but allowed to wrap: an argument list or a response shape is
+   long enough that keeping it on one line starves the prose column beside it
+   of every pixel it needs. */
+.tableCodeWrap {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* The column carrying the sentence. Without a declared width the browser
+   gives the nowrap code columns everything they ask for and leaves this one
+   wrapping every second word. */
+.tableMain {
+    width: 46%;
+    min-width: 260px;
+}
+
+.tableAside {
+    width: 22%;
+}
+
+.sectionSpacer {
+    margin-top: 24px;
+}
+
+.proseBlock {
+    margin-top: 28px;
+}
+
 /* ---- Responsive ---- */
 
 @media (max-width: 900px) {
     .steps,
     .toolGrid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .apiGrid {
+        grid-template-columns: 1fr;
     }
 }
 

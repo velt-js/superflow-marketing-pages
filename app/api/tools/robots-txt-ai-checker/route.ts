@@ -1,24 +1,28 @@
-// AI Visibility Checker API.
+// robots.txt AI Checker API.
 //
-// POST /api/tools/ai-visibility
+// POST /api/tools/robots-txt-ai-checker
 //   { "url": "example.com", "refresh": false }
 //
-// Returns the full report, or a typed failure the UI renders as friendly
-// copy. Never returns a stack trace and never returns an empty 500 body:
-// this endpoint backs a no-login public tool, so an unhandled error is a
-// stranger's first impression of Superflow.
+// The access-scoped view of the visibility engine, published as its own
+// endpoint because "which AI crawlers can read this page, and why not" is the
+// question people actually arrive with, and because an agent should not have
+// to know that the answer is a subset of a bigger report.
 //
-// The run itself — normalize, cache, rate limit, engine, cache again — lives
-// in lib/tools/ai-visibility/api.ts, because the robots.txt AI Checker
-// endpoint and the MCP server drive the same engine and must share its cache
-// entries and its hourly budget rather than open a second door to it.
+// It runs the same engine, through the same cache entries and the same hourly
+// budget (see lib/tools/ai-visibility/api.ts), so calling this and then the
+// full checker on one URL costs one run, not two.
 //
-// Lives under /api/ so it inherits the existing robots.txt disallow (see
-// app/robots.txt/route.ts) without having to block /tools/, which is where
-// the human-facing pages live.
+// The response is NOT a trimmed visibility report. It carries an access score
+// rather than the page's overall score — a caller reading `score` off a
+// response that only ran the access checks would publish a number that means
+// something else — and it lifts the two things worth having, the per-crawler
+// verdicts and the live firewall test, to the top level.
+//
+// Envelope: JSON with an `ok` discriminator on every path. Never a bare 500
+// and never a stack trace.
 
 import type { NextRequest } from "next/server";
-import { runVisibility } from "@/lib/tools/ai-visibility/api";
+import { runVisibility, toAccessReport } from "@/lib/tools/ai-visibility/api";
 import { clientIpFrom } from "@/lib/toolkit/ratelimit";
 
 /** Node runtime: the SSRF guard needs `node:dns` and `node:net`. */
@@ -28,8 +32,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Builds a JSON response with no-store, since every body here is either
- * user-specific or already cached deliberately in KV.
+ * Builds a JSON response.
  *
  * @param body - The payload.
  * @param status - HTTP status.
@@ -78,7 +81,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     return json({
       ok: true,
-      report: outcome.report,
+      report: toAccessReport(outcome.report),
       cached: outcome.cached,
       ageSeconds: outcome.ageSeconds,
     });

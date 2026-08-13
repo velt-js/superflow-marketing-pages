@@ -16,6 +16,12 @@
 import type { ToolContent } from "./types";
 import { SITE_URL } from "@/app/_seo/schema";
 import { findTool, relatedTools, toolPath } from "@/lib/tools/registry";
+import {
+  MCP_PATH,
+  apiForTool,
+  curlFor,
+  isToolApiAvailable,
+} from "@/lib/tools/api-catalog";
 
 /** Escapes the characters that would break out of a Markdown table cell. */
 function cell(value: string): string {
@@ -50,6 +56,29 @@ export function toolToMarkdown(content: ToolContent): string {
         lines.push(`${index + 1}. **${step.title}.** ${step.body}`);
       });
       lines.push("");
+    }
+
+    // The endpoint comes before the facts and the FAQ deliberately. A machine
+    // reading this document is far more likely to want to CALL the tool than
+    // to read about it, and burying the call under a prose FAQ is how an API
+    // goes unused by exactly the reader it was published for.
+    const api = apiForTool(content.slug);
+    if (api && isToolApiAvailable(api)) {
+      lines.push("## Call it directly", "");
+      lines.push(
+        `**HTTP:** \`${api.method} ${SITE_URL}${api.path}\`. No API key, no account.`,
+        "",
+      );
+      lines.push("```bash", curlFor(api, SITE_URL), "```", "");
+      lines.push(`Returns \`${api.returns}\`.`, "");
+      lines.push(
+        `**MCP:** this tool is \`${api.mcpTool}\` on Superflow's MCP server at \`${SITE_URL}${MCP_PATH}\` (Streamable HTTP, no authentication). Setup for every client: ${SITE_URL}/tools/mcp`,
+        "",
+      );
+      lines.push(
+        `Limits: ${api.rateLimit}${api.rateLimit.endsWith(".") ? "" : "."} Allow up to ${api.timeoutSeconds} seconds for a response. Results are cached for 24 hours per URL; pass \`"refresh": true\` to run again.`,
+        "",
+      );
     }
 
     if (content.facts.length > 0) {

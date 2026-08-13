@@ -53,7 +53,7 @@ export const UTM_BUILDER_CONTENT: ToolContent = {
   {
     question: "Are my URLs sent anywhere?",
     answer:
-      "No. Everything runs in your browser and there is no server behind this tool. Campaign URLs give away more than people realise, including launches that have not been announced and partners who have not signed, so it is worth knowing that this one has nowhere to send them. Only your convention settings are saved, in your own browser.",
+      "Not from this page. The builder runs in your browser, so a URL you type here has nowhere to go. Campaign URLs give away more than people realise, including launches that have not been announced and partners who have not signed, which is why it works that way. Only your convention settings are saved, in your own browser. There is a separate endpoint for scripts and agents that cannot run a browser: it does the same pure transform on our side and stores nothing, but anything you send it does leave your machine, so prefer this page when you have the choice.",
   },
   {
     question: "What is utm_id for?",
@@ -66,7 +66,7 @@ export const UTM_BUILDER_CONTENT: ToolContent = {
     {
       label: "Where it runs",
       value:
-        "Entirely in the browser. No server, no API. The URLs you build are never uploaded or logged.",
+        "The tool on this page runs entirely in the browser: the URLs you build there are never uploaded or logged. The same builder is also published as an endpoint for scripts and agents, which does the identical pure transform on our side and stores nothing — but if you can use the page, use the page.",
     },
     {
       label: "Stored data",

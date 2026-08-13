@@ -10,7 +10,9 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import IntercomButton from "@/components/home/IntercomButton";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import Md5Tool from "@/components/tools-2026/Md5Tool";
+import { ToolApiDocs } from "@/components/tools/ToolApiDocs";
 import styles from "@/components/tools-2026/Md5Tool.module.css";
+import toolStyles from "@/components/tools/Tools.module.css";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -56,6 +58,12 @@ export default function Md5GeneratorPage() {
       <ListingHero heading={HERO_HEADING} subheading={HERO_SUBHEADING} hideCta />
       <p className={styles.privacyLine}>{PRIVACY_LINE}</p>
       <Md5Tool />
+      {/* The shared API and MCP block. This page predates the ToolPage
+          template, so the wrapper is what puts it inside the `.page` scope
+          those styles read their colour variables from. */}
+      <div className={toolStyles.page}>
+        <ToolApiDocs slug="md5-generator" />
+      </div>
       <SiteFooter />
       <IntercomButton />
     </main>

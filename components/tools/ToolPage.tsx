@@ -2,8 +2,10 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import { findToolContent } from "@/lib/tools/content";
 import { toolPath } from "@/lib/tools/registry";
+import { apiForTool, isToolApiAvailable } from "@/lib/tools/api-catalog";
 import styles from "./Tools.module.css";
 import { ToolFaq, type ToolFaqItem } from "./ToolFaq";
+import { ToolApiDocs } from "./ToolApiDocs";
 import { RelatedTools } from "./RelatedTools";
 import { CtaLink } from "./CtaLink";
 import { ToolViewTracker } from "./ToolViewTracker";
@@ -58,6 +60,12 @@ export function ToolPage({
   // page. Advertising it costs one line and saves an agent guessing the URL.
   const markdownPath = findToolContent(slug) ? `${toolPath(slug)}.md` : null;
 
+  // Tools with a published endpoint say so in the same breath, because the
+  // visitor most likely to want it is the one about to run this by hand for
+  // the twentieth URL.
+  const api = apiForTool(slug);
+  const hasApi = api !== undefined && isToolApiAvailable(api);
+
   return (
     <div className={styles.page}>
       {/* React hoists this into <head>. rel="alternate" is how a machine
@@ -86,6 +94,16 @@ export function ToolPage({
                 Reading this as an agent?{" "}
                 <a className={styles.privacyLink} href={markdownPath}>
                   Markdown copy of this page
+                </a>
+                .
+              </>
+            ) : null}
+            {hasApi ? (
+              <>
+                {" "}
+                Prefer to script it?{" "}
+                <a className={styles.privacyLink} href="#api">
+                  API and MCP
                 </a>
                 .
               </>
@@ -125,6 +143,11 @@ export function ToolPage({
           <ToolFaq items={faq} />
         </div>
       </section>
+
+      {/* After the FAQ rather than above it: the answer somebody came for is
+          the tool itself, and this section is for the reader who has already
+          had it and now wants the twentieth URL done without them. */}
+      <ToolApiDocs slug={slug} />
 
       <RelatedTools slug={slug} />
 

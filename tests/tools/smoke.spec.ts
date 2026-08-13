@@ -16,8 +16,19 @@
 //   npx playwright test tests/tools
 //   TOOLS_BASE_URL=https://usesuperflow.ai npx playwright test tests/tools
 
-import { test, expect, type Page } from "@playwright/test";
+import {
+  test,
+  expect,
+  type APIRequestContext,
+  type Page,
+} from "@playwright/test";
 import { TOOLS, liveTools, toolPath } from "../../lib/tools/registry";
+import {
+  MCP_PATH,
+  MCP_PROTOCOL_VERSION,
+  MCP_SERVER_NAME,
+  availableToolApis,
+} from "../../lib/tools/api-catalog";
 
 /**
  * Third-party hosts we neither control nor test. A blocked analytics beacon is
@@ -241,4 +252,212 @@ test.describe("the AI visibility tools survive a real run", () => {
       expect(errors, `${testCase.slug} errors during run`).toEqual([]);
     });
   }
+});
+
+test.describe("the MCP server answers the protocol", () => {
+  // These call the endpoint rather than a browser on purpose: MCP has no UI,
+  // and the failure mode that matters is a client that cannot complete the
+  // handshake or gets a tool list that does not match what the site documents.
+
+  /** One JSON-RPC round trip against the endpoint. */
+  async function rpc(
+    request: APIRequestContext,
+    body: Record<string, unknown>,
+  ): Promise<{ status: number; payload: Record<string, unknown> }> {
+    const response = await request.post(MCP_PATH, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json, text/event-stream",
+      },
+      data: body,
+    });
+    const status = response.status();
+    const text = await response.text();
+    return {
+      status,
+      payload: text ? (JSON.parse(text) as Record<string, unknown>) : {},
+    };
+  }
+
+  test("initialize returns a protocol version and the server identity", async ({
+    request,
+  }) => {
+    const { payload } = await rpc(request, {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "initialize",
+      params: {
+        protocolVersion: MCP_PROTOCOL_VERSION,
+        capabilities: {},
+        clientInfo: { name: "smoke", version: "1" },
+      },
+    });
+
+    const result = payload.result as Record<string, unknown>;
+    expect(result?.protocolVersion).toBe(MCP_PROTOCOL_VERSION);
+    expect((result?.serverInfo as { name?: string })?.name).toBe(
+      MCP_SERVER_NAME,
+    );
+    expect(result?.capabilities).toHaveProperty("tools");
+  });
+
+  test("a notification gets 202 and no body", async ({ request }) => {
+    const response = await request.post(MCP_PATH, {
+      headers: { "Content-Type": "application/json" },
+      data: { jsonrpc: "2.0", method: "notifications/initialized" },
+    });
+    expect(response.status()).toBe(202);
+  });
+
+  test("tools/list matches the catalogue the site documents", async ({
+    request,
+  }) => {
+    const { payload } = await rpc(request, {
+      jsonrpc: "2.0",
+      id: 2,
+      method: "tools/list",
+    });
+
+    const tools = (payload.result as { tools?: Array<{ name: string }> })?.tools;
+    expect(tools?.map((tool) => tool.name).sort()).toEqual(
+      availableToolApis()
+        .map((entry) => entry.mcpTool)
+        .sort(),
+    );
+  });
+
+  test("tools/call runs a tool and returns its JSON", async ({ request }) => {
+    // The MD5 tool is the one call in the suite with a known-constant answer
+    // and no network of its own, so it proves the dispatch path — MCP to the
+    // published HTTP endpoint and back — without depending on any live site.
+    const { payload } = await rpc(request, {
+      jsonrpc: "2.0",
+      id: 3,
+      method: "tools/call",
+      params: { name: "hash_md5", arguments: { text: "hello" } },
+    });
+
+    const result = payload.result as {
+      isError?: boolean;
+      structuredContent?: { md5?: string };
+    };
+    expect(result?.isError).toBe(false);
+    expect(result?.structuredContent?.md5).toBe(
+      "5d41402abc4b2a76b9719d911017c592",
+    );
+  });
+
+  test("a missing required argument comes back as a tool error", async ({
+    request,
+  }) => {
+    // Reported through the result rather than as a JSON-RPC error, because the
+    // model is the party that can fix it and only tool results reliably reach
+    // it.
+    const { payload } = await rpc(request, {
+      jsonrpc: "2.0",
+      id: 4,
+      method: "tools/call",
+      params: { name: "detect_tech_stack", arguments: {} },
+    });
+
+    const result = payload.result as { isError?: boolean };
+    expect(result?.isError).toBe(true);
+  });
+
+  test("an unknown method is a JSON-RPC error, not a 500", async ({
+    request,
+  }) => {
+    const { status, payload } = await rpc(request, {
+      jsonrpc: "2.0",
+      id: 5,
+      method: "resources/list",
+    });
+
+    expect(status).toBe(200);
+    expect((payload.error as { code?: number })?.code).toBe(-32601);
+  });
+
+  test("GET describes the endpoint instead of erroring blankly", async ({
+    request,
+  }) => {
+    const response = await request.get(MCP_PATH);
+    // 405 is the spec's answer for a server with no server-initiated stream;
+    // the body is there so a human who pastes the URL into a browser learns
+    // what it is.
+    expect(response.status()).toBe(405);
+    expect((await response.json()).name).toBe(MCP_SERVER_NAME);
+  });
+});
+
+test.describe("every published endpoint is documented where people look", () => {
+  test("the reference page lists every available tool", async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto("/tools/mcp", { waitUntil: "domcontentloaded" });
+
+    for (const entry of availableToolApis()) {
+      await expect(
+        page.getByText(entry.mcpTool, { exact: true }).first(),
+        `${entry.mcpTool} listed on /tools/mcp`,
+      ).toBeVisible();
+    }
+
+    expect(errors, "/tools/mcp console/page errors").toEqual([]);
+  });
+
+  test("the Markdown copy is served as Markdown", async ({ request }) => {
+    const response = await request.get("/tools/mcp.md");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("text/markdown");
+    expect(await response.text()).toContain(MCP_PATH);
+  });
+
+  for (const entry of availableToolApis()) {
+    test(`${entry.slug} page shows its endpoint and MCP tool name`, async ({
+      page,
+    }) => {
+      await page.goto(toolPath(entry.slug), { waitUntil: "domcontentloaded" });
+
+      const section = page.locator("#api");
+      await expect(section).toBeVisible();
+      await expect(section.getByText(entry.path, { exact: false }).first()).toBeVisible();
+      await expect(
+        section.getByText(entry.mcpTool, { exact: true }).first(),
+      ).toBeVisible();
+    });
+  }
+});
+
+test.describe("the endpoints answer directly", () => {
+  test("the UTM builder normalises and reports its channel", async ({
+    request,
+  }) => {
+    const response = await request.post("/api/tools/utm-builder", {
+      data: {
+        url: "example.com/pricing",
+        source: "Newsletter",
+        medium: "email",
+        campaign: "Spring Launch",
+      },
+    });
+
+    const payload = await response.json();
+    expect(payload.ok).toBe(true);
+    // Casing and spaces normalised, which is the entire point of the tool:
+    // "Newsletter" and "newsletter" must not become two rows in GA4.
+    expect(payload.url).toContain("utm_source=newsletter");
+    expect(payload.url).toContain("utm_campaign=spring_launch");
+    expect(payload.channel).toBe("Email");
+  });
+
+  test("a non-http destination is refused rather than tagged", async ({
+    request,
+  }) => {
+    const response = await request.post("/api/tools/utm-builder", {
+      data: { url: "javascript:alert(1)" },
+    });
+
+    const payload = await response.json();
+    expect(payload.ok).toBe(false);
+    expect(response.status()).toBe(400);
+  });
 });

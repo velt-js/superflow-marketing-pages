@@ -17,6 +17,7 @@ import {
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import { MCP_PATH } from "@/lib/tools/api-catalog";
 
 export const revalidate = 3600;
 
@@ -188,6 +189,8 @@ export async function GET() {
     `Full page content is available in one fetch at ${SITE_URL}/llms-full.txt`,
     "",
     `Free tools, with a Markdown copy of each tool page for agents: ${SITE_URL}/tools.md`,
+    "",
+    `Those tools are also callable: an MCP server at ${SITE_URL}${MCP_PATH} (Streamable HTTP, no account and no API key) and an HTTP endpoint per tool. Reference: ${SITE_URL}/tools/mcp — Markdown copy: ${SITE_URL}/tools/mcp.md`,
     "",
     section("Core pages", core),
     section("Free tools", tools),
