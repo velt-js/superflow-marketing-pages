@@ -1,0 +1,131 @@
+# Browser smoke tests for the free tools.
+#
+# Two jobs, because they answer different questions and only one of them can
+# gate a PR:
+#
+#   pr        — builds the branch and drives it in Chromium. This is the gate.
+#               It catches the class of bug that shipped the AI Visibility
+#               Checker broken: tsc passed, next build passed, and the API
+#               returned 200, because the defect only existed in the browser.
+#
+#   deployed  — runs the same suite against the live site after a merge, and
+#               on a schedule. A tool page can break without this repo
+#               changing at all: the tools call the product backend, so a
+#               backend deploy can turn a working tool into a broken one.
+#
+# The scheduled run is the only thing that notices that second case, which is
+# why it exists even though nothing here changes between runs.
+
+name: Tools smoke
+
+on:
+  pull_request:
+    paths:
+      - "app/tools/**"
+      - "app/tools.md/**"
+      - "components/tools/**"
+      - "components/tools-2026/**"
+      - "components/home-2026/SiteNav.tsx"
+      - "lib/tools/**"
+      - "lib/toolkit/**"
+      - "tests/tools/**"
+      - "playwright.config.ts"
+      - ".github/workflows/tools-smoke.yml"
+  push:
+    branches: [main]
+  schedule:
+    # Once a day. The backend can break a tool without a commit here.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Target to test. Defaults to the production site."
+        required: false
+        default: "https://usesuperflow.ai"
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # ── The gate: this branch, in a browser, before it can merge ──────────
+  pr:
+    name: Branch build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      # Chromium ships with the runner image via the Playwright download, but
+      # only the browser is needed — no system deps beyond what ubuntu-latest
+      # already has for headless Chromium.
+      - run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+        env:
+          # Without this the tools fall back to the in-repo engine, which is a
+          # different code path from production. Pointing at the real backend
+          # is what makes the run meaningful.
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+
+      - name: Smoke test
+        run: npx playwright test tests/tools
+        env:
+          TOOLS_BASE_URL: http://127.0.0.1:3210
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+          # Node's built-in fetch ignores proxy env unless told otherwise.
+          NODE_USE_ENV_PROXY: "1"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-pr
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  # ── The live check: what a visitor actually gets ─────────────────────
+  deployed:
+    name: Deployed site
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # No build and no local server: TOOLS_BASE_URL points at a deployment,
+      # so playwright.config.ts skips its managed webServer entirely.
+      - name: Wait for the deploy to land
+        if: github.event_name == 'push'
+        run: sleep 90
+
+      - name: Smoke test the live site
+        run: npx playwright test tests/tools
+        env:
+          TOOLS_BASE_URL: ${{ github.event.inputs.base_url || 'https://usesuperflow.ai' }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-deployed
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
