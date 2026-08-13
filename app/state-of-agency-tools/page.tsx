@@ -7,7 +7,21 @@
 import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import {
+  BallpenIcon,
+  DevicesIcon,
+  LayoutKanbanIcon,
+  LockIcon,
+  MessageIcon,
+  SparklesIcon,
+} from "@/components/home-2026/HeroIcons";
 import { TallyEmbed } from "@/components/agency-survey-2026/TallyEmbed";
+import {
+  BarsMotif,
+  QuadrantMotif,
+  RankingMotif,
+  UsePayMotif,
+} from "@/components/agency-survey-2026/ReportPeekMotifs";
 import styles from "@/components/agency-survey-2026/Survey.module.css";
 import {
   REPORT_PATH,
@@ -29,30 +43,19 @@ export const metadata = buildPageMetadata({
 });
 
 const WHAT_WE_ASK = [
-  {
-    title: "Your building stack",
-    body: "The platforms you build client sites on, the design and video tools behind them, and whether you would pick them again.",
-  },
-  {
-    title: "Client review and approval",
-    body: "How feedback actually reaches you, how many revision rounds a typical website takes, and whether anything gets QA'd before launch.",
-  },
-  {
-    title: "Running the agency",
-    body: "PM tools, time and profitability tracking, AI notetakers, and where the day-to-day client conversation really happens.",
-  },
-  {
-    title: "The AI section",
-    body: "Which assistants your team uses vs actually pays for, which creative tools made the cut, and how much client work AI touches today.",
-  },
-  {
-    title: "The fun one",
-    body: "One open question: which tool do you resent paying for? The answers become the report's most quoted chart.",
-  },
-  {
-    title: "Nothing invasive",
-    body: "Revenue and region are optional and reported in aggregate only. Your email is only used to send you the report early.",
-  },
+  { Icon: DevicesIcon, title: "Your building stack", hint: "Platforms, design, video" },
+  { Icon: MessageIcon, title: "Client review", hint: "Feedback, revisions, QA" },
+  { Icon: LayoutKanbanIcon, title: "Running the agency", hint: "PM, money ops, notes" },
+  { Icon: SparklesIcon, title: "The AI section", hint: "What you use vs pay for" },
+  { Icon: BallpenIcon, title: "The fun one", hint: "The tool you resent" },
+  { Icon: LockIcon, title: "Nothing invasive", hint: "Aggregates only, email optional" },
+];
+
+const REPORT_PEEK = [
+  { Motif: QuadrantMotif, label: "Would-choose-again quadrants" },
+  { Motif: BarsMotif, label: "Revision-rounds benchmark" },
+  { Motif: UsePayMotif, label: "The AI use-vs-pay gap" },
+  { Motif: RankingMotif, label: "The most resented tool" },
 ];
 
 export default function StateOfAgencyToolsPage() {
@@ -66,7 +69,7 @@ export default function StateOfAgencyToolsPage() {
           { name: TITLE, url: `${SITE_URL}${SURVEY_PATH}` },
         ]}
       />
-      <SiteNav />
+      <SiteNav solidAtTop />
 
       <header className={styles.hero}>
         <div className={styles.heroInner}>
@@ -107,14 +110,18 @@ export default function StateOfAgencyToolsPage() {
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>What we ask</h2>
           <p className={styles.sectionLede}>
-            23 quick questions everyone sees, plus a few extras that only
-            appear for the services you actually offer. No essays, no traps.
+            23 quick questions, plus a few extras for the services you offer.
           </p>
           <div className={styles.askGrid}>
-            {WHAT_WE_ASK.map((card) => (
-              <div key={card.title} className={styles.askCard}>
-                <h3 className={styles.askCardTitle}>{card.title}</h3>
-                <p className={styles.askCardBody}>{card.body}</p>
+            {WHAT_WE_ASK.map(({ Icon, title, hint }) => (
+              <div key={title} className={styles.askCard}>
+                <span className={styles.askGlyph}>
+                  <Icon size={22} />
+                </span>
+                <div>
+                  <h3 className={styles.askCardTitle}>{title}</h3>
+                  <p className={styles.askCardBody}>{hint}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -125,11 +132,18 @@ export default function StateOfAgencyToolsPage() {
         <div className={styles.ctaInner}>
           <h2 className={styles.h2}>What you get</h2>
           <p className={styles.sectionLede} style={{ margin: 0 }}>
-            The full report, free, before it is public: most-used vs
-            would-choose-again quadrants for website platforms and PM tools,
-            the revision-rounds benchmark, the AI use-vs-pay gap, and the
-            most resented tool in agency life.
+            The full report, free, before it is public.
           </p>
+          <div className={styles.peekGrid}>
+            {REPORT_PEEK.map(({ Motif, label }) => (
+              <div key={label} className={styles.peekCard}>
+                <span className={styles.peekMotif}>
+                  <Motif />
+                </span>
+                <p className={styles.peekLabel}>{label}</p>
+              </div>
+            ))}
+          </div>
           <Link href={REPORT_PATH} className={styles.ctaSecondaryLink}>
             Preview the report format (sample data)
           </Link>

@@ -41,7 +41,7 @@ export default function AgencyToolsReportPage() {
   const data = REPORT_DATA;
   return (
     <div className={styles.page}>
-      <SiteNav />
+      <SiteNav solidAtTop />
 
       {data.sample ? (
         <div className={reportStyles.sampleBanner}>
