@@ -45,7 +45,7 @@ export const metadata = buildPageMetadata({
 const WHAT_WE_ASK = [
   { Icon: DevicesIcon, title: "Your building stack", hint: "Platforms, design, video" },
   { Icon: MessageIcon, title: "Client review", hint: "Feedback, revisions, QA" },
-  { Icon: LayoutKanbanIcon, title: "Running the agency", hint: "PM, money ops, notes" },
+  { Icon: LayoutKanbanIcon, title: "Running the agency", hint: "PM, finance, payroll, CRM" },
   { Icon: SparklesIcon, title: "The AI section", hint: "What you use vs pay for" },
   { Icon: BallpenIcon, title: "The fun one", hint: "The tool you resent" },
   { Icon: LockIcon, title: "Nothing invasive", hint: "Aggregates only, email optional" },
@@ -110,7 +110,7 @@ export default function StateOfAgencyToolsPage() {
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>What we ask</h2>
           <p className={styles.sectionLede}>
-            23 quick questions, plus a few extras for the services you offer.
+            28 quick questions, plus a few extras for the services you offer.
           </p>
           <div className={styles.askGrid}>
             {WHAT_WE_ASK.map(({ Icon, title, hint }) => (

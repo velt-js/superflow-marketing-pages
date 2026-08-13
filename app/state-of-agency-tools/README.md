@@ -67,48 +67,57 @@ Form settings:
 - Collect partial submissions ON (Tally Pro) if available - the drop-off
   point is itself useful data.
 
-Question flow (23 core + gated extras; worst case 30). Q3 is the gate:
+Question flow (28 core + gated extras; worst case 36, full service). The
+structure mirrors the categories an agency runs on - the crafts it sells,
+then ops, finance, payroll, sales, client management, review & QA, AI,
+firmographics. Q3 is the gate; "Full service" opens every gate. Review & QA
+sits deliberately in the back half: it is the stat factory and lands better
+on invested respondents.
 
-| # | Question | Type | Gate |
-|---|---|---|---|
-| 1 | What best describes you? | single | all |
-| 2 | Team size, including contractors? | single | all |
-| 3 | Which services do you offer? | multi | all - gates below |
-| 4 | Which platforms do you build client sites on? | multi | web |
-| 5 | Your primary platform? | single (from Q4) | web |
-| 6 | Would you choose it again for your next project? | single | web |
-| 7 | Which design tools does your team use? | multi | web OR branding |
-| 8 | Which video tools do you use? | multi | video |
-| 9 | How does client feedback on creative work usually reach you? | multi | all |
-| 10 | Do you use a dedicated review/approval tool? | multi | all |
-| 11 | On a typical website project, how many rounds of client revisions? | single | all |
-| 12 | Do you QA websites before launch? | single | all |
-| 13 | Which PM tools does your team use? | multi | all |
-| 14 | Your primary PM tool? | single | all |
-| 15 | Would you choose it again? | single | all |
-| 16 | What do you use for time tracking, resourcing, profitability? | multi | all |
-| 17 | Do you know your profit margin per client? | single | all |
-| 18 | Do you use an AI notetaker on client calls? | multi | all |
-| 19 | Where does day-to-day client communication happen? | multi | all |
-| 20 | Which tools do you use for SEO and client reporting? | multi | SEO OR paid ads |
-| 21 | Which social tools do you use? | multi | social |
-| 22 | Which email platforms do you run for clients? | multi | email/CRM |
-| 23 | Which AI assistants does your team use for work? | multi | all |
-| 24 | Which do you actually pay for? | multi | all |
-| 25 | Which AI creative/production tools do you use? | multi | all |
-| 26 | Roughly what share of client deliverable work does AI touch today? | single | all |
-| 27 | Do you tell clients when AI is involved in their work? | single | all |
-| 28 | Which tool do you resent paying for? | open text, one line | all |
-| 29 | Annual revenue? | single, optional | all |
-| 30 | Where is your agency based? | single | all |
-| 31 | Do you focus on specific industries? | multi, optional | all |
-| 32 | Email to get the report first (optional) + "OK to contact me" checkbox | email | all |
+| # | Section | Question | Type | Gate |
+|---|---|---|---|---|
+| 1 | You | What best describes you? | single | all |
+| 2 | You | Team size, including contractors? | single | all |
+| 3 | You | Which services do you offer? | multi | all - gates below |
+| 4 | Web | Which platforms do you build client sites on? | multi | web |
+| 5 | Web | Your primary platform? | single | web |
+| 6 | Web | Would you choose it again for your next project? | single | web |
+| 7 | Design | Which design tools does your team use? | multi | web OR branding |
+| 8 | Video | Which video tools do you use? | multi | video |
+| 9 | SEO | Which tools do you use for SEO and client reporting? | multi | SEO OR paid ads |
+| 10 | Social | Which social tools do you use? | multi | social |
+| 11 | Email | Which email platforms do you run for clients? | multi | email/CRM |
+| 12 | Ops | Which PM tools does your team use? | multi | all |
+| 13 | Ops | Your primary PM tool? | single | all |
+| 14 | Ops | Would you choose it again? | single | all |
+| 15 | Finance | What do you use for time tracking and resourcing? | multi | all |
+| 16 | Finance | Do you know your profit margin per client? | single | all |
+| 17 | Finance | What do you use for accounting and invoicing? | multi | all |
+| 18 | Finance | How do you pay your team and contractors? | multi | all |
+| 19 | Sales | Which tools run your sales pipeline and CRM? | multi | all |
+| 20 | Sales | What do you use for proposals, contracts, and e-signatures? | multi | all |
+| 21 | Clients | Where does day-to-day client communication happen? | multi | all |
+| 22 | Clients | Do you use an AI notetaker on client calls? | multi | all |
+| 23 | Review & QA | How does client feedback on creative work usually reach you? | multi | all |
+| 24 | Review & QA | Do you use a dedicated review/approval tool? | multi | all |
+| 25 | Review & QA | On a typical website project, how many rounds of client revisions? | single | all |
+| 26 | Review & QA | Do you QA websites before launch? | single | all |
+| 27 | AI | Which AI assistants does your team use for work? | multi | all |
+| 28 | AI | Which do you actually pay for? | multi | all |
+| 29 | AI | Which AI creative/production tools do you use? | multi | all |
+| 30 | AI | Roughly what share of client deliverable work does AI touch today? | single | all |
+| 31 | AI | Do you tell clients when AI is involved in their work? | single | all |
+| 32 | Last bits | Which tool do you resent paying for? | open text | all |
+| 33 | Last bits | Annual revenue? | single, optional | all |
+| 34 | Last bits | Where is your agency based? | single | all |
+| 35 | Last bits | Do you focus on specific industries? | multi, optional | all |
+| 36 | Last bits | Email for early report + consent checkbox | email, optional | all |
 
-Full option lists are in the survey spec (source of truth for options:
-whoever builds the Tally form copies them from the spec doc). Gating in
-Tally: add conditional logic on each gated page - "show this page if Q3
-contains X". The AI section (23-27) deliberately runs late; firmographics
-(29-31) come last.
+Option lists live in the generator script (the source of truth). Category
+coverage was checked against agency-stack roundups: CRM/sales, PM, time and
+resourcing, finance (accounting/invoicing), payroll and contractor
+payments, proposals/contracts, communication, the delivery crafts, and AI
+are each their own question or section.
 
 Cut from v1, do not add back: sales/proposal tools, software spend per
 seat, biggest review pain, AI pricing/hiring/blocker questions, trusted AI
