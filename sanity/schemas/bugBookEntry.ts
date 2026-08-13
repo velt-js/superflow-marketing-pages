@@ -128,7 +128,6 @@ export const bugBookSite = defineType({
       description: "Anonymized site description, e.g. 'Med-spa staging site'.",
     }),
     defineField({ name: "platform", title: "Platform", type: "string" }),
-    defineField({ name: "industry", title: "Industry", type: "string" }),
   ],
 });
 

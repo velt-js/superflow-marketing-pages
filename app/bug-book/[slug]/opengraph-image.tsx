@@ -165,7 +165,7 @@ export default async function OgImage({
               fontSize: 24,
             }}
           >
-            usesuperflow.com/bug-book
+            usesuperflow.ai/bug-book
           </div>
         </div>
       </div>

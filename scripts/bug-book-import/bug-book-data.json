@@ -87,8 +87,7 @@
       "date": "2024-02",
       "site": {
         "descriptor": "Digital agency's client site",
-        "platform": "Webflow",
-        "industry": "Agency"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 121",
@@ -134,8 +133,7 @@
       "date": "2024-08",
       "site": {
         "descriptor": "Dental practice website",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 116",
@@ -169,8 +167,7 @@
       "date": "2024-11",
       "site": {
         "descriptor": "Orthodontics practice website",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 130",
@@ -204,8 +201,7 @@
       "date": "2025-11",
       "site": {
         "descriptor": "Dental group's live website",
-        "platform": "Custom CMS",
-        "industry": "Dental"
+        "platform": "Custom CMS"
       },
       "captured": {
         "browser": "Chrome 142",
@@ -244,8 +240,7 @@
       "date": "2024-01",
       "site": {
         "descriptor": "School administration dashboard",
-        "platform": "Custom app",
-        "industry": "EdTech"
+        "platform": "Custom app"
       },
       "captured": {
         "browser": "Chrome 120",
@@ -279,8 +274,7 @@
       "date": "2025-05",
       "site": {
         "descriptor": "Wellness supplement brand site",
-        "platform": "Webflow",
-        "industry": "E-commerce"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 136",
@@ -314,8 +308,7 @@
       "date": "2024-10",
       "site": {
         "descriptor": "Nonprofit organization site",
-        "platform": "Webflow",
-        "industry": "Nonprofit"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Safari",
@@ -364,8 +357,7 @@
       "date": "2024-10",
       "site": {
         "descriptor": "Plastic surgery practice site",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 129",
@@ -399,8 +391,7 @@
       "date": "2026-02",
       "site": {
         "descriptor": "Clean-energy industry association site",
-        "platform": "Webflow",
-        "industry": "Energy"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 144",
@@ -436,8 +427,7 @@
       "date": "2026-01",
       "site": {
         "descriptor": "Plastic surgery practice site",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 143",
@@ -476,8 +466,7 @@
       "date": "2025-02",
       "site": {
         "descriptor": "Waste management company site",
-        "platform": "Custom CMS",
-        "industry": "Industrial"
+        "platform": "Custom CMS"
       },
       "captured": {
         "browser": "Chrome 133",
@@ -511,8 +500,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Med-spa staging site",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 149",
@@ -546,8 +534,7 @@
       "date": "2025-10",
       "site": {
         "descriptor": "Enterprise software help center (UAT)",
-        "platform": "Custom docs platform",
-        "industry": "SaaS"
+        "platform": "Custom docs platform"
       },
       "captured": {
         "browser": "Chrome 140",
@@ -596,8 +583,7 @@
       "date": "2025-07",
       "site": {
         "descriptor": "Online learning platform (staging)",
-        "platform": "Custom app",
-        "industry": "EdTech"
+        "platform": "Custom app"
       },
       "captured": {
         "browser": "Chrome 138",
@@ -651,8 +637,7 @@
       "date": "2025-09",
       "site": {
         "descriptor": "Med-spa staging site",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 140",
@@ -701,8 +686,7 @@
       "date": "2026-08",
       "site": {
         "descriptor": "Pediatric dental office site",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 150",
@@ -746,8 +730,7 @@
       "date": "2024-11",
       "site": {
         "descriptor": "Startup marketing site",
-        "platform": "Webflow",
-        "industry": "SaaS"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 130",
@@ -840,8 +823,7 @@
       "date": "2024-03",
       "site": {
         "descriptor": "Community development nonprofit site",
-        "platform": "Webflow",
-        "industry": "Nonprofit"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 122",
@@ -880,8 +862,7 @@
       "date": "2023-08",
       "site": {
         "descriptor": "Ballet academy e-commerce site",
-        "platform": "Webflow",
-        "industry": "Education"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 114",
@@ -925,8 +906,7 @@
       "date": "2025-07",
       "site": {
         "descriptor": "Financial industry association site",
-        "platform": "WordPress",
-        "industry": "Finance"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 138",
@@ -970,8 +950,7 @@
       "date": "2024-09",
       "site": {
         "descriptor": "Pilates studio site",
-        "platform": "Website builder",
-        "industry": "Fitness"
+        "platform": "Website builder"
       },
       "captured": {
         "browser": "Safari 17",
@@ -1015,8 +994,7 @@
       "date": "2024-12",
       "site": {
         "descriptor": "Nonprofit website",
-        "platform": "WordPress",
-        "industry": "Nonprofit"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -1052,8 +1030,7 @@
       "date": "2024-04",
       "site": {
         "descriptor": "Dental foundation site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1099,8 +1076,7 @@
       "date": "2024-11",
       "site": {
         "descriptor": "Wine tour company site",
-        "platform": "Website builder",
-        "industry": "Tourism"
+        "platform": "Website builder"
       },
       "captured": {
         "browser": "Chrome",
@@ -1151,8 +1127,7 @@
       "date": "2026-06",
       "site": {
         "descriptor": "Dental practice site",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1188,8 +1163,7 @@
       "date": "2026-04",
       "site": {
         "descriptor": "Therapy practice site",
-        "platform": "Webflow",
-        "industry": "Health"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Firefox",
@@ -1231,8 +1205,7 @@
       "date": "2025-09",
       "site": {
         "descriptor": "Electrical contractor site",
-        "platform": "Webflow",
-        "industry": "Trades"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1268,8 +1241,7 @@
       "date": "2025-07",
       "site": {
         "descriptor": "Dental practice site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1315,8 +1287,7 @@
       "date": "2024-05",
       "site": {
         "descriptor": "Dental practice site",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1382,8 +1353,7 @@
       "date": "2025-01",
       "site": {
         "descriptor": "Eye clinic blog (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -1429,8 +1399,7 @@
       "date": "2025-12",
       "site": {
         "descriptor": "Dental practice site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -1466,8 +1435,7 @@
       "date": "2025-07",
       "site": {
         "descriptor": "Oral surgery practice site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Safari",
@@ -1549,8 +1517,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Pediatric dentistry site (pre-launch)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "The dentist heading up the practice, according to the homepage: \"Dr. First Last Name\"",
@@ -1587,8 +1554,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Dental landing page (template-built)",
-        "platform": "Landing page builder",
-        "industry": "Dental"
+        "platform": "Landing page builder"
       },
       "captured": null,
       "headline": "The page title advertised a different dental practice in a different city",
@@ -1666,8 +1632,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Vein clinic's live website",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": null,
       "headline": "A live medical site had a button whose label was \"Add New Button\"",
@@ -1704,8 +1669,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Pediatric dentistry site (pre-launch)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "Services offered, per the homepage: \"First Service\", \"Second Service\", \"Third Service\"",
@@ -1742,8 +1706,7 @@
       "date": "2026-08",
       "site": {
         "descriptor": "Orthodontics practice site (pre-launch)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "The Book Now button - the one button the business runs on - linked to \"#\"",
@@ -1780,8 +1743,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Dental landing page (template-built)",
-        "platform": "Landing page builder",
-        "industry": "Dental"
+        "platform": "Landing page builder"
       },
       "captured": null,
       "headline": "The privacy policy link went to a completely different dental office's website",
@@ -1820,8 +1782,7 @@
       "date": "2026-08",
       "site": {
         "descriptor": "Orthodontics group's location page",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "The doctor's bio read: Dr. David \"Dr. Daviee\" Do - a nickname inside a name",
@@ -1904,8 +1865,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Enterprise SaaS marketing site",
-        "platform": "Public site",
-        "industry": "SaaS"
+        "platform": "Public site"
       },
       "captured": null,
       "headline": "Every social share of this site renders a 215×34 pixel sliver instead of a preview image",
@@ -1944,8 +1904,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Event landing page",
-        "platform": "Webflow",
-        "industry": "Events"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "The headline said \"Unlock Possibility.\" The AI-copy detector said: that means nothing.",
@@ -1983,8 +1942,7 @@
       "date": "2024-10",
       "site": {
         "descriptor": "Design asset under review (e-commerce product image)",
-        "platform": "Superflow Drive",
-        "industry": "E-commerce"
+        "platform": "Superflow Drive"
       },
       "captured": {
         "browser": "Chrome 130",
@@ -2018,8 +1976,7 @@
       "date": "2022-12",
       "site": {
         "descriptor": "Fintech marketing site (in build)",
-        "platform": "Webflow",
-        "industry": "Fintech"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "\"'Reprehenderit' appears to be misspelled. This is probably the most critical thing we need fixed.\"",
@@ -2054,8 +2011,7 @@
       "date": "2025-05",
       "site": {
         "descriptor": "Dental practice site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 136",
@@ -2091,8 +2047,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Medical treatment center site (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 149",
@@ -2136,8 +2091,7 @@
       "date": "2023-04",
       "site": {
         "descriptor": "Commercial real-estate company site",
-        "platform": "WordPress",
-        "industry": "Real estate"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Firefox 111",
@@ -2184,8 +2138,7 @@
       "date": "2023-10",
       "site": {
         "descriptor": "Digital agency's own site",
-        "platform": "Webflow",
-        "industry": "Agency"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 117",
@@ -2219,8 +2172,7 @@
       "date": "2023-09",
       "site": {
         "descriptor": "Biotech company about page",
-        "platform": "Webflow",
-        "industry": "Biotech"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 116",
@@ -2270,8 +2222,7 @@
       "date": "2026-08",
       "site": {
         "descriptor": "Orthodontics practice site (pre-launch)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": null,
       "headline": "The homepage testimonial video was for a completely different dental practice",
@@ -2309,8 +2260,7 @@
       "date": "2026-06",
       "site": {
         "descriptor": "Dermatology practice site (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 148",
@@ -2349,8 +2299,7 @@
       "date": "2024-06",
       "site": {
         "descriptor": "Creative agency site",
-        "platform": "Webflow",
-        "industry": "Agency"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 125",
@@ -2389,8 +2338,7 @@
       "date": "2024-06",
       "site": {
         "descriptor": "Pediatric dentistry site",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 125",
@@ -2424,8 +2372,7 @@
       "date": "2024-03",
       "site": {
         "descriptor": "Children's digital storybook site",
-        "platform": "Custom",
-        "industry": "Education"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome 120",
@@ -2479,8 +2426,7 @@
       "date": "2023-08",
       "site": {
         "descriptor": "Remote-staffing company registration page",
-        "platform": "WordPress",
-        "industry": "HR / Staffing"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Safari",
@@ -2514,8 +2460,7 @@
       "date": "2023-08",
       "site": {
         "descriptor": "Ballet academy e-commerce site",
-        "platform": "Webflow",
-        "industry": "Education"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 114",
@@ -2564,8 +2509,7 @@
       "date": "2025-10",
       "site": {
         "descriptor": "Med-spa skincare shop (staging)",
-        "platform": "WordPress",
-        "industry": "E-commerce"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome 142",
@@ -2645,8 +2589,7 @@
       "date": "2024-12",
       "site": {
         "descriptor": "Sustainability company site (German)",
-        "platform": "Webflow",
-        "industry": "Climate tech"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome 131",
@@ -2692,8 +2635,7 @@
       "date": "2024-07",
       "site": {
         "descriptor": "Cosmetic dentistry blog (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -2729,8 +2671,7 @@
       "date": "2024-09",
       "site": {
         "descriptor": "Financial advisory firm site",
-        "platform": "Custom",
-        "industry": "Finance"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome",
@@ -2766,8 +2707,7 @@
       "date": "2026-01",
       "site": {
         "descriptor": "Dental practice site",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -2808,8 +2748,7 @@
       "date": "2024-02",
       "site": {
         "descriptor": "Sports sustainability nonprofit site",
-        "platform": "Webflow",
-        "industry": "Nonprofit"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -2845,8 +2784,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Matcha brand e-commerce site",
-        "platform": "Custom",
-        "industry": "E-commerce"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome",
@@ -2882,8 +2820,7 @@
       "date": "2025-05",
       "site": {
         "descriptor": "Cosmetic dentistry site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -2919,8 +2856,7 @@
       "date": "2025-05",
       "site": {
         "descriptor": "Pediatric dentistry site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -2966,8 +2902,7 @@
       "date": "2026-03",
       "site": {
         "descriptor": "Implant dentistry site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3018,8 +2953,7 @@
       "date": "2026-05",
       "site": {
         "descriptor": "Dental practice charity page (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3071,8 +3005,7 @@
       "date": "2025-02",
       "site": {
         "descriptor": "Pediatric dentistry site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Dental"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3128,8 +3061,7 @@
       "date": "2024-10",
       "site": {
         "descriptor": "Franchise services landing page",
-        "platform": "Custom",
-        "industry": "Services"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome",
@@ -3175,8 +3107,7 @@
       "date": "2025-01",
       "site": {
         "descriptor": "Athletic club site",
-        "platform": "Website builder",
-        "industry": "Fitness"
+        "platform": "Website builder"
       },
       "captured": {
         "browser": "Chrome",
@@ -3228,8 +3159,7 @@
       "date": "2025-10",
       "site": {
         "descriptor": "Business consulting site (agency-built)",
-        "platform": "Webflow",
-        "industry": "Consulting"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3285,8 +3215,7 @@
       "date": "2023-07",
       "site": {
         "descriptor": "Nonprofit foundation site (Polish team)",
-        "platform": "Webflow",
-        "industry": "Nonprofit"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Safari",
@@ -3340,8 +3269,7 @@
       "date": "2026-01",
       "site": {
         "descriptor": "Medical clinic site (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -3393,8 +3321,7 @@
       "date": "2025-06",
       "site": {
         "descriptor": "Public health organisation site",
-        "platform": "Custom CMS",
-        "industry": "Health"
+        "platform": "Custom CMS"
       },
       "captured": {
         "browser": "Chrome",
@@ -3431,8 +3358,7 @@
       "date": "2025-04",
       "site": {
         "descriptor": "Aesthetics clinic site (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -3474,8 +3400,7 @@
       "date": "2025-06",
       "site": {
         "descriptor": "Engineering firm site (staging)",
-        "platform": "Webflow",
-        "industry": "Engineering"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3517,8 +3442,7 @@
       "date": "2025-09",
       "site": {
         "descriptor": "Athletic club site",
-        "platform": "Website builder",
-        "industry": "Fitness"
+        "platform": "Website builder"
       },
       "captured": {
         "browser": "Chrome",
@@ -3571,8 +3495,7 @@
       "date": "2025-10",
       "site": {
         "descriptor": "Church website",
-        "platform": "Webflow",
-        "industry": "Faith"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3614,8 +3537,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Language school website",
-        "platform": "Custom",
-        "industry": "Education"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome",
@@ -3662,8 +3584,7 @@
       "date": "2025-03",
       "site": {
         "descriptor": "Film production agency site",
-        "platform": "Webflow",
-        "industry": "Creative"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3705,8 +3626,7 @@
       "date": "2025-05",
       "site": {
         "descriptor": "Endocrinology practice site (staging)",
-        "platform": "WordPress",
-        "industry": "Medical"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -3748,8 +3668,7 @@
       "date": "2025-01",
       "site": {
         "descriptor": "Design subscription service site (staging)",
-        "platform": "Webflow",
-        "industry": "Creative"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3791,8 +3710,7 @@
       "date": "2025-01",
       "site": {
         "descriptor": "Wedding / event site",
-        "platform": "WordPress",
-        "industry": "Events"
+        "platform": "WordPress"
       },
       "captured": {
         "browser": "Chrome",
@@ -3844,8 +3762,7 @@
       "date": "2025-02",
       "site": {
         "descriptor": "Social media agency site",
-        "platform": "Webflow",
-        "industry": "Agency"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -3902,8 +3819,7 @@
       "date": "2024-07",
       "site": {
         "descriptor": "Industrial coatings company site",
-        "platform": "Custom CMS",
-        "industry": "Manufacturing"
+        "platform": "Custom CMS"
       },
       "captured": {
         "browser": "Chrome",
@@ -3945,8 +3861,7 @@
       "date": "2023-12",
       "site": {
         "descriptor": "Cardiovascular practice site",
-        "platform": "Webflow",
-        "industry": "Medical"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -4013,8 +3928,7 @@
       "date": "2026-03",
       "site": {
         "descriptor": "Fintech company site (in development)",
-        "platform": "Webflow",
-        "industry": "Fintech"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",
@@ -4061,8 +3975,7 @@
       "date": "2025-04",
       "site": {
         "descriptor": "Sustainable architecture practice site",
-        "platform": "Webflow",
-        "industry": "Architecture"
+        "platform": "Webflow"
       },
       "captured": {
         "browser": "Chrome",

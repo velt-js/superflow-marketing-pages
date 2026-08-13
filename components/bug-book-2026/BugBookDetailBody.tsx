@@ -63,13 +63,11 @@ function CapturedGrid({ entry }: { entry: BugBookEntryDetail }) {
               ? `${entry.finding.confidence}%`
               : undefined,
         },
-        { label: "Client type", value: entry.site?.industry },
         { label: "Site", value: entry.site?.descriptor },
         { label: "Platform", value: entry.site?.platform },
       ]
     : [
         { label: "Issue type", value: entry.category },
-        { label: "Client type", value: entry.site?.industry },
         { label: "Site", value: entry.site?.descriptor },
         { label: "Platform", value: entry.site?.platform },
       ];

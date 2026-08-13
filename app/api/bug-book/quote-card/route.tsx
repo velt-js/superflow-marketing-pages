@@ -43,7 +43,7 @@ const VIBE_GRADIENTS: Record<string, string> = {
 
 const FOOTER_TRUST = "Names removed. Screenshots redacted.";
 const FOOTER_BRAND = "The Superflow Bug Book";
-const FOOTER_URL = "usesuperflow.com/bug-book";
+const FOOTER_URL = "usesuperflow.ai/bug-book";
 
 /** Resolves the requested crop, falling back rather than erroring. */
 function resolveFormat(value: string | null): FormatName {
