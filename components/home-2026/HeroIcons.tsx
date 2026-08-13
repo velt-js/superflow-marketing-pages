@@ -510,6 +510,23 @@ export function BookIcon(props: IconProps) {
   );
 }
 
+/** Bug icon — a beetle body with legs and antennae; represents the Bug Book. */
+export function BugIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M9 9v-1a3 3 0 0 1 6 0v1" />
+      <path d="M8 9h8a6 6 0 0 1 1 3v3a5 5 0 0 1 -10 0v-3a6 6 0 0 1 1 -3" />
+      <path d="M3 13h4" />
+      <path d="M17 13h4" />
+      <path d="M12 20v-6" />
+      <path d="M4 19l3.35 -2" />
+      <path d="M20 19l-3.35 -2" />
+      <path d="M4 7l3.75 2.4" />
+      <path d="M20 7l-3.75 2.4" />
+    </IconBase>
+  );
+}
+
 /** News icon — a folded paper with lines; represents the blog. */
 export function NewsIcon(props: IconProps) {
   return (
