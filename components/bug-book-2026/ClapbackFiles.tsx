@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
-  SASS_TYPE_LABELS,
+  vibeBadgeLabel,
+  vibeMeta,
   type BugBookListEntry,
 } from "@/lib/bug-book";
 import styles from "./ClapbackFiles.module.css";
@@ -11,16 +12,42 @@ import styles from "./ClapbackFiles.module.css";
 // headline drops to a caption underneath.
 
 const HEADING = "The Clapback Files";
+/* Not every featured line is a reply, so the subhead promises the lines
+   rather than the comebacks. */
 const SUBHEAD =
-  "The best replies in the book. Every one of these was typed by a real person, on a real site, in a real review.";
-const MAX_CARDS = 4;
+  "The lines we could not stop reading. Every one typed by a real person, on a real site, in a real review.";
 const CTA_LABEL = "Read the thread";
 
-/** Cards need a quote to be worth showing, so quoteless entries drop out. */
+/**
+ * Hand-picked, in this order. Editorial judgement beats "first four
+ * sassy entries" here - the funniest lines are spread across vibes, and
+ * two of these are comedy rather than sass.
+ */
+const FEATURED_SLUGS = [
+  "its-centered",
+  "you-just-have-to-persevere",
+  "make-the-logo-bigger",
+  "wife-hates-the-hair",
+  "its-2025-you-never-know",
+];
+
+/** How many auto-picked cards to fall back to if the picks go missing. */
+const FALLBACK_COUNT = 4;
+
+/**
+ * Resolves the featured slugs in order, dropping any that have been
+ * rotated to the bench or lost their quote. Falls back to the sassiest
+ * entries so the strip degrades instead of vanishing.
+ */
 function pickClapbacks(entries: BugBookListEntry[]): BugBookListEntry[] {
+  const bySlug = new Map(entries.map((entry) => [entry.slug, entry]));
+  const featured = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter(
+    (entry): entry is BugBookListEntry => Boolean(entry?.pullQuote),
+  );
+  if (featured.length > 0) return featured;
   return entries
     .filter((entry) => entry.vibe === "sass" && entry.pullQuote)
-    .slice(0, MAX_CARDS);
+    .slice(0, FALLBACK_COUNT);
 }
 
 function QuoteMark() {
@@ -59,9 +86,9 @@ export default function ClapbackFiles({
         </header>
         <ul className={styles.grid}>
           {clapbacks.map((entry) => {
-            const typeLabel = entry.sassType
-              ? SASS_TYPE_LABELS[entry.sassType]
-              : null;
+            // Sassy cards show their sub-type; the rest show their vibe.
+            const typeLabel = vibeBadgeLabel(entry.vibe, entry.sassType);
+            const typeEmoji = vibeMeta(entry.vibe)?.emoji ?? "";
             return (
               <li key={entry._id} className={styles.item}>
                 <Link
@@ -75,7 +102,9 @@ export default function ClapbackFiles({
                   <p className={styles.caption}>{entry.headline}</p>
                   <div className={styles.footer}>
                     {typeLabel ? (
-                      <span className={styles.typeTag}>😏 {typeLabel}</span>
+                      <span className={styles.typeTag}>
+                        {typeEmoji} {typeLabel}
+                      </span>
                     ) : null}
                     <span className={styles.cta}>{CTA_LABEL} →</span>
                   </div>
