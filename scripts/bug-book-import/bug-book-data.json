@@ -799,8 +799,7 @@
       "date": "2025-09",
       "site": {
         "descriptor": "Our own security page. Yes, ours.",
-        "platform": "Custom",
-        "industry": "Superflow / Velt"
+        "platform": "Custom"
       },
       "captured": {
         "browser": "Chrome 140",
@@ -1511,8 +1510,7 @@
       "date": "2026-06",
       "site": {
         "descriptor": "Our own marketing site. We're not proud.",
-        "platform": "Framer",
-        "industry": "Superflow / Velt"
+        "platform": "Framer"
       },
       "captured": null,
       "headline": "Our spell-check agent found \"Superflow\" misspelled as \"Duperflow\" - on our own site",
@@ -1629,8 +1627,7 @@
       "date": "2026-08",
       "site": {
         "descriptor": "Our own web app. Again: not proud.",
-        "platform": "Custom app",
-        "industry": "Superflow / Velt"
+        "platform": "Custom app"
       },
       "captured": null,
       "headline": "Our performance agent measured our own onboarding page. The number was so bad we published it.",
@@ -1863,8 +1860,7 @@
       "date": "2026-07",
       "site": {
         "descriptor": "Our own homepage redesign, pre-launch. Yes, again.",
-        "platform": "Custom",
-        "industry": "Superflow / Velt"
+        "platform": "Custom"
       },
       "captured": null,
       "headline": "Our SEO agent audited our new homepage draft: no meta title, no JSON-LD. Zero for two.",
@@ -2608,8 +2604,7 @@
       "date": "2025-04",
       "site": {
         "descriptor": "Our own product page draft. We know. We KNOW.",
-        "platform": "Framer",
-        "industry": "Superflow / Velt"
+        "platform": "Framer"
       },
       "captured": {
         "browser": "Chrome 135",
