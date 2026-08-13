@@ -68,6 +68,22 @@ function countFor(
   ).length;
 }
 
+/** Marks the selected option. The slot is reserved on every row, so
+    labels don't shift sideways as the selection moves. */
+function TickIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path
+        d="M1.75 6.25 4.5 9l5.75-6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function FilterGroup({
   label,
   axis,
@@ -102,6 +118,9 @@ function FilterGroup({
                 disabled={empty}
                 onClick={() => onChange(option.value)}
               >
+                <span className={styles.tick} aria-hidden="true">
+                  {active ? <TickIcon /> : null}
+                </span>
                 <span className={styles.optionLabel}>{option.label}</span>
                 <span className={styles.optionCount}>{count}</span>
               </button>
