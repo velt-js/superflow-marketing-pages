@@ -24,6 +24,16 @@ import { TOOLS, liveTools, toolPath } from "../../lib/tools/registry";
  * not a tool failure, and treating it as one would make the suite noisy enough
  * that people stop reading it.
  */
+/**
+ * Budget for a test that waits on a live backend run, and for the test itself.
+ *
+ * These two tools call the product backend for real rather than a fixture, so
+ * the wait has to cover a cold cache, the client's 45s ceiling, and a page load
+ * that is slow whenever third-party assets are unreachable.
+ */
+const RUN_TIMEOUT_MS = 150_000;
+const RUN_TEST_TIMEOUT_MS = 240_000;
+
 const THIRD_PARTY = [
   "googletagmanager.com",
   "google-analytics.com",
@@ -135,7 +145,7 @@ test.describe("the AI visibility tools survive a real run", () => {
 
   for (const testCase of CASES) {
     test(`${testCase.slug} renders a report end to end`, async ({ page }) => {
-      test.setTimeout(120_000);
+      test.setTimeout(RUN_TEST_TIMEOUT_MS);
       const errors = collectErrors(page);
 
       await page.goto(`${toolPath(testCase.slug)}?url=${encodeURIComponent("https://example.com")}`, {
@@ -144,8 +154,15 @@ test.describe("the AI visibility tools survive a real run", () => {
 
       // The deep link auto-runs, so the report is the thing to wait for. The
       // score dial only exists once a report is in hand.
+      //
+      // The budget is deliberately well past the obvious number. This drives a
+      // real, uncached backend run: the client's own ceiling is 45s
+      // (OVERALL_TIMEOUT_MS in lib/toolkit/superflow-api.ts) and the page load
+      // sits on top of that. A 90s budget failed here on a cold cache while
+      // the same run passed standalone, which is a flaky gate rather than a
+      // finding, and a flaky gate is one people learn to ignore.
       await expect(page.getByText("out of 100")).toBeVisible({
-        timeout: 90_000,
+        timeout: RUN_TIMEOUT_MS,
       });
 
       // "What we found" is the section that used to throw.
