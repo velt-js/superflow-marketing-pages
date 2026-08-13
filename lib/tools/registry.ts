@@ -62,11 +62,11 @@ export const TOOLS: readonly ToolEntry[] = [
       "See whether ChatGPT, Claude, and Perplexity can actually read your site",
     category: "ai-visibility",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract. Starts work on staging, but polls return not-found until
-    // snippyly/shared-firebase-function#3825 deploys, so a visitor cannot
-    // get a report yet. Flip to "live" only after a real end-to-end run
-    // through this page passes against the deployed backend.
-    status: "planned",
+    // contract. Live as of 2026-08-13, once #3825 deployed and a real run
+    // through the deployed path returned a report. Verified against the
+    // production route: an uncached run on wikipedia.org came back with
+    // readinessScore 80, attributionScore 34, and all four category groups.
+    status: "live",
     icon: "robot",
     related: [
       "robots-txt-ai-checker",
@@ -79,9 +79,9 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "robots.txt AI Checker",
     tagline: "Test your robots.txt against every AI crawler that matters",
     category: "ai-visibility",
-    // Backend-dependent: same engine and same #3825 poll blocker as the
-    // AI Visibility Checker.
-    status: "planned",
+    // Backend-dependent: same engine as the AI Visibility Checker, scoped
+    // to Access. Live as of 2026-08-13 on the same verified run.
+    status: "live",
     icon: "file",
     related: [
       "ai-visibility-checker",
@@ -167,7 +167,7 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Tech Stack Detector",
     tagline: "Find the platform, theme, apps, and analytics behind any site",
     category: "quality",
-    status: "planned",
+    status: "live",
     icon: "stack",
     related: ["ai-visibility-checker", "website-launch-checklist"],
   },
