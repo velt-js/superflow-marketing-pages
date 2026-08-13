@@ -6,7 +6,7 @@
  * `tier == "page"`, so rotating an entry in/out is a one-field edit in
  * Studio (or in the JSON + a rerun). Array items get stable `_key`s so
  * reruns don't churn unrelated fields. Sassy entries also get a derived
- * `sassQuote` (see deriveSassQuote).
+ * `pullQuote` (see derivePullQuote).
  *
  * Idempotent: createOrReplace on `_id = bugBook-<slug>`, plus a delete
  * pass for docs whose slug left the JSON. Reruns wipe manual Studio
@@ -46,11 +46,13 @@ const { entries, samples = [] } = JSON.parse(
 
 
 /**
- * Lifts the punchline out of a sassy thread so the detail page can lead
- * with it. Every sassy slug is derived from its own punchline, so the
- * comment that shares the most words with the slug is the line - scored
- * per comment, then narrowed to the best sentence when the comment runs
- * long. Seeded into `sassQuote`; editors can override it in Studio.
+ * Lifts the line an entry turns on, so cards can lead with real words
+ * instead of a stock illustration. Slugs are derived from that line, so
+ * the comment sharing the most words with the slug is it - scored per
+ * comment, then narrowed to the best sentence when the comment runs
+ * long. Agent entries use their finding title. Falls back to the first
+ * comment so every entry has one. Seeded into `pullQuote`; editors can
+ * override it in Studio.
  */
 const QUOTE_STOP_WORDS = new Set([
   "the", "a", "an", "is", "it", "to", "of", "on", "in", "and", "this",
@@ -73,8 +75,12 @@ function overlapScore(text, slugTokens) {
   return slugTokens.filter((word) => words.has(word)).length;
 }
 
-function deriveSassQuote(entry) {
-  if (entry.vibe !== "sass") return null;
+function derivePullQuote(entry) {
+  if (entry.source === "agent") {
+    return entry.finding?.title
+      ? { text: entry.finding.title, speaker: entry.agentName ?? null }
+      : null;
+  }
   const comments = entry.thread ?? [];
   if (comments.length === 0) return null;
 
@@ -85,9 +91,15 @@ function deriveSassQuote(entry) {
   let best = null;
   for (const comment of comments) {
     const score = overlapScore(comment.text, slugTokens);
-    if (!best || score > best.score) best = { score, text: comment.text };
+    if (!best || score > best.score) {
+      best = { score, text: comment.text, speaker: comment.speaker };
+    }
   }
-  if (!best || best.score === 0) return null;
+  // No word overlap means the slug was editorial rather than quoted;
+  // the opening comment is still the line that started it all.
+  if (!best || best.score === 0) {
+    best = { score: 0, text: comments[0].text, speaker: comments[0].speaker };
+  }
 
   if (best.text.length > QUOTE_NARROW_MIN_LENGTH) {
     const sentences = best.text
@@ -102,14 +114,16 @@ function deriveSassQuote(entry) {
           bestSentence = { score, text: sentence };
         }
       }
-      if (bestSentence?.score > 0) return bestSentence.text;
+      if (bestSentence?.score > 0) {
+        return { text: bestSentence.text, speaker: best.speaker };
+      }
     }
   }
-  return best.text;
+  return { text: best.text, speaker: best.speaker };
 }
 
 function toDoc(entry, index) {
-  const sassQuote = deriveSassQuote(entry);
+  const pullQuote = derivePullQuote(entry);
   return {
     _id: `bugBook-${entry.slug}`,
     _type: "bugBookEntry",
@@ -118,7 +132,8 @@ function toDoc(entry, index) {
     tier: entry.tier,
     vibe: entry.vibe,
     ...(entry.sassType ? { sassType: entry.sassType } : {}),
-    ...(sassQuote ? { sassQuote } : {}),
+    ...(pullQuote ? { pullQuote: pullQuote.text } : {}),
+    ...(pullQuote?.speaker ? { pullQuoteSpeaker: pullQuote.speaker } : {}),
     source: entry.source,
     sourceLabel: entry.sourceLabel,
     ...(entry.agentName ? { agentName: entry.agentName } : {}),

@@ -327,13 +327,18 @@ export const bugBookEntry = defineType({
       hidden: ({ parent }) => parent?.vibe !== "sass",
     }),
     defineField({
-      name: "sassQuote",
-      title: "Sassy Pull-Quote",
+      name: "pullQuote",
+      title: "Pull-Quote",
       type: "text",
       rows: 2,
       description:
-        "The punchline, lifted verbatim from the thread and shown oversized under the headline. Seeded automatically by the import script; edit here to override.",
-      hidden: ({ parent }) => parent?.vibe !== "sass",
+        "The line the entry turns on, lifted verbatim from the thread (or the agent's finding title). Rendered as the card's visual and, on sassy entries, oversized under the headline. Seeded by the import script; edit here to override.",
+    }),
+    defineField({
+      name: "pullQuoteSpeaker",
+      title: "Pull-Quote Speaker",
+      type: "string",
+      description: "Who said it - shown small under the quote on the card.",
     }),
     defineField({
       name: "rageLevel",

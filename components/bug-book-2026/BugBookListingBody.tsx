@@ -165,6 +165,8 @@ export default function BugBookListingBody({
         </div>
       </section>
 
+      <ClapbackFiles entries={entries} />
+
       <section className={styles.layout}>
         <div className={styles.layoutInner}>
           <aside className={styles.sidebar}>

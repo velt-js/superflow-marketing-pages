@@ -159,8 +159,9 @@
 }
 
 .sortActive {
-    background: #16171a;
-    color: #ffffff;
+    background: #eeedfe;
+    color: #433df3;
+    font-weight: 700;
 }
 
 /* ------------------------------------------------------------------ Grid */

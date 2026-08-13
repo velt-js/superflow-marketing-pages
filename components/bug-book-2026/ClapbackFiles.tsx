@@ -19,7 +19,7 @@ const CTA_LABEL = "Read the thread";
 /** Cards need a quote to be worth showing, so quoteless entries drop out. */
 function pickClapbacks(entries: BugBookListEntry[]): BugBookListEntry[] {
   return entries
-    .filter((entry) => entry.vibe === "sass" && entry.sassQuote)
+    .filter((entry) => entry.vibe === "sass" && entry.pullQuote)
     .slice(0, MAX_CARDS);
 }
 
@@ -70,7 +70,7 @@ export default function ClapbackFiles({
                 >
                   <QuoteMark />
                   <blockquote className={styles.quote}>
-                    {entry.sassQuote}
+                    {entry.pullQuote}
                   </blockquote>
                   <p className={styles.caption}>{entry.headline}</p>
                   <div className={styles.footer}>
