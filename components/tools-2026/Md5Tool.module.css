@@ -224,3 +224,17 @@
         padding: 12px 20px;
     }
 }
+
+/* ---- Privacy line ----
+   Sits between the hero and the tool, matching where the shared ToolPage
+   template puts it. Aligned to the same 860px column as .inner so it reads as
+   part of the tool rather than as loose page copy. */
+
+.privacyLine {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+    font-size: 13px;
+    color: var(--md5-muted);
+}

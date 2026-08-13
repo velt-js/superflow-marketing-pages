@@ -26,3 +26,8 @@ next-env.d.ts
 
 # Fonts the meta-image generator downloads and caches on first run.
 scripts/og-image/.fonts/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/

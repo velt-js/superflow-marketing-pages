@@ -21,6 +21,26 @@ export const BUG_BOOK_CATEGORIES = [
   "SEO",
 ] as const;
 
+/**
+ * The fourth filter axis - the emotional flavor of the thread. Values are
+ * the data contract; "sass" is displayed as "Sassy" in the UI.
+ */
+export const BUG_BOOK_VIBES = [
+  { title: "Rage", value: "rage" },
+  { title: "Sassy", value: "sass" },
+  { title: "Comedy", value: "comedy" },
+  { title: "War story", value: "story" },
+] as const;
+
+export const BUG_BOOK_SASS_TYPES = [
+  "clapback",
+  "passive-aggression",
+  "deadpan",
+  "refusal",
+  "self-roast",
+  "receipts",
+] as const;
+
 export const BUG_BOOK_SEVERITIES = [
   "Critical",
   "High",
@@ -287,6 +307,38 @@ export const bugBookEntry = defineType({
       type: "string",
       options: { list: BUG_BOOK_SEVERITIES.map((s) => ({ title: s, value: s })) },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "vibe",
+      title: "Vibe",
+      type: "string",
+      description: "Emotional flavor of the thread - the fourth filter axis.",
+      options: { list: BUG_BOOK_VIBES.map((v) => ({ ...v })), layout: "radio" },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "sassType",
+      title: "Sass Type",
+      type: "string",
+      description: "Sassy entries only - shown on the card instead of the vibe label.",
+      options: {
+        list: BUG_BOOK_SASS_TYPES.map((t) => ({ title: t, value: t })),
+      },
+      hidden: ({ parent }) => parent?.vibe !== "sass",
+    }),
+    defineField({
+      name: "pullQuote",
+      title: "Pull-Quote",
+      type: "text",
+      rows: 2,
+      description:
+        "The line the entry turns on, lifted verbatim from the thread (or the agent's finding title). Rendered as the card's visual and, on sassy entries, oversized under the headline. Seeded by the import script; edit here to override.",
+    }),
+    defineField({
+      name: "pullQuoteSpeaker",
+      title: "Pull-Quote Speaker",
+      type: "string",
+      description: "Who said it - shown small under the quote on the card.",
     }),
     defineField({
       name: "rageLevel",

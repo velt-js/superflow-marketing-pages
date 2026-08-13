@@ -76,9 +76,28 @@ export function VisibilityReportView({
   slug: string;
   focus?: CategoryId;
 }) {
+  // Never dereference a report field without a guard. Both of these arrays
+  // are required by the type and were still absent at runtime: the backend
+  // engine deletes `findings` from the report before returning it, which
+  // crashed this component on every successful run until the API layer
+  // started reattaching them. A public tool must degrade, not blank out.
+  const allFindings = report.findings ?? [];
+  const allCategories = report.categories ?? [];
+
   const shownCategories = focus
-    ? report.categories.filter((category) => category.id === focus)
-    : report.categories;
+    ? allCategories.filter((category) => category.id === focus)
+    : allCategories;
+
+  // The backend path sends failures and warnings only, so the "twelve checks"
+  // framing would be a claim the list does not support.
+  const hasPasses = allFindings.some((finding) => finding.status === "pass");
+
+  // A clean site on that same path produces no findings at all. Without this
+  // the section renders a heading and a promise over empty space, which reads
+  // as a failed load rather than as good news.
+  const shownFindingCount = allFindings.filter((finding) =>
+    shownCategories.some((category) => category.id === finding.category),
+  ).length;
 
   const focused = focus ? shownCategories[0] : undefined;
 
@@ -206,13 +225,17 @@ export function VisibilityReportView({
       <div>
         <h2 className={styles.findingsHeading}>What we found</h2>
         <p className={styles.findingsLead}>
-          {focus
-            ? "Every check that affects whether AI systems can reach your site. Failures first."
-            : "Twelve checks, grouped by what they affect. Failures first."}
+          {shownFindingCount === 0
+            ? "Nothing to fix here. Every check in this report passed."
+            : hasPasses
+              ? focus
+                ? "Every check that affects whether AI systems can reach your site. Failures first."
+                : "Twelve checks, grouped by what they affect. Failures first."
+              : "What to fix, grouped by what it affects. The scores above cover every check we ran."}
         </p>
 
         {shownCategories.map((category) => {
-          const findings = report.findings
+          const findings = allFindings
             .filter((finding) => finding.category === category.id)
             .sort(
               (a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status],
