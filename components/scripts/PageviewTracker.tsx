@@ -1,14 +1,14 @@
 "use client";
 
-// Fires a pageview to GTM (dataLayer push) and Mixpanel on every client-
+// Fires a pageview to GTM (dataLayer push) and GA4 (gtag) on every client-
 // side route change. The third-party snippets in ThirdPartyScripts.tsx
 // only capture the INITIAL page load — without this hook, every Next.js
 // SPA navigation would silently drop the pageview.
 //
 // The first effect run is skipped (via a ref) because:
 //   - GTM's gtm.js init already pushes the initial container-load event.
-//   - Mixpanel's `track_pageview: "full-url"` in init auto-fires the
-//     first pageview on full-document load.
+//   - gtag's `config` call auto-fires the first page_view on full-document
+//     load.
 // Firing again on mount would double-count.
 //
 // Must be mounted inside a <Suspense> boundary — useSearchParams() opts
@@ -22,18 +22,9 @@ import { useEffect, useRef } from "react";
 const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
 
 type DataLayerEntry = Record<string, unknown>;
-type MixpanelFn = (...args: unknown[]) => void;
-type MixpanelClient = {
-  track_pageview?: MixpanelFn;
-  /** Set to true by Mixpanel only once the real library has loaded (not the stub). */
-  __loaded?: boolean;
-  /** Present on the real library but not the pre-load stub — a clean "ready" signal. */
-  get_distinct_id?: MixpanelFn;
-};
 type GtagFn = (...args: unknown[]) => void;
 type WindowWithAnalytics = Window & {
   dataLayer?: DataLayerEntry[];
-  mixpanel?: MixpanelClient;
   gtag?: GtagFn;
 };
 
@@ -79,21 +70,6 @@ export function PageviewTracker() {
           page_location: pageLocation,
           page_title: pageTitle,
         });
-      }
-
-      // Mixpanel — manual pageview track for SPA route changes. The init
-      // option `track_pageview: "full-url"` only fires on hard loads.
-      //
-      // Guard against the pre-load stub: it defines `track_pageview` as a
-      // function too (so a `typeof` check alone passes), but invoking it before
-      // the real lib loads throws internally ("a.push is not a function"). Only
-      // call once the real library is loaded — `__loaded`/`get_distinct_id` are
-      // present on the real lib but not the stub.
-      const mp = w.mixpanel;
-      const mixpanelLoaded =
-        mp?.__loaded === true || typeof mp?.get_distinct_id === "function";
-      if (mixpanelLoaded && typeof mp?.track_pageview === "function") {
-        mp.track_pageview();
       }
     } catch (err) {
       console.error("Pageview tracking failed:", err);

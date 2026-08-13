@@ -1,4 +1,9 @@
-import { categoryColor, severityColor } from "@/lib/bug-book";
+import {
+  categoryColor,
+  severityColor,
+  vibeBadgeLabel,
+  vibeMeta,
+} from "@/lib/bug-book";
 import styles from "./Chips.module.css";
 
 /** Category chip — tinted pill in the category's accent color. */
@@ -88,6 +93,31 @@ export function SourceBadge({
     >
       {source === "agent" ? <SparkleGlyph /> : <HumanGlyph />}
       {text}
+    </span>
+  );
+}
+
+/**
+ * Vibe badge - the fun axis. Sassy entries show their sub-type
+ * ("Clapback", "Receipts") instead of the vibe label.
+ */
+export function VibeBadge({
+  vibe,
+  sassType,
+}: {
+  vibe?: string;
+  sassType?: string;
+}) {
+  const meta = vibeMeta(vibe);
+  const label = vibeBadgeLabel(vibe, sassType);
+  if (!meta || !label) return null;
+  return (
+    <span
+      className={vibe === "sass" ? styles.vibeSass : styles.vibe}
+      aria-label={`Vibe: ${label}`}
+    >
+      <span aria-hidden="true">{meta.emoji}</span>
+      {label}
     </span>
   );
 }

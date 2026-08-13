@@ -1,6 +1,7 @@
-/* Bug Book listing (/bug-book) — mirrors the blog-2026 layout system:
-   hero on the shared blue gradient bitmap, then a light filter bar and
-   3-col card grid. */
+/* Bug Book listing (/bug-book). Hero on the shared blue gradient bitmap,
+   then a two-column body: a sticky filter rail beside the card grid. The
+   filters used to sit in stacked pill rows across the top, which pushed
+   the bugs themselves below the fold on anything under a large laptop. */
 
 .page {
     background: #ffffff;
@@ -64,89 +65,56 @@
     text-wrap: balance;
 }
 
-/* ------------------------------------------------------------ Filter bar */
+/* ------------------------------------------------- Rail + results layout */
 
-.filterSection {
-    padding: 56px 24px 8px;
+.layout {
+    padding: 44px 24px 48px;
 }
 
-.filterInner {
-    max-width: 1200px;
+.layoutInner {
+    max-width: 1240px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+}
+
+.sidebar {
+    min-width: 0;
+    position: sticky;
+    top: 92px;
+}
+
+.sidebarInner,
+.sidebarClosed {
+    display: block;
+}
+
+/* The toggle only exists on narrow screens; see the media query. */
+.filterToggle {
+    display: none;
+}
+
+.results {
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 22px 24px;
-    border: 1px solid #ececf1;
-    border-radius: 20px;
-    background: #fbfbfd;
+    gap: 18px;
 }
 
-.pillGroup {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-}
-
-.pillGroupLabel {
-    flex-shrink: 0;
-    width: 76px;
-    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: #9096a1;
-}
-
-.pills {
+.resultsBar {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-}
-
-.pill,
-.pillActive {
-    appearance: none;
-    border: 1px solid #e3e4ea;
-    border-radius: 9999px;
-    padding: 5px 14px;
-    font-family: var(--font-urbanist), system-ui, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.5;
-    cursor: pointer;
-    transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
-}
-
-.pill {
-    background: #ffffff;
-    color: #4b5563;
-}
-
-.pill:hover {
-    border-color: rgba(67, 61, 243, 0.4);
-    color: #433df3;
-}
-
-.pillActive {
-    background: #16171a;
-    border-color: #16171a;
-    color: #ffffff;
-}
-
-.filterFooter {
-    display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    border-top: 1px solid #ececf1;
-    padding-top: 14px;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #ececf1;
 }
 
 .count {
     margin: 0;
-    flex-shrink: 0;
     font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
     font-size: 12px;
     font-weight: 600;
@@ -154,21 +122,53 @@
     color: #6b7079;
 }
 
+.sortControl {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sortLabel {
+    margin-right: 6px;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #a3a8b3;
+}
+
+.sort,
+.sortActive {
+    appearance: none;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    background: none;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7079;
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+}
+
+.sort:hover {
+    background: #f4f5f8;
+    color: #16171a;
+}
+
+.sortActive {
+    background: #16171a;
+    color: #ffffff;
+}
+
 /* ------------------------------------------------------------------ Grid */
-
-.gridSection {
-    padding: 36px 24px 48px;
-}
-
-.gridInner {
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: 18px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -217,13 +217,60 @@
 
 /* ------------------------------------------------------------ Responsive */
 
-@media (max-width: 1080px) {
-    .hero {
-        background-size: 100% 760px;
+@media (max-width: 1180px) {
+    .layoutInner {
+        grid-template-columns: 208px minmax(0, 1fr);
+        gap: 32px;
     }
 
     .grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        background-size: 100% 760px;
+    }
+
+    /* Rail stacks above the grid and collapses behind a toggle, so the
+       bugs stay the first thing on the page. */
+    .layoutInner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .filterToggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        appearance: none;
+        padding: 12px 16px;
+        border: 1px solid #e3e4ea;
+        border-radius: 12px;
+        background: #ffffff;
+        font-family: var(--font-urbanist), system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #16171a;
+        cursor: pointer;
+    }
+
+    .filterToggleCount {
+        font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #9096a1;
+    }
+
+    .sidebarInner {
+        padding-top: 18px;
+    }
+
+    .sidebarClosed {
+        display: none;
     }
 }
 
@@ -236,26 +283,8 @@
         padding: calc(var(--site-nav-height) + 48px) 20px 56px;
     }
 
-    .filterSection {
-        padding: 36px 20px 4px;
-    }
-
-    .pillGroup {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .pillGroupLabel {
-        width: auto;
-    }
-
-    .filterFooter {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .gridSection {
-        padding: 28px 20px 40px;
+    .layout {
+        padding: 28px 20px 36px;
     }
 
     .grid {
