@@ -249,6 +249,22 @@ function DetailView({ detail }: { detail: FindingDetail }) {
         );
       }
 
+      // The backend engine's shape: only the failures, and no file-level
+      // fields. When the file is missing entirely there is nothing to list,
+      // and the finding's own copy already says so.
+      case "llms-txt-summary": {
+        if (!detail.found || detail.failedRules.length === 0) return null;
+        return (
+          <ul className={styles.detailList}>
+            {detail.failedRules.map((rule) => (
+              <li key={rule.title}>
+                <strong>{rule.title}:</strong> {rule.detail}
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
       default:
         return null;
     }

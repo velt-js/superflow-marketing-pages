@@ -30,7 +30,9 @@ import type {
   CategoryId,
   CheckId,
   CheckStatus,
+  Effort,
   Finding,
+  FindingDetail,
   VisibilityReport,
 } from "@/lib/tools/ai-visibility/types";
 
@@ -108,6 +110,13 @@ type BackendReport = Omit<
 > & {
   redirectCount?: number;
   error?: string;
+  /**
+   * The full per-check payload, with `detail` intact. Present since the
+   * 2026-08-13 backend release; absent on anything older and on a cached
+   * report written before it, which is why the reader falls back rather than
+   * requiring it.
+   */
+  checks?: unknown[];
 };
 
 /**
@@ -126,6 +135,121 @@ type BackendFinding = {
   /** `ai-visibility-<check id>`, e.g. `ai-visibility-s3`. */
   issueType?: unknown;
 };
+
+/** Every status the report view knows how to render. */
+const KNOWN_STATUSES = new Set<string>(["pass", "warn", "fail", "unknown"]);
+
+/** Every effort label the finding card knows how to render. */
+const KNOWN_EFFORTS = new Set<string>(["minutes", "hour", "project"]);
+
+/**
+ * Rebuilds findings from the report's `checks` array.
+ *
+ * `checks` is the backend's full per-check payload: every check including the
+ * passes, `why` and `fix` still separate, and the structured `detail` intact —
+ * the per-crawler bot table above all, which is the entire substance of the
+ * robots.txt tool. It rides on the report rather than the envelope precisely so
+ * it survives `ReportResultTransformer`'s findings strip.
+ *
+ * Fields are validated rather than cast. A check whose id, category or status
+ * the UI does not know is dropped instead of rendered as a blank row, and an
+ * unrecognised `detail.kind` is discarded while the finding itself is kept.
+ *
+ * @param raw - The report's `checks` array, straight off the wire.
+ * @returns Findings the report view can render.
+ */
+function fromBackendChecks(raw: unknown[]): Finding[] {
+  try {
+    const findings: Finding[] = [];
+
+    for (const entry of raw) {
+      if (typeof entry !== "object" || entry === null) continue;
+      const check = entry as Record<string, unknown>;
+
+      const id = typeof check.id === "string" ? check.id : "";
+      const category = CATEGORY_BY_PREFIX[id.charAt(0)];
+      const status = typeof check.status === "string" ? check.status : "";
+
+      if (!id || !category || !KNOWN_STATUSES.has(status)) continue;
+
+      const effort = typeof check.effort === "string" ? check.effort : "";
+      const detail = toFindingDetail(check.detail);
+
+      findings.push({
+        id: id as CheckId,
+        category,
+        status: status as CheckStatus,
+        title: typeof check.title === "string" ? check.title : id,
+        why: typeof check.why === "string" ? check.why : "",
+        fix: typeof check.fix === "string" ? check.fix : "",
+        ...(typeof check.fixSnippet === "string" ? { fixSnippet: check.fixSnippet } : {}),
+        ...(typeof check.platformFix === "string" ? { platformFix: check.platformFix } : {}),
+        ...(KNOWN_EFFORTS.has(effort) ? { effort: effort as Effort } : {}),
+        ...(typeof check.points === "number" ? { points: check.points } : {}),
+        ...(typeof check.maxPoints === "number" ? { maxPoints: check.maxPoints } : {}),
+        ...(detail ? { detail } : {}),
+      });
+    }
+
+    return findings;
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Passes a `detail` payload through, translating the one shape that differs.
+ *
+ * Seven of the engine's eight detail kinds are already byte-compatible with the
+ * UI's union. `llms-txt` is not: the backend sends `{ found, failedRules }`
+ * while the UI's variant expects a full `LlmsTxtValidation`, whose `rules` the
+ * card dereferences directly. Passing it through untranslated would throw on
+ * `detail.validation.rules` — the same crash this whole area just recovered
+ * from — so it is remapped onto its own variant instead.
+ *
+ * @param detail - The `detail` field of one check.
+ * @returns A renderable detail, or undefined when the kind is unknown.
+ */
+function toFindingDetail(detail: unknown): FindingDetail | undefined {
+  try {
+    if (typeof detail !== "object" || detail === null) return undefined;
+    const value = detail as Record<string, unknown>;
+
+    if (value.kind === "llms-txt") {
+      const failedRules = Array.isArray(value.failedRules) ? value.failedRules : [];
+      return {
+        kind: "llms-txt-summary",
+        found: value.found === true,
+        failedRules: failedRules.filter(
+          (rule): rule is { title: string; detail: string } =>
+            typeof rule === "object" &&
+            rule !== null &&
+            typeof (rule as { title?: unknown }).title === "string" &&
+            typeof (rule as { detail?: unknown }).detail === "string",
+        ),
+      };
+    }
+
+    // The remaining kinds match the UI union as-is. Anything unrecognised is
+    // dropped rather than handed to a switch that has no arm for it.
+    const passThrough = new Set([
+      "bot-table",
+      "firewall",
+      "js-dependency",
+      "headings",
+      "schema",
+      "answer-shape",
+      "meta",
+    ]);
+    if (typeof value.kind === "string" && passThrough.has(value.kind)) {
+      return value as unknown as FindingDetail;
+    }
+
+    return undefined;
+  } catch {
+    return undefined;
+  }
+}
 
 /** Check-id prefix to scoring category. Mirrors the backend's own ids. */
 const CATEGORY_BY_PREFIX: Record<string, CategoryId> = {
@@ -240,7 +364,14 @@ function toVisibilityReport(
     // Reattach what the backend split off. Without this the report satisfies
     // its TypeScript type and still has no `findings` at runtime, which is
     // exactly the shape that crashed the report view in production.
-    findings: toVisibilityFindings(findings),
+    //
+    // `checks` is preferred when the backend sends it: it carries the passes,
+    // the separate why/fix, the effort and points, and the structured detail
+    // the envelope's flattened findings throw away. The envelope remains the
+    // fallback for older deploys and for reports cached before that release.
+    findings: Array.isArray(backend.checks) && backend.checks.length > 0
+      ? fromBackendChecks(backend.checks)
+      : toVisibilityFindings(findings),
     categories: backend.categories ?? [],
     // The backend reports how many hops it followed; the UI only renders a
     // count, so synthesize placeholder entries rather than widening the
