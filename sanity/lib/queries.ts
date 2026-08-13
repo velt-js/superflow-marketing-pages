@@ -2,6 +2,7 @@ import { client } from "../client";
 import type {
   BugBookEntryDetail,
   BugBookListEntry,
+  BugBookSample,
 } from "@/lib/bug-book";
 
 export type BlogPostListItem = {
@@ -949,4 +950,27 @@ export async function getBugBookEntryBySlug(
   `,
     { slug }
   );
+}
+
+/**
+ * Illustrative agent reports for the "New agents on the beat" band.
+ * Kept out of the entry queries on purpose - they are never routed,
+ * indexed, or mixed into the collection grid.
+ */
+export async function getBugBookSamples(): Promise<BugBookSample[]> {
+  return client.fetch(`
+    *[_type == "bugBookSample"] | order(order asc) {
+      _id,
+      "slug": slug.current,
+      sourceLabel,
+      agentName,
+      category,
+      severity,
+      headline,
+      hook,
+      finding{ title, description, suggestion, issueType, confidence },
+      whyItMatters,
+      note
+    }
+  `);
 }

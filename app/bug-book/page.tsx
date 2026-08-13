@@ -1,5 +1,8 @@
 import BugBookListingBody from "@/components/bug-book-2026/BugBookListingBody";
-import { getAllBugBookEntries } from "@/sanity/lib/queries";
+import {
+  getAllBugBookEntries,
+  getBugBookSamples,
+} from "@/sanity/lib/queries";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
   SITE_URL,
@@ -32,7 +35,10 @@ export const metadata = buildPageMetadata({
 });
 
 export default async function BugBookPage() {
-  const entries = await getAllBugBookEntries();
+  const [entries, samples] = await Promise.all([
+    getAllBugBookEntries(),
+    getBugBookSamples(),
+  ]);
 
   const itemList = {
     "@context": "https://schema.org",
@@ -53,7 +59,7 @@ export default async function BugBookPage() {
       <JsonLd id="ld-bug-book-webpage" data={BUG_BOOK_WEBPAGE} />
       <JsonLd id="ld-bug-book-breadcrumb" data={BUG_BOOK_BREADCRUMB} />
       <JsonLd id="ld-bug-book-itemlist" data={itemList} />
-      <BugBookListingBody entries={entries} />
+      <BugBookListingBody entries={entries} samples={samples} />
     </>
   );
 }

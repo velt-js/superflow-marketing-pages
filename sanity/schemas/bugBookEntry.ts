@@ -18,6 +18,7 @@ export const BUG_BOOK_CATEGORIES = [
   "Performance",
   "Feature Request",
   "Security",
+  "SEO",
 ] as const;
 
 export const BUG_BOOK_SEVERITIES = [
@@ -121,6 +122,94 @@ export const bugBookCaptured = defineType({
     defineField({ name: "os", title: "OS", type: "string" }),
     defineField({ name: "device", title: "Device", type: "string" }),
   ],
+});
+
+/**
+ * Illustrative sample reports for agents too new to have real catches
+ * yet (AEO). Rendered in their own band under the collection grid,
+ * never mixed into the entry grid, never routed or indexed - so the
+ * "every bug in the book is real" claim stays true.
+ */
+export const bugBookSample = defineType({
+  name: "bugBookSample",
+  title: "Bug Book Sample Report",
+  type: "document",
+  fields: [
+    defineField({
+      name: "headline",
+      title: "Headline",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "headline", maxLength: 96 },
+      description: "Identity only - samples have no detail route.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "sourceLabel",
+      title: "Source Label",
+      type: "string",
+      initialValue: "Sample report - illustrative",
+    }),
+    defineField({
+      name: "agentName",
+      title: "Agent Name",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+      options: { list: BUG_BOOK_CATEGORIES.map((c) => ({ title: c, value: c })) },
+    }),
+    defineField({
+      name: "severity",
+      title: "Severity",
+      type: "string",
+      options: { list: BUG_BOOK_SEVERITIES.map((s) => ({ title: s, value: s })) },
+    }),
+    defineField({ name: "hook", title: "Hook", type: "text", rows: 2 }),
+    defineField({
+      name: "finding",
+      title: "Agent Finding",
+      type: "bugBookFinding",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "whyItMatters",
+      title: "Why It Matters",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "note",
+      title: "Sample Note",
+      type: "text",
+      rows: 2,
+      description:
+        "Caption under the card explaining that this is illustrative, not a customer catch.",
+    }),
+    defineField({
+      name: "order",
+      title: "Order",
+      type: "number",
+      description: "Position within the samples band.",
+    }),
+  ],
+  orderings: [
+    { title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },
+  ],
+  preview: {
+    select: { title: "headline", agentName: "agentName" },
+    prepare({ title, agentName }) {
+      return { title, subtitle: `SAMPLE · ${agentName ?? ""}` };
+    },
+  },
 });
 
 export const bugBookEntry = defineType({

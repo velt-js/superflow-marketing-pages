@@ -38,7 +38,7 @@ const client = DRY_RUN
       useCdn: false,
     });
 
-const { entries } = JSON.parse(
+const { entries, samples = [] } = JSON.parse(
   readFileSync(resolve(__dirname, "bug-book-data.json"), "utf8"),
 );
 
@@ -79,21 +79,66 @@ function toDoc(entry, index) {
   };
 }
 
+/** Illustrative agent reports rendered in their own band (never routed). */
+function toSampleDoc(sample, index) {
+  return {
+    _id: `bugBookSample-${sample.slug}`,
+    _type: "bugBookSample",
+    headline: sample.headline,
+    slug: { _type: "slug", current: sample.slug },
+    sourceLabel: sample.sourceLabel,
+    agentName: sample.agentName,
+    category: sample.category,
+    severity: sample.severity,
+    hook: sample.hook,
+    finding: { _type: "bugBookFinding", ...sample.finding },
+    whyItMatters: sample.whyItMatters,
+    note: sample.note,
+    order: index,
+  };
+}
+
 const docs = entries.map(toDoc);
+const sampleDocs = samples.map(toSampleDoc);
+const keepIds = new Set([...docs, ...sampleDocs].map((doc) => doc._id));
+
+/**
+ * Entries culled during curation must leave Sanity too - otherwise a
+ * removed slug keeps rendering (createOrReplace only touches ids that
+ * are still in the JSON).
+ */
+async function findStaleIds() {
+  if (DRY_RUN) return [];
+  const ids = await client.fetch(
+    `*[_type in ["bugBookEntry", "bugBookSample"]]._id`,
+  );
+  return ids.filter((id) => !keepIds.has(id));
+}
+
+const staleIds = await findStaleIds();
 
 if (DRY_RUN) {
-  console.log(`DRY RUN — ${docs.length} docs`);
+  console.log(`DRY RUN - ${docs.length} entries + ${sampleDocs.length} samples`);
   for (const doc of docs) {
     console.log(` ${doc._id} [${doc.tier}/${doc.source}] ${doc.headline}`);
+  }
+  for (const doc of sampleDocs) {
+    console.log(` ${doc._id} [sample] ${doc.headline}`);
   }
   process.exit(0);
 }
 
 let transaction = client.transaction();
-for (const doc of docs) {
+for (const doc of [...docs, ...sampleDocs]) {
   transaction = transaction.createOrReplace(doc);
+}
+for (const id of staleIds) {
+  transaction = transaction.delete(id);
 }
 const result = await transaction.commit();
 console.log(
-  `Imported ${docs.length} bugBookEntry docs (transaction ${result.transactionId}).`,
+  `Imported ${docs.length} bugBookEntry + ${sampleDocs.length} bugBookSample docs` +
+    (staleIds.length ? `, deleted ${staleIds.length} stale` : "") +
+    ` (transaction ${result.transactionId}).`,
 );
+if (staleIds.length) console.log(`Deleted: ${staleIds.join(", ")}`);

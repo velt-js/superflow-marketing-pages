@@ -3,11 +3,11 @@
     "generated": "2026-08-13",
     "project": "Superflow Bug Book",
     "counts": {
-      "total": 54,
-      "page": 34,
-      "bench": 20,
-      "human": 40,
-      "agent": 14
+      "total": 51,
+      "page": 36,
+      "bench": 15,
+      "human": 38,
+      "agent": 13
     },
     "taxonomies": {
       "categories": [
@@ -21,7 +21,8 @@
         "Pricing",
         "Performance",
         "Feature Request",
-        "Security"
+        "Security",
+        "SEO"
       ],
       "severities": [
         "Critical",
@@ -599,72 +600,6 @@
       "flags": []
     },
     {
-      "slug": "mystery-blue-mark",
-      "tier": "page",
-      "source": "human",
-      "sourceLabel": "Caught in review",
-      "category": "UI/UX",
-      "severity": "Medium",
-      "rageLevel": 3,
-      "status": "Resolved",
-      "date": "2023-12",
-      "site": {
-        "descriptor": "Consulting firm careers page",
-        "platform": "Custom CMS",
-        "industry": "Consulting"
-      },
-      "captured": {
-        "browser": "Chrome 119",
-        "os": "macOS",
-        "device": "Desktop"
-      },
-      "headline": "A mystery blue mark appears. The developer's diagnosis: \"it's definitely Superflow\"",
-      "hook": "Reviewer: it's on Safari too, logged out. Dev: \"Nope, it's definitely Superflow.\"",
-      "thread": [
-        {
-          "speaker": "Reviewer",
-          "text": "There is a random blue mark in the corner",
-          "attachment": "screenshot"
-        },
-        {
-          "speaker": "Developer",
-          "text": "this is a superflow thing. it won't show up live.",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer",
-          "text": "It's showing up on safari too and I don't have superflow logged in there",
-          "attachment": null
-        },
-        {
-          "speaker": "Developer",
-          "text": "How big is your window precisely?",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer",
-          "text": "Viewing it on laptop and desktop. Laptop is 1216x766 and desktop 1216x882",
-          "attachment": null
-        },
-        {
-          "speaker": "Developer",
-          "text": "Nope, it's definitely Superflow. Even if you aren't logged in it still loads",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer",
-          "text": "hmm ok, not sure how since I've never used it on Safari",
-          "attachment": null
-        }
-      ],
-      "finding": null,
-      "whyItMatters": "Stage five of debugging: blame the review tool. We're honored to be the first suspect, but the blue mark had other plans. (It wasn't us. Usually it isn't.)",
-      "outcome": "Resolved. We choose not to say who was right.",
-      "flags": [
-        "mentions-superflow"
-      ]
-    },
-    {
       "slug": "its-centered",
       "tier": "page",
       "source": "human",
@@ -848,59 +783,6 @@
       "outcome": "Hidden within minutes, fixed for real shortly after. We kept the thread as a monument.",
       "flags": [
         "own-site"
-      ]
-    },
-    {
-      "slug": "free-asterisk",
-      "tier": "page",
-      "source": "human",
-      "sourceLabel": "Caught in review",
-      "category": "Pricing",
-      "severity": "Critical",
-      "rageLevel": 7,
-      "status": "Open",
-      "date": "2024-04",
-      "site": {
-        "descriptor": "A major tax-filing platform's pricing page (reviewed during a team teardown)",
-        "platform": "Public site",
-        "industry": "Fintech"
-      },
-      "captured": {
-        "browser": "Chrome 123",
-        "os": "macOS",
-        "device": "Desktop"
-      },
-      "headline": "A pricing-page teardown, roleplayed to perfection: \"TRUST ME BRO!\"",
-      "hook": "\"Didn't they get SUED over 'free'?\" → \"AYYYY LMAO its okay bro! We got the asterisk!\"",
-      "thread": [
-        {
-          "speaker": "Reviewer",
-          "text": "I thought this company got SUED by the government for using language like \"free\" or \"$0\" when advertising their tax software, because deceptive practices misled customers into being charged for filing taxes they were told would be FREE.",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer (as the company's imaginary lawyer)",
-          "text": "AYYYY LMAO its okay bro! We got the \"*\" asterisk thing, which lets people know that they need to check the disclosures bro!",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer",
-          "text": "ummmm i dont know if that is actually adequate!",
-          "attachment": null
-        },
-        {
-          "speaker": "Reviewer (as the lawyer)",
-          "text": "AYYY LMAO DUDE! It's more than adequate according to our legal team. Which is me! TRUST ME BRO! I bought Bitcoin at 60k in 2021!",
-          "attachment": null
-        }
-      ],
-      "finding": null,
-      "whyItMatters": "A team teardown of a public pricing page, complete with an imaginary in-house counsel named LegalBro. Underneath the bit is a real pattern: \"free*\" pricing that regulators have actually litigated. The asterisk is doing crimes-adjacent work.",
-      "outcome": "Open. LegalBro remains confident.",
-      "flags": [
-        "satire",
-        "brand-anonymized",
-        "internal-teardown"
       ]
     },
     {
@@ -1190,45 +1072,6 @@
       ]
     },
     {
-      "slug": "no-working-lmao",
-      "tier": "page",
-      "source": "agent",
-      "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Workspace Reviewer Agent",
-      "category": "Links",
-      "severity": "High",
-      "rageLevel": 0,
-      "status": "Resolved",
-      "date": "2026-08",
-      "site": {
-        "descriptor": "Demo site (planted-bug playground)",
-        "platform": "Framer",
-        "industry": "Superflow / Velt"
-      },
-      "captured": null,
-      "headline": "A button linking to no-workinglmao.lol - and yes, the agent flagged the URL by name",
-      "hook": "Href: https://no-workinglmao.lol. The link knew what it was.",
-      "thread": [
-        {
-          "speaker": "Superflow Agent (Workspace Reviewer)",
-          "text": "\"Doesnt Work\" button links to a dead test URL: Href is https://no-workinglmao.lol, an obvious placeholder link. — Suggestion: Point the button to its real destination or remove it before launch.",
-          "attachment": null
-        }
-      ],
-      "finding": {
-        "title": "\"Doesnt Work\" button links to a dead test URL",
-        "description": "Href is https://no-workinglmao.lol, an obvious placeholder link left over from testing.",
-        "suggestion": "Point the button to its real destination or remove it before launch.",
-        "issueType": "broken-link",
-        "confidence": 98
-      },
-      "whyItMatters": "Developers name test links assuming nobody will ever see them. Then the links ship. The agent doesn't get bored clicking every button - that's the point.",
-      "outcome": "Resolved. no-workinglmao.lol remains, tragically, unregistered.",
-      "flags": [
-        "demo-data"
-      ]
-    },
-    {
       "slug": "our-own-slow-app",
       "tier": "page",
       "source": "agent",
@@ -1346,7 +1189,7 @@
       "tier": "page",
       "source": "agent",
       "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Agency Reviewer Agent",
+      "agentName": "Custom Checklist Agent (agency-defined)",
       "category": "Links",
       "severity": "Critical",
       "rageLevel": 0,
@@ -1422,7 +1265,7 @@
       "tier": "page",
       "source": "agent",
       "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Agency Reviewer Agent",
+      "agentName": "Custom Checklist Agent (agency-defined)",
       "category": "Content",
       "severity": "Medium",
       "rageLevel": 0,
@@ -1454,6 +1297,128 @@
       "outcome": "Open, pending a verdict from Dr. Daviee himself.",
       "flags": [
         "name-partially-real"
+      ]
+    },
+    {
+      "slug": "our-homepage-no-json-ld",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "SEO Checker Agent",
+      "category": "SEO",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Our own homepage redesign, pre-launch. Yes, again.",
+        "platform": "Custom",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "Our SEO agent audited our new homepage draft: no meta title, no JSON-LD. Zero for two.",
+      "hook": "The company that sells website reviews forgot the <title> tag on its own redesign",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (SEO Checker)",
+          "text": "Missing Meta Title: No <title> tag found in <head>. Without a title, search engines have no clear name for this page, hurting rankings and click-through rates.",
+          "attachment": null
+        },
+        {
+          "speaker": "Superflow Agent (SEO Checker)",
+          "text": "Missing JSON-LD Structured Data: No <script type=\"application/ld+json\"> found. Structured data helps search engines understand page context and can enable rich results.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Missing JSON-LD Structured Data",
+        "description": "No <script type=\"application/ld+json\"> found on the page. Structured data helps search engines understand page context and can enable rich results. The same run also flagged a missing <title> tag.",
+        "suggestion": "Add Organization + Product JSON-LD and a proper meta title before the redesign ships.",
+        "issueType": "seo-technical",
+        "confidence": 95
+      },
+      "whyItMatters": "A redesign branch is exactly where SEO regressions are born: the new page looks perfect, and the invisible layer - titles, structured data, rich-result eligibility - quietly ships empty. Our agent caught ours before Google did.",
+      "outcome": "Resolved before the redesign went live. Rankings unharmed; egos, slightly.",
+      "flags": [
+        "own-site"
+      ]
+    },
+    {
+      "slug": "og-image-sliver",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "OG Image Checker Agent",
+      "category": "SEO",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Enterprise SaaS marketing site",
+        "platform": "Public site",
+        "industry": "SaaS"
+      },
+      "captured": null,
+      "headline": "Every social share of this site renders a 215×34 pixel sliver instead of a preview image",
+      "hook": "Required: 1200×630. Actual: 215×34. Every LinkedIn share, ruined in advance.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (OG Image Checker)",
+          "text": "OG image is 215x34. LinkedIn and Facebook require at least 1200x630. Upload a larger image or regenerate at the correct size. — Expected: 1200x630 — Actual: 215x34",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "OG image far below platform minimums",
+        "description": "The og:image is 215×34 - a thin sliver. LinkedIn and Facebook require at least 1200×630, so every share of this page renders with a broken or blank preview.",
+        "suggestion": "Upload or generate a 1200×630 OG image so shared links render a real preview card.",
+        "issueType": "og-image",
+        "confidence": 98
+      },
+      "whyItMatters": "Nobody on the team ever sees their own OG image - you see your site, not your site as a link card in someone else's feed. Meanwhile every share, forever, looks broken. This is the classic invisible-to-owners, obvious-to-everyone-else bug.",
+      "outcome": "Open. Somewhere, another sliver gets shared.",
+      "flags": [
+        "brand-anonymized"
+      ]
+    },
+    {
+      "slug": "ai-copy-detected",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "AI Copy Detector Agent",
+      "category": "Copy",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Event landing page",
+        "platform": "Webflow",
+        "industry": "Events"
+      },
+      "captured": null,
+      "headline": "The headline said \"Unlock Possibility.\" The AI-copy detector said: that means nothing.",
+      "hook": "An agent trained to smell AI-written filler, flagging a hollow AI-ish headline",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (AI Copy Detector)",
+          "text": "\"Unlock Possibility\" Is a Hollow AI-Style Headline: \"Unlock Possibility\" is a vague, overused AI-sounding phrase. It says nothing about what the event is or why someone should care.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "\"Unlock Possibility\" is a hollow AI-style headline",
+        "description": "\"Unlock Possibility\" is a vague, overused AI-sounding phrase. It says nothing about what the event is or why someone should care.",
+        "suggestion": "Replace with a headline that names the event, the audience, and one concrete reason to attend.",
+        "issueType": "editorial-tone",
+        "confidence": 75
+      },
+      "whyItMatters": "In 2026 the risk isn't broken pages, it's beige ones. AI-drafted copy ships fast and says nothing - \"unlock,\" \"dive in,\" \"elevate.\" An agent that flags em-dash-energy prose before your customers roll their eyes at it is a very modern kind of QA.",
+      "outcome": "Open. Possibility remains locked.",
+      "flags": [
+        "possibly-internal-site"
       ]
     },
     {
@@ -1489,86 +1454,6 @@
       "whyItMatters": "Sometimes feedback needs three rounds of revisions. Sometimes it needs three letters. Pinned to the exact pixel that caused it, this is arguably complete, actionable feedback.",
       "outcome": "Open. The image knows what it did.",
       "flags": []
-    },
-    {
-      "slug": "asdasdasdasd",
-      "tier": "bench",
-      "source": "agent",
-      "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Custom Roast Agent",
-      "category": "Links",
-      "severity": "High",
-      "rageLevel": 0,
-      "status": "Resolved",
-      "date": "2026-08",
-      "site": {
-        "descriptor": "Demo site (planted-bug playground)",
-        "platform": "Framer",
-        "industry": "Superflow / Velt"
-      },
-      "captured": null,
-      "headline": "The Twitter link went to twitter.com/asdasdasdasd - \"a nap on the keyboard\"",
-      "hook": "The agent's verdict: \"a placeholder handle nobody would follow\"",
-      "thread": [
-        {
-          "speaker": "Superflow Agent (Custom Roast)",
-          "text": "A social link that looks like a nap on the keyboard: The Twitter link goes to 'twitter.com/asdasdasdasd', a placeholder handle nobody would follow. — Suggestion: Link to a real social account.",
-          "attachment": null
-        }
-      ],
-      "finding": {
-        "title": "A social link that looks like a nap on the keyboard",
-        "description": "The Twitter link goes to 'twitter.com/asdasdasdasd', a placeholder handle left over from development.",
-        "suggestion": "Link to a real social account.",
-        "issueType": "broken-link",
-        "confidence": 85
-      },
-      "whyItMatters": "Agents can have personality - this one was configured to roast, and it delivered. Underneath the joke: social links are the least-clicked, least-tested links on any site, which is exactly why they rot.",
-      "outcome": "Resolved. @asdasdasdasd never got its followers.",
-      "flags": [
-        "demo-data",
-        "custom-agent-persona"
-      ]
-    },
-    {
-      "slug": "wrong-color-button",
-      "tier": "bench",
-      "source": "agent",
-      "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Custom Roast Agent",
-      "category": "UI/UX",
-      "severity": "High",
-      "rageLevel": 0,
-      "status": "Resolved",
-      "date": "2026-08",
-      "site": {
-        "descriptor": "Demo site (planted-bug playground)",
-        "platform": "Framer",
-        "industry": "Superflow / Velt"
-      },
-      "captured": null,
-      "headline": "A button labeled \"Wrong color\" - flagged for being, in fact, the wrong color",
-      "hook": "\"A button that confesses its own crime in broad daylight\"",
-      "thread": [
-        {
-          "speaker": "Superflow Agent (Custom Roast)",
-          "text": "A button that confesses its own crime in broad daylight: This button is labeled 'Wrong color', pointing out its own dark red mistake. — Suggestion: Pick the right brand color and stop admitting fault out loud.",
-          "attachment": null
-        }
-      ],
-      "finding": {
-        "title": "A button that confesses its own crime in broad daylight",
-        "description": "The button is literally labeled 'Wrong color' and rendered in an off-brand dark red.",
-        "suggestion": "Pick the right brand color and stop admitting fault out loud.",
-        "issueType": "branding",
-        "confidence": 90
-      },
-      "whyItMatters": "Planted bug, sure - but the agent's write-up is the demo: it saw the label, saw the color, and connected the joke. Detection with reading comprehension.",
-      "outcome": "Resolved. The button has been rehabilitated.",
-      "flags": [
-        "demo-data",
-        "custom-agent-persona"
-      ]
     },
     {
       "slug": "reprehenderit",
@@ -1607,7 +1492,7 @@
     },
     {
       "slug": "duplicated-across-rivals",
-      "tier": "bench",
+      "tier": "page",
       "source": "human",
       "sourceLabel": "Caught in review",
       "category": "Content",
@@ -1643,7 +1528,7 @@
     },
     {
       "slug": "vpn-to-see-our-404",
-      "tier": "bench",
+      "tier": "page",
       "source": "human",
       "sourceLabel": "Caught in review",
       "category": "Links",
@@ -1820,7 +1705,7 @@
       "tier": "bench",
       "source": "agent",
       "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Agency Reviewer Agent",
+      "agentName": "Custom Checklist Agent (agency-defined)",
       "category": "Content",
       "severity": "High",
       "rageLevel": 0,
@@ -2228,45 +2113,48 @@
       "flags": [
         "translated"
       ]
+    }
+  ],
+  "samples": [
+    {
+      "slug": "sample-aeo-llms-txt",
+      "sample": true,
+      "source": "agent",
+      "sourceLabel": "Sample report - illustrative",
+      "agentName": "AEO Agent",
+      "category": "SEO",
+      "severity": "High",
+      "headline": "No llms.txt - AI assistants are guessing what your product does",
+      "hook": "ChatGPT, Claude, and Perplexity answer questions about your category. Without you.",
+      "finding": {
+        "title": "No llms.txt or AI-readable product summary found",
+        "description": "The site publishes nothing AI assistants can reliably ingest: no llms.txt, no machine-readable summary of what the product does, who it's for, or how it's priced. Assistants answering \"best tools for X\" fall back to third-party listicles - and cite your competitors.",
+        "suggestion": "Publish llms.txt covering product, audience, pricing, and FAQ pointers; keep it generated from the marketing site so it never drifts.",
+        "issueType": "aeo",
+        "confidence": 92
+      },
+      "whyItMatters": "Search traffic is becoming answer traffic. AEO - being the source AI assistants cite - is the new page-one, and most sites haven't noticed they're invisible there.",
+      "note": "Illustrative example - the AEO agent is newly shipped, so this shows the report format rather than a customer catch."
     },
     {
-      "slug": "train-on-your-data",
-      "tier": "bench",
+      "slug": "sample-aeo-crawlers-blocked",
+      "sample": true,
       "source": "agent",
-      "sourceLabel": "Caught by Superflow Agent",
-      "agentName": "Legal Review Agent",
-      "category": "Content",
-      "severity": "Critical",
-      "rageLevel": 0,
-      "status": "Open",
-      "date": "2026-07",
-      "site": {
-        "descriptor": "Contract review demo (sample vendor agreement)",
-        "platform": "Document review",
-        "industry": "Legal"
-      },
-      "captured": null,
-      "headline": "Buried in a vendor contract: the right to train AI on all customer data, \"for any purpose\"",
-      "hook": "One sentence of fine print = a permanent license to your proprietary data",
-      "thread": [
-        {
-          "speaker": "Superflow Agent (Legal Review)",
-          "text": "Customer Data Used to Train AI Models: Provider can use all Customer Data to train AI/ML models 'for any purpose' — far beyond what is needed to run the Service. This gives Provider a broad, ongoing right to exploit Customer's proprietary data. — Suggestion: Replace with a clause limiting use of Customer Data solely to providing the Service, with an explicit ban on AI/ML training.",
-          "attachment": null
-        }
-      ],
+      "sourceLabel": "Sample report - illustrative",
+      "agentName": "AEO Agent",
+      "category": "SEO",
+      "severity": "High",
+      "headline": "robots.txt blocks the exact AI crawlers you want citing you",
+      "hook": "GPTBot, ClaudeBot, PerplexityBot: all disallowed. Assistants quote your competitors instead.",
       "finding": {
-        "title": "Customer Data Used to Train AI Models",
-        "description": "The contract grants the provider rights to train AI/ML models on all customer data 'for any purpose' - far beyond service delivery.",
-        "suggestion": "Limit data use strictly to providing the service; explicitly prohibit AI/ML training on customer data.",
-        "issueType": "customer-data-ml-training",
-        "confidence": 99
+        "title": "AI crawlers disallowed sitewide in robots.txt",
+        "description": "robots.txt disallows GPTBot, ClaudeBot, and PerplexityBot across the whole site - including docs and pricing, the pages you most want AI assistants to cite. Assistants now answer questions about the product from third-party summaries, which are stale and sometimes wrong.",
+        "suggestion": "Allowlist chosen AI crawlers for /docs, /pricing, and /blog while keeping private paths blocked. Blocking everything is a decision - make it on purpose.",
+        "issueType": "aeo",
+        "confidence": 96
       },
-      "whyItMatters": "The same review muscle that catches broken buttons catches contract landmines. \"For any purpose\" is four words that cost companies their data moats - flagged in seconds, with replacement language drafted.",
-      "outcome": "Open - it's a demo document, but the clause is drawn from real contracts in the wild.",
-      "flags": [
-        "demo-data"
-      ]
+      "whyItMatters": "Teams copy-pasted \"block all bots\" robots rules in 2023 and never revisited them. Three years later, that one file decides whether AI assistants describe your product accurately, wrongly - or not at all.",
+      "note": "Illustrative example - the AEO agent is newly shipped, so this shows the report format rather than a customer catch."
     }
   ]
 }

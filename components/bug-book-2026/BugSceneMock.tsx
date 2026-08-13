@@ -2,6 +2,8 @@ import type { CSSProperties, ReactElement } from "react";
 import {
   formatBugDate,
   categoryColor,
+  CUSTOM_CHECKLIST_NOTE,
+  isCustomChecklistAgent,
   type BugBookEntryDetail,
   type BugThreadComment,
 } from "@/lib/bug-book";
@@ -271,6 +273,34 @@ function SecurityScene({ accent }: SceneProps) {
   );
 }
 
+/** SEO - a share/search preview card whose image slot never resolved. */
+function SeoScene({ accent }: SceneProps) {
+  return (
+    <>
+      <SiteHeader accent={accent} />
+      <div className={styles.previewCard}>
+        <span className={styles.previewImage}>
+          <svg viewBox="0 0 40 30" className={styles.previewImageGlyph} aria-hidden="true">
+            <path
+              d="M6 6l28 18M34 6L6 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+        </span>
+        <span className={styles.previewMeta}>
+          <span className={styles.previewTitle} style={{ background: accent }} />
+          <span className={styles.previewLine} />
+          <span className={styles.previewLineShort} />
+          <span className={styles.previewUrl}>{"█████████.com"}</span>
+        </span>
+      </div>
+    </>
+  );
+}
+
 /**
  * Per-category scene + where the pinned thread anchors within the frame.
  * The anchor is in normal flow (stacked over the wireframe via grid), so
@@ -306,6 +336,7 @@ const SCENES: Record<
     Scene: SecurityScene,
     anchor: { marginLeft: "40%", marginTop: 180 },
   },
+  SEO: { Scene: SeoScene, anchor: { marginLeft: "44%", marginTop: 175 } },
 };
 
 function AttachmentChip({
@@ -403,6 +434,9 @@ function FindingPopover({ entry }: { entry: BugBookEntryDetail }) {
           <span className={styles.suggestionLabel}>{SUGGESTED_FIX_LABEL}</span>
           <span className={styles.suggestionText}>{finding.suggestion}</span>
         </div>
+      ) : null}
+      {isCustomChecklistAgent(entry.agentName) ? (
+        <p className={styles.checklistNote}>{CUSTOM_CHECKLIST_NOTE}</p>
       ) : null}
       {finding.issueType || confidence != null ? (
         <div className={styles.findingFooter}>
