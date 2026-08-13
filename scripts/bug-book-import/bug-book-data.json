@@ -86,7 +86,7 @@
       "status": "Resolved",
       "date": "2024-02",
       "site": {
-        "descriptor": "Digital agency's client site",
+        "descriptor": "Agency's client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -132,7 +132,7 @@
       "status": "Resolved",
       "date": "2024-08",
       "site": {
-        "descriptor": "Dental practice website",
+        "descriptor": "Client website",
         "platform": "Webflow"
       },
       "captured": {
@@ -166,7 +166,7 @@
       "status": "Resolved",
       "date": "2024-11",
       "site": {
-        "descriptor": "Orthodontics practice website",
+        "descriptor": "Client website",
         "platform": "Webflow"
       },
       "captured": {
@@ -200,7 +200,7 @@
       "status": "Resolved",
       "date": "2025-11",
       "site": {
-        "descriptor": "Dental group's live website",
+        "descriptor": "Client's live website",
         "platform": "Custom CMS"
       },
       "captured": {
@@ -239,7 +239,7 @@
       "status": "Resolved",
       "date": "2024-01",
       "site": {
-        "descriptor": "School administration dashboard",
+        "descriptor": "Client admin dashboard",
         "platform": "Custom app"
       },
       "captured": {
@@ -273,7 +273,7 @@
       "status": "Resolved",
       "date": "2025-05",
       "site": {
-        "descriptor": "Wellness supplement brand site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -307,7 +307,7 @@
       "status": "Resolved",
       "date": "2024-10",
       "site": {
-        "descriptor": "Nonprofit organization site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -356,7 +356,7 @@
       "status": "Resolved",
       "date": "2024-10",
       "site": {
-        "descriptor": "Plastic surgery practice site",
+        "descriptor": "Client site",
         "platform": "WordPress"
       },
       "captured": {
@@ -390,7 +390,7 @@
       "status": "In progress",
       "date": "2026-02",
       "site": {
-        "descriptor": "Clean-energy industry association site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -426,7 +426,7 @@
       "status": "Resolved",
       "date": "2026-01",
       "site": {
-        "descriptor": "Plastic surgery practice site",
+        "descriptor": "Client site",
         "platform": "WordPress"
       },
       "captured": {
@@ -465,7 +465,7 @@
       "status": "Resolved",
       "date": "2025-02",
       "site": {
-        "descriptor": "Waste management company site",
+        "descriptor": "Client site",
         "platform": "Custom CMS"
       },
       "captured": {
@@ -499,7 +499,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Med-spa staging site",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -533,7 +533,7 @@
       "status": "Resolved",
       "date": "2025-10",
       "site": {
-        "descriptor": "Enterprise software help center (UAT)",
+        "descriptor": "Client help center (UAT)",
         "platform": "Custom docs platform"
       },
       "captured": {
@@ -582,7 +582,7 @@
       "status": "Resolved",
       "date": "2025-07",
       "site": {
-        "descriptor": "Online learning platform (staging)",
+        "descriptor": "Client platform (staging)",
         "platform": "Custom app"
       },
       "captured": {
@@ -636,7 +636,7 @@
       "status": "Resolved",
       "date": "2025-09",
       "site": {
-        "descriptor": "Med-spa staging site",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -685,7 +685,7 @@
       "status": "Open",
       "date": "2026-08",
       "site": {
-        "descriptor": "Pediatric dental office site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -729,7 +729,7 @@
       "status": "Resolved",
       "date": "2024-11",
       "site": {
-        "descriptor": "Startup marketing site",
+        "descriptor": "Client marketing site",
         "platform": "Webflow"
       },
       "captured": {
@@ -822,7 +822,7 @@
       "status": "Resolved",
       "date": "2024-03",
       "site": {
-        "descriptor": "Community development nonprofit site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -861,7 +861,7 @@
       "status": "Resolved",
       "date": "2023-08",
       "site": {
-        "descriptor": "Ballet academy e-commerce site",
+        "descriptor": "Client e-commerce site",
         "platform": "Webflow"
       },
       "captured": {
@@ -905,7 +905,7 @@
       "status": "Open",
       "date": "2025-07",
       "site": {
-        "descriptor": "Financial industry association site",
+        "descriptor": "Client site",
         "platform": "WordPress"
       },
       "captured": {
@@ -949,7 +949,7 @@
       "status": "Resolved",
       "date": "2024-09",
       "site": {
-        "descriptor": "Pilates studio site",
+        "descriptor": "Client site",
         "platform": "Website builder"
       },
       "captured": {
@@ -993,7 +993,7 @@
       "status": "Resolved",
       "date": "2024-12",
       "site": {
-        "descriptor": "Nonprofit website",
+        "descriptor": "Client website",
         "platform": "WordPress"
       },
       "captured": {
@@ -1029,7 +1029,7 @@
       "status": "Resolved",
       "date": "2024-04",
       "site": {
-        "descriptor": "Dental foundation site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -1075,7 +1075,7 @@
       "status": "Resolved",
       "date": "2024-11",
       "site": {
-        "descriptor": "Wine tour company site",
+        "descriptor": "Client site",
         "platform": "Website builder"
       },
       "captured": {
@@ -1126,7 +1126,7 @@
       "status": "Resolved",
       "date": "2026-06",
       "site": {
-        "descriptor": "Dental practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -1162,7 +1162,7 @@
       "status": "Resolved",
       "date": "2026-04",
       "site": {
-        "descriptor": "Therapy practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -1204,7 +1204,7 @@
       "status": "Resolved",
       "date": "2025-09",
       "site": {
-        "descriptor": "Electrical contractor site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -1240,7 +1240,7 @@
       "status": "Resolved",
       "date": "2025-07",
       "site": {
-        "descriptor": "Dental practice site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -1286,7 +1286,7 @@
       "status": "Resolved",
       "date": "2024-05",
       "site": {
-        "descriptor": "Dental practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -1352,7 +1352,7 @@
       "status": "Resolved",
       "date": "2025-01",
       "site": {
-        "descriptor": "Eye clinic blog (staging)",
+        "descriptor": "Client blog (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -1398,7 +1398,7 @@
       "status": "Resolved",
       "date": "2025-12",
       "site": {
-        "descriptor": "Dental practice site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -1434,7 +1434,7 @@
       "status": "Resolved",
       "date": "2025-07",
       "site": {
-        "descriptor": "Oral surgery practice site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -1516,7 +1516,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Pediatric dentistry site (pre-launch)",
+        "descriptor": "Client site (pre-launch)",
         "platform": "Webflow"
       },
       "captured": null,
@@ -1553,7 +1553,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Dental landing page (template-built)",
+        "descriptor": "Client landing page (template-built)",
         "platform": "Landing page builder"
       },
       "captured": null,
@@ -1631,7 +1631,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Vein clinic's live website",
+        "descriptor": "Client's live website",
         "platform": "WordPress"
       },
       "captured": null,
@@ -1668,7 +1668,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Pediatric dentistry site (pre-launch)",
+        "descriptor": "Client site (pre-launch)",
         "platform": "Webflow"
       },
       "captured": null,
@@ -1705,7 +1705,7 @@
       "status": "Resolved",
       "date": "2026-08",
       "site": {
-        "descriptor": "Orthodontics practice site (pre-launch)",
+        "descriptor": "Client site (pre-launch)",
         "platform": "Webflow"
       },
       "captured": null,
@@ -1742,7 +1742,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Dental landing page (template-built)",
+        "descriptor": "Client landing page (template-built)",
         "platform": "Landing page builder"
       },
       "captured": null,
@@ -1781,7 +1781,7 @@
       "status": "Open",
       "date": "2026-08",
       "site": {
-        "descriptor": "Orthodontics group's location page",
+        "descriptor": "Client's location page",
         "platform": "Webflow"
       },
       "captured": null,
@@ -1864,7 +1864,7 @@
       "status": "Open",
       "date": "2026-07",
       "site": {
-        "descriptor": "Enterprise SaaS marketing site",
+        "descriptor": "Client marketing site",
         "platform": "Public site"
       },
       "captured": null,
@@ -1903,7 +1903,7 @@
       "status": "Open",
       "date": "2026-07",
       "site": {
-        "descriptor": "Event landing page",
+        "descriptor": "Client landing page",
         "platform": "Webflow"
       },
       "captured": null,
@@ -1941,7 +1941,7 @@
       "status": "Open",
       "date": "2024-10",
       "site": {
-        "descriptor": "Design asset under review (e-commerce product image)",
+        "descriptor": "Design asset under review (product image)",
         "platform": "Superflow Drive"
       },
       "captured": {
@@ -1975,7 +1975,7 @@
       "status": "Resolved",
       "date": "2022-12",
       "site": {
-        "descriptor": "Fintech marketing site (in build)",
+        "descriptor": "Client marketing site (in build)",
         "platform": "Webflow"
       },
       "captured": null,
@@ -2010,7 +2010,7 @@
       "status": "Resolved",
       "date": "2025-05",
       "site": {
-        "descriptor": "Dental practice site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2046,7 +2046,7 @@
       "status": "Resolved",
       "date": "2026-07",
       "site": {
-        "descriptor": "Medical treatment center site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -2090,7 +2090,7 @@
       "status": "Resolved",
       "date": "2023-04",
       "site": {
-        "descriptor": "Commercial real-estate company site",
+        "descriptor": "Client site",
         "platform": "WordPress"
       },
       "captured": {
@@ -2137,7 +2137,7 @@
       "status": "Open",
       "date": "2023-10",
       "site": {
-        "descriptor": "Digital agency's own site",
+        "descriptor": "Agency's own site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2171,7 +2171,7 @@
       "status": "Resolved",
       "date": "2023-09",
       "site": {
-        "descriptor": "Biotech company about page",
+        "descriptor": "Client about page",
         "platform": "Webflow"
       },
       "captured": {
@@ -2221,7 +2221,7 @@
       "status": "Resolved",
       "date": "2026-08",
       "site": {
-        "descriptor": "Orthodontics practice site (pre-launch)",
+        "descriptor": "Client site (pre-launch)",
         "platform": "Webflow"
       },
       "captured": null,
@@ -2259,7 +2259,7 @@
       "status": "Resolved",
       "date": "2026-06",
       "site": {
-        "descriptor": "Dermatology practice site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -2298,7 +2298,7 @@
       "status": "Resolved",
       "date": "2024-06",
       "site": {
-        "descriptor": "Creative agency site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2337,7 +2337,7 @@
       "status": "Resolved",
       "date": "2024-06",
       "site": {
-        "descriptor": "Pediatric dentistry site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2371,7 +2371,7 @@
       "status": "Resolved",
       "date": "2024-03",
       "site": {
-        "descriptor": "Children's digital storybook site",
+        "descriptor": "Client site",
         "platform": "Custom"
       },
       "captured": {
@@ -2425,7 +2425,7 @@
       "status": "Resolved",
       "date": "2023-08",
       "site": {
-        "descriptor": "Remote-staffing company registration page",
+        "descriptor": "Client registration page",
         "platform": "WordPress"
       },
       "captured": {
@@ -2459,7 +2459,7 @@
       "status": "Open",
       "date": "2023-08",
       "site": {
-        "descriptor": "Ballet academy e-commerce site",
+        "descriptor": "Client e-commerce site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2508,7 +2508,7 @@
       "status": "Resolved",
       "date": "2025-10",
       "site": {
-        "descriptor": "Med-spa skincare shop (staging)",
+        "descriptor": "Client online shop (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -2588,7 +2588,7 @@
       "status": "Resolved",
       "date": "2024-12",
       "site": {
-        "descriptor": "Sustainability company site (German)",
+        "descriptor": "Client site (German)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2634,7 +2634,7 @@
       "status": "Resolved",
       "date": "2024-07",
       "site": {
-        "descriptor": "Cosmetic dentistry blog (agency-built)",
+        "descriptor": "Client blog (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2670,7 +2670,7 @@
       "status": "Resolved",
       "date": "2024-09",
       "site": {
-        "descriptor": "Financial advisory firm site",
+        "descriptor": "Client site",
         "platform": "Custom"
       },
       "captured": {
@@ -2706,7 +2706,7 @@
       "status": "Resolved",
       "date": "2026-01",
       "site": {
-        "descriptor": "Dental practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2747,7 +2747,7 @@
       "status": "Resolved",
       "date": "2024-02",
       "site": {
-        "descriptor": "Sports sustainability nonprofit site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -2783,7 +2783,7 @@
       "status": "Open",
       "date": "2026-07",
       "site": {
-        "descriptor": "Matcha brand e-commerce site",
+        "descriptor": "Client e-commerce site",
         "platform": "Custom"
       },
       "captured": {
@@ -2819,7 +2819,7 @@
       "status": "Resolved",
       "date": "2025-05",
       "site": {
-        "descriptor": "Cosmetic dentistry site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2855,7 +2855,7 @@
       "status": "Resolved",
       "date": "2025-05",
       "site": {
-        "descriptor": "Pediatric dentistry site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2901,7 +2901,7 @@
       "status": "Resolved",
       "date": "2026-03",
       "site": {
-        "descriptor": "Implant dentistry site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -2952,7 +2952,7 @@
       "status": "Resolved",
       "date": "2026-05",
       "site": {
-        "descriptor": "Dental practice charity page (agency-built)",
+        "descriptor": "Client charity page (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3004,7 +3004,7 @@
       "status": "Resolved",
       "date": "2025-02",
       "site": {
-        "descriptor": "Pediatric dentistry site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3060,7 +3060,7 @@
       "status": "Resolved",
       "date": "2024-10",
       "site": {
-        "descriptor": "Franchise services landing page",
+        "descriptor": "Client landing page",
         "platform": "Custom"
       },
       "captured": {
@@ -3106,7 +3106,7 @@
       "status": "Resolved",
       "date": "2025-01",
       "site": {
-        "descriptor": "Athletic club site",
+        "descriptor": "Client site",
         "platform": "Website builder"
       },
       "captured": {
@@ -3158,7 +3158,7 @@
       "status": "Resolved",
       "date": "2025-10",
       "site": {
-        "descriptor": "Business consulting site (agency-built)",
+        "descriptor": "Client site (agency-built)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3214,7 +3214,7 @@
       "status": "Resolved",
       "date": "2023-07",
       "site": {
-        "descriptor": "Nonprofit foundation site (Polish team)",
+        "descriptor": "Client site (Polish team)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3268,7 +3268,7 @@
       "status": "Resolved",
       "date": "2026-01",
       "site": {
-        "descriptor": "Medical clinic site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -3320,7 +3320,7 @@
       "status": "Open",
       "date": "2025-06",
       "site": {
-        "descriptor": "Public health organisation site",
+        "descriptor": "Client site",
         "platform": "Custom CMS"
       },
       "captured": {
@@ -3357,7 +3357,7 @@
       "status": "Resolved",
       "date": "2025-04",
       "site": {
-        "descriptor": "Aesthetics clinic site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -3399,7 +3399,7 @@
       "status": "Resolved",
       "date": "2025-06",
       "site": {
-        "descriptor": "Engineering firm site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3441,7 +3441,7 @@
       "status": "Resolved",
       "date": "2025-09",
       "site": {
-        "descriptor": "Athletic club site",
+        "descriptor": "Client site",
         "platform": "Website builder"
       },
       "captured": {
@@ -3494,7 +3494,7 @@
       "status": "Resolved",
       "date": "2025-10",
       "site": {
-        "descriptor": "Church website",
+        "descriptor": "Client website",
         "platform": "Webflow"
       },
       "captured": {
@@ -3536,7 +3536,7 @@
       "status": "Open",
       "date": "2026-07",
       "site": {
-        "descriptor": "Language school website",
+        "descriptor": "Client website",
         "platform": "Custom"
       },
       "captured": {
@@ -3583,7 +3583,7 @@
       "status": "Resolved",
       "date": "2025-03",
       "site": {
-        "descriptor": "Film production agency site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -3625,7 +3625,7 @@
       "status": "Resolved",
       "date": "2025-05",
       "site": {
-        "descriptor": "Endocrinology practice site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "WordPress"
       },
       "captured": {
@@ -3667,7 +3667,7 @@
       "status": "Resolved",
       "date": "2025-01",
       "site": {
-        "descriptor": "Design subscription service site (staging)",
+        "descriptor": "Client site (staging)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3709,7 +3709,7 @@
       "status": "Resolved",
       "date": "2025-01",
       "site": {
-        "descriptor": "Wedding / event site",
+        "descriptor": "Client site",
         "platform": "WordPress"
       },
       "captured": {
@@ -3761,7 +3761,7 @@
       "status": "Resolved",
       "date": "2025-02",
       "site": {
-        "descriptor": "Social media agency site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -3818,7 +3818,7 @@
       "status": "Resolved",
       "date": "2024-07",
       "site": {
-        "descriptor": "Industrial coatings company site",
+        "descriptor": "Client site",
         "platform": "Custom CMS"
       },
       "captured": {
@@ -3860,7 +3860,7 @@
       "status": "Resolved",
       "date": "2023-12",
       "site": {
-        "descriptor": "Cardiovascular practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
@@ -3927,7 +3927,7 @@
       "status": "In progress",
       "date": "2026-03",
       "site": {
-        "descriptor": "Fintech company site (in development)",
+        "descriptor": "Client site (in development)",
         "platform": "Webflow"
       },
       "captured": {
@@ -3974,7 +3974,7 @@
       "status": "Resolved",
       "date": "2025-04",
       "site": {
-        "descriptor": "Sustainable architecture practice site",
+        "descriptor": "Client site",
         "platform": "Webflow"
       },
       "captured": {
