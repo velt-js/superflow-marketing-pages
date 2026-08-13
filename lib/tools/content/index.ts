@@ -13,6 +13,7 @@ import { JSON_LD_VALIDATOR_CONTENT } from "./json-ld-validator";
 import { JSON_LD_GENERATOR_CONTENT } from "./json-ld-generator";
 import { MARKDOWN_FOR_AGENTS_CONTENT } from "./markdown-for-agents";
 import { LLMS_TXT_GENERATOR_CONTENT } from "./llms-txt-generator";
+import { SOCIAL_PREVIEW_CHECKER_CONTENT } from "./social-preview-checker";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -25,6 +26,7 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   JSON_LD_GENERATOR_CONTENT,
   MARKDOWN_FOR_AGENTS_CONTENT,
   LLMS_TXT_GENERATOR_CONTENT,
+  SOCIAL_PREVIEW_CHECKER_CONTENT,
 ];
 
 /**
@@ -49,4 +51,5 @@ export {
   JSON_LD_GENERATOR_CONTENT,
   MARKDOWN_FOR_AGENTS_CONTENT,
   LLMS_TXT_GENERATOR_CONTENT,
+  SOCIAL_PREVIEW_CHECKER_CONTENT,
 };
