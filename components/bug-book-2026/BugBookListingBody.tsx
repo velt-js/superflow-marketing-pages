@@ -18,10 +18,15 @@ import ClapbackFiles from "./ClapbackFiles";
 import BugBookFilters, { type BugFilters } from "./BugBookFilters";
 import styles from "./BugBookListingBody.module.css";
 
-const HERO_KICKER = "THE SUPERFLOW BUG BOOK";
+/* The kicker carries the credential rather than repeating the headline:
+   the corpus is the thing nobody else has. */
+const HERO_KICKER = "MINED FROM 388,817 REVIEW THREADS";
 const HERO_HEADLINE = "The Bug Book";
+/* Deliberately does not claim these were all caught "before users saw
+   them" - plenty were found on live sites, and several were reported by
+   the client. What is true, and better, is whose sites these are. */
 const HERO_SUBHEAD =
-  "Real bugs, rage clicks, and typos caught in Superflow reviews - by humans and by our AI agents - before users ever saw them. Names removed. Screenshots redacted. Shame preserved.";
+  "Bugs, typos, and rage clicks caught on real client sites - by humans in review, and by our AI agents. Names removed. Screenshots redacted. Shame preserved.";
 const EMPTY_STATE_TEXT = "No bugs match. A rare clean build.";
 const RESET_LABEL = "Reset filters";
 

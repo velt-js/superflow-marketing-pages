@@ -12,7 +12,7 @@ import {
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 const BUG_BOOK_DESCRIPTION =
-  "Real bugs, rage clicks, and typos caught in Superflow reviews - by humans and by our AI agents - before users ever saw them. Names removed. Shame preserved.";
+  "Bugs, typos, and rage clicks caught on real client sites - by humans in review, and by our AI agents. Names removed. Screenshots redacted. Shame preserved.";
 
 const BUG_BOOK_BREADCRUMB = buildBreadcrumbList([
   { name: "Home", url: SITE_URL },
