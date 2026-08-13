@@ -94,7 +94,12 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "llms.txt Generator",
     tagline: "Generate a spec-correct llms.txt and llms-full.txt for any site",
     category: "ai-visibility",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13, verified end to end against the
+    // deployed staging engine. A run on example.com returned both files
+    // (llms.txt 95 bytes, llms-full.txt 208 bytes) and a run on
+    // bbc.com/news returned 200 pages discovered, 15 inlined, truncated.
+    status: "live",
     icon: "file",
     related: [
       "ai-visibility-checker",
@@ -108,7 +113,11 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "Turn your pages into clean Markdown you can host for AI agents to read",
     category: "ai-visibility",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13, verified end to end against the
+    // deployed staging engine. A browser run on example.org rendered the
+    // document, the preview, and a working example-org.md download.
+    status: "live",
     icon: "markdown",
     related: [
       "ai-visibility-checker",

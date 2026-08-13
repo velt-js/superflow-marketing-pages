@@ -11,6 +11,8 @@ import { MD5_GENERATOR_CONTENT } from "./md5-generator";
 import { TECH_STACK_DETECTOR_CONTENT } from "./tech-stack-detector";
 import { JSON_LD_VALIDATOR_CONTENT } from "./json-ld-validator";
 import { JSON_LD_GENERATOR_CONTENT } from "./json-ld-generator";
+import { MARKDOWN_FOR_AGENTS_CONTENT } from "./markdown-for-agents";
+import { LLMS_TXT_GENERATOR_CONTENT } from "./llms-txt-generator";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -21,6 +23,8 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   TECH_STACK_DETECTOR_CONTENT,
   JSON_LD_VALIDATOR_CONTENT,
   JSON_LD_GENERATOR_CONTENT,
+  MARKDOWN_FOR_AGENTS_CONTENT,
+  LLMS_TXT_GENERATOR_CONTENT,
 ];
 
 /**
@@ -43,4 +47,6 @@ export {
   TECH_STACK_DETECTOR_CONTENT,
   JSON_LD_VALIDATOR_CONTENT,
   JSON_LD_GENERATOR_CONTENT,
+  MARKDOWN_FOR_AGENTS_CONTENT,
+  LLMS_TXT_GENERATOR_CONTENT,
 };

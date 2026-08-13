@@ -1,0 +1,32 @@
+/* Shared copy and download buttons for the text-producing tools.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.action {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 9999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.action:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.actionPrimary {
+    color: #ffffff;
+    background: var(--t-ink, #1e1e1f);
+    border-color: var(--t-ink, #1e1e1f);
+}
+
+.actionPrimary:hover {
+    background: var(--t-ink, #1e1e1f);
+    opacity: 0.86;
+}
