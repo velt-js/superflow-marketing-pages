@@ -11,6 +11,7 @@ import {
 } from "@/lib/bug-book";
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
+import BugSceneMock from "./BugSceneMock";
 import {
   CategoryChip,
   FlagTag,
@@ -161,13 +162,18 @@ function FindingReport({ entry }: { entry: BugBookEntryDetail }) {
   );
 }
 
-/** The product pitch smuggled into the story — real auto-captured context. */
+/**
+ * The product pitch smuggled into the story — real auto-captured context.
+ * Two tiers: the cards lead with what a reader scans for (issue type,
+ * client/site type, platform); environment details (browser, OS, device)
+ * sit in a smaller muted row underneath — captured, but not the headline.
+ */
 function CapturedGrid({ entry }: { entry: BugBookEntryDetail }) {
   const isAgent = entry.source === "agent";
-  const cells: { label: string; value?: string }[] = isAgent
+  const primary: { label: string; value?: string }[] = isAgent
     ? [
+        { label: "Issue type", value: entry.finding?.issueType ?? entry.category },
         { label: "Agent", value: entry.agentName },
-        { label: "Issue type", value: entry.finding?.issueType },
         {
           label: "Confidence",
           value:
@@ -175,35 +181,52 @@ function CapturedGrid({ entry }: { entry: BugBookEntryDetail }) {
               ? `${entry.finding.confidence}%`
               : undefined,
         },
-        { label: "Page type", value: entry.site?.descriptor },
+        { label: "Client type", value: entry.site?.industry },
+        { label: "Site", value: entry.site?.descriptor },
         { label: "Platform", value: entry.site?.platform },
-        { label: "Date", value: formatBugDate(entry.date) },
-        { label: "Status", value: entry.status },
       ]
     : [
-        { label: "Browser", value: entry.captured?.browser },
-        { label: "OS", value: entry.captured?.os },
-        { label: "Device", value: entry.captured?.device },
-        { label: "Page type", value: entry.site?.descriptor },
+        { label: "Issue type", value: entry.category },
+        { label: "Client type", value: entry.site?.industry },
+        { label: "Site", value: entry.site?.descriptor },
         { label: "Platform", value: entry.site?.platform },
-        { label: "Date", value: formatBugDate(entry.date) },
-        { label: "Status", value: entry.status },
       ];
 
-  const filled = cells.filter((cell) => cell.value);
-  if (filled.length === 0) return null;
+  const secondary: { label: string; value?: string }[] = [
+    { label: "Browser", value: entry.captured?.browser },
+    { label: "OS", value: entry.captured?.os },
+    { label: "Device", value: entry.captured?.device },
+    { label: "Date", value: formatBugDate(entry.date) },
+    { label: "Status", value: entry.status },
+  ];
+
+  const filledPrimary = primary.filter((cell) => cell.value);
+  const filledSecondary = secondary.filter((cell) => cell.value);
+  if (filledPrimary.length === 0 && filledSecondary.length === 0) return null;
 
   return (
     <section className={styles.capturedSection}>
       <h2 className={styles.sectionHeading}>{CAPTURED_HEADING}</h2>
-      <dl className={styles.capturedGrid}>
-        {filled.map((cell) => (
-          <div key={cell.label} className={styles.capturedCell}>
-            <dt className={styles.capturedLabel}>{cell.label}</dt>
-            <dd className={styles.capturedValue}>{cell.value}</dd>
-          </div>
-        ))}
-      </dl>
+      {filledPrimary.length > 0 ? (
+        <dl className={styles.capturedGrid}>
+          {filledPrimary.map((cell) => (
+            <div key={cell.label} className={styles.capturedCell}>
+              <dt className={styles.capturedLabel}>{cell.label}</dt>
+              <dd className={styles.capturedValue}>{cell.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+      {filledSecondary.length > 0 ? (
+        <dl className={styles.capturedSecondary}>
+          {filledSecondary.map((cell) => (
+            <div key={cell.label} className={styles.capturedSecondaryItem}>
+              <dt className={styles.capturedSecondaryLabel}>{cell.label}</dt>
+              <dd className={styles.capturedSecondaryValue}>{cell.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
       <p className={styles.capturedFootnote}>
         {isAgent ? CAPTURED_FOOTNOTE_AGENT : CAPTURED_FOOTNOTE}
       </p>
@@ -271,6 +294,8 @@ export default function BugBookDetailBody({
             ) : null}
             {entry.hook ? <p className={styles.hook}>{entry.hook}</p> : null}
           </header>
+
+          <BugSceneMock entry={entry} />
 
           {entry.source === "agent" && entry.finding ? (
             <section className={styles.threadSection}>

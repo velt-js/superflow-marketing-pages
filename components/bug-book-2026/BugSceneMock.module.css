@@ -1,0 +1,272 @@
+/* Staged wireframe-site-with-pinned-comment visual for detail pages. */
+
+.figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.frame {
+    position: relative;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------- Chrome bar */
+
+.chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(22, 23, 26, 0.06);
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    background: rgba(22, 23, 26, 0.14);
+}
+
+.urlBar {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 12px;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    background: rgba(22, 23, 26, 0.05);
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.4px;
+    color: #a3a8b3;
+}
+
+/* ------------------------------------------------------ Wireframe site */
+
+.site {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding: 26px 32px 120px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.55) 100%);
+}
+
+.siteHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.siteLogo {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    opacity: 0.85;
+}
+
+.siteNavItem {
+    width: 52px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(22, 23, 26, 0.12);
+}
+
+.siteNavItem:nth-of-type(3) {
+    width: 40px;
+}
+
+.siteNavItem:nth-of-type(4) {
+    width: 46px;
+}
+
+.siteCta {
+    margin-left: auto;
+    width: 78px;
+    height: 26px;
+    border-radius: 9999px;
+    opacity: 0.85;
+}
+
+.siteHero {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 6px;
+}
+
+.siteHeadline {
+    width: 56%;
+    height: 18px;
+    border-radius: 6px;
+    background: rgba(22, 23, 26, 0.16);
+}
+
+.siteHeadlineShort {
+    width: 38%;
+    height: 18px;
+    border-radius: 6px;
+    background: rgba(22, 23, 26, 0.16);
+}
+
+.siteSub {
+    width: 46%;
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(22, 23, 26, 0.09);
+    margin-top: 4px;
+}
+
+.siteCards {
+    display: flex;
+    gap: 14px;
+}
+
+.siteCard {
+    flex: 1;
+    height: 64px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(22, 23, 26, 0.07);
+}
+
+/* -------------------------------------------------------- Pin + popover */
+
+.commentAnchor {
+    position: absolute;
+    left: 52%;
+    top: 96px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: min(420px, 44%);
+}
+
+.pin {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9999px 9999px 9999px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(20, 20, 43, 0.25);
+    border: 2px solid #ffffff;
+}
+
+.popover {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px;
+    border-radius: 4px 16px 16px 16px;
+    background: #ffffff;
+    border: 1px solid #ececf1;
+    box-shadow: 0 18px 44px rgba(20, 20, 43, 0.16);
+}
+
+.popoverHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2d9aff, #8480ff);
+}
+
+.agentAvatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #433df3;
+    background: #eeedfe;
+}
+
+.speaker {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #16171a;
+}
+
+.commentDate {
+    margin-left: auto;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 11px;
+    color: #9096a1;
+}
+
+.commentText {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #16171a;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.commentAttachment {
+    align-self: flex-start;
+    padding: 2px 9px;
+    border-radius: 9999px;
+    border: 1px dashed #d7d9e0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 11px;
+    color: #6b7079;
+}
+
+.caption {
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #a3a8b3;
+    text-align: right;
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 720px) {
+    .site {
+        padding: 22px 20px 40px;
+    }
+
+    .siteCards {
+        display: none;
+    }
+
+    /* Popover flows under the wireframe instead of overlapping it. */
+    .commentAnchor {
+        position: static;
+        max-width: 100%;
+        padding: 0 16px 18px;
+        margin-top: -18px;
+    }
+}
