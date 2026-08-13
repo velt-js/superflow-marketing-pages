@@ -402,6 +402,11 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
     heading: "Community",
     links: [
       {
+        label: "Agency Tools Survey",
+        href: "/state-of-agency-tools",
+        Icon: ChartBarIcon,
+      },
+      {
         label: "Join Community",
         href: "https://superflowusers.slack.com/ssb/redirect",
         Icon: UsersIcon,

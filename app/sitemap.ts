@@ -103,6 +103,10 @@ const STATIC_PATHS = [
   "/pricing",
   "/privacy",
   "/security",
+  // Survey landing page only. The /report child stays out (and noindex)
+  // until real results replace the sample data - see
+  // app/state-of-agency-tools/README.md.
+  "/state-of-agency-tools",
   "/terms",
   "/tools",
   "/use-case",

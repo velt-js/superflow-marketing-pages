@@ -1,0 +1,79 @@
+/* Report-only chrome, layered on top of Survey.module.css tokens. */
+
+.sampleBanner {
+    display: flex;
+    justify-content: center;
+    padding: 12px 24px;
+    background: #fdf2e0;
+    border-bottom: 1px solid rgba(168, 106, 0, 0.25);
+}
+
+.sampleBannerText {
+    margin: 0;
+    max-width: 1000px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #a86a00;
+    text-align: center;
+}
+
+.reportMeta {
+    margin: 0;
+    font-size: 14px;
+    color: var(--s-ink-faint);
+}
+
+.headlineStat {
+    margin: 0 0 20px;
+    max-width: 760px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--s-ink-soft);
+}
+
+.headlineStat strong {
+    color: var(--s-ink);
+    font-weight: 600;
+}
+
+.resentList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    counter-reset: resent;
+}
+
+.resentItem {
+    counter-increment: resent;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.resentItem::before {
+    content: counter(resent);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--s-ink-faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.resentName {
+    font-weight: 500;
+    color: var(--s-ink);
+}
+
+.resentMentions {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--s-ink-faint);
+    font-variant-numeric: tabular-nums;
+}
