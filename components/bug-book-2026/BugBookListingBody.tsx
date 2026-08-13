@@ -20,13 +20,16 @@ import styles from "./BugBookListingBody.module.css";
 
 /* The kicker carries the credential rather than repeating the headline:
    the corpus is the thing nobody else has. */
-const HERO_KICKER = "MINED FROM 388,817 REVIEW THREADS";
+const HERO_KICKER = "MINED FROM 550K REVIEW THREADS";
 const HERO_HEADLINE = "The Bug Book";
 /* Deliberately does not claim these were all caught "before users saw
    them" - plenty were found on live sites, and several were reported by
    the client. What is true, and better, is whose sites these are. */
+/* The redaction promise lives on the shareable quote cards, where a
+   quote travels without the page around it. Here the page itself is the
+   context, so the subhead keeps only the punchline. */
 const HERO_SUBHEAD =
-  "Bugs, typos, and rage clicks caught on real client sites - by humans in review, and by our AI agents. Names removed. Screenshots redacted. Shame preserved.";
+  "Bugs, typos, and rage clicks caught on real client sites - by humans in review, and by our AI agents. Shame preserved.";
 const EMPTY_STATE_TEXT = "No bugs match. A rare clean build.";
 const RESET_LABEL = "Reset filters";
 

@@ -78,7 +78,6 @@ export type BugBookListEntry = {
   pullQuoteSpeaker?: string;
   siteDescriptor?: string;
   sitePlatform?: string;
-  siteIndustry?: string;
   headline: string;
   hook?: string;
   flags?: string[];
@@ -86,7 +85,7 @@ export type BugBookListEntry = {
 };
 
 export type BugBookEntryDetail = BugBookListEntry & {
-  site?: { descriptor?: string; platform?: string; industry?: string };
+  site?: { descriptor?: string; platform?: string };
   captured?: { browser?: string; os?: string; device?: string };
   thread?: BugThreadComment[];
   finding?: BugFinding | null;

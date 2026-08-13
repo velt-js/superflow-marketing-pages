@@ -911,7 +911,6 @@ const BUG_BOOK_LIST_FIELDS = `
   date,
   "siteDescriptor": site.descriptor,
   "sitePlatform": site.platform,
-  "siteIndustry": site.industry,
   headline,
   hook,
   flags,
@@ -944,7 +943,7 @@ export async function getBugBookEntryBySlug(
     `
     *[_type == "bugBookEntry" && tier == "page" && slug.current == $slug][0] {
       ${BUG_BOOK_LIST_FIELDS},
-      site{ descriptor, platform, industry },
+      site{ descriptor, platform },
       captured{ browser, os, device },
       thread[]{ speaker, text, attachment },
       finding{ title, description, suggestion, issueType, confidence },
