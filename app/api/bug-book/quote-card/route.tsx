@@ -14,36 +14,17 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { getBugBookEntryBySlug } from "@/sanity/lib/queries";
+import {
+  CARD_BRAND,
+  CARD_FORMATS,
+  CARD_GROUND,
+  CARD_TRUST,
+  CARD_URL,
+  CARD_VIBE_GRADIENTS,
+  resolveCardFormat,
+} from "@/lib/bug-book-cards";
 
 export const runtime = "nodejs";
-
-/** Social crops worth having. Square is the safe default. */
-const FORMATS = {
-  square: { width: 1080, height: 1080 },
-  portrait: { width: 1080, height: 1350 },
-  story: { width: 1080, height: 1920 },
-  landscape: { width: 1200, height: 630 },
-} as const;
-
-type FormatName = keyof typeof FORMATS;
-
-const DEFAULT_FORMAT: FormatName = "square";
-
-/** Same washes the site cards use, so a post and the page match. */
-const VIBE_GRADIENTS: Record<string, string> = {
-  rage:
-    "radial-gradient(120% 120% at 15% 10%, #7b1330 0%, transparent 55%), radial-gradient(120% 130% at 95% 95%, #b8341c 0%, transparent 60%)",
-  sass:
-    "radial-gradient(120% 120% at 12% 12%, #5b1a7a 0%, transparent 55%), radial-gradient(130% 130% at 95% 90%, #c02a6d 0%, transparent 62%)",
-  comedy:
-    "radial-gradient(120% 120% at 15% 8%, #3b2296 0%, transparent 55%), radial-gradient(130% 130% at 92% 95%, #9333ea 0%, transparent 60%)",
-  story:
-    "radial-gradient(120% 120% at 10% 12%, #2f1b6b 0%, transparent 58%), radial-gradient(130% 130% at 96% 92%, #7a1f5c 0%, transparent 60%)",
-};
-
-const FOOTER_TRUST = "Names removed. Screenshots redacted.";
-const FOOTER_BRAND = "The Superflow Bug Book";
-const FOOTER_URL = "usesuperflow.ai/bug-book";
 
 /**
  * Speaker and site now both often begin "Client", which rendered as
@@ -55,11 +36,6 @@ function buildAttribution(speaker?: string, site?: string): string {
   if (!site) return speaker;
   const firstWord = site.split(/[\s·]/)[0]?.toLowerCase().replace(/'s$/, "");
   return firstWord === speaker.toLowerCase() ? site : `${speaker} · ${site}`;
-}
-
-/** Resolves the requested crop, falling back rather than erroring. */
-function resolveFormat(value: string | null): FormatName {
-  return value && value in FORMATS ? (value as FormatName) : DEFAULT_FORMAT;
 }
 
 /**
@@ -87,12 +63,14 @@ export async function GET(request: NextRequest): Promise<Response> {
       return new Response("No quote card for that slug.", { status: 404 });
     }
 
-    const { width, height } = FORMATS[resolveFormat(params.get("format"))];
+    const { width, height } =
+      CARD_FORMATS[resolveCardFormat(params.get("format"))];
     const attribution = buildAttribution(
       entry.pullQuoteSpeaker,
       entry.siteDescriptor,
     );
-    const gradient = VIBE_GRADIENTS[entry.vibe ?? ""] ?? VIBE_GRADIENTS.story;
+    const gradient =
+      CARD_VIBE_GRADIENTS[entry.vibe ?? ""] ?? CARD_VIBE_GRADIENTS.story;
     const pad = Math.round(width * 0.09);
     const fontSize = quoteFontSize(entry.pullQuote.length, width, height);
 
@@ -105,7 +83,7 @@ export async function GET(request: NextRequest): Promise<Response> {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            backgroundColor: "#131017",
+            backgroundColor: CARD_GROUND,
             backgroundImage: gradient,
             padding: `${pad}px`,
             fontFamily: "sans-serif",
@@ -186,7 +164,7 @@ export async function GET(request: NextRequest): Promise<Response> {
                   fontWeight: 700,
                 }}
               >
-                {FOOTER_BRAND}
+                {CARD_BRAND}
               </div>
               <div
                 style={{
@@ -195,7 +173,7 @@ export async function GET(request: NextRequest): Promise<Response> {
                   fontSize: Math.round(width * 0.022),
                 }}
               >
-                {FOOTER_TRUST}
+                {CARD_TRUST}
               </div>
             </div>
             <div
@@ -205,7 +183,7 @@ export async function GET(request: NextRequest): Promise<Response> {
                 fontSize: Math.round(width * 0.022),
               }}
             >
-              {FOOTER_URL}
+              {CARD_URL}
             </div>
           </div>
         </div>
