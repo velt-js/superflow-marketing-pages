@@ -34,7 +34,6 @@ import {
   ArrowsExchangeIcon,
   CalculatorIcon,
   ListCheckIcon,
-  ChartBarIcon,
   WandIcon,
   UsersIcon,
   BrandYoutubeIcon,
