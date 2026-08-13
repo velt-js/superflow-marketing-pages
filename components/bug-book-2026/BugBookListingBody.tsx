@@ -5,7 +5,6 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
   BUG_BOOK_SORTS,
-  BUG_BOOK_VIBES,
   sortEntries,
   type BugBookListEntry,
   type BugBookSample,
@@ -15,6 +14,7 @@ import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
 import BugBookSamples from "./BugBookSamples";
 import ClapbackFiles from "./ClapbackFiles";
+import BugBookFilters, { type BugFilters } from "./BugBookFilters";
 import styles from "./BugBookListingBody.module.css";
 
 const HERO_KICKER = "THE SUPERFLOW BUG BOOK";
@@ -31,13 +31,7 @@ const SOURCES = [
   { value: "agent", label: "Superflow Agent" },
 ];
 
-type Filters = {
-  vibe: string;
-  category: string;
-  severity: string;
-  source: string;
-  sort: BugBookSort;
-};
+type Filters = BugFilters & { sort: BugBookSort };
 
 const DEFAULT_FILTERS: Filters = {
   vibe: "all",
@@ -77,36 +71,28 @@ function searchFromFilters(filters: Filters): string {
   return query ? `?${query}` : "";
 }
 
-function PillGroup({
-  label,
-  options,
+/** Compact segmented control for the sort axis. */
+function SortControl({
   value,
   onChange,
 }: {
-  label: string;
-  options: { value: string; label: string }[];
-  value: string;
-  onChange: (value: string) => void;
+  value: BugBookSort;
+  onChange: (value: BugBookSort) => void;
 }) {
   return (
-    <div className={styles.pillGroup} role="group" aria-label={label}>
-      <span className={styles.pillGroupLabel}>{label}</span>
-      <div className={styles.pills}>
-        {options.map((option) => {
-          const active = option.value === value;
-          return (
-            <button
-              key={option.value}
-              type="button"
-              className={active ? styles.pillActive : styles.pill}
-              aria-pressed={active}
-              onClick={() => onChange(option.value)}
-            >
-              {option.label}
-            </button>
-          );
-        })}
-      </div>
+    <div className={styles.sortControl} role="group" aria-label="Sort">
+      <span className={styles.sortLabel}>Sort</span>
+      {BUG_BOOK_SORTS.map((sort) => (
+        <button
+          key={sort.value}
+          type="button"
+          className={sort.value === value ? styles.sortActive : styles.sort}
+          aria-pressed={sort.value === value}
+          onClick={() => onChange(sort.value)}
+        >
+          {sort.label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -127,6 +113,9 @@ export default function BugBookListingBody({
   samples?: BugBookSample[];
 }) {
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  // Desktop shows the rail always; this only drives the narrow-screen
+  // disclosure, so the grid stays the first thing you see on a phone.
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Initial state comes from the URL (e.g. returning from a detail page).
   // Read on mount instead of useSearchParams so the page stays fully static.
@@ -143,12 +132,6 @@ export default function BugBookListingBody({
     window.history.replaceState(null, "", `${window.location.pathname}${query}`);
   };
 
-  // Render only categories that are actually present, in taxonomy order.
-  const categories = useMemo(() => {
-    const seen = new Set(entries.map((entry) => entry.category));
-    return [...seen].sort((a, b) => a.localeCompare(b));
-  }, [entries]);
-
   const filtered = useMemo(() => {
     const matches = entries.filter((entry) => {
       if (filters.vibe !== "all" && entry.vibe !== filters.vibe) return false;
@@ -164,6 +147,11 @@ export default function BugBookListingBody({
   }, [entries, filters]);
 
   const countLabel = `${filtered.length} ${filtered.length === 1 ? "bug" : "bugs"}`;
+  const isDirty =
+    filters.vibe !== "all" ||
+    filters.category !== "all" ||
+    filters.severity !== "all" ||
+    filters.source !== "all";
 
   return (
     <main className={styles.page}>
@@ -177,90 +165,63 @@ export default function BugBookListingBody({
         </div>
       </section>
 
-      <section className={styles.filterSection} aria-label="Filter bugs">
-        <div className={styles.filterInner}>
-          <PillGroup
-            label="Vibe"
-            options={[
-              { value: "all", label: "All" },
-              ...BUG_BOOK_VIBES.map((vibe) => ({
-                value: vibe.value,
-                label: `${vibe.emoji} ${vibe.label}`,
-              })),
-            ]}
-            value={filters.vibe}
-            onChange={(vibe) => applyFilters({ ...filters, vibe })}
-          />
-          <PillGroup
-            label="Category"
-            options={[
-              { value: "all", label: "All" },
-              ...categories.map((category) => ({
-                value: category,
-                label: category,
-              })),
-            ]}
-            value={filters.category}
-            onChange={(category) => applyFilters({ ...filters, category })}
-          />
-          <PillGroup
-            label="Severity"
-            options={[
-              { value: "all", label: "All" },
-              ...SEVERITIES.map((severity) => ({
-                value: severity,
-                label: severity,
-              })),
-            ]}
-            value={filters.severity}
-            onChange={(severity) => applyFilters({ ...filters, severity })}
-          />
-          <PillGroup
-            label="Caught by"
-            options={[{ value: "all", label: "All" }, ...SOURCES]}
-            value={filters.source}
-            onChange={(source) => applyFilters({ ...filters, source })}
-          />
-          <div className={styles.filterFooter}>
-            <PillGroup
-              label="Sort"
-              options={[...BUG_BOOK_SORTS]}
-              value={filters.sort}
-              onChange={(sort) =>
-                applyFilters({ ...filters, sort: sort as BugBookSort })
-              }
-            />
-            <p className={styles.count} aria-live="polite">
-              {countLabel}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <ClapbackFiles entries={entries} />
-
-      <section className={styles.gridSection}>
-        <div className={styles.gridInner}>
-          {filtered.length === 0 ? (
-            <div className={styles.emptyState}>
-              <p className={styles.emptyText}>{EMPTY_STATE_TEXT}</p>
-              <button
-                type="button"
-                className={styles.resetButton}
-                onClick={() => applyFilters(DEFAULT_FILTERS)}
-              >
-                {RESET_LABEL}
-              </button>
+      <section className={styles.layout}>
+        <div className={styles.layoutInner}>
+          <aside className={styles.sidebar}>
+            <button
+              type="button"
+              className={styles.filterToggle}
+              aria-expanded={filtersOpen}
+              onClick={() => setFiltersOpen((open) => !open)}
+            >
+              {filtersOpen ? "Hide filters" : "Show filters"}
+              <span className={styles.filterToggleCount}>{countLabel}</span>
+            </button>
+            <div
+              className={filtersOpen ? styles.sidebarInner : styles.sidebarClosed}
+            >
+              <BugBookFilters
+                entries={entries}
+                filters={filters}
+                onChange={(next) => applyFilters({ ...next, sort: filters.sort })}
+                onReset={() => applyFilters(DEFAULT_FILTERS)}
+                isDirty={isDirty}
+              />
             </div>
-          ) : (
-            <ul className={styles.grid}>
-              {filtered.map((entry) => (
-                <li key={entry._id} className={styles.item}>
-                  <BugCard entry={entry} />
-                </li>
-              ))}
-            </ul>
-          )}
+          </aside>
+
+          <div className={styles.results}>
+            <div className={styles.resultsBar}>
+              <p className={styles.count} aria-live="polite">
+                {countLabel}
+              </p>
+              <SortControl
+                value={filters.sort}
+                onChange={(sort) => applyFilters({ ...filters, sort })}
+              />
+            </div>
+
+            {filtered.length === 0 ? (
+              <div className={styles.emptyState}>
+                <p className={styles.emptyText}>{EMPTY_STATE_TEXT}</p>
+                <button
+                  type="button"
+                  className={styles.resetButton}
+                  onClick={() => applyFilters(DEFAULT_FILTERS)}
+                >
+                  {RESET_LABEL}
+                </button>
+              </div>
+            ) : (
+              <ul className={styles.grid}>
+                {filtered.map((entry) => (
+                  <li key={entry._id} className={styles.item}>
+                    <BugCard entry={entry} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </section>
 

@@ -1,64 +1,60 @@
-/* Bug Book card — mirrors the blog-2026 card system (light card,
-   #ececf1 border, accent hover lift). */
+/* Bug Book card - text-first, no illustration. Identity comes from a
+   category-colored spine on the left edge rather than an image. */
 
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
+    gap: 12px;
     width: 100%;
+    padding: 22px 22px 20px 26px;
     border: 1px solid #ececf1;
-    border-radius: 20px;
-    background: #fbfbfd;
-    overflow: hidden;
+    border-radius: 16px;
+    background: #ffffff;
     text-decoration: none;
+    overflow: hidden;
     transition:
         border-color 160ms ease,
         box-shadow 160ms ease,
         transform 160ms ease;
 }
 
+/* The category spine: the whole visual identity, in three pixels. */
+.card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--bug-accent, #433df3);
+    opacity: 0.85;
+}
+
 .card:hover {
-    border-color: rgba(67, 61, 243, 0.35);
-    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    border-color: rgba(67, 61, 243, 0.3);
+    box-shadow: 0 12px 30px rgba(20, 20, 43, 0.07);
     transform: translateY(-2px);
 }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 10px;
-    padding: 20px 22px 24px;
-}
-
-.badges {
+.top {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 6px;
+    min-height: 24px;
 }
 
 .headline {
     margin: 0;
     font-family: var(--font-urbanist), system-ui, sans-serif;
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.38;
     letter-spacing: -0.3px;
     color: #16171a;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.hook {
-    margin: 0;
-    font-family: var(--font-poppins), system-ui, sans-serif;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: #6b7079;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -67,31 +63,63 @@
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-top: 8px;
+    gap: 6px;
+    padding-top: 4px;
 }
 
 .meta {
     margin: 0;
-    font-family: var(--font-poppins), system-ui, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
     font-size: 12.5px;
-    color: #9096a1;
+    font-weight: 700;
 }
 
-.cta {
+.category {
+    letter-spacing: 0.1px;
+}
+
+.severity,
+.agent {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    font-family: var(--font-urbanist), system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
+    gap: 5px;
+    color: #6b7079;
+    font-weight: 600;
+}
+
+.severityDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+}
+
+.agent {
     color: #433df3;
 }
 
-.ctaIcon {
-    transition: transform 160ms ease;
+.site {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #9096a1;
 }
 
-.card:hover .ctaIcon {
-    transform: translateX(3px);
+.arrow {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: #c3c7d0;
+    transition: transform 160ms ease, color 160ms ease;
+}
+
+.card:hover .arrow {
+    color: var(--bug-accent, #433df3);
+    transform: translateX(2px);
 }
