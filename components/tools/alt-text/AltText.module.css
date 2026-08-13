@@ -1,0 +1,465 @@
+/* Alt Text Generator: the form, the counts, and one row per image.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+/* An expected state, not a fault. Reads as information, not alarm. */
+.calmNotice {
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+    color: var(--t-ink-soft, #5b5b60);
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* ---- Result header ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+}
+
+.resultHost {
+    margin: 0 0 2px;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.resultChecked {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.primaryButton {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.primaryButton:hover {
+    opacity: 0.86;
+}
+
+.ghostButton {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    transition: background 160ms ease;
+}
+
+.ghostButton:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+/* ---- Counts ---- */
+
+.countGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.count {
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.countAlarm {
+    background: var(--t-fail-bg, #fdeceb);
+    border-color: var(--t-fail, #c8362f);
+}
+
+.countLabel {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.countValue {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--t-ink, #1e1e1f);
+}
+
+/* ---- The review warning. Sits above the rows, not below them. ---- */
+
+.reviewNote {
+    padding: 14px 20px;
+    border-radius: 16px;
+    background: var(--t-warn-bg, #fdf2e0);
+    border: 1px solid var(--t-warn, #a86a00);
+}
+
+.reviewNoteBody {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-warn, #a86a00);
+}
+
+/* ---- Bulk copy ---- */
+
+.bulkBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.bulkLabel {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+/* ---- Rows ---- */
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.row {
+    display: flex;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.rowThumb {
+    flex: 0 0 auto;
+    width: 88px;
+}
+
+.thumb {
+    display: block;
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.08));
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.thumbFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    border-radius: 12px;
+    border: 1px dashed var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    background: var(--t-panel-alt, #f7f7f8);
+    font-size: 11px;
+    color: var(--t-ink-faint, #8a8a90);
+    text-align: center;
+}
+
+.rowBody {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rowHead {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rowSrc {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--t-ink-faint, #8a8a90);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    overflow-wrap: anywhere;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.fieldLabel {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.fieldValue {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.currentValue {
+    color: var(--t-ink, #1e1e1f);
+}
+
+/* Missing and empty must never look like the same state. */
+.missingValue {
+    color: var(--t-fail, #c8362f);
+}
+
+.emptyValue {
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.08));
+}
+
+.suggestionRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.suggestion {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--t-pass-bg, #e7f6ef);
+    color: #14603f;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.decorativeAdvice {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.skipReason {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.footNote {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+/* ---- Chips ---- */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 9px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.chipMissing {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+.chipEmpty {
+    background: var(--t-unknown-bg, #f0f0f2);
+    color: var(--t-unknown, #5b5b60);
+    border: 1px dashed currentColor;
+}
+
+.chipPresent {
+    background: var(--t-pass-bg, #e7f6ef);
+    color: var(--t-pass, #1a8f5f);
+}
+
+.chipSkipped {
+    background: var(--t-unknown-bg, #f0f0f2);
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.chipDecorative {
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 720px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .suggestionRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

@@ -1,0 +1,292 @@
+/* Full Page Screenshot: the form, the facts, and the capture viewer.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+/* ---- Result header ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+}
+
+.resultHost {
+    margin: 0 0 2px;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.resultChecked {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.primaryButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.primaryButton:hover {
+    opacity: 0.86;
+}
+
+.ghostButton {
+    padding: 9px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    transition: background 160ms ease;
+}
+
+.ghostButton:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+/* ---- The expiry line. Deliberately loud. ---- */
+
+.expiryNote {
+    margin: 0;
+    padding: 12px 18px;
+    border-radius: 14px;
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+    border: 1px solid currentColor;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.expiryNoteStale {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+/* ---- Capture facts ---- */
+
+.factGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.fact {
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.factLabel {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.factValue {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+    word-break: break-word;
+}
+
+/* ---- The viewer ---- */
+
+.viewerHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.viewerHint {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.imageError {
+    margin: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+/* A full page capture can be 20,000 pixels tall, so the default view is a
+   scroll frame. The page layout must never depend on the image's height. */
+.viewer {
+    max-height: 640px;
+    overflow: auto;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+    /* Checkerboard, so a page with a transparent background is still legible. */
+    background-image:
+        linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+.viewerExpanded {
+    max-height: none;
+    overflow: visible;
+}
+
+.viewerHidden {
+    display: none;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 720px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+    }
+
+    .resultActions {
+        width: 100%;
+    }
+
+    .viewer {
+        max-height: 460px;
+    }
+}

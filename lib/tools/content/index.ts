@@ -14,6 +14,8 @@ import { JSON_LD_GENERATOR_CONTENT } from "./json-ld-generator";
 import { MARKDOWN_FOR_AGENTS_CONTENT } from "./markdown-for-agents";
 import { LLMS_TXT_GENERATOR_CONTENT } from "./llms-txt-generator";
 import { SOCIAL_PREVIEW_CHECKER_CONTENT } from "./social-preview-checker";
+import { FULL_PAGE_SCREENSHOT_CONTENT } from "./full-page-screenshot";
+import { ALT_TEXT_GENERATOR_CONTENT } from "./alt-text-generator";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -27,6 +29,8 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   MARKDOWN_FOR_AGENTS_CONTENT,
   LLMS_TXT_GENERATOR_CONTENT,
   SOCIAL_PREVIEW_CHECKER_CONTENT,
+  FULL_PAGE_SCREENSHOT_CONTENT,
+  ALT_TEXT_GENERATOR_CONTENT,
 ];
 
 /**
@@ -52,4 +56,6 @@ export {
   MARKDOWN_FOR_AGENTS_CONTENT,
   LLMS_TXT_GENERATOR_CONTENT,
   SOCIAL_PREVIEW_CHECKER_CONTENT,
+  FULL_PAGE_SCREENSHOT_CONTENT,
+  ALT_TEXT_GENERATOR_CONTENT,
 };
