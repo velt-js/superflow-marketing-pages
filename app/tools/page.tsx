@@ -39,7 +39,8 @@ export default function ToolsIndexPage() {
 
   return (
     <div className={styles.page}>
-      <SiteNav />
+      {/* Light hero: the transparent bar's white links would be invisible. */}
+      <SiteNav solidAtTop />
 
       <PageJsonLd
         name={`${TITLE} | Superflow`}
