@@ -61,8 +61,11 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "See whether ChatGPT, Claude, and Perplexity can actually read your site",
     category: "ai-visibility",
-    // Backend-dependent: runs through FreeToolsService. Flip to "live" when
-    // snippyly/shared-firebase-function#3784 is deployed.
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Starts work on staging, but polls return not-found until
+    // snippyly/shared-firebase-function#3825 deploys, so a visitor cannot
+    // get a report yet. Flip to "live" only after a real end-to-end run
+    // through this page passes against the deployed backend.
     status: "planned",
     icon: "robot",
     related: [
@@ -76,7 +79,8 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "robots.txt AI Checker",
     tagline: "Test your robots.txt against every AI crawler that matters",
     category: "ai-visibility",
-    // Backend-dependent: same engine as the AI Visibility Checker.
+    // Backend-dependent: same engine and same #3825 poll blocker as the
+    // AI Visibility Checker.
     status: "planned",
     icon: "file",
     related: [
