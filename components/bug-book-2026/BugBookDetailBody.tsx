@@ -11,6 +11,7 @@ import {
 } from "@/lib/bug-book";
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
+import BugSceneMock from "./BugSceneMock";
 import {
   CategoryChip,
   FlagTag,
@@ -293,6 +294,8 @@ export default function BugBookDetailBody({
             ) : null}
             {entry.hook ? <p className={styles.hook}>{entry.hook}</p> : null}
           </header>
+
+          <BugSceneMock entry={entry} />
 
           {entry.source === "agent" && entry.finding ? (
             <section className={styles.threadSection}>
