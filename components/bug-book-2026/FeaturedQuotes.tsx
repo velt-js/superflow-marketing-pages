@@ -4,14 +4,18 @@ import {
   vibeMeta,
   type BugBookListEntry,
 } from "@/lib/bug-book";
-import styles from "./ClapbackFiles.module.css";
+import styles from "./FeaturedQuotes.module.css";
 
-// "The Clapback Files" - a strip above the main grid featuring the
-// sassiest threads, with the punchline itself as the card's primary text
-// in large type. Each card is a self-contained, shareable quote; the
-// headline drops to a caption underneath.
+// A strip above the main grid featuring hand-picked threads, with the
+// punchline itself as the card's primary text in large type. Each card
+// is a self-contained, shareable quote; the headline drops to a caption
+// underneath.
+//
+// The component is named for what it does rather than what the section
+// is called, so a copy change to the heading does not strand the
+// filename - this section has already been renamed once.
 
-const HEADING = "The Clapback Files";
+const HEADING = "The Feedback Files";
 /* Not every featured line is a reply, so the subhead promises the lines
    rather than the comebacks. */
 const SUBHEAD =
@@ -39,7 +43,7 @@ const FALLBACK_COUNT = 4;
  * rotated to the bench or lost their quote. Falls back to the sassiest
  * entries so the strip degrades instead of vanishing.
  */
-function pickClapbacks(entries: BugBookListEntry[]): BugBookListEntry[] {
+function pickFeatured(entries: BugBookListEntry[]): BugBookListEntry[] {
   const bySlug = new Map(entries.map((entry) => [entry.slug, entry]));
   const featured = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter(
     (entry): entry is BugBookListEntry => Boolean(entry?.pullQuote),
@@ -64,28 +68,28 @@ function QuoteMark() {
 }
 
 /**
- * The sassy strip. Renders nothing when the set has no sassy entries
- * with a pull-quote, so it degrades quietly as content rotates.
+ * The featured strip. Renders nothing when nothing resolves, so it
+ * degrades quietly as content rotates.
  */
-export default function ClapbackFiles({
+export default function FeaturedQuotes({
   entries,
 }: {
   entries: BugBookListEntry[];
 }) {
-  const clapbacks = pickClapbacks(entries);
-  if (clapbacks.length === 0) return null;
+  const featured = pickFeatured(entries);
+  if (featured.length === 0) return null;
 
   return (
-    <section className={styles.strip} aria-labelledby="clapback-files-heading">
+    <section className={styles.strip} aria-labelledby="featured-quotes-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
-          <h2 className={styles.heading} id="clapback-files-heading">
+          <h2 className={styles.heading} id="featured-quotes-heading">
             {HEADING}
           </h2>
           <p className={styles.subhead}>{SUBHEAD}</p>
         </header>
         <ul className={styles.grid}>
-          {clapbacks.map((entry) => {
+          {featured.map((entry) => {
             // Sassy cards show their sub-type; the rest show their vibe.
             const typeLabel = vibeBadgeLabel(entry.vibe, entry.sassType);
             const typeEmoji = vibeMeta(entry.vibe)?.emoji ?? "";
