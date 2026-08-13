@@ -1,5 +1,7 @@
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import { findToolContent } from "@/lib/tools/content";
+import { toolPath } from "@/lib/tools/registry";
 import styles from "./Tools.module.css";
 import { ToolFaq, type ToolFaqItem } from "./ToolFaq";
 import { RelatedTools } from "./RelatedTools";
@@ -52,8 +54,17 @@ export function ToolPage({
   faq,
   footerCta,
 }: ToolPageProps) {
+  // Tools with a shared content module also publish a Markdown copy of this
+  // page. Advertising it costs one line and saves an agent guessing the URL.
+  const markdownPath = findToolContent(slug) ? `${toolPath(slug)}.md` : null;
+
   return (
     <div className={styles.page}>
+      {/* React hoists this into <head>. rel="alternate" is how a machine
+          discovers the Markdown copy without us inventing a convention. */}
+      {markdownPath ? (
+        <link rel="alternate" type="text/markdown" href={markdownPath} />
+      ) : null}
       <SiteNav />
       <ToolViewTracker slug={slug} />
 
@@ -65,6 +76,16 @@ export function ToolPage({
           <p className={styles.privacyLine}>
             Free, no login, no email. We do not store the URLs you submit or
             the results beyond a 24 hour cache.
+            {markdownPath ? (
+              <>
+                {" "}
+                Reading this as an agent?{" "}
+                <a className={styles.privacyLink} href={markdownPath}>
+                  Markdown copy of this page
+                </a>
+                .
+              </>
+            ) : null}
           </p>
         </div>
       </header>

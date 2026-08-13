@@ -15,6 +15,7 @@ import {
 } from "@/sanity/lib/queries";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
+import { liveTools, toolPath } from "@/lib/tools/registry";
 
 export const revalidate = 3600;
 
@@ -162,6 +163,13 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
+  // Only tools that actually work. A "coming soon" entry here points an
+  // agent at a page that does not exist yet.
+  const tools = liveTools().map((tool) => ({
+    path: toolPath(tool.slug),
+    title: tool.name,
+  }));
+
   const body = [
     "# Superflow",
     "> Superflow is a website and creative-asset review tool. Teams leave contextual feedback, record videos, sync tasks to PM tools, and ship faster with fewer review rounds.",
@@ -170,7 +178,10 @@ export async function GET() {
     "",
     `Full page content is available in one fetch at ${SITE_URL}/llms-full.txt`,
     "",
+    `Free tools, with a Markdown copy of each tool page for agents: ${SITE_URL}/tools.md`,
+    "",
     section("Core pages", core),
+    section("Free tools", tools),
     section("Features", features),
     section("Review surfaces", reviews),
     section("Integrations", integrations),

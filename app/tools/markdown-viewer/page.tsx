@@ -15,7 +15,9 @@ import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 import { buildToolAppSchema } from "@/app/_seo/tool-schema";
-import type { ToolFaqItem } from "@/components/tools/ToolFaq";
+import { MARKDOWN_VIEWER_CONTENT } from "@/lib/tools/content";
+
+const { faq: FAQ, howItWorks: HOW_IT_WORKS } = MARKDOWN_VIEWER_CONTENT;
 
 const SLUG = "markdown-viewer";
 const PATH = `/tools/${SLUG}`;
@@ -26,53 +28,7 @@ const SUBHEAD =
 const DESCRIPTION =
   "Free online Markdown viewer and preview. Open .md files, paste Markdown, and read it rendered with tables, code blocks, and an outline. Runs entirely in your browser. No login, no ads, no upload.";
 
-const FAQ: ToolFaqItem[] = [
-  {
-    question: "How do I open a .md file?",
-    answer:
-      "Click Open a .md file, or drag the file onto the panel. It is read by your browser and rendered on the spot. You can also paste Markdown straight into the left panel.",
-  },
-  {
-    question: "Is my document uploaded anywhere?",
-    answer:
-      "No. There is no server behind this tool. The parser and the renderer both run in your browser, so the document never travels anywhere. You can turn off your network connection and the tool still works, which is the simplest way to check that claim for yourself.",
-  },
-  {
-    question: "What Markdown does it support?",
-    answer:
-      "Headings, bold, italic, strikethrough, inline code, links, images, blockquotes, ordered and unordered lists including nesting, horizontal rules, fenced code blocks, and tables. Bare URLs become clickable without link syntax.",
-  },
-  {
-    question: "Why does a link in my document not work?",
-    answer:
-      "Links are limited to http, https, mailto, in-page anchors, and site-relative paths. Anything else, including javascript: URLs, renders as plain text instead of a clickable link. A Markdown document can carry a script in a link, and a viewer that follows it would run a stranger's code in your browser.",
-  },
-  {
-    question: "Can I use this to preview a README before pushing it?",
-    answer:
-      "Yes, and it is one of the more common reasons people reach for it. The rendering follows CommonMark, so what you see here is close to what GitHub will show. Platform-specific extensions like GitHub task lists and alert callouts are not rendered specially.",
-  },
-  {
-    question: "Is there a file size limit?",
-    answer:
-      "Two megabytes. Past that the browser starts to stutter while re-rendering on every keystroke, so the tool declines rather than locking up your tab.",
-  },
-];
 
-const HOW_IT_WORKS = [
-  {
-    title: "Paste or drop",
-    body: "Paste Markdown into the left panel, or drop a .md file anywhere on it.",
-  },
-  {
-    title: "It renders as you type",
-    body: "The preview updates on every keystroke, with tables, fenced code, and nested lists laid out properly.",
-  },
-  {
-    title: "Nothing is sent anywhere",
-    body: "Parsing and rendering both happen in your browser. There is no upload step because there is no server to upload to.",
-  },
-];
 
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Open and Read .md Files Online`,

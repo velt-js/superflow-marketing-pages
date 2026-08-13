@@ -439,3 +439,13 @@ a.toolCard:hover {
         font-size: 26px;
     }
 }
+
+/* The Markdown-copy pointer sits inside the privacy line, so it inherits the
+   muted treatment and only underlines to mark itself as a link. */
+.privacyLink {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.privacyLink:hover { color: var(--t-ink, #1e1e1f); }
