@@ -3,10 +3,12 @@
 // Tally embed for the State of Agency Tools survey.
 //
 // Tally's embed.js resizes the iframe to the current question
-// (dynamicHeight), which matters for a one-question-per-screen form: without
-// it the frame is either a scrolling box or a fixed guess. The script reads
-// iframes by data-tally-src, so the src attribute is set by the script after
-// load; the min-height on the frame reserves space until then.
+// (dynamicHeight), which matters for a one-question-per-screen form. The
+// script reads iframes by data-tally-src and assigns src itself - but if it
+// never loads (ad blockers commonly block widget scripts), an iframe with
+// only data-tally-src stays blank forever. So the frame keeps a real src as
+// well: the form always renders at the reserved min-height with internal
+// scrolling, and embed.js upgrades it to auto-resize when it loads.
 
 import { useEffect } from "react";
 import styles from "./Survey.module.css";
@@ -36,9 +38,12 @@ export function TallyEmbed({ formId }: { formId: string }) {
     document.body.appendChild(script);
   }, []);
 
+  const embedUrl = `https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+
   return (
     <iframe
-      data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+      src={embedUrl}
+      data-tally-src={embedUrl}
       className={styles.embedFrame}
       loading="lazy"
       title="State of Agency Tools 2026 survey"
