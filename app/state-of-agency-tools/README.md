@@ -33,7 +33,18 @@ v1.
 
 ## Launch checklist
 
-1. Build the form in Tally (guide below).
+1. Create the form via the API script (preferred - it builds all 32
+   questions, pages, gate logic, hidden UTM fields, and settings):
+
+   ```bash
+   TALLY_API_KEY=tly-xxxx node scripts/agency-tools-survey/create-tally-form.mjs
+   ```
+
+   Keys come from https://tally.so/settings/api-keys (Pro). The form is
+   created as a DRAFT; spot-check the gate rules in the editor (pages Q3,
+   Q7, Q19-21), then publish. `--dry-run` prints the payload without
+   calling the API; `--no-logic` omits the gate rules if you would rather
+   click them together by hand. (Manual build guide below, as fallback.)
 2. Paste the form ID into `lib/agency-tools-survey/config.ts`
    (`TALLY_FORM_ID`). Until then the page shows a "survey opens shortly"
    panel instead of the embed.
