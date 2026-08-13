@@ -6,6 +6,7 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
   BUG_BOOK_SORTS,
   sortEntries,
+  vibeMeta,
   type BugBookListEntry,
   type BugBookSample,
   type BugBookSort,
@@ -69,6 +70,72 @@ function searchFromFilters(filters: Filters): string {
   if (filters.sort !== "curated") params.set("sort", filters.sort);
   const query = params.toString();
   return query ? `?${query}` : "";
+}
+
+/**
+ * Chips for whatever is currently filtering the list. Filters persist
+ * across a detail-page round trip, so without this a returning reader
+ * just sees a shorter grid with no explanation - and the rail's ticks
+ * can easily be scrolled out of view.
+ */
+function ActiveFilters({
+  filters,
+  onClear,
+  onClearAll,
+}: {
+  filters: Filters;
+  onClear: (axis: keyof BugFilters) => void;
+  onClearAll: () => void;
+}) {
+  const chips: { axis: keyof BugFilters; label: string }[] = [];
+  if (filters.vibe !== "all") {
+    const meta = vibeMeta(filters.vibe);
+    chips.push({
+      axis: "vibe",
+      label: meta ? `${meta.emoji} ${meta.label}` : filters.vibe,
+    });
+  }
+  if (filters.source !== "all") {
+    chips.push({
+      axis: "source",
+      label:
+        filters.source === "agent" ? "Superflow Agent" : "Human review",
+    });
+  }
+  if (filters.severity !== "all") {
+    chips.push({ axis: "severity", label: filters.severity });
+  }
+  if (filters.category !== "all") {
+    chips.push({ axis: "category", label: filters.category });
+  }
+  if (chips.length === 0) return null;
+
+  return (
+    <div className={styles.activeFilters}>
+      <span className={styles.activeLabel}>Filtered by</span>
+      {chips.map((chip) => (
+        <button
+          key={chip.axis}
+          type="button"
+          className={styles.activeChip}
+          onClick={() => onClear(chip.axis)}
+          aria-label={`Remove filter: ${chip.label}`}
+        >
+          {chip.label}
+          <span className={styles.activeChipX} aria-hidden="true">
+            ×
+          </span>
+        </button>
+      ))}
+      <button
+        type="button"
+        className={styles.clearAll}
+        onClick={onClearAll}
+      >
+        Clear all
+      </button>
+    </div>
+  );
 }
 
 /** Compact segmented control for the sort axis. */
@@ -193,6 +260,14 @@ export default function BugBookListingBody({
           </aside>
 
           <div className={styles.results}>
+            <ActiveFilters
+              filters={filters}
+              onClear={(axis) => applyFilters({ ...filters, [axis]: "all" })}
+              onClearAll={() =>
+                applyFilters({ ...DEFAULT_FILTERS, sort: filters.sort })
+              }
+            />
+
             <div className={styles.resultsBar}>
               <p className={styles.count} aria-live="polite">
                 {countLabel}

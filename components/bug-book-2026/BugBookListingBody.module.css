@@ -103,6 +103,68 @@
     gap: 18px;
 }
 
+/* Active-filter chips - the visible answer to "why is this list short?" */
+.activeFilters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.activeLabel {
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #a3a8b3;
+}
+
+.activeChip {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px 5px 12px;
+    border: 1px solid #ddd8fb;
+    border-radius: 9999px;
+    background: #f3f2fe;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #433df3;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+}
+
+.activeChip:hover {
+    background: #e7e5fd;
+    border-color: #c6bff9;
+}
+
+.activeChipX {
+    font-size: 15px;
+    line-height: 1;
+    color: rgba(67, 61, 243, 0.65);
+}
+
+.clearAll {
+    appearance: none;
+    border: none;
+    background: none;
+    padding: 5px 4px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6b7079;
+    cursor: pointer;
+}
+
+.clearAll:hover {
+    color: #16171a;
+    text-decoration: underline;
+}
+
 .resultsBar {
     display: flex;
     flex-wrap: wrap;
