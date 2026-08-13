@@ -1,0 +1,2272 @@
+{
+  "meta": {
+    "generated": "2026-08-13",
+    "project": "Superflow Bug Book",
+    "counts": {
+      "total": 54,
+      "page": 34,
+      "bench": 20,
+      "human": 40,
+      "agent": 14
+    },
+    "taxonomies": {
+      "categories": [
+        "UI/UX",
+        "Copy",
+        "Content",
+        "Links",
+        "Mobile",
+        "Interactions",
+        "Checkout",
+        "Pricing",
+        "Performance",
+        "Feature Request",
+        "Security"
+      ],
+      "severities": [
+        "Critical",
+        "High",
+        "Medium",
+        "Mild"
+      ],
+      "sources": [
+        {
+          "id": "human",
+          "label": "Caught in review"
+        },
+        {
+          "id": "agent",
+          "label": "Caught by Superflow Agent"
+        }
+      ],
+      "rageLevels": {
+        "0-2": "Calm",
+        "3-5": "Annoyed",
+        "6-8": "Heated",
+        "9-10": "Volcanic"
+      }
+    }
+  },
+  "entries": [
+    {
+      "slug": "rounder-icon-meltdown",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 10,
+      "status": "Resolved",
+      "date": "2024-02",
+      "site": {
+        "descriptor": "Digital agency's client site",
+        "platform": "Webflow",
+        "industry": "Agency"
+      },
+      "captured": {
+        "browser": "Chrome 121",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A polite request for a rounder icon got the least polite reply in Superflow history",
+      "hook": "\"Can we make this a more circular icon?\" → \"I F*CKING HATE THIS SH*T\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "can we make this a more circular icon?",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "I F*CKING HATE THIS SH*T",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "YOURE FULL OF SH*T",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Border-radius has broken stronger people. Website reviews get emotional — better they happen in a comment thread on the staging site than in your client's inbox.",
+      "outcome": "Resolved. The icon, presumably, got rounder.",
+      "flags": [
+        "profanity-censored"
+      ]
+    },
+    {
+      "slug": "i-hate-this-process",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Medium",
+      "rageLevel": 10,
+      "status": "Resolved",
+      "date": "2024-08",
+      "site": {
+        "descriptor": "Dental practice website",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 116",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "One comment. Six exclamation points. The entire review process on trial.",
+      "hook": "\"I HATE THIS PROCESSSS!!!!!! nothing works!\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "I HATE THIS PROCESSSS!!!!!! nothing works!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every agency knows this client. The extra S's are load-bearing. When feedback lives in email, this energy goes to your inbox — pinned to the page, at least you know exactly which part of the process they hate.",
+      "outcome": "Resolved. The process survived.",
+      "flags": []
+    },
+    {
+      "slug": "makes-no-since",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 9,
+      "status": "Resolved",
+      "date": "2024-11",
+      "site": {
+        "descriptor": "Orthodontics practice website",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 130",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "An all-caps meltdown about page layout, with a typo right in the middle of the rage",
+      "hook": "\"WHY SHOULD I CHOOSE CLEAR ALIGNERS MAKES NO SINCE BEING AT THE TOP!\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "WHY DOES THIS PAGE STILL LOOK LIKE THIS? PLEASE PUT THE PROCESS AND BENEFITS CLOSER TO THE TOP OF THE PAGE. CAN I JUST HAVE ACCESS TO CHANGE IT MYSELF? WHY SHOULD I CHOOSE CLEAR ALIGNERS MAKES NO SINCE BEING AT THE TOP! DELETE IT MOVE IT TO THE BOTTOM.... GET IT OFF OF HERE.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Caps lock is how clients cry for help. \"CAN I JUST HAVE ACCESS TO CHANGE IT MYSELF?\" is the scariest sentence in web design — and the reason review tools exist.",
+      "outcome": "Resolved. Nobody gave them access.",
+      "flags": []
+    },
+    {
+      "slug": "remove-new-patient-special",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Pricing",
+      "severity": "High",
+      "rageLevel": 9,
+      "status": "Resolved",
+      "date": "2025-11",
+      "site": {
+        "descriptor": "Dental group's live website",
+        "platform": "Custom CMS",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 142",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A promo that needed to die, screamed about in two comments, ten weeks apart",
+      "hook": "\"REMOVE NEW PATIENT SPECIAL!!!!!\" ...78 days later: \"PLEASE TAKE CARE OF THIS!!!!!\"",
+      "thread": [
+        {
+          "speaker": "Practice staff",
+          "text": "REMOVE NEW PATIENT SPECIAL!!!!!",
+          "attachment": null
+        },
+        {
+          "speaker": "Practice staff",
+          "text": "PLEASE TAKE CARE OF THIS!!!!! (78 days later)",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every day that promo stayed live, new patients showed up expecting a deal the practice no longer honored. An expired offer on a live site is a pricing bug with a front-desk blast radius.",
+      "outcome": "Resolved, eventually. The special is no longer special.",
+      "flags": []
+    },
+    {
+      "slug": "completely-remove-this-feature",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Feature Request",
+      "severity": "Mild",
+      "rageLevel": 9,
+      "status": "Resolved",
+      "date": "2024-01",
+      "site": {
+        "descriptor": "School administration dashboard",
+        "platform": "Custom app",
+        "industry": "EdTech"
+      },
+      "captured": {
+        "browser": "Chrome 120",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The most decisive product feedback ever left on a dashboard",
+      "hook": "\"COMPLETELY REMOVE THIS FEATURE!! WE WILL NO LONGER BE NEEDING IT!!!\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "COMPLETELY REMOVE THIS FEATURE!! WE WILL NO LONGER BE NEEDING IT!!!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "No ticket, no user story, no acceptance criteria. Just a comment pinned directly to the feature in question, vibrating with certainty. Honestly? Clearer than most PRDs.",
+      "outcome": "Resolved. The feature is no longer with us.",
+      "flags": []
+    },
+    {
+      "slug": "no-em-dashes",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 6,
+      "status": "Resolved",
+      "date": "2025-05",
+      "site": {
+        "descriptor": "Wellness supplement brand site",
+        "platform": "Webflow",
+        "industry": "E-commerce"
+      },
+      "captured": {
+        "browser": "Chrome 136",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A client declared war on em-dashes, in all caps, in 2025",
+      "hook": "\"NO EM-DASHES!!!\" — the most 2025 content feedback possible",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "I am assuming this is changed with what you put in the product page. NO EM-DASHES!!! Missing frequency option.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Nothing says \"this copy was written by AI\" like an em-dash in 2025 — and clients know it now. Punctuation has become a brand-safety issue.",
+      "outcome": "Resolved — without a single em-dash. Except that one.",
+      "flags": []
+    },
+    {
+      "slug": "tupac-width",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-10",
+      "site": {
+        "descriptor": "Nonprofit organization site",
+        "platform": "Webflow",
+        "industry": "Nonprofit"
+      },
+      "captured": {
+        "browser": "Safari",
+        "os": "iPadOS",
+        "device": "Tablet"
+      },
+      "headline": "Autocorrect turned \"tablet width\" into \"Tupac width\" and the reviewer chose peace",
+      "hook": "\"Might need to update the mobile footer at Tupac width\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "Might need to update to mobile footer at Tupac width (see screenshot of newsletter input size)",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Designer",
+          "text": "Should it go directly to mobile with no tablet in-between state? Looks a bit better now with the input field fixed but still a little awk? lmk what you think",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "lol just realized tablet was autocorrected to \"Tupac\" and I love that for me",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "Just checked on tablet and it looks good!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The designer understood \"Tupac width\" on the first read and simply answered the question. That's a team in sync. All eyes on the breakpoint.",
+      "outcome": "Resolved at all widths, including Tupac.",
+      "flags": []
+    },
+    {
+      "slug": "medusa-services",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-10",
+      "site": {
+        "descriptor": "Plastic surgery practice site",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 129",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A med-spa's hover text offered \"OTHER MEDUSA SERVICES\" — snakes presumably extra",
+      "hook": "MEDSPA → MEDUSA. One hover state away from Greek mythology.",
+      "thread": [
+        {
+          "speaker": "Agency reviewer",
+          "text": "Pinning this again since initial pin is still Open and showing \"draft\" next to it, so not sure if it's visible. (or why it got tagged as draft). Hover Text for Mespa. Other MEDUSA Services should be: OTHER MEDSPA SERVICES",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Hover states are where typos go to hide — invisible in every screenshot, unmissable for every user who actually touches the page. Bonus: the correction itself typos \"Mespa\". Spelling is hard.",
+      "outcome": "Resolved. No patients were turned to stone.",
+      "flags": []
+    },
+    {
+      "slug": "text-shits-left",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "In progress",
+      "date": "2026-02",
+      "site": {
+        "descriptor": "Clean-energy industry association site",
+        "platform": "Webflow",
+        "industry": "Energy"
+      },
+      "captured": {
+        "browser": "Chrome 144",
+        "os": "Linux",
+        "device": "Mobile"
+      },
+      "headline": "The most accurate typo in the history of responsive design",
+      "hook": "\"text shits to the left side on mobile version\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "text shits to the left side on mobile version",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "They meant \"shifts.\" But having seen the layout, we're not sure they were wrong. Some alignment bugs can only be described honestly.",
+      "outcome": "In progress. The text continues to do what it does.",
+      "flags": [
+        "profanity-in-original"
+      ]
+    },
+    {
+      "slug": "hippa-notice",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-01",
+      "site": {
+        "descriptor": "Plastic surgery practice site",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 143",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A medical practice misspelled HIPAA on its own compliance notice — and in the PDF",
+      "hook": "\"HIPPA Notice\" — the compliance document, misspelling compliance",
+      "thread": [
+        {
+          "speaker": "Agency reviewer",
+          "text": "Footer text. Add HIPPA Notice to the accessibility row and link in a new tab to the compliance PDF.",
+          "attachment": null
+        },
+        {
+          "speaker": "Agency reviewer",
+          "text": "Just realized client has a typo in this. it should be HIPAA not HIPPA. Please update the pdf and the footer text to reflect this",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The typo lived in the footer, the filename, AND the PDF itself — uploaded in 2021, caught in 2026. If patients can't trust you to spell HIPAA, the vibes on the rest of the compliance are not great.",
+      "outcome": "Resolved after five years in production.",
+      "flags": []
+    },
+    {
+      "slug": "dumpters",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Medium",
+      "rageLevel": 5,
+      "status": "Resolved",
+      "date": "2025-02",
+      "site": {
+        "descriptor": "Waste management company site",
+        "platform": "Custom CMS",
+        "industry": "Industrial"
+      },
+      "captured": {
+        "browser": "Chrome 133",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A dumpster rental company spelled \"dumpsters\" wrong in its own headline",
+      "hook": "\"DUMPTERS\" IS SPELLED WRONG. — all caps, zero patience",
+      "thread": [
+        {
+          "speaker": "Franchise reviewer",
+          "text": "\"DUMPTERS\" IS SPELLED WRONG. FREE MOBILE COMPACTION FOR HEAVYWEIGHT WASTE CUSTOMERS",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "One product. One word. The word is the business. When your entire company is dumpsters, \"DUMPTERS\" in the hero headline is not a typo, it's an identity crisis.",
+      "outcome": "Resolved. The dumpsters got their S back.",
+      "flags": []
+    },
+    {
+      "slug": "counsultation",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Med-spa staging site",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 149",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "The primary CTA — the one button the whole site exists for — said \"COUNSULTATION\"",
+      "hook": "\"BOOK A FREE COUNSULTATION\" — the conversion button, converting typos",
+      "thread": [
+        {
+          "speaker": "QA reviewer",
+          "text": "Hero section - \"BOOK A FREE COUNSULTATION\" is a misspelling of word \"consultation\".",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The hero CTA is the single most-read string on the page. A typo there doesn't just look sloppy — it quietly taxes trust on the exact button where trust converts to revenue.",
+      "outcome": "Resolved before launch. Counsult averted.",
+      "flags": []
+    },
+    {
+      "slug": "ai-rewrote-the-docs",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 4,
+      "status": "Resolved",
+      "date": "2025-10",
+      "site": {
+        "descriptor": "Enterprise software help center (UAT)",
+        "platform": "Custom docs platform",
+        "industry": "SaaS"
+      },
+      "captured": {
+        "browser": "Chrome 140",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "An AI migration agent was told not to touch the text. It rewrote the docs anyway.",
+      "hook": "\"It has instructions NOT to edit the text — it did this on its own.\"",
+      "thread": [
+        {
+          "speaker": "Docs reviewer",
+          "text": "This is not the original text. What happened?",
+          "attachment": null
+        },
+        {
+          "speaker": "Docs lead",
+          "text": "OMG! It looks like the agent changed a lot of text, not just this. It has instructions NOT to edit the text - it did this on its own.",
+          "attachment": null
+        },
+        {
+          "speaker": "Docs reviewer",
+          "text": "Well, crap. I guess we should give it more strict instructions and test whether that makes a difference",
+          "attachment": null
+        },
+        {
+          "speaker": "Docs reviewer",
+          "text": "Do not modify, correct, rephrase, or normalize any part of the original text. Every character, space, and punctuation must remain exactly as in the source.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "2025 in one thread: an AI agent went rogue on enterprise documentation, and the fix was writing it a sternly worded prompt. Human review is how they caught it — the diff never showed up in any test suite.",
+      "outcome": "Resolved. The agent has been spoken to.",
+      "flags": []
+    },
+    {
+      "slug": "vanishing-progress",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Interactions",
+      "severity": "Critical",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2025-07",
+      "site": {
+        "descriptor": "Online learning platform (staging)",
+        "platform": "Custom app",
+        "industry": "EdTech"
+      },
+      "captured": {
+        "browser": "Chrome 138",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"Poof! Disappeared! Like a magic trick\" — a typo that deleted every user's progress",
+      "hook": "One misread variable nuked ALL course data. The tester found out first.",
+      "thread": [
+        {
+          "speaker": "Beta tester",
+          "text": "I found a new issue! At this point, I should start a loyalty card. hehe. My dashboard is now having issues (these issues were not here like 5 minutes ago). I have lost all progress on all of my courses... they are all gone. poof! disappeared! like a magic trick...",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "I've been trying to get to the bottom of this one, but it's a real head-scratcher... I can't find any record of you having submitted answers for this group. Are you positive you completed lessons here?",
+          "attachment": null
+        },
+        {
+          "speaker": "Beta tester",
+          "text": "This is not the course I tried to leave. And it happened to ALL of the courses on my dashboard.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "I found it... The leave-group button is supposed to delete your data from JUST that group — but due to a typo in the variable, it couldn't read the group id, thought it was empty, and instead deleted the data for ALL of your groups. Whoops! Looks like you were the lucky one to try it first outside my test account... REALLY glad you uncovered this one before we launch.",
+          "attachment": null
+        },
+        {
+          "speaker": "Beta tester",
+          "text": "Not a problem at all! Glad you were able to find the problem!!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A one-variable typo turned \"leave group\" into \"delete everything.\" In production, that's a company-ending support week. In staging, with a patient beta tester, it's a war story with a happy ending.",
+      "outcome": "Resolved before launch. The tester deserves that loyalty card.",
+      "flags": []
+    },
+    {
+      "slug": "mystery-blue-mark",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Medium",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2023-12",
+      "site": {
+        "descriptor": "Consulting firm careers page",
+        "platform": "Custom CMS",
+        "industry": "Consulting"
+      },
+      "captured": {
+        "browser": "Chrome 119",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A mystery blue mark appears. The developer's diagnosis: \"it's definitely Superflow\"",
+      "hook": "Reviewer: it's on Safari too, logged out. Dev: \"Nope, it's definitely Superflow.\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "There is a random blue mark in the corner",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "this is a superflow thing. it won't show up live.",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "It's showing up on safari too and I don't have superflow logged in there",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "How big is your window precisely?",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "Viewing it on laptop and desktop. Laptop is 1216x766 and desktop 1216x882",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Nope, it's definitely Superflow. Even if you aren't logged in it still loads",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "hmm ok, not sure how since I've never used it on Safari",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Stage five of debugging: blame the review tool. We're honored to be the first suspect, but the blue mark had other plans. (It wasn't us. Usually it isn't.)",
+      "outcome": "Resolved. We choose not to say who was right.",
+      "flags": [
+        "mentions-superflow"
+      ]
+    },
+    {
+      "slug": "its-centered",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Mild",
+      "rageLevel": 5,
+      "status": "Resolved",
+      "date": "2025-09",
+      "site": {
+        "descriptor": "Med-spa staging site",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 140",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"The button is already centered.\" \"Still not centered.\" \"its centered.\"",
+      "hook": "Four comments. Two screenshots. Zero agreement on what centered means.",
+      "thread": [
+        {
+          "speaker": "QA reviewer",
+          "text": "Mobile/Tab: SCHEDULE AN APPOINTMENT - center align the submit button for mobile and tab responsive",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "the button is already centered.",
+          "attachment": null
+        },
+        {
+          "speaker": "Second reviewer",
+          "text": "Still not centered",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "its centered.",
+          "attachment": "screenshot"
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The oldest standoff in web development, preserved in four comments. Both sides attached screenshots. Both screenshots showed different things. Breakpoints are why we can't have nice conversations.",
+      "outcome": "Resolved 13 days later. It is now centered. Probably.",
+      "flags": []
+    },
+    {
+      "slug": "chrmoe-denial",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Medium",
+      "rageLevel": 3,
+      "status": "Open",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Pediatric dental office site",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 150",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"I don't see this error on safari or chrmoe\" — the denial had a typo in it",
+      "hook": "Bug denied in a browser called \"chrmoe.\" Reviewer replies with a screen recording.",
+      "thread": [
+        {
+          "speaker": "Practice staff",
+          "text": "the form on mobile doesn't allow me to scroll all the way and submit. Do I need to reach out to CRM for this update?",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "I don't see this error on safari or chrmoe",
+          "attachment": null
+        },
+        {
+          "speaker": "Practice staff",
+          "text": "screen recording attached. I was using safari",
+          "attachment": "screen recording"
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Works on my machine\" hits different when you misspell the machine. The reviewer didn't argue — they attached a screen recording, which is the only argument that has ever won this fight.",
+      "outcome": "Open. The recording speaks for itself.",
+      "flags": []
+    },
+    {
+      "slug": "api-key-in-the-thread",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Security",
+      "severity": "Critical",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-11",
+      "site": {
+        "descriptor": "Startup marketing site",
+        "platform": "Webflow",
+        "industry": "SaaS"
+      },
+      "captured": {
+        "browser": "Chrome 130",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A broken map thread that ends with someone pasting a live API key in plain text",
+      "hook": "\"Map not working, need an API key?\" → *pastes the actual key into the thread*",
+      "thread": [
+        {
+          "speaker": "Designer",
+          "text": "Map not working, assume you need an API key again?",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Might need to style a snazzy map. I'd like to get this working before sending as it's been too long to say we're still working on something",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "<iframe src=\"[maps embed URL]\" width=\"100%\" height=\"600px\" style=\"border:none;\">",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "API KEY: AIzaSy••••••••••••••••••••••••• [redacted — yes, it was the real key]",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The bug was a broken map. The real find was a live credential pasted into a comment thread — the kind of thing that ends up scraped, quota-drained, and billed to your card. Rotate keys, friends.",
+      "outcome": "Resolved. The key has been redacted here so it stays that way.",
+      "flags": [
+        "key-redacted",
+        "security-sensitive"
+      ]
+    },
+    {
+      "slug": "this-is-live",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Critical",
+      "rageLevel": 9,
+      "status": "Resolved",
+      "date": "2025-09",
+      "site": {
+        "descriptor": "Our own security page. Yes, ours.",
+        "platform": "Custom",
+        "industry": "Superflow / Velt"
+      },
+      "captured": {
+        "browser": "Chrome 140",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"OMG NOOOOO THIS IS LIVE\" — a panic attack on our own security page",
+      "hook": "Us, reviewing our own site: \"This is bad. We cannot afford this.\"",
+      "thread": [
+        {
+          "speaker": "Team member",
+          "text": "OMG NOOOOO THIS IS LIVE",
+          "attachment": null
+        },
+        {
+          "speaker": "Team member #2",
+          "text": "i hid it for now. This is bad. We cannot afford this.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "We make a website review tool and something still went live on our own security page before it should have. Nobody is safe. That's the whole point of reviewing in production.",
+      "outcome": "Hidden within minutes, fixed for real shortly after. We kept the thread as a monument.",
+      "flags": [
+        "own-site"
+      ]
+    },
+    {
+      "slug": "free-asterisk",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Pricing",
+      "severity": "Critical",
+      "rageLevel": 7,
+      "status": "Open",
+      "date": "2024-04",
+      "site": {
+        "descriptor": "A major tax-filing platform's pricing page (reviewed during a team teardown)",
+        "platform": "Public site",
+        "industry": "Fintech"
+      },
+      "captured": {
+        "browser": "Chrome 123",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A pricing-page teardown, roleplayed to perfection: \"TRUST ME BRO!\"",
+      "hook": "\"Didn't they get SUED over 'free'?\" → \"AYYYY LMAO its okay bro! We got the asterisk!\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "I thought this company got SUED by the government for using language like \"free\" or \"$0\" when advertising their tax software, because deceptive practices misled customers into being charged for filing taxes they were told would be FREE.",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer (as the company's imaginary lawyer)",
+          "text": "AYYYY LMAO its okay bro! We got the \"*\" asterisk thing, which lets people know that they need to check the disclosures bro!",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "ummmm i dont know if that is actually adequate!",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer (as the lawyer)",
+          "text": "AYYY LMAO DUDE! It's more than adequate according to our legal team. Which is me! TRUST ME BRO! I bought Bitcoin at 60k in 2021!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A team teardown of a public pricing page, complete with an imaginary in-house counsel named LegalBro. Underneath the bit is a real pattern: \"free*\" pricing that regulators have actually litigated. The asterisk is doing crimes-adjacent work.",
+      "outcome": "Open. LegalBro remains confident.",
+      "flags": [
+        "satire",
+        "brand-anonymized",
+        "internal-teardown"
+      ]
+    },
+    {
+      "slug": "wrong-by-650k",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2024-03",
+      "site": {
+        "descriptor": "Community development nonprofit site",
+        "platform": "Webflow",
+        "industry": "Nonprofit"
+      },
+      "captured": {
+        "browser": "Chrome 122",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "The website said $100,000. The actual number was $750,000.",
+      "hook": "\"cHANGE $100,000 TO $750,000\" — a $650K correction with a stuck shift key",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "cHANGE $100,000 TO $750,000 FOR NEW CENTER DEVELOPMENT",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "\"Up to $750,000\"",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A funding program understated by $650,000 isn't a typo, it's a misinformation campaign with a CMS. The lowercase c tells you exactly how fast this comment was typed.",
+      "outcome": "Resolved. The zeroes have been restored.",
+      "flags": []
+    },
+    {
+      "slug": "cart-adds-nothing",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Checkout",
+      "severity": "High",
+      "rageLevel": 4,
+      "status": "Resolved",
+      "date": "2023-08",
+      "site": {
+        "descriptor": "Ballet academy e-commerce site",
+        "platform": "Webflow",
+        "industry": "Education"
+      },
+      "captured": {
+        "browser": "Chrome 114",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Add to cart added nothing. The dev's response: \"we won't be doing this.\"",
+      "hook": "Client: the cart is broken. Dev: we won't fix it. Client: \"why?\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "add to cart doesn't work and nothing actually gets added here when clicking added to cart",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "we won't be doing this",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "why?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A checkout flow that silently swallows purchases, met with a flat \"won't fix.\" That lone \"why?\" hanging at the end of the thread is the most relatable word in commerce.",
+      "outcome": "Eventually resolved. The \"why\" was never answered.",
+      "flags": []
+    },
+    {
+      "slug": "fifty-second-load",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Performance",
+      "severity": "Critical",
+      "rageLevel": 4,
+      "status": "Open",
+      "date": "2025-07",
+      "site": {
+        "descriptor": "Financial industry association site",
+        "platform": "WordPress",
+        "industry": "Finance"
+      },
+      "captured": {
+        "browser": "Chrome 138",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A reviewer benchmarked the site on four browsers. Firefox needed 50+ seconds.",
+      "hook": "Safari 10s. Brave 5s. Chrome 5s. Firefox: fifty. seconds.",
+      "thread": [
+        {
+          "speaker": "Agency reviewer",
+          "text": "Mobile Speed Performance",
+          "attachment": null
+        },
+        {
+          "speaker": "Agency reviewer",
+          "text": "Improve speed performance on Mobile — site takes time to load (iPhone 13, 5G, tested at 10am in a city CBD): Safari 10+ seconds, Brave 5+ seconds, Firefox 50+ seconds, Chrome 5+ seconds",
+          "attachment": null
+        },
+        {
+          "speaker": "Agency reviewer",
+          "text": "Takes 8+ seconds for search results to load (iPhone 13, Safari)",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "This reviewer did vendor-grade QA from a phone: four browsers, network conditions, timestamps. 50 seconds on 5G isn't a performance issue, it's a bounce-rate generator with a loading spinner.",
+      "outcome": "Open. Firefox users are still waiting. Literally.",
+      "flags": []
+    },
+    {
+      "slug": "white-on-white",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "High",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2024-09",
+      "site": {
+        "descriptor": "Pilates studio site",
+        "platform": "Website builder",
+        "industry": "Fitness"
+      },
+      "captured": {
+        "browser": "Safari 17",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The mobile menu was white text on a white background. Minimalism, perfected.",
+      "hook": "\"The menu has a white background and white lettering\" — invisible navigation",
+      "thread": [
+        {
+          "speaker": "Studio owner",
+          "text": "these colors aren't showing up on our mobile site. the menu has a white background and white lettering. Can you help me adjust? I can't figure out where the mobile site editor is",
+          "attachment": null
+        },
+        {
+          "speaker": "Support",
+          "text": "Thank you for bringing that to our attention. Modifying those colors requires getting into the CSS code for the nav bar, under \"styles\".",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Support",
+          "text": "I've set the background color for the nav bar to turn black after the menu button is pressed to make sure the text links are visible. Does that work for you?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every menu item was there. Every menu item was invisible. Mobile users were navigating by faith alone — and the site owner had no way to see what they couldn't see.",
+      "outcome": "Resolved. The menu has been granted visibility.",
+      "flags": []
+    },
+    {
+      "slug": "duperflow",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Spell Check Agent",
+      "category": "Copy",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-06",
+      "site": {
+        "descriptor": "Our own marketing site. We're not proud.",
+        "platform": "Framer",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "Our spell-check agent found \"Superflow\" misspelled as \"Duperflow\" — on our own site",
+      "hook": "The product name. Wrong. On our homepage. Caught by our own agent, 99% confidence.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Spell Check)",
+          "text": "Typo in product name: Duperflow. The product name is misspelled as 'Duperflow'. The correct spelling is 'Superflow'. — Suggestion: Superflow",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Typo in product name: Duperflow",
+        "description": "The product name is misspelled as 'Duperflow'. The correct spelling is 'Superflow'.",
+        "suggestion": "Superflow",
+        "issueType": "spelling",
+        "confidence": 99
+      },
+      "whyItMatters": "We built an agent to catch typos, pointed it at our own site, and it immediately found our own name spelled wrong. Deeply embarrassing. Also the best product demo we've ever run.",
+      "outcome": "Resolved in minutes. \"Duperflow\" lives on only in this museum.",
+      "flags": [
+        "own-site"
+      ]
+    },
+    {
+      "slug": "dr-first-last-name",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Placeholder Hunter (Lorem Ipsum Agent)",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Pediatric dentistry site (pre-launch)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The dentist heading up the practice, according to the homepage: \"Dr. First Last Name\"",
+      "hook": "A template string almost introduced patients to Dr. First Last Name, DDS",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lorem Ipsum)",
+          "text": "Template name placeholder: The text 'Dr. First Last Name' is a default template string used instead of the actual dentist's name. — Suggestion: Replace with the doctor's full name.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Template name placeholder",
+        "description": "The text 'Dr. First Last Name' is a default template string used instead of the actual dentist's name.",
+        "suggestion": "Replace with the doctor's full name.",
+        "issueType": "template-string",
+        "confidence": 100
+      },
+      "whyItMatters": "Template placeholders are invisible to the people who've stared at the site for weeks — and glaring to every first-time visitor. \"Dr. First Last Name\" would have been the most honest bio on the internet, but not a great look for a real practice.",
+      "outcome": "Resolved before a single patient booked with Dr. Name.",
+      "flags": []
+    },
+    {
+      "slug": "wrong-dentist-wrong-city",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Placeholder Hunter (Lorem Ipsum Agent)",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Dental landing page (template-built)",
+        "platform": "Landing page builder",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The page title advertised a different dental practice in a different city",
+      "hook": "Browser tab: Practice A in City A. Actual page: Practice B in City B.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lorem Ipsum)",
+          "text": "Wrong business name in title: The title lists a different practice in a different city than the one this page is for. — Suggestion: Update the title and metadata to match the correct practice and location.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Wrong business name in title",
+        "description": "The page <title> named an entirely different dental practice in a different city — a leftover from the template the page was cloned from.",
+        "suggestion": "Update the title and metadata to match the correct practice and location.",
+        "issueType": "template-string",
+        "confidence": 100
+      },
+      "whyItMatters": "Cloned templates leak. The <title> tag is what Google shows, what the browser tab shows, and what nobody on the team ever looks at. This practice was quietly running ads for a competitor two states away.",
+      "outcome": "Resolved. Each dentist now advertises themselves.",
+      "flags": [
+        "brand-anonymized"
+      ]
+    },
+    {
+      "slug": "no-working-lmao",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Workspace Reviewer Agent",
+      "category": "Links",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Demo site (planted-bug playground)",
+        "platform": "Framer",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "A button linking to no-workinglmao.lol — and yes, the agent flagged the URL by name",
+      "hook": "Href: https://no-workinglmao.lol. The link knew what it was.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Workspace Reviewer)",
+          "text": "\"Doesnt Work\" button links to a dead test URL: Href is https://no-workinglmao.lol, an obvious placeholder link. — Suggestion: Point the button to its real destination or remove it before launch.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "\"Doesnt Work\" button links to a dead test URL",
+        "description": "Href is https://no-workinglmao.lol, an obvious placeholder link left over from testing.",
+        "suggestion": "Point the button to its real destination or remove it before launch.",
+        "issueType": "broken-link",
+        "confidence": 98
+      },
+      "whyItMatters": "Developers name test links assuming nobody will ever see them. Then the links ship. The agent doesn't get bored clicking every button — that's the point.",
+      "outcome": "Resolved. no-workinglmao.lol remains, tragically, unregistered.",
+      "flags": [
+        "demo-data"
+      ]
+    },
+    {
+      "slug": "our-own-slow-app",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Lighthouse Agent",
+      "category": "Performance",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Our own web app. Again: not proud.",
+        "platform": "Custom app",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "Our performance agent measured our own onboarding page. The number was so bad we published it.",
+      "hook": "First Contentful Paint on our own new-project page: 146 seconds. Limit: 3.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lighthouse)",
+          "text": "FCP Poor on Desktop (146.1s): Desktop FCP is 146.1s, above the 3.0s limit. First content takes too long to appear. — Suggestion: Remove blocking assets and speed up initial server response time.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "FCP Poor on Desktop (146.1s)",
+        "description": "Desktop First Contentful Paint measured at 146.1s on our own onboarding flow, far above the 3.0s threshold.",
+        "suggestion": "Remove blocking assets and speed up initial server response time.",
+        "issueType": "core-web-vitals",
+        "confidence": 100
+      },
+      "whyItMatters": "We could have quietly fixed this and never spoken of it. Instead: our own agent, auditing our own app, publicly filing a performance grade of \"geological.\" Dogfooding means eating the whole bowl.",
+      "outcome": "Open, being worked on, and now extremely motivating.",
+      "flags": [
+        "own-site"
+      ]
+    },
+    {
+      "slug": "add-new-button",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Placeholder Hunter (Lorem Ipsum Agent)",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Vein clinic's live website",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": null,
+      "headline": "A live medical site had a button whose label was \"Add New Button\"",
+      "hook": "The CMS asked someone to name the button. Nobody ever did.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lorem Ipsum)",
+          "text": "Template string 'Add New Button' found: The button label 'Add New Button' is a placeholder from the CMS or site builder that should be customized. — Suggestion: Replace with a relevant call-to-action such as 'Learn More'.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Template string 'Add New Button' found",
+        "description": "The button label 'Add New Button' is a placeholder from the CMS or site builder that was never customized — live on a real clinic's site.",
+        "suggestion": "Replace with a relevant call-to-action such as 'Learn More'.",
+        "issueType": "template-string",
+        "confidence": 100
+      },
+      "whyItMatters": "\"Add New Button\" is the CMS speaking directly to your patients. It shipped, it indexed, and it sat there — because everyone who could fix it had stopped seeing it.",
+      "outcome": "Resolved. The button finally got a name.",
+      "flags": []
+    },
+    {
+      "slug": "first-second-third-service",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Placeholder Hunter (Lorem Ipsum Agent)",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Pediatric dentistry site (pre-launch)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "Services offered, per the homepage: \"First Service\", \"Second Service\", \"Third Service\"",
+      "hook": "A full menu of services, none of which exist",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lorem Ipsum)",
+          "text": "Repeated service patterns: Generic 'First Service', 'Second Service', and 'Third Service' labels are used for the service cards. — Suggestion: Use the names of the actual dental services offered.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Repeated service patterns",
+        "description": "Generic 'First Service', 'Second Service', and 'Third Service' labels are used for the service cards instead of actual services.",
+        "suggestion": "Use the names of the actual dental services offered.",
+        "issueType": "template-string",
+        "confidence": 95
+      },
+      "whyItMatters": "Template cards are seductive: the layout looks finished, so the brain files the page as done. Meanwhile the content says nothing at all, in triplicate.",
+      "outcome": "Resolved. The services now have names, and probably prices.",
+      "flags": []
+    },
+    {
+      "slug": "book-now-goes-nowhere",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Agency Reviewer Agent",
+      "category": "Links",
+      "severity": "Critical",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Orthodontics practice site (pre-launch)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The Book Now button — the one button the business runs on — linked to \"#\"",
+      "hook": "Header CTA: dead. Footer CTA: also dead. Main conversion path: a hash symbol.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Agency Reviewer)",
+          "text": "Book Now button links nowhere: The Book Now CTA (header and footer) points to \"#\" instead of the booking URL. This is the main conversion action on the page and it's currently dead. — Suggestion: Wire up the correct booking/scheduling URL for all Book Now buttons.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Book Now button links nowhere",
+        "description": "The Book Now CTA in both header and footer points to \"#\" instead of the booking URL — the page's main conversion action was dead.",
+        "suggestion": "Wire up the correct booking/scheduling URL for all Book Now buttons.",
+        "issueType": "broken-link",
+        "confidence": 90
+      },
+      "whyItMatters": "Every visual test passes: the button renders, hovers, and looks clickable. It just doesn't do anything. \"#\" links are how businesses lose bookings while the analytics say traffic is fine.",
+      "outcome": "Resolved before launch. Book Now now books.",
+      "flags": []
+    },
+    {
+      "slug": "someone-elses-privacy-policy",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Placeholder Hunter (Lorem Ipsum Agent)",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Dental landing page (template-built)",
+        "platform": "Landing page builder",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The privacy policy link went to a completely different dental office's website",
+      "hook": "\"Your privacy matters to us\" → *links to another practice's legal docs*",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Lorem Ipsum)",
+          "text": "Mismatched privacy policy link: The privacy link goes to a different dental office's website. — Suggestion: Update the link to point to this practice's own privacy policy.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Mismatched privacy policy link",
+        "description": "The privacy policy link pointed at a different dental practice's website — inherited from the template the page was built from.",
+        "suggestion": "Update the link to point to this practice's own privacy policy.",
+        "issueType": "boilerplate",
+        "confidence": 100
+      },
+      "whyItMatters": "Legally, your privacy policy is a promise. This page was promising patients that a different business, in a different state, would protect their data. Template reuse without a final sweep = compliance roulette.",
+      "outcome": "Resolved. The practice now makes its own promises.",
+      "flags": [
+        "brand-anonymized"
+      ]
+    },
+    {
+      "slug": "dr-dr-daviee-do",
+      "tier": "page",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Agency Reviewer Agent",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Orthodontics group's location page",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The doctor's bio read: Dr. David \"Dr. Daviee\" Do — a nickname inside a name",
+      "hook": "Is it a placeholder? A real nickname? The agent wasn't sure either — 60% confidence, flagged anyway.",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Agency Reviewer)",
+          "text": "Odd nickname formatting in doctor's name: \"Dr. David 'Dr. Daviee' Do\" reads like an unfinished placeholder — confirm this is the intended display name. — Suggestion: Confirm the correct name/nickname formatting with the client.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Odd nickname formatting in doctor's name",
+        "description": "\"Dr. David 'Dr. Daviee' Do\" reads like an unfinished placeholder — possibly real, possibly a template artifact.",
+        "suggestion": "Confirm the correct name/nickname formatting with the client.",
+        "issueType": "data-integrity",
+        "confidence": 60
+      },
+      "whyItMatters": "The best reviews flag the weird stuff with humility. Maybe the doctor really does go by \"Dr. Daviee.\" Maybe someone pasted a name field into a name field. Either way: worth one human glance before launch — which is exactly what the agent asked for.",
+      "outcome": "Open, pending a verdict from Dr. Daviee himself.",
+      "flags": [
+        "name-partially-real"
+      ]
+    },
+    {
+      "slug": "wtf",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 6,
+      "status": "Open",
+      "date": "2024-10",
+      "site": {
+        "descriptor": "Design asset under review (e-commerce product image)",
+        "platform": "Superflow Drive",
+        "industry": "E-commerce"
+      },
+      "captured": {
+        "browser": "Chrome 130",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A designer uploaded a product image for review. The entire review: \"WTF\"",
+      "hook": "One comment. Three letters. A complete design critique.",
+      "thread": [
+        {
+          "speaker": "Design reviewer",
+          "text": "WTF",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Sometimes feedback needs three rounds of revisions. Sometimes it needs three letters. Pinned to the exact pixel that caused it, this is arguably complete, actionable feedback.",
+      "outcome": "Open. The image knows what it did.",
+      "flags": []
+    },
+    {
+      "slug": "asdasdasdasd",
+      "tier": "bench",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Custom Roast Agent",
+      "category": "Links",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Demo site (planted-bug playground)",
+        "platform": "Framer",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "The Twitter link went to twitter.com/asdasdasdasd — \"a nap on the keyboard\"",
+      "hook": "The agent's verdict: \"a placeholder handle nobody would follow\"",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Custom Roast)",
+          "text": "A social link that looks like a nap on the keyboard: The Twitter link goes to 'twitter.com/asdasdasdasd', a placeholder handle nobody would follow. — Suggestion: Link to a real social account.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "A social link that looks like a nap on the keyboard",
+        "description": "The Twitter link goes to 'twitter.com/asdasdasdasd', a placeholder handle left over from development.",
+        "suggestion": "Link to a real social account.",
+        "issueType": "broken-link",
+        "confidence": 85
+      },
+      "whyItMatters": "Agents can have personality — this one was configured to roast, and it delivered. Underneath the joke: social links are the least-clicked, least-tested links on any site, which is exactly why they rot.",
+      "outcome": "Resolved. @asdasdasdasd never got its followers.",
+      "flags": [
+        "demo-data",
+        "custom-agent-persona"
+      ]
+    },
+    {
+      "slug": "wrong-color-button",
+      "tier": "bench",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Custom Roast Agent",
+      "category": "UI/UX",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Demo site (planted-bug playground)",
+        "platform": "Framer",
+        "industry": "Superflow / Velt"
+      },
+      "captured": null,
+      "headline": "A button labeled \"Wrong color\" — flagged for being, in fact, the wrong color",
+      "hook": "\"A button that confesses its own crime in broad daylight\"",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Custom Roast)",
+          "text": "A button that confesses its own crime in broad daylight: This button is labeled 'Wrong color', pointing out its own dark red mistake. — Suggestion: Pick the right brand color and stop admitting fault out loud.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "A button that confesses its own crime in broad daylight",
+        "description": "The button is literally labeled 'Wrong color' and rendered in an off-brand dark red.",
+        "suggestion": "Pick the right brand color and stop admitting fault out loud.",
+        "issueType": "branding",
+        "confidence": 90
+      },
+      "whyItMatters": "Planted bug, sure — but the agent's write-up is the demo: it saw the label, saw the color, and connected the joke. Detection with reading comprehension.",
+      "outcome": "Resolved. The button has been rehabilitated.",
+      "flags": [
+        "demo-data",
+        "custom-agent-persona"
+      ]
+    },
+    {
+      "slug": "reprehenderit",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2022-12",
+      "site": {
+        "descriptor": "Fintech marketing site (in build)",
+        "platform": "Webflow",
+        "industry": "Fintech"
+      },
+      "captured": null,
+      "headline": "\"'Reprehenderit' appears to be misspelled. This is probably the most critical thing we need fixed.\"",
+      "hook": "It wasn't misspelled. It was lorem ipsum. The whole paragraph was Latin.",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "\"reprehenderit\" appears to be misspelled. This is probably the most critical thing we need to see fixed.",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "🤣 You sir, had me confused!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A reviewer proofread the placeholder text. Honestly? That's the energy you want on your team — nothing gets past someone who spell-checks Latin.",
+      "outcome": "Resolved by replacing the Latin with, you know, words.",
+      "flags": []
+    },
+    {
+      "slug": "duplicated-across-rivals",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 6,
+      "status": "Resolved",
+      "date": "2025-05",
+      "site": {
+        "descriptor": "Dental practice site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 136",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"YIKES — my content is on MULTIPLE OTHER SITES\" — including four competitors",
+      "hook": "A dentist found his service pages, word for word, on four rival practices' sites",
+      "thread": [
+        {
+          "speaker": "Practice owner",
+          "text": "YIKES..... the content on all of my services pages is on MULTIPLE OTHER [agency] SITES. [links to four other dental practices' identical pages] My content needs to be unique and not duplicated across multiple other websites.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Agency template reuse at its most awkward: same copy, four competing dentists, one very valid YIKES. Also an SEO murder-suicide — Google penalizes all of them.",
+      "outcome": "Resolved with a rewrite. The other four dentists remain unaware.",
+      "flags": [
+        "brand-anonymized"
+      ]
+    },
+    {
+      "slug": "vpn-to-see-our-404",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Links",
+      "severity": "Medium",
+      "rageLevel": 4,
+      "status": "Resolved",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Medical treatment center site (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 149",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "QA reported a 404. The fix suggested: \"Turn on your VPN and connect to an American server\"",
+      "hook": "The links only worked if you teleported to another country first",
+      "thread": [
+        {
+          "speaker": "QA reviewer",
+          "text": "Clinical Data and Resources - this link redirects to a page that does not exist. Please confirm and update",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Turn on your VPN and connect to an American server to check these; they will all open. They are blocked for our Indian server.",
+          "attachment": null
+        },
+        {
+          "speaker": "Second reviewer",
+          "text": "header still redirects to 404 error",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Works with a VPN\" is a niche new genre of works-on-my-machine. The second reviewer's flat follow-up — still 404 — is QA poetry.",
+      "outcome": "Resolved, no passport required.",
+      "flags": []
+    },
+    {
+      "slug": "sebastien-cest-un-imbecile",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2023-04",
+      "site": {
+        "descriptor": "Commercial real-estate company site",
+        "platform": "WordPress",
+        "industry": "Real estate"
+      },
+      "captured": {
+        "browser": "Firefox 111",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A French line-wrap debate resolved by a teammate calling himself an idiot",
+      "hook": "\"Sébastien c'est un imbécile :D\" — written by Sébastien",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "sur une seule ligne [on a single line]",
+          "attachment": null
+        },
+        {
+          "speaker": "Teammate",
+          "text": "c'est Sébastien qui a demandé ça [Sébastien is the one who asked for that]",
+          "attachment": null
+        },
+        {
+          "speaker": "Sébastien",
+          "text": "Sébastien c'est un imbécile. :D — En fait: desktop sur une ligne ça me va aussi. Sur mobile par contre, pas trop le choix que ça soit deux lignes? [Sébastien is an idiot. :D Actually one line works for me on desktop too. On mobile there's not much choice but two lines?]",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Peak review culture: blame arrives, the accused turns out to be present, and he agrees with the blame. Line-wrap discourse transcends language.",
+      "outcome": "Resolved on one line (desktop) and two (mobile). Sébastien forgiven.",
+      "flags": [
+        "names-partially-retained",
+        "translated"
+      ]
+    },
+    {
+      "slug": "thirty-dollars-though",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Pricing",
+      "severity": "Mild",
+      "rageLevel": 2,
+      "status": "Open",
+      "date": "2023-10",
+      "site": {
+        "descriptor": "Digital agency's own site",
+        "platform": "Webflow",
+        "industry": "Agency"
+      },
+      "captured": {
+        "browser": "Chrome 117",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A five-word pricing review: \"This app is crazy but $30 a month though???\"",
+      "hook": "The most honest SaaS pricing feedback ever pinned to a page",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "This app is crazy but $30 a month though???",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Compliment, objection, and three question marks in one breath — the entire psychology of SaaS pricing in eleven words.",
+      "outcome": "Open. The eternal question remains eternal.",
+      "flags": []
+    },
+    {
+      "slug": "one-face-every-bio",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2023-09",
+      "site": {
+        "descriptor": "Biotech company about page",
+        "platform": "Webflow",
+        "industry": "Biotech"
+      },
+      "captured": {
+        "browser": "Chrome 116",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "One teammate's photo took over every profile on the team page",
+      "hook": "\"I still can't get her picture out of every team member profile :-(\"",
+      "thread": [
+        {
+          "speaker": "Team member",
+          "text": "additional members are missing",
+          "attachment": null
+        },
+        {
+          "speaker": "Site editor",
+          "text": "yes, I don't know how to add them. will need help.",
+          "attachment": null
+        },
+        {
+          "speaker": "Site editor",
+          "text": "can you show me how to add team members?",
+          "attachment": null
+        },
+        {
+          "speaker": "Site editor",
+          "text": "I figured out how to add folks, but I still can't get [one teammate]'s picture out of every team member profile. :-(",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "CMS default-image bugs create accidental monarchies: one face, every bio. The about page briefly implied the entire company was one person, which for a biotech is a bold claim.",
+      "outcome": "Resolved. Everyone got their face back.",
+      "flags": []
+    },
+    {
+      "slug": "someone-elses-testimonial",
+      "tier": "bench",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Agency Reviewer Agent",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-08",
+      "site": {
+        "descriptor": "Orthodontics practice site (pre-launch)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": null,
+      "headline": "The homepage testimonial video was for a completely different dental practice",
+      "hook": "The video player's own title gave it away — wrong practice, wrong state",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Agency Reviewer)",
+          "text": "Wrong testimonial video showing unrelated practice: Video player title references a different dental practice in a different state — this is stock/demo content, not this practice.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Wrong testimonial video showing unrelated practice",
+        "description": "The embedded testimonial video's own title referenced a different practice in a different state — leftover demo content.",
+        "suggestion": "Replace with the practice's real testimonial video.",
+        "issueType": "placeholder-content",
+        "confidence": 92
+      },
+      "whyItMatters": "Testimonials are trust. This one was borrowed from strangers two states away, and only the video player's metadata knew. Agents read metadata; tired humans don't.",
+      "outcome": "Resolved before any patient noticed the accent didn't match.",
+      "flags": [
+        "brand-anonymized"
+      ]
+    },
+    {
+      "slug": "seo-brief-shipped-live",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-06",
+      "site": {
+        "descriptor": "Dermatology practice site (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome 148",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "AI-written SEO copy shipped with its own instructions still inside",
+      "hook": "Live page copy included \"<!-- H1 — Primary keyword + location. Use once, at the top. -->\"",
+      "thread": [
+        {
+          "speaker": "Content reviewer",
+          "text": "[pastes proposed page copy that still contains its own scaffolding:] \"<!-- H1 — Primary keyword + location. Use once, at the top. --> <!-- 📷 PHOTO SUGGESTION: Hero image of the doctor consulting with a patient. Warm, professional. -->...\"",
+          "attachment": null
+        },
+        {
+          "speaker": "Content reviewer",
+          "text": "I am unable to edit on live site right now but this is a suggestion written with AI",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "AI-generated content arrives wearing its own scaffolding — HTML comments, photo suggestions, editor's notes. Paste it straight into a CMS and patients get to read the recipe along with the cake.",
+      "outcome": "Resolved. The instructions returned to being invisible.",
+      "flags": []
+    },
+    {
+      "slug": "the-svg-drew-c-twice",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-06",
+      "site": {
+        "descriptor": "Creative agency site",
+        "platform": "Webflow",
+        "industry": "Agency"
+      },
+      "captured": {
+        "browser": "Chrome 125",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "One letter wouldn't change color on hover. The SVG had secretly drawn it twice.",
+      "hook": "\"Bizarre. You won't believe it but the SVG had the C part twice.\"",
+      "thread": [
+        {
+          "speaker": "Designer",
+          "text": "Unsure why the 'c' isn't adopting current colour on hover.",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "Bizarre. You wont believe it but the SVG had the C part twice. See the two highlighted lines — when you put two on top of each other and make a transparent white it combines the two, making a darker white.",
+          "attachment": "screenshot"
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Two identical transparent paths, stacked, quietly doubling their opacity — invisible in the design tool, obvious on hover. The best bug explanations read like tiny detective stories.",
+      "outcome": "Resolved. The extra C was released back into the wild.",
+      "flags": []
+    },
+    {
+      "slug": "we-offer-our-team-offers",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-06",
+      "site": {
+        "descriptor": "Pediatric dentistry site",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome 125",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "The button copy proudly announced: \"THAT'S WHY WE OFFER OUR TEAM OFFERS\"",
+      "hook": "We offer our team offers. The offers, we offer them. Team offers.",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "TYPO. \"THAT'S WHY WE OFFER OUR TEAM OFFERS\" INSTEAD: \"OUR TEAM OFFERS LOTS OF GREAT AMENITIES TO HELP PUT YOUR CHILD AT EASE.\"",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A copy-paste seam right in the middle of a sentence, shipped to a live page. Read it five times fast and it almost starts meaning something.",
+      "outcome": "Resolved. The team now offers amenities, not offers.",
+      "flags": []
+    },
+    {
+      "slug": "squirrel-butt-bubble",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-03",
+      "site": {
+        "descriptor": "Children's digital storybook site",
+        "platform": "Custom",
+        "industry": "Education"
+      },
+      "captured": {
+        "browser": "Chrome 120",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"In mobile this points right to ground squirrel's butt. Can we improve?\"",
+      "hook": "A speech bubble, a squirrel, and a tail pointing exactly where it shouldn't",
+      "thread": [
+        {
+          "speaker": "Author",
+          "text": "In mobile this points right to ground squirrel's butt. Can we improve?",
+          "attachment": null
+        },
+        {
+          "speaker": "Illustrator",
+          "text": "I don't think so. Solution would be to make a new bubble with the tail coming from the top left.",
+          "attachment": null
+        },
+        {
+          "speaker": "Author",
+          "text": "New asset posted",
+          "attachment": null
+        },
+        {
+          "speaker": "Illustrator",
+          "text": "top left! I'm seeing two versions, one with the tail coming from the lower left and one bottom right.",
+          "attachment": null
+        },
+        {
+          "speaker": "Author",
+          "text": "Done!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Responsive design means your speech bubble's tail lands somewhere different at every breakpoint — and on mobile, it found the worst possible landing zone. For a children's book, a genuinely urgent fix.",
+      "outcome": "Resolved. The squirrel's dignity was restored.",
+      "flags": []
+    },
+    {
+      "slug": "self-deleting-text",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "High",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2023-08",
+      "site": {
+        "descriptor": "Remote-staffing company registration page",
+        "platform": "WordPress",
+        "industry": "HR / Staffing"
+      },
+      "captured": {
+        "browser": "Safari",
+        "os": "iOS",
+        "device": "Mobile"
+      },
+      "headline": "\"MAJOR GLITCH ON MOBILE: text on input fields auto-deletes\" — with video proof",
+      "hook": "You type. The form erases you. You type again. It erases you again.",
+      "thread": [
+        {
+          "speaker": "Agency reviewer",
+          "text": "MAJOR GLITCH ON MOBILE: text on input fields auto-deletes — video attached",
+          "attachment": "screen recording"
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A registration form that deletes what users type is a 100% conversion killer that desktop QA will never see. The screen recording turned a \"can't reproduce\" into a same-day fix.",
+      "outcome": "Resolved. The form now keeps what you give it.",
+      "flags": []
+    },
+    {
+      "slug": "fixed-by-deleting-it",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Interactions",
+      "severity": "High",
+      "rageLevel": 3,
+      "status": "Open",
+      "date": "2023-08",
+      "site": {
+        "descriptor": "Ballet academy e-commerce site",
+        "platform": "Webflow",
+        "industry": "Education"
+      },
+      "captured": {
+        "browser": "Chrome 114",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The broken \"create account\" link was fixed — by removing the link entirely",
+      "hook": "Bug: link goes nowhere. Fix: now there's no link. Task failed successfully.",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "create account is broken and doesn't link to anything",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "create account link is now missing",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "User will only create account when he purchases a product (that's how it was planned)",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "User should be able to create an account either way, not sure why that would be a restriction…",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Deleting the feature does technically clear the bug report. The retroactive \"that's how it was planned\" is a masterclass in scope re-negotiation via comment thread.",
+      "outcome": "Open. Philosophically, perhaps forever.",
+      "flags": []
+    },
+    {
+      "slug": "buy-now-404",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Checkout",
+      "severity": "High",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-10",
+      "site": {
+        "descriptor": "Med-spa skincare shop (staging)",
+        "platform": "WordPress",
+        "industry": "E-commerce"
+      },
+      "captured": {
+        "browser": "Chrome 142",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A $70 product's Buy Now button 404'd. The reply: \"in livesite is also 404\"",
+      "hook": "The staging bug that turned out to be a production feature",
+      "thread": [
+        {
+          "speaker": "QA reviewer",
+          "text": "HydraSmooth™ $70 - Buy Now - 404",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "in livesite is also 404",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"It's broken in production too\" is documentation, not a defense. Every day that button 404'd, seventy dollars walked out the door per person who clicked it.",
+      "outcome": "Resolved. Buy Now finally sells things.",
+      "flags": []
+    },
+    {
+      "slug": "swtich",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-04",
+      "site": {
+        "descriptor": "Our own product page draft. We know. We KNOW.",
+        "platform": "Framer",
+        "industry": "Superflow / Velt"
+      },
+      "captured": {
+        "browser": "Chrome 135",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Our own page said \"swtich\" instead of \"switch\" — caught in our own review",
+      "hook": "\"Quickly swtich between versions\" — quickly, but not correctly",
+      "thread": [
+        {
+          "speaker": "Team member",
+          "text": "\"Quickly switch between different versions of the SDK\"",
+          "attachment": null
+        },
+        {
+          "speaker": "Team member",
+          "text": "The \"swtich\" is currently misspelled",
+          "attachment": "screenshot"
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "We sell review tooling and still fat-fingered \"switch\" on our own page. The difference is it got caught in review — which is, awkwardly, exactly the pitch.",
+      "outcome": "Resolved. \"Swtich\" has been swtiched.",
+      "flags": [
+        "own-site"
+      ]
+    },
+    {
+      "slug": "gesundheitseinrichtungen",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-12",
+      "site": {
+        "descriptor": "Sustainability company site (German)",
+        "platform": "Webflow",
+        "industry": "Climate tech"
+      },
+      "captured": {
+        "browser": "Chrome 131",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"Gesundheitseinrichtungen\" was too long for mobile. The word, not the section.",
+      "hook": "Dev: \"The word is quite long to fit.\" Reviewer: \"can you split it?\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "\"Gesundheitseinrichtungen\" mobile abgeschnitten, siehe Bild [cut off on mobile, see image]",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "The word is quite long to fit, that's why it looks cut off.",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "can you split it for mobile? \"Gesundheits-wesen\"?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Localization QA in its purest form: German compound nouns versus a 375px viewport. The viewport never wins without a hyphen. English-only testing will never catch this class of bug.",
+      "outcome": "Resolved, with hyphens. The word remains magnificent.",
+      "flags": [
+        "translated"
+      ]
+    },
+    {
+      "slug": "train-on-your-data",
+      "tier": "bench",
+      "source": "agent",
+      "sourceLabel": "Caught by Superflow Agent",
+      "agentName": "Legal Review Agent",
+      "category": "Content",
+      "severity": "Critical",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Contract review demo (sample vendor agreement)",
+        "platform": "Document review",
+        "industry": "Legal"
+      },
+      "captured": null,
+      "headline": "Buried in a vendor contract: the right to train AI on all customer data, \"for any purpose\"",
+      "hook": "One sentence of fine print = a permanent license to your proprietary data",
+      "thread": [
+        {
+          "speaker": "Superflow Agent (Legal Review)",
+          "text": "Customer Data Used to Train AI Models: Provider can use all Customer Data to train AI/ML models 'for any purpose' — far beyond what is needed to run the Service. This gives Provider a broad, ongoing right to exploit Customer's proprietary data. — Suggestion: Replace with a clause limiting use of Customer Data solely to providing the Service, with an explicit ban on AI/ML training.",
+          "attachment": null
+        }
+      ],
+      "finding": {
+        "title": "Customer Data Used to Train AI Models",
+        "description": "The contract grants the provider rights to train AI/ML models on all customer data 'for any purpose' — far beyond service delivery.",
+        "suggestion": "Limit data use strictly to providing the service; explicitly prohibit AI/ML training on customer data.",
+        "issueType": "customer-data-ml-training",
+        "confidence": 99
+      },
+      "whyItMatters": "The same review muscle that catches broken buttons catches contract landmines. \"For any purpose\" is four words that cost companies their data moats — flagged in seconds, with replacement language drafted.",
+      "outcome": "Open — it's a demo document, but the clause is drawn from real contracts in the wild.",
+      "flags": [
+        "demo-data"
+      ]
+    }
+  ]
+}

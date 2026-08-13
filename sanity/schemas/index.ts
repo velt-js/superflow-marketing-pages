@@ -51,6 +51,13 @@ import {
   comparisonCaseStudy,
   comparisonFaqItem,
 } from "./shared/comparison";
+import {
+  bugBookEntry,
+  bugBookThreadComment,
+  bugBookFinding,
+  bugBookSite,
+  bugBookCaptured,
+} from "./bugBookEntry";
 import { alternativePage } from "./alternativePage";
 import { comparisonPage } from "./comparisonPage";
 import { linkAnnotation } from "./shared/linkAnnotation";
@@ -140,9 +147,16 @@ export const schemaTypes = [
   comparisonPreviewArbiterPage,
   comparisonPreviewAlternativesPage,
   comparisonPreviewHub,
+  bugBookEntry,
 
   // Inline annotations
   linkAnnotation,
+
+  // bugBookEntry sub-types
+  bugBookThreadComment,
+  bugBookFinding,
+  bugBookSite,
+  bugBookCaptured,
 
   // Per-type sub-schemas
   blogBodyImage,

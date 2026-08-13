@@ -5,6 +5,7 @@ import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
+  getAllBugBookSlugs,
   getAllCaseStudySlugs,
   getAllChecklistSlugs,
   getAllComparisonPreviewsForHub,
@@ -92,6 +93,7 @@ const STATIC_PATHS = [
   "/alternative",
   "/blog",
   "/book-demo",
+  "/bug-book",
   "/calculator",
   "/case-study",
   "/checklist",
@@ -126,6 +128,7 @@ async function safeFetch(fn: () => Promise<string[]>): Promise<string[]> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [
     blogSlugs,
+    bugBookSlugs,
     integrationSlugsCms,
     useCaseSlugsCms,
     caseStudySlugsCms,
@@ -139,6 +142,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     docsPaths,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
+    safeFetch(getAllBugBookSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
     safeFetch(getAllUseCaseSlugs),
     safeFetch(getAllCaseStudySlugs),
@@ -177,6 +181,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
     ...unique(caseStudySlugsCms).map((slug) => `/case-study/${slug}`),
     ...unique(blogSlugs).map((slug) => `/blog/${slug}`),
+    ...unique(bugBookSlugs).map((slug) => `/bug-book/${slug}`),
     ...unique(reviewSlugs).map((slug) => `/${slug}`),
     ...unique(checklistSlugs).map((slug) => `/${slug}`),
     ...unique(featureSlugs).map((slug) => `/${slug}`),

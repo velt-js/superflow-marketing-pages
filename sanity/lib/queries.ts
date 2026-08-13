@@ -1,4 +1,8 @@
 import { client } from "../client";
+import type {
+  BugBookEntryDetail,
+  BugBookListEntry,
+} from "@/lib/bug-book";
 
 export type BlogPostListItem = {
   _id: string;
@@ -883,5 +887,64 @@ export async function getComparisonPreviewHub() {
       metaTitle,
       metaDescription
     }`
+  );
+}
+
+// ---------------------------------------------------------------- Bug Book
+
+
+const BUG_BOOK_LIST_FIELDS = `
+  _id,
+  "slug": slug.current,
+  source,
+  sourceLabel,
+  agentName,
+  category,
+  severity,
+  rageLevel,
+  status,
+  date,
+  "siteDescriptor": site.descriptor,
+  headline,
+  hook,
+  flags,
+  curatedRank
+`;
+
+/** Every live (`tier == "page"`) entry, in curated order. */
+export async function getAllBugBookEntries(): Promise<BugBookListEntry[]> {
+  return client.fetch(`
+    *[_type == "bugBookEntry" && tier == "page"] | order(curatedRank asc) {
+      ${BUG_BOOK_LIST_FIELDS}
+    }
+  `);
+}
+
+export async function getAllBugBookSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "bugBookEntry" && tier == "page" && defined(slug.current)].slug.current`
+  );
+}
+
+/**
+ * One live entry with the full thread/finding payload. Bench entries
+ * intentionally return null — the route redirects misses to /bug-book.
+ */
+export async function getBugBookEntryBySlug(
+  slug: string
+): Promise<BugBookEntryDetail | null> {
+  return client.fetch(
+    `
+    *[_type == "bugBookEntry" && tier == "page" && slug.current == $slug][0] {
+      ${BUG_BOOK_LIST_FIELDS},
+      site{ descriptor, platform, industry },
+      captured{ browser, os, device },
+      thread[]{ speaker, text, attachment },
+      finding{ title, description, suggestion, issueType, confidence },
+      whyItMatters,
+      outcome
+    }
+  `,
+    { slug }
   );
 }

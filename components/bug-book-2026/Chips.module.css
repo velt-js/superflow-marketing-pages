@@ -1,0 +1,85 @@
+/* Shared chips for the Bug Book — tinted pills matching the 2026 light
+   card system (Urbanist UI, small caps-ish weight, pill radius). */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+}
+
+.sourceHuman,
+.sourceAgent {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.sourceHuman {
+    color: #4b5563;
+    background: #f1f2f5;
+}
+
+.sourceAgent {
+    color: #433df3;
+    background: #eeedfe;
+}
+
+.statusResolved,
+.statusOpen {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.statusResolved {
+    color: #15803d;
+    background: #e8f7ed;
+}
+
+.statusOpen {
+    color: #91700a;
+    background: #fbf3d9;
+}
+
+.flagTag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px dashed #d7d9e0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #6b7079;
+    white-space: nowrap;
+}
