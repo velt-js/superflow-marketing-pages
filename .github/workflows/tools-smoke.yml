@@ -63,6 +63,27 @@ jobs:
 
       - run: npm ci
 
+      # Fail here, loudly, rather than let the suite run against the wrong
+      # code path. With the endpoint unset, `isBackendConfigured()` is false
+      # and every tool silently falls back to the in-repo engine — a different
+      # implementation from the one production uses. The suite would still go
+      # green while proving nothing about the live contract, which is the
+      # wrong-target failure the backend repo's GTK-011 exists to catch.
+      - name: Require the backend endpoint
+        env:
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+        run: |
+          if [ -z "$SUPERFLOW_ANONYMOUS_API_URL" ]; then
+            echo "::error::The SUPERFLOW_ANONYMOUS_API_URL repo secret is not set."
+            echo ""
+            echo "Without it the build falls back to the in-repo engine, so this"
+            echo "suite would pass while testing a different code path from"
+            echo "production. Set it to the same value Vercel uses:"
+            echo "  Settings > Secrets and variables > Actions > New repository secret"
+            exit 1
+          fi
+          echo "Backend endpoint configured."
+
       # Chromium ships with the runner image via the Playwright download, but
       # only the browser is needed — no system deps beyond what ubuntu-latest
       # already has for headless Chromium.
