@@ -53,6 +53,7 @@ import {
 } from "./shared/comparison";
 import {
   bugBookEntry,
+  bugBookSample,
   bugBookThreadComment,
   bugBookFinding,
   bugBookSite,
@@ -148,6 +149,7 @@ export const schemaTypes = [
   comparisonPreviewAlternativesPage,
   comparisonPreviewHub,
   bugBookEntry,
+  bugBookSample,
 
   // Inline annotations
   linkAnnotation,

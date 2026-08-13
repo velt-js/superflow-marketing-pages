@@ -1,0 +1,261 @@
+/* "New agents on the beat" band - illustrative agent reports shown under
+   the collection grid, visually distinct from the real-catch cards so the
+   two are never confused. Sits on a tinted panel rather than white. */
+
+.band {
+    padding: 8px 24px 40px;
+}
+
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 36px 44px;
+    border-radius: 24px;
+    background: #f7f8fa;
+    border: 1px solid #ececf1;
+}
+
+.bandHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.4px;
+    color: #16171a;
+}
+
+.subhead {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7079;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+/* ------------------------------------------------------------- Card */
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 24px 26px 22px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e6e7ed;
+}
+
+.ribbon {
+    position: absolute;
+    top: 16px;
+    right: -6px;
+    padding: 4px 12px;
+    border-radius: 4px 0 0 4px;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(20, 20, 43, 0.16);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 76px;
+}
+
+.agent {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.severity {
+    display: inline-flex;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.32;
+    letter-spacing: -0.3px;
+    color: #16171a;
+}
+
+.hook {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #6b7079;
+}
+
+.report {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fbfbfd;
+    border: 1px solid #ececf1;
+}
+
+.findingTitle {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #16171a;
+}
+
+.findingDescription {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #3f4450;
+}
+
+.suggestionBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-left: 3px solid;
+    background: #ffffff;
+    border-radius: 0 10px 10px 0;
+    padding: 9px 12px;
+}
+
+.suggestionLabel {
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.suggestionText {
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #16171a;
+}
+
+.reportFooter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid #ececf1;
+    padding-top: 10px;
+}
+
+.issueType {
+    display: inline-flex;
+    padding: 2px 9px;
+    border-radius: 9999px;
+    background: #f1f2f5;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #4b5563;
+    text-transform: uppercase;
+}
+
+.confidence {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.confidenceTrack {
+    width: 72px;
+    height: 5px;
+    border-radius: 9999px;
+    background: #ececf1;
+    overflow: hidden;
+}
+
+.confidenceFill {
+    display: block;
+    height: 100%;
+    border-radius: 9999px;
+}
+
+.note {
+    margin: 2px 0 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
+    font-style: italic;
+    color: #9096a1;
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 620px) {
+    .band {
+        padding: 4px 20px 32px;
+    }
+
+    .inner {
+        padding: 28px 20px 32px;
+    }
+
+    .card {
+        padding: 20px 18px;
+    }
+
+    .header {
+        padding-right: 66px;
+    }
+}

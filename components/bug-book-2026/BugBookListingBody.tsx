@@ -7,10 +7,12 @@ import {
   BUG_BOOK_SORTS,
   sortEntries,
   type BugBookListEntry,
+  type BugBookSample,
   type BugBookSort,
 } from "@/lib/bug-book";
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
+import BugBookSamples from "./BugBookSamples";
 import styles from "./BugBookListingBody.module.css";
 
 const HERO_KICKER = "THE SUPERFLOW BUG BOOK";
@@ -106,13 +108,17 @@ function PillGroup({
 /**
  * Full presentation layer for /bug-book: hero on the shared blue gradient,
  * three pill-group filters + sort (AND-ed together, synced to query params
- * so the detail pages' back link preserves them), the card grid, the CTA
- * band, and SiteNav/SiteFooter. Entries arrive pre-sorted in curated order.
+ * so the detail pages' back link preserves them), the card grid, the
+ * samples band, the CTA band, and SiteNav/SiteFooter. Entries arrive
+ * pre-sorted in curated order; samples are never filtered or sorted.
  */
 export default function BugBookListingBody({
   entries,
+  samples = [],
 }: {
   entries: BugBookListEntry[];
+  /** Illustrative reports for the separate "New agents on the beat" band. */
+  samples?: BugBookSample[];
 }) {
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
 
@@ -236,6 +242,8 @@ export default function BugBookListingBody({
           )}
         </div>
       </section>
+
+      <BugBookSamples samples={samples} />
 
       <BugBookCta />
       <SiteFooter />

@@ -63,6 +63,7 @@ export const CATEGORY_COLORS: Record<string, { accent: string; tint: string }> =
     Performance: { accent: "#dc2626", tint: "#fdeaea" },
     "Feature Request": { accent: "#0284c7", tint: "#e6f4fb" },
     Security: { accent: "#b91c1c", tint: "#fbeaea" },
+    SEO: { accent: "#b45309", tint: "#fbf1e3" },
   };
 
 const FALLBACK_CATEGORY_COLOR = { accent: "#433df3", tint: "#eeedfe" };
@@ -148,14 +149,38 @@ export function sortEntries<T extends BugBookListEntry>(
   return sorted;
 }
 
-/** Flags that get a visible label in the meta bar (spec §8). */
+/**
+ * Flags that get a visible label in the meta bar. Curation cut the
+ * planted-demo, satire, and about-Superflow threads, so `own-site` - a
+ * real bug on our own property, and the best trust content on the page -
+ * is the only flag that still earns a badge.
+ */
 export function metaBarFlagLabels(flags?: string[]): string[] {
   if (!flags?.length) return [];
-  const labels: string[] = [];
-  if (flags.includes("own-site")) labels.push("Our own site 😳");
-  if (flags.includes("satire") || flags.includes("internal-teardown")) {
-    labels.push("Team teardown");
-  }
-  if (flags.includes("demo-data")) labels.push("Demo data");
-  return labels;
+  return flags.includes("own-site") ? ["Our own site 😳"] : [];
 }
+
+/** Agent whose checks come from a checklist the agency wrote itself. */
+export const CUSTOM_CHECKLIST_AGENT_PREFIX = "Custom Checklist Agent";
+
+export const CUSTOM_CHECKLIST_NOTE =
+  "This agent runs a checklist this agency wrote for its own launches.";
+
+export function isCustomChecklistAgent(agentName?: string): boolean {
+  return Boolean(agentName?.startsWith(CUSTOM_CHECKLIST_AGENT_PREFIX));
+}
+
+/** One illustrative agent report in the samples band (never routed). */
+export type BugBookSample = {
+  _id: string;
+  slug: string;
+  sourceLabel?: string;
+  agentName: string;
+  category: string;
+  severity: string;
+  headline: string;
+  hook?: string;
+  finding: BugFinding;
+  whyItMatters?: string;
+  note?: string;
+};

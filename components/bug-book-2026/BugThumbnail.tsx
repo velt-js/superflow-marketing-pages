@@ -185,6 +185,28 @@ function SecurityMotif({ accent }: MotifProps) {
   );
 }
 
+/** SEO - a search/share preview card with its image slot missing. */
+function SeoMotif({ accent }: MotifProps) {
+  return (
+    <g>
+      <rect x="88" y="62" width="72" height="54" rx="8" fill="none" stroke={accent} strokeWidth="3" strokeDasharray="7 6" opacity="0.7" />
+      <path d="M108 100l12-13 8 8 7-8 13 13Z" fill={accent} opacity="0.25" />
+      <path d="M104 76l16 16M120 76l-16 16" stroke={accent} strokeWidth="3" strokeLinecap="round" opacity="0.55" />
+      <rect x="172" y="64" width="64" height="9" rx="4.5" fill={accent} opacity="0.75" />
+      <rect x="172" y="80" width="44" height="7" rx="3.5" fill={accent} opacity="0.35" />
+      <rect x="172" y="94" width="62" height="6" rx="3" fill={accent} opacity="0.2" />
+      <rect x="172" y="106" width="50" height="6" rx="3" fill={accent} opacity="0.2" />
+      <g transform="translate(88 128)">
+        <circle cx="9" cy="9" r="8" fill="none" stroke={accent} strokeWidth="3" opacity="0.6" />
+        <line x1="15" y1="15" x2="22" y2="22" stroke={accent} strokeWidth="3" strokeLinecap="round" opacity="0.6" />
+      </g>
+      <text x="120" y="143" fontFamily="ui-monospace, Menlo, monospace" fontSize="11" fontWeight="700" fill={accent} opacity="0.75">
+        AI ?
+      </text>
+    </g>
+  );
+}
+
 const MOTIFS: Record<string, (props: MotifProps) => React.ReactElement> = {
   "UI/UX": UiUxMotif,
   Copy: CopyMotif,
@@ -197,6 +219,7 @@ const MOTIFS: Record<string, (props: MotifProps) => React.ReactElement> = {
   Performance: PerformanceMotif,
   "Feature Request": FeatureRequestMotif,
   Security: SecurityMotif,
+  SEO: SeoMotif,
 };
 
 /**
