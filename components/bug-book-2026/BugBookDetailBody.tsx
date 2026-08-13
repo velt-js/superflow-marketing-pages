@@ -57,7 +57,7 @@ function AttachmentChip({
       ? "🎥 screen recording attached"
       : "📎 screenshot attached";
   return (
-    <span className={styles.attachmentChip} title="Redacted — media not shown">
+    <span className={styles.attachmentChip} title="Redacted - media not shown">
       {label}
     </span>
   );

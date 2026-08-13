@@ -88,7 +88,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Border-radius has broken stronger people. Website reviews get emotional — better they happen in a comment thread on the staging site than in your client's inbox.",
+      "whyItMatters": "Border-radius has broken stronger people. Website reviews get emotional - better they happen in a comment thread on the staging site than in your client's inbox.",
       "outcome": "Resolved. The icon, presumably, got rounder.",
       "flags": [
         "profanity-censored"
@@ -124,7 +124,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Every agency knows this client. The extra S's are load-bearing. When feedback lives in email, this energy goes to your inbox — pinned to the page, at least you know exactly which part of the process they hate.",
+      "whyItMatters": "Every agency knows this client. The extra S's are load-bearing. When feedback lives in email, this energy goes to your inbox - pinned to the page, at least you know exactly which part of the process they hate.",
       "outcome": "Resolved. The process survived.",
       "flags": []
     },
@@ -158,7 +158,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Caps lock is how clients cry for help. \"CAN I JUST HAVE ACCESS TO CHANGE IT MYSELF?\" is the scariest sentence in web design — and the reason review tools exist.",
+      "whyItMatters": "Caps lock is how clients cry for help. \"CAN I JUST HAVE ACCESS TO CHANGE IT MYSELF?\" is the scariest sentence in web design - and the reason review tools exist.",
       "outcome": "Resolved. Nobody gave them access.",
       "flags": []
     },
@@ -256,7 +256,7 @@
         "device": "Desktop"
       },
       "headline": "A client declared war on em-dashes, in all caps, in 2025",
-      "hook": "\"NO EM-DASHES!!!\" — the most 2025 content feedback possible",
+      "hook": "\"NO EM-DASHES!!!\" - the most 2025 content feedback possible",
       "thread": [
         {
           "speaker": "Client",
@@ -265,8 +265,8 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Nothing says \"this copy was written by AI\" like an em-dash in 2025 — and clients know it now. Punctuation has become a brand-safety issue.",
-      "outcome": "Resolved — without a single em-dash. Except that one.",
+      "whyItMatters": "Nothing says \"this copy was written by AI\" like an em-dash in 2025 - and clients know it now. Punctuation has become a brand-safety issue.",
+      "outcome": "Resolved - without a single em-dash. Except that one.",
       "flags": []
     },
     {
@@ -338,7 +338,7 @@
         "os": "Windows",
         "device": "Desktop"
       },
-      "headline": "A med-spa's hover text offered \"OTHER MEDUSA SERVICES\" — snakes presumably extra",
+      "headline": "A med-spa's hover text offered \"OTHER MEDUSA SERVICES\" - snakes presumably extra",
       "hook": "MEDSPA → MEDUSA. One hover state away from Greek mythology.",
       "thread": [
         {
@@ -348,7 +348,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Hover states are where typos go to hide — invisible in every screenshot, unmissable for every user who actually touches the page. Bonus: the correction itself typos \"Mespa\". Spelling is hard.",
+      "whyItMatters": "Hover states are where typos go to hide - invisible in every screenshot, unmissable for every user who actually touches the page. Bonus: the correction itself typos \"Mespa\". Spelling is hard.",
       "outcome": "Resolved. No patients were turned to stone.",
       "flags": []
     },
@@ -408,8 +408,8 @@
         "os": "macOS",
         "device": "Desktop"
       },
-      "headline": "A medical practice misspelled HIPAA on its own compliance notice — and in the PDF",
-      "hook": "\"HIPPA Notice\" — the compliance document, misspelling compliance",
+      "headline": "A medical practice misspelled HIPAA on its own compliance notice - and in the PDF",
+      "hook": "\"HIPPA Notice\" - the compliance document, misspelling compliance",
       "thread": [
         {
           "speaker": "Agency reviewer",
@@ -423,7 +423,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "The typo lived in the footer, the filename, AND the PDF itself — uploaded in 2021, caught in 2026. If patients can't trust you to spell HIPAA, the vibes on the rest of the compliance are not great.",
+      "whyItMatters": "The typo lived in the footer, the filename, AND the PDF itself - uploaded in 2021, caught in 2026. If patients can't trust you to spell HIPAA, the vibes on the rest of the compliance are not great.",
       "outcome": "Resolved after five years in production.",
       "flags": []
     },
@@ -448,7 +448,7 @@
         "device": "Desktop"
       },
       "headline": "A dumpster rental company spelled \"dumpsters\" wrong in its own headline",
-      "hook": "\"DUMPTERS\" IS SPELLED WRONG. — all caps, zero patience",
+      "hook": "\"DUMPTERS\" IS SPELLED WRONG. - all caps, zero patience",
       "thread": [
         {
           "speaker": "Franchise reviewer",
@@ -481,8 +481,8 @@
         "os": "Windows",
         "device": "Desktop"
       },
-      "headline": "The primary CTA — the one button the whole site exists for — said \"COUNSULTATION\"",
-      "hook": "\"BOOK A FREE COUNSULTATION\" — the conversion button, converting typos",
+      "headline": "The primary CTA - the one button the whole site exists for - said \"COUNSULTATION\"",
+      "hook": "\"BOOK A FREE COUNSULTATION\" - the conversion button, converting typos",
       "thread": [
         {
           "speaker": "QA reviewer",
@@ -491,7 +491,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "The hero CTA is the single most-read string on the page. A typo there doesn't just look sloppy — it quietly taxes trust on the exact button where trust converts to revenue.",
+      "whyItMatters": "The hero CTA is the single most-read string on the page. A typo there doesn't just look sloppy - it quietly taxes trust on the exact button where trust converts to revenue.",
       "outcome": "Resolved before launch. Counsult averted.",
       "flags": []
     },
@@ -516,7 +516,7 @@
         "device": "Desktop"
       },
       "headline": "An AI migration agent was told not to touch the text. It rewrote the docs anyway.",
-      "hook": "\"It has instructions NOT to edit the text — it did this on its own.\"",
+      "hook": "\"It has instructions NOT to edit the text - it did this on its own.\"",
       "thread": [
         {
           "speaker": "Docs reviewer",
@@ -540,7 +540,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "2025 in one thread: an AI agent went rogue on enterprise documentation, and the fix was writing it a sternly worded prompt. Human review is how they caught it — the diff never showed up in any test suite.",
+      "whyItMatters": "2025 in one thread: an AI agent went rogue on enterprise documentation, and the fix was writing it a sternly worded prompt. Human review is how they caught it - the diff never showed up in any test suite.",
       "outcome": "Resolved. The agent has been spoken to.",
       "flags": []
     },
@@ -564,7 +564,7 @@
         "os": "Windows",
         "device": "Desktop"
       },
-      "headline": "\"Poof! Disappeared! Like a magic trick\" — a typo that deleted every user's progress",
+      "headline": "\"Poof! Disappeared! Like a magic trick\" - a typo that deleted every user's progress",
       "hook": "One misread variable nuked ALL course data. The tester found out first.",
       "thread": [
         {
@@ -733,7 +733,7 @@
         "os": "macOS",
         "device": "Desktop"
       },
-      "headline": "\"I don't see this error on safari or chrmoe\" — the denial had a typo in it",
+      "headline": "\"I don't see this error on safari or chrmoe\" - the denial had a typo in it",
       "hook": "Bug denied in a browser called \"chrmoe.\" Reviewer replies with a screen recording.",
       "thread": [
         {
@@ -753,7 +753,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "\"Works on my machine\" hits different when you misspell the machine. The reviewer didn't argue — they attached a screen recording, which is the only argument that has ever won this fight.",
+      "whyItMatters": "\"Works on my machine\" hits different when you misspell the machine. The reviewer didn't argue - they attached a screen recording, which is the only argument that has ever won this fight.",
       "outcome": "Open. The recording speaks for itself.",
       "flags": []
     },
@@ -802,7 +802,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "The bug was a broken map. The real find was a live credential pasted into a comment thread — the kind of thing that ends up scraped, quota-drained, and billed to your card. Rotate keys, friends.",
+      "whyItMatters": "The bug was a broken map. The real find was a live credential pasted into a comment thread - the kind of thing that ends up scraped, quota-drained, and billed to your card. Rotate keys, friends.",
       "outcome": "Resolved. The key has been redacted here so it stays that way.",
       "flags": [
         "key-redacted",
@@ -829,7 +829,7 @@
         "os": "macOS",
         "device": "Desktop"
       },
-      "headline": "\"OMG NOOOOO THIS IS LIVE\" — a panic attack on our own security page",
+      "headline": "\"OMG NOOOOO THIS IS LIVE\" - a panic attack on our own security page",
       "hook": "Us, reviewing our own site: \"This is bad. We cannot afford this.\"",
       "thread": [
         {
@@ -924,7 +924,7 @@
         "device": "Desktop"
       },
       "headline": "The website said $100,000. The actual number was $750,000.",
-      "hook": "\"cHANGE $100,000 TO $750,000\" — a $650K correction with a stuck shift key",
+      "hook": "\"cHANGE $100,000 TO $750,000\" - a $650K correction with a stuck shift key",
       "thread": [
         {
           "speaker": "Client",
@@ -1051,7 +1051,7 @@
         "device": "Desktop"
       },
       "headline": "The mobile menu was white text on a white background. Minimalism, perfected.",
-      "hook": "\"The menu has a white background and white lettering\" — invisible navigation",
+      "hook": "\"The menu has a white background and white lettering\" - invisible navigation",
       "thread": [
         {
           "speaker": "Studio owner",
@@ -1070,7 +1070,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Every menu item was there. Every menu item was invisible. Mobile users were navigating by faith alone — and the site owner had no way to see what they couldn't see.",
+      "whyItMatters": "Every menu item was there. Every menu item was invisible. Mobile users were navigating by faith alone - and the site owner had no way to see what they couldn't see.",
       "outcome": "Resolved. The menu has been granted visibility.",
       "flags": []
     },
@@ -1091,7 +1091,7 @@
         "industry": "Superflow / Velt"
       },
       "captured": null,
-      "headline": "Our spell-check agent found \"Superflow\" misspelled as \"Duperflow\" — on our own site",
+      "headline": "Our spell-check agent found \"Superflow\" misspelled as \"Duperflow\" - on our own site",
       "hook": "The product name. Wrong. On our homepage. Caught by our own agent, 99% confidence.",
       "thread": [
         {
@@ -1146,7 +1146,7 @@
         "issueType": "template-string",
         "confidence": 100
       },
-      "whyItMatters": "Template placeholders are invisible to the people who've stared at the site for weeks — and glaring to every first-time visitor. \"Dr. First Last Name\" would have been the most honest bio on the internet, but not a great look for a real practice.",
+      "whyItMatters": "Template placeholders are invisible to the people who've stared at the site for weeks - and glaring to every first-time visitor. \"Dr. First Last Name\" would have been the most honest bio on the internet, but not a great look for a real practice.",
       "outcome": "Resolved before a single patient booked with Dr. Name.",
       "flags": []
     },
@@ -1178,7 +1178,7 @@
       ],
       "finding": {
         "title": "Wrong business name in title",
-        "description": "The page <title> named an entirely different dental practice in a different city — a leftover from the template the page was cloned from.",
+        "description": "The page <title> named an entirely different dental practice in a different city - a leftover from the template the page was cloned from.",
         "suggestion": "Update the title and metadata to match the correct practice and location.",
         "issueType": "template-string",
         "confidence": 100
@@ -1206,7 +1206,7 @@
         "industry": "Superflow / Velt"
       },
       "captured": null,
-      "headline": "A button linking to no-workinglmao.lol — and yes, the agent flagged the URL by name",
+      "headline": "A button linking to no-workinglmao.lol - and yes, the agent flagged the URL by name",
       "hook": "Href: https://no-workinglmao.lol. The link knew what it was.",
       "thread": [
         {
@@ -1222,7 +1222,7 @@
         "issueType": "broken-link",
         "confidence": 98
       },
-      "whyItMatters": "Developers name test links assuming nobody will ever see them. Then the links ship. The agent doesn't get bored clicking every button — that's the point.",
+      "whyItMatters": "Developers name test links assuming nobody will ever see them. Then the links ship. The agent doesn't get bored clicking every button - that's the point.",
       "outcome": "Resolved. no-workinglmao.lol remains, tragically, unregistered.",
       "flags": [
         "demo-data"
@@ -1295,12 +1295,12 @@
       ],
       "finding": {
         "title": "Template string 'Add New Button' found",
-        "description": "The button label 'Add New Button' is a placeholder from the CMS or site builder that was never customized — live on a real clinic's site.",
+        "description": "The button label 'Add New Button' is a placeholder from the CMS or site builder that was never customized - live on a real clinic's site.",
         "suggestion": "Replace with a relevant call-to-action such as 'Learn More'.",
         "issueType": "template-string",
         "confidence": 100
       },
-      "whyItMatters": "\"Add New Button\" is the CMS speaking directly to your patients. It shipped, it indexed, and it sat there — because everyone who could fix it had stopped seeing it.",
+      "whyItMatters": "\"Add New Button\" is the CMS speaking directly to your patients. It shipped, it indexed, and it sat there - because everyone who could fix it had stopped seeing it.",
       "outcome": "Resolved. The button finally got a name.",
       "flags": []
     },
@@ -1358,7 +1358,7 @@
         "industry": "Dental"
       },
       "captured": null,
-      "headline": "The Book Now button — the one button the business runs on — linked to \"#\"",
+      "headline": "The Book Now button - the one button the business runs on - linked to \"#\"",
       "hook": "Header CTA: dead. Footer CTA: also dead. Main conversion path: a hash symbol.",
       "thread": [
         {
@@ -1369,7 +1369,7 @@
       ],
       "finding": {
         "title": "Book Now button links nowhere",
-        "description": "The Book Now CTA in both header and footer points to \"#\" instead of the booking URL — the page's main conversion action was dead.",
+        "description": "The Book Now CTA in both header and footer points to \"#\" instead of the booking URL - the page's main conversion action was dead.",
         "suggestion": "Wire up the correct booking/scheduling URL for all Book Now buttons.",
         "issueType": "broken-link",
         "confidence": 90
@@ -1406,7 +1406,7 @@
       ],
       "finding": {
         "title": "Mismatched privacy policy link",
-        "description": "The privacy policy link pointed at a different dental practice's website — inherited from the template the page was built from.",
+        "description": "The privacy policy link pointed at a different dental practice's website - inherited from the template the page was built from.",
         "suggestion": "Update the link to point to this practice's own privacy policy.",
         "issueType": "boilerplate",
         "confidence": 100
@@ -1434,8 +1434,8 @@
         "industry": "Dental"
       },
       "captured": null,
-      "headline": "The doctor's bio read: Dr. David \"Dr. Daviee\" Do — a nickname inside a name",
-      "hook": "Is it a placeholder? A real nickname? The agent wasn't sure either — 60% confidence, flagged anyway.",
+      "headline": "The doctor's bio read: Dr. David \"Dr. Daviee\" Do - a nickname inside a name",
+      "hook": "Is it a placeholder? A real nickname? The agent wasn't sure either - 60% confidence, flagged anyway.",
       "thread": [
         {
           "speaker": "Superflow Agent (Agency Reviewer)",
@@ -1445,12 +1445,12 @@
       ],
       "finding": {
         "title": "Odd nickname formatting in doctor's name",
-        "description": "\"Dr. David 'Dr. Daviee' Do\" reads like an unfinished placeholder — possibly real, possibly a template artifact.",
+        "description": "\"Dr. David 'Dr. Daviee' Do\" reads like an unfinished placeholder - possibly real, possibly a template artifact.",
         "suggestion": "Confirm the correct name/nickname formatting with the client.",
         "issueType": "data-integrity",
         "confidence": 60
       },
-      "whyItMatters": "The best reviews flag the weird stuff with humility. Maybe the doctor really does go by \"Dr. Daviee.\" Maybe someone pasted a name field into a name field. Either way: worth one human glance before launch — which is exactly what the agent asked for.",
+      "whyItMatters": "The best reviews flag the weird stuff with humility. Maybe the doctor really does go by \"Dr. Daviee.\" Maybe someone pasted a name field into a name field. Either way: worth one human glance before launch - which is exactly what the agent asked for.",
       "outcome": "Open, pending a verdict from Dr. Daviee himself.",
       "flags": [
         "name-partially-real"
@@ -1507,7 +1507,7 @@
         "industry": "Superflow / Velt"
       },
       "captured": null,
-      "headline": "The Twitter link went to twitter.com/asdasdasdasd — \"a nap on the keyboard\"",
+      "headline": "The Twitter link went to twitter.com/asdasdasdasd - \"a nap on the keyboard\"",
       "hook": "The agent's verdict: \"a placeholder handle nobody would follow\"",
       "thread": [
         {
@@ -1523,7 +1523,7 @@
         "issueType": "broken-link",
         "confidence": 85
       },
-      "whyItMatters": "Agents can have personality — this one was configured to roast, and it delivered. Underneath the joke: social links are the least-clicked, least-tested links on any site, which is exactly why they rot.",
+      "whyItMatters": "Agents can have personality - this one was configured to roast, and it delivered. Underneath the joke: social links are the least-clicked, least-tested links on any site, which is exactly why they rot.",
       "outcome": "Resolved. @asdasdasdasd never got its followers.",
       "flags": [
         "demo-data",
@@ -1547,7 +1547,7 @@
         "industry": "Superflow / Velt"
       },
       "captured": null,
-      "headline": "A button labeled \"Wrong color\" — flagged for being, in fact, the wrong color",
+      "headline": "A button labeled \"Wrong color\" - flagged for being, in fact, the wrong color",
       "hook": "\"A button that confesses its own crime in broad daylight\"",
       "thread": [
         {
@@ -1563,7 +1563,7 @@
         "issueType": "branding",
         "confidence": 90
       },
-      "whyItMatters": "Planted bug, sure — but the agent's write-up is the demo: it saw the label, saw the color, and connected the joke. Detection with reading comprehension.",
+      "whyItMatters": "Planted bug, sure - but the agent's write-up is the demo: it saw the label, saw the color, and connected the joke. Detection with reading comprehension.",
       "outcome": "Resolved. The button has been rehabilitated.",
       "flags": [
         "demo-data",
@@ -1601,7 +1601,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "A reviewer proofread the placeholder text. Honestly? That's the energy you want on your team — nothing gets past someone who spell-checks Latin.",
+      "whyItMatters": "A reviewer proofread the placeholder text. Honestly? That's the energy you want on your team - nothing gets past someone who spell-checks Latin.",
       "outcome": "Resolved by replacing the Latin with, you know, words.",
       "flags": []
     },
@@ -1625,7 +1625,7 @@
         "os": "Windows",
         "device": "Desktop"
       },
-      "headline": "\"YIKES — my content is on MULTIPLE OTHER SITES\" — including four competitors",
+      "headline": "\"YIKES - my content is on MULTIPLE OTHER SITES\" - including four competitors",
       "hook": "A dentist found his service pages, word for word, on four rival practices' sites",
       "thread": [
         {
@@ -1635,7 +1635,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Agency template reuse at its most awkward: same copy, four competing dentists, one very valid YIKES. Also an SEO murder-suicide — Google penalizes all of them.",
+      "whyItMatters": "Agency template reuse at its most awkward: same copy, four competing dentists, one very valid YIKES. Also an SEO murder-suicide - Google penalizes all of them.",
       "outcome": "Resolved with a rewrite. The other four dentists remain unaware.",
       "flags": [
         "brand-anonymized"
@@ -1681,7 +1681,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "\"Works with a VPN\" is a niche new genre of works-on-my-machine. The second reviewer's flat follow-up — still 404 — is QA poetry.",
+      "whyItMatters": "\"Works with a VPN\" is a niche new genre of works-on-my-machine. The second reviewer's flat follow-up - still 404 - is QA poetry.",
       "outcome": "Resolved, no passport required.",
       "flags": []
     },
@@ -1706,7 +1706,7 @@
         "device": "Desktop"
       },
       "headline": "A French line-wrap debate resolved by a teammate calling himself an idiot",
-      "hook": "\"Sébastien c'est un imbécile :D\" — written by Sébastien",
+      "hook": "\"Sébastien c'est un imbécile :D\" - written by Sébastien",
       "thread": [
         {
           "speaker": "Reviewer",
@@ -1762,7 +1762,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Compliment, objection, and three question marks in one breath — the entire psychology of SaaS pricing in eleven words.",
+      "whyItMatters": "Compliment, objection, and three question marks in one breath - the entire psychology of SaaS pricing in eleven words.",
       "outcome": "Open. The eternal question remains eternal.",
       "flags": []
     },
@@ -1833,7 +1833,7 @@
       },
       "captured": null,
       "headline": "The homepage testimonial video was for a completely different dental practice",
-      "hook": "The video player's own title gave it away — wrong practice, wrong state",
+      "hook": "The video player's own title gave it away - wrong practice, wrong state",
       "thread": [
         {
           "speaker": "Superflow Agent (Agency Reviewer)",
@@ -1843,7 +1843,7 @@
       ],
       "finding": {
         "title": "Wrong testimonial video showing unrelated practice",
-        "description": "The embedded testimonial video's own title referenced a different practice in a different state — leftover demo content.",
+        "description": "The embedded testimonial video's own title referenced a different practice in a different state - leftover demo content.",
         "suggestion": "Replace with the practice's real testimonial video.",
         "issueType": "placeholder-content",
         "confidence": 92
@@ -1875,7 +1875,7 @@
         "device": "Desktop"
       },
       "headline": "AI-written SEO copy shipped with its own instructions still inside",
-      "hook": "Live page copy included \"<!-- H1 — Primary keyword + location. Use once, at the top. -->\"",
+      "hook": "Live page copy included \"<!-- H1 - Primary keyword + location. Use once, at the top. -->\"",
       "thread": [
         {
           "speaker": "Content reviewer",
@@ -1889,7 +1889,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "AI-generated content arrives wearing its own scaffolding — HTML comments, photo suggestions, editor's notes. Paste it straight into a CMS and patients get to read the recipe along with the cake.",
+      "whyItMatters": "AI-generated content arrives wearing its own scaffolding - HTML comments, photo suggestions, editor's notes. Paste it straight into a CMS and patients get to read the recipe along with the cake.",
       "outcome": "Resolved. The instructions returned to being invisible.",
       "flags": []
     },
@@ -1928,7 +1928,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Two identical transparent paths, stacked, quietly doubling their opacity — invisible in the design tool, obvious on hover. The best bug explanations read like tiny detective stories.",
+      "whyItMatters": "Two identical transparent paths, stacked, quietly doubling their opacity - invisible in the design tool, obvious on hover. The best bug explanations read like tiny detective stories.",
       "outcome": "Resolved. The extra C was released back into the wild.",
       "flags": []
     },
@@ -2016,7 +2016,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "Responsive design means your speech bubble's tail lands somewhere different at every breakpoint — and on mobile, it found the worst possible landing zone. For a children's book, a genuinely urgent fix.",
+      "whyItMatters": "Responsive design means your speech bubble's tail lands somewhere different at every breakpoint - and on mobile, it found the worst possible landing zone. For a children's book, a genuinely urgent fix.",
       "outcome": "Resolved. The squirrel's dignity was restored.",
       "flags": []
     },
@@ -2040,7 +2040,7 @@
         "os": "iOS",
         "device": "Mobile"
       },
-      "headline": "\"MAJOR GLITCH ON MOBILE: text on input fields auto-deletes\" — with video proof",
+      "headline": "\"MAJOR GLITCH ON MOBILE: text on input fields auto-deletes\" - with video proof",
       "hook": "You type. The form erases you. You type again. It erases you again.",
       "thread": [
         {
@@ -2074,7 +2074,7 @@
         "os": "macOS",
         "device": "Desktop"
       },
-      "headline": "The broken \"create account\" link was fixed — by removing the link entirely",
+      "headline": "The broken \"create account\" link was fixed - by removing the link entirely",
       "hook": "Bug: link goes nowhere. Fix: now there's no link. Task failed successfully.",
       "thread": [
         {
@@ -2162,8 +2162,8 @@
         "os": "macOS",
         "device": "Desktop"
       },
-      "headline": "Our own page said \"swtich\" instead of \"switch\" — caught in our own review",
-      "hook": "\"Quickly swtich between versions\" — quickly, but not correctly",
+      "headline": "Our own page said \"swtich\" instead of \"switch\" - caught in our own review",
+      "hook": "\"Quickly swtich between versions\" - quickly, but not correctly",
       "thread": [
         {
           "speaker": "Team member",
@@ -2177,7 +2177,7 @@
         }
       ],
       "finding": null,
-      "whyItMatters": "We sell review tooling and still fat-fingered \"switch\" on our own page. The difference is it got caught in review — which is, awkwardly, exactly the pitch.",
+      "whyItMatters": "We sell review tooling and still fat-fingered \"switch\" on our own page. The difference is it got caught in review - which is, awkwardly, exactly the pitch.",
       "outcome": "Resolved. \"Swtich\" has been swtiched.",
       "flags": [
         "own-site"
@@ -2257,13 +2257,13 @@
       ],
       "finding": {
         "title": "Customer Data Used to Train AI Models",
-        "description": "The contract grants the provider rights to train AI/ML models on all customer data 'for any purpose' — far beyond service delivery.",
+        "description": "The contract grants the provider rights to train AI/ML models on all customer data 'for any purpose' - far beyond service delivery.",
         "suggestion": "Limit data use strictly to providing the service; explicitly prohibit AI/ML training on customer data.",
         "issueType": "customer-data-ml-training",
         "confidence": 99
       },
-      "whyItMatters": "The same review muscle that catches broken buttons catches contract landmines. \"For any purpose\" is four words that cost companies their data moats — flagged in seconds, with replacement language drafted.",
-      "outcome": "Open — it's a demo document, but the clause is drawn from real contracts in the wild.",
+      "whyItMatters": "The same review muscle that catches broken buttons catches contract landmines. \"For any purpose\" is four words that cost companies their data moats - flagged in seconds, with replacement language drafted.",
+      "outcome": "Open - it's a demo document, but the clause is drawn from real contracts in the wild.",
       "flags": [
         "demo-data"
       ]

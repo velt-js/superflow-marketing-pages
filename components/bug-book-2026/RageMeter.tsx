@@ -42,7 +42,7 @@ export default function RageMeter({
   const band = rageBand(level);
   const total = compact ? 5 : 10;
   const lit = compact ? Math.round((level / 10) * 5) : level;
-  const label = `Rage level ${level}/10 — ${band}`;
+  const label = `Rage level ${level}/10 - ${band}`;
 
   return (
     <span
