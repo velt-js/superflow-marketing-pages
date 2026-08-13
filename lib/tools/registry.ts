@@ -163,7 +163,7 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Tech Stack Detector",
     tagline: "Find the platform, theme, apps, and analytics behind any site",
     category: "quality",
-    status: "planned",
+    status: "live",
     icon: "stack",
     related: ["ai-visibility-checker", "website-launch-checklist"],
   },
