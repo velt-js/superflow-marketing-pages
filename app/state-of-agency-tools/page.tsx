@@ -53,7 +53,7 @@ const WHAT_WE_ASK = [
 
 const REPORT_PEEK = [
   { Motif: QuadrantMotif, label: "Would-choose-again quadrants" },
-  { Motif: BarsMotif, label: "Revision-rounds benchmark" },
+  { Motif: BarsMotif, label: "Ops, finance and payroll stacks" },
   { Motif: UsePayMotif, label: "The AI use-vs-pay gap" },
   { Motif: RankingMotif, label: "The most resented tool" },
 ];

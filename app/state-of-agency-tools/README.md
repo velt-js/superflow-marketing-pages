@@ -145,3 +145,11 @@ Chart conventions (see `components/agency-survey-2026/charts/`): series
 palette `#2f8fe8 / #d95590 / #cc7a22`, validated with the dataviz
 six-checks against both light and dark surfaces; bars are direct-labeled;
 quadrants ship a table view. Keep new charts on those rails.
+
+Editorial rule for the report: **review and QA is one section among
+several, never the spine.** The page runs stack -> ops and money -> new
+business -> client management -> review and QA -> AI -> most resented
+tool, and the four headline tiles deliberately pull from four different
+parts of the business. A report that bends every section back to review
+reads as a Superflow pitch and stops being the industry benchmark
+agencies want to share.
