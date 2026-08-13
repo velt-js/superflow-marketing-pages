@@ -1,4 +1,6 @@
-/* Staged wireframe-site-with-pinned-comment visual for detail pages. */
+/* Staged wireframe-site-with-pinned-comment visual for detail pages.
+   The wireframe inside .site varies per category (checkout flow, pricing
+   tiers, phone frame, ...) built from the shared primitives below. */
 
 .figure {
     margin: 0;
@@ -46,16 +48,19 @@
     color: #a3a8b3;
 }
 
-/* ------------------------------------------------------ Wireframe site */
+/* ------------------------------------------------- Wireframe container */
 
 .site {
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 24px;
+    min-height: 340px;
     padding: 26px 32px 120px;
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.55) 100%);
 }
+
+/* ------------------------------------------------- Shared primitives */
 
 .siteHeader {
     display: flex;
@@ -93,58 +98,435 @@
     opacity: 0.85;
 }
 
-.siteHero {
+.heroLines {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-top: 6px;
 }
 
-.siteHeadline {
+.heroLinesCenter {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+
+.lineWide {
     width: 56%;
-    height: 18px;
+    height: 16px;
     border-radius: 6px;
     background: rgba(22, 23, 26, 0.16);
 }
 
-.siteHeadlineShort {
+.lineMid {
     width: 38%;
-    height: 18px;
-    border-radius: 6px;
-    background: rgba(22, 23, 26, 0.16);
+    height: 12px;
+    border-radius: 5px;
+    background: rgba(22, 23, 26, 0.12);
 }
 
-.siteSub {
+.lineNarrow {
     width: 46%;
     height: 9px;
     border-radius: 5px;
     background: rgba(22, 23, 26, 0.09);
-    margin-top: 4px;
 }
 
-.siteCards {
+.cardRow {
     display: flex;
+    align-items: flex-start;
     gap: 14px;
 }
 
-.siteCard {
+.wfCard {
     flex: 1;
-    height: 64px;
+    height: 74px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.85);
     border: 1px solid rgba(22, 23, 26, 0.07);
+}
+
+/* The one card that escaped its grid - the UI/UX bug personified. */
+.wfCardOff {
+    transform: translateY(12px) rotate(-2.5deg);
+    box-shadow: 0 8px 18px rgba(20, 20, 43, 0.08);
+}
+
+/* ------------------------------------------------------- Copy scene */
+
+.textButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 40px;
+    border-radius: 9999px;
+    opacity: 0.9;
+}
+
+.textButtonLine {
+    width: 150px;
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------------------------------------------------- Content scene */
+
+.mediaRow {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.imagePlaceholder {
+    flex-shrink: 0;
+    width: 42%;
+    max-width: 240px;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    background: rgba(22, 23, 26, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(22, 23, 26, 0.18);
+}
+
+.imageGlyph {
+    width: 44%;
+}
+
+/* ------------------------------------------------------ Links scene */
+
+.linkList {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 4px;
+}
+
+.linkRow {
+    width: 42%;
+    height: 10px;
+    border-radius: 5px;
+    background: rgba(22, 23, 26, 0.11);
+    box-shadow: 0 3px 0 -1px rgba(22, 23, 26, 0.08);
+}
+
+.linkRowBroken {
+    width: 34%;
+    height: auto;
+    background: none;
+    box-shadow: none;
+    border: 1px dashed rgba(22, 23, 26, 0.25);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: rgba(22, 23, 26, 0.4);
+}
+
+/* ----------------------------------------------------- Mobile scene */
+
+.phoneWrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+
+.phone {
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 16px 14px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 4px solid rgba(22, 23, 26, 0.55);
+}
+
+.phone .lineWide {
+    width: 100%;
+    height: 12px;
+}
+
+.phone .lineMid {
+    width: 72%;
+}
+
+.phone .lineNarrow {
+    width: 84%;
+}
+
+.phoneLogo {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    opacity: 0.85;
+}
+
+.phoneBlock {
+    width: 100%;
+    height: 52px;
+    border-radius: 10px;
+    background: rgba(22, 23, 26, 0.07);
+}
+
+.phoneHomeBar {
+    align-self: center;
+    width: 56px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(22, 23, 26, 0.25);
+    margin-top: 4px;
+}
+
+/* ------------------------------------------ Form / checkout primitives */
+
+.formCard {
+    position: relative;
+    width: min(340px, 72%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(22, 23, 26, 0.08);
+}
+
+.fieldLabel {
+    width: 34%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(22, 23, 26, 0.12);
+}
+
+.field {
+    width: 100%;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(22, 23, 26, 0.05);
+    border: 1px solid rgba(22, 23, 26, 0.1);
+}
+
+.formButton {
+    width: 46%;
+    height: 30px;
+    border-radius: 9999px;
+    opacity: 0.9;
+    margin-top: 6px;
+}
+
+.cursorGlyph {
+    position: absolute;
+    width: 18px;
+    right: 34%;
+    bottom: 10px;
+}
+
+.steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 6px 0 0 4px;
+}
+
+.stepDone,
+.stepIdle {
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+}
+
+.stepIdle {
+    background: rgba(22, 23, 26, 0.12);
+}
+
+.stepBar,
+.stepBarIdle {
+    width: 64px;
+    height: 4px;
+}
+
+.stepBar {
+    opacity: 0.55;
+}
+
+.stepBarIdle {
+    background: rgba(22, 23, 26, 0.12);
+}
+
+.summaryRow {
+    width: 100%;
+    height: 9px;
+    border-radius: 4px;
+    background: rgba(22, 23, 26, 0.09);
+}
+
+.summaryRowShort {
+    width: 64%;
+    height: 9px;
+    border-radius: 4px;
+    background: rgba(22, 23, 26, 0.09);
+}
+
+.summaryTotal {
+    width: 42%;
+    height: 12px;
+    border-radius: 5px;
+    background: rgba(22, 23, 26, 0.18);
+    margin-top: 4px;
+}
+
+/* ---------------------------------------------------- Pricing scene */
+
+.tierCard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(22, 23, 26, 0.08);
+}
+
+.tierCardHot {
+    transform: translateY(-6px);
+    border-width: 2px;
+    box-shadow: 0 10px 22px rgba(20, 20, 43, 0.08);
+}
+
+.tierPrice {
+    width: 52%;
+    height: 16px;
+    border-radius: 6px;
+    background: rgba(22, 23, 26, 0.18);
+}
+
+.tierLine {
+    width: 86%;
+    height: 7px;
+    border-radius: 4px;
+    background: rgba(22, 23, 26, 0.09);
+}
+
+/* ------------------------------------------------ Performance scene */
+
+.loadingWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 6px;
+}
+
+.progressTrack {
+    width: 64%;
+    height: 12px;
+    border-radius: 9999px;
+    background: rgba(22, 23, 26, 0.08);
+    overflow: hidden;
+}
+
+.progressFill {
+    display: block;
+    width: 34%;
+    height: 100%;
+    border-radius: 9999px;
+}
+
+.spinner {
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    border: 3px solid rgba(22, 23, 26, 0.1);
+}
+
+/* -------------------------------------------- Feature Request scene */
+
+.toggleRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.toggleOn,
+.toggleOff {
+    width: 34px;
+    height: 18px;
+    border-radius: 9999px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.toggleOff {
+    background: rgba(22, 23, 26, 0.14);
+}
+
+.toggleOn::after,
+.toggleOff::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: #ffffff;
+}
+
+.toggleOn::after {
+    right: 2px;
+}
+
+.toggleOff::after {
+    left: 2px;
+}
+
+/* ---------------------------------------------------- Security scene */
+
+.codeCard {
+    width: min(360px, 76%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: rgba(22, 23, 26, 0.85);
+}
+
+.codeLine {
+    width: 78%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.codeLineShort {
+    width: 46%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.codeKeyRow {
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.4px;
+    filter: brightness(1.6);
 }
 
 /* -------------------------------------------------------- Pin + popover */
 
 .commentAnchor {
     position: absolute;
-    left: 52%;
-    top: 96px;
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    max-width: min(420px, 44%);
+    max-width: min(420px, 46%);
 }
 
 .pin {
@@ -255,11 +637,18 @@
 
 @media (max-width: 720px) {
     .site {
+        min-height: 0;
         padding: 22px 20px 40px;
+        gap: 18px;
     }
 
-    .siteCards {
-        display: none;
+    .cardRow {
+        flex-wrap: wrap;
+    }
+
+    .wfCard,
+    .tierCard {
+        flex-basis: 45%;
     }
 
     /* Popover flows under the wireframe instead of overlapping it. */
