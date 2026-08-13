@@ -9,6 +9,8 @@
 //   --publish          Create as PUBLISHED (default is DRAFT for review).
 //   --workspace <id>   Create in a specific Tally workspace.
 //   --no-logic         Omit the conditional-logic blocks (add gates by hand).
+//   --update <formId>  PATCH an existing form in place (keeps the form ID)
+//                      instead of creating a new one. Replaces its content.
 //
 // The API key comes from https://tally.so/settings/api-keys (Pro).
 // After a non-dry run the script prints the form ID; review the form and its
@@ -30,6 +32,8 @@ const PUBLISH = args.includes("--publish");
 const NO_LOGIC = args.includes("--no-logic");
 const workspaceIdx = args.indexOf("--workspace");
 const WORKSPACE_ID = workspaceIdx >= 0 ? args[workspaceIdx + 1] : undefined;
+const updateIdx = args.indexOf("--update");
+const UPDATE_FORM_ID = updateIdx >= 0 ? args[updateIdx + 1] : undefined;
 
 // ---------------------------------------------------------------------------
 // Survey definition
@@ -484,9 +488,13 @@ const groupUuids = {};
 /** Page-break UUID that STARTS the page of each question id (jump targets). */
 const pageBreakUuids = {};
 
+// Single-select -> MULTIPLE_CHOICE (tappable radio list, auto-jumps).
+// Multi-select -> CHECKBOXES (tappable checkbox list). Tally's MULTI_SELECT
+// block renders as a dropdown, which is the wrong feel for an all-taps
+// survey, so it is deliberately not used here.
 function choiceBlocks(q) {
-  const blockType = q.kind === "single" ? "MULTIPLE_CHOICE_OPTION" : "MULTI_SELECT_OPTION";
-  const groupType = q.kind === "single" ? "MULTIPLE_CHOICE" : "MULTI_SELECT";
+  const blockType = q.kind === "single" ? "MULTIPLE_CHOICE_OPTION" : "CHECKBOX";
+  const groupType = q.kind === "single" ? "MULTIPLE_CHOICE" : "CHECKBOXES";
   const groupUuid = uuid();
   groupUuids[q.id] = groupUuid;
   optionUuids[q.id] = {};
@@ -635,7 +643,7 @@ function servicesField() {
   return {
     uuid: groupUuids.q3,
     type: "INPUT_FIELD",
-    questionType: "MULTI_SELECT_OPTION",
+    questionType: "CHECKBOX",
     blockGroupUuid: groupUuids.q3,
     title: "Which services do you offer?",
   };
@@ -757,7 +765,7 @@ if (!NO_LOGIC) {
 
 const payload = {
   status: PUBLISH ? "PUBLISHED" : "DRAFT",
-  ...(WORKSPACE_ID ? { workspaceId: WORKSPACE_ID } : {}),
+  ...(WORKSPACE_ID && !UPDATE_FORM_ID ? { workspaceId: WORKSPACE_ID } : {}),
   blocks,
   settings: {
     // Single-select answers advance on click - the "all taps" promise.
@@ -804,23 +812,28 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const res = await fetch(API_URL, {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-    "Content-Type": "application/json",
+const res = await fetch(
+  UPDATE_FORM_ID ? `${API_URL}/${UPDATE_FORM_ID}` : API_URL,
+  {
+    method: UPDATE_FORM_ID ? "PATCH" : "POST",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   },
-  body: JSON.stringify(payload),
-});
+);
 
 if (!res.ok) {
-  console.error(`Create failed: ${res.status} ${res.statusText}`);
+  console.error(
+    `${UPDATE_FORM_ID ? "Update" : "Create"} failed: ${res.status} ${res.statusText}`,
+  );
   console.error(await res.text());
   process.exit(1);
 }
 
 const form = await res.json();
-const formId = form.id;
+const formId = UPDATE_FORM_ID ?? form.id;
 
 // Read the form back so silent drops (e.g. rejected logic blocks) surface.
 const check = await fetch(`https://api.tally.so/forms/${formId}`, {
@@ -831,13 +844,15 @@ if (check.ok) {
   const fetched = await check.json();
   const got = (t) => (fetched.blocks ?? []).filter((b) => b.type === t).length;
   const want = (t) => blocks.filter((b) => b.type === t).length;
-  const kinds = ["PAGE_BREAK", "TITLE", "CONDITIONAL_LOGIC", "MULTI_SELECT_OPTION", "MULTIPLE_CHOICE_OPTION"];
+  const kinds = ["PAGE_BREAK", "TITLE", "CONDITIONAL_LOGIC", "CHECKBOX", "MULTIPLE_CHOICE_OPTION"];
   verified = kinds
     .map((t) => `${t}: ${got(t)}/${want(t)}`)
     .join("  ");
 }
 
-console.log(`Created form ${formId} (${payload.status})`);
+console.log(
+  `${UPDATE_FORM_ID ? "Updated" : "Created"} form ${formId} (${payload.status})`,
+);
 console.log(`Edit:    https://tally.so/forms/${formId}/edit`);
 console.log(`Preview: https://tally.so/r/${formId}`);
 if (verified) console.log(`Blocks round-tripped -> ${verified}`);
