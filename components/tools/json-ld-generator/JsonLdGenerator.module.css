@@ -1,0 +1,404 @@
+/* JSON-LD Generator: the form, the code block, and the engine's own checks.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+/* The monthly ceiling is the system working. It gets a neutral panel, not
+   the red the failures use. */
+.calmNotice {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+/* ---- Result header ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+}
+
+.resultLabel {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultType {
+    margin: 0 0 2px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 22px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.resultChecked {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.primaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.primaryButton:hover {
+    opacity: 0.86;
+}
+
+.ghostButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    transition: border-color 160ms ease;
+}
+
+.ghostButton:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ---- The honesty notice about what wrote this ---- */
+
+.aiNotice {
+    margin: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid #f0dcb4;
+    background: #fdf7ea;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #7a5a12;
+}
+
+/* ---- The markup itself ---- */
+
+.codeCard {
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.codeHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.sectionTitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.codeHint {
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.code {
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--t-ink, #1e1e1f);
+    overflow-x: auto;
+    max-height: 520px;
+    overflow-y: auto;
+    white-space: pre;
+    -webkit-user-select: all;
+    user-select: all;
+}
+
+/* ---- The engine's validation of its own output ---- */
+
+.validationCard {
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.sectionLead {
+    margin: 6px 0 16px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+.category {
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.categoryTitle {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.checkList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.check {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--t-border, rgba(0, 0, 0, 0.06));
+}
+
+.check:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.checkHead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.checkTitle {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.checkWhy {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.checkFix {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.snippet {
+    margin: 4px 0 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+}
+
+/* ---- Chips ---- */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 9px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.chipPass {
+    background: var(--t-pass-bg, #e7f6ef);
+    color: var(--t-pass, #1a8f5f);
+}
+
+.chipWarn {
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+}
+
+.chipFail {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+.scopeNote {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 720px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+    }
+
+    .categoryGrid {
+        grid-template-columns: 1fr;
+    }
+}
