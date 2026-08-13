@@ -28,6 +28,7 @@ import {
   FileTextIcon,
   PlayerPlayIcon,
   BookIcon,
+  BugIcon,
   NewsIcon,
   BriefcaseIcon,
   ScaleIcon,
@@ -373,6 +374,7 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
         Icon: BookIcon,
       },
       { label: "Blog", href: "/blog", Icon: NewsIcon },
+      { label: "Bug Book", href: "/bug-book", Icon: BugIcon },
     ],
   },
   {

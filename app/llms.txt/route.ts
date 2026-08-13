@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import {
   getAllAlternativeSlugs,
   getAllBlogSlugs,
+  getAllBugBookSlugs,
   getAllCaseStudySlugs,
   getAllChecklistSlugs,
   getAllComparisonPreviewsForHub,
@@ -59,6 +60,7 @@ function section(heading: string, links: { path: string; title: string }[]): str
 export async function GET() {
   const [
     blogSlugs,
+    bugBookSlugs,
     integrationSlugsCms,
     useCaseSlugsCms,
     caseStudySlugsCms,
@@ -71,6 +73,7 @@ export async function GET() {
     comparisonCatalog,
   ] = await Promise.all([
     safeFetch(getAllBlogSlugs),
+    safeFetch(getAllBugBookSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
     safeFetch(getAllUseCaseSlugs),
     safeFetch(getAllCaseStudySlugs),
@@ -101,6 +104,7 @@ export async function GET() {
     { path: "/calculator", title: "ROI calculator" },
     { path: "/affiliate", title: "Affiliate program" },
     { path: "/blog", title: "Blog" },
+    { path: "/bug-book", title: "The Bug Book" },
     { path: "/privacy", title: "Privacy policy" },
     { path: "/terms", title: "Terms of service" },
   ];
@@ -158,6 +162,11 @@ export async function GET() {
     title: toTitle(slug),
   }));
 
+  const bugBook = unique(bugBookSlugs).map((slug) => ({
+    path: `/bug-book/${slug}`,
+    title: toTitle(slug),
+  }));
+
   const checklists = unique(checklistSlugs).map((slug) => ({
     path: `/${slug}`,
     title: toTitle(slug),
@@ -192,6 +201,7 @@ export async function GET() {
     section("Case studies", caseStudies),
     section("Checklists", checklists),
     section("Blog", blogs),
+    section("Bug Book", bugBook),
   ]
     .filter(Boolean)
     .join("\n");

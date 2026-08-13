@@ -1,0 +1,264 @@
+/* Bug Book listing (/bug-book) — mirrors the blog-2026 layout system:
+   hero on the shared blue gradient bitmap, then a light filter bar and
+   3-col card grid. */
+
+.page {
+    background: #ffffff;
+    --site-nav-height: 70px;
+}
+
+/* ------------------------------------------------------------------ Hero */
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    background-color: #feffff;
+    background-image: url("/images/home-2026/hero/hero-gradient.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% 620px;
+}
+
+.heroInner {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: calc(var(--site-nav-height) + 72px) 24px 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.kicker {
+    margin: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -1.4px;
+    color: #ffffff;
+}
+
+.subhead {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: -0.3px;
+    color: rgba(255, 255, 255, 0.78);
+    text-wrap: balance;
+}
+
+/* ------------------------------------------------------------ Filter bar */
+
+.filterSection {
+    padding: 56px 24px 8px;
+}
+
+.filterInner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px 24px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.pillGroup {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.pillGroupLabel {
+    flex-shrink: 0;
+    width: 76px;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #9096a1;
+}
+
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pill,
+.pillActive {
+    appearance: none;
+    border: 1px solid #e3e4ea;
+    border-radius: 9999px;
+    padding: 5px 14px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.pill {
+    background: #ffffff;
+    color: #4b5563;
+}
+
+.pill:hover {
+    border-color: rgba(67, 61, 243, 0.4);
+    color: #433df3;
+}
+
+.pillActive {
+    background: #16171a;
+    border-color: #16171a;
+    color: #ffffff;
+}
+
+.filterFooter {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid #ececf1;
+    padding-top: 14px;
+}
+
+.count {
+    margin: 0;
+    flex-shrink: 0;
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    color: #6b7079;
+}
+
+/* ------------------------------------------------------------------ Grid */
+
+.gridSection {
+    padding: 36px 24px 48px;
+}
+
+.gridInner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 72px 24px;
+    border: 1px dashed #e3e4ea;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.emptyText {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-size: 22px;
+    color: #16171a;
+}
+
+.resetButton {
+    appearance: none;
+    border: none;
+    border-radius: 9999px;
+    padding: 10px 22px;
+    background: #433df3;
+    color: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.resetButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(67, 61, 243, 0.3);
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1080px) {
+    .hero {
+        background-size: 100% 760px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .hero {
+        background-size: 100% 900px;
+    }
+
+    .heroInner {
+        padding: calc(var(--site-nav-height) + 48px) 20px 56px;
+    }
+
+    .filterSection {
+        padding: 36px 20px 4px;
+    }
+
+    .pillGroup {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pillGroupLabel {
+        width: auto;
+    }
+
+    .filterFooter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .gridSection {
+        padding: 28px 20px 40px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

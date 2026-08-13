@@ -1,0 +1,46 @@
+.meter,
+.meterCompact {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 10px;
+    border-radius: 9999px;
+    background: #fdeee6;
+    border: 1px solid #f9d9c8;
+}
+
+.meterCompact {
+    padding: 2px 9px 2px 7px;
+    gap: 6px;
+}
+
+.flames {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.meterCompact .flames svg {
+    width: 11px;
+    height: 13px;
+}
+
+.flameLit {
+    color: #f04a1d;
+}
+
+.flameDim {
+    color: #ecd5ca;
+}
+
+.bandLabel {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #c2410c;
+    white-space: nowrap;
+}
+
+.meterCompact .bandLabel {
+    font-size: 11px;
+}

@@ -1,0 +1,97 @@
+/* Bug Book card — mirrors the blog-2026 card system (light card,
+   #ececf1 border, accent hover lift). */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    overflow: hidden;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+    transform: translateY(-2px);
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    padding: 20px 22px 24px;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    color: #16171a;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hook {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #6b7079;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.meta {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12.5px;
+    color: #9096a1;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #433df3;
+}
+
+.ctaIcon {
+    transition: transform 160ms ease;
+}
+
+.card:hover .ctaIcon {
+    transform: translateX(3px);
+}
