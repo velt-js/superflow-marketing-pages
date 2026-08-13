@@ -1,0 +1,273 @@
+/* Chart pieces for the survey report. Marks follow the dataviz specs:
+   thin bars, 4px rounded data-ends anchored to the baseline, a 2px surface
+   gap between adjacent fills, recessive grid, values and labels in text
+   tokens (never the series color). Series hues come from Survey.module.css
+   (--viz-s1/s2/s3), validated for CVD separation and contrast. */
+
+/* ---- Stat tiles ---- */
+
+.statRow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 900px) {
+    .statRow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .statRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+.statTile {
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.statValue {
+    font-size: 40px;
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--s-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--s-ink-soft);
+}
+
+/* ---- Horizontal bar list ---- */
+
+.barList {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.barRow {
+    display: grid;
+    grid-template-columns: 220px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+}
+
+@media (max-width: 640px) {
+    .barRow {
+        grid-template-columns: 1fr 44px;
+    }
+
+    .barLabel {
+        grid-column: 1 / -1;
+        margin-bottom: -6px;
+    }
+}
+
+.barLabel {
+    font-size: 14px;
+    color: var(--s-ink);
+    line-height: 1.35;
+}
+
+.barTrack {
+    height: 12px;
+    border-radius: 2px 4px 4px 2px;
+    background: var(--viz-track);
+    overflow: hidden;
+}
+
+.barFill {
+    height: 100%;
+    border-radius: 2px 4px 4px 2px;
+    background: var(--viz-s1);
+}
+
+.barFillS2 {
+    background: var(--viz-s2);
+}
+
+.barValue {
+    font-size: 13px;
+    color: var(--s-ink-soft);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+/* ---- Paired bars (use vs pay) ---- */
+
+.pairedList {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.pairedRow {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 12px;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    .pairedRow {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+}
+
+.pairedName {
+    font-size: 14px;
+    color: var(--s-ink);
+}
+
+/* The two bars of one entity sit 2px apart - the spacer rule. */
+.pairedBars {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pairedBarLine {
+    display: grid;
+    grid-template-columns: 1fr 44px;
+    align-items: center;
+    gap: 12px;
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--s-ink-soft);
+}
+
+.legendSwatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--viz-s1);
+}
+
+.legendSwatchS2 {
+    background: var(--viz-s2);
+}
+
+/* ---- Quadrant scatter ---- */
+
+.quadrantFigure {
+    margin: 0;
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 16px;
+    padding: 20px 20px 12px;
+}
+
+.quadrantTitle {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--s-ink);
+}
+
+.quadrantSubtitle {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: var(--s-ink-soft);
+}
+
+.quadrantSvg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.tableToggle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--s-ink-soft);
+}
+
+.tableToggle summary {
+    cursor: pointer;
+}
+
+.dataTable {
+    margin-top: 8px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.dataTable th,
+.dataTable td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--s-border);
+    color: var(--s-ink-soft);
+}
+
+.dataTable th {
+    color: var(--s-ink);
+    font-weight: 500;
+}
+
+.dataTable td:not(:first-child),
+.dataTable th:not(:first-child) {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- Chart card wrapper for bar sections ---- */
+
+.chartCard {
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.chartCardTitle {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chartCardSubtitle {
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: var(--s-ink-soft);
+}
+
+.chartGrid2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 860px) {
+    .chartGrid2 {
+        grid-template-columns: 1fr;
+    }
+}

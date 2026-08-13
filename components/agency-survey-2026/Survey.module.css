@@ -1,0 +1,249 @@
+/* Shared chrome for /state-of-agency-tools (survey + report).
+   Light and bright to match the 2026 site, same token values as /tools:
+   white page, #feffff panels, rounded cards, gradient reserved for emphasis. */
+
+.page {
+    --s-ink: #1e1e1f;
+    --s-ink-soft: #5b5b60;
+    --s-ink-faint: #8a8a90;
+    --s-bg: #ffffff;
+    --s-panel: #feffff;
+    --s-panel-alt: #f7f7f8;
+    --s-border: rgba(0, 0, 0, 0.1);
+    --s-border-strong: rgba(0, 0, 0, 0.16);
+
+    /* Chart series. Validated (dataviz six checks) against both the white
+       page and the dark #111 surface, so the same hex works if a section
+       ever inverts. Order is the CVD-safety mechanism - do not reshuffle. */
+    --viz-s1: #2f8fe8;
+    --viz-s2: #d95590;
+    --viz-s3: #cc7a22;
+    --viz-track: #f0f0f2;
+    --viz-grid: rgba(0, 0, 0, 0.08);
+
+    background: var(--s-bg);
+    color: var(--s-ink);
+}
+
+/* ---- Hero ---- */
+
+.hero {
+    padding: 72px 24px 40px;
+}
+
+.heroInner {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: var(--s-panel-alt);
+    border: 1px solid var(--s-border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--s-ink-soft);
+}
+
+.h1 {
+    margin: 0;
+    max-width: 820px;
+    font-size: 52px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+}
+
+.subhead {
+    margin: 0;
+    max-width: 680px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--s-ink-soft);
+}
+
+.privacyLine {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--s-ink-faint);
+}
+
+@media (max-width: 640px) {
+    .h1 {
+        font-size: 36px;
+    }
+
+    .subhead {
+        font-size: 17px;
+    }
+}
+
+/* ---- Survey embed slot ---- */
+
+.embedSlot {
+    padding: 8px 24px 40px;
+}
+
+.embedInner {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 24px;
+    padding: 16px;
+}
+
+.embedFrame {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    min-height: 480px;
+}
+
+.comingSoon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 56px 24px;
+}
+
+.comingSoonTitle {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.comingSoonBody {
+    margin: 0;
+    max-width: 460px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--s-ink-soft);
+}
+
+/* ---- Generic content sections ---- */
+
+.section {
+    padding: 40px 24px;
+}
+
+.sectionAlt {
+    background: var(--s-panel-alt);
+}
+
+.sectionInner {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.h2 {
+    margin: 0 0 8px;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+}
+
+.sectionLede {
+    margin: 0 0 28px;
+    max-width: 720px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--s-ink-soft);
+}
+
+/* "What we ask" cards on the survey landing page. */
+.askGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 860px) {
+    .askGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .askGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.askCard {
+    background: var(--s-panel);
+    border: 1px solid var(--s-border);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.askCardTitle {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.askCardBody {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--s-ink-soft);
+}
+
+/* ---- Closing CTA ---- */
+
+.cta {
+    padding: 56px 24px 80px;
+}
+
+.ctaInner {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.ctaLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    background: var(--s-ink);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.ctaLink:hover {
+    opacity: 0.9;
+}
+
+.ctaSecondaryLink {
+    color: var(--s-ink-soft);
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
