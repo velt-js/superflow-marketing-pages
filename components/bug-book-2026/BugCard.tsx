@@ -6,7 +6,7 @@ import {
   type BugBookListEntry,
 } from "@/lib/bug-book";
 import BugThumbnail from "./BugThumbnail";
-import { CategoryChip, SeverityChip, SourceBadge } from "./Chips";
+import { CategoryChip, SeverityChip, SourceBadge, VibeBadge } from "./Chips";
 import RageMeter from "./RageMeter";
 import styles from "./BugCard.module.css";
 
@@ -48,6 +48,7 @@ export default function BugCard({ entry }: { entry: BugBookListEntry }) {
       <BugThumbnail category={entry.category} />
       <div className={styles.body}>
         <div className={styles.badges}>
+          <VibeBadge vibe={entry.vibe} sassType={entry.sassType} />
           <CategoryChip category={entry.category} />
           <SeverityChip severity={entry.severity} />
           <SourceBadge

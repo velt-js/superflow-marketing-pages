@@ -3,10 +3,10 @@
     "generated": "2026-08-13",
     "project": "Superflow Bug Book",
     "counts": {
-      "total": 51,
-      "page": 36,
-      "bench": 15,
-      "human": 38,
+      "total": 92,
+      "page": 59,
+      "bench": 33,
+      "human": 79,
       "agent": 13
     },
     "taxonomies": {
@@ -45,7 +45,33 @@
         "3-5": "Annoyed",
         "6-8": "Heated",
         "9-10": "Volcanic"
-      }
+      },
+      "vibes": [
+        {
+          "id": "rage",
+          "label": "Rage"
+        },
+        {
+          "id": "sass",
+          "label": "Sass"
+        },
+        {
+          "id": "comedy",
+          "label": "Comedy"
+        },
+        {
+          "id": "story",
+          "label": "War story"
+        }
+      ],
+      "sassTypes": [
+        "clapback",
+        "passive-aggression",
+        "deadpan",
+        "refusal",
+        "self-roast",
+        "receipts"
+      ]
     }
   },
   "entries": [
@@ -93,7 +119,8 @@
       "outcome": "Resolved. The icon, presumably, got rounder.",
       "flags": [
         "profanity-censored"
-      ]
+      ],
+      "vibe": "rage"
     },
     {
       "slug": "i-hate-this-process",
@@ -127,7 +154,8 @@
       "finding": null,
       "whyItMatters": "Every agency knows this client. The extra S's are load-bearing. When feedback lives in email, this energy goes to your inbox - pinned to the page, at least you know exactly which part of the process they hate.",
       "outcome": "Resolved. The process survived.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "makes-no-since",
@@ -161,7 +189,8 @@
       "finding": null,
       "whyItMatters": "Caps lock is how clients cry for help. \"CAN I JUST HAVE ACCESS TO CHANGE IT MYSELF?\" is the scariest sentence in web design - and the reason review tools exist.",
       "outcome": "Resolved. Nobody gave them access.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "remove-new-patient-special",
@@ -200,7 +229,8 @@
       "finding": null,
       "whyItMatters": "Every day that promo stayed live, new patients showed up expecting a deal the practice no longer honored. An expired offer on a live site is a pricing bug with a front-desk blast radius.",
       "outcome": "Resolved, eventually. The special is no longer special.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "completely-remove-this-feature",
@@ -234,7 +264,8 @@
       "finding": null,
       "whyItMatters": "No ticket, no user story, no acceptance criteria. Just a comment pinned directly to the feature in question, vibrating with certainty. Honestly? Clearer than most PRDs.",
       "outcome": "Resolved. The feature is no longer with us.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "no-em-dashes",
@@ -268,7 +299,8 @@
       "finding": null,
       "whyItMatters": "Nothing says \"this copy was written by AI\" like an em-dash in 2025 - and clients know it now. Punctuation has become a brand-safety issue.",
       "outcome": "Resolved - without a single em-dash. Except that one.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "tupac-width",
@@ -317,7 +349,8 @@
       "finding": null,
       "whyItMatters": "The designer understood \"Tupac width\" on the first read and simply answered the question. That's a team in sync. All eyes on the breakpoint.",
       "outcome": "Resolved at all widths, including Tupac.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "medusa-services",
@@ -351,7 +384,8 @@
       "finding": null,
       "whyItMatters": "Hover states are where typos go to hide - invisible in every screenshot, unmissable for every user who actually touches the page. Bonus: the correction itself typos \"Mespa\". Spelling is hard.",
       "outcome": "Resolved. No patients were turned to stone.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "text-shits-left",
@@ -387,7 +421,8 @@
       "outcome": "In progress. The text continues to do what it does.",
       "flags": [
         "profanity-in-original"
-      ]
+      ],
+      "vibe": "comedy"
     },
     {
       "slug": "hippa-notice",
@@ -426,7 +461,8 @@
       "finding": null,
       "whyItMatters": "The typo lived in the footer, the filename, AND the PDF itself - uploaded in 2021, caught in 2026. If patients can't trust you to spell HIPAA, the vibes on the rest of the compliance are not great.",
       "outcome": "Resolved after five years in production.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "dumpters",
@@ -460,7 +496,8 @@
       "finding": null,
       "whyItMatters": "One product. One word. The word is the business. When your entire company is dumpsters, \"DUMPTERS\" in the hero headline is not a typo, it's an identity crisis.",
       "outcome": "Resolved. The dumpsters got their S back.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "counsultation",
@@ -494,7 +531,8 @@
       "finding": null,
       "whyItMatters": "The hero CTA is the single most-read string on the page. A typo there doesn't just look sloppy - it quietly taxes trust on the exact button where trust converts to revenue.",
       "outcome": "Resolved before launch. Counsult averted.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "ai-rewrote-the-docs",
@@ -543,7 +581,8 @@
       "finding": null,
       "whyItMatters": "2025 in one thread: an AI agent went rogue on enterprise documentation, and the fix was writing it a sternly worded prompt. Human review is how they caught it - the diff never showed up in any test suite.",
       "outcome": "Resolved. The agent has been spoken to.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "vanishing-progress",
@@ -597,7 +636,8 @@
       "finding": null,
       "whyItMatters": "A one-variable typo turned \"leave group\" into \"delete everything.\" In production, that's a company-ending support week. In staging, with a patient beta tester, it's a war story with a happy ending.",
       "outcome": "Resolved before launch. The tester deserves that loyalty card.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "its-centered",
@@ -646,7 +686,8 @@
       "finding": null,
       "whyItMatters": "The oldest standoff in web development, preserved in four comments. Both sides attached screenshots. Both screenshots showed different things. Breakpoints are why we can't have nice conversations.",
       "outcome": "Resolved 13 days later. It is now centered. Probably.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "chrmoe-denial",
@@ -690,7 +731,8 @@
       "finding": null,
       "whyItMatters": "\"Works on my machine\" hits different when you misspell the machine. The reviewer didn't argue - they attached a screen recording, which is the only argument that has ever won this fight.",
       "outcome": "Open. The recording speaks for itself.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "api-key-in-the-thread",
@@ -742,7 +784,8 @@
       "flags": [
         "key-redacted",
         "security-sensitive"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "this-is-live",
@@ -783,7 +826,8 @@
       "outcome": "Hidden within minutes, fixed for real shortly after. We kept the thread as a monument.",
       "flags": [
         "own-site"
-      ]
+      ],
+      "vibe": "rage"
     },
     {
       "slug": "wrong-by-650k",
@@ -822,7 +866,8 @@
       "finding": null,
       "whyItMatters": "A funding program understated by $650,000 isn't a typo, it's a misinformation campaign with a CMS. The lowercase c tells you exactly how fast this comment was typed.",
       "outcome": "Resolved. The zeroes have been restored.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "cart-adds-nothing",
@@ -866,7 +911,8 @@
       "finding": null,
       "whyItMatters": "A checkout flow that silently swallows purchases, met with a flat \"won't fix.\" That lone \"why?\" hanging at the end of the thread is the most relatable word in commerce.",
       "outcome": "Eventually resolved. The \"why\" was never answered.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "fifty-second-load",
@@ -910,7 +956,8 @@
       "finding": null,
       "whyItMatters": "This reviewer did vendor-grade QA from a phone: four browsers, network conditions, timestamps. 50 seconds on 5G isn't a performance issue, it's a bounce-rate generator with a loading spinner.",
       "outcome": "Open. Firefox users are still waiting. Literally.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "white-on-white",
@@ -954,7 +1001,502 @@
       "finding": null,
       "whyItMatters": "Every menu item was there. Every menu item was invisible. Mobile users were navigating by faith alone - and the site owner had no way to see what they couldn't see.",
       "outcome": "Resolved. The menu has been granted visibility.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
+    },
+    {
+      "slug": "make-the-logo-bigger",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-12",
+      "site": {
+        "descriptor": "Nonprofit website",
+        "platform": "WordPress",
+        "industry": "Nonprofit"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The most famous request in design history, delivered fully self-aware",
+      "hook": "\"I know you're going to laugh, but I'd make the 'logo bigger.' HAHA. Sorry, man.\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "I know you're going to laugh, but I'd make the \"logo bigger.\" HAHA. Sorry, man. Thanks so much.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "He knew. He apologized in advance. He put it in scare quotes. And then he asked anyway - because no force in the universe can stop a client from wanting the logo bigger. The self-awareness changes nothing; the logo grows regardless.",
+      "outcome": "Resolved. The logo is bigger now.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "just-make-something-up",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-04",
+      "site": {
+        "descriptor": "Dental foundation site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "On the review call, the client asked: \"can your copywriters just make something up for testimonials?\"",
+      "hook": "The agency's answer, for the record: no. Gather real ones.",
+      "thread": [
+        {
+          "speaker": "Copywriter",
+          "text": "Do we have any written testimonials for this section?",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "on the review call with their team they were like 'can your copywriters just make something up for testimoniails' lol idk if you feel comfortable doing that but they might push back and aask forthat",
+          "attachment": null
+        },
+        {
+          "speaker": "Copywriter",
+          "text": "Hmmm I can add some placeholder copy in there but I would encourage them to gather real ones!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every agency has been asked this at least once, usually cheerfully, usually on a call with no witnesses. This one got written down. The copywriter's polite \"I would encourage them to gather real ones\" is doing heroic ethical load-bearing.",
+      "outcome": "Resolved with real testimonials. The fake ones remain unwritten.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "nine-one-one",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Performance",
+      "severity": "Critical",
+      "rageLevel": 7,
+      "status": "Resolved",
+      "date": "2024-11",
+      "site": {
+        "descriptor": "Wine tour company site",
+        "platform": "Website builder",
+        "industry": "Tourism"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"We are at an event trying to sign people up with our QR code and the site is down. 911.\"",
+      "hook": "Site dies mid-event. Diagnosis, two comments later: an actual DDoS attack.",
+      "thread": [
+        {
+          "speaker": "Business owner",
+          "text": "can you please check the page. it is down and we need it up ASAP! We are at an event trying to sign people up with our QR code and the site is down. 911. Thanks!",
+          "attachment": null
+        },
+        {
+          "speaker": "Support",
+          "text": "we've notified our dev team about this yesterday, and as per checking, the website seems to be back online.",
+          "attachment": null
+        },
+        {
+          "speaker": "Business owner",
+          "text": "hey, the site is still down on our end.",
+          "attachment": null
+        },
+        {
+          "speaker": "Support",
+          "text": "Our dev team has determined that your website has been targeted by a DDoS attack. We're looking into it and making sure that it's safe to get it back online. We'll get back to you with an update on this.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A QR code pointing at a dead site while prospects stand in front of you is the purest form of website pain - every scan a lost customer you can physically see. And the twist: it wasn't a config issue, it was an actual attack. \"911\" was, for once, proportionate.",
+      "outcome": "Resolved. The site came back; the event, presumably, was salvaged.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "rage"
+    },
+    {
+      "slug": "wife-hates-the-hair",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-06",
+      "site": {
+        "descriptor": "Dental practice site",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Headshot rejected by the highest authority in web design: the client's wife",
+      "hook": "\"My wife doesn't like my hair in this picture. LOL\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "Not sure what happened to the comment. Will photo #35 work? My wife doesn't like my hair in this picture. LOL",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every agency knows the real approval chain runs through someone who was never on a single call. Design by committee is survivable; design by spouse is final. CDGA-35 it is.",
+      "outcome": "Resolved. Photo #35 it is; the hair situation has been addressed.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "i-was-the-problem",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2026-04",
+      "site": {
+        "descriptor": "Therapy practice site",
+        "platform": "Webflow",
+        "industry": "Health"
+      },
+      "captured": {
+        "browser": "Firefox",
+        "os": "macOS",
+        "device": "Mobile"
+      },
+      "headline": "A designer investigated a line-break bug all the way back to the culprit: themselves",
+      "hook": "\"Oh f*ck I was the problem, sorry.\"",
+      "thread": [
+        {
+          "speaker": "Designer",
+          "text": "It looks like on smaller sizes the \"ON BECOMING\" alternate text style creates a line break where it's not needed",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Designer",
+          "text": "Oh f*ck I was the problem, sorry. We passed this file back and forth so I missed some of the line breaks in Figma. I guess can we get rid of that line break in the copy?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The rarest arc in QA: report the bug, investigate the bug, discover you ARE the bug, confess in writing. Most people quietly fix it and say nothing. This person deserves a plaque.",
+      "outcome": "Resolved by the problem themselves.",
+      "flags": [
+        "round-2",
+        "profanity-censored"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "gpt-notes",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-09",
+      "site": {
+        "descriptor": "Electrical contractor site",
+        "platform": "Webflow",
+        "industry": "Trades"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A client reviewed the article by pasting ChatGPT's review of the article. Verbatim. Emoji included.",
+      "hook": "\"GPT notes ➜ Got it - I've reviewed the article. Strengths ✅ ... Suggested Improvements ✍️\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "GPT notes — Got it — I've reviewed the Old Properties, New Dangers article. Here are my comments: Strengths ✅ Clear breakdown of hazards (overloaded circuits, faulty wiring, inadequate maintenance, etc.) with practical advice. Structured list format (1–9) makes it easy to scan. Suggested Improvements ✍️ Intro line: Tighten it. Example: \"Older commercial properties can hide serious electrical risks...\" → This sets urgency and positions the company as the solution. Link to services: Add a small CTA after the list...",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "2025 client feedback in its final form: the client didn't read the article - ChatGPT did, and the client couriered the output into the thread, \"Got it - \" and all. The agency is now in a review loop with a language model wearing a client costume.",
+      "outcome": "Resolved. The AI's notes were, annoyingly, pretty reasonable.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "content-machine-benched",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-07",
+      "site": {
+        "descriptor": "Dental practice site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"Where did this come from?\" \"idk probably AI. We are no longer using the content machine until it stops lying.\"",
+      "hook": "An agency benches its own AI writer, mid-thread, for cause",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "where did this come from?",
+          "attachment": null
+        },
+        {
+          "speaker": "Content lead",
+          "text": "idk probably AI. We are no longer using the content machine until it stops lying so this shouldn't happen anymore",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "lol love to hear it, thank you",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Until it stops lying\" is the most honest AI-tooling policy ever written, and it was written in a comment thread on a dentist's About page. Mystery copy on a medical site isn't a style problem - it's a liability with good grammar.",
+      "outcome": "Resolved. The content machine remains on the bench, pending honesty.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "lighter-blue-darker-hex",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2024-05",
+      "site": {
+        "descriptor": "Dental practice site",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "Client wants the blue lighter. Client provides a hex code. The hex code is darker.",
+      "hook": "\"Can this blue be lighter?\" → \"maybe this #154c79\" → that's... darker",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "Can this blue be lighter? Less baby blue?",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Can you please provide the hex code of the color you are referring to? This will ensure our team uses the correct color.",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "maybe this #154c79",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "I understand in the initial request that we are wanting to make the color lighter. However, the hex color provided is much darker than the current color displayed on the website. Can you please confirm that the image I attached is the correct color? I would also like to set the expectation that we will need to update the text color as well, to ensure this section passes color contrast.",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Client",
+          "text": "we like the blue thats on the services page. can you do that color with white ?",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Absolutely, can you please confirm that the color you are referring to is the same color I have attached here?",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Client",
+          "text": "Yep! Perfect",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A complete portrait of color feedback: \"lighter\" means darker, the hex code is a red herring, and the answer was on the services page all along. The designer's patient screenshot-confirm-repeat loop - plus sneaking in an accessibility contrast check - is agency craftsmanship at its finest.",
+      "outcome": "Resolved in four rounds. The blue is now the other blue.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "obj-obj-obj",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-01",
+      "site": {
+        "descriptor": "Eye clinic blog (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"Please remove OBJ OBJ OBJ from this title\" - a ghost only one person could see",
+      "hook": "Reviewer sees OBJ OBJ OBJ. Developer sees nothing. The exorcism: paste as plain text.",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "please remove OBJ OBJ OBJ from this title",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "I'm not seeing any symbols or OBJ on the title, but I opened the title text in plain text formatting and pasted it back in in case that could help - is it showing up on your end still?",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "looks like that worked the text is no longer there",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "OBJ is what some browsers render for an invisible Unicode object-replacement character - copy-paste shrapnel from a rich text editor. It shows for some visitors, hides from the person who has to fix it, and dies only by plain-text exorcism. One of the great haunted-house bugs of the CMS era.",
+      "outcome": "Resolved. The ghost was pasted out of existence.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "very-particular",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-12",
+      "site": {
+        "descriptor": "Dental practice site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The request: move the word \"in\" to the second line. The word \"in\". Two letters.",
+      "hook": "\"apologies on how minor this is, but the client was very particular haha\"",
+      "thread": [
+        {
+          "speaker": "Account manager",
+          "text": "apologies on how minor this is, but the client was very particular haha, can you have 'in' drop down to the second line with the city and state?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The pre-apology, the \"haha\" absorbing the client's energy, the surgical precision of a two-letter line-break request - this is the account manager's whole job in one sentence: translating \"very particular\" into something a developer can act on without anyone crying.",
+      "outcome": "Resolved. \"in\" now lives on line two, exactly where the client needed it.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "inexperienced-intern",
+      "tier": "page",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "High",
+      "rageLevel": 9,
+      "status": "Resolved",
+      "date": "2025-07",
+      "site": {
+        "descriptor": "Oral surgery practice site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Safari",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The review every agency fears, in writing: \"like an inexperienced intern rushing to meet a deadline\"",
+      "hook": "Round-one edits deleted, AI-written clinical copy spotted, premium price invoked. Devastating.",
+      "thread": [
+        {
+          "speaker": "Client (a dentist)",
+          "text": "I took time out of my busy schedule to thoroughly review and provide detailed feedback, but it's clear that my edits were not given equal attention. In fact, my first round of edits appears to have been deleted entirely. Now I have to do twice the work—first to re-enter the same changes, and second to trust they'll actually be addressed. TBH, it feels like the edits were handled by an inexperienced intern rushing to meet a deadline rather than a professional team. That's disappointing, especially since we are paying premium for your services. Will I recommend you to my colleagues? No, not really.",
+          "attachment": null
+        },
+        {
+          "speaker": "Client (a dentist)",
+          "text": "What I'm specifically referring to is the content under the Services section (dental implants, sedation, jaw surgery, etc.), which appears to have been written by ChatGPT. Many of the statements are inaccurate or reflect a lack of clinical understanding. Reading through large blocks of poorly written or misinformed content is not only frustrating—it's also a poor use of my limited time.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "This is the thread agencies have nightmares about: lost feedback AND AI-generated clinical copy that a real doctor immediately clocked as wrong. Two separate process failures, one furious domain expert, zero places to hide. If your review workflow can lose a round of edits, it will eventually lose them for the client who notices everything.",
+      "outcome": "Resolved - after a very long internal meeting, presumably.",
+      "flags": [
+        "round-2",
+        "brand-anonymized"
+      ],
+      "vibe": "rage"
     },
     {
       "slug": "duperflow",
@@ -993,7 +1535,8 @@
       "outcome": "Resolved in minutes. \"Duperflow\" lives on only in this museum.",
       "flags": [
         "own-site"
-      ]
+      ],
+      "vibe": "comedy"
     },
     {
       "slug": "dr-first-last-name",
@@ -1030,7 +1573,8 @@
       },
       "whyItMatters": "Template placeholders are invisible to the people who've stared at the site for weeks - and glaring to every first-time visitor. \"Dr. First Last Name\" would have been the most honest bio on the internet, but not a great look for a real practice.",
       "outcome": "Resolved before a single patient booked with Dr. Name.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "wrong-dentist-wrong-city",
@@ -1069,7 +1613,8 @@
       "outcome": "Resolved. Each dentist now advertises themselves.",
       "flags": [
         "brand-anonymized"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "our-own-slow-app",
@@ -1108,7 +1653,8 @@
       "outcome": "Open, being worked on, and now extremely motivating.",
       "flags": [
         "own-site"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "add-new-button",
@@ -1145,7 +1691,8 @@
       },
       "whyItMatters": "\"Add New Button\" is the CMS speaking directly to your patients. It shipped, it indexed, and it sat there - because everyone who could fix it had stopped seeing it.",
       "outcome": "Resolved. The button finally got a name.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "first-second-third-service",
@@ -1182,7 +1729,8 @@
       },
       "whyItMatters": "Template cards are seductive: the layout looks finished, so the brain files the page as done. Meanwhile the content says nothing at all, in triplicate.",
       "outcome": "Resolved. The services now have names, and probably prices.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "book-now-goes-nowhere",
@@ -1219,7 +1767,8 @@
       },
       "whyItMatters": "Every visual test passes: the button renders, hovers, and looks clickable. It just doesn't do anything. \"#\" links are how businesses lose bookings while the analytics say traffic is fine.",
       "outcome": "Resolved before launch. Book Now now books.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "someone-elses-privacy-policy",
@@ -1258,7 +1807,8 @@
       "outcome": "Resolved. The practice now makes its own promises.",
       "flags": [
         "brand-anonymized"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "dr-dr-daviee-do",
@@ -1297,7 +1847,8 @@
       "outcome": "Open, pending a verdict from Dr. Daviee himself.",
       "flags": [
         "name-partially-real"
-      ]
+      ],
+      "vibe": "comedy"
     },
     {
       "slug": "our-homepage-no-json-ld",
@@ -1341,7 +1892,8 @@
       "outcome": "Resolved before the redesign went live. Rankings unharmed; egos, slightly.",
       "flags": [
         "own-site"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "og-image-sliver",
@@ -1380,7 +1932,8 @@
       "outcome": "Open. Somewhere, another sliver gets shared.",
       "flags": [
         "brand-anonymized"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "ai-copy-detected",
@@ -1419,7 +1972,8 @@
       "outcome": "Open. Possibility remains locked.",
       "flags": [
         "possibly-internal-site"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "wtf",
@@ -1453,7 +2007,8 @@
       "finding": null,
       "whyItMatters": "Sometimes feedback needs three rounds of revisions. Sometimes it needs three letters. Pinned to the exact pixel that caused it, this is arguably complete, actionable feedback.",
       "outcome": "Open. The image knows what it did.",
-      "flags": []
+      "flags": [],
+      "vibe": "rage"
     },
     {
       "slug": "reprehenderit",
@@ -1488,7 +2043,8 @@
       "finding": null,
       "whyItMatters": "A reviewer proofread the placeholder text. Honestly? That's the energy you want on your team - nothing gets past someone who spell-checks Latin.",
       "outcome": "Resolved by replacing the Latin with, you know, words.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "duplicated-across-rivals",
@@ -1524,7 +2080,8 @@
       "outcome": "Resolved with a rewrite. The other four dentists remain unaware.",
       "flags": [
         "brand-anonymized"
-      ]
+      ],
+      "vibe": "rage"
     },
     {
       "slug": "vpn-to-see-our-404",
@@ -1568,7 +2125,8 @@
       "finding": null,
       "whyItMatters": "\"Works with a VPN\" is a niche new genre of works-on-my-machine. The second reviewer's flat follow-up - still 404 - is QA poetry.",
       "outcome": "Resolved, no passport required.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "sebastien-cest-un-imbecile",
@@ -1615,7 +2173,8 @@
       "flags": [
         "names-partially-retained",
         "translated"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "thirty-dollars-though",
@@ -1649,7 +2208,8 @@
       "finding": null,
       "whyItMatters": "Compliment, objection, and three question marks in one breath - the entire psychology of SaaS pricing in eleven words.",
       "outcome": "Open. The eternal question remains eternal.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "one-face-every-bio",
@@ -1698,7 +2258,8 @@
       "finding": null,
       "whyItMatters": "CMS default-image bugs create accidental monarchies: one face, every bio. The about page briefly implied the entire company was one person, which for a biotech is a bold claim.",
       "outcome": "Resolved. Everyone got their face back.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "someone-elses-testimonial",
@@ -1737,7 +2298,8 @@
       "outcome": "Resolved before any patient noticed the accent didn't match.",
       "flags": [
         "brand-anonymized"
-      ]
+      ],
+      "vibe": "story"
     },
     {
       "slug": "seo-brief-shipped-live",
@@ -1776,7 +2338,8 @@
       "finding": null,
       "whyItMatters": "AI-generated content arrives wearing its own scaffolding - HTML comments, photo suggestions, editor's notes. Paste it straight into a CMS and patients get to read the recipe along with the cake.",
       "outcome": "Resolved. The instructions returned to being invisible.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "the-svg-drew-c-twice",
@@ -1815,7 +2378,8 @@
       "finding": null,
       "whyItMatters": "Two identical transparent paths, stacked, quietly doubling their opacity - invisible in the design tool, obvious on hover. The best bug explanations read like tiny detective stories.",
       "outcome": "Resolved. The extra C was released back into the wild.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "we-offer-our-team-offers",
@@ -1849,7 +2413,8 @@
       "finding": null,
       "whyItMatters": "A copy-paste seam right in the middle of a sentence, shipped to a live page. Read it five times fast and it almost starts meaning something.",
       "outcome": "Resolved. The team now offers amenities, not offers.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "squirrel-butt-bubble",
@@ -1903,7 +2468,8 @@
       "finding": null,
       "whyItMatters": "Responsive design means your speech bubble's tail lands somewhere different at every breakpoint - and on mobile, it found the worst possible landing zone. For a children's book, a genuinely urgent fix.",
       "outcome": "Resolved. The squirrel's dignity was restored.",
-      "flags": []
+      "flags": [],
+      "vibe": "comedy"
     },
     {
       "slug": "self-deleting-text",
@@ -1937,7 +2503,8 @@
       "finding": null,
       "whyItMatters": "A registration form that deletes what users type is a 100% conversion killer that desktop QA will never see. The screen recording turned a \"can't reproduce\" into a same-day fix.",
       "outcome": "Resolved. The form now keeps what you give it.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "fixed-by-deleting-it",
@@ -1986,7 +2553,8 @@
       "finding": null,
       "whyItMatters": "Deleting the feature does technically clear the bug report. The retroactive \"that's how it was planned\" is a masterclass in scope re-negotiation via comment thread.",
       "outcome": "Open. Philosophically, perhaps forever.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "buy-now-404",
@@ -2025,7 +2593,8 @@
       "finding": null,
       "whyItMatters": "\"It's broken in production too\" is documentation, not a defense. Every day that button 404'd, seventy dollars walked out the door per person who clicked it.",
       "outcome": "Resolved. Buy Now finally sells things.",
-      "flags": []
+      "flags": [],
+      "vibe": "story"
     },
     {
       "slug": "swtich",
@@ -2066,7 +2635,8 @@
       "outcome": "Resolved. \"Swtich\" has been swtiched.",
       "flags": [
         "own-site"
-      ]
+      ],
+      "vibe": "comedy"
     },
     {
       "slug": "gesundheitseinrichtungen",
@@ -2112,6 +2682,1433 @@
       "outcome": "Resolved, with hyphens. The word remains magnificent.",
       "flags": [
         "translated"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "cant-confirm-own-claim",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-07",
+      "site": {
+        "descriptor": "Cosmetic dentistry blog (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"Can we just remove this last sentence lol I don't remember if that's true\"",
+      "hook": "A website claim, retired because nobody could confirm it ever was one",
+      "thread": [
+        {
+          "speaker": "Content editor",
+          "text": "can we just remove this last sentence lol I don't remember if that's true and can't find the info",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Somewhere on every website is a sentence nobody can source. Most of them stay live forever. This one got caught in review and quietly escorted off the page - content governance in its most honest form.",
+      "outcome": "Resolved. The claim is survived by its citation-free siblings everywhere.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "looks-like-weed",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-09",
+      "site": {
+        "descriptor": "Financial advisory firm site",
+        "platform": "Custom",
+        "industry": "Finance"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Monitor"
+      },
+      "headline": "The financial advisor's verdict on the hero image: \"this looks like weed!\"",
+      "hook": "Proposed replacement: a nest, eggs, and coins spilling out. \"Preparing for your nest egg.\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "My FA says \"this looks like weed!\" lol!! But, I have an idea for an image. How about some type of nest with eggs in it, and coins coming from the eggs and spilling on the ground...as in...\"preparing for your nest egg?\"",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A compliance-grade image review conducted in a single lol: the greenery had to go, and the replacement pitch arrived fully art-directed with a pun attached. Stock photography is a minefield; sometimes the mine is botanical.",
+      "outcome": "Resolved. The firm now conveys wealth via eggs, not foliage.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "complimentary-panic",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Pricing",
+      "severity": "Medium",
+      "rageLevel": 6,
+      "status": "Resolved",
+      "date": "2026-01",
+      "site": {
+        "descriptor": "Dental practice site",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A dentist discovered the word \"Complimentary\" on their own promo and briefly left their body",
+      "hook": "\"'Complimentary' whitening??? Whitening products are not free!! There's also chair time!\"",
+      "thread": [
+        {
+          "speaker": "Practice owner",
+          "text": "\"Complimentary\" whitening??? I need to think about that before considering this. I need to look at my budget and figure out how I can massage some type of fee in the patient package. Whitening products are not free!! There's also chair time that needs to be considered.",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Agency",
+          "text": "We're happy to hide this special if you'd prefer. Please let me know and we will do that for you!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "One adjective on a promo card committed the practice to free whitening, and the owner ran the unit economics in real time, in a comment thread. Pricing copy is a contract your website signs on your behalf - review it before your customers do.",
+      "outcome": "Resolved. A fee was, presumably, massaged in.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "rage"
+    },
+    {
+      "slug": "staring-into-my-soul",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2024-02",
+      "site": {
+        "descriptor": "Sports sustainability nonprofit site",
+        "platform": "Webflow",
+        "industry": "Nonprofit"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Monitor"
+      },
+      "headline": "A team headshot rendered so large it achieved eye contact",
+      "hook": "\"As much as I love Doug, I feel like he's staring into my soul LOL\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "This feels way too big for me. As much as I love Doug, I feel like he's staring into my soul LOL",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Image sizing feedback usually arrives in pixels. This one arrived as a spiritual experience. Both are valid; only one gets fixed faster.",
+      "outcome": "Resolved. Doug has been scaled back to a respectful distance.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "the-leaning-tin",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Open",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Matcha brand e-commerce site",
+        "platform": "Custom",
+        "industry": "E-commerce"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Monitor"
+      },
+      "headline": "A product tin, tilted a few degrees left, causing measurable psychological damage",
+      "hook": "\"This tin leans to the left a bit much. I feel so uncomfortable, lol\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "This tin leans to the left a bit much. I feel so uncomfortable, lol",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Nobody can explain why a slightly tilted product shot is unbearable, but everyone who has seen one knows. The best design feedback is sometimes just an honest report of physical discomfort.",
+      "outcome": "Open. The tin leans on.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "ai-fingernails",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-05",
+      "site": {
+        "descriptor": "Cosmetic dentistry site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Reviewer predicts the client will spot the AI image's fingernails-through-gloves. And the floating instrument.",
+      "hook": "\"Something less obviously AI - the doc not actually holding the dental instrument haha\"",
+      "thread": [
+        {
+          "speaker": "Designer",
+          "text": "I would swap this photo out for something less obviously AI - I have a feeling this client will definitely notice the fingernails on the gloves and the doc not actually holding the dental instrument haha",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The new stock-photo QA checklist: count the fingers, check the gloves, confirm the tools obey gravity. AI imagery ships fast and uncanny - and medical clients, professionally trained to notice hands, notice.",
+      "outcome": "Resolved before the client's trained eye ever saw it.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "mystery-garbage-can",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-05",
+      "site": {
+        "descriptor": "Pediatric dentistry site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"The photo we sent didn't have a garbage can in it. idk how this one does.\"",
+      "hook": "A garbage can materialized in the x-ray room photo between upload and publish",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "For the xray room please use photo 7A3237. The photo we sent didn't have a garbage can in it, idk how this one does.",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "Remove this lobby photo and replace with photo 7A3299",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "Could you zoom out of photo 7A3287 to show the prints on the wall and a better view of the rug",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Somewhere between the client's folder and the CMS, a similar-but-wrong photo swapped in - and the client noticed because clients always notice their own rooms. Asset mix-ups are invisible to the people who didn't take the photos.",
+      "outcome": "Resolved. The garbage can was never seen again.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "phantom-arrows",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-03",
+      "site": {
+        "descriptor": "Implant dentistry site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Client reports arrows with no functionality. Investigation: they were never arrows.",
+      "hook": "\"Those were not arrows. But I removed them. They kind of look like arrows, though.\"",
+      "thread": [
+        {
+          "speaker": "Account manager",
+          "text": "referring to client comment: \"I'd like to add All-On-X, Bridges, and Dentures to this chart. I see arrows below the chart but no functionality...\" — I don't see an arrow, do you? are we able to add more to this chart?",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Those were not arrows. But I removed them. They kind of look like arrows, though. About adding more services — this section was designed to feature 3 services max. Adding more will look crowded. One option would be a slider?",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "We can add a few more columns, we would just have to remove the images. It will get tight. I personally think focusing on just a few, with images, is more impactful and ultimately more scannable than packing info in here.",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "before you proceed let me run it by the client!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A decoration got mistaken for a feature, so the fix was to delete the decoration - the UI equivalent of removing a door handle people kept pulling. The deadpan \"They kind of look like arrows, though\" concedes the client was, in a way, right.",
+      "outcome": "Resolved. The not-arrows are gone; the chart holds at three.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "borrowed-slack-logo",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2026-05",
+      "site": {
+        "descriptor": "Dental practice charity page (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "The partner-logo wall had a surprise partner: Slack's logo, standing in as filler",
+      "hook": "A dental charity page, proudly partnered with... a workplace chat app",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "lots of repeat logos here! maybe we're waiting on some imagery from the client?",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Designer",
+          "text": "Thanks for the call out, added one below and will leave a note for doc on the others!",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "place where this comment is pinned instead of slack logo for this column - that bottom area is meant for overflow logos beyond the three columns",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Got it! Added to the first column",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Placeholder logos are radioactive: they look intentional, they survive every skim, and one day a tech company's mark is publicly endorsing a dental charity. Logo walls need a roll call before launch.",
+      "outcome": "Resolved. Slack was released from its dental obligations.",
+      "flags": [
+        "round-2",
+        "brand-mentioned"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "thanks-ignoring-advice",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "SEO",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-02",
+      "site": {
+        "descriptor": "Pediatric dentistry site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Dental"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "The agency advised against it twice. The client: \"Thank you for your input, we would like to continue.\"",
+      "hook": "Expert advice, politely acknowledged and completely overridden",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "Add carousel arrows (just like above gallery pictures) and add 5th card for Special Needs Pediatric Dentistry.",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "can we add a 5th card for special needs or would we leave it at just 4?",
+          "attachment": null
+        },
+        {
+          "speaker": "SEO lead",
+          "text": "3-4 services on the homepage is best for SEO. I would advise against adding another one here.",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "3-4 services on the homepage is best for SEO, we would advise against adding another one here.",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "Thank you for your input, we would like to continue with the additional service though please in a carousel format.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The politest possible version of \"do it anyway.\" Every agency recognizes this thread: the advice is heard, appreciated, documented - and overruled in the same breath. At least it's in writing for the retro.",
+      "outcome": "Resolved. Five cards, one carousel, zero regrets (theirs).",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "corporate-has-approved",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2024-10",
+      "site": {
+        "descriptor": "Franchise services landing page",
+        "platform": "Custom",
+        "industry": "Services"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"Cannot use this logo per corporate\" → two comments later → \"Corporate HAS APPROVED THE LOGO.\"",
+      "hook": "Same thread. Same logo. Caps-lock reversal.",
+      "thread": [
+        {
+          "speaker": "Franchise reviewer",
+          "text": "Cannot use this logo per corporate",
+          "attachment": null
+        },
+        {
+          "speaker": "Franchise reviewer",
+          "text": "Is this the new landing page for this location?",
+          "attachment": null
+        },
+        {
+          "speaker": "Franchise team",
+          "text": "**Please disregard the \"cannot use this logo per corporate\" comment. Corporate HAS APPROVED THE LOGO. Thanks.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Brand approval in franchise-land is weather: it changes while you watch. The double-asterisk urgency and the capital letters carry the unmistakable energy of someone who just got out of a very short meeting.",
+      "outcome": "Resolved. The logo's legal status: APPROVED.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "borrow-competitors-photos",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-01",
+      "site": {
+        "descriptor": "Athletic club site",
+        "platform": "Website builder",
+        "industry": "Fitness"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"I'd like to pull images from [a supplement giant]'s website... if you snag the pictures from their site it should help\"",
+      "hook": "Client cheerfully requests light copyright infringement to look \"a bit more professional\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "I'd like to pull images from [a supplement brand]'s website to make this a bit more professional. if you snag the pictures from their site it should help bring this section and make it a bit better.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Unsure how to best execute this. I would recommend creating popups like the components on the right. If you could provide more clarity on how you would like the images represented, that would greatly help me implement this the way you envision.",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "i'd love to see what the popups would look like. Here's links to their greens and protein that we could start with for now to see how it looks",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "you the man Matt, thanks buddy",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Snag the pictures from their site\" is said in comment threads far more often than any copyright lawyer would survive hearing. The developer's artful pivot to \"let me build you popups instead\" is conflict-avoidance as a professional skill.",
+      "outcome": "Resolved, diplomatically, without a cease-and-desist.",
+      "flags": [
+        "round-2",
+        "brand-anonymized"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "mp3-background-video",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-10",
+      "site": {
+        "descriptor": "Business consulting site (agency-built)",
+        "platform": "Webflow",
+        "industry": "Consulting"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Task: add this background video. The file: an MP3.",
+      "hook": "\"This is a link to a MP3 - We do NOT upload videos to the site\"",
+      "thread": [
+        {
+          "speaker": "Account manager",
+          "text": "update asset with background video here: [file link]",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "This is a link to a MP3 - We do NOT upload videos to the site - this needs to be uploaded to YouTube and I need to be provided a link to video.",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "i put in a request for it to be added to YT.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "we need the YouTube video link still",
+          "attachment": null
+        },
+        {
+          "speaker": "Account manager",
+          "text": "[the YouTube link, at last]",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A \"background video\" that is, on inspection, audio - the file-format mixup every production team knows. Four messages, one internal ticket, and a YouTube round-trip later, sound finally became picture.",
+      "outcome": "Resolved. The MP3 found its calling as an actual video.",
+      "flags": [
+        "round-2"
+      ],
+      "vibe": "story"
+    },
+    {
+      "slug": "hide-the-pain-harold",
+      "tier": "bench",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2023-07",
+      "site": {
+        "descriptor": "Nonprofit foundation site (Polish team)",
+        "platform": "Webflow",
+        "industry": "Nonprofit"
+      },
+      "captured": {
+        "browser": "Safari",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A design review resolved by putting Hide the Pain Harold on the website. On purpose.",
+      "hook": "\"może damy tutaj Hide The Pain Harolda?\" → deliberation → \"Harold on board ;]\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "może damy tutaj Hide The Pain Harolda zamiast tych generycznych postaci? [maybe we put Hide The Pain Harold here instead of these generic characters?]",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Designer",
+          "text": "No nie wiem :D W zasadzie musielibyśmy odpowiedzieć sobie na to samo pytanie co wyżej — czy grupa docelowa to zrozumie? [I don't know :D We'd have to answer the same question as above — will the target audience get it?]",
+          "attachment": null
+        },
+        {
+          "speaker": "Foundation lead",
+          "text": "hahaha :D totalnie moj sense of humour [totally my sense of humour]",
+          "attachment": null
+        },
+        {
+          "speaker": "Designer",
+          "text": "Harold on board ;]",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A complete design-governance arc - proposal, audience-fit concern, stakeholder sign-off, deployment - except the deliverable is a meme of a man smiling through pain. International teams review differently; the joy is universal.",
+      "outcome": "Resolved. Harold remains on board.",
+      "flags": [
+        "round-2",
+        "translated"
+      ],
+      "vibe": "comedy"
+    },
+    {
+      "slug": "approved-on-the-design-comp",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "receipts",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2026-01",
+      "site": {
+        "descriptor": "Medical clinic site (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"This picture is unprofessional.\" \"This was approved on the design comp.\"",
+      "hook": "The receipts, produced instantly, in one flat sentence",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "This picture is unprofessional, please change it to something more appealing",
+          "attachment": null
+        },
+        {
+          "speaker": "Agency",
+          "text": "This was approved on the design comp. Please advise a type of photo you would prefer",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "[link to a stock photo of a happy senior man enjoying nature]",
+          "attachment": null
+        },
+        {
+          "speaker": "Agency",
+          "text": "Updated",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The single most valuable sentence an agency can say, and it only works if there's a record. \"This was approved\" isn't a defense without a paper trail - which is exactly what a comment thread pinned to the page is.",
+      "outcome": "Resolved. The photo changed anyway - but on the record, and on request.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "google-australian-spelling",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "passive-aggression",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 5,
+      "status": "Open",
+      "date": "2025-06",
+      "site": {
+        "descriptor": "Australian public health organisation site",
+        "platform": "Custom CMS",
+        "industry": "Government / Health"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A copy note that starts with \"just checking\" and ends with \"please google Australian spelling!\"",
+      "hook": "\"Fueling is a spelling error - it's fuelling.\" Weaponized politeness, gold standard.",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "This needs a readability re-write. Suggest something like: Fuelling innovative health research. Just checking you're using Grammarly or an equivalent extension to check spelling too? Fueling is a spelling error - it's fuelling. Please ensure you're using this throughout and if you're unsure - please google Australian spelling!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Every word here is polite and every word is a knife. \"Just checking,\" \"please ensure,\" \"if you're unsure\" - and then the exclamation mark lands like a slammed door. Localisation isn't only translation; sometimes it's one L, and someone will absolutely notice.",
+      "outcome": "Open. Somewhere, a US spell-checker is still winning.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "visible-on-a-physical-phone",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "clapback",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Mobile",
+      "severity": "Mild",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2025-04",
+      "site": {
+        "descriptor": "Aesthetics clinic site (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "QA reports an icon hidden on mobile. The reply lands like a door closing.",
+      "hook": "\"It is visible on a physical phone.\"",
+      "thread": [
+        {
+          "speaker": "QA reviewer",
+          "text": "Mobile - The FB icon hidden on sticky footer",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "It is visible on a physical phone.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Works on my machine\" evolved. The devastating part is that it's often true - browser device emulation lies about sticky footers constantly - which means both people were right and neither felt like it.",
+      "outcome": "Resolved. On physical phones and emulated ones alike.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "you-just-have-to-persevere",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "deadpan",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Interactions",
+      "severity": "Medium",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2025-06",
+      "site": {
+        "descriptor": "Engineering firm site (staging)",
+        "platform": "Webflow",
+        "industry": "Engineering"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"I have lost the ability to change the text or click on the buttons.\" \"It does work. You just have to persevere\"",
+      "hook": "The most stoic bug triage ever committed to a comment thread",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "I now have the ability to edit the images (Thank you) BUT I have lost the ability to change the text or click on the buttons.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "It does work. You just have to persevere",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "A masterpiece of the genre: not a denial, not a fix - a philosophy. \"It does work\" and \"you just have to persevere\" cannot both be reassuring, and yet here we are.",
+      "outcome": "Resolved. Perseverance was, eventually, not required.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "its-2025-you-never-know",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "clapback",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-09",
+      "site": {
+        "descriptor": "Athletic club site",
+        "platform": "Website builder",
+        "industry": "Fitness"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "Testimonial from \"Kyle\" had a stock photo of a girl. The fix came with a note.",
+      "hook": "\"we could make 'Kyle' a photo of a boy LOL\" → \"its 2025 Blaise you never know, haha. swapped em\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "this looks great. only thing I'd say is in these comments, we could make \"Kyle\" a photo of a boy LOL",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "and same with Jenna HAHA",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "really though the page looks great. I'm going to check the journey quick and we should be good to launch",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "its 2025 you never know, haha. swapped em",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Fixed the ticket AND landed the joke, in nine words. This is what a healthy client relationship sounds like - enough trust for a light jab, enough professionalism that the work still ships.",
+      "outcome": "Resolved. Kyle and Jenna now look the part.",
+      "flags": [
+        "round-3",
+        "names-partially-retained"
+      ]
+    },
+    {
+      "slug": "it-is-a-church",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "deadpan",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Feature Request",
+      "severity": "Mild",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2025-10",
+      "site": {
+        "descriptor": "Church website",
+        "platform": "Webflow",
+        "industry": "Faith"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "A carefully-worded question about event registration, answered in one sentence",
+      "hook": "\"It is a church; people do not need to register for events. Remove this.\"",
+      "thread": [
+        {
+          "speaker": "Agency",
+          "text": "will you have a link for people to register for events, or do you just want this section to show which events are coming up? If so, we can remove the \"Register\" buttons here and the \"Learn More\" button on each event. Let me know. Thanks!",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "It is a church; people do not need to register for events. Remove this.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The agency wrote three sentences with two options and a thank-you. The client replied with a fact, a conclusion, and an instruction. Nobody was rude, and yet somebody definitely won.",
+      "outcome": "Resolved. All are welcome, no RSVP required.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "kindly-do-the-needful",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "passive-aggression",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Feature Request",
+      "severity": "Mild",
+      "rageLevel": 3,
+      "status": "Open",
+      "date": "2026-07",
+      "site": {
+        "descriptor": "Language school website",
+        "platform": "Custom",
+        "industry": "Education"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"Kindly do the needful, already discussed this\" - plus a citation to a group chat",
+      "hook": "The immortal phrase, deployed with receipts from a WhatsApp group",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "Use BUNNY PLAYER for CDN / video quality control.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "already use cdn in live site",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "Where is the video quality control in this for 4k, 2k, 1080p, 720p. Kindly do the needful, already discussed this — has mentioned this in group.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "\"Kindly do the needful\" is the most efficient sentence in global software delivery: a request, a deadline, and mild disappointment, all in four words. The \"already discussed this in group\" is the receipt that turns it from ask into indictment.",
+      "outcome": "Open. The needful remains, as yet, undone.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "kindly-type-the-input",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "clapback",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2025-03",
+      "site": {
+        "descriptor": "Film production agency site",
+        "platform": "Webflow",
+        "industry": "Creative"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Bug report dismissed with instructions on how to use a keyboard",
+      "hook": "\"...unless you paste it from your computer. Kindly type the input and see\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "the active state for the dropdown is different to the active state of the input field. Please make it without the white background.",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "The active or focus state doesn't have a white background unless you paste it from your computer. Kindly type the input and see",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The developer found the actual repro - pasted text triggers a different style than typed text - and delivered it in the most withering way available. Correct AND cutting is a rare double.",
+      "outcome": "Resolved. Typing was, apparently, the answer.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "no-this-is-what-the-client-wants",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "refusal",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 3,
+      "status": "Resolved",
+      "date": "2025-05",
+      "site": {
+        "descriptor": "Endocrinology practice site (staging)",
+        "platform": "WordPress",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Desktop"
+      },
+      "headline": "\"can we re order as per xd\" - \"no. this is what the client wants\"",
+      "hook": "Eight words. Design debate over.",
+      "thread": [
+        {
+          "speaker": "Designer",
+          "text": "can we re order as per xd",
+          "attachment": null
+        },
+        {
+          "speaker": "Project lead",
+          "text": "no. this is what the client wants",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The lowercase \"no.\" is doing all the work. Every design system eventually meets the immovable object of what the client asked for, and this is what that collision sounds like in production.",
+      "outcome": "Resolved. The XD file remains, spiritually, unread.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "correct-the-icons-are-wrong",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "self-roast",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 0,
+      "status": "Resolved",
+      "date": "2025-01",
+      "site": {
+        "descriptor": "Design subscription service site (staging)",
+        "platform": "Webflow",
+        "industry": "Creative"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Monitor"
+      },
+      "headline": "\"check all icons\" → \"Correct. The icons are wrong.\"",
+      "hook": "The entire QA cycle, completed in six words",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "check all icons",
+          "attachment": null
+        },
+        {
+          "speaker": "Founder",
+          "text": "Correct. The icons are wrong.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Report filed, investigated, confirmed, and roasted - by the same team, in one breath. \"Correct. The icons are wrong.\" belongs in a museum of deadpan bug triage.",
+      "outcome": "Resolved. The icons became right.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "crap-i-built-it",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "self-roast",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-01",
+      "site": {
+        "descriptor": "Wedding / event site",
+        "platform": "WordPress",
+        "industry": "Events"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Change requested, change reconsidered, change already built. \"Crap I built it.\"",
+      "hook": "The four-message arc every developer has lived through",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "wrong testimonial section - should be large image (same with above)",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "actually - hang on that, let me check with the client. I do like having these all the same for consistency - let me ask her if she's good with that",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Crap I built it.",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "no thank you keep as is!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The gap between \"actually, hang on\" and \"Crap I built it\" is the entire economics of agency rework, measured in minutes. The happy ending - \"keep as is!\" - means the wasted work accidentally became the right work.",
+      "outcome": "Resolved by pure luck. Kept as built.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "i-would-never-suggest-that",
+      "tier": "page",
+      "vibe": "sass",
+      "sassType": "self-roast",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Interactions",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-02",
+      "site": {
+        "descriptor": "Social media agency site",
+        "platform": "Webflow",
+        "industry": "Agency"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "Client politely declines an animation. It was never an option - just a leftover experiment that leaked out.",
+      "hook": "\"that was not an alternative 😅 ... I would never suggest such a clunky animation 🙈\"",
+      "thread": [
+        {
+          "speaker": "Client",
+          "text": "thanks for an alternative to the animation. But we are not fans of this one. It's just not smooth. If there's a smooth behaviour as an alternative, then we can take that. If not we can leave this behaviour on the type out completely.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "hey that was not an alternative 😅",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "that was just a left over from our experiments haha I would never suggest such a clunky animation 🙈",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "how do you like the animation now?",
+          "attachment": null
+        },
+        {
+          "speaker": "Client",
+          "text": "perfect :)",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Staging environments leak drafts, and clients review whatever is in front of them. The horror of watching someone earnestly evaluate your throwaway experiment - and the speed of that \"🙈\" - is universal.",
+      "outcome": "Resolved. The real animation was, in fact, perfect.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "yes-yes-we-do",
+      "tier": "bench",
+      "vibe": "sass",
+      "sassType": "deadpan",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Copy",
+      "severity": "Mild",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2024-07",
+      "site": {
+        "descriptor": "Industrial coatings company site",
+        "platform": "Custom CMS",
+        "industry": "Manufacturing"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Monitor"
+      },
+      "headline": "\"do we need this heading here? Looks kind of weird\" - \"Yes. Yes we do.\"",
+      "hook": "Two words, then the same word again, for emphasis",
+      "thread": [
+        {
+          "speaker": "Marketing",
+          "text": "do we need this heading here? Looks kind of weird",
+          "attachment": null
+        },
+        {
+          "speaker": "Stakeholder",
+          "text": "Yes. Yes we do.",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The repetition is the whole joke. One \"yes\" answers the question; the second one ends the conversation.",
+      "outcome": "Resolved. The heading stays. Forever.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "bible-then-wifi",
+      "tier": "bench",
+      "vibe": "sass",
+      "sassType": "deadpan",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Mild",
+      "rageLevel": 2,
+      "status": "Resolved",
+      "date": "2023-12",
+      "site": {
+        "descriptor": "Cardiovascular practice site",
+        "platform": "Webflow",
+        "industry": "Medical"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "Windows",
+        "device": "Monitor"
+      },
+      "headline": "The blog icon looked like a bible. The replacement looked like WiFi.",
+      "hook": "\"All of the other icons you got are spot on and great. But this one looks like WiFi.\"",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "Change \"blog\" icon to something else since it looks like a bible.",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Added new one",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "Still looks the same, are you publishing?",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "Please check it.",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "All of the other icons you got are spot on and great. But this one looks like WiFi. Can you get something that represents a blog or article?",
+          "attachment": null
+        },
+        {
+          "speaker": "Developer",
+          "text": "Previous two blog icons related Read and RSS feed which is related blogs. Added new one or give me certain icon reference please",
+          "attachment": null
+        },
+        {
+          "speaker": "Reviewer",
+          "text": "This is better thank you",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The compliment sandwich with nothing but sandwich: praise every other icon, then guillotine the one. Three rounds and two mistaken identities later, a blog finally looked like a blog.",
+      "outcome": "Resolved on attempt three. Neither holy nor wireless.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "second-time-ive-flagged-this",
+      "tier": "bench",
+      "vibe": "sass",
+      "sassType": "passive-aggression",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "UI/UX",
+      "severity": "Medium",
+      "rageLevel": 4,
+      "status": "In progress",
+      "date": "2026-03",
+      "site": {
+        "descriptor": "Fintech company site (in development)",
+        "platform": "Webflow",
+        "industry": "Fintech"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "\"This is the second time I've flagged this\" - then two people confirm they can't see it",
+      "hook": "Pixelated logo, flagged twice, invisible to everyone but the person flagging it",
+      "thread": [
+        {
+          "speaker": "Reviewer",
+          "text": "Logo is still pixelated. This is the second time I've flagged this, please let me know if there is an issue with the file.",
+          "attachment": "screenshot"
+        },
+        {
+          "speaker": "Developer",
+          "text": "Logo is looking good to me. Can you please verify once",
+          "attachment": null
+        },
+        {
+          "speaker": "Second developer",
+          "text": "looks good on my end. Are you still seeing the issue on your end?",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "The full passive-aggressive kit - the count (\"second time\"), the politeness (\"please let me know\"), the implied question (\"is there an issue with the file?\") - met by the worst possible response: two people who can't reproduce it. Retina displays make liars of everyone.",
+      "outcome": "In progress. Third flagging pending.",
+      "flags": [
+        "round-3"
+      ]
+    },
+    {
+      "slug": "shit-tonne-of-concrete",
+      "tier": "bench",
+      "vibe": "sass",
+      "sassType": "self-roast",
+      "source": "human",
+      "sourceLabel": "Caught in review",
+      "category": "Content",
+      "severity": "Medium",
+      "rageLevel": 1,
+      "status": "Resolved",
+      "date": "2025-04",
+      "site": {
+        "descriptor": "Sustainable architecture practice site",
+        "platform": "Webflow",
+        "industry": "Architecture"
+      },
+      "captured": {
+        "browser": "Chrome",
+        "os": "macOS",
+        "device": "Desktop"
+      },
+      "headline": "A green-building firm de-tagging its own project: \"not exactly low carbon\"",
+      "hook": "\"It's got a sh*t-tonne of concrete and cement-stabilised rammed earth so not exactly low carbon :-(\"",
+      "thread": [
+        {
+          "speaker": "Architect",
+          "text": "[Project] should NOT be tagged as Passivhaus. Please fix.",
+          "attachment": null
+        },
+        {
+          "speaker": "Web lead",
+          "text": "it's also showing up under lower carbon, should that tag also be removed?",
+          "attachment": null
+        },
+        {
+          "speaker": "Architect",
+          "text": "Oh, yes please. It's got a sh*t-tonne of concrete and cement-stabilised rammed earth so not exactly low carbon :-(",
+          "attachment": null
+        },
+        {
+          "speaker": "Web lead",
+          "text": "Doh, of course *I* can remove these tags. Done! That leaves it tagged with biophilic and natural materials. That good?",
+          "attachment": null
+        },
+        {
+          "speaker": "Architect",
+          "text": "Thank you - perfect. I know how to change these now too!",
+          "attachment": null
+        }
+      ],
+      "finding": null,
+      "whyItMatters": "Certification claims are the one place a website can quietly commit fraud, and this practice caught its own overreach with a sad emoticon and a swear. Honest self-roasting is a form of governance.",
+      "outcome": "Resolved. Tags now match the actual building.",
+      "flags": [
+        "round-3",
+        "profanity-censored"
       ]
     }
   ],
