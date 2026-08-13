@@ -65,7 +65,11 @@ export function ToolPage({
       {markdownPath ? (
         <link rel="alternate" type="text/markdown" href={markdownPath} />
       ) : null}
-      <SiteNav />
+      {/* Every tool page opens on a light hero, so the nav has to be solid from
+          the top. Without this the bar keeps its transparent treatment and its
+          white links render invisible against the hero, which reads as a nav
+          with no menu items at all. */}
+      <SiteNav solidAtTop />
       <ToolViewTracker slug={slug} />
 
       <header className={styles.hero}>

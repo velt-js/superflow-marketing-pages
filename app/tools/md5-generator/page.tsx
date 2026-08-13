@@ -51,7 +51,8 @@ export default function Md5GeneratorPage() {
           { name: "MD5 Hash Generator", url: `${SITE_URL}/tools/md5-generator` },
         ]}
       />
-      <SiteNav />
+      {/* ListingHero is a light hero, so the bar must be solid from the top. */}
+      <SiteNav solidAtTop />
       <ListingHero heading={HERO_HEADING} subheading={HERO_SUBHEADING} hideCta />
       <p className={styles.privacyLine}>{PRIVACY_LINE}</p>
       <Md5Tool />

@@ -120,6 +120,64 @@ test.describe("every live tool page loads clean", () => {
   }
 });
 
+/**
+ * Relative luminance of an `rgb(...)` string, per WCAG.
+ *
+ * @param color - A computed colour value.
+ */
+function luminance(color: string): number {
+  const [r, g, b] = (color.match(/\d+(\.\d+)?/g) ?? ["0", "0", "0"])
+    .slice(0, 3)
+    .map(Number);
+  const channel = (value: number) => {
+    const v = value / 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
+test.describe("the nav is readable on every tool page", () => {
+  // Every tool page opens on a light hero. SiteNav defaults to a transparent
+  // bar with white links and only turns solid once the reader scrolls, so a
+  // page that forgets `solidAtTop` renders white-on-white: the menu items are
+  // in the DOM, focusable, and completely invisible. That is invisible to a
+  // DOM assertion, which is why this measures contrast instead.
+  for (const tool of [...liveTools(), { slug: "", name: "index" }]) {
+    const path = tool.slug ? toolPath(tool.slug) : "/tools";
+
+    test(`${tool.name} nav links are visible at the top of the page`, async ({
+      page,
+    }) => {
+      await page.goto(path, { waitUntil: "domcontentloaded" });
+      // The bar's solid state is applied by a scroll handler, so settle first.
+      await page.waitForTimeout(800);
+
+      const link = page.locator("header a").filter({ hasText: /^Pricing$/ }).first();
+      await expect(link).toBeVisible();
+
+      const colors = await link.evaluate((element) => {
+        const text = getComputedStyle(element).color;
+        let node: HTMLElement | null = element as HTMLElement;
+        let background = "rgba(0, 0, 0, 0)";
+        while (node && background === "rgba(0, 0, 0, 0)") {
+          background = getComputedStyle(node).backgroundColor;
+          node = node.parentElement;
+        }
+        return { text, background };
+      });
+
+      const light = Math.max(luminance(colors.text), luminance(colors.background));
+      const dark = Math.min(luminance(colors.text), luminance(colors.background));
+      const contrast = (light + 0.05) / (dark + 0.05);
+
+      expect(
+        contrast,
+        `nav link ${colors.text} on ${colors.background} at ${path}`,
+      ).toBeGreaterThan(3);
+    });
+  }
+});
+
 test.describe("planned tools are not reachable from the index", () => {
   test("no planned tool is linked", async ({ page }) => {
     await page.goto("/tools", { waitUntil: "domcontentloaded" });
