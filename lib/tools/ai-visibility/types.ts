@@ -101,6 +101,20 @@ export type FindingDetail =
       hasAuthor: boolean;
     }
   | { kind: "llms-txt"; validation: LlmsTxtValidation }
+  /**
+   * The backend engine's llms.txt shape.
+   *
+   * It reports only the rules that failed, and none of the file-level fields
+   * (`raw`, `bytes`, `document`, `status`) that `LlmsTxtValidation` requires.
+   * This is a separate variant rather than a synthesized `validation` object
+   * because inventing those fields would put made-up numbers in a report whose
+   * whole value is being accurate.
+   */
+  | {
+      kind: "llms-txt-summary";
+      found: boolean;
+      failedRules: Array<{ title: string; detail: string }>;
+    }
   | { kind: "meta"; title: string | null; description: string | null };
 
 /** A bot verdict flattened for JSON transport. */
