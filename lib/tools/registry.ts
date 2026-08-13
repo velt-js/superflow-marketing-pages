@@ -94,7 +94,12 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "llms.txt Generator",
     tagline: "Generate a spec-correct llms.txt and llms-full.txt for any site",
     category: "ai-visibility",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13, verified end to end against the
+    // deployed staging engine. A run on example.com returned both files
+    // (llms.txt 95 bytes, llms-full.txt 208 bytes) and a run on
+    // bbc.com/news returned 200 pages discovered, 15 inlined, truncated.
+    status: "live",
     icon: "file",
     related: [
       "ai-visibility-checker",
@@ -108,7 +113,11 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "Turn your pages into clean Markdown you can host for AI agents to read",
     category: "ai-visibility",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13, verified end to end against the
+    // deployed staging engine. A browser run on example.org rendered the
+    // document, the preview, and a working example-org.md download.
+    status: "live",
     icon: "markdown",
     related: [
       "ai-visibility-checker",
@@ -122,6 +131,22 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "Check your structured data against Schema.org and what search engines accept",
     category: "structured-data",
+    // The page, the API route, and the UI are all built and verified. The
+    // tool stays "planned" because the deployed engine cannot currently see
+    // any structured data at all: it consumes the WEB_PAGE_HTML context
+    // strategy, which strips every SCRIPT element out of the DOM before the
+    // service reads it, and JSON-LD lives in
+    // <script type="application/ld+json">. Verified 2026-08-13 against
+    // staging: web.dev/articles/lcp (2 blocks in the raw HTML),
+    // usesuperflow.com (5 blocks), and bbc.com/news all came back with
+    // blockCount 0 and noStructuredData true. The check logic itself is
+    // fine, which the generator proves by running the same 11 checks over
+    // its own output and reporting them correctly.
+    //
+    // A tool that tells every visitor "this page has no structured data" is
+    // worse than one that errors, because the visitor believes it. Flip this
+    // to "live" once the engine reads a DOM with script tags intact and a
+    // run against a page with known markup reports a non-zero blockCount.
     status: "planned",
     icon: "check",
     related: [
@@ -135,7 +160,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "JSON-LD Generator",
     tagline: "Build valid schema markup from a URL, then paste it into your page",
     category: "structured-data",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13, verified end to end against deployed
+    // staging. An uncached run on web.dev/articles/lcp came back with
+    // detectedType FAQPage, a 2,346 character block whose three questions
+    // are quoted from the page, and its own 11-check validation (9 pass,
+    // 2 warn, 0 fail). Rendered in a browser with no page errors.
+    status: "live",
     icon: "code",
     related: [
       "json-ld-validator",

@@ -54,10 +54,20 @@ export type Finding = {
   fixLanguage?: "txt" | "html" | "json";
   /** Platform-specific steps, swapped in when the platform is known. */
   platformFix?: string;
-  effort: Effort;
+  /**
+   * Optional because the backend engine does not expose it.
+   *
+   * The product backend stores a finding's scoring and triage fields on the
+   * category rollup and deletes them from the per-finding payload before the
+   * free-tools surface ever sees it (`report-result.transformer.ts` strips the
+   * findings contract off the report so it is not stored twice). The in-repo
+   * engine still supplies all three. Rendering has to survive both, so these
+   * are optional and every reader guards them.
+   */
+  effort?: Effort;
   /** Points earned out of `maxPoints`. */
-  points: number;
-  maxPoints: number;
+  points?: number;
+  maxPoints?: number;
   /** Arbitrary per-check payload the UI renders specially (tables, etc). */
   detail?: FindingDetail;
 };

@@ -1,0 +1,256 @@
+/* Markdown for Agents: the URL form, the document, and the preview.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+/* ---- Result ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px 22px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+    flex: 1 1 260px;
+}
+
+.resultTitle {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--t-ink, #1e1e1f);
+    overflow-wrap: anywhere;
+}
+
+.resultSub {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+    overflow-wrap: anywhere;
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ghostButton {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    background: transparent;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 9999px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ghostButton:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.notice {
+    margin: 0;
+    padding: 11px 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--t-warn, #a86a00);
+    background: var(--t-warn-bg, #fdf2e0);
+    border-radius: 10px;
+}
+
+.statsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.stat strong {
+    color: var(--t-ink, #1e1e1f);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* ---- Raw / preview switch ---- */
+
+.viewSwitch {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 3px;
+    gap: 3px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.viewTab {
+    padding: 7px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink-soft, #5b5b60);
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.viewTabActive {
+    color: var(--t-ink, #1e1e1f);
+    background: var(--t-panel, #feffff);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ---- The document ---- */
+
+.output {
+    width: 100%;
+    min-height: 420px;
+    max-height: 620px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+    color: var(--t-ink, #1e1e1f);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    resize: vertical;
+    white-space: pre;
+    overflow: auto;
+    outline: none;
+}
+
+.output:focus {
+    border-color: #2d9aff;
+}
+
+.preview {
+    min-height: 420px;
+    max-height: 620px;
+    overflow: auto;
+    padding: 20px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.metaLine {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+@media (max-width: 640px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+    }
+
+    .output,
+    .preview {
+        min-height: 320px;
+    }
+}

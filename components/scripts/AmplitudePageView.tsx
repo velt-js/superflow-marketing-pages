@@ -4,7 +4,7 @@
 // app/layout.tsx inside a <Suspense> boundary because usePageView() reads
 // useSearchParams(), which opts its subtree into dynamic rendering.
 //
-// Kept separate from PageviewTracker (GTM/Mixpanel): those skip the first
+// Kept separate from PageviewTracker (GTM/GA4): those skip the first
 // run because their SDKs auto-fire the initial pageview, whereas Amplitude
 // autocapture pageViews is disabled, so Amplitude must track the entry page.
 

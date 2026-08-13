@@ -70,6 +70,31 @@
     background: #fbf3d9;
 }
 
+.vibe,
+.vibeSass {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.vibe {
+    color: #4b5563;
+    background: #f1f2f5;
+}
+
+/* Sassy gets its own tint - it is the most shareable content in the set. */
+.vibeSass {
+    color: #a4116f;
+    background: #fdeaf5;
+}
+
 .flagTag {
     display: inline-flex;
     align-items: center;
