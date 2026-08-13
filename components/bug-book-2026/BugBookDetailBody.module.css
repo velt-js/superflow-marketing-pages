@@ -388,6 +388,40 @@
     overflow-wrap: break-word;
 }
 
+/* Environment details (browser, OS, device, date, status) - captured and
+   shown, but deliberately quieter than the primary cells above. */
+.capturedSecondary {
+    margin: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: #f6f7f9;
+}
+
+.capturedSecondaryItem {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.capturedSecondaryLabel {
+    font-family: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #a3a8b3;
+}
+
+.capturedSecondaryValue {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12.5px;
+    color: #6b7079;
+}
+
 .capturedFootnote {
     margin: 14px 0 0;
     font-family: var(--font-poppins), system-ui, sans-serif;

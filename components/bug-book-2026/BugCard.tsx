@@ -37,7 +37,11 @@ function ArrowIcon() {
  */
 export default function BugCard({ entry }: { entry: BugBookListEntry }) {
   const dateLabel = formatBugDate(entry.date);
-  const metaParts = [entry.siteDescriptor, dateLabel].filter(Boolean);
+  const metaParts = [
+    entry.siteDescriptor,
+    entry.sitePlatform,
+    dateLabel,
+  ].filter(Boolean);
 
   return (
     <Link href={`/bug-book/${entry.slug}`} className={styles.card}>

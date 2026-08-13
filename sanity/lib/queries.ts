@@ -905,6 +905,8 @@ const BUG_BOOK_LIST_FIELDS = `
   status,
   date,
   "siteDescriptor": site.descriptor,
+  "sitePlatform": site.platform,
+  "siteIndustry": site.industry,
   headline,
   hook,
   flags,

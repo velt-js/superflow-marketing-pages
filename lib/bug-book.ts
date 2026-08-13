@@ -32,6 +32,8 @@ export type BugBookListEntry = {
   status?: string;
   date: string;
   siteDescriptor?: string;
+  sitePlatform?: string;
+  siteIndustry?: string;
   headline: string;
   hook?: string;
   flags?: string[];
