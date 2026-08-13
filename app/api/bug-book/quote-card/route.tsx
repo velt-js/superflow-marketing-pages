@@ -45,6 +45,18 @@ const FOOTER_TRUST = "Names removed. Screenshots redacted.";
 const FOOTER_BRAND = "The Superflow Bug Book";
 const FOOTER_URL = "usesuperflow.ai/bug-book";
 
+/**
+ * Speaker and site now both often begin "Client", which rendered as
+ * "Client · Client site". When the site already leads with the speaker's
+ * word, the site alone says it.
+ */
+function buildAttribution(speaker?: string, site?: string): string {
+  if (!speaker) return site ?? "";
+  if (!site) return speaker;
+  const firstWord = site.split(/[\s·]/)[0]?.toLowerCase().replace(/'s$/, "");
+  return firstWord === speaker.toLowerCase() ? site : `${speaker} · ${site}`;
+}
+
 /** Resolves the requested crop, falling back rather than erroring. */
 function resolveFormat(value: string | null): FormatName {
   return value && value in FORMATS ? (value as FormatName) : DEFAULT_FORMAT;
@@ -76,6 +88,10 @@ export async function GET(request: NextRequest): Promise<Response> {
     }
 
     const { width, height } = FORMATS[resolveFormat(params.get("format"))];
+    const attribution = buildAttribution(
+      entry.pullQuoteSpeaker,
+      entry.siteDescriptor,
+    );
     const gradient = VIBE_GRADIENTS[entry.vibe ?? ""] ?? VIBE_GRADIENTS.story;
     const pad = Math.round(width * 0.09);
     const fontSize = quoteFontSize(entry.pullQuote.length, width, height);
@@ -126,7 +142,7 @@ export async function GET(request: NextRequest): Promise<Response> {
             >
               {entry.pullQuote}
             </div>
-            {entry.pullQuoteSpeaker ? (
+            {attribution ? (
               <div
                 style={{
                   display: "flex",
@@ -140,8 +156,7 @@ export async function GET(request: NextRequest): Promise<Response> {
                   fontWeight: 600,
                 }}
               >
-                {entry.pullQuoteSpeaker}
-                {entry.siteDescriptor ? ` · ${entry.siteDescriptor}` : ""}
+                {attribution}
               </div>
             ) : null}
           </div>
