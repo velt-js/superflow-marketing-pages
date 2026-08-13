@@ -9,6 +9,8 @@ import { UTM_BUILDER_CONTENT } from "./utm-builder";
 import { MARKDOWN_VIEWER_CONTENT } from "./markdown-viewer";
 import { MD5_GENERATOR_CONTENT } from "./md5-generator";
 import { TECH_STACK_DETECTOR_CONTENT } from "./tech-stack-detector";
+import { FULL_PAGE_SCREENSHOT_CONTENT } from "./full-page-screenshot";
+import { ALT_TEXT_GENERATOR_CONTENT } from "./alt-text-generator";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -17,6 +19,8 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   MD5_GENERATOR_CONTENT,
   MARKDOWN_VIEWER_CONTENT,
   TECH_STACK_DETECTOR_CONTENT,
+  FULL_PAGE_SCREENSHOT_CONTENT,
+  ALT_TEXT_GENERATOR_CONTENT,
 ];
 
 /**
@@ -37,4 +41,6 @@ export {
   MARKDOWN_VIEWER_CONTENT,
   MD5_GENERATOR_CONTENT,
   TECH_STACK_DETECTOR_CONTENT,
+  FULL_PAGE_SCREENSHOT_CONTENT,
+  ALT_TEXT_GENERATOR_CONTENT,
 };

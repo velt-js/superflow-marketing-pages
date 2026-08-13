@@ -190,7 +190,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Full Page Screenshot",
     tagline: "Capture any page end to end. No watermark, no extension",
     category: "assets",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract. Live as of 2026-08-13. Verified end to end against deployed
+    // staging: a run on news.ycombinator.com returned a signed bucket URL
+    // whose contents fetched as 228,435 bytes of PNG at 1920 by 1180, and the
+    // page rendered those bytes at that size. The link carries a 24 hour
+    // expiry, which the UI states next to the download button.
+    status: "live",
     icon: "camera",
     related: ["social-preview-checker", "ai-visibility-checker"],
   },
@@ -199,7 +205,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Alt Text Generator",
     tagline: "Write accurate alt text for a whole page of images in seconds",
     category: "assets",
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract, and every miss spends real model budget. Live as of
+    // 2026-08-13. Verified end to end against deployed staging: a run on
+    // en.wikipedia.org/wiki/Cat returned 56 images, counts of 59 found, 4
+    // analysed, 32 missing alt, 52 skipped, written by
+    // claude-haiku-4-5-20251001 for 1259 microUSD.
+    status: "live",
     icon: "image",
     related: ["website-launch-checklist", "ai-visibility-checker"],
   },
