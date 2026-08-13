@@ -271,8 +271,14 @@ export function FindingCard({ finding }: { finding: Finding }) {
   const [isOpen, setIsOpen] = useState(finding.status === "fail");
   const panelId = useId();
 
+  // A row is only expandable when there is something behind it. The backend
+  // engine merges "why" and "fix" into one sentence and sends no detail, so a
+  // finding from that path is fully readable collapsed. Opening it to an empty
+  // panel would read as a broken control.
+  const hasFixText = finding.fix.trim().length > 0;
   const hasBody =
-    finding.status !== "pass" ||
+    hasFixText ||
+    finding.platformFix !== undefined ||
     finding.detail !== undefined ||
     finding.fixSnippet !== undefined;
 
@@ -292,7 +298,7 @@ export function FindingCard({ finding }: { finding: Finding }) {
           <span className={styles.findingWhy}>{finding.why}</span>
         </span>
         <span className={styles.findingMeta}>
-          {finding.status !== "pass" ? (
+          {finding.status !== "pass" && finding.effort ? (
             <span className={styles.effortChip}>
               {EFFORT_LABELS[finding.effort] ?? finding.effort}
             </span>
@@ -316,7 +322,7 @@ export function FindingCard({ finding }: { finding: Finding }) {
 
       {isOpen && hasBody ? (
         <div className={styles.findingBody} id={panelId}>
-          {finding.status !== "pass" ? (
+          {hasFixText ? (
             <>
               <p className={styles.fixLabel}>How to fix it</p>
               <p className={styles.fixText}>{finding.fix}</p>
