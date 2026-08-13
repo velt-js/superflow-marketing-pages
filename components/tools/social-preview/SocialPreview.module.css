@@ -1,0 +1,993 @@
+/* Social Preview Checker: the form, the platform cards, and the report.
+   Inherits the tool-page custom properties from .page in Tools.module.css.
+
+   The card blocks below are deliberately hand-shaped per platform rather than
+   themed from one template. Recognising your own Slack unfurl or Discord
+   embed at a glance is the whole point of the tool, and a single card with a
+   swapped accent colour does not do that. Colours, radii, and proportions
+   here follow each platform's own rendering. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+.ghostButton {
+    padding: 9px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    transition: background 160ms ease;
+}
+
+.ghostButton:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+/* ---- Result header ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+}
+
+.resultHost {
+    margin: 0 0 2px;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.resultChecked {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.notice {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--t-warn, #a86a00);
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+/* ---- Summary strip ---- */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.summaryCell {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.summaryValue {
+    margin: 0 0 2px;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.summaryLabel {
+    margin: 0;
+    font-size: 12px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.summaryFail .summaryValue {
+    color: var(--t-fail, #c8362f);
+}
+
+.summaryWarn .summaryValue {
+    color: var(--t-warn, #a86a00);
+}
+
+.summaryPass .summaryValue {
+    color: var(--t-pass, #1a8f5f);
+}
+
+/* ---- Section scaffolding ---- */
+
+.sectionTitle {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.sectionLead {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft, #5b5b60);
+    max-width: 70ch;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 18px;
+}
+
+@media (max-width: 720px) {
+    .cardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .form {
+        flex-direction: column;
+    }
+}
+
+/* ---- One platform block: header, card, provenance, notes ---- */
+
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel-alt, #f7f7f8);
+    min-width: 0;
+}
+
+.blockHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.blockName {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.layoutChip {
+    padding: 3px 10px;
+    border-radius: 9999px;
+    background: var(--t-unknown-bg, #f0f0f2);
+    color: var(--t-ink-soft, #5b5b60);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.noCardChip {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+/* The stage the mock card sits on, so the card reads as a rendering rather
+   than as more page furniture. */
+.stage {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.08));
+    overflow: hidden;
+}
+
+/* ---- Shared image behaviour ---- */
+
+.img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    background: #eceef0;
+}
+
+.imgCover {
+    aspect-ratio: 1.91 / 1;
+    object-fit: cover;
+}
+
+.imgContain {
+    max-height: 260px;
+    object-fit: contain;
+    object-position: left center;
+}
+
+/* A broken og:image is itself a finding, so it gets words, not a broken
+   icon. */
+.imgFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px;
+    aspect-ratio: 1.91 / 1;
+    background: repeating-linear-gradient(
+        45deg,
+        #f4f5f6,
+        #f4f5f6 10px,
+        #eceef0 10px,
+        #eceef0 20px
+    );
+    color: #5b5b60;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.imgFallbackDark {
+    background: repeating-linear-gradient(
+        45deg,
+        #35373c,
+        #35373c 10px,
+        #2b2d31 10px,
+        #2b2d31 20px
+    );
+    color: #b5bac1;
+}
+
+/* ---- X (Twitter) ---- */
+
+.xCard {
+    width: 100%;
+    max-width: 440px;
+    border: 1px solid #cfd9de;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family:
+        "TwitterChirp", -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
+    color: #0f1419;
+}
+
+.xImageWrap {
+    position: relative;
+    line-height: 0;
+}
+
+/* X stamps the domain over the bottom-left of the large card. */
+.xDomainPill {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.77);
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.35;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.xBody {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.xAttribution {
+    font-size: 13px;
+    color: #536471;
+}
+
+.xTitle {
+    font-size: 15px;
+    line-height: 1.3;
+    color: #0f1419;
+}
+
+.xDescription {
+    font-size: 15px;
+    line-height: 1.3;
+    color: #536471;
+}
+
+/* The small summary card: square thumbnail beside the text. */
+.xThumbRow {
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+}
+
+.xThumb {
+    flex: 0 0 128px;
+    width: 128px;
+    border-right: 1px solid #cfd9de;
+    line-height: 0;
+}
+
+.xThumb .img,
+.xThumb .imgFallback {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---- LinkedIn ---- */
+
+.liCard {
+    width: 100%;
+    max-width: 440px;
+    border: 1px solid #e0dfdc;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family:
+        -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.liBody {
+    padding: 12px 14px 14px;
+    background: #f3f2ef;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.liTitle {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.liDescription {
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.liAttribution {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: lowercase;
+}
+
+.liThumbRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    min-width: 0;
+}
+
+.liThumb {
+    flex: 0 0 88px;
+    width: 88px;
+    line-height: 0;
+}
+
+.liThumb .img,
+.liThumb .imgFallback {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+/* ---- Facebook ---- */
+
+.fbCard {
+    width: 100%;
+    max-width: 440px;
+    border: 1px solid #dddfe2;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family:
+        -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #050505;
+}
+
+.fbBody {
+    padding: 10px 12px 12px;
+    background: #f2f3f5;
+    border-top: 1px solid #dddfe2;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.fbAttribution {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #65676b;
+}
+
+.fbTitle {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.fbDescription {
+    font-size: 14px;
+    line-height: 1.35;
+    color: #65676b;
+}
+
+.fbThumbRow {
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fbThumb {
+    flex: 0 0 116px;
+    width: 116px;
+    line-height: 0;
+}
+
+.fbThumb .img,
+.fbThumb .imgFallback {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---- Slack ---- */
+
+.slackCard {
+    width: 100%;
+    max-width: 440px;
+    padding-left: 14px;
+    border-left: 4px solid #1264a3;
+    background: #ffffff;
+    font-family: Lato, -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
+    color: #1d1c1d;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.slackAttribution {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1d1c1d;
+}
+
+.slackTitle {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #1264a3;
+}
+
+.slackDescription {
+    font-size: 15px;
+    line-height: 1.46;
+    color: #1d1c1d;
+}
+
+/* Slack letterboxes the unfurl image under the text rather than cropping. */
+.slackImageWrap {
+    margin-top: 5px;
+    max-width: 360px;
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.slackThumbRow {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.slackThumb {
+    flex: 0 0 72px;
+    width: 72px;
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.slackThumb .img,
+.slackThumb .imgFallback {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* ---- Discord ---- */
+
+.discordCard {
+    width: 100%;
+    max-width: 440px;
+    padding: 12px 16px 16px;
+    border-left: 4px solid #5865f2;
+    border-radius: 4px;
+    background: #2b2d31;
+    font-family:
+        "gg sans", -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
+    color: #dbdee1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.discordAttribution {
+    font-size: 12px;
+    color: #b5bac1;
+}
+
+.discordTitle {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #00a8fc;
+}
+
+.discordDescription {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #dbdee1;
+}
+
+.discordImageWrap {
+    margin-top: 2px;
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 0;
+    background: #1e1f22;
+}
+
+.discordThumbRow {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.discordThumb {
+    flex: 0 0 80px;
+    width: 80px;
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.discordThumb .img,
+.discordThumb .imgFallback {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* ---- Google search result ---- */
+
+.googleCard {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    font-family: arial, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #202124;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.googleSiteRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.googleFavicon {
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+    border: 1px solid #dadce0;
+    background: #f1f3f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5f6368;
+}
+
+.googleUrl {
+    font-size: 12px;
+    line-height: 1.35;
+    color: #4d5156;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.googleTitle {
+    font-size: 20px;
+    line-height: 1.3;
+    color: #1a0dab;
+}
+
+.googleSnippet {
+    font-size: 14px;
+    line-height: 1.58;
+    color: #4d5156;
+}
+
+/* Placeholder line for a field the platform resolved to nothing. */
+.emptyField {
+    color: #9aa0a6;
+    font-style: italic;
+}
+
+.emptyFieldDark {
+    color: #80848e;
+    font-style: italic;
+}
+
+/* Standalone "no image" strip for the text-only layouts. */
+.noImageStrip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1px dashed var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 8px;
+    color: var(--t-ink-faint, #8a8a90);
+    font-size: 12px;
+    background: transparent;
+}
+
+/* ---- Where each field came from ---- */
+
+.provenance {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+}
+
+.provRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.provLabel {
+    flex: 0 0 84px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.provValue {
+    color: var(--t-ink-soft, #5b5b60);
+    min-width: 0;
+    word-break: break-word;
+}
+
+.tagRef {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--t-panel, #feffff);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    color: var(--t-ink, #1e1e1f);
+    word-break: break-all;
+}
+
+.provMissing {
+    color: var(--t-ink-faint, #8a8a90);
+    font-style: italic;
+}
+
+.cutChip {
+    padding: 1px 8px;
+    border-radius: 9999px;
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.dimChip {
+    padding: 1px 8px;
+    border-radius: 9999px;
+    background: var(--t-unknown-bg, #f0f0f2);
+    color: var(--t-ink-soft, #5b5b60);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* ---- Per-platform notes ---- */
+
+.notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.note {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.noteDot {
+    flex: 0 0 auto;
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.noteFail {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+.noteWarn {
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+}
+
+.notePass {
+    background: var(--t-pass-bg, #e7f6ef);
+    color: var(--t-pass, #1a8f5f);
+}
+
+.allClear {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-pass, #1a8f5f);
+}
+
+/* ---- Page-level findings ---- */
+
+.findings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.finding {
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.findingHead {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.findingTitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.findingBody {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.severity {
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.severityCritical,
+.severityHigh {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+.severityMedium {
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+}
+
+.severityLow,
+.severityInfo {
+    background: var(--t-unknown-bg, #f0f0f2);
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+/* ---- Declared tags ---- */
+
+.tagsDetails {
+    border-radius: 14px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+    padding: 4px 18px;
+}
+
+.tagsSummary {
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tagsTableScroll {
+    overflow-x: auto;
+    padding-bottom: 14px;
+}
+
+.tagsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tagsTable th,
+.tagsTable td {
+    text-align: left;
+    vertical-align: top;
+    padding: 8px 12px 8px 0;
+    border-bottom: 1px solid var(--t-border, rgba(0, 0, 0, 0.08));
+    line-height: 1.5;
+}
+
+.tagsTable th {
+    color: var(--t-ink-faint, #8a8a90);
+    font-weight: 500;
+}
+
+.tagValue {
+    color: var(--t-ink-soft, #5b5b60);
+    word-break: break-word;
+}
+
+.tagsEmpty {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+/* ---- Scope line ---- */
+
+.scope {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t-ink-faint, #8a8a90);
+}

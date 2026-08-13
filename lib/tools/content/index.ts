@@ -9,6 +9,7 @@ import { UTM_BUILDER_CONTENT } from "./utm-builder";
 import { MARKDOWN_VIEWER_CONTENT } from "./markdown-viewer";
 import { MD5_GENERATOR_CONTENT } from "./md5-generator";
 import { TECH_STACK_DETECTOR_CONTENT } from "./tech-stack-detector";
+import { SOCIAL_PREVIEW_CHECKER_CONTENT } from "./social-preview-checker";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -17,6 +18,7 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   MD5_GENERATOR_CONTENT,
   MARKDOWN_VIEWER_CONTENT,
   TECH_STACK_DETECTOR_CONTENT,
+  SOCIAL_PREVIEW_CHECKER_CONTENT,
 ];
 
 /**
@@ -37,4 +39,5 @@ export {
   MARKDOWN_VIEWER_CONTENT,
   MD5_GENERATOR_CONTENT,
   TECH_STACK_DETECTOR_CONTENT,
+  SOCIAL_PREVIEW_CHECKER_CONTENT,
 };

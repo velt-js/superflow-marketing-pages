@@ -149,7 +149,14 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "See how your link renders on X, LinkedIn, Slack, and Google before you post it",
     category: "social",
-    status: "planned",
+    // Backend-dependent: runs the `social-preview` engine through the
+    // FreeToolsService start/poll contract. Live as of 2026-08-13, verified
+    // against the deployed staging endpoint end to end. A run on github.com
+    // came back with six platform previews, five carrying an image, the
+    // og:type finding, and 15 declared tags, and a browser run rendered a
+    // distinct card for X, LinkedIn, Facebook, Slack, Discord, and Google
+    // with no page errors.
+    status: "live",
     icon: "share",
     related: ["ai-visibility-checker", "website-launch-checklist"],
   },
