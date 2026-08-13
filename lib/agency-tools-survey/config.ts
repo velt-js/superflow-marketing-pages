@@ -8,15 +8,14 @@
 // build guide: app/state-of-agency-tools/README.md.
 
 /**
- * Tally form ID for the survey embed.
+ * Tally form ID for the survey embed (https://tally.so/r/<ID>).
  *
- * Paste the ID from the form's share URL once the form is built in Tally:
- * https://tally.so/r/<ID>  ->  TALLY_FORM_ID = "<ID>"
- *
- * While this is empty the survey page renders a "survey opens soon" panel
- * instead of a broken iframe, so the page can ship ahead of the form.
+ * The form was created via scripts/agency-tools-survey/create-tally-form.mjs
+ * and is a DRAFT until published in the Tally editor - the embed 404s until
+ * then, so publish before merging this page live. Set to "" to fall back to
+ * the "survey opens soon" panel.
  */
-export const TALLY_FORM_ID = "";
+export const TALLY_FORM_ID = "ODqdPK";
 
 /** Where the survey page lives. Shared by metadata, sitemap, and links. */
 export const SURVEY_PATH = "/state-of-agency-tools";

@@ -650,12 +650,35 @@ function gateSet(...names) {
   });
 }
 
-function cond(comparison, value) {
+// Multi-select conditions only accept a SINGLE option uuid per comparison
+// (CONTAINS / DOES_NOT_CONTAIN - verified against the live API, which
+// rejects IS_ANY_OF and array values). So "any of these options" becomes an
+// OR group of CONTAINS, and "none of these options" flattens to one
+// DOES_NOT_CONTAIN per option under the rule's top-level AND.
+
+function cond(comparison, optionUuid) {
   return {
     uuid: uuid(),
     type: "SINGLE",
-    payload: { field: servicesField(), comparison, value },
+    payload: { field: servicesField(), comparison, value: optionUuid },
   };
+}
+
+/** True when the respondent picked at least one option in the set. */
+function has(set) {
+  return {
+    uuid: uuid(),
+    type: "GROUP",
+    payload: {
+      logicalOperator: "OR",
+      conditionals: set.map((o) => cond("CONTAINS", o)),
+    },
+  };
+}
+
+/** One conditional per option; spread into the rule's top-level AND. */
+function not(set) {
+  return set.map((o) => cond("DOES_NOT_CONTAIN", o));
 }
 
 /** A logic block on `onPage` jumping to `toPage` when every cond holds. */
@@ -687,9 +710,6 @@ if (!NO_LOGIC) {
   const social = gateSet("Social media");
   const email = gateSet("Email/CRM");
 
-  const has = (set) => cond("IS_ANY_OF", set);
-  const not = (set) => cond("IS_NOT_ANY_OF", set);
-
   // Insert rules right after the last block of the deciding question's page.
   // Since `blocks` is flat, find the insertion point: just before the page
   // break of the question AFTER the deciding one (or at the end).
@@ -706,28 +726,28 @@ if (!NO_LOGIC) {
 
   // Leaving Q3: skip the web section (Q4-6) if not qualified.
   insertAfterPage("q3", (r) => {
-    jumpRule(r, "q7", [not(web), has(brand)]);
-    jumpRule(r, "q8", [not(web), not(brand), has(video)]);
-    jumpRule(r, "q9", [not(web), not(brand), not(video)]);
+    jumpRule(r, "q7", [...not(web), has(brand)]);
+    jumpRule(r, "q8", [...not(web), ...not(brand), has(video)]);
+    jumpRule(r, "q9", [...not(web), ...not(brand), ...not(video)]);
   });
   // Leaving Q6 (end of web section): design shows for web OR branding, and
   // web qualifies everyone who got here, so only the video gate needs a rule
   // on Q7.
   insertAfterPage("q7", (r) => {
-    jumpRule(r, "q9", [not(video)]);
+    jumpRule(r, "q9", [...not(video)]);
   });
   // Leaving Q19: skip SEO/social/email sections as disqualified.
   insertAfterPage("q19", (r) => {
-    jumpRule(r, "q21", [not(seo), has(social)]);
-    jumpRule(r, "q22", [not(seo), not(social), has(email)]);
-    jumpRule(r, "q23", [not(seo), not(social), not(email)]);
+    jumpRule(r, "q21", [...not(seo), has(social)]);
+    jumpRule(r, "q22", [...not(seo), ...not(social), has(email)]);
+    jumpRule(r, "q23", [...not(seo), ...not(social), ...not(email)]);
   });
   insertAfterPage("q20", (r) => {
-    jumpRule(r, "q22", [not(social), has(email)]);
-    jumpRule(r, "q23", [not(social), not(email)]);
+    jumpRule(r, "q22", [...not(social), has(email)]);
+    jumpRule(r, "q23", [...not(social), ...not(email)]);
   });
   insertAfterPage("q21", (r) => {
-    jumpRule(r, "q23", [not(email)]);
+    jumpRule(r, "q23", [...not(email)]);
   });
 }
 
@@ -745,12 +765,24 @@ const payload = {
     hasProgressBar: true,
     // Pro: where people bail is itself a finding.
     hasPartialSubmissions: true,
-    // Pro custom CSS: match the marketing site (Poppins, dark pill button).
-    styles: [
-      "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');",
-      "body { font-family: 'Poppins', system-ui, sans-serif; }",
-      "button[type='submit'], .tally-submit-button { border-radius: 9999px; }",
-    ].join("\n"),
+    // Pro custom theme + CSS: match the marketing site (light page, ink
+    // text, Poppins, dark pill buttons, brand-blue accent).
+    styles: {
+      theme: "CUSTOM",
+      color: {
+        background: "#ffffff",
+        text: "#1e1e1f",
+        accent: "#2f8fe8",
+        buttonBackground: "#1e1e1f",
+        buttonText: "#ffffff",
+      },
+      css: [
+        "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');",
+        "body { font-family: 'Poppins', system-ui, sans-serif; }",
+        "button[type='submit'], .tally-submit-button { border-radius: 9999px; }",
+      ].join("\n"),
+      direction: "ltr",
+    },
   },
 };
 
