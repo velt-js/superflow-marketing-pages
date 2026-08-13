@@ -26,7 +26,13 @@
 // When it is unset the caller falls back to the in-repo engine, so local dev
 // and any deploy that predates the backend release keep working.
 
-import type { VisibilityReport } from "@/lib/tools/ai-visibility/types";
+import type {
+  CategoryId,
+  CheckId,
+  CheckStatus,
+  Finding,
+  VisibilityReport,
+} from "@/lib/tools/ai-visibility/types";
 
 const ENDPOINT = process.env.SUPERFLOW_ANONYMOUS_API_URL ?? "";
 
@@ -98,11 +104,96 @@ export type BackendVisibilityRunResult =
  */
 type BackendReport = Omit<
   VisibilityReport,
-  "redirects" | "screenshot" | "checkedAt"
+  "redirects" | "screenshot" | "checkedAt" | "findings"
 > & {
   redirectCount?: number;
   error?: string;
 };
+
+/**
+ * One finding as the backend puts it on the envelope.
+ *
+ * The product backend strips the findings contract off the stored report so it
+ * is not persisted twice, then reattaches this flattened form beside it. It is
+ * lossy on purpose: `why` and `fix` arrive pre-joined in `description`, passing
+ * checks are dropped, and the structured `detail` payloads (the per-crawler
+ * table above all) do not survive at all.
+ */
+type BackendFinding = {
+  title?: unknown;
+  description?: unknown;
+  severity?: unknown;
+  /** `ai-visibility-<check id>`, e.g. `ai-visibility-s3`. */
+  issueType?: unknown;
+};
+
+/** Check-id prefix to scoring category. Mirrors the backend's own ids. */
+const CATEGORY_BY_PREFIX: Record<string, CategoryId> = {
+  A: "access",
+  R: "readability",
+  S: "structure",
+  I: "identity",
+};
+
+/** The backend maps fail to high and warn to medium; this is the inverse. */
+const STATUS_BY_SEVERITY: Record<string, CheckStatus> = {
+  critical: "fail",
+  high: "fail",
+  medium: "warn",
+  low: "warn",
+  info: "warn",
+};
+
+/**
+ * Rebuilds renderable findings from the envelope's flattened array.
+ *
+ * Only fields the payload actually carries are set. Scoring and triage fields
+ * are left undefined rather than invented: this report tells people whether AI
+ * can read their site, and a fabricated effort estimate or point score would be
+ * indistinguishable from a measured one.
+ *
+ * @param raw - The envelope's `findings` array, straight off the wire.
+ * @returns Findings the report view can render, skipping unrecognisable rows.
+ */
+function toVisibilityFindings(raw: unknown[]): Finding[] {
+  try {
+    const findings: Finding[] = [];
+
+    for (const entry of raw) {
+      if (typeof entry !== "object" || entry === null) continue;
+      const item = entry as BackendFinding;
+
+      const issueType =
+        typeof item.issueType === "string" ? item.issueType : "";
+      const id = issueType.replace(/^ai-visibility-/, "").toUpperCase();
+      const category = CATEGORY_BY_PREFIX[id.charAt(0)];
+
+      // No id means no category and no stable React key, and a finding we
+      // cannot place under a heading is not renderable here.
+      if (id.length === 0 || !category) continue;
+
+      const severity =
+        typeof item.severity === "string" ? item.severity : "medium";
+
+      findings.push({
+        id: id as CheckId,
+        category,
+        status: STATUS_BY_SEVERITY[severity] ?? "warn",
+        title: typeof item.title === "string" ? item.title : id,
+        // `description` is why and fix already joined, so it belongs in `why`.
+        // Leaving `fix` empty is what tells the card not to open onto a
+        // duplicate of the sentence the reader just read.
+        why: typeof item.description === "string" ? item.description : "",
+        fix: "",
+      });
+    }
+
+    return findings;
+  } catch {
+    // A malformed findings array must not cost the reader their scores.
+    return [];
+  }
+}
 
 /**
  * One callable response's `result` payload. Start, poll, and failure fields
@@ -137,10 +228,20 @@ type CallOutcome =
  * shape is what the components consume. A mapping function is the seam.
  *
  * @param backend - The report as the backend returned it.
+ * @param findings - The envelope's findings, which the backend deliberately
+ *   removed from the report before sending it.
  */
-function toVisibilityReport(backend: BackendReport): VisibilityReport {
+function toVisibilityReport(
+  backend: BackendReport,
+  findings: unknown[],
+): VisibilityReport {
   return {
     ...backend,
+    // Reattach what the backend split off. Without this the report satisfies
+    // its TypeScript type and still has no `findings` at runtime, which is
+    // exactly the shape that crashed the report view in production.
+    findings: toVisibilityFindings(findings),
+    categories: backend.categories ?? [],
     // The backend reports how many hops it followed; the UI only renders a
     // count, so synthesize placeholder entries rather than widening the
     // backend contract for a detail nobody displays.
@@ -365,7 +466,7 @@ export async function runToolViaBackend({
         }
         return {
           ok: true,
-          report: toVisibilityReport(poll.data as BackendReport),
+          report: toVisibilityReport(poll.data as BackendReport, findings),
           data: poll.data,
           findings,
           totalFindings,

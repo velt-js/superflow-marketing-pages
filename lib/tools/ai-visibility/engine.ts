@@ -85,8 +85,8 @@ function summarizeCategories(findings: Finding[]): CategoryScore[] {
       id,
       label: meta.label,
       question: meta.question,
-      points: own.reduce((total, item) => total + item.points, 0),
-      maxPoints: scorable.reduce((total, item) => total + item.maxPoints, 0),
+      points: own.reduce((total, item) => total + (item.points ?? 0), 0),
+      maxPoints: scorable.reduce((total, item) => total + (item.maxPoints ?? 0), 0),
       passCount: own.filter((item) => item.status === "pass").length,
       warnCount: own.filter((item) => item.status === "warn").length,
       failCount: own.filter((item) => item.status === "fail").length,
@@ -307,10 +307,10 @@ export async function runVisibilityCheck(
     const findings = runAllChecks(context);
     const categories = summarizeCategories(findings);
 
-    const earned = findings.reduce((total, item) => total + item.points, 0);
+    const earned = findings.reduce((total, item) => total + (item.points ?? 0), 0);
     const available = findings
       .filter((item) => item.status !== "unknown")
-      .reduce((total, item) => total + item.maxPoints, 0);
+      .reduce((total, item) => total + (item.maxPoints ?? 0), 0);
 
     // Normalised so a degraded run is still comparable to a complete one.
     const score =
