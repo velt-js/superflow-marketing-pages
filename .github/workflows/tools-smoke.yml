@@ -71,15 +71,18 @@ jobs:
       # wrong-target failure the backend repo's GTK-011 exists to catch.
       - name: Require the backend endpoint
         env:
-          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ vars.SUPERFLOW_ANONYMOUS_API_URL || secrets.SUPERFLOW_ANONYMOUS_API_URL }}
         run: |
           if [ -z "$SUPERFLOW_ANONYMOUS_API_URL" ]; then
-            echo "::error::The SUPERFLOW_ANONYMOUS_API_URL repo secret is not set."
+            echo "::error::SUPERFLOW_ANONYMOUS_API_URL is not set (checked repo variables, then secrets)."
             echo ""
             echo "Without it the build falls back to the in-repo engine, so this"
             echo "suite would pass while testing a different code path from"
             echo "production. Set it to the same value Vercel uses:"
-            echo "  Settings > Secrets and variables > Actions > New repository secret"
+            echo "  Settings > Secrets and variables > Actions"
+            echo "  Either slot works: a repository VARIABLE is preferred (the"
+            echo "  endpoint is public and unauthenticated, so a write-only"
+            echo "  secret only hides it from you), and a secret is accepted."
             exit 1
           fi
           echo "Backend endpoint configured."
@@ -95,13 +98,13 @@ jobs:
           # Without this the tools fall back to the in-repo engine, which is a
           # different code path from production. Pointing at the real backend
           # is what makes the run meaningful.
-          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ vars.SUPERFLOW_ANONYMOUS_API_URL || secrets.SUPERFLOW_ANONYMOUS_API_URL }}
 
       - name: Smoke test
         run: npx playwright test tests/tools
         env:
           TOOLS_BASE_URL: http://127.0.0.1:3210
-          SUPERFLOW_ANONYMOUS_API_URL: ${{ secrets.SUPERFLOW_ANONYMOUS_API_URL }}
+          SUPERFLOW_ANONYMOUS_API_URL: ${{ vars.SUPERFLOW_ANONYMOUS_API_URL || secrets.SUPERFLOW_ANONYMOUS_API_URL }}
           # Node's built-in fetch ignores proxy env unless told otherwise.
           NODE_USE_ENV_PROXY: "1"
 
