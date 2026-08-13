@@ -4,6 +4,12 @@
 // that file's `sample` flag is true the page shows a sample-data banner and
 // stays noindex; publishing the real results in November is a data swap,
 // not a rebuild. Update pipeline: ../README.md.
+//
+// Section order mirrors the survey: the stack, ops & money, new business,
+// client management, review & QA, AI. Review is deliberately ONE section
+// among several rather than the spine of the page - a broad industry
+// report is what agencies want to read (and share); a report that bends
+// every section back to review reads as a pitch and gets ignored.
 
 import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
@@ -26,7 +32,7 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
 const TITLE = "State of Agency Tools 2026 Report";
 const DESCRIPTION =
-  "What 500+ agencies really use: website platforms, client review workflows, PM tools, money ops, and AI - including the use-vs-pay gap and the most resented tool in agency life.";
+  "What 500+ agencies really run on: website platforms, PM, time tracking, accounting, payroll, CRM, proposals, client comms, review, and AI - including the use-vs-pay gap and the most resented tool in agency life.";
 
 export const metadata = buildPageMetadata({
   title: TITLE,
@@ -60,8 +66,8 @@ export default function AgencyToolsReportPage() {
           <span className={styles.eyebrow}>The report</span>
           <h1 className={styles.h1}>State of Agency Tools 2026</h1>
           <p className={styles.subhead}>
-            The tools {data.respondents}+ agencies really use, what they
-            would choose again, and where AI actually fits.
+            What {data.respondents}+ agencies actually run on, from the
+            platforms they build in to the tools that pay the team.
           </p>
           <p className={reportStyles.reportMeta}>
             {data.respondents}+ responses · Published {data.publishedLabel}
@@ -69,94 +75,30 @@ export default function AgencyToolsReportPage() {
         </div>
       </header>
 
+      {/* Headline tiles pull from four different parts of the business so
+          the report opens broad, not on one theme. */}
       <section className={styles.section}>
         <div className={styles.sectionInner}>
           <StatTiles
             tiles={[
               {
-                value: `${data.emailOrScreenshotsPct}%`,
-                label:
-                  "still collect website feedback over email and screenshots",
+                value: `${data.noMarginPct}%`,
+                label: "do not know their profit margin per client",
               },
               {
-                value: `${data.noQaPct}%`,
-                label: "have no real QA process before launch",
+                value: `${data.noCrmPct}%`,
+                label: "run new business without a CRM",
+              },
+              {
+                value: `${data.aiTouchesWorkPct}%`,
+                label: "have AI touching client deliverable work",
               },
               {
                 value: `${data.avgRevisionRounds}`,
                 label: "revision rounds on the average website project",
               },
-              {
-                value: `${data.noMarginPct}%`,
-                label: "do not know their profit margin per client",
-              },
             ]}
           />
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>How client feedback really arrives</h2>
-          <p className={reportStyles.headlineStat}>
-            Multiple answers allowed, so shares sum past 100%. The dedicated
-            review tool is still the exception:{" "}
-            <strong>
-              {data.emailOrScreenshotsPct}% of agencies collect feedback over
-              email or screenshots
-            </strong>
-            , and only{" "}
-            {data.feedbackChannels.find(
-              (c) => c.label === "A dedicated review tool",
-            )?.pct ?? 0}
-            % route it through a tool built for review.
-          </p>
-          <div className={chartStyles.chartCard}>
-            <h3 className={chartStyles.chartCardTitle}>
-              How does client feedback on creative work usually reach you?
-            </h3>
-            <p className={chartStyles.chartCardSubtitle}>
-              Share of agencies, multi-select
-            </p>
-            <BarList rows={data.feedbackChannels} />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Revisions and QA</h2>
-          <p className={reportStyles.headlineStat}>
-            The average website project goes through{" "}
-            <strong>{data.avgRevisionRounds} rounds of client revisions</strong>
-            , and <strong>{data.noQaPct}%</strong> of agencies ship with no
-            real QA process, which includes the {
-              data.qaProcess.find(
-                (r) => r.label === "The client usually finds the bugs",
-              )?.pct ?? 0
-            }
-            % who admit the client usually finds the bugs.
-          </p>
-          <div className={chartStyles.chartGrid2}>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Rounds of client revisions on a typical website project
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.revisionRounds} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Do you QA websites before launch?
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.qaProcess} />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -188,15 +130,182 @@ export default function AgencyToolsReportPage() {
 
       <section className={styles.section}>
         <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>The AI use-vs-pay gap</h2>
+          <h2 className={styles.h2}>Ops and money</h2>
           <p className={reportStyles.headlineStat}>
-            Nearly everyone uses ChatGPT. The paying is where the market
-            actually is:{" "}
+            The back office is where the spreadsheet keeps winning:{" "}
             <strong>
-              {data.llmUsePay[0]?.usePct}% use {data.llmUsePay[0]?.name},{" "}
-              {data.llmUsePay[0]?.payPct}% pay for it
+              {data.timeTracking.find((r) => r.label === "Spreadsheets")?.pct ?? 0}%
+              still track time in a spreadsheet
             </strong>
-            .
+            , and <strong>{data.noMarginPct}%</strong> cannot say what any
+            single client earns them.
+          </p>
+          <div className={chartStyles.chartGrid2}>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Time tracking and resourcing
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.timeTracking} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Do you know your profit margin per client?
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies
+              </p>
+              <BarList rows={data.marginKnowledge} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Accounting and invoicing
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.accounting} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Paying the team and contractors
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.payroll} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>How new business actually runs</h2>
+          <p className={reportStyles.headlineStat}>
+            <strong>
+              {data.noCrmPct}% of agencies have no CRM at all
+            </strong>{" "}
+            - the pipeline lives in an inbox - and the most common proposal
+            tool is still a document:{" "}
+            {data.proposals[0]?.pct}% send{" "}
+            {data.proposals[0]?.label.toLowerCase()}.
+          </p>
+          <div className={chartStyles.chartGrid2}>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Sales pipeline and CRM
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.crm} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Proposals, contracts and e-signatures
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.proposals} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>Living with clients</h2>
+          <p className={reportStyles.headlineStat}>
+            Email still carries the relationship at{" "}
+            <strong>{data.clientComms[0]?.pct}% of agencies</strong>, while
+            AI notetakers have quietly reached{" "}
+            <strong>{data.notetakerAdoptionPct}%</strong> of client calls.
+          </p>
+          <div className={chartStyles.chartGrid2}>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Where day-to-day client communication happens
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.clientComms} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                AI notetakers on client calls
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.notetakers} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>Review, revisions and QA</h2>
+          <p className={reportStyles.headlineStat}>
+            <strong>
+              {data.emailOrScreenshotsPct}% collect creative feedback over
+              email or screenshots
+            </strong>
+            , the average website takes{" "}
+            <strong>{data.avgRevisionRounds} rounds of revisions</strong>,
+            and <strong>{data.noQaPct}%</strong> ship with no real QA
+            process.
+          </p>
+          <div className={chartStyles.chartGrid2}>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                How client feedback reaches you
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies, multi-select
+              </p>
+              <BarList rows={data.feedbackChannels} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Rounds of client revisions
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies
+              </p>
+              <BarList rows={data.revisionRounds} />
+            </div>
+            <div className={chartStyles.chartCard}>
+              <h3 className={chartStyles.chartCardTitle}>
+                Do you QA websites before launch?
+              </h3>
+              <p className={chartStyles.chartCardSubtitle}>
+                Share of agencies
+              </p>
+              <BarList rows={data.qaProcess} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>AI: what they use, what they pay for</h2>
+          <p className={reportStyles.headlineStat}>
+            Nearly everyone uses ChatGPT; the paying is where the market
+            actually is (
+            <strong>
+              {data.llmUsePay[0]?.usePct}% use it, {data.llmUsePay[0]?.payPct}%
+              pay
+            </strong>
+            ). AI touches client work at {data.aiTouchesWorkPct}% of
+            agencies, but only{" "}
+            <strong>{data.alwaysTellClientsPct}% always tell clients</strong>.
           </p>
           <div className={chartStyles.chartCard}>
             <h3 className={chartStyles.chartCardTitle}>
@@ -207,24 +316,13 @@ export default function AgencyToolsReportPage() {
             </p>
             <UsePayBars rows={data.llmUsePay} />
           </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>How deep AI runs, and who says so</h2>
-          <p className={reportStyles.headlineStat}>
-            AI touches client deliverables at{" "}
-            <strong>{data.aiTouchesWorkPct}% of agencies</strong>, but only{" "}
-            <strong>
-              {data.alwaysTellClientsPct}% always tell clients
-            </strong>{" "}
-            when it does.
-          </p>
-          <div className={chartStyles.chartGrid2}>
+          <div
+            className={chartStyles.chartGrid2}
+            style={{ marginTop: "16px" }}
+          >
             <div className={chartStyles.chartCard}>
               <h3 className={chartStyles.chartCardTitle}>
-                Share of client deliverable work AI touches today
+                Share of client work AI touches
               </h3>
               <p className={chartStyles.chartCardSubtitle}>
                 Share of agencies
@@ -244,7 +342,7 @@ export default function AgencyToolsReportPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The most resented tool in agency life</h2>
           <p className={reportStyles.headlineStat}>
