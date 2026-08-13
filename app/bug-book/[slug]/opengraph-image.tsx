@@ -19,7 +19,10 @@ export default async function OgImage({
   const { slug } = await params;
   const entry = await getBugBookEntryBySlug(slug);
 
+  // Sassy entries lead with the quote - it is the shareable part.
+  const isSassy = entry?.vibe === "sass" && Boolean(entry?.sassQuote);
   const headline = entry?.headline ?? "The Bug Book";
+  const primaryText = isSassy ? `“${entry?.sassQuote}”` : headline;
   const category = entry?.category ?? "UI/UX";
   const severity = entry?.severity ?? "Mild";
   const sourceLabel =
@@ -99,22 +102,43 @@ export default async function OgImage({
               fontSize: 24,
             }}
           >
-            {sourceLabel}
+            {isSassy ? "\u{1F60F} Sassy" : sourceLabel}
           </div>
         </div>
 
         <div
           style={{
             display: "flex",
-            color: "#ffffff",
-            fontSize: headline.length > 90 ? 46 : 54,
-            fontWeight: 700,
-            lineHeight: 1.2,
-            letterSpacing: -1,
+            flexDirection: "column",
+            gap: 18,
             maxWidth: 1020,
           }}
         >
-          {headline}
+          <div
+            style={{
+              display: "flex",
+              color: "#ffffff",
+              fontSize: primaryText.length > 90 ? 46 : 54,
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: -1,
+              fontStyle: isSassy ? "italic" : "normal",
+            }}
+          >
+            {primaryText}
+          </div>
+          {isSassy ? (
+            <div
+              style={{
+                display: "flex",
+                color: "rgba(255,255,255,0.55)",
+                fontSize: 26,
+                lineHeight: 1.3,
+              }}
+            >
+              {headline.length > 110 ? `${headline.slice(0, 107)}...` : headline}
+            </div>
+          ) : null}
         </div>
 
         <div

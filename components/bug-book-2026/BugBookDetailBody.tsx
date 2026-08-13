@@ -177,6 +177,14 @@ export default function BugBookDetailBody({
             {entry.hook ? <p className={styles.hook}>{entry.hook}</p> : null}
           </header>
 
+          {/* Sassy entries lead with the punchline - it lands harder
+              before the context than after it. */}
+          {entry.vibe === "sass" && entry.sassQuote ? (
+            <blockquote className={styles.sassQuote}>
+              {entry.sassQuote}
+            </blockquote>
+          ) : null}
+
           <BugSceneMock entry={entry} />
 
           <CapturedGrid entry={entry} />

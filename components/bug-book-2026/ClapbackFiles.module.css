@@ -1,0 +1,164 @@
+/* "The Clapback Files" - sassy quotes in large type above the main grid.
+   Dark cards so the strip reads as a distinct editorial moment rather
+   than more of the same collection. */
+
+.strip {
+    padding: 40px 24px 8px;
+}
+
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.4px;
+    color: #16171a;
+}
+
+.subhead {
+    margin: 0;
+    max-width: 68ch;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7079;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 24px 22px 20px;
+    border-radius: 20px;
+    background: #16171a;
+    text-decoration: none;
+    overflow: hidden;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.card::after {
+    /* Soft sassy wash in the corner, so the four cards aren't flat black. */
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 150px;
+    height: 150px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(252, 108, 186, 0.35), transparent 70%);
+    pointer-events: none;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(20, 20, 43, 0.28);
+}
+
+.quoteMark {
+    width: 26px;
+    color: rgba(252, 108, 186, 0.85);
+    flex-shrink: 0;
+}
+
+.quote {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-size: 20px;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    color: #ffffff;
+    /* Long quotes clamp so the four cards stay a tidy row. */
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.caption {
+    margin: 0;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.55);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.typeTag {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.cta {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #fc6cba;
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1080px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .strip {
+        padding: 28px 20px 4px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .quote {
+        font-size: 18px;
+    }
+}

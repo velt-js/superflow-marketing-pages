@@ -5,6 +5,7 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import {
   BUG_BOOK_SORTS,
+  BUG_BOOK_VIBES,
   sortEntries,
   type BugBookListEntry,
   type BugBookSample,
@@ -13,6 +14,7 @@ import {
 import BugCard from "./BugCard";
 import BugBookCta from "./BugBookCta";
 import BugBookSamples from "./BugBookSamples";
+import ClapbackFiles from "./ClapbackFiles";
 import styles from "./BugBookListingBody.module.css";
 
 const HERO_KICKER = "THE SUPERFLOW BUG BOOK";
@@ -30,6 +32,7 @@ const SOURCES = [
 ];
 
 type Filters = {
+  vibe: string;
   category: string;
   severity: string;
   source: string;
@@ -37,6 +40,7 @@ type Filters = {
 };
 
 const DEFAULT_FILTERS: Filters = {
+  vibe: "all",
   category: "all",
   severity: "all",
   source: "all",
@@ -50,6 +54,7 @@ function filtersFromSearch(search: string): Filters {
   const params = new URLSearchParams(search);
   const sortParam = params.get("sort") as BugBookSort | null;
   return {
+    vibe: params.get("vibe") ?? DEFAULT_FILTERS.vibe,
     category: params.get("category") ?? DEFAULT_FILTERS.category,
     severity: params.get("severity") ?? DEFAULT_FILTERS.severity,
     source: params.get("source") ?? DEFAULT_FILTERS.source,
@@ -63,6 +68,7 @@ function filtersFromSearch(search: string): Filters {
 /** Serialize non-default filters into a query string ("" when all default). */
 function searchFromFilters(filters: Filters): string {
   const params = new URLSearchParams();
+  if (filters.vibe !== "all") params.set("vibe", filters.vibe);
   if (filters.category !== "all") params.set("category", filters.category);
   if (filters.severity !== "all") params.set("severity", filters.severity);
   if (filters.source !== "all") params.set("source", filters.source);
@@ -145,6 +151,7 @@ export default function BugBookListingBody({
 
   const filtered = useMemo(() => {
     const matches = entries.filter((entry) => {
+      if (filters.vibe !== "all" && entry.vibe !== filters.vibe) return false;
       if (filters.category !== "all" && entry.category !== filters.category)
         return false;
       if (filters.severity !== "all" && entry.severity !== filters.severity)
@@ -172,6 +179,18 @@ export default function BugBookListingBody({
 
       <section className={styles.filterSection} aria-label="Filter bugs">
         <div className={styles.filterInner}>
+          <PillGroup
+            label="Vibe"
+            options={[
+              { value: "all", label: "All" },
+              ...BUG_BOOK_VIBES.map((vibe) => ({
+                value: vibe.value,
+                label: `${vibe.emoji} ${vibe.label}`,
+              })),
+            ]}
+            value={filters.vibe}
+            onChange={(vibe) => applyFilters({ ...filters, vibe })}
+          />
           <PillGroup
             label="Category"
             options={[
@@ -217,6 +236,8 @@ export default function BugBookListingBody({
           </div>
         </div>
       </section>
+
+      <ClapbackFiles entries={entries} />
 
       <section className={styles.gridSection}>
         <div className={styles.gridInner}>

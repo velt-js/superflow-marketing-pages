@@ -6,6 +6,47 @@
 
 export type BugBookSource = "human" | "agent";
 
+/** The fourth filter axis. `sass` is the data value; the UI says "Sassy". */
+export type BugBookVibe = "rage" | "sass" | "comedy" | "story";
+
+export const BUG_BOOK_VIBES: {
+  value: BugBookVibe;
+  label: string;
+  emoji: string;
+}[] = [
+  { value: "rage", label: "Rage", emoji: "🔥" },
+  { value: "sass", label: "Sassy", emoji: "😏" },
+  { value: "comedy", label: "Comedy", emoji: "😂" },
+  { value: "story", label: "War story", emoji: "📖" },
+];
+
+/** Sassy sub-types - funnier than the vibe label, so cards show these. */
+export const SASS_TYPE_LABELS: Record<string, string> = {
+  clapback: "Clapback",
+  "passive-aggression": "Passive-aggression",
+  deadpan: "Deadpan",
+  refusal: "Refusal",
+  "self-roast": "Self-roast",
+  receipts: "Receipts",
+};
+
+export function vibeMeta(vibe?: string) {
+  return BUG_BOOK_VIBES.find((entry) => entry.value === vibe);
+}
+
+/**
+ * Badge text for a card: sassy entries show their sub-type ("Clapback",
+ * "Receipts"), everything else shows the vibe label.
+ */
+export function vibeBadgeLabel(vibe?: string, sassType?: string): string | null {
+  const meta = vibeMeta(vibe);
+  if (!meta) return null;
+  if (vibe === "sass" && sassType && SASS_TYPE_LABELS[sassType]) {
+    return SASS_TYPE_LABELS[sassType];
+  }
+  return meta.label;
+}
+
 export type BugThreadComment = {
   speaker: string;
   text: string;
@@ -31,6 +72,9 @@ export type BugBookListEntry = {
   rageLevel: number;
   status?: string;
   date: string;
+  vibe?: BugBookVibe;
+  sassType?: string;
+  sassQuote?: string;
   siteDescriptor?: string;
   sitePlatform?: string;
   siteIndustry?: string;
