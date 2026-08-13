@@ -69,7 +69,7 @@ export default function StateOfAgencyToolsPage() {
           { name: TITLE, url: `${SITE_URL}${SURVEY_PATH}` },
         ]}
       />
-      <SiteNav />
+      <SiteNav solidAtTop />
 
       <header className={styles.hero}>
         <div className={styles.heroInner}>
