@@ -20,9 +20,9 @@ export default async function OgImage({
   const entry = await getBugBookEntryBySlug(slug);
 
   // Sassy entries lead with the quote - it is the shareable part.
-  const isSassy = entry?.vibe === "sass" && Boolean(entry?.sassQuote);
+  const isSassy = entry?.vibe === "sass" && Boolean(entry?.pullQuote);
   const headline = entry?.headline ?? "The Bug Book";
-  const primaryText = isSassy ? `“${entry?.sassQuote}”` : headline;
+  const primaryText = isSassy ? `“${entry?.pullQuote}”` : headline;
   const category = entry?.category ?? "UI/UX";
   const severity = entry?.severity ?? "Mild";
   const sourceLabel =

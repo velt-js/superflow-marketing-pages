@@ -74,7 +74,8 @@ export type BugBookListEntry = {
   date: string;
   vibe?: BugBookVibe;
   sassType?: string;
-  sassQuote?: string;
+  pullQuote?: string;
+  pullQuoteSpeaker?: string;
   siteDescriptor?: string;
   sitePlatform?: string;
   siteIndustry?: string;

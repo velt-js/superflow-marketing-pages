@@ -3397,9 +3397,9 @@
       "status": "Open",
       "date": "2025-06",
       "site": {
-        "descriptor": "Australian public health organisation site",
+        "descriptor": "Public health organisation site",
         "platform": "Custom CMS",
-        "industry": "Government / Health"
+        "industry": "Health"
       },
       "captured": {
         "browser": "Chrome",

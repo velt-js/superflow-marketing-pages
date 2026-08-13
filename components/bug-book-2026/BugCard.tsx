@@ -6,15 +6,17 @@ import {
   severityColor,
   type BugBookListEntry,
 } from "@/lib/bug-book";
+import BugQuoteVisual from "./BugQuoteVisual";
 import { VibeBadge } from "./Chips";
 import RageMeter from "./RageMeter";
 import styles from "./BugCard.module.css";
 
-// Text-first card. The illustrated per-category thumbnails read as
-// clipart and competed with the headline, so the category now shows up
-// as a colored spine and a word in the meta line instead. Severity and
-// source are filter axes, not scanning aids, so they shrink to a dot and
-// a glyph down in the meta rather than taking chips of their own.
+// Card = a quote visual + a short text block, following Spur's
+// thumbnail-then-minimal-text rhythm. The visual is the entry's real
+// pull-quote on a vibe-tinted gradient rather than an illustration:
+// generated art would be decoration, the quote is the actual product.
+// Severity and source are filter axes, not scanning aids, so they shrink
+// to a dot and a glyph in the meta line instead of taking chips.
 
 function ArrowIcon() {
   return (
@@ -40,7 +42,13 @@ function ArrowIcon() {
 /** Tiny sparkle marking an agent catch in the meta line. */
 function AgentGlyph() {
   return (
-    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <svg
+      width="11"
+      height="11"
+      viewBox="0 0 12 12"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M6 .8 7.3 4.2 10.8 5.5 7.3 6.8 6 10.2 4.7 6.8 1.2 5.5 4.7 4.2Z"
         fill="currentColor"
@@ -64,42 +72,52 @@ export default function BugCard({ entry }: { entry: BugBookListEntry }) {
       className={styles.card}
       style={{ ["--bug-accent" as string]: accent }}
     >
-      <div className={styles.top}>
-        <VibeBadge vibe={entry.vibe} sassType={entry.sassType} />
-        {entry.rageLevel >= RAGE_METER_MIN ? (
-          <RageMeter level={entry.rageLevel} compact />
-        ) : null}
-      </div>
+      {entry.pullQuote ? (
+        <BugQuoteVisual
+          quote={entry.pullQuote}
+          vibe={entry.vibe}
+          attribution={entry.pullQuoteSpeaker}
+        />
+      ) : null}
 
-      <h3 className={styles.headline}>{entry.headline}</h3>
-
-      <div className={styles.footer}>
-        <p className={styles.meta}>
-          <span className={styles.category} style={{ color: accent }}>
-            {entry.category}
-          </span>
-          <span
-            className={styles.severity}
-            title={`Severity: ${entry.severity}`}
-          >
-            <span
-              className={styles.severityDot}
-              style={{ background: sev.accent }}
-              aria-hidden="true"
-            />
-            {entry.severity}
-          </span>
-          {entry.source === "agent" ? (
-            <span className={styles.agent}>
-              <AgentGlyph />
-              Agent
-            </span>
+      <div className={styles.body}>
+        <div className={styles.top}>
+          <VibeBadge vibe={entry.vibe} sassType={entry.sassType} />
+          {entry.rageLevel >= RAGE_METER_MIN ? (
+            <RageMeter level={entry.rageLevel} compact />
           ) : null}
-        </p>
-        <p className={styles.site}>
-          {[entry.siteDescriptor, dateLabel].filter(Boolean).join(" · ")}
-          <ArrowIcon />
-        </p>
+        </div>
+
+        <h3 className={styles.headline}>{entry.headline}</h3>
+
+        <div className={styles.footer}>
+          <p className={styles.meta}>
+            <span className={styles.category} style={{ color: accent }}>
+              {entry.category}
+            </span>
+            <span
+              className={styles.severity}
+              title={`Severity: ${entry.severity}`}
+            >
+              <span
+                className={styles.severityDot}
+                style={{ background: sev.accent }}
+                aria-hidden="true"
+              />
+              {entry.severity}
+            </span>
+            {entry.source === "agent" ? (
+              <span className={styles.agent}>
+                <AgentGlyph />
+                Agent
+              </span>
+            ) : null}
+          </p>
+          <p className={styles.site}>
+            {[entry.siteDescriptor, dateLabel].filter(Boolean).join(" · ")}
+            <ArrowIcon />
+          </p>
+        </div>
       </div>
     </Link>
   );

@@ -104,8 +104,9 @@
 }
 
 .optionActive {
-    background: #16171a;
-    color: #ffffff;
+    background: #eeedfe;
+    color: #433df3;
+    font-weight: 700;
 }
 
 .optionLabel {
@@ -124,7 +125,7 @@
 }
 
 .optionActive .optionCount {
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(67, 61, 243, 0.7);
 }
 
 @media (max-width: 900px) {

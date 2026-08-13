@@ -179,9 +179,9 @@ export default function BugBookDetailBody({
 
           {/* Sassy entries lead with the punchline - it lands harder
               before the context than after it. */}
-          {entry.vibe === "sass" && entry.sassQuote ? (
+          {entry.vibe === "sass" && entry.pullQuote ? (
             <blockquote className={styles.sassQuote}>
-              {entry.sassQuote}
+              {entry.pullQuote}
             </blockquote>
           ) : null}
 

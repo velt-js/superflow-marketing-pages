@@ -1,13 +1,11 @@
-/* Bug Book card - text-first, no illustration. Identity comes from a
-   category-colored spine on the left edge rather than an image. */
+/* Bug Book card - a quote visual on top, then a short text block. */
 
 .card {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 12px;
     width: 100%;
-    padding: 22px 22px 20px 26px;
+    padding: 0;
     border: 1px solid #ececf1;
     border-radius: 16px;
     background: #ffffff;
@@ -19,16 +17,24 @@
         transform 160ms ease;
 }
 
-/* The category spine: the whole visual identity, in three pixels. */
-.card::before {
+/* Category accent, kept as a hairline under the visual. */
+.body::before {
     content: "";
     position: absolute;
     left: 0;
+    right: 0;
     top: 0;
-    bottom: 0;
-    width: 3px;
+    height: 2px;
     background: var(--bug-accent, #433df3);
-    opacity: 0.85;
+}
+
+.body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 11px;
+    padding: 18px 20px 18px;
 }
 
 .card:hover {
