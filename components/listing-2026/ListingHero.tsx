@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import styles from "./ListingHero.module.css";
 import { toInternalHref } from "@/lib/links";
 
@@ -25,6 +26,12 @@ export interface ListingHeroProps {
   /** Hides the CTA button — used by pages whose primary action sits right
       below the hero (e.g. /pricing tier cards, /book-demo calendar). */
   hideCta?: boolean;
+  /** Small pill above the headline, e.g. "Free tool, no login". */
+  eyebrow?: string;
+  /** Fine print under the copy: a privacy line, a link to a Markdown copy. */
+  footnote?: ReactNode;
+  /** Trims the hero's lower padding for pages that pull a card up into it. */
+  tight?: boolean;
 }
 
 /**
@@ -39,7 +46,13 @@ export interface ListingHeroProps {
  * smooth transition into the white grid section below — regardless of
  * exactly where the crop lands on the bitmap's own built-in glow.
  *
- * @param props - Headline, subheading and optional CTA overrides.
+ * The optional `eyebrow`, `footnote` and `tight` props exist for the free-tool
+ * pages, which need a pill above the headline, a privacy line under the copy,
+ * and less bottom padding because the tool itself is a card pulled up into the
+ * gradient. Every one of them renders nothing when absent, so the listing
+ * pages that predate them are untouched.
+ *
+ * @param props - Headline, subheading and optional CTA/eyebrow/footnote.
  */
 export default function ListingHero({
   heading,
@@ -47,14 +60,21 @@ export default function ListingHero({
   ctaText,
   ctaHref,
   hideCta,
+  eyebrow,
+  footnote,
+  tight,
 }: ListingHeroProps) {
   const resolvedCtaText = ctaText ?? DEFAULT_CTA_TEXT;
   const resolvedCtaHref = ctaHref ?? DEFAULT_CTA_HREF;
 
   return (
-    <section className={styles.hero} data-section="listing-hero">
+    <section
+      className={`${styles.hero}${tight ? ` ${styles.heroTight}` : ""}`}
+      data-section="listing-hero"
+    >
       <div className={styles.fade} aria-hidden="true" />
       <div className={styles.inner}>
+        {eyebrow ? <span className={styles.eyebrow}>{eyebrow}</span> : null}
         <h1 className={styles.headline}>{heading}</h1>
         <p className={styles.subhead}>{subheading}</p>
         {hideCta ? null : (
@@ -62,6 +82,7 @@ export default function ListingHero({
             {resolvedCtaText}
           </a>
         )}
+        {footnote ? <p className={styles.footnote}>{footnote}</p> : null}
       </div>
     </section>
   );

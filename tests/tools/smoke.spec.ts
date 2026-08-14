@@ -148,11 +148,17 @@ function luminance(color: string): number {
 }
 
 test.describe("the nav is readable on every tool page", () => {
-  // Every tool page opens on a light hero. SiteNav defaults to a transparent
-  // bar with white links and only turns solid once the reader scrolls, so a
-  // page that forgets `solidAtTop` renders white-on-white: the menu items are
-  // in the DOM, focusable, and completely invisible. That is invisible to a
-  // DOM assertion, which is why this measures contrast instead.
+  // SiteNav defaults to a transparent bar with white links and only turns
+  // solid once the reader scrolls. On a light hero that renders white-on-white:
+  // the menu items are in the DOM, focusable, and completely invisible, which
+  // no DOM assertion would catch.
+  //
+  // The tool pages now open on the site's blue gradient hero, where white links
+  // are the design and a computed-background check cannot see the bitmap behind
+  // them. So this asserts the pairing rather than one half of it: a page that
+  // has the gradient must have white links, and a page without it must clear
+  // the contrast bar against whatever background it does have. Swap one without
+  // the other and this fails.
   for (const tool of [...liveTools(), { slug: "", name: "index" }]) {
     const path = tool.slug ? toolPath(tool.slug) : "/tools";
 
@@ -176,6 +182,17 @@ test.describe("the nav is readable on every tool page", () => {
         }
         return { text, background };
       });
+
+      const onGradient =
+        (await page.locator('[data-section="listing-hero"]').count()) > 0;
+
+      if (onGradient) {
+        expect(
+          luminance(colors.text),
+          `nav link ${colors.text} over the gradient hero at ${path}`,
+        ).toBeGreaterThan(0.7);
+        return;
+      }
 
       const light = Math.max(luminance(colors.text), luminance(colors.background));
       const dark = Math.min(luminance(colors.text), luminance(colors.background));
@@ -419,9 +436,15 @@ test.describe("every published endpoint is documented where people look", () => 
 
       const section = page.locator("#api");
       await expect(section).toBeVisible();
-      await expect(section.getByText(entry.path, { exact: false }).first()).toBeVisible();
+      // The tool name is on the page as prose; the calls themselves are one
+      // click away, which is the whole point of the disclosure.
       await expect(
         section.getByText(entry.mcpTool, { exact: true }).first(),
+      ).toBeVisible();
+
+      await section.locator("summary").first().click();
+      await expect(
+        section.getByText(entry.path, { exact: false }).first(),
       ).toBeVisible();
     });
   }

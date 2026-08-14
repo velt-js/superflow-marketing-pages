@@ -65,6 +65,22 @@
   padding: calc(var(--site-nav-height) + 56px) var(--lh-gutter) 150px;
 }
 
+/* Pill above the headline. Used by the free-tool pages to state the promise
+   ("Free tool, no login") before the name of the tool. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  font-family: var(--lh-font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+}
+
 .headline {
   margin: 0;
   font-family: var(--lh-font-display);
@@ -85,6 +101,34 @@
   letter-spacing: -0.34px;
   color: rgba(255, 255, 255, 0.78);
   text-wrap: balance;
+}
+
+/* Fine print under the copy: the privacy commitment, and the pointers to the
+   Markdown copy and the API. Deliberately quieter than the subhead — it is a
+   commitment worth stating on every page, not a second sales line. */
+.footnote {
+  margin: 0;
+  max-width: 62ch;
+  font-family: var(--lh-font-body);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footnote a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footnote a:hover {
+  color: #ffffff;
+}
+
+/* Pages that pull a card up over the gradient need the copy to stop sooner,
+   so the card lands in the fade rather than on top of the subheading. */
+.heroTight .inner {
+  padding-bottom: 118px;
 }
 
 .cta {

@@ -33,7 +33,20 @@ type Result =
   | { status: "done"; md5: string; bytes: number }
   | { status: "error"; message: string };
 
-export default function Md5Tool() {
+/**
+ * @param props - `hideApiPanel` drops this component's own "Use it as an API"
+ *   block, for pages that already carry the shared API and MCP section (see
+ *   components/tools/ToolApiDocs.tsx) and would otherwise document the same
+ *   endpoint twice on one screen. `bare` drops the section's own padding and
+ *   background, for a page that has already put the tool on a card.
+ */
+export default function Md5Tool({
+  hideApiPanel = false,
+  bare = false,
+}: {
+  hideApiPanel?: boolean;
+  bare?: boolean;
+} = {}) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<Result>({ status: "empty" });
   const [copied, setCopied] = useState(false);
@@ -113,7 +126,10 @@ export default function Md5Tool() {
   const charCount = text.length;
 
   return (
-    <section className={styles.section} data-section="md5-tool">
+    <section
+      className={`${styles.section}${bare ? ` ${styles.sectionBare}` : ""}`}
+      data-section="md5-tool"
+    >
       <div className={styles.inner}>
         <div className={styles.card}>
           <label className={styles.label} htmlFor="md5-input">
@@ -168,15 +184,17 @@ export default function Md5Tool() {
           </div>
         </div>
 
-        <div className={styles.api}>
-          <h2 className={styles.apiHeading}>Use it as an API</h2>
-          <p className={styles.apiCopy}>
-            This page calls the same public endpoint you can call yourself. It takes text
-            as a query parameter, a JSON body, a form field, or a raw body, and always
-            answers with JSON.
-          </p>
-          <pre className={styles.apiCode}>{API_SNIPPET}</pre>
-        </div>
+        {hideApiPanel ? null : (
+          <div className={styles.api}>
+            <h2 className={styles.apiHeading}>Use it as an API</h2>
+            <p className={styles.apiCopy}>
+              This page calls the same public endpoint you can call yourself. It takes text
+              as a query parameter, a JSON body, a form field, or a raw body, and always
+              answers with JSON.
+            </p>
+            <pre className={styles.apiCode}>{API_SNIPPET}</pre>
+          </div>
+        )}
       </div>
     </section>
   );

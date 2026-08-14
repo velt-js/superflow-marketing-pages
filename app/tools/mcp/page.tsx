@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import ListingHero from "@/components/listing-2026/ListingHero";
 import styles from "@/components/tools/Tools.module.css";
 import { CodeBlock } from "@/components/tools/CodeBlock";
 import { ToolFaq, type ToolFaqItem } from "@/components/tools/ToolFaq";
@@ -135,10 +136,15 @@ const FAQ: ToolFaqItem[] = [
 export default function ToolsMcpPage() {
   const tools = availableToolApis();
   const sample = tools[0];
+  // Claude Code is the one-liner and the common case; the rest are config
+  // files nobody needs to see unless they use that client.
+  const [primary, ...others] = SETUP;
 
   return (
     <div className={styles.page}>
-      <SiteNav solidAtTop />
+      {/* No `solidAtTop`: the hero below is the site's blue gradient, which is
+          what the transparent bar with white links is designed for. */}
+      <SiteNav />
 
       <PageJsonLd
         name={`${TITLE} | Superflow`}
@@ -151,67 +157,63 @@ export default function ToolsMcpPage() {
       />
       <JsonLd id="ld-tools-mcp-faq" data={buildFaqPageSchema(FAQ)} />
 
-      <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>Free forever</span>
-          <h1 className={styles.h1}>MCP server and API for the free tools</h1>
-          <p className={styles.subhead}>
-            Every tool on{" "}
-            <Link className={styles.privacyLink} href="/tools">
-              /tools
-            </Link>{" "}
-            is also an MCP tool and an HTTP endpoint. Point your agent at one
-            URL and it can check AI visibility, read robots.txt the way a
-            crawler does, write schema markup, preview a share card, or draft
-            alt text, on any site, without you writing a line of glue.
-          </p>
-          <p className={styles.privacyLine}>
+      <ListingHero
+        eyebrow="Free forever"
+        heading="MCP server and API for the free tools"
+        subheading="Every free tool is also an MCP tool and an HTTP endpoint. Point your agent at one URL and it can check AI visibility, read robots.txt the way a crawler does, write schema markup, or draft alt text on any site."
+        hideCta
+        footnote={
+          <>
             No account, no API key, no OAuth. {tools.length} tools. We do not
-            store the URLs you send or the results beyond a 24 hour cache.
-          </p>
-        </div>
-      </header>
+            store the URLs you send or the results beyond a 24 hour cache.{" "}
+            <a href="/tools/mcp.md">Markdown copy</a> for agents.
+          </>
+        }
+      />
 
       <section className={styles.section}>
         <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>The endpoint</h2>
+          <h2 className={styles.h2}>Add it to your client</h2>
           <p className={styles.sectionLead}>
-            One URL, Streamable HTTP transport, no authentication. Add it to
-            any MCP client.
+            One URL, Streamable HTTP transport, no authentication. In Claude
+            Code that is a single command; every other client takes the same
+            URL in its own config.
           </p>
-          <CodeBlock
-            label="MCP endpoint"
-            language="http"
-            tool="tools-mcp"
-            code={ENDPOINT}
-          />
+
+          {primary ? (
+            <CodeBlock
+              label={`${primary.client} — ${primary.label.toLowerCase()}`}
+              language={primary.language}
+              tool="tools-mcp"
+              code={primary.code}
+            />
+          ) : null}
+
+          <details className={`${styles.disclosure} ${styles.sectionSpacer}`}>
+            <summary className={styles.disclosureSummary}>
+              Claude Desktop, Cursor, VS Code, and older clients
+            </summary>
+            <div className={styles.disclosureBody}>
+              {others.map((entry) => (
+                <div key={entry.client} className={styles.apiDetails}>
+                  <h3 className={styles.apiHeading}>{entry.client}</h3>
+                  <CodeBlock
+                    label={entry.label}
+                    language={entry.language}
+                    tool="tools-mcp"
+                    code={entry.code}
+                  />
+                  {entry.note ? (
+                    <p className={styles.apiNote}>{entry.note}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       </section>
 
       <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Add it to your client</h2>
-          <p className={styles.sectionLead}>
-            Pick your client. Each of these is the entire setup.
-          </p>
-          {SETUP.map((entry) => (
-            <div key={entry.client} className={styles.apiDetails}>
-              <h3 className={styles.apiHeading}>{entry.client}</h3>
-              <CodeBlock
-                label={entry.label}
-                language={entry.language}
-                tool="tools-mcp"
-                code={entry.code}
-              />
-              {entry.note ? (
-                <p className={styles.apiNote}>{entry.note}</p>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The tools</h2>
           <p className={styles.sectionLead}>
@@ -261,7 +263,7 @@ export default function ToolsMcpPage() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
+      <section className={styles.section}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The HTTP API</h2>
           <p className={styles.sectionLead}>
@@ -309,8 +311,11 @@ export default function ToolsMcpPage() {
             </table>
           </div>
 
-          <div className={`${styles.prose} ${styles.proseBlock}`}>
-            <h3>Failures</h3>
+          <details className={`${styles.disclosure} ${styles.proseBlock}`}>
+            <summary className={styles.disclosureSummary}>
+              What a failure looks like
+            </summary>
+            <div className={`${styles.prose} ${styles.disclosureBody}`}>
             <p>
               A failed run is still JSON. Depending on the endpoint it comes
               back either as{" "}
@@ -337,11 +342,12 @@ export default function ToolsMcpPage() {
               monthly model spend on the two AI-backed tools, which fails
               closed rather than inventing an answer).
             </p>
-          </div>
+            </div>
+          </details>
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>Common questions</h2>
           <ToolFaq items={FAQ} />

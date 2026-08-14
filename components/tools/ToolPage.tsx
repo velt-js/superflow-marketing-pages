@@ -1,5 +1,6 @@
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import ListingHero from "@/components/listing-2026/ListingHero";
 import { findToolContent } from "@/lib/tools/content";
 import { toolPath } from "@/lib/tools/registry";
 import { apiForTool, isToolApiAvailable } from "@/lib/tools/api-catalog";
@@ -28,6 +29,8 @@ export type ToolPageProps = {
   howItWorks: HowItWorksStep[];
   /** The unique 300 to 500 word section. Prose, not marketing. */
   whyThisMatters: React.ReactNode;
+  /** Label on the disclosure that holds `whyThisMatters`. */
+  whyThisMattersLabel?: string;
   /** Four to six entries. The same array feeds FAQPage schema. */
   faq: ToolFaqItem[];
   /** Closing CTA copy. */
@@ -35,11 +38,25 @@ export type ToolPageProps = {
 };
 
 /**
- * The page template every tool shares: H1, one-line subhead, the tool above
- * the fold, how it works in three steps, a unique "why this matters"
- * section, an FAQ, the related-tools mesh, and one closing CTA.
+ * The page template every tool shares.
  *
- * The privacy line is not optional and not a prop. Every tool states the same
+ * WHAT CHANGED, AND WHY
+ *
+ * This used to be six full-height bands below the tool: three steps, a
+ * 500-word essay, an FAQ, the API, related tools, and a CTA immediately above
+ * the footer's own CTA. Every one of them was justifiable on its own and the
+ * result was a page where the tool — the only reason anybody came — was a
+ * sliver at the top of a very long scroll.
+ *
+ * So the long-form copy and the API reference now sit behind disclosures,
+ * closed. The text is still in the document, which is what it was written
+ * for; it just no longer costs a screen each to scroll past. The closing CTA
+ * is a slim band rather than a full section, because the site footer already
+ * carries the tall trial card and two stacked CTAs read as neither.
+ *
+ * The hero is the shared 2026 `ListingHero`, so a tool page opens exactly
+ * like every other page on the site rather than in this feature's own idiom.
+ * The privacy line is not optional and not a prop: every tool states the same
  * thing in the same place, because "we do not store your data" is only
  * credible if it is never quietly dropped from a page.
  *
@@ -53,6 +70,7 @@ export function ToolPage({
   children,
   howItWorks,
   whyThisMatters,
+  whyThisMattersLabel = "Why this matters",
   faq,
   footerCta,
 }: ToolPageProps) {
@@ -73,50 +91,42 @@ export function ToolPage({
       {markdownPath ? (
         <link rel="alternate" type="text/markdown" href={markdownPath} />
       ) : null}
-      {/* Every tool page opens on a light hero, so the nav has to be solid from
-          the top. Without this the bar keeps its transparent treatment and its
-          white links render invisible against the hero, which reads as a nav
-          with no menu items at all. */}
-      <SiteNav solidAtTop />
+      {/* No `solidAtTop`: the hero below is the site's blue gradient, which is
+          what the transparent bar with white links is designed for. */}
+      <SiteNav />
       <ToolViewTracker slug={slug} />
 
-      <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          {eyebrow ? <span className={styles.eyebrow}>{eyebrow}</span> : null}
-          <h1 className={styles.h1}>{h1}</h1>
-          <p className={styles.subhead}>{subhead}</p>
-          <p className={styles.privacyLine}>
+      <ListingHero
+        eyebrow={eyebrow}
+        heading={h1}
+        subheading={subhead}
+        hideCta
+        tight
+        footnote={
+          <>
             Free, no login, no email. We do not store the URLs you submit or
             the results beyond a 24 hour cache.
             {markdownPath ? (
               <>
                 {" "}
-                Reading this as an agent?{" "}
-                <a className={styles.privacyLink} href={markdownPath}>
-                  Markdown copy of this page
-                </a>
-                .
+                <a href={markdownPath}>Markdown copy</a> for agents.
               </>
             ) : null}
             {hasApi ? (
               <>
                 {" "}
-                Prefer to script it?{" "}
-                <a className={styles.privacyLink} href="#api">
-                  API and MCP
-                </a>
-                .
+                <a href="#api">API and MCP</a>.
               </>
             ) : null}
-          </p>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <section className={styles.toolSlot}>
         <div className={styles.toolInner}>{children}</div>
       </section>
 
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
+      <section className={styles.section}>
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>How it works</h2>
           <ol className={styles.steps}>
@@ -128,12 +138,16 @@ export function ToolPage({
               </li>
             ))}
           </ol>
-        </div>
-      </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.prose}>{whyThisMatters}</div>
+          {/* The long read, folded away. Open by choice, not by scrolling. */}
+          <details className={`${styles.disclosure} ${styles.sectionSpacer}`}>
+            <summary className={styles.disclosureSummary}>
+              {whyThisMattersLabel}
+            </summary>
+            <div className={styles.disclosureBody}>
+              <div className={styles.prose}>{whyThisMatters}</div>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -144,17 +158,16 @@ export function ToolPage({
         </div>
       </section>
 
-      {/* After the FAQ rather than above it: the answer somebody came for is
-          the tool itself, and this section is for the reader who has already
-          had it and now wants the twentieth URL done without them. */}
       <ToolApiDocs slug={slug} />
 
       <RelatedTools slug={slug} />
 
       <section className={styles.footerCta}>
         <div className={styles.footerCtaInner}>
-          <h2 className={styles.footerCtaHeading}>{footerCta.heading}</h2>
-          <p className={styles.footerCtaBody}>{footerCta.body}</p>
+          <div className={styles.footerCtaText}>
+            <h2 className={styles.footerCtaHeading}>{footerCta.heading}</h2>
+            <p className={styles.footerCtaBody}>{footerCta.body}</p>
+          </div>
           <CtaLink slug={slug} placement="page-footer" variant="button">
             {footerCta.linkText}
           </CtaLink>

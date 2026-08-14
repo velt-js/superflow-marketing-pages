@@ -1,21 +1,42 @@
 import Link from "next/link";
 import styles from "./Tools.module.css";
 import { ToolIcon } from "./ToolIcon";
-import { relatedTools, toolPath, type ToolEntry } from "@/lib/tools/registry";
+import {
+  CATEGORY_LABELS,
+  relatedTools,
+  toolPath,
+  type ToolEntry,
+} from "@/lib/tools/registry";
 
 /**
  * A single tool card. Live tools link; planned ones render as a static card
  * with a "coming soon" label so the grid stays full without creating a dead
  * internal link.
  *
- * @param props - The tool to render.
+ * The index passes `showCategory`, which is what lets that page run one
+ * flowing grid instead of six per-category grids. Grouping by heading left
+ * half-empty rows wherever a category had one or two tools, and a shelf full
+ * of holes reads as unfinished rather than as organised.
+ *
+ * @param props - The tool to render, and whether to label its category.
  */
-export function ToolCard({ tool }: { tool: ToolEntry }) {
+export function ToolCard({
+  tool,
+  showCategory = false,
+}: {
+  tool: ToolEntry;
+  showCategory?: boolean;
+}) {
   const body = (
     <>
       <span className={styles.toolCardIcon}>
-        <ToolIcon name={tool.icon} />
+        <ToolIcon name={tool.icon} size={28} />
       </span>
+      {showCategory ? (
+        <span className={styles.toolCardCategory}>
+          {CATEGORY_LABELS[tool.category]}
+        </span>
+      ) : null}
       <p className={styles.toolCardName}>{tool.name}</p>
       <p className={styles.toolCardTagline}>{tool.tagline}</p>
       {tool.status === "planned" ? (
@@ -51,7 +72,7 @@ export function RelatedTools({ slug }: { slug: string }) {
   if (tools.length === 0) return null;
 
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} ${styles.sectionAlt}`}>
       <div className={styles.sectionInner}>
         <h2 className={styles.h2}>More free tools</h2>
         <p className={styles.sectionLead}>

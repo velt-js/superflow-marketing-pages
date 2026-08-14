@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import ListingHero from "@/components/listing-2026/ListingHero";
 import styles from "@/components/tools/Tools.module.css";
 import { ToolCard } from "@/components/tools/RelatedTools";
 import { CodeBlock } from "@/components/tools/CodeBlock";
@@ -11,10 +12,10 @@ import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import { buildToolListSchema } from "@/app/_seo/tool-schema";
 import {
-  CATEGORY_LABELS,
   TOOLS,
   toolPath,
   type ToolCategory,
+  type ToolEntry,
 } from "@/lib/tools/registry";
 
 const TITLE = "Free Tools for Marketers and Website Teams";
@@ -37,13 +38,36 @@ const CATEGORY_ORDER: ToolCategory[] = [
   "assets",
 ];
 
+/**
+ * Every tool in one list: category order first, then the built ones ahead of
+ * the planned ones.
+ *
+ * The index used to be six grids, one per category heading, which left a
+ * half-empty row wherever a category held one or two tools. Ordering by
+ * category and labelling each card keeps the grouping legible in a grid that
+ * actually fills.
+ */
+function orderedTools(): ToolEntry[] {
+  try {
+    return [...TOOLS].sort((a, b) => {
+      if (a.status !== b.status) return a.status === "live" ? -1 : 1;
+      return (
+        CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category)
+      );
+    });
+  } catch {
+    return [...TOOLS];
+  }
+}
+
 export default function ToolsIndexPage() {
   const liveEntries = TOOLS.filter((tool) => tool.status === "live");
 
   return (
     <div className={styles.page}>
-      {/* Light hero: the transparent bar's white links would be invisible. */}
-      <SiteNav solidAtTop />
+      {/* No `solidAtTop`: the hero below is the site's blue gradient, which is
+          what the transparent bar with white links is designed for. */}
+      <SiteNav />
 
       <PageJsonLd
         name={`${TITLE} | Superflow`}
@@ -62,41 +86,21 @@ export default function ToolsIndexPage() {
         })}
       />
 
-      <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>Free forever</span>
-          <h1 className={styles.h1}>Free tools for people who ship websites</h1>
-          <p className={styles.subhead}>
-            Small, fast, useful. No login, no email gate, no ads, and no
-            paywalled results. Every one of them is a small demo of what our
-            agents do across a whole site.
-          </p>
-          <p className={styles.privacyLine}>
-            We do not store the URLs you submit or the results beyond a short
-            cache window.
-          </p>
-        </div>
-      </header>
+      <ListingHero
+        eyebrow="Free forever"
+        heading="Free tools for people who ship websites"
+        subheading="Small, fast, useful. No login, no email gate, no ads, and no paywalled results. Each one is a small demo of what our agents do across a whole site."
+        hideCta
+        footnote="We do not store the URLs you submit or the results beyond a short cache window."
+      />
 
       <section className={styles.section}>
         <div className={styles.sectionInner}>
-          {CATEGORY_ORDER.map((category) => {
-            const tools = TOOLS.filter((tool) => tool.category === category);
-            if (tools.length === 0) return null;
-
-            return (
-              <div key={category} className={styles.categoryBlock}>
-                <h2 className={styles.categoryHeading}>
-                  {CATEGORY_LABELS[category]}
-                </h2>
-                <div className={styles.toolGrid}>
-                  {tools.map((tool) => (
-                    <ToolCard key={tool.slug} tool={tool} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+          <div className={styles.toolGrid}>
+            {orderedTools().map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} showCategory />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -105,9 +109,7 @@ export default function ToolsIndexPage() {
           <h2 className={styles.h2}>Or give them to your agent</h2>
           <p className={styles.sectionLead}>
             Every tool here is also an MCP tool and an HTTP endpoint. One URL,
-            no account, no API key: your agent can check AI visibility, read
-            robots.txt the way a crawler does, write schema markup, or draft
-            alt text on any site, without you writing any glue.
+            no account, no API key.
           </p>
           <CodeBlock
             label="Add the server once"
@@ -122,27 +124,33 @@ export default function ToolsIndexPage() {
             </Link>
             .
           </p>
-        </div>
-      </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Why we give these away</h2>
-          <div className={styles.prose}>
-            <p>
-              Superflow is a review and QA product for websites. Agencies point
-              our agents at a site, the agents check every page against the
-              agency&apos;s own rules, the team approves, and then the client
-              signs off without needing a login.
-            </p>
-            <p>
-              Each of these tools does one small piece of that work, once, on
-              one page, for free. If the result is useful, the product is the
-              same idea applied continuously to every page of every site you
-              ship. If it is not useful, you have still had a free tool with no
-              email gate, which is more than most of the alternatives offer.
-            </p>
-          </div>
+          {/* The "why we give these away" answer, kept because it is the
+              question every agency asks, folded away because it is not what
+              anybody came here to read. */}
+          <details className={`${styles.disclosure} ${styles.proseBlock}`}>
+            <summary className={styles.disclosureSummary}>
+              Why we give these away
+            </summary>
+            <div className={styles.disclosureBody}>
+              <div className={styles.prose}>
+                <p>
+                  Superflow is a review and QA product for websites. Agencies
+                  point our agents at a site, the agents check every page
+                  against the agency&apos;s own rules, the team approves, and
+                  then the client signs off without needing a login.
+                </p>
+                <p>
+                  Each of these tools does one small piece of that work, once,
+                  on one page, for free. If the result is useful, the product
+                  is the same idea applied continuously to every page of every
+                  site you ship. If it is not useful, you have still had a free
+                  tool with no email gate, which is more than most of the
+                  alternatives offer.
+                </p>
+              </div>
+            </div>
+          </details>
         </div>
       </section>
 
