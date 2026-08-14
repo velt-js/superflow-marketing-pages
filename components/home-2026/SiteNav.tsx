@@ -368,11 +368,9 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
   {
     heading: "Learn",
     links: [
-      {
-        label: "Docs",
-        href: "/docs/no-code-platforms/webflow/setup",
-        Icon: BookIcon,
-      },
+      // The docs home, not a deep link into one platform's setup guide: a
+      // reader clicking "Docs" wants the front door.
+      { label: "Docs", href: "/docs", Icon: BookIcon },
       { label: "Blog", href: "/blog", Icon: NewsIcon },
       { label: "Bug Book", href: "/bug-book", Icon: BugIcon },
     ],

@@ -94,7 +94,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Resources",
     links: [
-      { label: "Docs", href: "/docs/no-code-platforms/webflow/setup" },
+      { label: "Docs", href: "/docs" },
       { label: "Free Tools", href: "/tools" },
       { label: "Bug Book", href: "/bug-book" },
       { label: "Case Study", href: "/case-study/writesonic" },
