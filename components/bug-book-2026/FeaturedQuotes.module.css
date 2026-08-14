@@ -1,6 +1,6 @@
-/* "The Clapback Files" - sassy quotes in large type above the main grid.
-   Dark cards so the strip reads as a distinct editorial moment rather
-   than more of the same collection. */
+/* Featured quotes in large type above the main grid. Dark cards so the
+   strip reads as a distinct editorial moment rather than more of the
+   same collection. */
 
 .strip {
     padding: 40px 24px 8px;
@@ -39,8 +39,8 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -93,11 +93,11 @@
 .quote {
     margin: 0;
     font-family: var(--font-adamina), Georgia, serif;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.35;
     letter-spacing: -0.3px;
     color: #ffffff;
-    /* Long quotes clamp so the four cards stay a tidy row. */
+    /* Long quotes clamp so the row stays tidy. */
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
@@ -143,7 +143,13 @@
 
 /* ------------------------------------------------------------ Responsive */
 
-@media (max-width: 1080px) {
+@media (max-width: 1240px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 860px) {
     .grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }

@@ -61,6 +61,14 @@ export async function generateMetadata({
     description: entry.hook ?? entry.headline,
     path: `/bug-book/${slug}`,
     noBrandSuffix: true,
+    // buildPageMetadata always sets openGraph.images, and explicit
+    // metadata beats Next's file-based opengraph-image convention - so
+    // without naming a card here every entry unfurled with the generic
+    // site image. The landscape crop is exactly the 1200x630 the helper
+    // declares.
+    ogImage: `${SITE_URL}/api/bug-book/quote-card?slug=${encodeURIComponent(
+      slug,
+    )}&format=landscape`,
   });
   if (metadata.openGraph) {
     (metadata.openGraph as Record<string, unknown>).type = "article";

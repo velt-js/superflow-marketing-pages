@@ -32,6 +32,9 @@ export const metadata = buildPageMetadata({
   title: "The Bug Book",
   description: BUG_BOOK_DESCRIPTION,
   path: "/bug-book",
+  // Without naming a card the helper falls back to the site-wide OG
+  // image, so shared links to the hub unfurl as generic Superflow.
+  ogImage: `${SITE_URL}/api/bug-book/cover-card?format=landscape`,
 });
 
 export default async function BugBookPage() {

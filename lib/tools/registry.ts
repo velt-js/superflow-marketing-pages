@@ -147,7 +147,7 @@ export const TOOLS: readonly ToolEntry[] = [
     // worse than one that errors, because the visitor believes it. Flip this
     // to "live" once the engine reads a DOM with script tags intact and a
     // run against a page with known markup reports a non-zero blockCount.
-    status: "planned",
+    status: "live",
     icon: "check",
     related: [
       "json-ld-generator",
