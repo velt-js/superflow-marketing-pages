@@ -74,8 +74,9 @@ export type ToolApiEntry = {
   rateLimit: string;
   /**
    * Worst-case wall clock. Callers set timeouts from this: the engines behind
-   * the URL tools poll a backend run and can legitimately take most of a
-   * minute before answering.
+   * the URL tools poll a backend run whose own ceiling is 55 seconds, and on a
+   * cold backend they use most of it, so anything under a minute here would
+   * have a client give up on a run that was about to answer.
    */
   timeoutSeconds: number;
 };
@@ -117,7 +118,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { score, grade, scoredOutOf, categories[], findings[] with why and fix, detection }, cached, ageSeconds }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "robots-txt-ai-checker",
@@ -132,7 +133,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { accessScore, crawlers[] with the rule that decided each verdict, firewall, findings[] }, cached, ageSeconds }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "llms-txt-generator",
@@ -147,7 +148,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { siteName, llmsTxt, llmsFullTxt, pagesDiscovered, pagesIncluded, truncated }, cached, ageSeconds }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "markdown-for-agents",
@@ -162,7 +163,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { markdown, title, description, wordCount, bytes, truncated, httpStatus }, cached, ageSeconds }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "json-ld-generator",
@@ -177,7 +178,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { detectedType, jsonLd, jsonLdString, validation: { findings[], passed }, model } }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "json-ld-validator",
@@ -192,7 +193,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { blockCount, invalidBlockCount, declaredTypes[], eligibility[], categories[], findings[] } }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "social-preview-checker",
@@ -207,7 +208,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     returns:
       "{ ok, report: { previews[] per platform, tags, summary, findings[] }, cached, ageSeconds }",
     rateLimit: HEAVY_LIMIT,
-    timeoutSeconds: 60,
+    timeoutSeconds: 75,
   },
   {
     slug: "tech-stack-detector",

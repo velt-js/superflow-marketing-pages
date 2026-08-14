@@ -56,6 +56,15 @@ const RATE_TIER = "heavy" as const;
 /** Node runtime, for parity with the other tool routes. */
 export const runtime = "nodejs";
 
+/**
+ * The wait, in seconds, this function is allowed. The backend run plus its
+ * cold start can take most of a minute (see OVERALL_TIMEOUT_MS in
+ * lib/toolkit/superflow-api.ts, which sits at 55s); without this the platform
+ * default decides, and a run that would have answered turns into an error
+ * page instead of a report.
+ */
+export const maxDuration = 60;
+
 /** Never cache the handler itself. Result caching is explicit, in KV. */
 export const dynamic = "force-dynamic";
 

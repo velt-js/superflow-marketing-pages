@@ -39,14 +39,25 @@ import type {
 const ENDPOINT = process.env.SUPERFLOW_ANONYMOUS_API_URL ?? "";
 
 /**
- * Ceiling on the whole start-and-poll round trip. The engines' own budget is
- * 30 seconds, so anything still running at 45 has already failed server-side
- * and will never produce a report worth waiting for.
+ * Ceiling on the whole start-and-poll round trip.
+ *
+ * The engines' own budget is 30 seconds, so a run still going well past that
+ * has failed server-side. What the old 45 second ceiling did not allow for is
+ * everything around the run: the callable's cold start, the dispatch onto the
+ * agent pipeline, and the first poll interval. On a cold backend that overhead
+ * pushed honest runs past the line, and a visitor who would have had their
+ * report in 50 seconds got "The check took too long" instead — then a retry
+ * seconds later answered in seven, because the second call found a warm
+ * backend.
+ *
+ * 55 seconds covers that cold start while staying inside the 60 second
+ * `maxDuration` the routes declare, so the function never dies mid-wait and
+ * turns a slow answer into a platform error page.
  */
-const OVERALL_TIMEOUT_MS = 45_000;
+const OVERALL_TIMEOUT_MS = 55_000;
 
 /** Per-request ceiling on the start call. Generous, to survive a cold start. */
-const START_TIMEOUT_MS = 20_000;
+const START_TIMEOUT_MS = 25_000;
 
 /** Per-request ceiling on each poll. Polls are cheap reads. */
 const POLL_TIMEOUT_MS = 10_000;
