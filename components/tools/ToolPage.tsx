@@ -111,8 +111,14 @@ export function ToolPage({
                 <a href={markdownPath}>Markdown copy</a>
               </>
             ) : null}
-            {markdownPath && hasApi ? " · " : null}
-            {hasApi ? <a href="#api">API and MCP</a> : null}
+            {/* The separator carries the leading space, so a tool with an API
+                and no Markdown copy does not run the link into the sentence. */}
+            {hasApi ? (
+              <>
+                {markdownPath ? " · " : " "}
+                <a href="#api">API and MCP</a>
+              </>
+            ) : null}
           </>
         }
       />

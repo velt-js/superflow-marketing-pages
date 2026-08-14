@@ -61,7 +61,11 @@
    the 2026 site makes. */
 .toolInner {
     width: 100%;
-    max-width: 1040px;
+    /* Sized to the tools' own controls rather than to the page. At 1040px the
+       720px-capped forms sat in the middle of the card with 150px of dead
+       white either side, which reads as a mis-sized card, not as breathing
+       room. */
+    max-width: 880px;
     margin: 0 auto;
     padding: 18px;
     border: 1px solid var(--t-border);
@@ -70,6 +74,13 @@
     /* Kept shallow on purpose: a deep shadow reads as another 30px of empty
        space under a card whose whole job is to be compact. */
     box-shadow: 0 12px 32px rgba(20, 20, 43, 0.08);
+}
+
+/* Every tool centres its URL form at 720px, which is right on a bare page and
+   wrong inside a card that is already the right width — it just adds a second
+   inset. Inside the card the form spans it. */
+.toolInner form {
+    max-width: none;
 }
 
 /* ---- Generic section ---- */
