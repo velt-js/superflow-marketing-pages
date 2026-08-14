@@ -104,20 +104,15 @@ export function ToolPage({
         tight
         footnote={
           <>
-            Free, no login, no email. We do not store the URLs you submit or
-            the results beyond a 24 hour cache.
+            Free, no login, no email. Nothing stored beyond a 24 hour cache.
             {markdownPath ? (
               <>
                 {" "}
-                <a href={markdownPath}>Markdown copy</a> for agents.
+                <a href={markdownPath}>Markdown copy</a>
               </>
             ) : null}
-            {hasApi ? (
-              <>
-                {" "}
-                <a href="#api">API and MCP</a>.
-              </>
-            ) : null}
+            {markdownPath && hasApi ? " · " : null}
+            {hasApi ? <a href="#api">API and MCP</a> : null}
           </>
         }
       />

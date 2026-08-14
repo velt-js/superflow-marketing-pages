@@ -24,7 +24,7 @@ export const MD5_GENERATOR_CONTENT: ToolContent = {
     },
     {
       title: "Or call the API",
-      body: "GET or POST /tools/md5 from a script, a spreadsheet, or an agent. No key, no signup.",
+      body: "GET or POST /api/tools/md5 from a script, a spreadsheet, or an agent. No key, no signup.",
     },
   ],
   faq: [
@@ -46,7 +46,7 @@ export const MD5_GENERATOR_CONTENT: ToolContent = {
     {
       question: "Can I call this from a script?",
       answer:
-        "Yes. GET /tools/md5?text=hello returns JSON, and you can POST JSON, form data, or a raw body instead. There is no key and no signup, and input is capped at 1 MB.",
+        "Yes. GET /api/tools/md5?text=hello returns JSON, and you can POST JSON, form data, or a raw body instead. There is no key and no signup, and input is capped at 1 MB.",
     },
     {
       question: "How do I check a file checksum?",
@@ -60,7 +60,7 @@ export const MD5_GENERATOR_CONTENT: ToolContent = {
     {
       label: "API endpoint",
       value:
-        "GET https://usesuperflow.ai/tools/md5?text=... or POST the same path with JSON, form data, or a raw body.",
+        "GET https://usesuperflow.ai/api/tools/md5?text=... or POST the same path with JSON, form data, or a raw body.",
     },
     {
       label: "API response",

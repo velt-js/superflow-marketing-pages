@@ -160,12 +160,11 @@ export default function ToolsMcpPage() {
       <ListingHero
         eyebrow="Free forever"
         heading="MCP server and API for the free tools"
-        subheading="Every free tool is also an MCP tool and an HTTP endpoint. Point your agent at one URL and it can check AI visibility, read robots.txt the way a crawler does, write schema markup, or draft alt text on any site."
+        subheading="Every free tool is also an MCP tool and an HTTP endpoint. One URL, no account, no API key."
         hideCta
         footnote={
           <>
-            No account, no API key, no OAuth. {tools.length} tools. We do not
-            store the URLs you send or the results beyond a 24 hour cache.{" "}
+            {tools.length} tools. Nothing stored beyond a 24 hour cache.{" "}
             <a href="/tools/mcp.md">Markdown copy</a> for agents.
           </>
         }

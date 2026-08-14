@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./SiteFooter.module.css";
+import { liveTools, toolPath } from "@/lib/tools/registry";
 
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
@@ -63,8 +64,6 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Trust", href: "/security" },
       { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
-      { label: "Bug Book", href: "/bug-book" },
-      { label: "Free Tools", href: "/tools" },
       { label: "Features", href: "/#features" },
       { label: "Affiliate", href: "/affiliate", paid: true },
     ],
@@ -96,12 +95,29 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     title: "Resources",
     links: [
       { label: "Docs", href: "/docs/no-code-platforms/webflow/setup" },
+      { label: "Free Tools", href: "/tools" },
+      { label: "Bug Book", href: "/bug-book" },
       { label: "Case Study", href: "/case-study/writesonic" },
       { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "ROI Calculator", href: "/calculator", paid: true },
       { label: "Agency Tools Survey", href: "/state-of-agency-tools" },
       { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
       { label: "Join Community", href: "https://superflowusers.slack.com/ssb/redirect" },
+    ],
+  },
+  {
+    // One link per tool, generated rather than hand-listed: read from the
+    // registry, so a tool that is still `planned` can never appear here as a
+    // dead link and a newly-live one needs no second edit. These pages are
+    // where strangers arrive from search, and a link from every page of the
+    // site is the cheapest thing we can do for them.
+    title: "Free Tools",
+    links: [
+      ...liveTools().map((tool) => ({
+        label: tool.name,
+        href: toolPath(tool.slug),
+      })),
+      { label: "MCP & API", href: "/tools/mcp" },
     ],
   },
   {

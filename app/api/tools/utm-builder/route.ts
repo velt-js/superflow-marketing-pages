@@ -43,7 +43,7 @@ import {
 export const runtime = "nodejs";
 
 /**
- * Open CORS, matching /tools/md5. The endpoint is public, stateless, reads no
+ * Open CORS, matching /api/tools/md5. The endpoint is public, stateless, reads no
  * cookies and no auth, and stores nothing, so there is nothing a cross-origin
  * caller could abuse beyond the microseconds of CPU it is asking for.
  */

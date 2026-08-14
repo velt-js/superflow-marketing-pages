@@ -2,7 +2,7 @@
 
 // Interactive MD5 generator for /tools/md5-generator.
 //
-// Hashes through the site's own /tools/md5 endpoint rather than in the
+// Hashes through the site's own /api/tools/md5 endpoint rather than in the
 // browser, so the page doubles as a live demo of the API and there is only
 // one implementation to keep correct.
 //
@@ -21,7 +21,7 @@ const DEBOUNCE_MS = 250;
 /** Mirrors the endpoint's own cap, so oversized input fails in the UI. */
 const MAX_BYTES = 1024 * 1024;
 
-const API_SNIPPET = `curl -X POST https://usesuperflow.ai/tools/md5 \\
+const API_SNIPPET = `curl -X POST https://usesuperflow.ai/api/tools/md5 \\
   -H 'Content-Type: text/plain' \\
   --data-binary 'hello'
 
@@ -77,7 +77,7 @@ export default function Md5Tool({
     const timer = setTimeout(async () => {
       setResult({ status: "loading" });
       try {
-        const response = await fetch("/tools/md5", {
+        const response = await fetch("/api/tools/md5", {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
           body: text,

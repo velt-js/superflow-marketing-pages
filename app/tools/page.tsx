@@ -89,9 +89,9 @@ export default function ToolsIndexPage() {
       <ListingHero
         eyebrow="Free forever"
         heading="Free tools for people who ship websites"
-        subheading="Small, fast, useful. No login, no email gate, no ads, and no paywalled results. Each one is a small demo of what our agents do across a whole site."
+        subheading="Small, fast, useful. No login, no email gate, no ads, no paywalled results."
         hideCta
-        footnote="We do not store the URLs you submit or the results beyond a short cache window."
+        footnote="Nothing you submit is stored beyond a short cache."
       />
 
       <section className={styles.section}>
@@ -119,10 +119,8 @@ export default function ToolsIndexPage() {
           />
           <p className={styles.apiNote}>
             <Link className={styles.apiLink} href="/tools/mcp">
-              Setup for Claude Code, Claude Desktop, Cursor and VS Code, the
-              tool list, and the HTTP API reference
+              Setup, tool list, and API reference
             </Link>
-            .
           </p>
 
           {/* The "why we give these away" answer, kept because it is the

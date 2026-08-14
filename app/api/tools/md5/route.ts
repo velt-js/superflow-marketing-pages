@@ -3,10 +3,10 @@
 // Accepts text three ways so it is usable from a browser address bar, a
 // `curl` one-liner, or a plain HTML form:
 //
-//   GET  /tools/md5?text=hello
-//   POST /tools/md5  {"text":"hello"}      (application/json)
-//   POST /tools/md5  hello                 (text/plain or any other type)
-//   POST /tools/md5  text=hello            (application/x-www-form-urlencoded)
+//   GET  /api/tools/md5?text=hello
+//   POST /api/tools/md5  {"text":"hello"}      (application/json)
+//   POST /api/tools/md5  hello                 (text/plain or any other type)
+//   POST /api/tools/md5  text=hello            (application/x-www-form-urlencoded)
 //
 // Responds `{ md5, algorithm, bytes }`, where `bytes` is the UTF-8 byte
 // length of the input that was hashed.
@@ -18,6 +18,11 @@
 //
 // Runs on the Node runtime (the default) because MD5 comes from
 // `node:crypto`; the Edge runtime's Web Crypto has no MD5 digest.
+//
+// It used to live at /tools/md5, beside the human page rather than with the
+// other tool endpoints. That path is kept as a permanent redirect in
+// next.config.ts — a 308, so a POST stays a POST — because it is a published
+// API that scripts already call.
 
 import { createHash } from "node:crypto";
 
@@ -39,9 +44,9 @@ const CORS_HEADERS: Record<string, string> = {
 };
 
 const USAGE = {
-  get: "/tools/md5?text=hello",
-  postJson: `curl -X POST /tools/md5 -H 'Content-Type: application/json' -d '{"text":"hello"}'`,
-  postRaw: "curl -X POST /tools/md5 -H 'Content-Type: text/plain' --data-binary 'hello'",
+  get: "/api/tools/md5?text=hello",
+  postJson: `curl -X POST /api/tools/md5 -H 'Content-Type: application/json' -d '{"text":"hello"}'`,
+  postRaw: "curl -X POST /api/tools/md5 -H 'Content-Type: text/plain' --data-binary 'hello'",
 };
 
 function json(body: unknown, status = 200): Response {
@@ -50,9 +55,8 @@ function json(body: unknown, status = 200): Response {
     headers: {
       ...CORS_HEADERS,
       "Cache-Control": "no-store",
-      // robots.txt only disallows /api/, and blocking /tools/ wholesale
-      // would also block any human-facing tool page added there later, so
-      // keep this JSON endpoint out of search results header-side instead.
+      // Belt and braces: robots.txt already disallows /api/, and this keeps
+      // the JSON out of results even if that ever changes.
       "X-Robots-Tag": "noindex",
     },
   });

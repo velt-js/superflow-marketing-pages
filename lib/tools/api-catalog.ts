@@ -329,7 +329,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     description:
       "Hash text to an MD5 hex digest. Useful for checksums, cache keys, dedupe keys, and Gravatar-style identifiers. MD5 is broken for anything security-related: never use it for passwords or to verify authenticity.",
     method: "POST",
-    path: "/tools/md5",
+    path: "/api/tools/md5",
     inputSchema: {
       type: "object",
       properties: {

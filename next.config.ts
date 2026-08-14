@@ -112,6 +112,15 @@ const nextConfig: NextConfig = {
         destination: "/security",
         permanent: true,
       },
+      // The MD5 endpoint moved from beside its page to where the other tool
+      // endpoints live. `permanent` emits a 308, which — unlike a 301/302 —
+      // preserves the method and the body, so a script that POSTs to the old
+      // path still gets its hash rather than a GET-shaped usage error.
+      {
+        source: "/tools/md5",
+        destination: "/api/tools/md5",
+        permanent: true,
+      },
       // Launch redirects: short/legacy URLs → the live feature-page root slugs.
       {
         source: "/board",

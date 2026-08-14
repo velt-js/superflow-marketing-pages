@@ -247,9 +247,15 @@ test.describe("the AI visibility tools survive a real run", () => {
       // sits on top of that. A 90s budget failed here on a cold cache while
       // the same run passed standalone, which is a flaky gate rather than a
       // finding, and a flaky gate is one people learn to ignore.
-      await expect(page.getByText("out of 100")).toBeVisible({
-        timeout: RUN_TIMEOUT_MS,
-      });
+      //
+      // The text is matched loosely for the same reason. The dial reads "out
+      // of 100" only when every check could run; when the render service is
+      // unavailable it reads "of N scorable" instead, which is a healthy
+      // degraded report, not a failure. Pinning the strict wording made this
+      // gate go red on runs where nothing was wrong.
+      await expect(
+        page.getByText(/out of 100|scorable/).first(),
+      ).toBeVisible({ timeout: RUN_TIMEOUT_MS });
 
       // "What we found" is the section that used to throw.
       await expect(

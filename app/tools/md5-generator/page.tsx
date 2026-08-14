@@ -29,7 +29,7 @@ const PAGE_DESCRIPTION =
 // text to /tools/md5, so the text does leave the device. The endpoint sends
 // no-store and writes nothing, which is what the line claims and all it claims.
 const PRIVACY_LINE =
-  "Free, no login, no email. We do not store the text you send or the hash we return.";
+  "Free, no login, no email. We do not store the text you send or the hash.";
 
 const HERO_HEADING = "MD5 hash generator";
 const HERO_SUBHEADING =
@@ -65,8 +65,9 @@ export default function Md5GeneratorPage() {
         tight
         footnote={
           <>
-            {PRIVACY_LINE} <a href="/tools/md5-generator.md">Markdown copy</a>{" "}
-            for agents. <a href="#api">API and MCP</a>.
+            {PRIVACY_LINE}{" "}
+            <a href="/tools/md5-generator.md">Markdown copy</a> ·{" "}
+            <a href="#api">API and MCP</a>
           </>
         }
       />
