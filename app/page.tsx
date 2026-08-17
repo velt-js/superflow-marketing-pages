@@ -17,27 +17,30 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import {
+  ORG_DESCRIPTION,
   ORG_ID,
   ORG_OG_IMAGE,
   ORG_SAME_AS,
+  SITE_TITLE_WITH_BRAND,
   SITE_URL,
   buildFaqPageSchema,
 } from "@/app/_seo/schema";
 
-// The 2026 homepage (v4.1). Title/description are the launch values; the
-// helper emits the canonical, og:image, twitter:image, and index directives.
-// metadataBase, icons, and the site-wide Organization/WebSite JSON-LD stay
-// inherited from app/layout.tsx.
+// The 2026 homepage (v4.1). Title/description come from the shared
+// positioning constants in app/_seo/schema.ts, which also feed the
+// site-wide defaults in app/layout.tsx, the Organization JSON-LD, and the
+// web app manifest. The helper emits the canonical, og:image,
+// twitter:image, and index directives. metadataBase, icons, and the
+// site-wide Organization/WebSite JSON-LD stay inherited from
+// app/layout.tsx.
 //
 // NOTE: app/page.tsx shares the ROOT route segment with app/layout.tsx, so the
 // layout's `title.template` ("%s | Superflow") does NOT apply here (Next.js only
 // applies a template to CHILD segments). We therefore pass the brand suffix in
 // the title ourselves — buildPageMetadata detects it and emits an absolute
 // title so the tab reads exactly "Your Website QA Reviewer | Superflow".
-const PAGE_TITLE = "Your Website QA Reviewer";
-const PAGE_TITLE_WITH_BRAND = `${PAGE_TITLE} | Superflow`;
-const PAGE_DESCRIPTION =
-  "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
+const PAGE_TITLE_WITH_BRAND = SITE_TITLE_WITH_BRAND;
+const PAGE_DESCRIPTION = ORG_DESCRIPTION;
 
 export const metadata = buildPageMetadata({
   title: PAGE_TITLE_WITH_BRAND,
@@ -52,8 +55,7 @@ const SOFTWARE_APPLICATION_SCHEMA = {
   url: SITE_URL,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
-  description:
-    "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.",
+  description: ORG_DESCRIPTION,
   image: ORG_OG_IMAGE,
   // Tiers: Starter ($0), Growth ($24/seat/mo annual), Scale ($28/seat/mo annual),
   // Enterprise (custom — excluded from highPrice per schema best-practice).
