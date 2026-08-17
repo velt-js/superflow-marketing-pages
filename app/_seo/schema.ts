@@ -22,13 +22,18 @@ export const ORG_OG_IMAGE = `${SITE_URL}/opengraph-image.png`;
 // defaults in app/layout.tsx, the homepage metadata in app/page.tsx, the
 // Organization/SoftwareApplication JSON-LD, and the web app manifest all
 // say the same thing. Previously each held its own copy and they drifted.
-export const SITE_TITLE = "Your Website QA Reviewer";
+// Wording matches the homepage hero verbatim (HEADLINE_LINES and
+// SUBHEAD_TEXT in components/home-2026/Hero.tsx) so the search result and
+// the page a visitor lands on say the same thing. The headline's trailing
+// period is dropped here because the title is concatenated with the brand
+// suffix ("… for your website. | Superflow" reads as a typo).
+export const SITE_TITLE = "The QA agents for your website";
 export const SITE_TITLE_WITH_BRAND = `${SITE_TITLE} | ${ORG_NAME}`;
 export const ORG_DESCRIPTION =
-  "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
+  "Turn your QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
 // Alt text for the shared social-share card. Describes the branded image so
 // og:image:alt / twitter:image:alt are populated for accessibility + SEO.
-export const ORG_OG_IMAGE_ALT = `${ORG_NAME}: your website QA reviewer`;
+export const ORG_OG_IMAGE_ALT = `${ORG_NAME}: the QA agents for your website`;
 
 // Stable `@id` URIs. Schema.org recommends a hash fragment so the
 // identifier is namespaced under the canonical URL.
