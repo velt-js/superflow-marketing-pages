@@ -17,8 +17,18 @@ export const ORG_LOGO_URL = `${SITE_URL}/logo.png`;
 export const ORG_LOGO_WIDTH = 512;
 export const ORG_LOGO_HEIGHT = 512;
 export const ORG_OG_IMAGE = `${SITE_URL}/opengraph-image.png`;
+
+// Homepage positioning (v4.1), single-sourced here so the site-wide
+// defaults in app/layout.tsx, the homepage metadata in app/page.tsx, the
+// Organization/SoftwareApplication JSON-LD, and the web app manifest all
+// say the same thing. Previously each held its own copy and they drifted.
+export const SITE_TITLE = "Your Website QA Reviewer";
+export const SITE_TITLE_WITH_BRAND = `${SITE_TITLE} | ${ORG_NAME}`;
 export const ORG_DESCRIPTION =
-  "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.";
+  "Paste your agency's QA checklist. AI agents check every site change. Then your team approves. Then your client. No client login required.";
+// Alt text for the shared social-share card. Describes the branded image so
+// og:image:alt / twitter:image:alt are populated for accessibility + SEO.
+export const ORG_OG_IMAGE_ALT = `${ORG_NAME}: your website QA reviewer`;
 
 // Stable `@id` URIs. Schema.org recommends a hash fragment so the
 // identifier is namespaced under the canonical URL.

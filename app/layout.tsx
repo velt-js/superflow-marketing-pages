@@ -4,6 +4,9 @@ import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
+  ORG_DESCRIPTION,
+  ORG_OG_IMAGE_ALT,
+  SITE_TITLE_WITH_BRAND,
   SITE_URL,
   buildOrganizationSchema,
   buildWebSiteSchema,
@@ -63,14 +66,14 @@ const adamina = localFont({
   variable: "--font-adamina",
 });
 
-const DEFAULT_TITLE = "Superflow: Creative Assets Review & Collaboration Tool";
-const DEFAULT_DESCRIPTION =
-  "With Superflow, agencies and marketing teams can deliver high-quality assets 10x faster. You can comment and collaborate on assets like live websites, video, PDF, Lottie files, images and more.";
+// Site-wide fallbacks, taken verbatim from the homepage positioning in
+// app/_seo/schema.ts. These apply to the homepage (which shares the root
+// segment) and to any route that ships no title/description of its own, so
+// they must stay identical to what app/page.tsx renders.
+const DEFAULT_TITLE = SITE_TITLE_WITH_BRAND;
+const DEFAULT_DESCRIPTION = ORG_DESCRIPTION;
 const DEFAULT_OG_IMAGE = "/opengraph-image.png";
-// Alt text for the shared social-share card. Describes the branded image so
-// og:image:alt / twitter:image:alt are populated for accessibility + SEO.
-const DEFAULT_OG_IMAGE_ALT =
-  "Superflow: creative assets review and collaboration tool";
+const DEFAULT_OG_IMAGE_ALT = ORG_OG_IMAGE_ALT;
 
 export const viewport: Viewport = {
   width: "device-width",
