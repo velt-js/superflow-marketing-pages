@@ -39,12 +39,12 @@ const CTA_MICROCOPY =
   "Free to start. No credit card. Your client reviews without an account.";
 
 const HEADLINE_LINES: readonly string[] = [
-  "Your QA reviewer",
-  "for websites.",
+  "The QA agents",
+  "for your website.",
 ];
 
 const SUBHEAD_TEXT =
-  "Turn your agency's QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
+  "Turn your QA checklist into AI agents that check every site change. Your team approves, then your client. No login required.";
 
 /**
  * Per-page overrides for the hero copy. Omit a prop to fall back to the
