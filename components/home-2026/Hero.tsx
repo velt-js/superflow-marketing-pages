@@ -12,6 +12,7 @@ import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtif
 import IntegrationsAsanaArtifact from "./hero-artifacts/IntegrationsAsanaArtifact";
 import IntegrationsClickUpArtifact from "./hero-artifacts/IntegrationsClickUpArtifact";
 import IntegrationsSlackArtifact from "./hero-artifacts/IntegrationsSlackArtifact";
+import ProductHuntBadge from "@/components/shared-2026/ProductHuntBadge";
 import {
   IntegrationsWebflowArtifact,
   IntegrationsWordPressArtifact,
@@ -104,6 +105,13 @@ export interface HeroProps {
   staticArtifactFlat?: boolean;
   /** Hide the "Trusted by" logo strip (pages that carry their own logo strip). */
   hideTrusted?: boolean;
+  /**
+   * When true, renders the Product Hunt launch badge at the bottom of the CTA
+   * panel. Opt-in (and ignored by `variant="feature"`, which has no panel) so
+   * only the homepage carries it — the feature, integration, and CMS-driven
+   * heroes that reuse this component stay unchanged.
+   */
+  showProductHunt?: boolean;
 }
 
 /** A customer/partner logo shown in the trust strip. */
@@ -162,6 +170,7 @@ export default function Hero({
   staticArtifact,
   staticArtifactFlat = false,
   hideTrusted = false,
+  showProductHunt = false,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
     headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
@@ -210,6 +219,10 @@ export default function Hero({
               <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
 
               <HeroChecksDropdown />
+
+              {/* Last item in the panel so expanding the checks dropdown
+                  pushes the badge down rather than displacing the CTA. */}
+              {showProductHunt ? <ProductHuntBadge /> : null}
             </div>
           )}
         </div>
