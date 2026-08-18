@@ -1,0 +1,83 @@
+/* Product Hunt launch badge — components/shared-2026/ProductHuntBadge.tsx.
+   One anchor, two placements: `inline` inside the homepage hero's CTA panel,
+   `floating` pinned bottom-left on every marketing page. Width is driven by
+   the `--ph-badge-width` custom property so each variant (and each breakpoint)
+   resizes the artwork in one place while the SVG keeps its own aspect ratio. */
+
+.badge {
+  display: inline-block;
+  /* The badge is a lone inline image; zeroing line-height removes the
+     descender gap that would otherwise pad the anchor below the artwork. */
+  line-height: 0;
+  border-radius: 10px;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+}
+
+.badge:focus-visible {
+  outline: 2px solid var(--color-superflow-blue);
+  outline-offset: 3px;
+}
+
+.image {
+  display: block;
+  width: var(--ph-badge-width);
+  height: auto;
+}
+
+/* ------------------------------------------------------------ inline (hero) */
+
+.inline {
+  --ph-badge-width: 250px;
+  /* The hero panel is a stretch-aligned flex column; without this the anchor
+     would span the full 530px panel and the hover lift would feel detached
+     from the artwork. */
+  align-self: flex-start;
+}
+
+/* ------------------------------------------------------- floating (sitewide) */
+
+.floating {
+  --ph-badge-width: 220px;
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  /* Matches the Intercom launcher's z-40 in the opposite corner, and stays
+     well below the sticky header (SiteNav is z-1000). */
+  z-index: 40;
+  border-radius: 12px;
+  /* The light-theme artwork is near-white, so it needs a shadow to separate
+     from the white page backgrounds it floats over. */
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.18);
+}
+
+.floating:hover {
+  box-shadow: 0 12px 28px rgba(10, 10, 10, 0.24);
+}
+
+/* Mobile: shrink both variants and tighten the floating inset so the badge
+   clears the Intercom launcher on a 375px viewport. */
+@media (max-width: 620px) {
+  .inline {
+    --ph-badge-width: 220px;
+  }
+
+  .floating {
+    --ph-badge-width: 168px;
+    left: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+
+  .badge:hover {
+    transform: none;
+  }
+}
