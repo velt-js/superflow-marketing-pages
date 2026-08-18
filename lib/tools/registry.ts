@@ -279,6 +279,37 @@ export const TOOLS: readonly ToolEntry[] = [
       "ai-visibility-checker",
     ],
   },
+  {
+    slug: "review-like-paul-graham",
+    name: "Review like Paul Graham",
+    tagline:
+      "Get your page judged on clarity, a specific user, and plain language",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll contract
+    // against the `review-like-paul-graham` agent. Stays "planned" until that
+    // agent is deployed — listing a tool that 500s is worse than not listing it.
+    status: "planned",
+    icon: "check",
+    related: [
+      "review-like-steve-jobs",
+      "ai-visibility-checker",
+      "social-preview-checker",
+    ],
+  },
+  {
+    slug: "review-like-steve-jobs",
+    name: "Review like Steve Jobs",
+    tagline: "Judge your page on focus, simplicity, and what you could remove",
+    category: "quality",
+    // Backend-dependent, same as the sibling above.
+    status: "planned",
+    icon: "eye",
+    related: [
+      "review-like-paul-graham",
+      "ai-visibility-checker",
+      "website-launch-checklist",
+    ],
+  },
 ];
 
 /** Human labels for the index page's grouping. */
