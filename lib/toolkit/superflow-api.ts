@@ -19,12 +19,18 @@
 // this client hides the polling behind the same one-call promise the callers
 // already use.
 //
-// Configure with:
+// The free tools shipped to the production backend on 2026-08-18, so the
+// production callable is the built-in default and nothing has to be configured
+// for the site to talk to it.
+//
+// Override it with:
 //   SUPERFLOW_ANONYMOUS_API_URL   the callable endpoint, e.g.
 //     https://<region>-<project>.cloudfunctions.net/anonymoushandler
 //
-// When it is unset the caller falls back to the in-repo engine, so local dev
-// and any deploy that predates the backend release keep working.
+//   Point it at staging to try a backend change before it is released.
+//   Set it to `local` to unconfigure the backend entirely, which sends the
+//   callers back to the in-repo engine — the only way left to exercise that
+//   path now that the default is a live endpoint.
 
 import type {
   CategoryId,
@@ -36,7 +42,22 @@ import type {
   VisibilityReport,
 } from "@/lib/tools/ai-visibility/types";
 
-const ENDPOINT = process.env.SUPERFLOW_ANONYMOUS_API_URL ?? "";
+/**
+ * The production callable. Free tools are live here, so this is what a
+ * visitor reaches unless the environment names something else.
+ */
+const PROD_ENDPOINT =
+  "https://us-central1-snippyly-sdk-prod.cloudfunctions.net/anonymoushandler";
+
+/** The sentinel that turns the backend off and restores the in-repo engine. */
+const LOCAL_ENGINE_SENTINEL = "local";
+
+const CONFIGURED_ENDPOINT = (process.env.SUPERFLOW_ANONYMOUS_API_URL ?? "").trim();
+
+const ENDPOINT =
+  CONFIGURED_ENDPOINT === LOCAL_ENGINE_SENTINEL
+    ? ""
+    : CONFIGURED_ENDPOINT || PROD_ENDPOINT;
 
 /**
  * Ceiling on the whole start-and-poll round trip.

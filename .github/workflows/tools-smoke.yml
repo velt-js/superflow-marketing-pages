@@ -63,29 +63,31 @@ jobs:
 
       - run: npm ci
 
-      # Fail here, loudly, rather than let the suite run against the wrong
-      # code path. With the endpoint unset, `isBackendConfigured()` is false
-      # and every tool silently falls back to the in-repo engine — a different
-      # implementation from the one production uses. The suite would still go
-      # green while proving nothing about the live contract, which is the
-      # wrong-target failure the backend repo's GTK-011 exists to catch.
-      - name: Require the backend endpoint
+      # The endpoint no longer has to be configured: the client defaults to the
+      # production callable. What still has to be caught is the one value that
+      # turns the backend OFF — `local` sends every tool to the in-repo engine,
+      # a different implementation from the one production uses, and the suite
+      # would go green while proving nothing about the live contract. That is
+      # the wrong-target failure the backend repo's GTK-011 exists to catch.
+      - name: Check the backend endpoint
         env:
           SUPERFLOW_ANONYMOUS_API_URL: ${{ vars.SUPERFLOW_ANONYMOUS_API_URL || secrets.SUPERFLOW_ANONYMOUS_API_URL }}
         run: |
-          if [ -z "$SUPERFLOW_ANONYMOUS_API_URL" ]; then
-            echo "::error::SUPERFLOW_ANONYMOUS_API_URL is not set (checked repo variables, then secrets)."
+          if [ "$SUPERFLOW_ANONYMOUS_API_URL" = "local" ]; then
+            echo "::error::SUPERFLOW_ANONYMOUS_API_URL is set to 'local'."
             echo ""
-            echo "Without it the build falls back to the in-repo engine, so this"
-            echo "suite would pass while testing a different code path from"
-            echo "production. Set it to the same value Vercel uses:"
+            echo "That unconfigures the backend, so this suite would pass while"
+            echo "testing the in-repo engine instead of the live contract."
+            echo "Unset it to use the production default, or point it at a"
+            echo "real callable:"
             echo "  Settings > Secrets and variables > Actions"
-            echo "  Either slot works: a repository VARIABLE is preferred (the"
-            echo "  endpoint is public and unauthenticated, so a write-only"
-            echo "  secret only hides it from you), and a secret is accepted."
             exit 1
           fi
-          echo "Backend endpoint configured."
+          if [ -z "$SUPERFLOW_ANONYMOUS_API_URL" ]; then
+            echo "No override set — the build uses the production callable."
+          else
+            echo "Backend endpoint overridden: $SUPERFLOW_ANONYMOUS_API_URL"
+          fi
 
       # Chromium ships with the runner image via the Playwright download, but
       # only the browser is needed — no system deps beyond what ubuntu-latest
@@ -95,9 +97,9 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Without this the tools fall back to the in-repo engine, which is a
-          # different code path from production. Pointing at the real backend
-          # is what makes the run meaningful.
+          # Passed through so a repo-level override still applies. Unset, the
+          # build talks to the production callable, which is what makes the run
+          # meaningful — the in-repo engine is a different code path.
           SUPERFLOW_ANONYMOUS_API_URL: ${{ vars.SUPERFLOW_ANONYMOUS_API_URL || secrets.SUPERFLOW_ANONYMOUS_API_URL }}
 
       - name: Smoke test
