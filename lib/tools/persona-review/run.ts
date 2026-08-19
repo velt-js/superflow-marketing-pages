@@ -27,6 +27,13 @@ import { normalizeUrl } from "@/lib/toolkit/url";
 import { isBackendConfigured, runToolViaBackend } from "@/lib/toolkit/superflow-api";
 import type { PersonaReviewPayload, PersonaFinding } from "./types";
 
+/** One extra body field a tool forwards to the backend. */
+export type ReviewExtraFieldSpec = {
+  name: string;
+  /** `list` splits a comma-separated string into the array the backend takes. */
+  kind: "string" | "list";
+};
+
 /** Bump when the stored shape changes, so old entries are not read back. */
 export const PERSONA_RESULT_VERSION = 1;
 
@@ -117,6 +124,72 @@ function toPersonaFindings(raw: unknown[]): PersonaFinding[] {
 }
 
 /**
+ * Picks the declared extra fields off the request body.
+ *
+ * Values are forwarded as sent — the backend validates them, and re-checking
+ * here would put the guard in two places that can disagree. Only the DECLARED
+ * names are read, so an unrelated key in the body cannot reach the backend or
+ * fragment the cache.
+ *
+ * @param payload - The parsed request body.
+ * @param names - Field names this tool accepts.
+ */
+function collectExtras(
+  payload: Record<string, unknown>,
+  fields: ReviewExtraFieldSpec[],
+): Record<string, unknown> {
+  try {
+    const extra: Record<string, unknown> = {};
+
+    for (const field of fields) {
+      const value = payload?.[field.name];
+      if (value === undefined || value === null) continue;
+
+      if (field.kind === "list") {
+        // Accept both shapes: the browser form posts ONE comma-separated
+        // string, while an API caller is more likely to post an array. The
+        // backend takes an array and REFUSES a bare string, so without this
+        // split every request that names a site fails validation.
+        const list = Array.isArray(value)
+          ? value.filter((item): item is string => typeof item === "string")
+          : typeof value === "string"
+            ? value.split(",").map((item) => item.trim())
+            : [];
+        const cleaned = list.filter((item) => item.length > 0);
+        if (cleaned.length > 0) extra[field.name] = cleaned;
+        continue;
+      }
+
+      if (typeof value === "string" && value.trim().length === 0) continue;
+      extra[field.name] = value;
+    }
+
+    return extra;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * A stable, order-independent suffix for the cache key.
+ *
+ * Sorted so `{a, b}` and `{b, a}` are one entry rather than two, and JSON
+ * rather than concatenated so a value containing a separator cannot collide
+ * with a different pair of values — the forgeable-key bug class.
+ *
+ * @param extra - The collected extra fields.
+ */
+function extrasKeySuffix(extra: Record<string, unknown>): string {
+  try {
+    const keys = Object.keys(extra).sort();
+    if (keys.length === 0) return "";
+    return `::${JSON.stringify(keys.map((key) => [key, extra[key]]))}`;
+  } catch {
+    return "";
+  }
+}
+
+/**
  * Runs one persona review for one URL, through the cache and the limiter.
  *
  * @param request - The incoming request.
@@ -129,11 +202,20 @@ export async function runPersonaReview({
   slug,
   backendToolId,
   notConfiguredMessage,
+  extraFields = [],
 }: {
   request: NextRequest;
   slug: string;
   backendToolId: string;
   notConfiguredMessage: string;
+  /**
+   * Body fields beyond `url` this tool forwards to the backend — the Lookalike
+   * Test's `packId` and `compareUrls`. They also become part of the cache key:
+   * comparing one page against two different benchmarks is two different
+   * questions, and keying on the URL alone would answer the second with the
+   * first one's report.
+   */
+  extraFields?: ReviewExtraFieldSpec[];
 }): Promise<Response> {
   try {
     // There is no in-repo fallback engine for a persona review — the lens lives
@@ -143,9 +225,9 @@ export async function runPersonaReview({
       return json({ ok: false, code: "not-configured", message: notConfiguredMessage }, 422);
     }
 
-    let payload: { url?: unknown; refresh?: unknown };
+    let payload: Record<string, unknown>;
     try {
-      payload = (await request.json()) as typeof payload;
+      payload = (await request.json()) as Record<string, unknown>;
     } catch {
       return json({ ok: false, code: "bad-request", message: "Send a JSON body with a url." }, 400);
     }
@@ -160,9 +242,14 @@ export async function runPersonaReview({
     // runs its own SSRF guard, so this is only about key stability.
     const normalized = normalizeUrl(rawUrl);
     const cacheUrl = normalized.ok ? normalized.url : rawUrl.trim();
+
+    // The extra fields are part of the QUESTION, so they are part of the key.
+    // Without this, "compare me against Linear" and "compare me against Stripe"
+    // share an entry and the second visitor is handed the first one's report.
+    const extra = collectExtras(payload, extraFields);
     const cacheKey = toolCacheKey({
       tool: slug,
-      url: cacheUrl,
+      url: `${cacheUrl}${extrasKeySuffix(extra)}`,
       version: PERSONA_RESULT_VERSION,
     });
 
@@ -198,6 +285,7 @@ export async function runPersonaReview({
       toolId: backendToolId,
       url: rawUrl,
       clientIp: ip,
+      ...(Object.keys(extra).length > 0 ? { extra } : {}),
     });
 
     if (!result.ok) {

@@ -286,14 +286,17 @@ export const TOOLS: readonly ToolEntry[] = [
       "Get your page judged on clarity, a specific user, and plain language",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll contract
-    // against the `review-like-paul-graham` agent. Stays "planned" until that
-    // agent is deployed — listing a tool that 500s is worse than not listing it.
+    // against the `review-like-paul-graham` agent, which is pinned to the
+    // STAGING backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts)
+    // until it is released to prod. Stays "planned" until that agent is
+    // deployed to staging — listing a tool that 500s is worse than not listing
+    // it. Flip to "live" once a run has been verified end to end.
     status: "planned",
     icon: "check",
     related: [
       "review-like-steve-jobs",
+      "lookalike-test",
       "ai-visibility-checker",
-      "social-preview-checker",
     ],
   },
   {
@@ -301,13 +304,28 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Review like Steve Jobs",
     tagline: "Judge your page on focus, simplicity, and what you could remove",
     category: "quality",
-    // Backend-dependent, same as the sibling above.
+    // Backend-dependent and staging-pinned, same as the sibling above.
     status: "planned",
     icon: "eye",
     related: [
       "review-like-paul-graham",
+      "lookalike-test",
       "ai-visibility-checker",
-      "website-launch-checklist",
+    ],
+  },
+  {
+    slug: "lookalike-test",
+    name: "Lookalike Test",
+    tagline:
+      "See how your page's structure and copy differ from the sites you admire",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the two above.
+    status: "planned",
+    icon: "stack",
+    related: [
+      "review-like-paul-graham",
+      "review-like-steve-jobs",
+      "social-preview-checker",
     ],
   },
 ];
