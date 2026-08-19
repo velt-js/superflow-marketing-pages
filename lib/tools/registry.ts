@@ -285,13 +285,13 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "Get your page judged on clarity, a specific user, and plain language",
     category: "quality",
-    // Backend-dependent: runs through the FreeToolsService start/poll contract
-    // against the `review-like-paul-graham` agent, which is pinned to the
-    // STAGING backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts)
-    // until it is released to prod. Stays "planned" until that agent is
-    // deployed to staging — listing a tool that 500s is worse than not listing
-    // it. Flip to "live" once a run has been verified end to end.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "check",
     related: [
       "review-like-steve-jobs",
@@ -304,8 +304,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Review like Steve Jobs",
     tagline: "Judge your page on focus, simplicity, and what you could remove",
     category: "quality",
-    // Backend-dependent and staging-pinned, same as the sibling above.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "eye",
     related: [
       "review-like-paul-graham",
@@ -318,8 +323,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Review like Peter Thiel",
     tagline: "Monopoly or commodity, 10x or incremental, secret or consensus",
     category: "quality",
-    // Backend-dependent and staging-pinned, same as the personas above.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "check",
     related: [
       "review-like-paul-graham",
@@ -333,8 +343,13 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "Question the requirement, delete the part, and count the steps to value",
     category: "quality",
-    // Backend-dependent and staging-pinned, same as the personas above.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "stack",
     related: [
       "review-like-steve-jobs",
@@ -347,8 +362,13 @@ export const TOOLS: readonly ToolEntry[] = [
     name: "Review like Travis Kalanick",
     tagline: "Time to first value, form friction, and both sides of a market",
     category: "quality",
-    // Backend-dependent and staging-pinned, same as the personas above.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "link",
     related: [
       "review-like-elon-musk",
@@ -362,8 +382,13 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline:
       "See how your page's structure and copy differ from the sites you admire",
     category: "quality",
-    // Backend-dependent and staging-pinned, same as the two above.
-    status: "planned",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. Live as of 2026-08-19, verified end to end
+    // against deployed staging: a run on example.com returned a terminal
+    // review with a summary and findings.
+    status: "live",
     icon: "stack",
     related: [
       "review-like-paul-graham",
