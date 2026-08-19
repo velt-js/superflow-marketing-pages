@@ -49,6 +49,35 @@ import type {
 const PROD_ENDPOINT =
   "https://us-central1-snippyly-sdk-prod.cloudfunctions.net/anonymoushandler";
 
+/**
+ * The staging callable. Where an agent lands first, before it is released.
+ */
+const STAGING_ENDPOINT =
+  "https://us-central1-snipply-sdk-staging.cloudfunctions.net/anonymoushandler";
+
+/**
+ * Tools whose backend agent is live on STAGING but not yet released to prod.
+ *
+ * A tool in this set talks to staging from every environment, including the
+ * production site, because staging is the only place its agent exists — the
+ * alternative is a tool that 500s for every visitor.
+ *
+ * REMOVE A TOOL FROM THIS SET THE MOMENT ITS AGENT SHIPS TO PROD. Left behind,
+ * it silently keeps production traffic pointed at a staging backend that is
+ * redeployed constantly, has no uptime expectation, and shares its budget with
+ * whatever else is being tested that afternoon.
+ *
+ * Ids are the free-tool ids, which are also the backend agent ids.
+ */
+const TOOLS_ON_STAGING: ReadonlySet<string> = new Set([
+  "review-like-paul-graham",
+  "review-like-steve-jobs",
+  "review-like-peter-thiel",
+  "review-like-elon-musk",
+  "review-like-travis-kalanick",
+  "lookalike-test",
+]);
+
 /** The sentinel that turns the backend off and restores the in-repo engine. */
 const LOCAL_ENGINE_SENTINEL = "local";
 
@@ -58,6 +87,26 @@ const ENDPOINT =
   CONFIGURED_ENDPOINT === LOCAL_ENGINE_SENTINEL
     ? ""
     : CONFIGURED_ENDPOINT || PROD_ENDPOINT;
+
+/**
+ * The callable one tool should talk to.
+ *
+ * An explicit `SUPERFLOW_ANONYMOUS_API_URL` wins for EVERY tool: it exists so a
+ * developer or a CI run can pin the whole site at one backend, and a per-tool
+ * exception that quietly ignored it would defeat that.
+ *
+ * @param toolId - The free-tool id about to be dispatched.
+ */
+function endpointForTool(toolId: string): string {
+  if (CONFIGURED_ENDPOINT.length > 0) return ENDPOINT;
+  if (TOOLS_ON_STAGING.has(toolId)) return STAGING_ENDPOINT;
+  return ENDPOINT;
+}
+
+/** True when the named tool is pinned to staging. Exported for the UI notice. */
+export function isToolOnStagingBackend(toolId: string): boolean {
+  return CONFIGURED_ENDPOINT.length === 0 && TOOLS_ON_STAGING.has(toolId);
+}
 
 /**
  * Ceiling on the whole start-and-poll round trip.
@@ -432,13 +481,16 @@ async function callAnonymousHandler({
   data,
   timeoutMs,
   clientIp,
+  endpoint,
 }: {
   data: Record<string, unknown>;
   timeoutMs: number;
   clientIp?: string;
+  /** Which callable to talk to. Resolved once per run by the caller. */
+  endpoint: string;
 }): Promise<CallOutcome> {
   try {
-    const response = await fetch(ENDPOINT, {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -512,29 +564,47 @@ export async function runToolViaBackend(params: {
   toolId: "ai-visibility";
   url: string;
   clientIp?: string;
+  extra?: Record<string, unknown>;
 }): Promise<BackendVisibilityRunResult>;
 export async function runToolViaBackend(params: {
   toolId: string;
   url: string;
   clientIp?: string;
+  extra?: Record<string, unknown>;
 }): Promise<BackendRunResult>;
 export async function runToolViaBackend({
   toolId,
   url,
   clientIp,
+  extra,
 }: {
   toolId: string;
   url: string;
   clientIp?: string;
+  /**
+   * Extra start fields, for the tools that take more than a URL (the Lookalike
+   * Test's benchmark). Spread into the start payload and nothing else, so a
+   * tool that sends none dispatches a byte-identical request. The backend
+   * validates them; passing them through unchecked here would put the guard in
+   * two places that can disagree.
+   */
+  extra?: Record<string, unknown>;
 }): Promise<BackendRunResult> {
   try {
     const deadline = Date.now() + OVERALL_TIMEOUT_MS;
 
+    // Resolved ONCE, before the start call, and reused for every poll. An
+    // executionId only exists in the environment that minted it, so a run
+    // started on staging and polled on prod would answer `not-found` forever —
+    // a tool that appears to hang rather than fail.
+    const endpoint = endpointForTool(toolId);
+
     // ── Start the run ────────────────────────────────────────────────────
     const started = await callAnonymousHandler({
-      data: { subEventType: "startFreeToolRun", toolId, url },
+      data: { subEventType: "startFreeToolRun", toolId, url, ...(extra ?? {}) },
       timeoutMs: Math.min(START_TIMEOUT_MS, deadline - Date.now()),
       clientIp,
+      endpoint,
     });
 
     if (!started.ok) {
@@ -579,6 +649,7 @@ export async function runToolViaBackend({
         data: { subEventType: "getFreeToolRun", executionId },
         timeoutMs: Math.min(POLL_TIMEOUT_MS, deadline - Date.now()),
         clientIp,
+        endpoint,
       });
 
       // A dropped poll is not a dropped run: the run is still executing

@@ -279,6 +279,98 @@ export const TOOLS: readonly ToolEntry[] = [
       "ai-visibility-checker",
     ],
   },
+  {
+    slug: "review-like-paul-graham",
+    name: "Review like Paul Graham",
+    tagline:
+      "Get your page judged on clarity, a specific user, and plain language",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll contract
+    // against the `review-like-paul-graham` agent, which is pinned to the
+    // STAGING backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts)
+    // until it is released to prod. Stays "planned" until that agent is
+    // deployed to staging — listing a tool that 500s is worse than not listing
+    // it. Flip to "live" once a run has been verified end to end.
+    status: "planned",
+    icon: "check",
+    related: [
+      "review-like-steve-jobs",
+      "lookalike-test",
+      "ai-visibility-checker",
+    ],
+  },
+  {
+    slug: "review-like-steve-jobs",
+    name: "Review like Steve Jobs",
+    tagline: "Judge your page on focus, simplicity, and what you could remove",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the sibling above.
+    status: "planned",
+    icon: "eye",
+    related: [
+      "review-like-paul-graham",
+      "lookalike-test",
+      "ai-visibility-checker",
+    ],
+  },
+  {
+    slug: "review-like-peter-thiel",
+    name: "Review like Peter Thiel",
+    tagline: "Monopoly or commodity, 10x or incremental, secret or consensus",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the personas above.
+    status: "planned",
+    icon: "check",
+    related: [
+      "review-like-paul-graham",
+      "review-like-elon-musk",
+      "lookalike-test",
+    ],
+  },
+  {
+    slug: "review-like-elon-musk",
+    name: "Review like Elon Musk",
+    tagline:
+      "Question the requirement, delete the part, and count the steps to value",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the personas above.
+    status: "planned",
+    icon: "stack",
+    related: [
+      "review-like-steve-jobs",
+      "review-like-travis-kalanick",
+      "lookalike-test",
+    ],
+  },
+  {
+    slug: "review-like-travis-kalanick",
+    name: "Review like Travis Kalanick",
+    tagline: "Time to first value, form friction, and both sides of a market",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the personas above.
+    status: "planned",
+    icon: "link",
+    related: [
+      "review-like-elon-musk",
+      "review-like-paul-graham",
+      "lookalike-test",
+    ],
+  },
+  {
+    slug: "lookalike-test",
+    name: "Lookalike Test",
+    tagline:
+      "See how your page's structure and copy differ from the sites you admire",
+    category: "quality",
+    // Backend-dependent and staging-pinned, same as the two above.
+    status: "planned",
+    icon: "stack",
+    related: [
+      "review-like-paul-graham",
+      "review-like-steve-jobs",
+      "social-preview-checker",
+    ],
+  },
 ];
 
 /** Human labels for the index page's grouping. */
