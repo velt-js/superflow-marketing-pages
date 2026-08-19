@@ -9,6 +9,11 @@
 import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { ReviewTool } from "@/components/tools/review/ReviewTool";
+// The provenance line is NOT set here. The persona picker can switch lens
+// without leaving the page, so it is derived from the SELECTED persona inside
+// ReviewTool — a line fixed to the page would show this persona's framing over
+// another persona's review, which for the public-record lenses is exactly the
+// claim they exist to prevent.
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -24,14 +29,6 @@ const PATH = `/tools/${SLUG}`;
 const TITLE = REVIEW_LIKE_STEVE_JOBS_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_STEVE_JOBS_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_STEVE_JOBS_CONTENT.description;
-
-/**
- * Shown above every result. Not a disclaimer to be trimmed for length: it is
- * the difference between applying documented principles and putting words in a
- * real person's mouth.
- */
-const PROVENANCE =
-  "This applies the product principles Apple made famous under Steve Jobs, assembled from the public record — keynotes, interviews, and published design copy. It is an interpretation of a body of work, not the person. It does not speak as him, does not claim what he would have said, and does not quote him.";
 
 /** Rendered under the result so the lens can be checked against its source. */
 const SOURCES = [
@@ -146,8 +143,8 @@ export default function SteveJobsReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          provenance={PROVENANCE}
           sources={SOURCES}
+          showPersonaPicker
         />
       </ToolPage>
     </>

@@ -65,6 +65,79 @@
     cursor: default;
 }
 
+/* ---- Persona picker ---- */
+
+.persona {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+}
+
+.personaLabel {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.personaSelect {
+    padding: 9px 34px 9px 14px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    outline: none;
+    /* Native arrow removed so the control matches the pill inputs beside it. */
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235b5b61' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.personaSelect:focus {
+    border-color: #2d9aff;
+}
+
+.personaSelect:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.personaLens {
+    flex: 1 1 100%;
+    font-size: 13px;
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.extraSelect {
+    padding: 11px 34px 11px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235b5b61' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.extraSelect:focus {
+    border-color: #2d9aff;
+}
+
+.extraSelect:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
 .extras {
     display: flex;
     flex-wrap: wrap;

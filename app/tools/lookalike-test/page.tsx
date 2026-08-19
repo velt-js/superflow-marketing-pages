@@ -15,6 +15,7 @@ import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 import { buildToolAppSchema } from "@/app/_seo/tool-schema";
 import { LOOKALIKE_TEST_CONTENT } from "@/lib/tools/content";
+import { BENCHMARK_PACKS } from "@/lib/tools/lookalike/packs";
 
 const { faq: FAQ, howItWorks: HOW_IT_WORKS } = LOOKALIKE_TEST_CONTENT;
 
@@ -34,16 +35,22 @@ const PROVENANCE =
  */
 const EXTRA_FIELDS = [
   {
-    name: "compareUrls",
-    label: "Sites to compare against",
-    placeholder: "linear.app, stripe.com",
-    hint: "Up to three, comma separated. Leave empty to use a curated benchmark.",
+    name: "packId",
+    label: "Benchmark",
+    // A dropdown, not a text box: the packs are a closed set the backend
+    // already knows, and a typed id that does not match silently falls back to
+    // the default — which a visitor reads as the tool ignoring them.
+    options: BENCHMARK_PACKS.map((pack) => ({
+      value: pack.id,
+      label: pack.label,
+    })),
+    hint: "Ignored when you name your own sites below.",
   },
   {
-    name: "packId",
-    label: "Or a benchmark pack",
-    placeholder: "developer-tools",
-    hint: "developer-tools or saas-marketing. Ignored when you name sites above.",
+    name: "compareUrls",
+    label: "Or name your own sites",
+    placeholder: "linear.app, stripe.com",
+    hint: "Up to three, comma separated. These win over the benchmark above.",
   },
 ];
 

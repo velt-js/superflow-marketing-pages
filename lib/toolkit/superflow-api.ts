@@ -72,6 +72,9 @@ const STAGING_ENDPOINT =
 const TOOLS_ON_STAGING: ReadonlySet<string> = new Set([
   "review-like-paul-graham",
   "review-like-steve-jobs",
+  "review-like-peter-thiel",
+  "review-like-elon-musk",
+  "review-like-travis-kalanick",
   "lookalike-test",
 ]);
 

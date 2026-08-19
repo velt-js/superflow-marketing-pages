@@ -8,6 +8,11 @@
 import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { ReviewTool } from "@/components/tools/review/ReviewTool";
+// The provenance line is NOT set here. The persona picker can switch lens
+// without leaving the page, so it is derived from the SELECTED persona inside
+// ReviewTool — a line fixed to the page would show this persona's framing over
+// another persona's review, which for the public-record lenses is exactly the
+// claim they exist to prevent.
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -23,10 +28,6 @@ const PATH = `/tools/${SLUG}`;
 const TITLE = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.description;
-
-/** Shown above every result. The lens is his essays; the reviewer is not him. */
-const PROVENANCE =
-  "This is a review lens distilled from Paul Graham's published essays — the recurring tests he applies, written down and applied to your page. It is not him, it does not speak as him, and it does not quote him.";
 
 /** Rendered under the result so the lens can be checked against its source. */
 const SOURCES = [
@@ -137,8 +138,8 @@ export default function PaulGrahamReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          provenance={PROVENANCE}
           sources={SOURCES}
+          showPersonaPicker
         />
       </ToolPage>
     </>

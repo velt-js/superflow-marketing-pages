@@ -19,6 +19,9 @@ import { ALT_TEXT_GENERATOR_CONTENT } from "./alt-text-generator";
 import { REVIEW_LIKE_PAUL_GRAHAM_CONTENT } from "./review-like-paul-graham";
 import { REVIEW_LIKE_STEVE_JOBS_CONTENT } from "./review-like-steve-jobs";
 import { LOOKALIKE_TEST_CONTENT } from "./lookalike-test";
+import { REVIEW_LIKE_PETER_THIEL_CONTENT } from "./review-like-peter-thiel";
+import { REVIEW_LIKE_ELON_MUSK_CONTENT } from "./review-like-elon-musk";
+import { REVIEW_LIKE_TRAVIS_KALANICK_CONTENT } from "./review-like-travis-kalanick";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -37,6 +40,9 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   REVIEW_LIKE_PAUL_GRAHAM_CONTENT,
   REVIEW_LIKE_STEVE_JOBS_CONTENT,
   LOOKALIKE_TEST_CONTENT,
+  REVIEW_LIKE_PETER_THIEL_CONTENT,
+  REVIEW_LIKE_ELON_MUSK_CONTENT,
+  REVIEW_LIKE_TRAVIS_KALANICK_CONTENT,
 ];
 
 /**
@@ -67,4 +73,7 @@ export {
   REVIEW_LIKE_PAUL_GRAHAM_CONTENT,
   REVIEW_LIKE_STEVE_JOBS_CONTENT,
   LOOKALIKE_TEST_CONTENT,
+  REVIEW_LIKE_PETER_THIEL_CONTENT,
+  REVIEW_LIKE_ELON_MUSK_CONTENT,
+  REVIEW_LIKE_TRAVIS_KALANICK_CONTENT,
 };
