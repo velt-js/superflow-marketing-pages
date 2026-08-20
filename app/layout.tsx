@@ -17,7 +17,6 @@ import {
   GtmNoScript,
   ThirdPartyScripts,
 } from "@/components/scripts/ThirdPartyScripts";
-import ProductHuntFloatingBadge from "@/components/shared-2026/ProductHuntFloatingBadge";
 
 // Fonts are self-hosted from app/fonts rather than fetched with
 // next/font/google.
@@ -144,10 +143,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AmplitudePageView />
         </Suspense>
         {children}
-        {/* Launch badge, pinned bottom-left on every marketing route. Mounted
-            after children so it paints above page content; it hides itself on
-            /studio and /preview. */}
-        <ProductHuntFloatingBadge />
       </body>
     </html>
   );

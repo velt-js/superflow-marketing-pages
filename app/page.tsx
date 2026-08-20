@@ -84,7 +84,7 @@ export default function HomePage() {
       <JsonLd id="ld-software-application" data={SOFTWARE_APPLICATION_SCHEMA} />
       <JsonLd id="ld-faq-home" data={FAQ_SCHEMA} />
       <SiteNav />
-      <Hero showProductHunt />
+      <Hero />
       <ProblemSection />
       <SolutionSection />
       <FeatureSet />
