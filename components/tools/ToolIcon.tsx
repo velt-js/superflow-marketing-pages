@@ -94,6 +94,15 @@ const PATHS: Record<ToolIconKey, React.ReactNode> = {
       <path d="m4 17 5-4 4 3 3-2 4 3" />
     </>
   ),
+  // A browser tab with its favicon: the thing the checker is about, drawn as
+  // the place you actually look to find out whether it worked.
+  tab: (
+    <>
+      <path d="M3 19V8a1 1 0 0 1 1-1h6l1.5-2H20a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+      <circle cx="7.5" cy="11.5" r="1.75" />
+      <path d="M12 11h6" />
+    </>
+  ),
 };
 
 /**

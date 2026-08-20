@@ -1,0 +1,551 @@
+/* Favicon Checker: the form, the verdict, the checks, and the icon list.
+   Inherits the tool-page custom properties from .page in Tools.module.css. */
+
+.tool {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- URL form ---- */
+
+.form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 15px 20px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: var(--t-panel, #feffff);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--t-ink, #1e1e1f);
+    outline: none;
+    transition: border-color 160ms ease;
+}
+
+.input:focus {
+    border-color: #2d9aff;
+}
+
+.input::placeholder {
+    color: var(--t-ink-faint, #a3a3a9);
+}
+
+.submit {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-radius: 9999px;
+    border: none;
+    background: var(--t-ink, #1e1e1f);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+}
+
+.submit:hover:not(:disabled) {
+    opacity: 0.86;
+}
+
+.submit:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.runningHint {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    color: var(--t-ink-soft, #5b5b60);
+    text-align: center;
+}
+
+.formError {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    text-align: center;
+}
+
+/* ---- Result header ---- */
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.resultHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.resultMeta {
+    min-width: 0;
+}
+
+.resultHost {
+    margin: 0 0 2px;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.resultChecked {
+    margin: 0;
+    font-size: 13px;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.resultActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.ghostButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #1e1e1f);
+    cursor: pointer;
+    transition: border-color 160ms ease;
+}
+
+.ghostButton:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.notice {
+    margin: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid #f0dcb4;
+    background: #fdf7ea;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #7a5a12;
+}
+
+/* ---- The verdict: the answer to the question, in the largest type here ---- */
+
+.verdict {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 26px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.verdictGood {
+    border-color: var(--t-pass, #1a8f5f);
+    background: var(--t-pass-bg, #e7f6ef);
+}
+
+.verdictBad {
+    border-color: var(--t-fail, #c8362f);
+    background: var(--t-fail-bg, #fdeceb);
+}
+
+/* A checkerboard, so a transparent icon reads as transparent rather than
+   as whatever the card behind it happens to be. */
+.verdictPreview {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(45deg, #f0f0f2 25%, transparent 25%),
+        linear-gradient(-45deg, #f0f0f2 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f0f0f2 75%),
+        linear-gradient(-45deg, transparent 75%, #f0f0f2 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+}
+
+.verdictImage {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.verdictGlyph {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--t-fail, #c8362f);
+}
+
+.verdictText {
+    min-width: 0;
+}
+
+.verdictHeading {
+    margin: 0 0 6px;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.verdictBody {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+}
+
+.verdictCounts {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+/* ---- Panels ---- */
+
+.panel {
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background: var(--t-panel, #feffff);
+}
+
+.panelTitle {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.panelCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 4px;
+    border-radius: 9999px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t-ink-faint, #8a8a90);
+    vertical-align: middle;
+}
+
+.panelHint {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+/* ---- Check list ---- */
+
+.checkList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.check {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--t-border, rgba(0, 0, 0, 0.06));
+}
+
+.check:first-child {
+    padding-top: 0;
+}
+
+.check:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.checkGlyph {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.pass .checkGlyph {
+    background: var(--t-pass-bg, #e7f6ef);
+    color: var(--t-pass, #1a8f5f);
+}
+
+.warn .checkGlyph {
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+}
+
+.fail .checkGlyph {
+    background: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+}
+
+.checkBody {
+    min-width: 0;
+}
+
+.checkTitle {
+    margin: 0 0 3px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.checkDetail {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--t-ink-soft, #5b5b60);
+    overflow-wrap: anywhere;
+}
+
+/* The fix is a separate register from the finding, so it reads as an
+   instruction rather than as more description. */
+.checkFix {
+    margin: 8px 0 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--t-border-strong, rgba(0, 0, 0, 0.14));
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t-ink, #1e1e1f);
+    overflow-wrap: anywhere;
+}
+
+/* ---- Icon list ---- */
+
+.iconList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.icon {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--t-border, rgba(0, 0, 0, 0.06));
+}
+
+.icon:first-child {
+    padding-top: 0;
+}
+
+.icon:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.iconPreview {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(45deg, #f0f0f2 25%, transparent 25%),
+        linear-gradient(-45deg, #f0f0f2 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f0f0f2 75%),
+        linear-gradient(-45deg, transparent 75%, #f0f0f2 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+}
+
+.iconDead {
+    background-image: none;
+    background-color: var(--t-fail-bg, #fdeceb);
+    color: var(--t-fail, #c8362f);
+    font-weight: 600;
+}
+
+.iconImage {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.iconBody {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.iconHead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 2px;
+}
+
+.iconKind {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t-ink, #1e1e1f);
+}
+
+.iconRel {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    color: var(--t-ink-faint, #8a8a90);
+}
+
+.iconHref {
+    margin: 0 0 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--t-ink-soft, #5b5b60);
+    overflow-wrap: anywhere;
+}
+
+.iconHref a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.iconFacts {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.iconFact {
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--t-panel-alt, #f7f7f8);
+    border: 1px solid var(--t-border, rgba(0, 0, 0, 0.1));
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--t-ink-soft, #5b5b60);
+    white-space: nowrap;
+}
+
+.iconMismatch {
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--t-warn-bg, #fdf2e0);
+    color: var(--t-warn, #a86a00);
+    border: 1px dashed currentColor;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.iconProblem {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--t-fail, #c8362f);
+    overflow-wrap: anywhere;
+}
+
+.manifestRow {
+    margin: 0 0 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.manifestRow a {
+    color: var(--t-ink-soft, #5b5b60);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* The status word is carried by colour and glyph, which a screen reader gets
+   nothing from. This puts it in the accessible name instead. */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 720px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .submit {
+        width: 100%;
+    }
+
+    .verdict {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .verdictHeading {
+        font-size: 20px;
+    }
+}

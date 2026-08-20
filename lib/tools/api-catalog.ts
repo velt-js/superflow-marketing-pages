@@ -226,6 +226,21 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     timeoutSeconds: 30,
   },
   {
+    slug: "favicon-checker",
+    mcpTool: "check_favicon",
+    title: "Favicon Checker",
+    description:
+      "Check whether a site's favicon actually works. Reads every icon declaration in the page head, then fetches each one, the web app manifest, and the implicit /favicon.ico, and identifies the real format and pixel dimensions from each file's header bytes. Catches the failures a status-code check misses: a catch-all route answering an icon path with HTML at HTTP 200, a sizes attribute that disagrees with the file, an icon served over http on an https page. Use this when a favicon is missing or blurry; use check_social_preview for the image that appears when a link is shared.",
+    method: "POST",
+    path: "/api/tools/favicon-checker",
+    inputSchema: URL_SCHEMA,
+    sample: { url: "example.com" },
+    returns:
+      "{ hasWorkingFavicon, tabIcon, icons[] with format, dimensions, bytes and problem, manifest, themeColor, checks[] with id, status and fix, counts }",
+    rateLimit: "60 runs per hour per IP",
+    timeoutSeconds: 30,
+  },
+  {
     slug: "full-page-screenshot",
     mcpTool: "capture_full_page_screenshot",
     title: "Full Page Screenshot",

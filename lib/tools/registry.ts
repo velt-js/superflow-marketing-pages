@@ -52,7 +52,8 @@ export type ToolIconKey =
   | "stack"
   | "link"
   | "camera"
-  | "image";
+  | "image"
+  | "tab";
 
 export const TOOLS: readonly ToolEntry[] = [
   {
@@ -189,7 +190,29 @@ export const TOOLS: readonly ToolEntry[] = [
     // with no page errors.
     status: "live",
     icon: "share",
-    related: ["ai-visibility-checker", "website-launch-checklist"],
+    related: [
+      "favicon-checker",
+      "ai-visibility-checker",
+      "website-launch-checklist",
+    ],
+  },
+  {
+    slug: "favicon-checker",
+    name: "Favicon Checker",
+    tagline:
+      "Find out whether your favicon actually loads, or just looks declared",
+    category: "quality",
+    // Self-contained: the engine is lib/toolkit/favicon.ts in this repo, on
+    // the same fetch, SSRF guard, rate limit, and cache the Tech Stack
+    // Detector uses. No backend dependency, so it is live on merge rather
+    // than waiting on a deploy elsewhere.
+    status: "live",
+    icon: "tab",
+    related: [
+      "social-preview-checker",
+      "website-launch-checklist",
+      "tech-stack-detector",
+    ],
   },
   {
     slug: "website-launch-checklist",
@@ -198,7 +221,11 @@ export const TOOLS: readonly ToolEntry[] = [
     category: "quality",
     status: "planned",
     icon: "checklist",
-    related: ["ai-visibility-checker", "social-preview-checker"],
+    related: [
+      "favicon-checker",
+      "ai-visibility-checker",
+      "social-preview-checker",
+    ],
   },
   {
     slug: "tech-stack-detector",
@@ -207,7 +234,11 @@ export const TOOLS: readonly ToolEntry[] = [
     category: "quality",
     status: "live",
     icon: "stack",
-    related: ["ai-visibility-checker", "website-launch-checklist"],
+    related: [
+      "ai-visibility-checker",
+      "favicon-checker",
+      "website-launch-checklist",
+    ],
   },
   {
     slug: "utm-builder",

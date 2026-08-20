@@ -22,6 +22,7 @@ import { LOOKALIKE_TEST_CONTENT } from "./lookalike-test";
 import { REVIEW_LIKE_PETER_THIEL_CONTENT } from "./review-like-peter-thiel";
 import { REVIEW_LIKE_ELON_MUSK_CONTENT } from "./review-like-elon-musk";
 import { REVIEW_LIKE_TRAVIS_KALANICK_CONTENT } from "./review-like-travis-kalanick";
+import { FAVICON_CHECKER_CONTENT } from "./favicon-checker";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -43,6 +44,7 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   REVIEW_LIKE_PETER_THIEL_CONTENT,
   REVIEW_LIKE_ELON_MUSK_CONTENT,
   REVIEW_LIKE_TRAVIS_KALANICK_CONTENT,
+  FAVICON_CHECKER_CONTENT,
 ];
 
 /**
@@ -76,4 +78,5 @@ export {
   REVIEW_LIKE_PETER_THIEL_CONTENT,
   REVIEW_LIKE_ELON_MUSK_CONTENT,
   REVIEW_LIKE_TRAVIS_KALANICK_CONTENT,
+  FAVICON_CHECKER_CONTENT,
 };

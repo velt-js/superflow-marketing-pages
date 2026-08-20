@@ -44,6 +44,15 @@ export type FetchOptions = {
   maxRedirects?: number;
   /** Extra request headers. `User-Agent` here is overridden by `userAgent`. */
   headers?: Record<string, string>;
+  /**
+   * Also return the undecoded bytes, as `raw`.
+   *
+   * Off by default because every other caller reads HTML and holding a second
+   * copy of a 5 MB page would double the memory for nothing. The favicon
+   * checker needs it: an .ico or a .png only reveals its real pixel
+   * dimensions in its header bytes, and UTF-8 decoding destroys those.
+   */
+  binary?: boolean;
 };
 
 export type FetchFailureReason =
@@ -63,6 +72,8 @@ export type FetchResult =
       finalUrl: string;
       redirects: RedirectHop[];
       body: string;
+      /** The undecoded bytes. Only present when `binary` was requested. */
+      raw?: Uint8Array;
       /** True when the body hit `maxBytes` and was cut short. */
       truncated: boolean;
       bytes: number;
@@ -107,7 +118,13 @@ function toRecord(headers: Headers): Record<string, string> {
 async function readCapped(
   response: Response,
   maxBytes: number,
-): Promise<{ body: string; truncated: boolean; bytes: number }> {
+  keepRaw: boolean,
+): Promise<{
+  body: string;
+  raw?: Uint8Array;
+  truncated: boolean;
+  bytes: number;
+}> {
   try {
     if (!response.body) {
       const text = await response.text();
@@ -143,8 +160,12 @@ async function readCapped(
       total += value.byteLength;
     }
 
+    const joined = Buffer.concat(chunks);
     return {
-      body: new TextDecoder("utf-8").decode(Buffer.concat(chunks)),
+      body: new TextDecoder("utf-8").decode(joined),
+      // A fresh copy, not a view onto the pooled Buffer: `Buffer.concat`
+      // can hand back memory Node reuses, and the caller keeps this around.
+      raw: keepRaw ? Uint8Array.from(joined) : undefined,
       truncated,
       bytes: total,
     };
@@ -173,6 +194,7 @@ export async function fetchUrl(options: FetchOptions): Promise<FetchResult> {
     maxBytes = DEFAULT_MAX_BYTES,
     maxRedirects = DEFAULT_MAX_REDIRECTS,
     headers: extraHeaders = {},
+    binary = false,
   } = options;
 
   const startedAt = Date.now();
@@ -216,10 +238,10 @@ export async function fetchUrl(options: FetchOptions): Promise<FetchResult> {
       }
 
       if (!REDIRECT_STATUSES.has(response.status)) {
-        const { body, truncated, bytes } =
+        const { body, raw, truncated, bytes } =
           method === "HEAD"
-            ? { body: "", truncated: false, bytes: 0 }
-            : await readCapped(response, maxBytes);
+            ? { body: "", raw: undefined, truncated: false, bytes: 0 }
+            : await readCapped(response, maxBytes, binary);
 
         return {
           ok: true,
@@ -228,6 +250,7 @@ export async function fetchUrl(options: FetchOptions): Promise<FetchResult> {
           finalUrl: currentUrl,
           redirects,
           body,
+          raw,
           truncated,
           bytes,
           durationMs: Date.now() - startedAt,

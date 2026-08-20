@@ -277,6 +277,44 @@ test.describe("the AI visibility tools survive a real run", () => {
   }
 });
 
+test.describe("the favicon checker survives a real run", () => {
+  // Its own describe rather than a third entry in CASES above: that block
+  // waits on the score dial and the category groups, which are the AI
+  // visibility report's shape and do not exist here. This tool renders a
+  // verdict and a check list instead.
+  test("favicon-checker renders a verdict end to end", async ({ page }) => {
+    test.setTimeout(RUN_TEST_TIMEOUT_MS);
+    const errors = collectErrors(page);
+
+    // example.com is the deliberate case: it declares `href="data:,"` to
+    // suppress the favicon entirely and has no /favicon.ico, so it exercises
+    // the failing verdict path, which is the one with the most branches.
+    await page.goto(
+      `${toolPath("favicon-checker")}?url=${encodeURIComponent("https://example.com")}`,
+      { waitUntil: "domcontentloaded" },
+    );
+
+    // The verdict heading only renders once a report is in hand.
+    await expect(
+      page.getByRole("heading", { name: /working favicon|favicon off on purpose/i }),
+    ).toBeVisible({ timeout: RUN_TIMEOUT_MS });
+
+    // The check list is the section that would throw if `checks` came back
+    // undefined, which is the failure mode this whole suite exists for.
+    await expect(
+      page.getByRole("heading", { name: "What we checked" }),
+    ).toBeVisible();
+
+    // A check row proves the list was actually populated and mapped, not just
+    // that its container heading rendered.
+    await expect(
+      page.getByText(/\/favicon\.ico/).first(),
+    ).toBeVisible();
+
+    expect(errors, "favicon-checker errors during run").toEqual([]);
+  });
+});
+
 test.describe("the MCP server answers the protocol", () => {
   // These call the endpoint rather than a browser on purpose: MCP has no UI,
   // and the failure mode that matters is a client that cannot complete the
