@@ -20,6 +20,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { screenshotSnapshot } from "@/lib/tools/share/build";
 import styles from "./Screenshot.module.css";
 
 const SLUG = "full-page-screenshot";
@@ -552,6 +554,12 @@ function ResultView({
           onError={() => onImageState("failed")}
         />
       </div>
+
+      {/* The share card describes the capture rather than showing it: the PNG
+          lives behind a signed URL that expires in 24 hours, and a card that
+          404s a week after it was posted is worse than one without the
+          picture. The permalink re-captures, so it never goes stale. */}
+      <ShareResult snapshot={screenshotSnapshot(result)} />
     </div>
   );
 }

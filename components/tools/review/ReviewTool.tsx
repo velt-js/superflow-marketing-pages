@@ -16,11 +16,13 @@
 //    from reading as words put in a real person's mouth, and it renders above
 //    the findings rather than in a footnote.
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import type { PersonaFinding } from "@/lib/tools/persona-review/types";
 import { PERSONAS, provenanceFor } from "@/lib/tools/persona-review/personas";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { personaReviewSnapshot } from "@/lib/tools/share/build";
 import styles from "./ReviewTool.module.css";
 
 /** What every review endpoint returns. */
@@ -41,6 +43,13 @@ type SuccessResult = {
   cached: boolean;
   /** The lens that produced this result, for attributing it correctly. */
   personaSlug: string;
+  /**
+   * The URL reviewed. The share permalink is built from this rather than from
+   * the input, which the visitor can edit after a run has finished.
+   */
+  targetUrl: string;
+  /** The extra inputs this run used, so a shared link reproduces it. */
+  params: Record<string, string>;
 };
 
 type RunState =
@@ -128,11 +137,13 @@ export function ReviewTool({
   // another slot of the visitor's hourly budget on the same question.
   const inFlight = useRef(false);
 
-  const run = useCallback(
-    async (event: React.FormEvent) => {
-      event.preventDefault();
+  // Guards the mount-time auto-run so a re-render cannot start a second
+  // review of the same URL.
+  const autoRan = useRef(false);
 
-      const trimmed = url.trim();
+  const run = useCallback(
+    async (rawUrl: string, extraValues: Record<string, string>) => {
+      const trimmed = rawUrl.trim();
       if (trimmed.length === 0 || inFlight.current) return;
 
       inFlight.current = true;
@@ -141,9 +152,16 @@ export function ReviewTool({
 
       try {
         const body: Record<string, unknown> = { url: trimmed };
+        // The same values go into the body and into the permalink, so a shared
+        // link lands on the cache entry this run wrote rather than on a
+        // different comparison.
+        const usedParams: Record<string, string> = {};
         for (const field of extraFields) {
-          const value = (extras[field.name] ?? "").trim();
-          if (value.length > 0) body[field.name] = value;
+          const value = (extraValues[field.name] ?? "").trim();
+          if (value.length > 0) {
+            body[field.name] = value;
+            usedParams[field.name] = value;
+          }
         }
 
         const response = await fetch(`/api/tools/${activeSlug}`, {
@@ -173,6 +191,8 @@ export function ReviewTool({
           // selected. Otherwise changing the dropdown after a run silently
           // re-labels a finished review as someone else's.
           personaSlug: activeSlug,
+          targetUrl: trimmed,
+          params: usedParams,
         };
 
         trackEvent(AnalyticsEvents.TOOL_RESULT, {
@@ -181,6 +201,20 @@ export function ReviewTool({
           cached: result.cached,
         });
         setState({ phase: "done", result });
+
+        // Put the reviewed URL and its inputs in the address bar, so the result
+        // survives a refresh and the page is shareable. `replaceState` keeps
+        // the back button sane.
+        try {
+          const next = new URL(window.location.href);
+          next.searchParams.set("url", trimmed);
+          for (const [key, value] of Object.entries(usedParams)) {
+            next.searchParams.set(key, value);
+          }
+          window.history.replaceState(null, "", next.toString());
+        } catch {
+          // A history failure must not lose the result.
+        }
       } catch {
         trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: activeSlug, code: "network" });
         setState({
@@ -191,14 +225,50 @@ export function ReviewTool({
         inFlight.current = false;
       }
     },
-    [url, extras, extraFields, activeSlug, trackEvent],
+    [extraFields, activeSlug, trackEvent],
   );
+
+  // Auto-run when the page is opened with a ?url=, which is what makes a
+  // shared review link work. Reviews are cached for 24 hours, so opening a
+  // fresh link costs nothing; past that the review is re-run, and a reviewer's
+  // reading of the page as it is now is the more useful answer anyway.
+  useEffect(() => {
+    if (autoRan.current) return;
+    autoRan.current = true;
+    try {
+      const params = new URL(window.location.href).searchParams;
+      const fromQuery = params.get("url");
+      if (!fromQuery) return;
+
+      // Only the fields this tool declares are read back, so a crafted link
+      // cannot add a body field the form does not offer.
+      const fromParams: Record<string, string> = {};
+      for (const field of extraFields) {
+        const value = params.get(field.name);
+        if (value) fromParams[field.name] = value;
+      }
+
+      setUrl(fromQuery);
+      if (Object.keys(fromParams).length > 0) {
+        setExtras((current) => ({ ...current, ...fromParams }));
+      }
+      void run(fromQuery, fromParams);
+    } catch {
+      // No query, no auto-run.
+    }
+  }, [extraFields, run]);
 
   const running = state.phase === "running";
 
+  /** Submits the form. */
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    void run(url, extras);
+  }
+
   return (
     <div className={styles.tool}>
-      <form className={styles.form} onSubmit={run}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         {showPersonaPicker && (
           <label className={styles.persona}>
             <span className={styles.personaLabel}>Review like</span>
@@ -404,6 +474,22 @@ function ReviewResult({
           Served from a cached run of this URL from the last 24 hours.
         </p>
       )}
+
+      {/* Attributed to the lens that produced the review, so a Steve Jobs run
+          started from the Paul Graham page shares as a Steve Jobs review and
+          links to that tool. */}
+      <ShareResult
+        snapshot={personaReviewSnapshot(
+          result.personaSlug,
+          {
+            summary: result.summary,
+            findings: result.findings,
+            totalFindings: result.findings.length,
+          },
+          result.targetUrl,
+          result.params,
+        )}
+      />
     </section>
   );
 }

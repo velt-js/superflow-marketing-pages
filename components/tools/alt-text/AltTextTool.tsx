@@ -24,6 +24,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { altTextSnapshot } from "@/lib/tools/share/build";
 import styles from "./AltText.module.css";
 
 const SLUG = "alt-text-generator";
@@ -576,6 +578,8 @@ function ResultView({
         Images are read from the page as it is served, so anything a script
         adds after the page loads is not included.
       </p>
+
+      <ShareResult snapshot={altTextSnapshot(result)} />
     </div>
   );
 }

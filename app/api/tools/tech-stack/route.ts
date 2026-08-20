@@ -32,14 +32,22 @@ import {
   writeCache,
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
+import { cacheVersionFor } from "@/lib/tools/share/cache-versions";
 
 const TOOL_SLUG = "tech-stack-detector";
 
 /** Fetch and parse only, so the generous per-IP budget applies. */
 const RATE_TIER = "light" as const;
 
-/** Bump when the result shape changes so stale cache entries are ignored. */
-const RESULT_VERSION = 1;
+/**
+ * The version this tool's cache entries carry.
+ *
+ * Read from the shared table rather than declared here: the Open Graph card
+ * and the badge endpoint read these same entries, and a version bumped in one
+ * place and not the other fails silently. Bump it in
+ * lib/tools/share/cache-versions.ts.
+ */
+const RESULT_VERSION = cacheVersionFor(TOOL_SLUG);
 
 /** Statuses that mean a bot blocker answered instead of the site. */
 const BLOCKED_STATUSES = new Set([403, 406, 429]);

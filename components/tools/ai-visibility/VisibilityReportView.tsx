@@ -3,9 +3,10 @@
 import styles from "./Report.module.css";
 import { ScoreDial } from "./ScoreDial";
 import { FindingCard } from "./FindingCard";
-import { CopyButton } from "./CopyButton";
 import { colorForScore, STATUS_ORDER, verdictFor } from "./status";
 import { CtaLink } from "@/components/tools/CtaLink";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { accessSnapshot, visibilitySnapshot } from "@/lib/tools/share/build";
 import { formatCacheAge } from "@/lib/toolkit/cache";
 import {
   gradeFor,
@@ -111,10 +112,11 @@ export function VisibilityReportView({
 
   const headlineGrade = focused ? gradeFor(headlineScore) : report.grade;
 
-  const shareUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/tools/${slug}?url=${encodeURIComponent(report.finalUrl)}`
-      : "";
+  // The share block reports on what this page reports on: the access-scoped
+  // view must share the access-scoped result, or a shared robots.txt link
+  // would unfurl with a 100-point score the page never showed.
+  const snapshot =
+    focus === "access" ? accessSnapshot(report) : visibilitySnapshot(report);
 
   // The site's own icon. Older reports predate this field, so guard for it.
   const faviconUrl = report.faviconUrl ?? null;
@@ -162,12 +164,10 @@ export function VisibilityReportView({
           </p>
 
           <div className={styles.scoreActions}>
-            <CopyButton
-              value={shareUrl}
-              label="Copy share link"
-              analyticsLabel="share-link"
-              className={styles.ghostButton}
-            />
+            {/* Sharing lives in one place, at the foot of the report: the block
+                there carries the permalink, the card preview, and the badge,
+                and a second copy button up here would only be a chance for the
+                two to disagree about the link. */}
             <button
               type="button"
               className={styles.ghostButton}
@@ -268,6 +268,8 @@ export function VisibilityReportView({
           );
         })}
       </div>
+
+      <ShareResult snapshot={snapshot} />
     </div>
   );
 }

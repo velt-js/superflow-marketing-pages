@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { VisibilityTool } from "@/components/tools/ai-visibility/VisibilityTool";
 import { readCachedReport } from "@/lib/tools/ai-visibility/cached";
-import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { buildToolPageMetadata } from "@/app/_seo/tool-result-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -72,7 +72,8 @@ const HOW_IT_WORKS = [
  * The landing page is indexable and targets the tool keywords. A URL carrying
  * `?url=` is somebody's shared report: it gets a score-specific title and Open
  * Graph card, and it is noindex, with the canonical pointing back at the bare
- * landing page so the score variants never compete with it in search.
+ * landing page so the score variants never compete with it in search. All of
+ * that policy lives in `buildToolPageMetadata`, which every tool page shares.
  *
  * @param props - Route props. `searchParams` is a promise in Next 16.
  */
@@ -81,43 +82,14 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ url?: string }>;
 }): Promise<Metadata> {
-  try {
-    const { url } = await searchParams;
-    const cached = await readCachedReport(url);
-
-    if (!cached) {
-      return buildPageMetadata({
-        title: `${TITLE}: Can AI Find Your Site?`,
-        description: DESCRIPTION,
-        path: PATH,
-      });
-    }
-
-    const { report } = cached;
-    const cardUrl = new URL(`${SITE_URL}/api/tools/share-card`);
-    cardUrl.searchParams.set("domain", report.hostname);
-    cardUrl.searchParams.set("score", String(report.score));
-    cardUrl.searchParams.set("grade", report.grade);
-
-    return {
-      ...buildPageMetadata({
-        title: `${report.hostname} scores ${report.score}/100 for AI visibility`,
-        description: `Grade ${report.grade}. See which AI crawlers can reach ${report.hostname}, how much of the page needs JavaScript, and what to fix.`,
-        path: PATH,
-        ogImage: cardUrl.toString(),
-        noindex: true,
-      }),
-      // The canonical stays on the bare tool page: a result URL is a view of
-      // that page, not a separate document worth indexing.
-      alternates: { canonical: PATH },
-    };
-  } catch {
-    return buildPageMetadata({
-      title: `${TITLE}: Can AI Find Your Site?`,
-      description: DESCRIPTION,
-      path: PATH,
-    });
-  }
+  const { url } = await searchParams;
+  return buildToolPageMetadata({
+    slug: SLUG,
+    path: PATH,
+    title: `${TITLE}: Can AI Find Your Site?`,
+    description: DESCRIPTION,
+    rawUrl: url,
+  });
 }
 
 export default async function AiVisibilityCheckerPage({

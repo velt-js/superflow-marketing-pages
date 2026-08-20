@@ -27,6 +27,8 @@ import {
   type JsonLdCheckStatus,
   type JsonLdGeneratorReport,
 } from "@/lib/tools/json-ld/types";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { jsonLdGeneratorSnapshot } from "@/lib/tools/share/build";
 import styles from "./JsonLdGenerator.module.css";
 
 const SLUG = "json-ld-generator";
@@ -449,6 +451,8 @@ function ResultView({
           {report.scopeDeclaration.notChecked.join(", ")}.
         </p>
       ) : null}
+
+      <ShareResult snapshot={jsonLdGeneratorSnapshot(report)} />
     </div>
   );
 }

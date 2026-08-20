@@ -21,6 +21,8 @@ import type {
   DetectionResult,
   RenderMode,
 } from "@/lib/toolkit/detect";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { techStackSnapshot } from "@/lib/tools/share/build";
 import styles from "./TechStack.module.css";
 
 const SLUG = "tech-stack-detector";
@@ -497,6 +499,8 @@ function ResultView({
           <ItemGroup title="Hosting and CDN" items={result.hosting} />
         </div>
       )}
+
+      <ShareResult snapshot={techStackSnapshot(result)} />
     </div>
   );
 }

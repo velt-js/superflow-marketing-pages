@@ -27,6 +27,7 @@ import {
   writeCache,
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
+import { cacheVersionFor } from "@/lib/tools/share/cache-versions";
 import { normalizeUrl } from "@/lib/toolkit/url";
 import {
   isBackendConfigured,
@@ -49,8 +50,15 @@ const TOOL_ID = "markdown-for-agents";
  */
 const RATE_TIER = "heavy" as const;
 
-/** Bump when the stored shape changes so old cache entries are ignored. */
-const REPORT_VERSION = 1;
+/**
+ * The version this tool's cache entries carry.
+ *
+ * Read from the shared table rather than declared here: the Open Graph card
+ * and the badge endpoint read these same entries, and a version bumped in one
+ * place and not the other fails silently. Bump it in
+ * lib/tools/share/cache-versions.ts.
+ */
+const REPORT_VERSION = cacheVersionFor(TOOL_SLUG);
 
 /** Node runtime: the toolkit's URL helpers use node built-ins. */
 export const runtime = "nodejs";

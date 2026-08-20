@@ -32,6 +32,8 @@ import {
   type JsonLdTypeEligibility,
   type JsonLdValidatorReport,
 } from "@/lib/tools/json-ld/types";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { jsonLdValidatorSnapshot } from "@/lib/tools/share/build";
 import styles from "./JsonLdValidator.module.css";
 
 const SLUG = "json-ld-validator";
@@ -607,6 +609,8 @@ function ResultView({
           {report.scopeDeclaration.notChecked.join(", ")}.
         </p>
       ) : null}
+
+      <ShareResult snapshot={jsonLdValidatorSnapshot(report)} />
     </div>
   );
 }

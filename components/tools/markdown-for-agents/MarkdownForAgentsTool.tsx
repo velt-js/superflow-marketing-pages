@@ -23,6 +23,8 @@ import {
   DownloadTextButton,
 } from "@/components/tools/text-output/TextActions";
 import type { MarkdownForAgentsReport } from "@/lib/tools/free-tools/reports";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { markdownForAgentsSnapshot } from "@/lib/tools/share/build";
 import styles from "./MarkdownForAgents.module.css";
 
 const SLUG = "markdown-for-agents";
@@ -411,6 +413,8 @@ function ResultView({
           Page description: {report.description}
         </p>
       ) : null}
+
+      <ShareResult snapshot={markdownForAgentsSnapshot(report)} />
     </div>
   );
 }

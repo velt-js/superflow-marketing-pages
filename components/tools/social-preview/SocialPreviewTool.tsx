@@ -24,6 +24,8 @@ import {
   type SocialPreviewFinding,
   type SocialPreviewReport,
 } from "@/lib/tools/social-preview/report";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { socialPreviewSnapshot } from "@/lib/tools/share/build";
 import { PreviewCard, type ImageOutcome } from "./PreviewCard";
 import styles from "./SocialPreview.module.css";
 
@@ -649,6 +651,11 @@ function ReportView({
             : ""}
         </p>
       ) : null}
+
+      {/* The card this link unfurls as is a drawing of the page's own social
+          card, which makes it the one share card on the site that is its own
+          evidence: the unfurl in Slack IS the result being reported. */}
+      <ShareResult snapshot={socialPreviewSnapshot(report)} />
     </div>
   );
 }

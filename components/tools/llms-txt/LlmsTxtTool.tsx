@@ -21,6 +21,8 @@ import {
   DownloadTextButton,
 } from "@/components/tools/text-output/TextActions";
 import type { LlmsTxtReport } from "@/lib/tools/free-tools/reports";
+import { ShareResult } from "@/components/tools/share/ShareResult";
+import { llmsTxtSnapshot } from "@/lib/tools/share/build";
 import styles from "./LlmsTxt.module.css";
 
 const SLUG = "llms-txt-generator";
@@ -417,6 +419,8 @@ function ResultView({
           {active.body.split("\n").length.toLocaleString()} lines
         </p>
       </div>
+
+      <ShareResult snapshot={llmsTxtSnapshot(report)} />
     </div>
   );
 }

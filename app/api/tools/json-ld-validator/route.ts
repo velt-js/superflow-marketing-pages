@@ -27,6 +27,7 @@ import {
   writeCache,
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
+import { cacheVersionFor } from "@/lib/tools/share/cache-versions";
 import { normalizeUrl } from "@/lib/toolkit/url";
 import {
   isBackendConfigured,
@@ -45,8 +46,15 @@ const BACKEND_TOOL_ID = "json-ld-validator";
 /** The backend renders the page in a browser, so this is a heavy run. */
 const RATE_TIER = "heavy" as const;
 
-/** Bump when the cached shape changes so stale entries are ignored. */
-const RESULT_VERSION = 1;
+/**
+ * The version this tool's cache entries carry.
+ *
+ * Read from the shared table rather than declared here: the Open Graph card
+ * and the badge endpoint read these same entries, and a version bumped in one
+ * place and not the other fails silently. Bump it in
+ * lib/tools/share/cache-versions.ts.
+ */
+const RESULT_VERSION = cacheVersionFor(TOOL_SLUG);
 
 /** Node runtime, to match the rest of the tool routes. */
 export const runtime = "nodejs";

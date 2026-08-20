@@ -13,7 +13,7 @@ import { ReviewTool } from "@/components/tools/review/ReviewTool";
 // ReviewTool — a line fixed to the page would show this persona's framing over
 // another persona's review, which for the public-record lenses is exactly the
 // claim they exist to prevent.
-import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { buildToolPageMetadata } from "@/app/_seo/tool-result-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -41,11 +41,31 @@ const SOURCES = [
   { title: "Be Good", url: "https://www.paulgraham.com/good.html" },
 ];
 
-export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: Free Landing Page Review`,
-  description: DESCRIPTION,
-  path: PATH,
-});
+/**
+ * Landing metadata when the page is opened cold, result metadata when the page
+ * is opened from a shared link.
+ *
+ * A URL carrying `?url=` is somebody's shared result, so it gets a title and an
+ * Open Graph card built from that run, and it is noindex with the canonical
+ * pointing back here so result variants never compete with this page in
+ * search. The policy and the cache read both live in `buildToolPageMetadata`.
+ *
+ * @param props - Route props. `searchParams` is a promise in Next 16.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ url?: string }>;
+}): Promise<Metadata> {
+  const { url } = await searchParams;
+  return buildToolPageMetadata({
+    slug: SLUG,
+    path: PATH,
+    title: `${TITLE}: Free Landing Page Review`,
+    description: DESCRIPTION,
+    rawUrl: url,
+  });
+}
 
 export default function PaulGrahamReviewPage() {
   return (

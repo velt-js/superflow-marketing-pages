@@ -12,7 +12,7 @@
 import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { SocialPreviewTool } from "@/components/tools/social-preview/SocialPreviewTool";
-import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { buildToolPageMetadata } from "@/app/_seo/tool-result-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -28,11 +28,31 @@ const TITLE = SOCIAL_PREVIEW_CHECKER_CONTENT.title;
 const SUBHEAD = SOCIAL_PREVIEW_CHECKER_CONTENT.subhead;
 const DESCRIPTION = SOCIAL_PREVIEW_CHECKER_CONTENT.description;
 
-export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: See Your Link Before You Post It`,
-  description: DESCRIPTION,
-  path: PATH,
-});
+/**
+ * Landing metadata when the page is opened cold, result metadata when the page
+ * is opened from a shared link.
+ *
+ * A URL carrying `?url=` is somebody's shared result, so it gets a title and an
+ * Open Graph card built from that run, and it is noindex with the canonical
+ * pointing back here so result variants never compete with this page in
+ * search. The policy and the cache read both live in `buildToolPageMetadata`.
+ *
+ * @param props - Route props. `searchParams` is a promise in Next 16.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ url?: string }>;
+}): Promise<Metadata> {
+  const { url } = await searchParams;
+  return buildToolPageMetadata({
+    slug: SLUG,
+    path: PATH,
+    title: `${TITLE}: See Your Link Before You Post It`,
+    description: DESCRIPTION,
+    rawUrl: url,
+  });
+}
 
 export default function SocialPreviewCheckerPage() {
   return (

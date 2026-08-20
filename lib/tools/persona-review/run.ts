@@ -25,6 +25,7 @@ import {
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
 import { isBackendConfigured, runToolViaBackend } from "@/lib/toolkit/superflow-api";
+import { PERSONA_CACHE_VERSION } from "@/lib/tools/share/cache-versions";
 import type { PersonaReviewPayload, PersonaFinding } from "./types";
 
 /** One extra body field a tool forwards to the backend. */
@@ -34,8 +35,14 @@ export type ReviewExtraFieldSpec = {
   kind: "string" | "list";
 };
 
-/** Bump when the stored shape changes, so old entries are not read back. */
-export const PERSONA_RESULT_VERSION = 1;
+/**
+ * Bump when the stored shape changes, so old entries are not read back.
+ *
+ * The number itself lives in the shared table, because the share card and the
+ * badge endpoint read these same entries and a version bumped here alone would
+ * make both silently stop finding them.
+ */
+export const PERSONA_RESULT_VERSION = PERSONA_CACHE_VERSION;
 
 /** A full page load, a screenshot, and an LLM call. The expensive tier. */
 const RATE_TIER = "heavy" as const;

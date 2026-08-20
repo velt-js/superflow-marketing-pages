@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { VisibilityTool } from "@/components/tools/ai-visibility/VisibilityTool";
 import { readCachedReport } from "@/lib/tools/ai-visibility/cached";
-import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { buildToolPageMetadata } from "@/app/_seo/tool-result-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -78,6 +78,10 @@ const HOW_IT_WORKS = [
  * opened from a shared link. Same policy as the parent tool: results are
  * noindex and canonical back to this page.
  *
+ * The result card is the access-scoped one, not the parent tool's score card.
+ * `buildToolPageMetadata` picks it from the slug, which is why this page must
+ * pass its own slug and not the engine's.
+ *
  * @param props - Route props. `searchParams` is a promise in Next 16.
  */
 export async function generateMetadata({
@@ -85,42 +89,14 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ url?: string }>;
 }): Promise<Metadata> {
-  try {
-    const { url } = await searchParams;
-    const cached = await readCachedReport(url);
-
-    if (!cached) {
-      return buildPageMetadata({
-        title: `${TITLE}: Test GPTBot, ClaudeBot and More`,
-        description: DESCRIPTION,
-        path: PATH,
-      });
-    }
-
-    const access = cached.report.categories.find(
-      (category) => category.id === "access",
-    );
-    const blocked = access?.failCount ?? 0;
-
-    return {
-      ...buildPageMetadata({
-        title:
-          blocked > 0
-            ? `${cached.report.hostname} is blocking AI crawlers`
-            : `${cached.report.hostname} allows AI crawlers`,
-        description: `robots.txt and firewall test results for ${cached.report.hostname}.`,
-        path: PATH,
-        noindex: true,
-      }),
-      alternates: { canonical: PATH },
-    };
-  } catch {
-    return buildPageMetadata({
-      title: `${TITLE}: Test GPTBot, ClaudeBot and More`,
-      description: DESCRIPTION,
-      path: PATH,
-    });
-  }
+  const { url } = await searchParams;
+  return buildToolPageMetadata({
+    slug: SLUG,
+    path: PATH,
+    title: `${TITLE}: Test GPTBot, ClaudeBot and More`,
+    description: DESCRIPTION,
+    rawUrl: url,
+  });
 }
 
 export default async function RobotsTxtAiCheckerPage({

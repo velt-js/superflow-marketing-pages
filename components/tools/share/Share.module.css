@@ -1,0 +1,281 @@
+/* The share block and the badge offer, shown under a tool result.
+   Inherits the tool-page custom properties from .page in Tools.module.css, and
+   falls back to their values so the block also renders correctly if it is ever
+   mounted outside a tool page. */
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 28px;
+    padding: 26px;
+    background: var(--t-panel, #fbfbfd);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 18px;
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--t-display, system-ui, sans-serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--t-ink, #16171a);
+}
+
+.lead {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--t-ink-soft, #6b7079);
+}
+
+/* The controls and the card thumbnail sit side by side on a wide viewport, so
+   the visitor sees what they are about to send while they copy the link. */
+.body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.fieldLabel {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint, #8a8f99);
+}
+
+.input {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: var(--t-ink, #16171a);
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 10px;
+    /* The value is a URL that is often longer than the field. Ellipsis rather
+       than a scrollbar, because the button beside it is the real copy path. */
+    text-overflow: ellipsis;
+}
+
+.input:focus-visible {
+    outline: 2px solid var(--t-accent, #433df3);
+    outline-offset: 1px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.button {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--t-ink, #16171a);
+    text-decoration: none;
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border-strong, rgba(0, 0, 0, 0.16));
+    border-radius: 9999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.button:hover {
+    background: var(--t-panel-alt, #f7f7f8);
+}
+
+.buttonPrimary {
+    color: #ffffff;
+    background: var(--t-ink, #16171a);
+    border-color: var(--t-ink, #16171a);
+}
+
+.buttonPrimary:hover {
+    background: var(--t-ink, #16171a);
+    opacity: 0.86;
+}
+
+.cardFigure {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.cardImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 12px;
+}
+
+.cardCaption {
+    font-size: 12px;
+    color: var(--t-ink-faint, #8a8f99);
+}
+
+/* ───────────────────────────────────────────────────────── badge offer */
+
+.badgeBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid var(--t-border, #ececf1);
+}
+
+.badgeHead {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.badgeHeading {
+    margin: 0;
+    font-family: var(--t-display, system-ui, sans-serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--t-ink, #16171a);
+}
+
+.badgeLead {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--t-ink-soft, #6b7079);
+}
+
+.badgeRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+}
+
+/* The preview sits on a plain surface rather than the panel, so the badge's own
+   border is visible against something. The dark variant needs a dark ground for
+   the same reason. */
+.badgePreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 12px;
+}
+
+.badgePreviewDark {
+    background: #101014;
+    border-color: #2c2c31;
+}
+
+/* An unearned badge is shown, muted, as the thing to work toward. It is not
+   interactive and carries no snippet. */
+.badgeUnearned {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+.badgeControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.segmented {
+    display: inline-flex;
+    padding: 3px;
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 9999px;
+}
+
+.segment {
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--t-ink-soft, #6b7079);
+    background: none;
+    border: 0;
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+.segment:hover {
+    color: var(--t-ink, #16171a);
+}
+
+.segmentOn {
+    color: #ffffff;
+    background: var(--t-ink, #16171a);
+}
+
+.snippetWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.snippet {
+    width: 100%;
+    margin: 0;
+    padding: 14px 16px;
+    /* The snippet is three lines of HTML with a long URL in it. Horizontal
+       scroll inside the block, so the page itself never scrolls sideways. */
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--t-ink, #16171a);
+    background: var(--t-bg, #ffffff);
+    border: 1px solid var(--t-border, #ececf1);
+    border-radius: 12px;
+}
+
+@media (max-width: 860px) {
+    .body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* On a phone the thumbnail comes first: it is the part that explains what
+       the link is for, and it should not be below the fold of the block. */
+    .cardFigure {
+        order: -1;
+    }
+}

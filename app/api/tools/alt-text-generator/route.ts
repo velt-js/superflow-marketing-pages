@@ -35,6 +35,7 @@ import {
   writeCache,
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
+import { cacheVersionFor } from "@/lib/tools/share/cache-versions";
 import { resolveUserUrl, URL_REJECTION_MESSAGES } from "@/lib/toolkit/url";
 import {
   isBackendConfigured,
@@ -49,8 +50,15 @@ const TOOL_ID = "alt-text-generator";
 /** A vision model call per image. Firmly the heavy budget. */
 const RATE_TIER = "heavy" as const;
 
-/** Bump when the result shape changes so stale cache entries are ignored. */
-const RESULT_VERSION = 1;
+/**
+ * The version this tool's cache entries carry.
+ *
+ * Read from the shared table rather than declared here: the Open Graph card
+ * and the badge endpoint read these same entries, and a version bumped in one
+ * place and not the other fails silently. Bump it in
+ * lib/tools/share/cache-versions.ts.
+ */
+const RESULT_VERSION = cacheVersionFor(TOOL_SLUG);
 
 /** Node runtime: the SSRF guard needs `node:dns` and `node:net`. */
 export const runtime = "nodejs";

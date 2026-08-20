@@ -490,3 +490,124 @@ test.describe("the endpoints answer directly", () => {
     expect(response.status()).toBe(400);
   });
 });
+
+test.describe("a result is shareable", () => {
+  // The share surfaces are the distribution path for the whole suite: a run
+  // that cannot leave the tab it happened in is worth nothing to anybody who
+  // did not run it. These tests are deliberately at the same level as the
+  // "does the tool work" tests, because a card that 500s and a report that
+  // crashes cost the same thing.
+
+  test("the share block carries a permalink to the checked URL", async ({
+    page,
+  }) => {
+    test.setTimeout(RUN_TEST_TIMEOUT_MS);
+    const errors = collectErrors(page);
+
+    await page.goto(
+      `${toolPath("ai-visibility-checker")}?url=${encodeURIComponent("https://example.com")}`,
+      { waitUntil: "domcontentloaded" },
+    );
+
+    const share = page.locator('section[aria-label="Share this result"]');
+    await expect(share).toBeVisible({ timeout: RUN_TIMEOUT_MS });
+
+    // The permalink has to name the tool AND the URL that was checked.
+    // Without both, opening it lands on an empty form, which is the failure
+    // this whole feature exists to prevent.
+    const permalink = await share.locator("input").inputValue();
+    expect(permalink).toContain("/tools/ai-visibility-checker");
+    expect(permalink).toContain("url=");
+    expect(decodeURIComponent(permalink)).toContain("example.com");
+
+    // The card thumbnail is the claim "this is what people will see", so it
+    // has to be a real image that really loaded, not a broken one.
+    //
+    // Scrolled into view first and then polled: the thumbnail is deliberately
+    // `loading="lazy"`, so it has not been requested at all until it is near
+    // the viewport, and being visible is not the same as having decoded.
+    const card = share.locator("img").first();
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toBeVisible();
+    await expect
+      .poll(
+        () =>
+          card.evaluate((image) => (image as HTMLImageElement).naturalWidth),
+        { message: "the share card thumbnail decoded", timeout: 30_000 },
+      )
+      .toBeGreaterThan(0);
+
+    expect(errors, "errors while rendering the share block").toEqual([]);
+  });
+
+  for (const variant of ["score", "metrics", "preview"] as const) {
+    test(`the ${variant} card renders as an image`, async ({ request }) => {
+      const response = await request.get("/api/tools/share-card", {
+        params: {
+          v: variant,
+          t: "ai-visibility-checker",
+          h: "example.com",
+          hl: "example.com scores 82/100 for AI visibility",
+          n: "good",
+          s: "82",
+          g: "B",
+          m: "Access~30/35|Readability~24/30|Structure~19/25",
+          pt: "Example Domain",
+          pd: "An illustrative page.",
+          pa: "example.com",
+        },
+      });
+
+      expect(response.status()).toBe(200);
+      expect(response.headers()["content-type"]).toContain("image/png");
+      // A card that renders but is nearly empty is the failure mode a status
+      // check misses, and it is what a blank layout produces.
+      expect((await response.body()).byteLength).toBeGreaterThan(10_000);
+    });
+  }
+
+  test("a card with no readable parameters still renders", async ({
+    request,
+  }) => {
+    // This endpoint's input is a query string a stranger can write, and the
+    // one thing it must never do is answer a link preview with an error.
+    const response = await request.get(
+      "/api/tools/share-card?v=nonsense&s=abc&m=%7C%7C%7E&h=" + "x".repeat(300),
+    );
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/png");
+  });
+
+  test("the badge is an SVG that cannot be forged", async ({ request }) => {
+    // A URL nobody has checked has no result, so the badge must claim nothing.
+    // Passing a score in the query must not change that: the endpoint reads the
+    // cached run and ignores anything the embedder wrote.
+    const response = await request.get("/api/tools/badge", {
+      params: {
+        tool: "ai-visibility-checker",
+        url: "never-checked-by-anyone.example",
+        score: "100",
+        grade: "A",
+      },
+    });
+
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/svg+xml");
+
+    const svg = await response.text();
+    expect(svg).toContain("Checked by Superflow");
+    expect(svg).not.toContain("100/100");
+    expect(svg).not.toContain("AI visible");
+  });
+
+  test("the badge is fetchable from the sites that embed it", async ({
+    request,
+  }) => {
+    // It is an asset for other people's pages by design, so a missing CORS
+    // header would make it fail on exactly the sites it is meant for.
+    const response = await request.get(
+      "/api/tools/badge?tool=json-ld-validator&url=example.com",
+    );
+    expect(response.headers()["access-control-allow-origin"]).toBe("*");
+  });
+});
