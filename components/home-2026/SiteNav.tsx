@@ -232,6 +232,12 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
         description: "Track every review from open to done",
         Icon: LayoutKanbanIcon,
       },
+      {
+        label: "Website Monitoring",
+        href: `${FEATURE_ROUTE_PREFIX}website-monitoring`,
+        description: "Scan every page on a schedule",
+        Icon: GlobeIcon,
+      },
     ],
   },
 ];

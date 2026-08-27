@@ -554,6 +554,16 @@ const RELATED_CAPABILITIES_BY_SLUG: Readonly<
       relatedItem("client-review", "Where the human half lives - the no-account link a client signs off with."),
     ],
   },
+  "website-monitoring": {
+    heading: "Related capabilities",
+    boundaryLine:
+      "Monitoring covers what runs on a schedule. Review agents cover the checks themselves.",
+    items: [
+      relatedItem("review-agents", "The checks every scan runs - the built-in ones and the ones you write yourself."),
+      relatedItem("authenticated-pages", "Pages behind a password, Okta or SSO get scanned like any other."),
+      relatedItem("screenshots", "The capture behind every finding, so the proof outlives the page.", "Automatic screenshots"),
+    ],
+  },
   memory: {
     heading: "Related capabilities",
     items: [
