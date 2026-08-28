@@ -5,7 +5,7 @@
 // Three sections, composed under the CostSection calculator:
 //   RoiHowItWorks - the four steps behind the calculator's math
 //   RoiOutputs    - what each of the three result numbers means
-//   RoiCost       - the flat AI-credits cost set against the recovery
+//   RoiCost       - the scan-priced AI-credits cost set against the recovery
 
 import styles from "./RoiSections.module.css";
 
@@ -54,9 +54,9 @@ const OUTPUTS = [
 
 /** The cost side of the ROI story, grounded in the public rate card. */
 const COST_POINTS = [
-  "Every agent review (one agent reviewing one page) is a flat 10 credits. No tiers, no token math, and the estimated cost shows before every run.",
-  "Every plan includes monthly credits, and every new workspace starts with a one-time bonus of 500 credits: enough to run agents across a full client site.",
-  "One-time add-on packs start at $20 for 50 more agent reviews and roll over month to month.",
+  "One credit is $0.40, and a scan checks the whole site with every agent: 5 credits for a small site, 10 for a medium one. No per-agent multiplier, no token math, and the cost shows before every run.",
+  "Rescans are 1 credit at any size, because only the changed pages get reviewed. A typical project is one scan plus four rescans: 14 credits, about $5.60.",
+  "Every plan includes monthly credits, every new workspace starts with a one-time bonus of 30 credits (your first full scan, free), and one-time packs start at $10 and roll over month to month.",
 ];
 
 /**
@@ -128,9 +128,9 @@ export function RoiCost() {
             </h2>
             <p className={styles.costLede}>
               Superflow is priced per seat, guests are free, and the AI is
-              metered in flat-rate credits. A busy agency typically spends a
-              few hundred dollars a month on credits while the calculator
-              above shows five or six figures recovered per year.
+              metered in credits priced per scan. A busy agency spends tens
+              of dollars a month on credits while the calculator above shows
+              five or six figures recovered per year.
             </p>
           </div>
           <ul className={styles.costPoints}>

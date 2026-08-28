@@ -23,7 +23,7 @@ export const CALCULATOR_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What does Superflow cost against the recovered billings?",
     answer:
-      "Per-seat plans start free, and every plan includes monthly AI credits. Agent reviews are a flat 10 credits each, and one-time add-on packs start at $20 for 50 more reviews. A busy agency typically spends a few hundred dollars a month on packs while the calculator shows five or six figures recovered per year.",
+      "Per-seat plans start free, and every plan includes monthly AI credits. Agent scans are priced by scope — 1 credit ($0.40) for a page or asset, 5 for a small site, 10 for a medium one, and 1 for any rescan — and one-time add-on packs start at $10 for 25 credits. A busy agency spends tens of dollars a month on packs while the calculator shows five or six figures recovered per year.",
   },
   {
     question: "Does my whole team need paid seats?",

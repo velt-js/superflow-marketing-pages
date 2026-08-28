@@ -14,7 +14,7 @@ import { useBilling, type BillingPeriod } from "@/components/pricing/BillingCont
 import {
   CREDIT_PACKS,
   CUSTOM_CREDITS_ESTIMATE,
-  getAgentReviewsLabel,
+  getPerCreditLabel,
 } from "./ai-credits-data";
 import styles from "./PricingTiers.module.css";
 
@@ -22,7 +22,8 @@ import styles from "./PricingTiers.module.css";
 const ANNUAL_HINT = "2 months free";
 
 /** Footer copy in the packs dropdown. */
-const PACKS_HINT = "One-time top-ups that roll over month to month.";
+const PACKS_HINT =
+  "One-time top-ups that roll over month to month. Bigger packs cost less per credit.";
 
 /**
  * Tabler "check" bullet glyph, stroked in the section's green accent.
@@ -84,25 +85,21 @@ function PricingTiersChevronIcon() {
 
 /**
  * Clay-style AI credits chip under the price: the plan's included
- * monthly credits ("300 AI credits/mo") in a hairline row that expands
+ * monthly credits ("30 AI credits/mo") in a hairline row that expands
  * into a dropdown listing the one-time add-on packs. With `packs`
  * false (Enterprise) it renders as a static chip with no dropdown.
- * While annual billing is selected, pack prices show the discounted
- * annual price with the standard price struck through, mirroring the
- * seat cards.
+ * Pack prices are one-time and don't move with the billing period —
+ * the volume discount lives in the per-credit price instead.
  *
  * @param props.label - The tier's aiCredits label.
  * @param props.packs - Whether the add-on packs dropdown is shown.
- * @param props.billing - The active billing period.
  */
 function PricingTiersCreditsChip({
   label,
   packs,
-  billing,
 }: {
   label: string;
   packs: boolean;
-  billing: BillingPeriod;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -150,19 +147,10 @@ function PricingTiersCreditsChip({
               <span className={styles.creditsPackLabel}>
                 <span>{pack.credits.toLocaleString("en-US")} credits</span>
                 <span className={styles.creditsPackReviews}>
-                  {getAgentReviewsLabel(pack.credits)}
+                  {getPerCreditLabel(pack)}
                 </span>
               </span>
-              {billing === "annual" ? (
-                <span className={styles.creditsPackPrice}>
-                  ${pack.annualPriceUsd}
-                  <span className={styles.creditsPackStrike}>
-                    ${pack.priceUsd}
-                  </span>
-                </span>
-              ) : (
-                <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
-              )}
+              <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
             </li>
           ))}
         </ul>
@@ -283,11 +271,9 @@ function PricingTiersCard({
               <PricingTiersCreditsChip
                 label={tier.aiCredits}
                 packs={tier?.id === "growth" || tier?.id === "scale"}
-                billing={billing}
               />
               <span className={styles.creditsEstimate}>
-                {getAgentReviewsLabel(tier?.aiCreditsPerMonth) ??
-                  CUSTOM_CREDITS_ESTIMATE}
+                {tier?.aiCreditsCovers ?? CUSTOM_CREDITS_ESTIMATE}
               </span>
             </div>
           ) : null}

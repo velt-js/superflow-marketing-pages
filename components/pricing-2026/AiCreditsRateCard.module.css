@@ -1,0 +1,321 @@
+/* AI credits rate card — 2026 light idiom, matching
+   PricingTiers.module.css: #fbfbfd cards, #ececf1 hairline, 20px radius,
+   serif headings and the single #433df3 accent. */
+
+.section {
+    --rc-serif: var(--font-adamina), Georgia, serif;
+    --rc-display: var(--font-urbanist), system-ui, sans-serif;
+    --rc-body: var(--font-poppins), system-ui, sans-serif;
+    --rc-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    --rc-ink: #16171a;
+    --rc-muted: #6b7079;
+    --rc-accent: #433df3;
+    --rc-check: #17b26a;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 24px 72px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 28px;
+}
+
+/* --- Intro ---------------------------------------------------------------- */
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 780px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--rc-serif);
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+    color: var(--rc-ink);
+}
+
+.lede {
+    margin: 0;
+    font-family: var(--rc-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--rc-muted);
+}
+
+/* --- Cards ---------------------------------------------------------------- */
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.rateCard,
+.packsCard {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.cardHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--rc-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--rc-ink);
+}
+
+.cardUnit {
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid #e2e2ea;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--rc-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--rc-accent);
+    white-space: nowrap;
+}
+
+/* --- Scan price list ------------------------------------------------------ */
+
+.rateList,
+.packList,
+.packNotes {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rateRow,
+.packRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+}
+
+.rateRow + .rateRow,
+.packRow + .packRow {
+    border-top: 1px solid #ececf1;
+}
+
+/* The rescan row is the argument of the whole model — give it the accent. */
+.rateRow[data-scope="rescan"] .rateScope,
+.rateRow[data-scope="rescan"] .rateCredits {
+    color: var(--rc-accent);
+}
+
+.rateLabel,
+.packLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.rateScope,
+.packCredits {
+    font-family: var(--rc-display);
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    color: var(--rc-ink);
+}
+
+.rateSub,
+.packSub {
+    font-family: var(--rc-body);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--rc-muted);
+}
+
+.ratePrice {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+.rateCredits {
+    font-family: var(--rc-display);
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--rc-ink);
+}
+
+.rateDollars {
+    font-family: var(--rc-mono);
+    font-size: 11.5px;
+    color: var(--rc-muted);
+}
+
+/* --- Worked example ------------------------------------------------------- */
+
+.example {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding: 16px 18px;
+    border: 1px solid rgba(67, 61, 243, 0.18);
+    border-radius: 14px;
+    background: rgba(67, 61, 243, 0.05);
+}
+
+.exampleTitle {
+    margin: 0;
+    font-family: var(--rc-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--rc-accent);
+}
+
+.exampleBody {
+    margin: 0;
+    font-family: var(--rc-body);
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--rc-muted);
+}
+
+.exampleFigure {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 4px 0 0;
+    font-family: var(--rc-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--rc-ink);
+}
+
+.exampleDollars {
+    font-family: var(--rc-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rc-muted);
+}
+
+/* --- Packs ---------------------------------------------------------------- */
+
+.packPrice {
+    font-family: var(--rc-serif);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.4px;
+    color: var(--rc-ink);
+}
+
+.packNotes {
+    gap: 10px;
+    padding-top: 4px;
+}
+
+.packNote {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-family: var(--rc-body);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--rc-muted);
+}
+
+.checkIcon {
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    color: var(--rc-check);
+}
+
+.packFooter {
+    margin: 0;
+    padding-top: 4px;
+    font-family: var(--rc-body);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--rc-muted);
+}
+
+.packLink {
+    color: var(--rc-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(67, 61, 243, 0.35);
+}
+
+.packLink:hover {
+    border-bottom-color: var(--rc-accent);
+}
+
+.packLink:focus-visible {
+    outline: 2px solid var(--rc-accent);
+    outline-offset: 2px;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 620px) {
+    .section {
+        padding: 8px 20px 56px;
+    }
+
+    .rateCard,
+    .packsCard {
+        padding: 22px;
+    }
+
+    .cardHead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

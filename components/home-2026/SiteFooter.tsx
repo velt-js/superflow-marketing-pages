@@ -20,9 +20,9 @@ const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
 const CTA_HEADING = "Start Your 10-Day Trial";
-// 500 signup-bonus credits ÷ 10 credits per agent review (AI Credits
-// rate card) = 50 free reviews.
-const CTA_SUBTITLE = "Your first 50 agent reviews are on us!";
+// 30 signup-bonus credits (AI Credits rate card) covers one full site
+// scan at any size — up to the 30-credit XL band.
+const CTA_SUBTITLE = "Your first full site scan is on us!";
 const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 
 type FooterLink = { label: string; href: string; paid?: boolean };
