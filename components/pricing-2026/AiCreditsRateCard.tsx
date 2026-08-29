@@ -24,10 +24,19 @@ const HEADING = "AI credits, priced like the work";
 const LEDE =
   "One credit is $0.40. A scan checks your whole site with every agent — no per-agent multiplier, no per-page math, no token talk. A rescan is 1 credit, always: only the pages that changed get reviewed.";
 
-/** Worked example under the rate card, built from the same numbers. */
+/** Worked example under the rate card, built from the same numbers: the
+ *  credit cost of a project next to the hours the same first pass takes
+ *  by hand. Anchored to hours and to what the agency bills, never to
+ *  wages or headcount — the QA seat reads this page too. */
 const EXAMPLE_TITLE = "A typical project";
 const EXAMPLE_BODY =
   "One medium-site scan plus the four rescans a project runs before sign-off.";
+const EXAMPLE_MANUAL_LABEL = "The same first pass by hand";
+const EXAMPLE_MANUAL_FIGURE = "3 to 4 hours";
+const EXAMPLE_MANUAL_NOTE = "every round, every site";
+const EXAMPLE_AGENT_LABEL = "With agents";
+const EXAMPLE_FOOTNOTE =
+  "Agents take the mechanical pass for well under 1% of what you bill for the project. Your team keeps the judgment calls.";
 
 /** Reassurances under the packs, in display order. */
 const PACK_NOTES = [
@@ -119,14 +128,39 @@ export default function AiCreditsRateCard() {
               <div className={styles.example}>
                 <p className={styles.exampleTitle}>{EXAMPLE_TITLE}</p>
                 <p className={styles.exampleBody}>{EXAMPLE_BODY}</p>
-                <p className={styles.exampleFigure}>
-                  {TYPICAL_PROJECT_CREDITS} credits
-                  {exampleCost ? (
-                    <span className={styles.exampleDollars}>
-                      about {exampleCost}
-                    </span>
-                  ) : null}
-                </p>
+                <dl className={styles.compare}>
+                  <div className={styles.compareRow}>
+                    <dt className={styles.compareLabel}>
+                      {EXAMPLE_AGENT_LABEL}
+                    </dt>
+                    <dd className={styles.compareValue}>
+                      <span className={styles.compareFigure}>
+                        {TYPICAL_PROJECT_CREDITS} credits
+                      </span>
+                      {exampleCost ? (
+                        <span className={styles.compareNote}>
+                          about {exampleCost}
+                        </span>
+                      ) : null}
+                    </dd>
+                  </div>
+                  <div className={styles.compareRow}>
+                    <dt className={styles.compareLabel}>
+                      {EXAMPLE_MANUAL_LABEL}
+                    </dt>
+                    <dd className={styles.compareValue}>
+                      <span
+                        className={`${styles.compareFigure} ${styles.compareManual}`}
+                      >
+                        {EXAMPLE_MANUAL_FIGURE}
+                      </span>
+                      <span className={styles.compareNote}>
+                        {EXAMPLE_MANUAL_NOTE}
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+                <p className={styles.exampleFootnote}>{EXAMPLE_FOOTNOTE}</p>
               </div>
             </div>
 
