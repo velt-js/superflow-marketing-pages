@@ -1,6 +1,8 @@
 // /pricing — 2026 light redesign. Static page (no Sanity); tier copy +
-// comparison-table content live in components/pricing/pricing-data.ts and
-// FAQ copy in components/pricing-2026/faq-data.ts.
+// comparison-table content live in components/pricing/pricing-data.ts,
+// the AI credits rate card (v4, scan-based) in
+// components/pricing-2026/ai-credits-data.ts, and FAQ copy in
+// components/pricing-2026/faq-data.ts.
 
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
@@ -10,7 +12,13 @@ import IntercomButton from "@/components/home/IntercomButton";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import PricingTiers from "@/components/pricing-2026/PricingTiers";
 import PricingComparisonTable from "@/components/pricing-2026/PricingComparisonTable";
-import { CREDIT_PACKS } from "@/components/pricing-2026/ai-credits-data";
+import AiCreditsRateCard from "@/components/pricing-2026/AiCreditsRateCard";
+import {
+  CREDIT_PACKS,
+  CREDIT_UNIT_PRICE_USD,
+  SCAN_RATE_CARD,
+  SIGNUP_BONUS_CREDITS,
+} from "@/components/pricing-2026/ai-credits-data";
 import { PRICING_FAQ_ITEMS } from "@/components/pricing-2026/faq-data";
 import { BillingProvider } from "@/components/pricing/BillingContext";
 import { TIERS } from "@/components/pricing/pricing-data";
@@ -29,7 +37,7 @@ export const revalidate = 60;
 
 const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
 const HERO_SUBHEADING =
-  "Transparent per-seat pricing with a free 10-day trial. Start free and upgrade whenever your team is ready.";
+  "Transparent per-seat pricing with a free 10-day trial, plus AI credits priced by scan, not by token. Start free and upgrade whenever your team is ready.";
 
 // Product schema with one Offer per pricing tier. Starter is free (price
 // "0"), Growth/Scale carry the annual-per-month price, Enterprise is
@@ -75,13 +83,19 @@ const PRICING_PRODUCT_SCHEMA = {
 };
 
 // Separate Product schema for the one-time AI credit packs (from the AI
-// Credits rate card; pack details also surface in the pricing FAQ).
+// Credits rate card v4; the scan rate card and pack details also surface
+// in the rate-card section and the pricing FAQ).
+const SCAN_RATE_CARD_SUMMARY = SCAN_RATE_CARD.map(
+  (scope) =>
+    `${scope.label}${scope.sublabel ? ` — ${scope.sublabel}` : ""}: ${scope.credits} credit${scope.credits === 1 ? "" : "s"}`,
+).join("; ");
+
 const AI_CREDITS_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: "Superflow AI Credits",
   description:
-    "AI credits for Superflow agent reviews. Every agent review costs a flat 10 credits. One-time add-on packs top up any plan, and pack credits roll over month to month.",
+    `AI credits for Superflow agent scans. One credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent: ${SCAN_RATE_CARD_SUMMARY}. Every new workspace gets ${SIGNUP_BONUS_CREDITS} bonus credits. One-time add-on packs top up any plan, and pack credits roll over month to month.`,
   brand: { "@id": ORG_ID },
   url: `${SITE_URL}/pricing`,
   offers: CREDIT_PACKS.map((pack) => ({
@@ -104,7 +118,7 @@ const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 export const metadata = buildPageMetadata({
   title: "Pricing - Ship Creative Assets Impossibly Fast",
   description:
-    "Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is a flat 10 credits. Starter, Growth, Scale & Enterprise plans.",
+    "Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter, Growth, Scale & Enterprise plans.",
   path: "/pricing",
   ogImage: PAGE_OG_IMAGES.pricing,
   noBrandSuffix: true,
@@ -118,7 +132,7 @@ export default function PricingPage() {
           duplicate BreadcrumbList. */}
       <PageJsonLd
         name="Pricing - Ship Creative Assets Impossibly Fast"
-        description="Per-seat pricing with a free trial, plus flat-rate AI credits: every agent review is a flat 10 credits. Starter, Growth, Scale & Enterprise plans."
+        description="Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter, Growth, Scale & Enterprise plans."
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />
@@ -131,6 +145,7 @@ export default function PricingPage() {
 
       <BillingProvider>
         <PricingTiers />
+        <AiCreditsRateCard />
         <PricingComparisonTable />
       </BillingProvider>
 

@@ -1,7 +1,9 @@
 // /pricing FAQ content — plain-text entries, verbatim from
-// usesuperflow.com/pricing. Kept in a server-safe module (no "use client")
-// so the page can build the FAQPage JSON-LD from the same array the client
-// <FaqSection> renders — one source of truth for both.
+// usesuperflow.com/pricing, except the AI credits answers, which follow
+// the AI Credits rate card (v4, scan-based) in ./ai-credits-data.ts.
+// Kept in a server-safe module (no "use client") so the page can build the
+// FAQPage JSON-LD from the same array the client <FaqSection> renders —
+// one source of truth for both.
 
 import type { FaqItem } from "@/components/home-2026/faq-data";
 
@@ -29,22 +31,27 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What are AI credits?",
     answer:
-      "AI credits pay for Superflow's AI agent reviews. Every agent review (one agent reviewing one page) costs a flat 10 credits. There are no tiers and no token math, and you always see the estimated credit cost before you start a run.",
+      "AI credits pay for Superflow's AI agent scans. One credit is $0.40, and you buy a scan, not a token: one scan checks your whole site with every agent. Scans are priced by scope, so there is no per-agent multiplier and no per-page arithmetic, and you always see the credit cost before you start a run.",
   },
   {
-    question: "How are agent review credits charged?",
+    question: "How much does a scan cost?",
     answer:
-      "Credits are charged per agent review run: each agent you run on each page counts as one review, and every review costs the same 10 credits. For example, running 1 agent on 1 page is 1 review (10 credits). Running 3 agents on that same page is 3 reviews (30 credits). Running 3 agents across a 50-page site is 150 reviews (1,500 credits). Before every run, Superflow shows the estimated cost (agents × pages × 10 credits) so you can confirm before you go.",
+      "A single page or asset is 1 credit. A small site (up to 30 pages) is 5 credits, a medium site (31 to 100 pages) is 10, a large site (100 to 250 pages) is 15, and an XL site (250+ pages) is 30. Every agent runs on every scan at that price. Most sites are 10 credits or less, which is $4 at list price.",
+  },
+  {
+    question: "What does a rescan cost?",
+    answer:
+      "A rescan is 1 credit at any site size, because only the pages that changed get reviewed. Projects go through four to six review rounds before sign-off, so a typical project is one medium-site scan plus four rescans: 14 credits, or about $5.60 against a three to four hour manual QA pass. If more than half the site changed, the run is billed as a fresh scan.",
   },
   {
     question: "How many AI credits are included in my plan?",
     answer:
-      "Starter includes 60 credits per month, Growth includes 300, Scale includes 600, and Enterprise plans include a custom amount. Included credits reset with each billing cycle and don't roll over. Every new workspace also gets a one-time signup bonus of 500 credits.",
+      "Starter includes 5 credits per month (one small-site scan), Growth includes 30 (two full projects with rescans, or one project plus ongoing monitoring), Scale includes 60 (four projects, or portfolio monitoring), and Enterprise plans include a custom amount. Included credits reset with each billing cycle. Every new workspace also gets a one-time signup bonus of 30 credits, so your first full scan is free at any site size.",
   },
   {
     question: "What happens when I run out of AI credits?",
     answer:
-      "You can top up with a one-time add-on pack at any time: $20 buys 500 credits (50 more agent reviews), $90 buys 2,500 credits, and $340 buys 10,000 credits. Larger packs cost less per credit, packs are discounted on annual plans, and pack credits roll over month to month until you use them.",
+      "You can top up with a one-time add-on pack at any time: $10 buys 25 credits, $25 buys 70 credits, and $49 buys 145 credits. Bigger packs cost less per credit, pack credits roll over month to month until you use them, and auto-refill can top you up $10 at a time so a run never stalls. You can switch auto-refill off.",
   },
   {
     question: "Does Superflow offer a free plan?",

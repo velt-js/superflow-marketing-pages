@@ -6,14 +6,18 @@
 // the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
 // doesn't fit cleanly in CMS arrays and the copy changes infrequently.
 //
-// The per-tier AI credits chips and the "AI Agent Reviews" comparison
-// section come from the AI Credits rate card (v2, flat pricing) rather
-// than the live site; the rate card itself lives in
+// The per-tier AI credits chips and the "AI Agent Scans" comparison
+// section come from the AI Credits rate card (v4, scan-based pricing)
+// rather than the live site; the rate card itself lives in
 // components/pricing-2026/ai-credits-data.ts.
 
 import {
   CUSTOM_CREDITS_ESTIMATE,
-  getAgentReviewsLabel,
+  SCAN_RATE_CARD,
+  type ScanScope,
+  SIGNUP_BONUS_CREDITS,
+  CREDIT_PACKS,
+  getCreditsPriceLabel,
 } from "@/components/pricing-2026/ai-credits-data";
 
 export type TierBullet = {
@@ -46,15 +50,17 @@ export type Tier = {
   /** Pink "Most Popular" pill rendered above the card. Currently only
    *  Growth ("Loved by 100+ Agencies"). */
   badge?: string;
-  /** Clay-style AI credits chip rendered under the price ("300 AI
+  /** Clay-style AI credits chip rendered under the price ("30 AI
    *  credits/mo"); expands into an add-on packs dropdown. From the AI
-   *  Credits rate card: every agent review costs a flat 10 credits;
-   *  included credits reset each cycle. */
+   *  Credits rate card: a scan is priced by scope and runs every agent,
+   *  a rescan is always 1 credit, and included credits reset each cycle. */
   aiCredits?: string;
-  /** Numeric form of `aiCredits`, used to derive the "≈ 30 agent reviews"
-   *  estimate under the chip. Omitted on custom-contract tiers, which
-   *  have no fixed monthly allowance. */
+  /** Numeric form of `aiCredits`. Omitted on custom-contract tiers,
+   *  which have no fixed monthly allowance. */
   aiCreditsPerMonth?: number;
+  /** Plain-English line under the chip: what the monthly allowance
+   *  actually covers in scans and projects. */
+  aiCreditsCovers?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -93,20 +99,49 @@ const text = (value: string, sub?: string): CellValue => ({
 
 /**
  * Comparison-table cell for a plan's monthly credit allowance. The
- * sub-line comes from the same helper as the tier cards' chip line so
- * the two can't drift apart.
+ * sub-line is the tier's own "covers" copy, so the table and the tier
+ * cards can't drift apart.
  *
- * @param monthlyCredits - The plan's included monthly credits.
- * @returns The cell value, with the agent-review translation as its sub.
+ * @param tierId - The tier whose allowance is rendered.
+ * @returns The cell value, with what the allowance covers as its sub.
  */
-const creditsCell = (monthlyCredits: number): CellValue => {
+const creditsCell = (tierId: Tier["id"]): CellValue => {
   try {
-    return text(
-      `${monthlyCredits} / mo`,
-      getAgentReviewsLabel(monthlyCredits) ?? undefined,
-    );
+    const tier = TIERS.find((candidate) => candidate.id === tierId);
+    if (!tier?.aiCreditsPerMonth) {
+      return text("Custom", CUSTOM_CREDITS_ESTIMATE);
+    }
+    return text(`${tier.aiCreditsPerMonth} / mo`, tier.aiCreditsCovers);
   } catch {
-    return text(`${monthlyCredits} / mo`);
+    return text("Custom", CUSTOM_CREDITS_ESTIMATE);
+  }
+};
+
+/**
+ * Comparison-table row for one scope on the scan rate card. Scan prices
+ * are the same on every plan — the plan only sets how many credits come
+ * included — so all four cells carry the same credit figure.
+ *
+ * @param scope - The rate-card scope to render.
+ * @returns The row, or null when the scope can't be rendered.
+ */
+const scanRow = (scope: ScanScope): Row | null => {
+  try {
+    if (!scope) {
+      return null;
+    }
+    const creditWord = scope.credits === 1 ? "credit" : "credits";
+    const cell = text(
+      `${scope.credits} ${creditWord}`,
+      getCreditsPriceLabel(scope.credits) ?? undefined,
+    );
+    return {
+      label: scope.label,
+      sublabel: scope.sublabel,
+      values: [cell, cell, cell, cell],
+    };
+  } catch {
+    return null;
   }
 };
 
@@ -123,8 +158,9 @@ export const TIERS: Tier[] = [
     monthlyPrice: "0",
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
-    aiCredits: "60 AI credits/mo",
-    aiCreditsPerMonth: 60,
+    aiCredits: "5 AI credits/mo",
+    aiCreditsPerMonth: 5,
+    aiCreditsCovers: "One small-site scan",
     cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
@@ -144,8 +180,9 @@ export const TIERS: Tier[] = [
     trialLabel: TRIAL_LABEL,
     badge: "Loved by 100+ Agencies",
     highlighted: true,
-    aiCredits: "300 AI credits/mo",
-    aiCreditsPerMonth: 300,
+    aiCredits: "30 AI credits/mo",
+    aiCreditsPerMonth: 30,
+    aiCreditsCovers: "Two full projects, rescans included",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
@@ -163,8 +200,9 @@ export const TIERS: Tier[] = [
     annualPrice: "28",
     annualStrikePrice: "34",
     trialLabel: TRIAL_LABEL,
-    aiCredits: "600 AI credits/mo",
-    aiCreditsPerMonth: 600,
+    aiCredits: "60 AI credits/mo",
+    aiCreditsPerMonth: 60,
+    aiCreditsCovers: "Four projects, or portfolio monitoring",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
@@ -183,6 +221,7 @@ export const TIERS: Tier[] = [
     customPrice: true,
     trialLabel: TRIAL_LABEL,
     aiCredits: "Custom AI credits",
+    aiCreditsCovers: CUSTOM_CREDITS_ESTIMATE,
     cta: { label: "Book Demo", href: "/book-demo" },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
@@ -193,6 +232,14 @@ export const TIERS: Tier[] = [
     ],
   },
 ];
+
+/** Scan rate-card rows, in price order, dropped into the AI section. */
+const SCAN_ROWS: Row[] = SCAN_RATE_CARD.map(scanRow).filter(
+  (row): row is Row => row !== null,
+);
+
+/** "From $10 for 25 credits · roll over monthly", built from the packs. */
+const PACKS_SUBLABEL = `From $${CREDIT_PACKS[0].priceUsd} for ${CREDIT_PACKS[0].credits} credits · roll over monthly`;
 
 // --- Comparison table --------------------------------------------------------
 // Order: [starter, growth, scale, enterprise]. Cell kinds match the live
@@ -240,37 +287,43 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
-    title: "AI Agent Reviews",
+    title: "AI Agent Scans",
     accent: "#7C3AED",
     rows: [
       {
         label: "Included AI Credits",
-        sublabel: "Reset each billing cycle",
+        sublabel: "Reset each billing cycle · 1 credit = $0.40",
         values: [
-          creditsCell(60),
-          creditsCell(300),
-          creditsCell(600),
-          text("Custom", CUSTOM_CREDITS_ESTIMATE),
+          creditsCell("starter"),
+          creditsCell("growth"),
+          creditsCell("scale"),
+          creditsCell("enterprise"),
         ],
       },
       {
-        label: "Flat Rate Per Agent Review",
-        sublabel: "1 agent reviewing 1 page = 1 review",
-        values: [
-          text("10 credits"),
-          text("10 credits"),
-          text("10 credits"),
-          text("10 credits"),
-        ],
+        label: "Every Agent On Every Scan",
+        sublabel: "No per-agent multiplier",
+        values: [check, check, check, check],
       },
+      ...SCAN_ROWS,
       {
         label: "Signup Bonus Credits",
-        sublabel: "One-time, on workspace creation",
-        values: [text("500"), text("500"), text("500"), text("500")],
+        sublabel: "One-time, on workspace creation: first full scan free, any size",
+        values: [
+          text(`${SIGNUP_BONUS_CREDITS}`),
+          text(`${SIGNUP_BONUS_CREDITS}`),
+          text(`${SIGNUP_BONUS_CREDITS}`),
+          text(`${SIGNUP_BONUS_CREDITS}`),
+        ],
       },
       {
         label: "AI Credit Packs",
-        sublabel: "From $20 for 500 credits · roll over monthly",
+        sublabel: PACKS_SUBLABEL,
+        values: [check, check, check, check],
+      },
+      {
+        label: "Auto-Refill",
+        sublabel: "Top up $10 at a time, on by default",
         values: [check, check, check, check],
       },
     ],

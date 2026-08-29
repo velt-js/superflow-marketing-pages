@@ -15,7 +15,14 @@ import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
-import { CREDIT_PACKS } from "@/components/pricing-2026/ai-credits-data";
+import {
+  CREDIT_PACKS,
+  CREDIT_UNIT_PRICE_USD,
+  SCAN_RATE_CARD,
+  SIGNUP_BONUS_CREDITS,
+  TYPICAL_PROJECT_CREDITS,
+  getPerCreditLabel,
+} from "@/components/pricing-2026/ai-credits-data";
 
 export const revalidate = 3600;
 
@@ -137,7 +144,12 @@ function pricingSection(): string {
 
   const packs = CREDIT_PACKS.map(
     (pack) =>
-      `- ${pack.name} pack: ${pack.credits.toLocaleString("en-US")} credits for $${pack.priceUsd} ($${pack.annualPriceUsd} on annual plans)`,
+      `- ${pack.name} pack: ${pack.credits.toLocaleString("en-US")} credits for $${pack.priceUsd} (${getPerCreditLabel(pack)})`,
+  ).join("\n");
+
+  const scans = SCAN_RATE_CARD.map(
+    (scope) =>
+      `- ${scope.label}${scope.sublabel ? ` — ${scope.sublabel}` : ""}: ${scope.credits} credit${scope.credits === 1 ? "" : "s"}`,
   ).join("\n");
 
   return `## Pricing
@@ -146,7 +158,11 @@ Superflow is priced per seat with a free 10-day trial. Guest users are free and 
 
 ${plans}
 
-AI agent reviews are metered in credits at one flat rate: one agent reviewing one page is one review and costs 10 credits. Three agents on one page is three reviews (30 credits). Included credits reset each billing cycle. Every new workspace gets a one-time signup bonus of 500 credits. One-time add-on packs top up any plan and roll over month to month:
+AI agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
+
+${scans}
+
+A typical project is one medium-site scan plus four rescans: ${TYPICAL_PROJECT_CREDITS} credits. Included credits reset each billing cycle. Every new workspace gets a one-time signup bonus of ${SIGNUP_BONUS_CREDITS} credits, enough for one full scan at any size. One-time add-on packs top up any plan and roll over month to month, and auto-refill tops up $10 at a time:
 
 ${packs}
 `;
@@ -227,7 +243,7 @@ export async function GET() {
     "",
     "> Superflow is a website and creative-asset review tool for agencies and marketing teams. Teams leave contextual feedback on live websites, videos, PDFs, images, and Lottie animations, record videos, sync tasks to PM tools, run AI agent reviews, and ship faster with fewer review rounds.",
     "",
-    "Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager. AI review agents catch issues (spelling, layout, links, brand) before clients do, billed in flat-rate AI credits. The link index version of this file is at " +
+    "Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager. AI review agents catch issues (spelling, layout, links, brand) before clients do, billed in AI credits priced per scan. The link index version of this file is at " +
       `${SITE_URL}/llms.txt`,
     "",
     pricingSection(),
