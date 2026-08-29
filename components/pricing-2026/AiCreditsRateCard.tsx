@@ -11,6 +11,9 @@ import Link from "next/link";
 import {
   CREDIT_PACKS,
   CREDIT_UNIT_PRICE_USD,
+  BILLING_RATE_USD,
+  MANUAL_PASS_BILLABLE_LABEL,
+  MANUAL_PASS_HOURS_LABEL,
   SCAN_RATE_CARD,
   SIGNUP_BONUS_CREDITS,
   TYPICAL_PROJECT_CREDITS,
@@ -24,10 +27,17 @@ const HEADING = "AI credits, priced like the work";
 const LEDE =
   "One credit is $0.40. A scan checks your whole site with every agent — no per-agent multiplier, no per-page math, no token talk. A rescan is 1 credit, always: only the pages that changed get reviewed.";
 
-/** Worked example under the rate card, built from the same numbers. */
+/** Worked example under the rate card, built from the same numbers: the
+ *  credit cost of a project next to the hours — and the billable value of
+ *  those hours — that the same first pass takes by hand. Anchored to what
+ *  the agency bills, never to wages or headcount: the QA seat reads this
+ *  page too, and the billing anchor is the one that survives scrutiny. */
 const EXAMPLE_TITLE = "A typical project";
 const EXAMPLE_BODY =
   "One medium-site scan plus the four rescans a project runs before sign-off.";
+const EXAMPLE_MANUAL_LABEL = "The same first pass by hand";
+const EXAMPLE_MANUAL_NOTE = `${MANUAL_PASS_BILLABLE_LABEL} billable`;
+const EXAMPLE_AGENT_LABEL = "With agents";
 
 /** Reassurances under the packs, in display order. */
 const PACK_NOTES = [
@@ -119,13 +129,46 @@ export default function AiCreditsRateCard() {
               <div className={styles.example}>
                 <p className={styles.exampleTitle}>{EXAMPLE_TITLE}</p>
                 <p className={styles.exampleBody}>{EXAMPLE_BODY}</p>
-                <p className={styles.exampleFigure}>
-                  {TYPICAL_PROJECT_CREDITS} credits
-                  {exampleCost ? (
-                    <span className={styles.exampleDollars}>
-                      about {exampleCost}
-                    </span>
-                  ) : null}
+                <dl className={styles.compare}>
+                  <div className={styles.compareRow}>
+                    <dt className={styles.compareLabel}>
+                      {EXAMPLE_AGENT_LABEL}
+                    </dt>
+                    <dd className={styles.compareValue}>
+                      <span className={styles.compareFigure}>
+                        {TYPICAL_PROJECT_CREDITS} credits
+                      </span>
+                      {exampleCost ? (
+                        <span className={styles.compareNote}>
+                          about {exampleCost}
+                        </span>
+                      ) : null}
+                    </dd>
+                  </div>
+                  <div className={styles.compareRow}>
+                    <dt className={styles.compareLabel}>
+                      {EXAMPLE_MANUAL_LABEL}
+                    </dt>
+                    <dd className={styles.compareValue}>
+                      <span
+                        className={`${styles.compareFigure} ${styles.compareManual}`}
+                      >
+                        {MANUAL_PASS_HOURS_LABEL}
+                      </span>
+                      <span className={styles.compareNote}>
+                        {EXAMPLE_MANUAL_NOTE}
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+                <p className={styles.exampleFootnote}>
+                  Hours valued as billable time at ${BILLING_RATE_USD}/hr, the
+                  mid preset in our{" "}
+                  <Link className={styles.exampleLink} href="/calculator">
+                    ROI calculator
+                  </Link>
+                  . Agents take the mechanical pass; your team keeps the
+                  judgment calls.
                 </p>
               </div>
             </div>

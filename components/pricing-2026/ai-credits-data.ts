@@ -73,6 +73,29 @@ export const CREDIT_PACKS: CreditPack[] = [
   { id: "large", name: "Large", credits: 145, priceUsd: 49 },
 ];
 
+/**
+ * What the same first pass costs by hand. Hours are the measured manual
+ * QA pass per site per round; the rate is the 10-person-agency preset
+ * from the ROI calculator on /calculator (components/home-2026/
+ * CostSection.tsx), so the two pages quote the same assumption.
+ *
+ * Deliberately a *billing* rate, not a wage: the dollar figure is
+ * billable time the pass consumes, never the cost of the person doing it.
+ */
+export const MANUAL_PASS_HOURS_LOW = 3;
+export const MANUAL_PASS_HOURS_HIGH = 4;
+export const BILLING_RATE_USD = 125;
+
+/** "3 to 4 hours" — the manual pass, in hours. */
+export const MANUAL_PASS_HOURS_LABEL = `${MANUAL_PASS_HOURS_LOW} to ${MANUAL_PASS_HOURS_HIGH} hours`;
+
+/** "$375 to $500" — the same pass as billable time. */
+export const MANUAL_PASS_BILLABLE_LABEL = `$${(
+  MANUAL_PASS_HOURS_LOW * BILLING_RATE_USD
+).toLocaleString("en-US")} to $${(
+  MANUAL_PASS_HOURS_HIGH * BILLING_RATE_USD
+).toLocaleString("en-US")}`;
+
 /** Estimate line shown on custom-contract tiers, which have no fixed
  *  allowance to translate into scans. */
 export const CUSTOM_CREDITS_ESTIMATE = "Sized to your review volume";

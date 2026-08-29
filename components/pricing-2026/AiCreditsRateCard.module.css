@@ -220,22 +220,86 @@
     color: var(--rc-muted);
 }
 
-.exampleFigure {
+/* Credits next to the hours the same pass takes by hand. */
+.compare {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+.compareRow {
     display: flex;
     align-items: baseline;
-    gap: 10px;
-    margin: 4px 0 0;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 7px 0;
+}
+
+.compareRow + .compareRow {
+    border-top: 1px solid rgba(67, 61, 243, 0.14);
+}
+
+.compareLabel {
+    margin: 0;
+    font-family: var(--rc-body);
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--rc-muted);
+}
+
+.compareValue {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    text-align: right;
+}
+
+.compareFigure {
     font-family: var(--rc-display);
     font-size: 17px;
     font-weight: 700;
+    letter-spacing: -0.2px;
     color: var(--rc-ink);
+    white-space: nowrap;
 }
 
-.exampleDollars {
+/* The hours side stays muted: it is the comparison, not the offer. */
+.compareManual {
+    font-weight: 600;
+    color: var(--rc-muted);
+}
+
+.compareNote {
     font-family: var(--rc-mono);
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 500;
     color: var(--rc-muted);
+    white-space: nowrap;
+}
+
+.exampleFootnote {
+    margin: 8px 0 0;
+    font-family: var(--rc-body);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--rc-muted);
+}
+
+.exampleLink {
+    color: var(--rc-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(67, 61, 243, 0.35);
+}
+
+.exampleLink:hover {
+    border-bottom-color: var(--rc-accent);
+}
+
+.exampleLink:focus-visible {
+    outline: 2px solid var(--rc-accent);
+    outline-offset: 2px;
 }
 
 /* --- Packs ---------------------------------------------------------------- */
@@ -306,6 +370,16 @@
 @media (max-width: 620px) {
     .section {
         padding: 8px 20px 56px;
+    }
+
+    .compareRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .compareValue {
+        text-align: left;
     }
 
     .rateCard,
