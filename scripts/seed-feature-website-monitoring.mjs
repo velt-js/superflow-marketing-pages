@@ -76,10 +76,10 @@ const doc = {
         _key: "block-find",
         title: "Find it, before your users do",
         description:
-          "Automated scans run on the pages you choose, at the cadence you set. Nothing waits for someone to have a free afternoon.",
+          "Point it at your whole sitemap or a hand-picked list, set the cadence, and the scans run themselves. Nothing waits for someone to have a free afternoon.",
         icon: "world",
         accent: "#433df3",
-        mock: "run-on-demand",
+        mock: "screenshot-full-page",
         tabs: [
           {
             _key: "whole-sitemap",
@@ -87,7 +87,7 @@ const doc = {
             icon: "world",
             oneLiner:
               "Point it at your sitemap, or hand-pick the pages that matter and exclude the rest.",
-            mock: "run-on-demand",
+            mock: "screenshot-full-page",
           },
           {
             _key: "on-a-schedule",
@@ -156,7 +156,7 @@ const doc = {
             icon: "list-check",
             oneLiner:
               "Assign by area, set a status — and the same broken footer stays one item, not two hundred.",
-            mock: "tracking-task-management",
+            mock: "kanban-cross-client",
           },
           {
             _key: "pushed-to-your-tracker",
@@ -198,8 +198,8 @@ const doc = {
             label: "The Receipts",
             icon: "history",
             oneLiner:
-              "What broke, who fixed it, when — and what you deliberately ignored, with a reason.",
-            mock: "analytics-insights",
+              "What broke, who fixed it, when — every finding listed against the page it was found on.",
+            mock: "screenshot-record",
           },
           {
             _key: "snapshot-of-every-finding",
@@ -214,8 +214,8 @@ const doc = {
             label: "One Site or Fifty",
             icon: "layout-dashboard",
             oneLiner:
-              "Every client site with its own score, its own schedule and its own history.",
-            mock: "analytics-customers",
+              "Every client site running the same scan on its own schedule, with its own history.",
+            mock: "flow-one-flow",
           },
         ],
       },

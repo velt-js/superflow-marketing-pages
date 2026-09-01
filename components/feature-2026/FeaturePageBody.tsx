@@ -156,6 +156,8 @@ const AUTHENTICATED_PAGES_PAGE_SLUG = "authenticated-pages";
 const SCREENSHOTS_PAGE_SLUG = "screenshots";
 /** Slug of the Recordings page that gets recordings mock + solution mapping. */
 const RECORDINGS_PAGE_SLUG = "recordings";
+/** Slug of the Website Monitoring page that gets its own tab mock mapping. */
+const WEBSITE_MONITORING_PAGE_SLUG = "website-monitoring";
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -378,6 +380,34 @@ const RECORDINGS_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
   "no-separate-app": "recordings-composer",
   "client-playback-from-the-link": "recordings-client",
   "recordings-in-threads": "recordings-thread",
+};
+
+/**
+ * Website Monitoring-page tab labels mapped to their per-tab artifact. Every
+ * beat gets a visually distinct window: the whole-page capture for scope, the
+ * deploy→scan flow for cadence, the agent library for the built-in checks and
+ * the agent builder for your own rules; then the pinned finding, the
+ * cross-client board (owners + statuses), the tracker sync and the re-check;
+ * then the score chart, the per-page review record, the then-and-now snapshot
+ * and the one-flow-per-site rollup. Chosen so no two panels on the page render
+ * the same composition — the generic `run-on-demand` / `tracking-task-management`
+ * / repeated Analytics windows re-rendered artifacts already shown elsewhere on
+ * the page. A mapped label wins over the CMS mock so the artifacts render
+ * without a Sanity re-seed; the seed script carries the same mocks.
+ */
+const WEBSITE_MONITORING_TAB_MOCKS: Readonly<Record<string, FeatureSetMockName>> = {
+  "whole-sitemap": "screenshot-full-page",
+  "on-a-schedule": "webhooks",
+  "built-in-checks": "built-in-checks",
+  "your-own-rules": "custom-agent",
+  "pinned-to-the-element": "agent-finding",
+  "owners-and-statuses": "kanban-cross-client",
+  "pushed-to-your-tracker": "integrations",
+  "validate-the-fix": "validate-fixes",
+  "your-score-over-time": "analytics-overview",
+  "the-receipts": "screenshot-record",
+  "snapshot-of-every-finding": "screenshot-then-and-now",
+  "one-site-or-fifty": "flow-one-flow",
 };
 
 /** Base path for feature pages (root-served; related-capability link targets). */
@@ -771,6 +801,20 @@ function getRecordingsTabMock(
 }
 
 /**
+ * Resolve a tab's Website Monitoring artifact from its label, preserving
+ * explicit CMS values when the label is not one of the mapped beats.
+ *
+ * @param tab - The feature tab from Sanity.
+ * @returns The mock key, or undefined when no website-monitoring mapping applies.
+ */
+function getWebsiteMonitoringTabMock(
+  tab: FeaturePageBlockTab,
+): FeatureSetMockName | undefined {
+  const labelKey = toLookupKey(tab?.label);
+  return WEBSITE_MONITORING_TAB_MOCKS?.[labelKey];
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -823,6 +867,7 @@ function toFeatureSetBlock(
   const isAuthenticatedPagesPage = pageSlug === AUTHENTICATED_PAGES_PAGE_SLUG;
   const isScreenshotsPage = pageSlug === SCREENSHOTS_PAGE_SLUG;
   const isRecordingsPage = pageSlug === RECORDINGS_PAGE_SLUG;
+  const isWebsiteMonitoringPage = pageSlug === WEBSITE_MONITORING_PAGE_SLUG;
   const tabs = (block?.tabs ?? [])
     .filter((tab) => Boolean(tab?.label))
     .map((tab) => {
@@ -882,6 +927,12 @@ function toFeatureSetBlock(
         // pre-reseed CMS mock (the seed carries a generic "workflow" fallback).
         resolvedMock =
           getRecordingsTabMock(tab) ??
+          (tab.mock as FeatureSetMockName | undefined);
+      } else if (isWebsiteMonitoringPage) {
+        // A mapped label wins over the CMS mock so no two panels on the page
+        // repeat the same composition before a re-seed.
+        resolvedMock =
+          getWebsiteMonitoringTabMock(tab) ??
           (tab.mock as FeatureSetMockName | undefined);
       } else {
         resolvedMock = tab.mock as FeatureSetMockName | undefined;
