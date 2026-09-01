@@ -1,0 +1,373 @@
+/* The /tools index layout: a sticky filter rail beside the card grid.
+ *
+ * The palette tokens (`--t-ink`, `--t-border`, `--t-accent`, the three type
+ * families) are declared on `.page` in Tools.module.css and inherit down the
+ * DOM, so this module speaks the same 2026 language as the rest of /tools
+ * without re-declaring any of it.
+ */
+
+.layout {
+    display: grid;
+    /* 232px is the widest category label ("Structured data" with its count)
+       plus breathing room, so no rail entry ever wraps to two lines. */
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+}
+
+/* ---- Filter rail ---- */
+
+.rail {
+    position: sticky;
+    /* Clears the fixed site header (72px) with a little air above the box. */
+    top: 96px;
+    /* Without this the scrolling chip row the rail becomes on small screens
+       sizes the grid column to its own content and pushes the whole page
+       sideways, instead of scrolling inside itself. */
+    min-width: 0;
+}
+
+.railInner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.searchWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    display: inline-flex;
+    color: var(--t-ink-faint);
+    pointer-events: none;
+}
+
+.search {
+    width: 100%;
+    padding: 11px 12px 11px 36px;
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+    background: #ffffff;
+    font-family: var(--t-body);
+    font-size: 14px;
+    color: var(--t-ink);
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.search::placeholder {
+    color: var(--t-ink-faint);
+}
+
+.search:focus {
+    outline: none;
+    border-color: var(--t-border-strong);
+    box-shadow: 0 0 0 3px rgba(67, 61, 243, 0.1);
+}
+
+/* Chrome draws its own clear affordance on a search input; ours would sit on
+   top of it, so the native one is the one we keep. */
+.search::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+.railLabel {
+    margin: 6px 0 0;
+    padding: 0 4px;
+    font-family: var(--t-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--t-ink-faint);
+}
+
+.railList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.railItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    font-family: var(--t-display);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--t-ink-soft);
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 140ms ease,
+        color 140ms ease,
+        border-color 140ms ease;
+}
+
+.railItem:hover {
+    background: var(--t-panel);
+    color: var(--t-ink);
+}
+
+.railItem:focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 2px;
+}
+
+.railItemActive,
+.railItemActive:hover {
+    background: rgba(67, 61, 243, 0.07);
+    border-color: rgba(67, 61, 243, 0.16);
+    color: var(--t-accent);
+}
+
+/* Nothing under this category answers the current search. Dimmed rather than
+   removed: a rail that reshuffles itself as somebody types is impossible to
+   aim at. */
+.railItemEmpty:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.railItemEmpty:disabled:hover {
+    background: transparent;
+    color: var(--t-ink-soft);
+}
+
+.railIcon {
+    display: inline-flex;
+    flex: none;
+    color: var(--t-ink-faint);
+}
+
+.railItemActive .railIcon {
+    color: var(--t-accent);
+}
+
+.railText {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.railCount {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--t-ink-faint);
+}
+
+.railItemActive .railCount {
+    color: var(--t-accent);
+}
+
+.railNote {
+    margin: 8px 0 0;
+    padding: 14px 14px;
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+    background: var(--t-panel);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--t-ink-soft);
+}
+
+/* ---- Results ---- */
+
+.results {
+    min-width: 0;
+}
+
+.resultsHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--t-border);
+}
+
+.resultsHeadText {
+    min-width: 0;
+}
+
+.resultsTitle {
+    margin: 0 0 4px;
+    font-family: var(--t-serif);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+    color: var(--t-ink);
+}
+
+.resultsBlurb {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--t-ink-soft);
+    max-width: 62ch;
+}
+
+.resultsCount {
+    flex: none;
+    margin: 0;
+    font-family: var(--t-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--t-ink-faint);
+    white-space: nowrap;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* ---- Empty state ---- */
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 56px 24px;
+    border: 1px dashed var(--t-border);
+    border-radius: 20px;
+    background: var(--t-panel);
+    text-align: center;
+}
+
+.emptyTitle {
+    margin: 0;
+    font-family: var(--t-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--t-ink);
+}
+
+.emptyBody {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--t-ink-soft);
+}
+
+.emptyReset {
+    margin-top: 10px;
+    padding: 9px 18px;
+    border: 1px solid var(--t-border);
+    border-radius: 9999px;
+    background: #ffffff;
+    font-family: var(--t-display);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--t-ink);
+    cursor: pointer;
+    transition:
+        border-color 140ms ease,
+        color 140ms ease;
+}
+
+.emptyReset:hover {
+    border-color: var(--t-border-strong);
+    color: var(--t-accent);
+}
+
+.emptyReset:focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 2px;
+}
+
+/* ---- Responsive ----
+   Below the two-column threshold the rail stops being a rail: the search box
+   spans the width and the categories become a scrolling chip row above the
+   grid, which is the only shape that works on a phone without eating the
+   first screen. */
+
+@media (max-width: 1080px) {
+    .layout {
+        grid-template-columns: 200px minmax(0, 1fr);
+        gap: 32px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 860px) {
+    .layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .rail {
+        position: static;
+    }
+
+    .railLabel,
+    .railNote {
+        display: none;
+    }
+
+    .railList {
+        flex-direction: row;
+        gap: 8px;
+        overflow-x: auto;
+        /* Room for the focus ring and the active chip's border, which a
+           clipped overflow box would otherwise shave off. */
+        padding: 4px;
+        margin: 0 -4px;
+        scrollbar-width: none;
+    }
+
+    .railList::-webkit-scrollbar {
+        display: none;
+    }
+
+    .railItem {
+        width: auto;
+        white-space: nowrap;
+        border-color: var(--t-border);
+        border-radius: 9999px;
+        background: #ffffff;
+        font-size: 13.5px;
+    }
+
+    .resultsHead {
+        margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 620px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resultsHead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .resultsTitle {
+        font-size: 23px;
+    }
+}

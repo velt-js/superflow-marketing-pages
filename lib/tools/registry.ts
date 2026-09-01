@@ -440,6 +440,27 @@ export const CATEGORY_LABELS: Record<ToolCategory, string> = {
 };
 
 /**
+ * One line per category, shown above the grid when the index's filter rail
+ * narrows to it. A label alone says what the group is called; this says what
+ * the tools in it are for, which is what a visitor picking between six
+ * headings actually needs.
+ */
+export const CATEGORY_BLURBS: Record<ToolCategory, string> = {
+  "ai-visibility":
+    "Check what ChatGPT, Claude, and Perplexity can read on your site, and give them a cleaner copy to read.",
+  "structured-data":
+    "Build and check the schema markup that search engines and AI assistants parse before they quote you.",
+  social:
+    "See what your link looks like everywhere it gets pasted, before somebody pastes it.",
+  quality:
+    "Judge a page the way a reviewer would: what it is built on, what is missing, and what you could cut.",
+  campaigns:
+    "Keep campaign URLs on one convention so the traffic lands in the channel you meant.",
+  assets:
+    "Small, everyday jobs on a page's files and text. Nothing to install.",
+};
+
+/**
  * Looks up a tool by slug.
  *
  * @param slug - The tool's URL slug.

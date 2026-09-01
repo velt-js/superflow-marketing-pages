@@ -3,7 +3,7 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import styles from "@/components/tools/Tools.module.css";
-import { ToolCard } from "@/components/tools/RelatedTools";
+import ToolsExplorer from "@/components/tools/ToolsExplorer";
 import { CodeBlock } from "@/components/tools/CodeBlock";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -43,9 +43,9 @@ const CATEGORY_ORDER: ToolCategory[] = [
  * the planned ones.
  *
  * The index used to be six grids, one per category heading, which left a
- * half-empty row wherever a category held one or two tools. Ordering by
- * category and labelling each card keeps the grouping legible in a grid that
- * actually fills.
+ * half-empty row wherever a category held one or two tools. One flowing grid
+ * fills, and the filter rail beside it (see `ToolsExplorer`) carries the
+ * grouping that the headings used to.
  */
 function orderedTools(): ToolEntry[] {
   try {
@@ -95,12 +95,11 @@ export default function ToolsIndexPage() {
       />
 
       <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.toolGrid}>
-            {orderedTools().map((tool) => (
-              <ToolCard key={tool.slug} tool={tool} showCategory />
-            ))}
-          </div>
+        <div className={`${styles.sectionInner} ${styles.sectionInnerWide}`}>
+          <ToolsExplorer
+            tools={orderedTools()}
+            categoryOrder={CATEGORY_ORDER}
+          />
         </div>
       </section>
 
