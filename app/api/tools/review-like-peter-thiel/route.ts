@@ -9,8 +9,10 @@ import type { NextRequest } from "next/server";
 import { runPersonaReview } from "@/lib/tools/persona-review/run";
 
 /**
- * A page load, a screenshot and an LLM call. The backend's own budget is 30
- * seconds; this leaves room for the cold start and the polling around it.
+ * This route no longer waits for the run: one request dispatches it, and each
+ * later request reads it once. Both return in seconds. The generous ceiling is
+ * headroom for a cold start on the backend callable, not a budget for the
+ * review itself, which takes minutes and is waited on by the browser.
  */
 export const maxDuration = 60;
 

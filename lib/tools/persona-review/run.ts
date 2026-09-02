@@ -1,11 +1,29 @@
-// The shared runner behind both persona review endpoints.
+// The shared runner behind every persona review endpoint and the Lookalike Test.
 //
-// The two routes differ only by which persona they ask the backend for, so the
+// The routes differ only by which lens they ask the backend for, so the
 // normalize → cache → rate limit → run → cache sequence lives here once rather
-// than being copied per persona. Adding a third persona is a route file with
-// two constants in it.
+// than being copied per persona. Adding a persona is a route file with two
+// constants in it.
 //
-// TWO THINGS THAT ARE NOT OBVIOUS, both inherited from the sibling tools:
+// THE ENDPOINT IS TWO REQUESTS, NOT ONE
+//
+// A review is a page load, a screenshot and an LLM call: measured against the
+// production backend on 2026-09-02, the five personas took 118 to 153 seconds
+// and the Lookalike Test 146. A Vercel route can run for 60. So the old shape —
+// start the run and wait for it inside this request — could not return a review
+// at all; it ran out the clock and answered "The check took too long" on every
+// single call, for every persona, no matter how healthy the backend was.
+//
+// The wait now happens in the browser, which has no such ceiling:
+//
+//   POST { url }            → { ok, status: "pending", runId, pollIntervalSeconds }
+//   POST { runId }          → { ok, status: "pending", ... } until it is done
+//                           → { ok, status: "done", summary, findings, ... }
+//
+// A cached URL still answers with the review on the first POST, so the common
+// case is unchanged.
+//
+// THREE THINGS THAT ARE NOT OBVIOUS
 //
 // 1. The cache is read BEFORE the limiter. A cached result costs us nothing, so
 //    serving one should not spend anybody's hourly budget — which is also what
@@ -13,6 +31,8 @@
 // 2. Each persona gets its OWN cache key and its OWN budget. They are different
 //    reviews of the same page, and a visitor who ran one should not find the
 //    other already "cached" with the wrong lens, nor have it charged to them.
+// 3. Only the START call spends the budget. Polls are reads of a run that was
+//    already paid for, so a slow review does not cost a visitor ten of them.
 
 import type { NextRequest } from "next/server";
 import {
@@ -24,7 +44,13 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
-import { isBackendConfigured, runToolViaBackend } from "@/lib/toolkit/superflow-api";
+import {
+  isBackendConfigured,
+  isPendingRun,
+  pollToolRun,
+  startToolRun,
+} from "@/lib/toolkit/superflow-api";
+import { recallRun, rememberRun } from "@/lib/toolkit/run-ticket";
 import type { PersonaReviewPayload, PersonaFinding } from "./types";
 
 /** One extra body field a tool forwards to the backend. */
@@ -39,6 +65,12 @@ export const PERSONA_RESULT_VERSION = 1;
 
 /** A full page load, a screenshot, and an LLM call. The expensive tier. */
 const RATE_TIER = "heavy" as const;
+
+/**
+ * Ceiling on a caller-supplied run id. Firestore auto-ids are 20 characters;
+ * this leaves room for a format change and still refuses a padded string.
+ */
+const MAX_RUN_ID_LENGTH = 128;
 
 /** Failure codes that mean the caller sent something we cannot run. */
 const BAD_REQUEST_CODES = new Set(["bad-request", "invalid-url"]);
@@ -192,6 +224,11 @@ function extrasKeySuffix(extra: Record<string, unknown>): string {
 /**
  * Runs one persona review for one URL, through the cache and the limiter.
  *
+ * TWO REQUESTS, NOT ONE. A POST with no `runId` starts a run and answers
+ * immediately with a handle; a POST carrying that handle reads the run once and
+ * answers with either "still going" or the review. The browser drives the
+ * cadence — see the module header for why the waiting cannot live here.
+ *
  * @param request - The incoming request.
  * @param slug - The public tool slug; owns the cache entries and the budget.
  * @param backendToolId - The free-tool id to dispatch, which is also the agent id.
@@ -232,6 +269,52 @@ export async function runPersonaReview({
       return json({ ok: false, code: "bad-request", message: "Send a JSON body with a url." }, 400);
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a run this route already
+    // started and budgeted. It is read, never re-dispatched, so it costs the
+    // caller nothing further.
+    const runId = typeof payload?.runId === "string" ? payload.runId.trim() : "";
+    if (runId.length > 0) {
+      return pollRun({ runId, slug, backendToolId, ip });
+    }
+
+    return startRun({ payload, slug, backendToolId, ip, extraFields });
+  } catch {
+    return json(
+      {
+        ok: false,
+        code: "internal",
+        message: "Something went wrong running the review. Try again in a moment.",
+      },
+      422,
+    );
+  }
+}
+
+/**
+ * Serves a cached review, or dispatches a fresh run and hands back its handle.
+ *
+ * @param payload - The parsed request body.
+ * @param slug - The public tool slug.
+ * @param backendToolId - The free-tool id to dispatch.
+ * @param ip - The caller's IP, for the budget and for the backend's own.
+ * @param extraFields - Body fields beyond `url` this tool forwards.
+ */
+async function startRun({
+  payload,
+  slug,
+  backendToolId,
+  ip,
+  extraFields,
+}: {
+  payload: Record<string, unknown>;
+  slug: string;
+  backendToolId: string;
+  ip: string;
+  extraFields: ReviewExtraFieldSpec[];
+}): Promise<Response> {
+  try {
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     if (rawUrl.trim().length === 0) {
       return json({ ok: false, code: "bad-request", message: "Enter a URL to review." }, 400);
@@ -258,11 +341,10 @@ export async function runPersonaReview({
     if (!refresh) {
       const hit = await readCache<PersonaReviewPayload>(cacheKey, PERSONA_RESULT_VERSION);
       if (hit) {
-        return json({ ok: true, ...hit.data, cached: true, ageSeconds: hit.ageSeconds });
+        return json({ ok: true, status: "done", ...hit.data, cached: true, ageSeconds: hit.ageSeconds });
       }
     }
 
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({ tool: slug, ip, tier: RATE_TIER });
 
     if (!decision.allowed) {
@@ -281,23 +363,94 @@ export async function runPersonaReview({
       await invalidateCache(cacheKey);
     }
 
-    const result = await runToolViaBackend({
+    const started = await startToolRun({
       toolId: backendToolId,
       url: rawUrl,
       clientIp: ip,
       ...(Object.keys(extra).length > 0 ? { extra } : {}),
     });
 
-    if (!result.ok) {
-      return json({ ok: false, code: result.code, message: result.message }, statusForCode(result.code));
+    if (!started.ok) {
+      return json(
+        { ok: false, code: started.code, message: started.message },
+        statusForCode(started.code),
+      );
+    }
+
+    // Which question this run answers is decided HERE and nowhere else. The
+    // poll below reads it back rather than trusting the caller to restate it —
+    // see lib/toolkit/run-ticket.ts.
+    await rememberRun({ runId: started.runId, slug, cacheKey });
+
+    return json({
+      ok: true,
+      status: "pending",
+      runId: started.runId,
+      pollIntervalSeconds: started.pollIntervalSeconds,
+    });
+  } catch {
+    return json(
+      {
+        ok: false,
+        code: "internal",
+        message: "Something went wrong running the review. Try again in a moment.",
+      },
+      422,
+    );
+  }
+}
+
+/**
+ * Reads a run once and answers with the review, a failure, or "still going".
+ *
+ * @param runId - The handle from the start call.
+ * @param slug - The public tool slug.
+ * @param backendToolId - The free-tool id the run belongs to.
+ * @param ip - The caller's IP, forwarded for the backend's poll budget.
+ */
+async function pollRun({
+  runId,
+  slug,
+  backendToolId,
+  ip,
+}: {
+  runId: string;
+  slug: string;
+  backendToolId: string;
+  ip: string;
+}): Promise<Response> {
+  try {
+    // A run id is a Firestore auto-id, so anything appreciably longer is not
+    // one. Refusing it here keeps a padded string out of the KV lookup and
+    // out of the backend call.
+    if (runId.length > MAX_RUN_ID_LENGTH) {
+      return json({ ok: false, code: "bad-request", message: "That run id is not valid." }, 400);
+    }
+
+    const polled = await pollToolRun({ toolId: backendToolId, runId, clientIp: ip });
+
+    if (isPendingRun(polled)) {
+      return json({
+        ok: true,
+        status: "pending",
+        runId,
+        pollIntervalSeconds: polled.pollIntervalSeconds,
+      });
+    }
+
+    if (!polled.ok) {
+      return json(
+        { ok: false, code: polled.code, message: polled.message },
+        statusForCode(polled.code),
+      );
     }
 
     // A findings-shaped agent writes no report, so the backend wraps its prose
     // as `{ summary }`. Both shapes are handled: a persona that later grows a
     // real report keeps working here.
-    const data = (result.data ?? {}) as { summary?: unknown };
+    const data = (polled.data ?? {}) as { summary?: unknown };
     const summary = typeof data.summary === "string" ? data.summary.trim() : "";
-    const findings = toPersonaFindings((result.findings ?? []) as unknown[]);
+    const findings = toPersonaFindings((polled.findings ?? []) as unknown[]);
 
     // A review with neither a verdict nor a single finding is not a review. It
     // means the run completed but produced nothing renderable, and showing an
@@ -316,12 +469,18 @@ export async function runPersonaReview({
     const stored: PersonaReviewPayload = {
       summary,
       findings,
-      totalFindings: result.totalFindings ?? findings.length,
+      totalFindings: polled.totalFindings ?? findings.length,
     };
 
-    await writeCache(cacheKey, PERSONA_RESULT_VERSION, stored, CACHE_TTL.checker);
+    // Cached under the key the START call chose. A run whose ticket has expired
+    // (or whose KV is not configured) still returns its review; it just is not
+    // stored, which costs the next visitor a re-run and nothing else.
+    const ticket = await recallRun({ runId, slug });
+    if (ticket) {
+      await writeCache(ticket.cacheKey, PERSONA_RESULT_VERSION, stored, CACHE_TTL.checker);
+    }
 
-    return json({ ok: true, ...stored, cached: false, ageSeconds: 0 });
+    return json({ ok: true, status: "done", ...stored, cached: false, ageSeconds: 0 });
   } catch {
     return json(
       {

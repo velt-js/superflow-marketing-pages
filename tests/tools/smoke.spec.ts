@@ -45,6 +45,16 @@ import {
 const RUN_TIMEOUT_MS = 150_000;
 const RUN_TEST_TIMEOUT_MS = 240_000;
 
+/**
+ * The same budgets for a persona review, which is the slowest thing on the
+ * site: a page load, a screenshot and an LLM call, measured at 118 to 153
+ * seconds against the production backend on 2026-09-02. The browser waits four
+ * minutes for one (RUN_CEILING_MS in ReviewTool.tsx), so the test has to
+ * outlast that or it fails before the code under test gives up.
+ */
+const REVIEW_RUN_TIMEOUT_MS = 260_000;
+const REVIEW_TEST_TIMEOUT_MS = 320_000;
+
 const THIRD_PARTY = [
   "googletagmanager.com",
   "google-analytics.com",
@@ -275,6 +285,88 @@ test.describe("the AI visibility tools survive a real run", () => {
       expect(errors, `${testCase.slug} errors during run`).toEqual([]);
     });
   }
+});
+
+test.describe("a persona review survives a real run", () => {
+  // WHY THIS BLOCK EXISTS
+  //
+  // The persona reviews shipped answering "The check took too long" on every
+  // single call. Nothing caught it: `tsc` passed, the route returned HTTP 200,
+  // and the backend was healthy and returning a real review the whole time. The
+  // defect was a ceiling — the site waited for the run inside one serverless
+  // request, and these runs take two to three minutes against a 60 second
+  // `maxDuration`, so the wait could only ever end in a timeout.
+  //
+  // The suite could not see it because the run assertions above cover the AI
+  // visibility pair only, and those finish in about 35 seconds. So this drives
+  // the slowest tool on the site through a browser, which is the only place the
+  // ceiling is observable.
+  //
+  // It is deliberately ONE persona rather than all five: they share
+  // ReviewTool and the runner in lib/tools/persona-review/run.ts, so a second
+  // lens costs three more minutes of wall clock and asserts nothing new.
+  test("review-like-paul-graham renders a verdict end to end", async ({ page }) => {
+    test.setTimeout(REVIEW_TEST_TIMEOUT_MS);
+    const errors = collectErrors(page);
+
+    await page.goto(toolPath("review-like-paul-graham"), {
+      waitUntil: "domcontentloaded",
+    });
+
+    // A REAL page, and a cache-busting parameter on it.
+    //
+    // Both halves matter. example.com is trivial enough that the whole run
+    // finishes inside the old 55 second ceiling, so a test pointed at it goes
+    // green against the very bug this block exists to catch. And a fixed URL is
+    // cached for 24 hours after the first run, which would answer the second
+    // run in milliseconds and quietly stop exercising the wait at all. The
+    // parameter is ignored by the page and changes only the cache key.
+    const subject = `https://usesuperflow.ai/?smoke=${Date.now()}`;
+
+    // No deep-link auto-run on this surface, so the form is driven directly.
+    //
+    // The fill is retried until the button enables. The input is a controlled
+    // React input, so a fill that lands before hydration sets the DOM value and
+    // is then wiped by the first client render, leaving a filled-looking box
+    // above a disabled button — a hydration race, not a tool failure.
+    const input = page.getByLabel("URL to review");
+    const submit = page.getByRole("button", { name: "Review my page" });
+
+    await expect(async () => {
+      await input.fill(subject);
+      await expect(submit).toBeEnabled({ timeout: 2_000 });
+    }).toPass({ timeout: 30_000 });
+
+    await submit.click();
+
+    // The verdict is the whole point of the tool, and it is the thing the
+    // timeout replaced. A budget past three minutes is not padding: an
+    // uncached persona run measured 118 to 153 seconds against the production
+    // backend, and a gate that goes red on an honest run is one people learn
+    // to ignore.
+    await expect(page.locator("blockquote").first()).toBeVisible({
+      timeout: REVIEW_RUN_TIMEOUT_MS,
+    });
+
+    // A severity group heading only exists once findings were mapped and
+    // grouped, so this proves the findings survived the trip rather than that
+    // a container rendered. The alternative branch is the route's own
+    // "verdict but no findings" case, which is a healthy review.
+    // The count rides inside the heading ("Worth changing 1"), so the name is
+    // matched with the number rather than anchored without it.
+    await expect(
+      page
+        .getByRole("heading", { name: /^(Fix this|Worth changing|Polish)\s*\d*$/ })
+        .or(page.getByText(/Nothing else flagged/))
+        .first(),
+    ).toBeVisible();
+
+    // The failure this block was written for, asserted directly: the timeout
+    // copy must not be on the page next to a verdict that did arrive.
+    await expect(page.getByText(/took too long|taking longer than usual/)).toHaveCount(0);
+
+    expect(errors, "review-like-paul-graham errors during run").toEqual([]);
+  });
 });
 
 test.describe("the favicon checker survives a real run", () => {
