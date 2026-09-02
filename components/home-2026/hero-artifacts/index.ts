@@ -229,4 +229,20 @@ export const SCOPED_HERO_ARTIFACTS: Readonly<
     "it-s-a-comment": HeroRecordingsPinnedArtifact,
     "the-client-watches": HeroRecordingsClientArtifact,
   },
+  // Website Monitoring hero tabs. The labels ("Every page", "On a schedule",
+  // …) slugify to generic ids, so they are scoped to this page rather than
+  // registered globally. Without this map all five tabs fall through to the
+  // generic workflow window and render identical graphics. Each beat reuses an
+  // existing hero artifact: the run screen (every page scanned), the
+  // deploy-triggered flow (the cadence), the agents-at-work page (findings
+  // pinned in place), the integrations hub (findings pushed out) and the
+  // per-client Analytics rollup (the trend across sites). The status-chart
+  // Analytics view stays exclusive to the "Your Score Over Time" feature tab.
+  "website-monitoring": {
+    "every-page": RunOnDemandArtifact,
+    "on-a-schedule": HeroReviewWorkflowPushArtifact,
+    "pinned-findings": AgentsAtWorkArtifact,
+    "pushed-to-your-tracker": IntegrationsHubHeroArtifact,
+    "proof-over-time": HeroAnalyticsCustomersArtifact,
+  },
 };
