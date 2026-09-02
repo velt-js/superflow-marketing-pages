@@ -67,16 +67,14 @@ const STAGING_ENDPOINT =
  * redeployed constantly, has no uptime expectation, and shares its budget with
  * whatever else is being tested that afternoon.
  *
+ * Empty as of 2026-09-02: the five persona reviews and the Lookalike Test
+ * shipped to prod, and each was verified against the production callable
+ * before being taken out — a real start/poll round trip per tool that came
+ * back terminal with a summary and findings.
+ *
  * Ids are the free-tool ids, which are also the backend agent ids.
  */
-const TOOLS_ON_STAGING: ReadonlySet<string> = new Set([
-  "review-like-paul-graham",
-  "review-like-steve-jobs",
-  "review-like-peter-thiel",
-  "review-like-elon-musk",
-  "review-like-travis-kalanick",
-  "lookalike-test",
-]);
+const TOOLS_ON_STAGING: ReadonlySet<string> = new Set<string>([]);
 
 /** The sentinel that turns the backend off and restores the in-repo engine. */
 const LOCAL_ENGINE_SENTINEL = "local";

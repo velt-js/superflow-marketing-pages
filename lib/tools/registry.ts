@@ -317,11 +317,10 @@ export const TOOLS: readonly ToolEntry[] = [
       "Get your page judged on clarity, a specific user, and plain language",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "check",
     related: [
@@ -336,11 +335,10 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline: "Judge your page on focus, simplicity, and what you could remove",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "eye",
     related: [
@@ -355,11 +353,10 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline: "Monopoly or commodity, 10x or incremental, secret or consensus",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "check",
     related: [
@@ -375,11 +372,10 @@ export const TOOLS: readonly ToolEntry[] = [
       "Question the requirement, delete the part, and count the steps to value",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "stack",
     related: [
@@ -394,11 +390,10 @@ export const TOOLS: readonly ToolEntry[] = [
     tagline: "Time to first value, form friction, and both sides of a market",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "link",
     related: [
@@ -414,11 +409,10 @@ export const TOOLS: readonly ToolEntry[] = [
       "See how your page's structure and copy differ from the sites you admire",
     category: "quality",
     // Backend-dependent: runs through the FreeToolsService start/poll
-    // contract against its own agent, which is pinned to the STAGING
-    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. Live as of 2026-08-19, verified end to end
-    // against deployed staging: a run on example.com returned a terminal
-    // review with a summary and findings.
+    // contract against its own agent. Live as of 2026-08-19 on staging;
+    // released to prod and unpinned from TOOLS_ON_STAGING on 2026-09-02,
+    // verified against the production callable that day — a run on
+    // example.com returned a terminal review with a summary and findings.
     status: "live",
     icon: "stack",
     related: [
