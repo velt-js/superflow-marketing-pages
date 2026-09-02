@@ -1149,7 +1149,8 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
           doc?.slug === REVIEW_WORKFLOWS_PAGE_SLUG ||
           doc?.slug === AUTHENTICATED_PAGES_PAGE_SLUG ||
           doc?.slug === SCREENSHOTS_PAGE_SLUG ||
-          doc?.slug === RECORDINGS_PAGE_SLUG
+          doc?.slug === RECORDINGS_PAGE_SLUG ||
+          doc?.slug === WEBSITE_MONITORING_PAGE_SLUG
             ? doc.slug
             : undefined
         }
