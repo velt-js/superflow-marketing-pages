@@ -1,0 +1,107 @@
+{
+  "slug": "healthcare-marketing",
+  "kind": "agency",
+  "navLabel": "Healthcare",
+  "navDescriptor": "Claims, consent, and HIPAA, checked on every page.",
+  "order": 2,
+  "seo": {
+    "title": "QA agents for healthcare marketing | Superflow",
+    "description": "Agents check every healthcare site for unsupported claims, wrong credentials, missing disclaimers, and forms that expose health details. Your team signs off."
+  },
+  "hero": {
+    "h1": "Every claim on every page, checked before legal sees it.",
+    "sub": "Superflow builds agents from your QA checklist. They check every provider bio, claim, and form on every client site, on desktop and phone. Findings land as comments. You decide what ships.",
+    "clientLine": "The clinic's compliance lead taps Approve from the link before anything goes live."
+  },
+  "pack": {
+    "name": "Healthcare Content Pack",
+    "slug": "healthcare-content",
+    "intro": "Eight agents built for healthcare sites. They run on every page the moment it changes.",
+    "agents": [
+      {
+        "name": "Claims Check",
+        "checks": "Flags cure, guarantee, and outcome claims a regulator would act on.",
+        "finding": "Treatment page says 'cures chronic migraines.' Suggest 'treats' and add the outcomes disclaimer.",
+        "category": "compliance"
+      },
+      {
+        "name": "Credential Match",
+        "checks": "Checks provider titles and certifications on bios match the source roster.",
+        "finding": "Dr. Patel is listed as 'board-certified' on the team page. The roster you uploaded says 'board-eligible'.",
+        "category": "compliance"
+      },
+      {
+        "name": "Disclaimer Present",
+        "checks": "Checks every treatment page carries the results disclaimer.",
+        "finding": "The weight-loss page has no 'results vary' disclaimer. Every other treatment page has one.",
+        "category": "compliance"
+      },
+      {
+        "name": "Secure Forms",
+        "checks": "Flags forms collecting health details that aren't on a HIPAA-covered form provider.",
+        "finding": "The 'Tell us about your pain' form posts to a standard Webflow form. It asks for health details.",
+        "category": "compliance"
+      },
+      {
+        "name": "HIPAA Notice Link",
+        "checks": "Checks the Notice of Privacy Practices link works on every page.",
+        "finding": "The Notice of Privacy Practices link in the footer returns 404.",
+        "category": "compliance"
+      },
+      {
+        "name": "Consent Notes",
+        "checks": "Checks before-and-after galleries carry a consent statement.",
+        "finding": "Smile gallery shows 12 patient photos with no consent statement on the page.",
+        "category": "compliance"
+      },
+      {
+        "name": "Contact Consistency",
+        "checks": "Checks phone, address and hours match across every page.",
+        "finding": "Header phone is 555-0100. Footer says 555-0111.",
+        "category": "copy"
+      },
+      {
+        "name": "Contrast",
+        "checks": "Checks text contrast meets WCAG AA.",
+        "finding": "Appointment form labels are 2.8:1. AA needs 4.5:1.",
+        "category": "accessibility"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Every page that mentions a medication must link to its FDA label.",
+      "agentName": "Label Links",
+      "finding": "Botox page mentions the drug twice with no link to the label."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Claims stay inside what the evidence supports.",
+      "Credentials match the roster.",
+      "Disclaimers sit on every treatment page.",
+      "Health details only go through covered forms."
+    ],
+    "youDecide": [
+      "Whether the provider photos feel trustworthy.",
+      "How much clinical detail the page needs.",
+      "Which treatment leads the homepage.",
+      "When it's ready for legal to see."
+    ]
+  },
+  "platformsFirst": ["wordpress", "hubspot", "webflow"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "Is each client's data kept separate?",
+      "a": "Yes. Each client's pages, guides, and findings stay in that client's workspace. Nothing is used to train models across customers."
+    },
+    {
+      "q": "Is Superflow HIPAA compliant?",
+      "a": "Yes. Superflow is SOC 2 Type II and offers HIPAA with a BAA. Book a demo to set one up."
+    },
+    {
+      "q": "Can agents check pages behind the patient portal?",
+      "a": "Yes. Superflow runs on the site itself, so agents check pages behind a password, Okta, or SSO the same way they check public pages."
+    }
+  ],
+  "related": ["dental-marketing-agencies", "brand-compliance"]
+}

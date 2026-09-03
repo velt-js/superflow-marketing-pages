@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "og": "node scripts/og-image/generate-og.mjs",
-    "og:pages": "node scripts/og-image/generate-og.mjs --manifest scripts/og-image/pages.json"
+    "og:pages": "node scripts/og-image/generate-og.mjs --manifest scripts/og-image/pages.json",
+    "prebuild": "node scripts/check-copy-rules.mjs",
+    "check:copy": "node scripts/check-copy-rules.mjs",
+    "solutions:validate": "node scripts/solutions-import/validate.mjs",
+    "solutions:import": "node --env-file=.env.local scripts/solutions-import/import-to-sanity.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.44.4",

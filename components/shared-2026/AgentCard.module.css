@@ -1,0 +1,118 @@
+/* Shared agent card: name + what it checks + the sample finding rendered as
+   the product's pinned agent-comment card. Light, bordered, matching the 2026
+   card idiom (RelatedCapabilities / TrustSection). The finding card keeps its
+   own white surface and shadow so it reads as a comment sitting on the page. */
+
+.card {
+  --ac-ink: #1e1e1f;
+  --ac-muted: #525252;
+  --ac-border: rgba(0, 0, 0, 0.1);
+  --ac-bg: #f7f7f8;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--ac-border);
+  border-radius: 20px;
+  background: var(--ac-bg);
+  color: var(--ac-ink);
+}
+
+.cardEmphasis {
+  --ac-bg: #ffffff;
+  border-color: rgba(67, 61, 243, 0.35);
+  box-shadow: 0 12px 30px -18px rgba(67, 61, 243, 0.45);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  color: var(--ac-ink);
+}
+
+.category {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: rgba(67, 61, 243, 0.08);
+  color: #3b36c9;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.checks {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ac-muted);
+}
+
+/* The mobile-only toggle. Hidden from wide screens, where the finding is
+   always visible. Meets the 44px tap target the site's own agents check for. */
+.toggle {
+  display: none;
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  color: #3b36c9;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid #3b36c9;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.finding {
+  display: block;
+  min-width: 0;
+}
+
+/* Let the shared comment card fill the card width (it caps at 360px). */
+.findingCard {
+  max-width: none;
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 18px;
+    gap: 8px;
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .finding {
+    display: none;
+  }
+
+  .cardOpen .finding {
+    display: block;
+  }
+}

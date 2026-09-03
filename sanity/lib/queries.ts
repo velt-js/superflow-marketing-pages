@@ -977,3 +977,68 @@ export async function getBugBookSamples(): Promise<BugBookSample[]> {
     }
   `);
 }
+
+// ---------------------------------------------------------------------------
+// solutionPage — the /solutions/<slug> pages (one template, per-page data).
+// The projection mirrors `SolutionPage` in lib/solutions/types.ts exactly, so
+// the CMS document and the local seed fallback (lib/solutions/seed.ts) are
+// interchangeable. Hidden documents never surface anywhere.
+// ---------------------------------------------------------------------------
+
+const SOLUTION_PAGE_PROJECTION = `
+  "slug": slug.current,
+  kind,
+  navLabel,
+  navDescriptor,
+  order,
+  seo { title, description, ogTitle },
+  hero { h1, sub, clientLine },
+  pack {
+    name,
+    slug,
+    intro,
+    agents[] { name, checks, finding, category },
+    buildYourOwn { input, agentName, finding }
+  },
+  human { agentsCheck, youDecide },
+  resell { heading, lines, ctaLabel, ctaHref },
+  platformsFirst,
+  proof,
+  cost,
+  faq[] { q, a },
+  related,
+  "ogImage": ogImage.asset->url
+`;
+
+/** Slugs of every visible solution page. */
+export async function getAllSolutionSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "solutionPage" && defined(slug.current) && hidden != true].slug.current`
+  );
+}
+
+/** One visible solution page by slug, or null. */
+export async function getSolutionPageBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "solutionPage" && slug.current == $slug && hidden != true][0] {
+      ${SOLUTION_PAGE_PROJECTION}
+    }`,
+    { slug }
+  );
+}
+
+/** Lightweight entries for the /solutions index, ordered by kind then order. */
+export async function getAllSolutionsForIndex() {
+  return client.fetch(
+    `*[_type == "solutionPage" && defined(slug.current) && hidden != true]
+      | order(kind asc, order asc, navLabel asc) {
+      "slug": slug.current,
+      kind,
+      navLabel,
+      navDescriptor,
+      order,
+      "packName": pack.name,
+      "agentNames": pack.agents[0..2].name
+    }`
+  );
+}

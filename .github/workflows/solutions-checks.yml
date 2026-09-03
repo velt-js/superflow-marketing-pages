@@ -1,0 +1,69 @@
+# Checks for the /solutions pages and the home / agents page changes that ship
+# with them. The copy rules (no em dashes, no banned phrases) and the phone
+# layout rule (no sideways scroll at 375px) are about what a visitor reads and
+# sees, so they run in a browser against a production build, not as a grep.
+#
+# `npm run build` also runs scripts/check-copy-rules.mjs first (the prebuild
+# hook), so a rule violation in the source files fails the build on its own.
+
+name: Solutions checks
+
+on:
+  pull_request:
+    paths:
+      - "app/solutions/**"
+      - "app/page.tsx"
+      - "app/sitemap.ts"
+      - "components/solutions-2026/**"
+      - "components/shared-2026/**"
+      - "components/home-2026/**"
+      - "components/feature-2026/**"
+      - "content/solutions/**"
+      - "lib/solutions/**"
+      - "next.config.ts"
+      - "scripts/check-copy-rules.mjs"
+      - "scripts/solutions-import/**"
+      - "tests/solutions/**"
+      - ".github/workflows/solutions-checks.yml"
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  checks:
+    name: Build and browser checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Validate the solutions content
+        run: node scripts/solutions-import/validate.mjs
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      - name: Browser checks
+        run: npx playwright test tests/solutions
+        env:
+          TOOLS_BASE_URL: http://127.0.0.1:3210
+          NODE_USE_ENV_PROXY: "1"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-solutions
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
