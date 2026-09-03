@@ -22,6 +22,7 @@ import {
 } from "@/components/tools/text-output/TextActions";
 import type { LlmsTxtReport } from "@/lib/tools/free-tools/reports";
 import styles from "./LlmsTxt.module.css";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const SLUG = "llms-txt-generator";
 const ENDPOINT = "/api/tools/llms-txt-generator";
@@ -147,12 +148,13 @@ export function LlmsTxtTool() {
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: SLUG, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<ApiPayload>({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
         });
-        const payload = (await response.json()) as ApiPayload;
 
         if (payload.ok !== true || !payload.report) {
           const message =
@@ -189,13 +191,20 @@ export function LlmsTxtTool() {
         } catch {
           // A history failure must not lose the documents.
         }
-      } catch {
+      } catch (error) {
+        // A run that never answered carries its own copy; anything else is a
+        // connection problem and reads as one.
+        const runError = error instanceof ToolRunError ? error : null;
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the generator. Check your connection and try again.",
         });
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code: "network" });
+        trackEvent(AnalyticsEvents.TOOL_ERROR, {
+          tool: SLUG,
+          code: runError?.code ?? "network",
+        });
       }
     },
     [trackEvent],

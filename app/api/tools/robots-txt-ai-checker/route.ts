@@ -22,8 +22,17 @@
 // and never a stack trace.
 
 import type { NextRequest } from "next/server";
-import { runVisibility, toAccessReport } from "@/lib/tools/ai-visibility/api";
+import {
+  isPendingVisibility,
+  runVisibility,
+  toAccessReport,
+} from "@/lib/tools/ai-visibility/api";
 import { clientIpFrom } from "@/lib/toolkit/ratelimit";
+import {
+  pendingBody,
+  runIdFrom,
+  waitBudgetFor,
+} from "@/lib/toolkit/deferred-run";
 
 /** Node runtime: the SSRF guard needs `node:dns` and `node:net`. */
 export const runtime = "nodejs";
@@ -72,7 +81,13 @@ export async function POST(request: NextRequest): Promise<Response> {
       rawUrl: typeof payload?.url === "string" ? payload.url : "",
       refresh: payload?.refresh === true,
       ip: clientIpFrom(request.headers),
+      // A body carrying a run id reads a run this route already started and
+      // budgeted, rather than dispatching a second one.
+      runId: runIdFrom(payload),
+      waitMs: waitBudgetFor(payload),
     });
+
+    if (isPendingVisibility(outcome)) return json(pendingBody(outcome));
 
     if (!outcome.ok) {
       return json(

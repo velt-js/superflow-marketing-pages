@@ -35,10 +35,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { resolveUserUrl, URL_REJECTION_MESSAGES } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 
 const TOOL_SLUG = "full-page-screenshot";
 
@@ -171,6 +177,25 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a capture this route
+    // already started and budgeted. It is read, never re-dispatched, so
+    // polling costs the caller nothing further.
+    const runId = runIdFrom(payload);
+    if (runId.length > 0) {
+      return settle(
+        await resumeRun({
+          toolId: TOOL_ID,
+          slug: TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs: waitBudgetFor(payload),
+        }),
+        "",
+      );
+    }
+
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     const refresh = payload?.refresh === true;
 
@@ -203,7 +228,6 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     // 3. Rate limit per IP. The limiter fails open by design, and its
     //    message says exactly when to come back.
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({
       tool: TOOL_SLUG,
       ip,
@@ -228,56 +252,84 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
-    // 5. Run it. The client forwards the caller IP so the backend's own
-    //    per-IP budget sees the visitor rather than this server, and hides
-    //    the start-and-poll round trip behind one promise.
-    const run = await runToolViaBackend({
-      toolId: TOOL_ID,
-      url: resolved.url,
-      clientIp: ip,
+    // 5. Run it. The caller IP is forwarded so the backend's own per-IP
+    //    budget sees the visitor rather than this server. The capture takes
+    //    about 72 seconds against production, well past what one serverless
+    //    request may hold, so this returns a handle whenever the caller is
+    //    not willing to wait it out.
+    return settle(
+      await beginRun({
+        toolId: TOOL_ID,
+        slug: TOOL_SLUG,
+        url: resolved.url,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl: resolved.url,
+        waitMs: waitBudgetFor(payload),
+      }),
+      resolved.url,
+    );
+  } catch {
+    return json({
+      error:
+        "Something went wrong on our side taking the screenshot. Try again in a moment.",
+      errorCode: "internal",
     });
+  }
+}
 
-    if (!run.ok) {
+/**
+ * Turns a settled capture into the response the caller sees.
+ *
+ * Shared by the start and the poll paths, so a capture is shaped and cached
+ * identically however the caller chose to wait for it.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ * @param requestedUrl - The URL this request named, when it named one. Empty
+ *   on the polling path, where the run's own report carries it instead.
+ */
+async function settle(
+  outcome: DeferredOutcome,
+  requestedUrl: string,
+): Promise<Response> {
+  try {
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
+
+    if (outcome.kind === "failed") {
       // The backend writes its refusals for end users, including the
       // budget-exhausted one. Pass its own words through untouched.
       return json({
-        requestedUrl: resolved.url,
-        error: run.message,
-        errorCode: run.code,
+        ...(requestedUrl ? { requestedUrl } : {}),
+        error: outcome.message,
+        errorCode: outcome.code,
       });
     }
 
-    const report = toReport(run.data);
+    const report = toReport(outcome.result.data);
 
     // 6. A terminal run with no image is not a capture. Saying so beats
     //    rendering an empty frame and letting the visitor wonder.
     if (!report.imageUrl) {
       return json({
-        requestedUrl: resolved.url,
+        ...(requestedUrl ? { requestedUrl } : {}),
         error:
           "The capture finished but no image came back. Try again in a moment, and try a different page if it keeps happening.",
         errorCode: "no-image",
       });
     }
 
+    // The URL the run was started for. On the polling path it comes back on
+    // the ticket, so a poll answers with the same `url` a wait would have.
+    const startedFor = requestedUrl || outcome.context?.cacheUrl || "";
+
     const result: ScreenshotResult = {
       ...report,
-      url: report.url ?? resolved.url,
-      requestedUrl: report.requestedUrl ?? resolved.url,
+      url: report.url ?? startedFor,
+      requestedUrl: report.requestedUrl ?? startedFor,
       capturedAt: new Date().toISOString(),
     };
 
-    // 7. Cache for one hour, not a day. The link inside this payload dies on
-    //    its own schedule, so the cache must expire well before it does.
-    await writeCache(cacheKey, RESULT_VERSION, result, CACHE_TTL.screenshot);
-    const finalKey = toolCacheKey({
-      tool: TOOL_SLUG,
-      url: result.url,
-      version: RESULT_VERSION,
-    });
-    if (finalKey !== cacheKey) {
-      await writeCache(finalKey, RESULT_VERSION, result, CACHE_TTL.screenshot);
-    }
+    await cacheResult(result, outcome.context);
 
     return json({ ...result, cached: false, ageSeconds: 0 });
   } catch {
@@ -286,5 +338,37 @@ export async function POST(request: NextRequest): Promise<Response> {
         "Something went wrong on our side taking the screenshot. Try again in a moment.",
       errorCode: "internal",
     });
+  }
+}
+
+/**
+ * Caches a finished capture for one hour, not a day: the signed link inside
+ * this payload dies on its own schedule, so the cache must expire well before
+ * it does.
+ *
+ * @param result - The finished capture.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheResult(
+  result: ScreenshotResult,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, RESULT_VERSION, result, CACHE_TTL.screenshot);
+
+    if (!result.url) return;
+
+    const finalKey = toolCacheKey({
+      tool: TOOL_SLUG,
+      url: result.url,
+      version: RESULT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, RESULT_VERSION, result, CACHE_TTL.screenshot);
+    }
+  } catch {
+    // A cache write is never worth failing a completed capture over.
   }
 }

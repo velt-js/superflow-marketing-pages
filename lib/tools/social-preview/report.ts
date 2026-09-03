@@ -1,7 +1,7 @@
 // The Social Preview Checker's report shape.
 //
 // The engine lives in the Superflow product backend and reaches us through
-// `runToolViaBackend`, which passes its `data` through as `unknown`. These
+// the deferred runner, which passes its `data` through as `unknown`. These
 // types are the marketing site's reading of that contract, and
 // `normalizeReport` is the seam: it turns whatever arrived into something the
 // card renderer can trust, or into null when the payload is not a report at

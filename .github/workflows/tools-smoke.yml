@@ -52,7 +52,11 @@ jobs:
     name: Branch build
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The suite drives real, uncached backend runs, and the slowest of them is
+    # a persona review at two to three minutes. Serial by design: the tools
+    # share per-IP budgets, so running them in parallel would have the suite
+    # rate limit itself and report a failure that says nothing about the code.
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
 
@@ -124,7 +128,8 @@ jobs:
     name: Deployed site
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Same budget as the gate above, and for the same reason.
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
 

@@ -21,6 +21,7 @@ import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import type { PersonaFinding } from "@/lib/tools/persona-review/types";
 import { PERSONAS, provenanceFor } from "@/lib/tools/persona-review/personas";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 import styles from "./ReviewTool.module.css";
 
 /** What every review endpoint returns. */
@@ -28,6 +29,11 @@ type ReviewResponse = {
   ok?: boolean;
   code?: string;
   message?: string;
+  /** "pending" while the run is still executing, "done" once it is not. */
+  status?: string;
+  /** The handle to poll with. Present on a pending response. */
+  runId?: string;
+  pollIntervalSeconds?: number;
   summary?: string;
   findings?: PersonaFinding[];
   totalFindings?: number;
@@ -45,9 +51,29 @@ type SuccessResult = {
 
 type RunState =
   | { phase: "idle" }
-  | { phase: "running" }
+  // `waitedSeconds` drives the status copy, so a two minute wait says
+  // something different at ten seconds than it does at ninety.
+  | { phase: "running"; waitedSeconds: number }
   | { phase: "done"; result: SuccessResult }
   | { phase: "error"; message: string };
+
+/**
+ * The status line under the form, chosen by how long the run has been going.
+ *
+ * Silence for two minutes reads as a hang, and "under a minute" copy on a
+ * review that takes two is worse than no estimate at all.
+ *
+ * @param waitedSeconds - Seconds since the run started.
+ */
+function waitingCopy(waitedSeconds: number): string {
+  if (waitedSeconds < 20) {
+    return "Loading the page, taking a screenshot, and reading it.";
+  }
+  if (waitedSeconds < 75) {
+    return "Still reading. A full review usually takes a couple of minutes.";
+  }
+  return "Nearly there. The verdict and the findings arrive together.";
+}
 
 /** One extra input the tool collects beyond the URL. */
 export type ReviewExtraField = {
@@ -123,8 +149,8 @@ export function ReviewTool({
   // picker this is just the page's slug.
   const activeSlug = showPersonaPicker ? personaSlug : slug;
 
-  // Guards against a second submit while one is in flight. A review takes tens
-  // of seconds, which is long enough for an impatient second click to spend
+  // Guards against a second submit while one is in flight. A review takes
+  // minutes, which is long enough for an impatient second click to spend
   // another slot of the visitor's hourly budget on the same question.
   const inFlight = useRef(false);
 
@@ -136,35 +162,10 @@ export function ReviewTool({
       if (trimmed.length === 0 || inFlight.current) return;
 
       inFlight.current = true;
-      setState({ phase: "running" });
+      setState({ phase: "running", waitedSeconds: 0 });
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: activeSlug });
 
-      try {
-        const body: Record<string, unknown> = { url: trimmed };
-        for (const field of extraFields) {
-          const value = (extras[field.name] ?? "").trim();
-          if (value.length > 0) body[field.name] = value;
-        }
-
-        const response = await fetch(`/api/tools/${activeSlug}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        const payload = (await response.json()) as ReviewResponse;
-
-        if (!payload?.ok) {
-          const message =
-            payload?.message ?? "Something went wrong. Try again in a moment.";
-          trackEvent(AnalyticsEvents.TOOL_ERROR, {
-            tool: activeSlug,
-            code: payload?.code ?? "unknown",
-          });
-          setState({ phase: "error", message });
-          return;
-        }
-
+      const finish = (payload: ReviewResponse) => {
         const result: SuccessResult = {
           summary: payload.summary ?? "",
           findings: Array.isArray(payload.findings) ? payload.findings : [],
@@ -181,12 +182,46 @@ export function ReviewTool({
           cached: result.cached,
         });
         setState({ phase: "done", result });
-      } catch {
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: activeSlug, code: "network" });
-        setState({
-          phase: "error",
-          message: "Could not reach the review. Try again in a moment.",
+      };
+
+      const fail = (message: string, code: string) => {
+        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: activeSlug, code });
+        setState({ phase: "error", message });
+      };
+
+      try {
+        const body: Record<string, unknown> = { url: trimmed };
+        for (const field of extraFields) {
+          const value = (extras[field.name] ?? "").trim();
+          if (value.length > 0) body[field.name] = value;
+        }
+
+        // The waiting happens here rather than on the server: a review takes
+        // two to three minutes and a Vercel route may run for 60 seconds, which
+        // is what made every one of these answer "the check took too long".
+        const payload = await runToolRequest<ReviewResponse>({
+          endpoint: `/api/tools/${activeSlug}`,
+          body,
+          onWait: (waitedSeconds) => setState({ phase: "running", waitedSeconds }),
         });
+
+        if (!payload?.ok) {
+          fail(
+            payload?.message ?? "Something went wrong. Try again in a moment.",
+            payload?.code ?? "unknown",
+          );
+          return;
+        }
+
+        finish(payload);
+      } catch (error) {
+        const isRunError = error instanceof ToolRunError;
+        fail(
+          isRunError
+            ? error.message
+            : "Could not reach the review. Try again in a moment.",
+          isRunError ? error.code : "network",
+        );
       } finally {
         inFlight.current = false;
       }
@@ -290,10 +325,9 @@ export function ReviewTool({
         )}
       </form>
 
-      {running && (
+      {state.phase === "running" && (
         <p className={styles.status} role="status">
-          Loading the page, taking a screenshot, and reading it. This takes
-          under a minute.
+          {waitingCopy(state.waitedSeconds)}
         </p>
       )}
 

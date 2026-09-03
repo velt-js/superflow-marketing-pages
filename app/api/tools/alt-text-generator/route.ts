@@ -36,10 +36,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { resolveUserUrl, URL_REJECTION_MESSAGES } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 
 const TOOL_SLUG = "alt-text-generator";
 
@@ -249,6 +255,25 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a run this route already
+    // started and budgeted. It is read, never re-dispatched, so polling costs
+    // the caller nothing further.
+    const runId = runIdFrom(payload);
+    if (runId.length > 0) {
+      return settle(
+        await resumeRun({
+          toolId: TOOL_ID,
+          slug: TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs: waitBudgetFor(payload),
+        }),
+        "",
+      );
+    }
+
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     const refresh = payload?.refresh === true;
 
@@ -279,7 +304,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     // 3. Rate limit per IP. The limiter fails open by design.
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({
       tool: TOOL_SLUG,
       ip,
@@ -304,43 +328,71 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     // 5. Run it. Forwarding the caller IP keeps the backend's per-IP budget
-    //    pointed at the visitor rather than at this server.
-    const run = await runToolViaBackend({
-      toolId: TOOL_ID,
-      url: resolved.url,
-      clientIp: ip,
+    //    pointed at the visitor rather than at this server. A vision call over
+    //    every image on a page takes about 52 seconds against production,
+    //    close enough to what one serverless request may hold that this
+    //    returns a handle whenever the caller is not willing to wait it out.
+    return settle(
+      await beginRun({
+        toolId: TOOL_ID,
+        slug: TOOL_SLUG,
+        url: resolved.url,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl: resolved.url,
+        waitMs: waitBudgetFor(payload),
+      }),
+      resolved.url,
+    );
+  } catch {
+    return json({
+      error:
+        "Something went wrong on our side reading that page. Try again in a moment.",
+      errorCode: "internal",
     });
+  }
+}
 
-    if (!run.ok) {
+/**
+ * Turns a settled run into the response the caller sees.
+ *
+ * Shared by the start and the poll paths, so a result is shaped and cached
+ * identically however the caller chose to wait for it.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ * @param requestedUrl - The URL this request named, when it named one. Empty
+ *   on the polling path, where the ticket carries it instead.
+ */
+async function settle(
+  outcome: DeferredOutcome,
+  requestedUrl: string,
+): Promise<Response> {
+  try {
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
+
+    if (outcome.kind === "failed") {
       // Includes `budget-exhausted`, whose message is already written for a
       // reader. Pass the backend's own words through untouched.
       return json({
-        requestedUrl: resolved.url,
-        error: run.message,
-        errorCode: run.code,
+        ...(requestedUrl ? { requestedUrl } : {}),
+        error: outcome.message,
+        errorCode: outcome.code,
       });
     }
 
-    const report = toReport(run.data);
+    const report = toReport(outcome.result.data);
+    const startedFor = requestedUrl || outcome.context?.cacheUrl || "";
 
     // 6. A page with no images at all is a real answer, not a failure, so it
     //    is returned as a normal result and the UI says so in words.
     const result: AltTextResult = {
       ...report,
-      url: report.url ?? resolved.url,
-      requestedUrl: report.requestedUrl ?? resolved.url,
+      url: report.url ?? startedFor,
+      requestedUrl: report.requestedUrl ?? startedFor,
       checkedAt: new Date().toISOString(),
     };
 
-    await writeCache(cacheKey, RESULT_VERSION, result, CACHE_TTL.checker);
-    const finalKey = toolCacheKey({
-      tool: TOOL_SLUG,
-      url: result.url,
-      version: RESULT_VERSION,
-    });
-    if (finalKey !== cacheKey) {
-      await writeCache(finalKey, RESULT_VERSION, result, CACHE_TTL.checker);
-    }
+    await cacheResult(result, outcome.context);
 
     return json({ ...result, cached: false, ageSeconds: 0 });
   } catch {
@@ -349,5 +401,36 @@ export async function POST(request: NextRequest): Promise<Response> {
         "Something went wrong on our side reading that page. Try again in a moment.",
       errorCode: "internal",
     });
+  }
+}
+
+/**
+ * Caches a finished result under the key the START call chose, and under the
+ * post-redirect URL when that differs.
+ *
+ * @param result - The finished result.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheResult(
+  result: AltTextResult,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, RESULT_VERSION, result, CACHE_TTL.checker);
+
+    if (!result.url) return;
+
+    const finalKey = toolCacheKey({
+      tool: TOOL_SLUG,
+      url: result.url,
+      version: RESULT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, RESULT_VERSION, result, CACHE_TTL.checker);
+    }
+  } catch {
+    // A cache write is never worth failing a completed run over.
   }
 }

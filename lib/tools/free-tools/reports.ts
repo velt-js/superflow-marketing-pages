@@ -3,7 +3,7 @@
 //
 // WHY THESE ARE PARSERS AND NOT CASTS
 //
-// `runToolViaBackend` hands the terminal report back as `unknown` for every
+// The deferred runner hands the terminal report back as `unknown` for every
 // tool id except `ai-visibility`. That is the honest thing for it to do: the
 // marketing site does not own those contracts, so a cast would be a promise
 // this repo cannot keep. These parsers are the seam. Each one requires the

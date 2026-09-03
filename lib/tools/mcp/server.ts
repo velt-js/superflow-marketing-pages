@@ -58,6 +58,23 @@ const MAX_RESULT_CHARS = 200_000;
 const DISPATCH_GRACE_MS = 5_000;
 
 /**
+ * A note on slow runs, because the handling is deliberately minimal.
+ *
+ * The backend-run tools take from half a minute (social preview) to three
+ * minutes (a persona review), and no serverless function can hold a request
+ * open for the long end of that. The endpoint therefore waits as long as it
+ * safely can and then answers `{ status: "pending", runId }`, which is a
+ * healthy run, not a failure — so it passes through to the model untouched,
+ * carrying the endpoint's own instructions to call the tool again with that
+ * `runId`. Two calls collect anything the endpoint can start, whatever it
+ * costs, and this server holds no request open longer than one already does.
+ *
+ * Polling here instead would put two of those waits inside one function
+ * invocation, which is the ceiling this whole change exists to get out from
+ * under.
+ */
+
+/**
  * Protocol revisions this server accepts from a client. All three are handled
  * identically here — nothing this server does differs between them — so the
  * client's own version is echoed back rather than forcing a downgrade.
@@ -74,7 +91,9 @@ const INSTRUCTIONS = [
   "",
   "Each tool takes a URL and answers about that one page or site: whether AI assistants can read it, how it renders when shared, what it is built with, what its structured data says, what its images should say.",
   "",
-  "They are rate limited to 10 runs per hour per IP (60 for detect_tech_stack) and results are cached for 24 hours, so re-asking about a URL you already checked is free. Runs can take up to a minute: the engines fetch, render, and crawl real pages. Nothing you send is stored beyond that cache.",
+  "They are rate limited to 10 runs per hour per IP (60 for detect_tech_stack) and results are cached for 24 hours, so re-asking about a URL you already checked is free. Nothing you send is stored beyond that cache.",
+  "",
+  'The engines fetch, render, and crawl real pages, so a run can take a couple of minutes. A tool that is still running answers with `{ status: "pending", runId }` rather than a result: that is a healthy run, not an error. Call the same tool again with just that `runId` to collect it, as many times as it takes. Collecting costs no rate-limit slot; starting over does.',
 ].join("\n");
 
 export type JsonRpcId = string | number | null;
@@ -245,10 +264,13 @@ export async function callToolEndpoint({
       typeof payload === "object" && payload !== null
         ? (payload as Record<string, unknown>)
         : {};
+
+    // A pending answer is neither of those: the run is healthy and still
+    // going, so it is NOT a failure. It reaches the model with the endpoint's
+    // own instructions for collecting it.
     const failed =
-      !response.ok ||
-      record.ok === false ||
-      typeof record.error === "string";
+      record.status !== "pending" &&
+      (!response.ok || record.ok === false || typeof record.error === "string");
 
     return { failed, payload };
   } catch (error) {

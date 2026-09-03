@@ -26,6 +26,7 @@ import {
 } from "@/lib/tools/social-preview/report";
 import { PreviewCard, type ImageOutcome } from "./PreviewCard";
 import styles from "./SocialPreview.module.css";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const SLUG = "social-preview-checker";
 const ENDPOINT = "/api/tools/social-preview";
@@ -413,12 +414,13 @@ export function SocialPreviewTool() {
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: SLUG, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<ApiResponse>({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
         });
-        const payload = (await response.json()) as ApiResponse;
 
         if (!payload.ok) {
           setState({ phase: "error", message: payload.message });
@@ -455,13 +457,20 @@ export function SocialPreviewTool() {
         } catch {
           // A history failure must not lose the result.
         }
-      } catch {
+      } catch (error) {
+        // A run that never answered carries its own copy; anything else is a
+        // connection problem and reads as one.
+        const runError = error instanceof ToolRunError ? error : null;
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the checker. Check your connection and try again.",
         });
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code: "network" });
+        trackEvent(AnalyticsEvents.TOOL_ERROR, {
+          tool: SLUG,
+          code: runError?.code ?? "network",
+        });
       }
     },
     [trackEvent],

@@ -33,6 +33,7 @@ import {
   type JsonLdValidatorReport,
 } from "@/lib/tools/json-ld/types";
 import styles from "./JsonLdValidator.module.css";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const SLUG = "json-ld-validator";
 const ENDPOINT = "/api/tools/json-ld-validator";
@@ -362,12 +363,13 @@ export function JsonLdValidatorTool() {
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: SLUG, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<ValidatorResponse>({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
         });
-        const payload = (await response.json()) as ValidatorResponse;
 
         if (payload.ok !== true || !payload.report) {
           const message =
@@ -415,13 +417,20 @@ export function JsonLdValidatorTool() {
         } catch {
           // A history failure must not lose the result.
         }
-      } catch {
+      } catch (error) {
+        // A run that never answered carries its own copy; anything else is a
+        // connection problem and reads as one.
+        const runError = error instanceof ToolRunError ? error : null;
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the validator. Check your connection and try again.",
         });
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code: "network" });
+        trackEvent(AnalyticsEvents.TOOL_ERROR, {
+          tool: SLUG,
+          code: runError?.code ?? "network",
+        });
       }
     },
     [trackEvent],
