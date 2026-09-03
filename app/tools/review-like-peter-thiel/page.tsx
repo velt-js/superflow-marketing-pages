@@ -28,22 +28,6 @@ const TITLE = REVIEW_LIKE_PETER_THIEL_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_PETER_THIEL_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_PETER_THIEL_CONTENT.description;
 
-/** Rendered under the result so the lens can be checked against its source. */
-const SOURCES = [
-    {
-      title: "Zero to One (2014)",
-      url: "https://en.wikipedia.org/wiki/Zero_to_One"
-    },
-    {
-      title: "Competition Is for Losers, Wall Street Journal, 2014",
-      url: "https://www.wsj.com/articles/peter-thiel-competition-is-for-losers-1410535536"
-    },
-    {
-      title: "CS183: Startup — Stanford lecture notes, 2012",
-      url: "https://blakemasters.com/peter-thiels-cs183-startup"
-    }
-  ];
-
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
@@ -129,7 +113,6 @@ export default function PeterThielReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          sources={SOURCES}
           showPersonaPicker
         />
       </ToolPage>

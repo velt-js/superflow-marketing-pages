@@ -403,6 +403,110 @@ export const TOOLS: readonly ToolEntry[] = [
     ],
   },
   {
+    slug: "review-like-yc-partner",
+    name: "Review like a YC Partner",
+    tagline:
+      "Four YC partner lenses on your landing page: message, conversion, distribution, idea",
+    category: "quality",
+    // The HUB, and the only review entry with no agent and no API route of its
+    // own — it renders the partner picker and posts to whichever partner is
+    // selected. It goes live with the four lenses below, since a picker whose
+    // every option 500s is worse than no page.
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. PLANNED until a real run through the deployed
+    // path returns a terminal review — a tool listed live before its agent
+    // exists 500s for every visitor, which is worse than not listing it.
+    status: "planned",
+    icon: "check",
+    related: [
+      "review-like-aaron-epstein",
+      "review-like-pete-koomen",
+      "review-like-paul-graham",
+    ],
+  },
+  {
+    slug: "review-like-aaron-epstein",
+    name: "Review like Aaron Epstein",
+    tagline:
+      "One call to action, clear before clever, and how fast you see the product work",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. PLANNED until a real run through the deployed
+    // path returns a terminal review — a tool listed live before its agent
+    // exists 500s for every visitor, which is worse than not listing it.
+    status: "planned",
+    icon: "eye",
+    related: [
+      "review-like-yc-partner",
+      "review-like-pete-koomen",
+      "lookalike-test",
+    ],
+  },
+  {
+    slug: "review-like-pete-koomen",
+    name: "Review like Pete Koomen",
+    tagline:
+      "Count the steps to your Aha moment, the signup friction, and what to test first",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. PLANNED until a real run through the deployed
+    // path returns a terminal review — a tool listed live before its agent
+    // exists 500s for every visitor, which is worse than not listing it.
+    status: "planned",
+    icon: "check",
+    related: [
+      "review-like-yc-partner",
+      "review-like-aaron-epstein",
+      "review-like-travis-kalanick",
+    ],
+  },
+  {
+    slug: "review-like-gustaf-alstromer",
+    name: "Review like Gustaf Alströmer",
+    tagline:
+      "Who your first customer is, and whether this copy came from talking to them",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. PLANNED until a real run through the deployed
+    // path returns a terminal review — a tool listed live before its agent
+    // exists 500s for every visitor, which is worse than not listing it.
+    status: "planned",
+    icon: "link",
+    related: [
+      "review-like-yc-partner",
+      "review-like-jared-friedman",
+      "review-like-travis-kalanick",
+    ],
+  },
+  {
+    slug: "review-like-jared-friedman",
+    name: "Review like Jared Friedman",
+    tagline:
+      "Is a real problem stated, who has it, and what they do about it today",
+    category: "quality",
+    // Backend-dependent: runs through the FreeToolsService start/poll
+    // contract against its own agent, which is pinned to the STAGING
+    // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
+    // it is released to prod. PLANNED until a real run through the deployed
+    // path returns a terminal review — a tool listed live before its agent
+    // exists 500s for every visitor, which is worse than not listing it.
+    status: "planned",
+    icon: "stack",
+    related: [
+      "review-like-yc-partner",
+      "review-like-peter-thiel",
+      "review-like-gustaf-alstromer",
+    ],
+  },
+  {
     slug: "lookalike-test",
     name: "Lookalike Test",
     tagline:

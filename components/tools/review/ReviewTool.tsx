@@ -20,7 +20,14 @@ import { useCallback, useRef, useState } from "react";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import type { PersonaFinding } from "@/lib/tools/persona-review/types";
-import { PERSONAS, provenanceFor } from "@/lib/tools/persona-review/personas";
+import Image from "next/image";
+import {
+  PERSONAS,
+  personasInGroup,
+  provenanceFor,
+  sourcesFor,
+  type PersonaGroup,
+} from "@/lib/tools/persona-review/personas";
 import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 import styles from "./ReviewTool.module.css";
 
@@ -105,7 +112,14 @@ export type ReviewToolProps = {
   actionLabel: string;
   /** Shown above the findings whenever a result is on screen. */
   provenance?: string;
-  /** Citations for the lens, rendered under the result. */
+  /**
+   * Citations rendered under the result, for a tool that is NOT a persona.
+   *
+   * Persona reviews do not pass this: their citations come from the persona
+   * that produced the result. A fixed per-page list went stale the moment the
+   * picker switched lens, leaving one reviewer's findings under another
+   * reviewer's sources.
+   */
   sources?: { title: string; url: string }[];
   /** Extra inputs posted alongside the URL. */
   extraFields?: ReviewExtraField[];
@@ -118,6 +132,18 @@ export type ReviewToolProps = {
    * is the whole reason to have a picker instead of five separate visits.
    */
   showPersonaPicker?: boolean;
+  /**
+   * Renders the CARD picker for one cohort instead of the dropdown.
+   *
+   * The YC partner pages use this: four faces read faster than four names in a
+   * select, and the photograph is most of why a visitor picks one. It is a
+   * separate prop rather than a mode of `showPersonaPicker` so the five
+   * historical pages keep the exact control they shipped with.
+   *
+   * Scoped to a cohort on purpose — a lineup that mixed serving partners with
+   * historical figures would imply the wrong thing about both.
+   */
+  personaGroup?: PersonaGroup;
 };
 
 /** Severity order, worst first. Findings are grouped, not sorted by arrival. */
@@ -137,6 +163,7 @@ export function ReviewTool({
   sources = [],
   extraFields = [],
   showPersonaPicker = false,
+  personaGroup,
 }: ReviewToolProps) {
   const [url, setUrl] = useState("");
   const [extras, setExtras] = useState<Record<string, string>>({});
@@ -145,9 +172,27 @@ export function ReviewTool({
   const [state, setState] = useState<RunState>({ phase: "idle" });
   const { trackEvent } = useAnalytics();
 
-  // The endpoint, and the identity a result is attributed to. Without the
-  // picker this is just the page's slug.
-  const activeSlug = showPersonaPicker ? personaSlug : slug;
+  // The endpoint, and the identity a result is attributed to. Without a picker
+  // this is just the page's slug.
+  //
+  // The cohort rendered as cards, when this page uses the card picker.
+  const groupPersonas = personaGroup ? personasInGroup(personaGroup) : [];
+
+  // The cohort in the DROPDOWN. Scoped to the historical figures rather than
+  // the whole roster: `PERSONAS` gained the YC partners, and mapping it whole
+  // put four serving partners in a list captioned with Paul Graham's framing —
+  // the two cohorts are not interchangeable and must not share a control.
+  const dropdownPersonas = showPersonaPicker
+    ? personasInGroup("historical")
+    : [];
+
+  const usingPicker = showPersonaPicker || groupPersonas.length > 0;
+
+  const activeSlug = usingPicker ? personaSlug : slug;
+
+  const activePersona = PERSONAS.find(
+    (persona) => persona.slug === activeSlug,
+  );
 
   // Guards against a second submit while one is in flight. A review takes
   // minutes, which is long enough for an impatient second click to spend
@@ -234,6 +279,62 @@ export function ReviewTool({
   return (
     <div className={styles.tool}>
       <form className={styles.form} onSubmit={run}>
+        {groupPersonas.length > 0 && (
+          <fieldset className={styles.personaCards}>
+            <legend className={styles.personaCardsLegend}>Review like</legend>
+            {groupPersonas.map((persona) => {
+              const selected = persona.slug === personaSlug;
+              return (
+                <label
+                  key={persona.slug}
+                  className={`${styles.personaCard} ${
+                    selected ? styles.personaCardSelected : ""
+                  }`}
+                >
+                  <input
+                    className={styles.personaRadio}
+                    type="radio"
+                    name="persona"
+                    value={persona.slug}
+                    checked={selected}
+                    onChange={() => setPersonaSlug(persona.slug)}
+                    disabled={running}
+                  />
+                  <span className={styles.personaCardBody}>
+                    {persona.photo && (
+                      <Image
+                        className={styles.personaAvatar}
+                        src={persona.photo}
+                        alt=""
+                        width={40}
+                        height={40}
+                        /* Decorative: the name is right beside it, so an alt
+                           text here would make a screen reader announce the
+                           person twice. */
+                      />
+                    )}
+                    <span className={styles.personaCardText}>
+                      <span className={styles.personaCardName}>
+                        {persona.name}
+                      </span>
+                      {persona.role && (
+                        <span className={styles.personaCardRole}>
+                          {persona.role}
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                </label>
+              );
+            })}
+            {/* role="status" so switching card announces the new lens rather
+                than leaving a screen reader with only the name. */}
+            <p className={styles.personaCardsLens} role="status">
+              {activePersona?.lens}
+            </p>
+          </fieldset>
+        )}
+
         {showPersonaPicker && (
           <label className={styles.persona}>
             <span className={styles.personaLabel}>Review like</span>
@@ -243,15 +344,13 @@ export function ReviewTool({
               onChange={(event) => setPersonaSlug(event.target.value)}
               disabled={running}
             >
-              {PERSONAS.map((persona) => (
+              {dropdownPersonas.map((persona) => (
                 <option key={persona.slug} value={persona.slug}>
                   {persona.name}
                 </option>
               ))}
             </select>
-            <span className={styles.personaLens}>
-              {PERSONAS.find((persona) => persona.slug === personaSlug)?.lens}
-            </span>
+            <span className={styles.personaLens}>{activePersona?.lens}</span>
           </label>
         )}
 
@@ -345,11 +444,16 @@ export function ReviewTool({
           // over another persona's review, which for the public-record lenses
           // is exactly the claim they exist to prevent.
           provenance={
-            showPersonaPicker
+            usingPicker
               ? provenanceFor(state.result.personaSlug)
               : provenance
           }
-          sources={sources}
+          // Derived from the lens that PRODUCED the result, for the same reason
+          // the provenance line above it is: switching persona after a run must
+          // not leave one reviewer's findings under another's citations.
+          sources={
+            usingPicker ? sourcesFor(state.result.personaSlug) : sources
+          }
         />
       )}
     </div>
