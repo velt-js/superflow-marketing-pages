@@ -27,6 +27,10 @@ next-env.d.ts
 # Fonts the meta-image generator downloads and caches on first run.
 scripts/og-image/.fonts/
 
+# Cached HTML pages from the Awwwards directory scraper, so re-runs and
+# selector iteration don't re-hit the site. See scripts/directory-import/README.md.
+scripts/directory-import/.cache/
+
 # Playwright
 /test-results/
 /playwright-report/

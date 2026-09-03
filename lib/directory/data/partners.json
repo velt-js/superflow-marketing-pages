@@ -1,0 +1,5 @@
+{
+  "source": "Superflow CRM/billing export. Add the registrable domain (eTLD+1, lowercased, no www.) of any agency that is a Superflow customer or partner. Must match Agency.domain exactly - that is the join key. Kept separate from agencies.json because the scraper overwrites that file wholesale on every run.",
+  "updatedAt": null,
+  "domains": []
+}

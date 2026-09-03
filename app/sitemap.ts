@@ -18,6 +18,8 @@ import {
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
+import { agencyPath, getIndexableAgencySlugs } from "@/lib/directory/agencies";
 
 // Regenerate hourly so CMS-only changes (new docs seeded without a
 // deploy) reach the sitemap without waiting for the next build,
@@ -99,6 +101,8 @@ const STATIC_PATHS = [
   "/checklist",
   "/comparisons",
   "/demo",
+  DIRECTORY_BASE_PATH,
+  ...DIRECTORY_CATEGORIES.map((category) => `${DIRECTORY_BASE_PATH}/${category.slug}`),
   "/integrations",
   "/pricing",
   "/privacy",
@@ -194,6 +198,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique(featureSlugs).map((slug) => `/${slug}`),
     // Proxied Mintlify docs — already absolute-path form, not slugs.
     ...unique(docsPaths),
+    // Agency directory detail pages. Only agencies that clear the
+    // thin-content bar (lib/directory/agencies.ts#shouldIndexAgency) are
+    // submitted here — held-back agencies still render a real page (see
+    // app/directory/agency/[slug]/page.tsx), they're just not pushed at
+    // search engines via the sitemap.
+    ...unique(getIndexableAgencySlugs()).map((slug) => agencyPath(slug)),
   ];
 
   const lastModified = new Date();

@@ -54,6 +54,17 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
         pathname: "/images/**",
       },
+      // Agency logos in the /directory pages are hotlinked from the source
+      // profile that each record links back to. Without this entry
+      // next/image rejects the host with a 400 and every logo renders blank.
+      // Kept at /awards/** rather than /awards/avatar/**: most profiles
+      // serve an avatar, but a minority fall back to a submission still,
+      // and both live under this prefix.
+      {
+        protocol: "https",
+        hostname: "assets.awwwards.com",
+        pathname: "/awards/**",
+      },
     ],
   },
   async redirects() {
