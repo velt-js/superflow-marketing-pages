@@ -378,11 +378,67 @@ function TestimonialsSectionCard({ testimonial }: { testimonial: Testimonial }) 
   );
 }
 
+/** Which single testimonial a page shows (solutions pages, spec S6). */
+export type TestimonialsProof =
+  | "wonderist-review"
+  | "headway"
+  | "harvey"
+  | "metrics-only";
+
+/**
+ * Per-page overrides for the testimonials section. Omit `proof` to render
+ * the full home page section unchanged.
+ */
+export interface TestimonialsSectionProps {
+  /**
+   * When set, the showcase column shows only the chosen card: the Wonderist
+   * featured figure ("wonderist-review") or one compact card ("headway",
+   * "harvey"). "metrics-only" drops the showcase column and renders the
+   * intro and metrics alone, full width. No quote is ever invented: an id
+   * with no matching card falls through to the metrics-only layout.
+   */
+  proof?: TestimonialsProof;
+}
+
+/**
+ * The Wonderist body line shown on solutions pages. The spec allows Wonderist
+ * only as proof of review-and-approval speed (hours back), never as proof
+ * that the agents work, so the solutions pages keep the first sentence (the
+ * review process) and drop the line about first-pass QA. The home page
+ * renders the full body unchanged; nothing is added or reworded.
+ *
+ * @param body - The full featured body.
+ * @returns The first sentence of the body.
+ */
+function featuredBodyForProof(body: string): string {
+  try {
+    const match = /^[^.]*\./.exec(body);
+    return match ? match[0] : body;
+  } catch {
+    return body;
+  }
+}
+
 /**
  * Full "07 / Testimonial" section for the 2026 homepage preview.
  * Composes the metrics column and the featured + compact testimonials column.
+ *
+ * @param props - Optional per-page override; the default reproduces the
+ *   home page exactly.
  */
-export default function TestimonialsSection() {
+export default function TestimonialsSection({
+  proof,
+}: TestimonialsSectionProps = {}) {
+  const showFeatured = proof === undefined || proof === "wonderist-review";
+  const compactCards =
+    proof === undefined
+      ? TESTIMONIALS
+      : TESTIMONIALS.filter((testimonial) => testimonial?.id === proof);
+  const hasShowcase = showFeatured || compactCards.length > 0;
+  const gridClassName = hasShowcase
+    ? styles.grid
+    : `${styles.grid} ${styles.gridSingle}`;
+
   return (
     <section
       className={styles.section}
@@ -390,7 +446,7 @@ export default function TestimonialsSection() {
       aria-labelledby="testimonials-heading"
     >
       <div className={styles.inner}>
-        <div className={styles.grid}>
+        <div className={gridClassName}>
           <div className={styles.intro}>
             <TestimonialsSectionBadge />
             <h2 id="testimonials-heading" className={styles.heading}>
@@ -429,48 +485,54 @@ export default function TestimonialsSection() {
             </div>
           </div>
 
-          <div className={styles.showcase}>
-            <figure className={styles.featured}>
-              <Image
-                className={styles.featuredPhoto}
-                src={FEATURED_PHOTO_SRC}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 100vw, 600px"
-              />
-              <span className={styles.featuredScrim} aria-hidden="true" />
-              <WonderistLogo className={styles.featuredLogo} />
-              <div className={styles.featuredContent}>
-                <blockquote className={styles.featuredText}>
-                  <p className={styles.featuredHeading}>
-                    {FEATURED_TESTIMONIAL.heading}
-                  </p>
-                  <p className={styles.featuredBody}>
-                    {FEATURED_TESTIMONIAL.body}
-                  </p>
-                </blockquote>
-                <div className={styles.featuredStats}>
-                  {FEATURED_TESTIMONIAL.stats.map((stat) => (
-                    <div key={stat?.label} className={styles.featuredStat}>
-                      <span className={styles.featuredStatValue}>
-                        {stat?.value}
-                      </span>
-                      <span className={styles.featuredStatLabel}>
-                        {stat?.label}
-                      </span>
+          {hasShowcase ? (
+            <div className={styles.showcase}>
+              {showFeatured ? (
+                <figure className={styles.featured}>
+                  <Image
+                    className={styles.featuredPhoto}
+                    src={FEATURED_PHOTO_SRC}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                  />
+                  <span className={styles.featuredScrim} aria-hidden="true" />
+                  <WonderistLogo className={styles.featuredLogo} />
+                  <div className={styles.featuredContent}>
+                    <blockquote className={styles.featuredText}>
+                      <p className={styles.featuredHeading}>
+                        {FEATURED_TESTIMONIAL.heading}
+                      </p>
+                      <p className={styles.featuredBody}>
+                        {proof === undefined
+                          ? FEATURED_TESTIMONIAL.body
+                          : featuredBodyForProof(FEATURED_TESTIMONIAL.body)}
+                      </p>
+                    </blockquote>
+                    <div className={styles.featuredStats}>
+                      {FEATURED_TESTIMONIAL.stats.map((stat) => (
+                        <div key={stat?.label} className={styles.featuredStat}>
+                          <span className={styles.featuredStatValue}>
+                            {stat?.value}
+                          </span>
+                          <span className={styles.featuredStatLabel}>
+                            {stat?.label}
+                          </span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </figure>
+                  </div>
+                </figure>
+              ) : null}
 
-            {TESTIMONIALS.map((testimonial) => (
-              <TestimonialsSectionCard
-                key={testimonial?.id}
-                testimonial={testimonial}
-              />
-            ))}
-          </div>
+              {compactCards.map((testimonial) => (
+                <TestimonialsSectionCard
+                  key={testimonial?.id}
+                  testimonial={testimonial}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

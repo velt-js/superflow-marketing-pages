@@ -1,0 +1,172 @@
+/* S2, the pack: heading, the eight agent cards in a grid, the "Build your
+   own" card and the pack CTA. Section chrome matches the other 2026 sections
+   (TrustSection, SolutionsSection). Grid: four columns on desktop, two on
+   tablet, one on phone, so nothing scrolls sideways at 375px. */
+
+.section {
+  --ps-ink: #1e1e1f;
+  --ps-bg: #feffff;
+
+  background: var(--ps-bg);
+  color: var(--ps-ink);
+  padding: 100px 24px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 780px;
+  text-align: center;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  color: var(--ps-ink);
+}
+
+/* Body copy inherits the global Poppins face. */
+.subhead {
+  margin: 0;
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ps-ink);
+  opacity: 0.78;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+}
+
+.card {
+  width: 100%;
+}
+
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 28px;
+  border: 1.5px solid var(--ps-ink);
+  border-radius: 32px;
+  background: var(--ps-ink);
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.18px;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.cta:hover {
+  background: #000000;
+  border-color: #000000;
+  transform: translateY(-1px);
+}
+
+.cta:focus-visible {
+  outline: 2px solid #433df3;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heading {
+    font-size: 44px;
+    letter-spacing: -1.2px;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 72px 20px;
+  }
+
+  .inner {
+    gap: 32px;
+  }
+
+  .heading {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .section {
+    padding: 56px 16px;
+  }
+
+  .heading {
+    font-size: 30px;
+    letter-spacing: -0.6px;
+  }
+
+  .subhead {
+    font-size: 16px;
+  }
+
+  .cta {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+
+  .cta:hover {
+    transform: none;
+  }
+}

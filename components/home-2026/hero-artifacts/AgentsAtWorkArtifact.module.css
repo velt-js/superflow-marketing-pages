@@ -2,8 +2,8 @@
 
    A browser window rendering a live website wireframe that QA agents review in
    real time. Three Superflow-style multiplayer cursors fly in one after another,
-   sweep a selection over their target (a headline typo, a broken nav link, an
-   image missing alt text) and drop a comment pinned to it.
+   sweep a selection over their target (a headline word, a nav link, the hero
+   image) and drop a comment pinned to it.
 
    The site is a fluid, normal-flow layout so it tracks the real (variable) hero
    window width; each agent's selection, comment and cursor are anchored to their
@@ -368,11 +368,16 @@
   color: #9aa1ad;
 }
 
+/* Findings are full sentences (two lines max in the finding format, but up to
+   four at this bubble width), so the text wraps freely; long tokens such as a
+   hex colour or a URL break rather than push the bubble wider. */
 .commentText {
   font-size: 12.5px;
   font-weight: 500;
   line-height: 1.3;
   color: #3d414a;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Per-agent comment placement + drop-in timing. Each comment rests just beneath

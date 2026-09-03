@@ -1,19 +1,25 @@
-/* Solutions — "Built for the work you already ship." 2026 homepage redesign.
+/* Solutions, "Built for the work you already ship." 2026 homepage redesign.
    Specs mirrored from Figma node 638:8167. Postage-stamp "tickets": each
    near-square ticket (aspect 232 / 246, padding 40) has a pale pastel fill
-   clipped by a single-path SVG stamp mask — a rounded rectangle with
+   clipped by a single-path SVG stamp mask, a rounded rectangle with
    semicircular notches punched along every edge and clean rounded corners.
-   Icon sits top-left, label bottom-left. Adjacent tickets OVERLAP horizontally
-   (negative margin) with a subtle vertical zig-zag; later tickets stack over
-   earlier ones. Hovering brings a ticket to the front with a soft scale +
-   shadow. All motion is CSS, so the component stays a server component. On
-   narrow widths the overlapped flex row becomes a plain 3 -> 2 -> 1 grid. */
+   Icon sits top-left, label bottom-left. Each ticket is a single link covering
+   the whole stamp. Adjacent tickets OVERLAP horizontally (negative margin)
+   with a subtle vertical zig-zag; later tickets stack over earlier ones.
+   Hovering or focusing brings a ticket to the front with a soft scale +
+   shadow, and keyboard focus draws a ring inside the stamp. All motion is
+   CSS, so the component stays a server component. Two labelled rows: six
+   "By team" tickets that span the width, and a compact "By job" row of three
+   that keeps the same ticket size and centers. On narrow widths the
+   overlapped flex row becomes a plain 3 -> 2 grid, then a scrolling strip. */
 
 .section {
     --sols-ink: #1e1e1f;
     --sols-bg: #feffff;
     /* Warm accent within the site family; still used as the icon fallback color. */
     --sols-accent: #c9502a;
+    /* Keyboard focus ring drawn inside the stamp (brand purple, AA on pastels). */
+    --sols-focus: #433df3;
 
     background: var(--sols-bg);
     color: var(--sols-ink);
@@ -61,6 +67,35 @@
     line-height: 1.5;
     opacity: 0.78;
     max-width: 560px;
+}
+
+/* ---- Labelled rows ---- */
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+}
+
+/* Small uppercase row label (Urbanist), centered like the section header. */
+.rowLabel {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: #525252;
 }
 
 /* ---- Overlapping ticket row ---- */
@@ -133,6 +168,17 @@
     filter: drop-shadow(0 16px 30px rgba(31, 26, 20, 0.18));
 }
 
+/* Compact row (the three "By job" tickets): each cell keeps the width a cell
+   gets in the six-ticket row, (row width + five overlaps) / 6, so both rows
+   share one ticket size, and the shorter row centers instead of stretching. */
+.gridCompact {
+    justify-content: center;
+}
+
+.gridCompact .cell {
+    flex: 0 1 calc((100% + 5 * var(--overlap)) / 6);
+}
+
 /* The ticket: pale pastel fill clipped by a single-path SVG stamp silhouette.
    The SVG is a rounded rectangle with evenly-spaced semicircular notches punched
    along every edge, and the notch rows stop short of the corners so each corner
@@ -158,6 +204,14 @@
     background: var(--ticket-tint, #f5f2ec);
     -webkit-mask: var(--stamp) center / 100% 100% no-repeat;
     mask: var(--stamp) center / 100% 100% no-repeat;
+}
+
+/* Keyboard focus: a ring inset inside the stamp. The stamp mask clips anything
+   painted outside the notched silhouette, so an outline drawn inward (negative
+   offset, past the 6px notch depth) stays fully visible on every edge. */
+.ticket:focus-visible {
+    outline: 3px solid var(--sols-focus);
+    outline-offset: -10px;
 }
 
 /* Bare per-industry icon at the top-left (color set per ticket). */
@@ -215,6 +269,14 @@
         padding-inline-end: 40px;
     }
 
+    .rows {
+        gap: 24px;
+    }
+
+    .row {
+        gap: 0;
+    }
+
     .heading {
         font-size: 44px;
         letter-spacing: -1.2px;
@@ -260,10 +322,17 @@
         scroll-snap-type: x proximity;
     }
 
-    .cell {
+    .cell,
+    .gridCompact .cell {
         flex: 0 0 auto;
         width: 190px;
         scroll-snap-align: start;
+    }
+
+    /* The strip scrolls from the left edge; centering would hide the first
+       ticket behind the scroll start. */
+    .gridCompact {
+        justify-content: flex-start;
     }
 
     /* Neutralise the tap-scale so it can't spill outside the horizontal

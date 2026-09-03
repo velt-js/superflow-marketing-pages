@@ -14,6 +14,16 @@ import { client } from "@/sanity/client";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
+import {
+  resolveSolutionPage,
+  resolveSolutionSlugs,
+} from "@/lib/solutions/resolve";
+import {
+  SOLUTIONS_BASE_PATH,
+  compareSolutions,
+  solutionPath,
+} from "@/lib/solutions/seed";
+import type { SolutionPage } from "@/lib/solutions/types";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
   CREDIT_PACKS,
@@ -25,6 +35,11 @@ import {
 } from "@/components/pricing-2026/ai-credits-data";
 
 export const revalidate = 3600;
+
+/** Title and one-line description of the /solutions index row. */
+const SOLUTIONS_INDEX_TITLE = "All solutions";
+const SOLUTIONS_INDEX_DESCRIPTION =
+  "Every solutions page, grouped by agency type and by job. Each one comes with an agent pack built for that work.";
 
 type PageEntry = {
   title?: string;
@@ -126,6 +141,46 @@ function pageSection(
   return `## ${heading}\n\n${rows.join("\n")}\n`;
 }
 
+/**
+ * Every solutions page, resolved the way the routes resolve them (Sanity
+ * document first, seed JSON as the fallback) and sorted in nav order. The
+ * solutionPage shape does not fit the generic title/slug/description GROQ
+ * projection above, so the pages come through the same resolver as
+ * app/solutions/[slug]. Empty on failure.
+ */
+async function fetchSolutionPages(): Promise<SolutionPage[]> {
+  try {
+    const slugs = await resolveSolutionSlugs();
+    const pages = await Promise.all(
+      slugs.map((slug) => resolveSolutionPage(slug)),
+    );
+    return pages
+      .filter((page): page is SolutionPage => Boolean(page?.slug))
+      .sort(compareSolutions);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * The /solutions index plus one row per page: the nav label linked, then the
+ * meta description and the hero subhead so an agent gets the pitch and what
+ * the pack checks in one line.
+ */
+function solutionsSection(pages: SolutionPage[]): string {
+  const rows = [
+    `- [${SOLUTIONS_INDEX_TITLE}](${SITE_URL}${SOLUTIONS_BASE_PATH}): ${SOLUTIONS_INDEX_DESCRIPTION}`,
+    ...pages.map((page) => {
+      const url = `${SITE_URL}${solutionPath(page.slug)}`;
+      const description = [page.seo?.description, page.hero?.sub]
+        .filter(Boolean)
+        .join(" ");
+      return `- [${page.navLabel || page.slug}](${url})${description ? `: ${description}` : ""}`;
+    }),
+  ];
+  return `## Solutions\n\n${rows.join("\n")}\n`;
+}
+
 /** The pricing facts, rendered from the live /pricing data modules. */
 function pricingSection(): string {
   const plans = TIERS.map((tier) => {
@@ -197,8 +252,7 @@ export async function GET() {
     features,
     reviews,
     integrations,
-    useCases,
-    personas,
+    solutionPages,
     alternatives,
     comparisons,
     caseStudies,
@@ -209,8 +263,7 @@ export async function GET() {
     fetchPages("featurePage"),
     fetchPages("reviewPage"),
     fetchPages("integrationPreviewPage"),
-    fetchPages("useCasePage"),
-    fetchPages("userPersonaPage"),
+    fetchSolutionPages(),
     fetchPages("alternativePage"),
     fetchPages("comparisonPage"),
     fetchPages("caseStudyPage"),
@@ -250,8 +303,7 @@ export async function GET() {
     pageSection("Features", "", features),
     pageSection("Review surfaces", "", reviews),
     pageSection("Integrations", "/integrations", liveIntegrations),
-    pageSection("Use cases", "/use-case", useCases),
-    pageSection("Personas", "/user-persona", personas),
+    solutionsSection(solutionPages),
     pageSection("Alternatives", "/alternative", mergedAlternatives),
     pageSection("Comparisons", "/comparisons", mergedComparisons),
     pageSection("Case studies", "/case-study", caseStudies),

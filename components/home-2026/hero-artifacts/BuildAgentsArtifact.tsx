@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode, SVGProps } from "react";
 import Image from "next/image";
+import { findLibraryAgent } from "@/lib/solutions/agent-library";
 import styles from "./BuildAgentsArtifact.module.css";
 
 /**
@@ -8,8 +9,10 @@ import styles from "./BuildAgentsArtifact.module.css";
  *
  * Static recreation of the "Extracting Agents from Checklist.xlsx" state: a
  * left workspace rail, a centered 52% progress ring + heading, a 2-column grid
- * of fully rendered agent cards ("Spell Check", "Grid Layout"), and rows of
- * skeleton/loading cards that are clipped and faded out at the bottom edge.
+ * of fully rendered agent cards ("Noindex Check", "Palette Guard", with their
+ * sample findings from the shared agent library as the descriptions), and
+ * rows of skeleton/loading cards that are clipped and faded out at the bottom
+ * edge.
  *
  * Every icon below is inlined from the exact Figma vector export (SVG) of its
  * source node so the artifact visually matches the design node 1:1.
@@ -24,12 +27,17 @@ const PERCENT_LABEL = "52%";
 const HEADING_TOP = "Extracting Agents from";
 const FILE_NAME = "Checklist.xlsx";
 const MENU_LABEL = "Card actions";
-/** Spell Check card description — exact string from Figma node 751:2502. */
-const SPELL_CHECK_DESCRIPTION =
-  "Find spelling mistakes before sharing it with your clients.";
-/** Grid Layout card description — authored copy (Figma reused a placeholder). */
-const GRID_LAYOUT_DESCRIPTION =
-  "Automatically align content into a clean, responsive grid.";
+/** Names of the two rendered agent cards (spec section 5, agents page hero). */
+const NOINDEX_CHECK_AGENT = "Noindex Check";
+const PALETTE_GUARD_AGENT = "Palette Guard";
+/**
+ * Fallback card descriptions, used only if the library lookup misses. They
+ * mirror the library findings for the two agents above.
+ */
+const NOINDEX_CHECK_FALLBACK_FINDING =
+  "noindex is still set on 14 pages. Google can't see the site.";
+const PALETTE_GUARD_FALLBACK_FINDING =
+  "Primary button uses #2F80ED. The brand guide allows #1E5BB8.";
 
 /** Fraction (0-1) of the progress ring that renders as a filled green arc. */
 const RING_PROGRESS = 0.52;
@@ -267,10 +275,11 @@ const RAIL_ITEMS: readonly RailItem[] = [
 ];
 
 /**
- * "Spell Check" tile — the red app-icon from Figma node 26680:552: a deep red
- * background with dots in shades of coral/red.
+ * "Noindex Check" tile: the red app-icon from Figma node 26680:552, a deep red
+ * background with dots in shades of coral/red (palette kept from the original
+ * first card).
  */
-const SPELL_CHECK_PALETTE: GridIconPalette = {
+const NOINDEX_CHECK_PALETTE: GridIconPalette = {
   background: "#8a2022",
   dots: [
     ["#ffc6b5", "#ff9d84", "#ff6f57", "#ff9d84"],
@@ -281,10 +290,11 @@ const SPELL_CHECK_PALETTE: GridIconPalette = {
 };
 
 /**
- * "Grid Layout" tile — the indigo app-icon from Figma node 26680:878: a deep
- * indigo background with translucent-white dots plus a few warm coral accents.
+ * "Palette Guard" tile: the indigo app-icon from Figma node 26680:878, a deep
+ * indigo background with translucent-white dots plus a few warm coral accents
+ * (palette kept from the original second card).
  */
-const GRID_LAYOUT_PALETTE: GridIconPalette = {
+const PALETTE_GUARD_PALETTE: GridIconPalette = {
   background: "#231f9b",
   dots: [
     ["rgba(255,255,255,0.52)", "#ff9d84", "rgba(255,255,255,0.8)", "rgba(255,255,255,0.52)"],
@@ -294,18 +304,35 @@ const GRID_LAYOUT_PALETTE: GridIconPalette = {
   ],
 };
 
+/**
+ * Resolve an agent's sample finding from the shared library, falling back to
+ * the local copy when the name is not in the library.
+ *
+ * @param agentName - The library agent name, e.g. "Noindex Check".
+ * @param fallback - The finding to use when the lookup misses.
+ * @returns The finding text.
+ */
+function libraryFinding(agentName: string, fallback: string): string {
+  try {
+    return findLibraryAgent(agentName)?.finding ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+/** The two rendered cards. Each description is the agent's sample finding. */
 const AGENT_CARDS: readonly AgentCard[] = [
   {
-    id: "spell-check",
-    title: "Spell Check",
-    description: SPELL_CHECK_DESCRIPTION,
-    palette: SPELL_CHECK_PALETTE,
+    id: "noindex-check",
+    title: NOINDEX_CHECK_AGENT,
+    description: libraryFinding(NOINDEX_CHECK_AGENT, NOINDEX_CHECK_FALLBACK_FINDING),
+    palette: NOINDEX_CHECK_PALETTE,
   },
   {
-    id: "grid-layout",
-    title: "Grid Layout",
-    description: GRID_LAYOUT_DESCRIPTION,
-    palette: GRID_LAYOUT_PALETTE,
+    id: "palette-guard",
+    title: PALETTE_GUARD_AGENT,
+    description: libraryFinding(PALETTE_GUARD_AGENT, PALETTE_GUARD_FALLBACK_FINDING),
+    palette: PALETTE_GUARD_PALETTE,
   },
 ];
 

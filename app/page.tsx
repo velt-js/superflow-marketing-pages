@@ -2,6 +2,7 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import Hero from "@/components/home-2026/Hero";
 import ProblemSection from "@/components/home-2026/ProblemSection";
 import SolutionSection from "@/components/home-2026/SolutionSection";
+import AgentsCatchSection from "@/components/home-2026/AgentsCatchSection";
 import FeatureSet from "@/components/home-2026/FeatureSet";
 import GetStarted from "@/components/home-2026/GetStarted";
 import CostSection from "@/components/home-2026/CostSection";
@@ -87,6 +88,7 @@ export default function HomePage() {
       <Hero />
       <ProblemSection />
       <SolutionSection />
+      <AgentsCatchSection page="home" />
       <FeatureSet />
       <GetStarted />
       <CostSection />

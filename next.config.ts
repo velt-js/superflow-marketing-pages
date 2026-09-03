@@ -27,6 +27,32 @@ const MINTLIFY_ORIGIN = "https://superflow.mintlify.dev";
 // so the ~96 indexed docs URLs pass their ranking to the new paths.
 const RETIRED_DOCS_HOSTS = ["docs.usesuperflow.com", "docs.usesuperflow.ai"];
 
+// Use-case and persona pages retired in favour of /solutions (solutions
+// spec, section 1). Each child maps to the closest new page, the off-ICP
+// personas go to the homepage, and both index pages fold into the
+// /solutions index because every child is gone and the footer columns went
+// with them. Search Console was not connected when this shipped, so the
+// ranking check used Semrush organic pages instead: none of these URLs
+// carries organic traffic, so none is kept.
+const RETIRED_PAGE_REDIRECTS: ReadonlyArray<readonly [string, string]> = [
+  ["/use-case", "/solutions"],
+  ["/use-case/uat-qa-testing", "/solutions/pre-launch-qa"],
+  ["/use-case/client-feedback", "/client-review"],
+  ["/use-case/bug-reporting", "/solutions/pre-launch-qa"],
+  ["/use-case/conversion-optimization", "/solutions"],
+  ["/use-case/ux-ui-optimization", "/solutions"],
+  ["/user-persona", "/solutions"],
+  ["/user-persona/qa-teams", "/solutions/pre-launch-qa"],
+  ["/user-persona/project-managers", "/solutions/site-care"],
+  ["/user-persona/founders", "/"],
+  ["/user-persona/developers", "/solutions/website-migration-qa"],
+  ["/user-persona/product-companies", "/"],
+  ["/user-persona/marketing-agencies", "/solutions"],
+  ["/user-persona/designers", "/solutions/pre-launch-qa"],
+  ["/user-persona/product-managers", "/"],
+  ["/user-persona/marketers", "/solutions"],
+];
+
 type Redirect = Awaited<
   ReturnType<NonNullable<NextConfig["redirects"]>>
 >[number];
@@ -214,6 +240,17 @@ const nextConfig: NextConfig = {
         destination: "/alternative/:slug",
         permanent: true,
       },
+      // Retired use-case and persona URLs (see RETIRED_PAGE_REDIRECTS).
+      // Explicit statusCode 301 rather than `permanent` (308), matching the
+      // spec and the host rules above. The app/use-case and app/user-persona
+      // route code stays in place; redirects run before routes.
+      ...RETIRED_PAGE_REDIRECTS.map(
+        ([source, destination]): Redirect => ({
+          source,
+          destination,
+          statusCode: 301,
+        }),
+      ),
     ];
 
     return [

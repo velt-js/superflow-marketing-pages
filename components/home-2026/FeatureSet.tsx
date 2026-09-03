@@ -202,6 +202,19 @@ const FEATURE_BLOCKS: FeatureSetBlockData[] = [
   },
 ];
 
+/** Id of the "Your Client Approves From a Link. Even Behind SSO." block. */
+const CLIENT_APPROVES_BLOCK_ID = "no-friction";
+
+/**
+ * The "Your Client Approves From a Link. Even Behind SSO." block config,
+ * exported so other templates (the solutions pages' "How the client signs
+ * off" section) can render the very same block. The default render above is
+ * untouched: this only reads the entry out of {@link FEATURE_BLOCKS}.
+ */
+export const CLIENT_APPROVES_BLOCK: FeatureSetBlockData =
+  FEATURE_BLOCKS.find((block) => block.id === CLIENT_APPROVES_BLOCK_ID) ??
+  FEATURE_BLOCKS[2];
+
 /**
  * Per-page overrides for the Feature Set section. Omit any field to fall back
  * to the homepage default (so /home-preview renders unchanged).

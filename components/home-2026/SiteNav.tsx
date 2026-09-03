@@ -41,8 +41,17 @@ import {
   MailIcon,
   CloudIcon,
   WebhookIcon,
+  PinIcon,
+  EyeIcon,
+  LayoutDashboardIcon,
 } from "./HeroIcons";
 import { GtmMark } from "@/components/integration-2026/IntegrationBrandMarks";
+import {
+  SOLUTIONS_BASE_PATH,
+  solutionPath,
+  solutionsOfKind,
+} from "@/lib/solutions/seed";
+import type { SolutionKind, SolutionSummary } from "@/lib/solutions/types";
 
 /** A single top-navigation entry. Chevron is shown for menu-style links. */
 type NavItem = {
@@ -98,6 +107,10 @@ const MENU_CLOSE_LABEL = "Close menu";
 
 /** Label of the nav item that owns the feature mega-menu. */
 const PRODUCT_LABEL = "Product";
+/** Label of the nav item that owns the Solutions mega-menu (By agency / By job). */
+const SOLUTIONS_LABEL = "Solutions";
+/** Footer row label in the Solutions mega-menu linking to the /solutions index. */
+const SOLUTIONS_ALL_LABEL = "All solutions";
 /** Label of the nav item that owns the review-formats list menu (Website /
     Video / Lottie / PDF / Image review) — matches the footer's "Supported
     Formats" column. */
@@ -118,6 +131,7 @@ const DROPDOWN_CLOSE_DELAY_MS = 200;
 
 const NAV_ITEMS: readonly NavItem[] = [
   { label: PRODUCT_LABEL, href: "#product", hasMenu: true },
+  { label: SOLUTIONS_LABEL, href: SOLUTIONS_BASE_PATH, hasMenu: true },
   { label: ASSETS_LABEL, href: "#assets", hasMenu: true },
   { label: INTEGRATIONS_LABEL, href: "/integrations", hasMenu: true },
   { label: RESOURCES_LABEL, href: "#resources", hasMenu: true },
@@ -241,6 +255,69 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
     ],
   },
 ];
+
+/** A titled column of solution pages inside the Solutions mega-menu. */
+type SolutionGroup = {
+  heading: string;
+  kind: SolutionKind;
+  tone: FeatureTone;
+  links: readonly SolutionSummary[];
+};
+
+/**
+ * Solution pages surfaced in the Solutions mega-menu, one column per kind.
+ * Read from the seed summaries (lib/solutions/seed.ts) so a page added there
+ * shows up here with no second edit. Shared by the desktop sheet and the
+ * mobile accordion so both stay in sync.
+ */
+const SOLUTION_GROUPS: readonly SolutionGroup[] = [
+  {
+    heading: "By agency",
+    kind: "agency",
+    tone: "ai",
+    links: solutionsOfKind("agency"),
+  },
+  {
+    heading: "By job",
+    kind: "job",
+    tone: "review",
+    links: solutionsOfKind("job"),
+  },
+];
+
+/**
+ * Menu icon per solution slug. Batch 2 slugs from the spec are listed ahead
+ * of time; anything else (a CMS-only page) gets {@link SOLUTION_DEFAULT_ICON}.
+ */
+const SOLUTION_ICONS: Readonly<Record<string, MenuIconComponent>> = {
+  "dental-marketing-agencies": UsersIcon,
+  "healthcare-marketing": ScaleIcon,
+  "home-services-marketing": PinIcon,
+  "pre-launch-qa": ListCheckIcon,
+  "site-care": HistoryIcon,
+  "website-migration-qa": ArrowsExchangeIcon,
+  "webflow-studios": LayoutDashboardIcon,
+  "shopify-agencies": BriefcaseIcon,
+  "real-estate-marketing": PinIcon,
+  "brand-compliance": PaletteIcon,
+  "accessibility-review": EyeIcon,
+};
+
+/** Fallback icon for a solution page with no entry in {@link SOLUTION_ICONS}. */
+const SOLUTION_DEFAULT_ICON: MenuIconComponent = GlobeIcon;
+
+/**
+ * Menu icon for a solution page.
+ * @param slug The page slug.
+ * @returns Its icon component, or the default when the slug is unknown.
+ */
+function solutionIcon(slug: string): MenuIconComponent {
+  try {
+    return SOLUTION_ICONS[slug] ?? SOLUTION_DEFAULT_ICON;
+  } catch {
+    return SOLUTION_DEFAULT_ICON;
+  }
+}
 
 /**
  * Review surfaces grouped by asset type, surfaced in the Assets dropdown. Each
@@ -517,10 +594,12 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   );
   const menuId = useId();
   const productMenuId = useId();
+  const solutionsMenuId = useId();
   const assetsMenuId = useId();
   const integrationsMenuId = useId();
   const resourcesMenuId = useId();
   const mobileProductId = useId();
+  const mobileSolutionsId = useId();
   const mobileAssetsId = useId();
   const mobileIntegrationsId = useId();
   const mobileResourcesId = useId();
@@ -530,6 +609,9 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
   const productMenuRef = useRef<HTMLDivElement | null>(null);
   const productPanelRef = useRef<HTMLDivElement | null>(null);
   const productTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const solutionsMenuRef = useRef<HTMLDivElement | null>(null);
+  const solutionsPanelRef = useRef<HTMLDivElement | null>(null);
+  const solutionsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const assetsMenuRef = useRef<HTMLDivElement | null>(null);
   const assetsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const integrationsMenuRef = useRef<HTMLDivElement | null>(null);
@@ -604,6 +686,8 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
       return (
         Boolean(productMenuRef?.current?.contains(node)) ||
         Boolean(productPanelRef?.current?.contains(node)) ||
+        Boolean(solutionsMenuRef?.current?.contains(node)) ||
+        Boolean(solutionsPanelRef?.current?.contains(node)) ||
         Boolean(assetsMenuRef?.current?.contains(node)) ||
         Boolean(integrationsMenuRef?.current?.contains(node)) ||
         Boolean(resourcesMenuRef?.current?.contains(node))
@@ -786,6 +870,8 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
           closeDropdownMenu();
           if (label === PRODUCT_LABEL) {
             productTriggerRef.current?.focus();
+          } else if (label === SOLUTIONS_LABEL) {
+            solutionsTriggerRef.current?.focus();
           } else if (label === ASSETS_LABEL) {
             assetsTriggerRef.current?.focus();
           } else if (label === INTEGRATIONS_LABEL) {
@@ -881,6 +967,40 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                       size={16}
                       className={`${styles.navChevron} ${
                         openDropdown === PRODUCT_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+                </div>
+              );
+            }
+
+            if (item?.label === SOLUTIONS_LABEL) {
+              return (
+                <div
+                  key={item.label}
+                  ref={solutionsMenuRef}
+                  className={styles.navItem}
+                  onMouseEnter={() => openDropdownMenu(SOLUTIONS_LABEL)}
+                  onMouseLeave={scheduleDropdownClose}
+                  onBlur={handleDropdownBlur}
+                >
+                  <button
+                    type="button"
+                    ref={solutionsTriggerRef}
+                    className={`${styles.navLink} ${styles.navTrigger}`}
+                    aria-expanded={openDropdown === SOLUTIONS_LABEL}
+                    aria-controls={solutionsMenuId}
+                    onClick={() => toggleDropdownMenu(SOLUTIONS_LABEL)}
+                    onPointerDown={handleDropdownPointerDown}
+                    onFocus={() => handleTriggerFocus(SOLUTIONS_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={16}
+                      className={`${styles.navChevron} ${
+                        openDropdown === SOLUTIONS_LABEL
                           ? styles.navChevronOpen
                           : ""
                       }`}
@@ -1151,6 +1271,61 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
       </div>
 
       <div
+        id={solutionsMenuId}
+        ref={solutionsPanelRef}
+        className={`${styles.megaMenu} ${styles.megaMenuTwoCol} ${
+          openDropdown === SOLUTIONS_LABEL ? styles.megaMenuOpen : ""
+        }`}
+        aria-label={`${SOLUTIONS_LABEL} pages`}
+        onMouseEnter={() => openDropdownMenu(SOLUTIONS_LABEL)}
+        onMouseLeave={scheduleDropdownClose}
+        onBlur={handleDropdownBlur}
+      >
+        <div className={`${styles.megaInner} ${styles.megaInnerTwoCol}`}>
+          {SOLUTION_GROUPS.map((group) => (
+            <div
+              key={group.kind}
+              className={`${styles.megaColumn} ${toneClassName(group.tone)}`}
+            >
+              <p className={styles.megaHeading}>{group.heading}</p>
+              <div className={styles.megaLinks}>
+                {group.links.map((solution) => {
+                  const Icon = solutionIcon(solution.slug);
+                  return (
+                    <a
+                      key={solution.slug}
+                      className={styles.megaLink}
+                      href={solutionPath(solution.slug)}
+                      onClick={closeDropdownMenu}
+                    >
+                      <span className={styles.megaLinkIcon}>
+                        <Icon size={20} />
+                      </span>
+                      <span className={styles.megaLinkText}>
+                        <span className={styles.megaLinkLabel}>
+                          {solution.navLabel}
+                        </span>
+                        <span className={styles.megaLinkDesc}>
+                          {solution.navDescriptor}
+                        </span>
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+          <a
+            className={`${styles.megaLink} ${styles.megaAllLink}`}
+            href={SOLUTIONS_BASE_PATH}
+            onClick={closeDropdownMenu}
+          >
+            {SOLUTIONS_ALL_LABEL}
+          </a>
+        </div>
+      </div>
+
+      <div
         id={menuId}
         ref={mobileMenuRef}
         className={`${styles.mobileMenu} ${
@@ -1220,6 +1395,82 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         ))}
                       </div>
                     ))}
+                  </div>
+                </div>
+              );
+            }
+
+            if (item?.label === SOLUTIONS_LABEL) {
+              return (
+                <div key={item.label} className={styles.mobileNavGroup}>
+                  <button
+                    type="button"
+                    className={`${styles.mobileNavLink} ${styles.mobileNavToggle}`}
+                    aria-expanded={openMobileDropdown === SOLUTIONS_LABEL}
+                    aria-controls={mobileSolutionsId}
+                    onClick={() => handleMobileDropdownToggle(SOLUTIONS_LABEL)}
+                  >
+                    {item.label}
+                    <ChevronDownIcon
+                      size={18}
+                      className={`${styles.mobileNavChevron} ${
+                        openMobileDropdown === SOLUTIONS_LABEL
+                          ? styles.navChevronOpen
+                          : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={mobileSolutionsId}
+                    className={`${styles.mobileSubMenu} ${
+                      openMobileDropdown === SOLUTIONS_LABEL
+                        ? styles.mobileSubMenuOpen
+                        : ""
+                    }`}
+                  >
+                    {SOLUTION_GROUPS.map((group) => (
+                      <div
+                        key={group.kind}
+                        className={`${styles.mobileSubGroup} ${toneClassName(
+                          group.tone
+                        )}`}
+                      >
+                        <p className={styles.mobileSubHeading}>
+                          {group.heading}
+                        </p>
+                        {group.links.map((solution) => {
+                          const Icon = solutionIcon(solution.slug);
+                          return (
+                            <a
+                              key={solution.slug}
+                              className={styles.mobileSubLink}
+                              href={solutionPath(solution.slug)}
+                              onClick={closeMenu}
+                            >
+                              <span className={styles.megaLinkIcon}>
+                                <Icon size={18} />
+                              </span>
+                              <span className={styles.mobileSubLinkText}>
+                                <span className={styles.mobileSubLinkLabel}>
+                                  {solution.navLabel}
+                                </span>
+                                <span className={styles.mobileSubLinkDesc}>
+                                  {solution.navDescriptor}
+                                </span>
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    ))}
+                    <a
+                      className={styles.mobileListLink}
+                      href={SOLUTIONS_BASE_PATH}
+                      onClick={closeMenu}
+                    >
+                      {SOLUTIONS_ALL_LABEL}
+                    </a>
                   </div>
                 </div>
               );

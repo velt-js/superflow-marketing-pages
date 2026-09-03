@@ -391,3 +391,18 @@
     font-size: 20px;
   }
 }
+/* ---------- Single-column variant (proof="metrics-only") ---------- */
+
+/* No showcase column: the intro and metrics stand alone, centred and capped
+   so the divided metric rows do not stretch across the full 1200px. Used by
+   the solutions pages that have no fitting testimonial. */
+.gridSingle {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.gridSingle .intro {
+  position: static;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}

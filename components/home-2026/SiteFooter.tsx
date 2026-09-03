@@ -2,6 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./SiteFooter.module.css";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import {
+  SOLUTIONS_BASE_PATH,
+  SOLUTION_SUMMARIES,
+  solutionPath,
+} from "@/lib/solutions/seed";
 
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
@@ -14,8 +19,6 @@ const FEATURE_PATH = "/";
 const INTEGRATIONS_PATH = "/integrations";
 const ALTERNATIVES_PATH = "/alternative";
 const COMPARISONS_PATH = "/comparisons";
-const USE_CASES_PATH = "/use-case";
-const PERSONAS_PATH = "/user-persona";
 const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
@@ -173,27 +176,17 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: "Use Cases",
+    // The solutions pages, read from the seed summaries (nav order: agency
+    // pages first, then job pages) so a page added in lib/solutions shows up
+    // here with no second edit. Replaces the retired Use Cases and User
+    // Persona columns, whose URLs now redirect here (see next.config.ts).
+    title: "Solutions",
     links: [
-      { label: "UAT & QA testing", href: `${USE_CASES_PATH}/uat-qa-testing` },
-      { label: "Client feedback", href: `${USE_CASES_PATH}/client-feedback` },
-      { label: "Conversion optimization", href: `${USE_CASES_PATH}/conversion-optimization` },
-      { label: "Reporting bug", href: `${USE_CASES_PATH}/bug-reporting` },
-      { label: "UX/UI Optimization", href: `${USE_CASES_PATH}/ux-ui-optimization` },
-    ],
-  },
-  {
-    title: "User Persona",
-    links: [
-      { label: "QA team", href: `${PERSONAS_PATH}/qa-teams` },
-      { label: "Project Managers", href: `${PERSONAS_PATH}/project-managers` },
-      { label: "Founder", href: `${PERSONAS_PATH}/founders` },
-      { label: "Developer", href: `${PERSONAS_PATH}/developers` },
-      { label: "Product company", href: `${PERSONAS_PATH}/product-companies` },
-      { label: "Marketing agency", href: `${PERSONAS_PATH}/marketing-agencies` },
-      { label: "Designer", href: `${PERSONAS_PATH}/designers` },
-      { label: "Product Manager", href: `${PERSONAS_PATH}/product-managers` },
-      { label: "Marketer", href: `${PERSONAS_PATH}/marketers` },
+      ...SOLUTION_SUMMARIES.map((solution) => ({
+        label: solution.navLabel,
+        href: solutionPath(solution.slug),
+      })),
+      { label: "All solutions", href: SOLUTIONS_BASE_PATH },
     ],
   },
 ];

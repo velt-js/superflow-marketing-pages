@@ -4,9 +4,11 @@ import styles from "./Hero.module.css";
 import HeroChecksDropdown from "./HeroChecksDropdown";
 import HeroUrlForm from "./HeroUrlForm";
 import HeroWorkflowShowcase, {
+  type HeroAgentFinding,
   type HeroCmsTab,
   type HeroWorkflowVariant,
 } from "./HeroWorkflowShowcase";
+import SolutionHeroCtas from "@/components/solutions-2026/SolutionHeroCtas";
 import IntegrationsHubHeroArtifact from "./hero-artifacts/IntegrationsHubHeroArtifact";
 import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtifact";
 import IntegrationsAsanaArtifact from "./hero-artifacts/IntegrationsAsanaArtifact";
@@ -55,6 +57,9 @@ const SUBHEAD_TEXT =
  *    field + checks dropdown in the right column.
  *  - "feature": no URL capture — the subhead moves into the right column
  *    (matching the Figma feature-page frame, node 678:3023).
+ *  - "solution": subhead under the headline like "home", with the two CTA
+ *    buttons ("Start free", "Book demo") and the microcopy in the right
+ *    column in place of the URL field and checks dropdown.
  *
  * `showcase` picks the tab preset on the interactive QA workflow window:
  *  - "workflow" (default): the homepage tab preset.
@@ -73,9 +78,16 @@ export interface HeroProps {
   kicker?: string;
   headlineLines?: readonly string[];
   subhead?: string;
-  variant?: "home" | "feature";
+  variant?: "home" | "feature" | "solution";
   showcase?: "workflow" | "comments" | "review-agents";
   tabs?: readonly HeroCmsTab[] | null;
+  /**
+   * Optional page-specific agent findings shown in the "Agents at work"
+   * (`qa-workflow`) tab of the interactive showcase, forwarded to
+   * {@link HeroWorkflowShowcase}. Plain data, safe across the server/client
+   * boundary. Omit to keep the artifact's default findings.
+   */
+  agentFindings?: readonly HeroAgentFinding[];
   /**
    * Optional page scope selecting per-page hero-artifact overrides (forwarded to
    * {@link HeroWorkflowShowcase}). A plain string, safe across the server/client
@@ -157,6 +169,7 @@ export default function Hero({
   variant = "home",
   showcase = "workflow",
   tabs,
+  agentFindings,
   heroArtifactScope,
   background = "default",
   staticArtifact,
@@ -167,6 +180,7 @@ export default function Hero({
     headlineLines && headlineLines.length > 0 ? headlineLines : HEADLINE_LINES;
   const resolvedSubhead = subhead ?? SUBHEAD_TEXT;
   const isFeature = variant === "feature";
+  const isSolution = variant === "solution";
   const showcaseVariant: HeroWorkflowVariant =
     showcase === "comments" || showcase === "review-agents"
       ? showcase
@@ -203,6 +217,12 @@ export default function Hero({
             <p className={`${styles.subhead} ${styles.subheadRight}`}>
               {resolvedSubhead}
             </p>
+          ) : isSolution ? (
+            <div className={styles.panel}>
+              <SolutionHeroCtas />
+
+              <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
+            </div>
           ) : (
             <div className={styles.panel}>
               <HeroUrlForm />
@@ -230,6 +250,7 @@ export default function Hero({
           <HeroWorkflowShowcase
             variant={showcaseVariant}
             tabs={tabs}
+            agentFindings={agentFindings}
             heroArtifactScope={heroArtifactScope}
           />
         )}
