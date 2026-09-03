@@ -29,18 +29,6 @@ const TITLE = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_PAUL_GRAHAM_CONTENT.description;
 
-/** Rendered under the result so the lens can be checked against its source. */
-const SOURCES = [
-  { title: "Startups in 13 Sentences", url: "https://www.paulgraham.com/13sentences.html" },
-  { title: "Write Like You Talk", url: "https://www.paulgraham.com/talk.html" },
-  { title: "Write Simply", url: "https://www.paulgraham.com/simply.html" },
-  { title: "Writing, Briefly", url: "https://www.paulgraham.com/writing44.html" },
-  { title: "Taste for Makers", url: "https://www.paulgraham.com/taste.html" },
-  { title: "Schlep Blindness", url: "https://www.paulgraham.com/schlep.html" },
-  { title: "The 18 Mistakes That Kill Startups", url: "https://www.paulgraham.com/startupmistakes.html" },
-  { title: "Be Good", url: "https://www.paulgraham.com/good.html" },
-];
-
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
@@ -138,7 +126,6 @@ export default function PaulGrahamReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          sources={SOURCES}
           showPersonaPicker
         />
       </ToolPage>

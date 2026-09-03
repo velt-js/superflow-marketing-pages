@@ -75,7 +75,14 @@ const STAGING_ENDPOINT =
  *
  * Ids are the free-tool ids, which are also the backend agent ids.
  */
-const TOOLS_ON_STAGING: ReadonlySet<string> = new Set<string>([]);
+const TOOLS_ON_STAGING: ReadonlySet<string> = new Set<string>([
+  // The YC partner lenses. Their agents land on staging first; remove each one
+  // the moment it is released to prod, per the note above.
+  "review-like-aaron-epstein",
+  "review-like-pete-koomen",
+  "review-like-gustaf-alstromer",
+  "review-like-jared-friedman",
+]);
 
 /** The sentinel that turns the backend off and restores the in-repo engine. */
 const LOCAL_ENGINE_SENTINEL = "local";
