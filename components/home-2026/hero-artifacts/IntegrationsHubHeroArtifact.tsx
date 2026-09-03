@@ -23,9 +23,9 @@ const COMMENT_BODY = "Let\u2019s update this ";
 const MENTION = "@Emma";
 const OPEN_LABEL = "Open";
 
+/** The Slack channel, shown as the event's source and in its body line. */
 const SLACK_CHANNEL = "#acme-delivery";
 const SLACK_EVENT_PREFIX = "Comment Added to ";
-const SLACK_EVENT_CHANNEL = "#acme-deliery";
 
 const BOARD_EVENT_LABEL = "Item Moved";
 const BOARD_EVENT_BODY = "Let\u2019s update this ";
@@ -264,7 +264,7 @@ export default function IntegrationsHubHeroArtifact(): ReactNode {
             <span className={styles.eventLabel}>{SLACK_CHANNEL}</span>
             <p className={styles.eventBody}>
               {SLACK_EVENT_PREFIX}
-              <span className={styles.eventAccentGreen}>{SLACK_EVENT_CHANNEL}</span>
+              <span className={styles.eventAccentGreen}>{SLACK_CHANNEL}</span>
             </p>
           </article>
 
