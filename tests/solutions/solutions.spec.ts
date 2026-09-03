@@ -132,8 +132,11 @@ test.describe("solutions pages", () => {
       await expect(page.locator('main a[href="/ai-review-agents"]').first()).toBeAttached();
       await expect(page.locator('main a[href="/client-review"]').first()).toBeAttached();
 
-      // Two related solutions.
-      const related = page.locator('[data-section="related-solutions"] a[href^="/solutions/"]');
+      // Two related solutions (the section reuses the RelatedCapabilities
+      // chrome, so it carries that data-section hook).
+      const related = page.locator(
+        'main [data-section="related-capabilities"] a[href^="/solutions/"]',
+      );
       await expect(related).toHaveCount(2);
     });
   }
@@ -141,7 +144,11 @@ test.describe("solutions pages", () => {
   test("the index lists all six batch-1 pages", async ({ page }) => {
     await page.goto("/solutions");
     for (const solution of SOLUTION_SEED) {
-      await expect(page.locator(`a[href="${solutionPath(solution.slug)}"]`).first()).toBeVisible();
+      // The nav mega menu also carries these links, hidden until opened, so
+      // look for a visible one (the index card).
+      await expect(
+        page.locator(`a[href="${solutionPath(solution.slug)}"]:visible`).first(),
+      ).toBeVisible();
     }
   });
 });
@@ -180,12 +187,19 @@ test.describe("site chrome", () => {
     await page.goto("/");
     const trigger = page.getByRole("button", { name: /^Solutions/ });
     await expect(trigger).toBeVisible();
-    await trigger.click();
+    // Hover opens the desktop menu (a click on an already-hovered trigger
+    // toggles it closed again, which is the intended behaviour).
+    await trigger.hover();
     await expect(page.getByText("By agency").first()).toBeVisible();
     await expect(page.getByText("By job").first()).toBeVisible();
     for (const solution of SOLUTION_SEED) {
-      await expect(page.locator(`a[href="${solutionPath(solution.slug)}"]`).first()).toBeVisible();
+      await expect(
+        page.locator(`a[href="${solutionPath(solution.slug)}"]:visible`).first(),
+      ).toBeVisible();
     }
+    // Keyboard: Escape closes it and returns focus to the trigger.
+    await page.keyboard.press("Escape");
+    await expect(page.getByText("By agency").first()).toBeHidden();
   });
 
   test("footer has a Solutions column and no Use Cases or User Persona column", async ({ page }) => {

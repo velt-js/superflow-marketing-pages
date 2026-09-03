@@ -244,6 +244,13 @@ export interface AgentCommentCardProps {
   showActions?: boolean;
   /** Whether the header overflow-menu dots are shown. Defaults to true. */
   showMenu?: boolean;
+  /**
+   * Whether the approve/reject actions are real buttons. Marketing surfaces
+   * that only illustrate a finding (agent cards, scaled artifact mocks) pass
+   * false so the actions render as decorative marks: no dead controls in the
+   * tab order and no undersized tap targets. Defaults to true.
+   */
+  interactive?: boolean;
 }
 
 /**
@@ -265,6 +272,7 @@ export default function AgentCommentCard({
   replyLabel,
   showActions = true,
   showMenu = true,
+  interactive = true,
 }: AgentCommentCardProps): ReactNode {
   try {
     const rootClassName = className ? `${styles.card} ${className}` : styles.card;
@@ -313,7 +321,7 @@ export default function AgentCommentCard({
             <span className={styles.footerSpacer} aria-hidden="true" />
           )}
 
-          {showActions ? (
+          {showActions && interactive ? (
             <span className={styles.actions}>
               <button
                 type="button"
@@ -329,6 +337,16 @@ export default function AgentCommentCard({
               >
                 <XIcon size={ACTION_ICON_SIZE} />
               </button>
+            </span>
+          ) : null}
+          {showActions && !interactive ? (
+            <span className={styles.actions} aria-hidden="true">
+              <span className={`${styles.actionButton} ${styles.approve}`}>
+                <CheckIcon size={ACTION_ICON_SIZE} />
+              </span>
+              <span className={`${styles.actionButton} ${styles.reject}`}>
+                <XIcon size={ACTION_ICON_SIZE} />
+              </span>
             </span>
           ) : null}
         </div>

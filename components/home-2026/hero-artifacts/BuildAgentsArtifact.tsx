@@ -240,6 +240,8 @@ function DotsVerticalIcon({ size = 23, ...rest }: IconProps) {
 /** A left-rail workspace icon. */
 type RailItem = {
   id: string;
+  /** Accessible name of the (decorative) rail button. */
+  label: string;
   Icon: ComponentType<IconProps>;
   active?: boolean;
 };
@@ -266,12 +268,12 @@ type AgentCard = {
 };
 
 const RAIL_ITEMS: readonly RailItem[] = [
-  { id: "home", Icon: HomeIcon },
-  { id: "analytics", Icon: ChartIcon },
-  { id: "agents", Icon: LegoIcon, active: true },
-  { id: "checks", Icon: ChecksIcon },
-  { id: "user", Icon: UserIcon },
-  { id: "settings", Icon: SettingsIcon },
+  { id: "home", label: "Home", Icon: HomeIcon },
+  { id: "analytics", label: "Analytics", Icon: ChartIcon },
+  { id: "agents", label: "Agents", Icon: LegoIcon, active: true },
+  { id: "checks", label: "Checks", Icon: ChecksIcon },
+  { id: "user", label: "Account", Icon: UserIcon },
+  { id: "settings", label: "Settings", Icon: SettingsIcon },
 ];
 
 /**
@@ -424,7 +426,9 @@ function AgentCardView({ card }: { card: AgentCard }) {
       </button>
       <header className={styles.cardHead}>
         <GridTile palette={card?.palette} />
-        <h3 className={styles.cardTitle}>{card?.title}</h3>
+        {/* Decorative mock card: a paragraph, not a heading, so the page's
+            heading order (h1, then the section h2s) stays intact. */}
+        <p className={styles.cardTitle}>{card?.title}</p>
       </header>
       <p className={styles.cardDescription}>{card?.description}</p>
     </article>
@@ -479,6 +483,8 @@ export default function BuildAgentsArtifact() {
               className={`${styles.railItem} ${
                 item?.active ? styles.railItemActive : ""
               }`}
+              aria-label={item?.label}
+              aria-pressed={item?.active ? true : undefined}
             >
               <RailIcon size={16} />
             </button>

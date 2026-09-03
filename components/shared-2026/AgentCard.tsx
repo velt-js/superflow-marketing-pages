@@ -118,6 +118,7 @@ export default function AgentCard({
           description=""
           avatarVariant="agentDots"
           showMenu={false}
+          interactive={false}
         />
       </div>
     </article>

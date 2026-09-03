@@ -237,6 +237,7 @@ export default function PinnedCommentScene({
               replyLabel={agentCard.replyLabel}
               showActions={agentCard.showActions}
               showMenu={agentCard.showMenu}
+              interactive={agentCard.interactive}
             />
           ) : (
             <CommentThreadCard
