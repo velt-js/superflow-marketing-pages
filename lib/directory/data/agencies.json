@@ -1,0 +1,1802 @@
+[
+  {
+    "slug": "locomotive",
+    "name": "Locomotive",
+    "website": "https://locomotive.ca/",
+    "domain": "locomotive.ca",
+    "profileUrl": "https://www.awwwards.com/locomotive/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Montréal"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/210282/63ed3bd6390c6148123811.jpg",
+    "description": "Locomotive® has become a go-to for meaningful, innovative, results-driven digital experiences, web design and branding. Freshness guaranteed.",
+    "awards": {
+      "siteOfTheDay": 91,
+      "siteOfTheMonth": 4,
+      "siteOfTheYear": 1,
+      "developerAward": 0,
+      "honorableMentions": 131,
+      "nominees": 0,
+      "total": 227
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "immersive-g",
+    "name": "Immersive Garden",
+    "website": "https://www.immersive-g.com/",
+    "domain": "immersive-g.com",
+    "profileUrl": "https://www.awwwards.com/immersivegarden/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Paris"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/207/6977365e840ed736382677.jpg",
+    "description": "Immersive Garden is a digital production studio based in Paris specialized in design, animation & development.",
+    "awards": {
+      "siteOfTheDay": 68,
+      "siteOfTheMonth": 13,
+      "siteOfTheYear": 3,
+      "developerAward": 0,
+      "honorableMentions": 89,
+      "nominees": 0,
+      "total": 173
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "resn",
+    "name": "Resn",
+    "website": "https://www.resn.co.nz/",
+    "domain": "resn.co.nz",
+    "profileUrl": "https://www.awwwards.com/resn/",
+    "location": {
+      "country": "New Zealand",
+      "countryCode": "NZ",
+      "city": "Wellington"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/65098/637d926f22a1e093530630.jpeg",
+    "description": "Bringing your story to life.",
+    "awards": {
+      "siteOfTheDay": 62,
+      "siteOfTheMonth": 11,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 77,
+      "nominees": 0,
+      "total": 152
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "monks",
+    "name": "Monks",
+    "website": "https://monks.com/",
+    "domain": "monks.com",
+    "profileUrl": "https://www.awwwards.com/madebymonks/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": "Hilversum"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/70399/66cf1757255a9240916695.png",
+    "description": "Monks combines an extraordinary range of global marketing and technology services to redefine how brands interact with the world.",
+    "awards": {
+      "siteOfTheDay": 59,
+      "siteOfTheMonth": 8,
+      "siteOfTheYear": 4,
+      "developerAward": 0,
+      "honorableMentions": 112,
+      "nominees": 0,
+      "total": 183
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "activetheory",
+    "name": "Active Theory",
+    "website": "https://activetheory.net/",
+    "domain": "activetheory.net",
+    "profileUrl": "https://www.awwwards.com/active_theory/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "Los Angeles"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/237203/5e13e523474be870736751.jpg",
+    "description": "Creative Digital Experiences",
+    "awards": {
+      "siteOfTheDay": 58,
+      "siteOfTheMonth": 10,
+      "siteOfTheYear": 3,
+      "developerAward": 0,
+      "honorableMentions": 77,
+      "nominees": 0,
+      "total": 148
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "hellomonday",
+    "name": "Hello Monday",
+    "website": "https://www.hellomonday.com/",
+    "domain": "hellomonday.com",
+    "profileUrl": "https://www.awwwards.com/hellomonday/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "New York"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/196/63b83a8e7e21c967462311.png",
+    "description": "Hello Monday create unique digital experiences and brand identities that tickle the brain and please the eye. USA, NY — Denmark, Copenhagen & Aarhus",
+    "awards": {
+      "siteOfTheDay": 53,
+      "siteOfTheMonth": 9,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 60,
+      "nominees": 0,
+      "total": 124
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "aquest",
+    "name": "AQuest",
+    "website": "https://www.aquest.it/",
+    "domain": "aquest.it",
+    "profileUrl": "https://www.awwwards.com/aquest/",
+    "location": {
+      "country": "Italy",
+      "countryCode": "IT",
+      "city": "Verona"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/221/638df9b1bbadb035726642.png",
+    "description": "AQuest inspires minds and hearts by transforming the most beautiful dreams into a magical digital experience.",
+    "awards": {
+      "siteOfTheDay": 49,
+      "siteOfTheMonth": 3,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 80,
+      "nominees": 0,
+      "total": 134
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "adoratorio",
+    "name": "Adoratorio Studio",
+    "website": "https://adoratorio.com/",
+    "domain": "adoratorio.com",
+    "profileUrl": "https://www.awwwards.com/adoratorio.studio/",
+    "location": {
+      "country": "Italy",
+      "countryCode": "IT",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/196723/66f3f560e84ab092354444.jpg",
+    "description": "Independent Design Studio based in Brescia and Amsterdam. Awwwards Studio of the Year.",
+    "awards": {
+      "siteOfTheDay": 44,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 65,
+      "nominees": 0,
+      "total": 110
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "merci-michel",
+    "name": "Merci Michel",
+    "website": "https://merci-michel.com/",
+    "domain": "merci-michel.com",
+    "profileUrl": "https://www.awwwards.com/Merci-Michel/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Paris"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/250950/634eaeb33a10c149334137.png",
+    "description": "Merci-Michel is a digital gamification studio. Inquiries: contact@merci-michel.com",
+    "awards": {
+      "siteOfTheDay": 43,
+      "siteOfTheMonth": 6,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 62,
+      "nominees": 0,
+      "total": 113
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "dogstudio",
+    "name": "dogstudio",
+    "website": "https://www.dogstudio.co/",
+    "domain": "dogstudio.co",
+    "profileUrl": "https://www.awwwards.com/dogstudio/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "Chicago"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/241/5dd6460ac8e57602858124.jpg",
+    "description": "Multidisciplinary creative studio at the intersection of art, design and technology. Making Good Shit like it's 1996.",
+    "awards": {
+      "siteOfTheDay": 43,
+      "siteOfTheMonth": 5,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 60,
+      "nominees": 0,
+      "total": 110
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "makemepulse",
+    "name": "makemepulse",
+    "website": "https://www.makemepulse.com/",
+    "domain": "makemepulse.com",
+    "profileUrl": "https://www.awwwards.com/makemepulse/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "París"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/91248/6697e42aef6ba134292902.jpg",
+    "description": "makemepulse is a global interactive production studio. We turn aesthetics into experiences. Light-as-air tech with purpose.",
+    "awards": {
+      "siteOfTheDay": 42,
+      "siteOfTheMonth": 8,
+      "siteOfTheYear": 1,
+      "developerAward": 0,
+      "honorableMentions": 56,
+      "nominees": 0,
+      "total": 107
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "buildinamsterdam",
+    "name": "Build in Amsterdam",
+    "website": "https://www.buildinamsterdam.com/",
+    "domain": "buildinamsterdam.com",
+    "profileUrl": "https://www.awwwards.com/buildinamsterdam/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": "Amsterdam"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/60229/6360e79375c8b080271532.jpg",
+    "description": "We build digital flagship stores.",
+    "awards": {
+      "siteOfTheDay": 41,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 4,
+      "developerAward": 0,
+      "honorableMentions": 51,
+      "nominees": 0,
+      "total": 98
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "burocratik",
+    "name": "Bürocratik",
+    "website": "https://burocratik.com/",
+    "domain": "burocratik.com",
+    "profileUrl": "https://www.awwwards.com/burocratik/",
+    "location": {
+      "country": "Portugal",
+      "countryCode": "PT",
+      "city": "Coimbra"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/12836/67dab39a868db063715239.jpg",
+    "description": "Hello, we are Büro. A fearless digital branding studio crafting memorable brands and websites. Established 2005 (Portugal, Porto and Coimbra).",
+    "awards": {
+      "siteOfTheDay": 41,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 48,
+      "nominees": 0,
+      "total": 91
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "louispaquet",
+    "name": "Louis Paquet",
+    "website": "https://louispaquet.com/",
+    "domain": "louispaquet.com",
+    "profileUrl": "https://www.awwwards.com/louispaquet/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Montreal"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/324007/63f69a49ae16f105191678.jpg",
+    "description": "I love to create awesome interactive experiences that engage the user emotionally.",
+    "awards": {
+      "siteOfTheDay": 40,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 1,
+      "developerAward": 0,
+      "honorableMentions": 50,
+      "nominees": 0,
+      "total": 93
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "unseen",
+    "name": "Unseen Studio",
+    "website": "https://www.unseen.co/",
+    "domain": "unseen.co",
+    "profileUrl": "https://www.awwwards.com/unseenstudio/",
+    "location": {
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "city": "Bristol"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/81205/63b7f46e29f4a782744057.jpg",
+    "description": "A brand, digital and motion studio creating refreshingly unexpected ideas and striking visuals that help bold brands cut through the noise.",
+    "awards": {
+      "siteOfTheDay": 35,
+      "siteOfTheMonth": 3,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 50,
+      "nominees": 0,
+      "total": 88
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "obys",
+    "name": "Obys",
+    "website": "https://obys.agency/",
+    "domain": "obys.agency",
+    "profileUrl": "https://www.awwwards.com/obys/",
+    "location": {
+      "country": "Ukraine",
+      "countryCode": "UA",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/762039/69d76ad7c5e99540393944.jpg",
+    "description": "Concept-driven design studio. Award-winning brand and web experiences. Since 2018.",
+    "awards": {
+      "siteOfTheDay": 33,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 42,
+      "nominees": 0,
+      "total": 77
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "zhenyary",
+    "name": "Zhenya Rynzhuk",
+    "website": "https://zhenyary.com/",
+    "domain": "zhenyary.com",
+    "profileUrl": "https://www.awwwards.com/zhenyary/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/95760/63d3ebaf45dcc921347659.png",
+    "description": "Art Direction | Visual design | Mobile design | Web design | UX design | Interface design | Product design | Interface animations",
+    "awards": {
+      "siteOfTheDay": 31,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 32,
+      "nominees": 0,
+      "total": 66
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "jesperlandberg",
+    "name": "Jesper Landberg",
+    "website": "https://jesperlandberg.com/",
+    "domain": "jesperlandberg.com",
+    "profileUrl": "https://www.awwwards.com/jesperlandberg/",
+    "location": {
+      "country": "Sweden",
+      "countryCode": "SE",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/submissions/2026/08/6a7c61dac1259299462758.jpg",
+    "description": "Creative developer focusing on motion and refined digital experiences.",
+    "awards": {
+      "siteOfTheDay": 30,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 46,
+      "nominees": 0,
+      "total": 76
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "rejouice",
+    "name": "REJOUICE®",
+    "website": "https://www.rejouice.com/",
+    "domain": "rejouice.com",
+    "profileUrl": "https://www.awwwards.com/rejouice/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "San Diego"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/1530157/678aca7db09a7456529143.png",
+    "description": "The Growth Accelerator™ | ✉️ hello@rejouice.com | 🔗 www.rejouice.com | Founded by the co-founder of Oui Will, Guillaume HAMON, now leading REJOUICE.",
+    "awards": {
+      "siteOfTheDay": 29,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 32,
+      "nominees": 0,
+      "total": 62
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "synchronized",
+    "name": "Synchronized Studio",
+    "website": "https://synchronized.studio/",
+    "domain": "synchronized.studio",
+    "profileUrl": "https://www.awwwards.com/SynchronizedStudio/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "New York"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/688266/63d3f342f3585612044569.png",
+    "description": "Full-service creative studio crafting unparalleled digital experiences that bring strategic value and make our partners’ businesses thrive.",
+    "awards": {
+      "siteOfTheDay": 27,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 28,
+      "nominees": 0,
+      "total": 57
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "e-t",
+    "name": "ET Studio",
+    "website": "https://www.e-t.studio/",
+    "domain": "e-t.studio",
+    "profileUrl": "https://www.awwwards.com/et-studio/",
+    "location": {
+      "country": "Italy",
+      "countryCode": "IT",
+      "city": "Verona"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/863203/6356533a43df1017827511.png",
+    "description": "𝐈𝐧𝐝𝐞𝐩𝐞𝐧𝐝𝐞𝐧𝐭 𝔼𝕩𝕥𝕣𝕒𝕥𝕖𝕣𝕣𝕖𝕤𝕥𝕣𝕚𝕒𝕝 𝐒𝐭𝐮𝐝𝐢𝐨. We craft boundary-breaking digital experiences and art. mail: hello@e-t.studio",
+    "awards": {
+      "siteOfTheDay": 26,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 34,
+      "nominees": 0,
+      "total": 60
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "thefirstthelast",
+    "name": "The First The Last",
+    "website": "https://thefirstthelast.agency/",
+    "domain": "thefirstthelast.agency",
+    "profileUrl": "https://www.awwwards.com/thefirstthelast/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "Miami"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/238047/69bd3112bd1d0354537406.png",
+    "description": "Success Designed Differently",
+    "awards": {
+      "siteOfTheDay": 24,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 46,
+      "nominees": 0,
+      "total": 73
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "bonhommeparis",
+    "name": "BONHOMME",
+    "website": "https://bonhommeparis.com/",
+    "domain": "bonhommeparis.com",
+    "profileUrl": "https://www.awwwards.com/BONHOMME/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Paris"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/214176/5b894a01cecbb.jpg",
+    "description": "Branding Digital Studio Influenced by art, architecture, object design and applied arts, Bonhomme breaks borders to offer a powerful and global.",
+    "awards": {
+      "siteOfTheDay": 23,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 53,
+      "nominees": 0,
+      "total": 77
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "springsummer",
+    "name": "Spring/Summer",
+    "website": "https://springsummer.dk/",
+    "domain": "springsummer.dk",
+    "profileUrl": "https://www.awwwards.com/SpringSummer/",
+    "location": {
+      "country": "Denmark",
+      "countryCode": "DK",
+      "city": "København"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/172554/672cc7604a820377671659.jpg",
+    "description": "Crafting online Flagship Stores, Digital Headquarters Brand Identities for ambitious global brands since 2013",
+    "awards": {
+      "siteOfTheDay": 23,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 2,
+      "developerAward": 0,
+      "honorableMentions": 30,
+      "nominees": 0,
+      "total": 55
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "snp",
+    "name": "SALT AND PEPPER",
+    "website": "https://snp.agency/",
+    "domain": "snp.agency",
+    "profileUrl": "https://www.awwwards.com/snp/",
+    "location": {
+      "country": "Germany",
+      "countryCode": "DE",
+      "city": "Berlin"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/436236/65b8b06635be5824043381.jpg",
+    "description": "Helping turn your ideas into digital products",
+    "awards": {
+      "siteOfTheDay": 22,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 35,
+      "nominees": 0,
+      "total": 57
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "studiogusto",
+    "name": "STUDIOGUSTO",
+    "website": "https://www.studiogusto.com/",
+    "domain": "studiogusto.com",
+    "profileUrl": "https://www.awwwards.com/studiogusto/",
+    "location": {
+      "country": "Italy",
+      "countryCode": "IT",
+      "city": "Perugia"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/73248/63d785be58268743946132.jpg",
+    "description": "Studiogusto is a Culture–First Creative Agency that develops beautiful digital products, brands and experiences.",
+    "awards": {
+      "siteOfTheDay": 22,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 34,
+      "nominees": 0,
+      "total": 56
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "iljavaneck",
+    "name": "Ilja van Eck",
+    "website": "https://www.iljavaneck.com/",
+    "domain": "iljavaneck.com",
+    "profileUrl": "https://www.awwwards.com/ilja-van-eck/",
+    "location": {
+      "country": "Belgium",
+      "countryCode": "BE",
+      "city": "Antwerp"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/1222390/64a45abda47fc194220022.png",
+    "description": "24 year old digital designer and Webflow developer. I work with people from all over the world to create tailor-made Webflow experiences and websites.",
+    "awards": {
+      "siteOfTheDay": 22,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 32,
+      "nominees": 0,
+      "total": 54
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "ouiwill",
+    "name": "Oui Will",
+    "website": "https://www.ouiwill.com/",
+    "domain": "ouiwill.com",
+    "profileUrl": "https://www.awwwards.com/ouiwill/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "San Diego"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/195221/5cf65042c1fa9788457265.jpg",
+    "description": "Digital. Brand. Accelerator. ™",
+    "awards": {
+      "siteOfTheDay": 22,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 25,
+      "nominees": 0,
+      "total": 47
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "akaru",
+    "name": "Akaru",
+    "website": "https://www.akaru.fr/",
+    "domain": "akaru.fr",
+    "profileUrl": "https://www.awwwards.com/akaru/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Lyon"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/11687/65f40960da77f056161900.jpg",
+    "description": "Akaru is a digital agency with creative ideas, based in Lyon, France.",
+    "awards": {
+      "siteOfTheDay": 21,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 43,
+      "nominees": 0,
+      "total": 65
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "60fps",
+    "name": "60fps",
+    "website": "https://60fps.fr/",
+    "domain": "60fps.fr",
+    "profileUrl": "https://www.awwwards.com/weare60fps/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "Nancy"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/150/68b9912556667093137956.jpg",
+    "description": "60fps is a French global creative development studio, specializing in crafting state-of-the-art experiences for premium brands and studios/agencies.",
+    "awards": {
+      "siteOfTheDay": 21,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 34,
+      "nominees": 0,
+      "total": 56
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "malvah",
+    "name": "Malvah",
+    "website": "https://www.malvah.co/",
+    "domain": "malvah.co",
+    "profileUrl": "https://www.awwwards.com/Malvah.Studio/",
+    "location": {
+      "country": "South Africa",
+      "countryCode": "ZA",
+      "city": "Cape Town"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/782182/635bb94610d9e731812128.jpg",
+    "description": "We craft distinctive brand experiences for businesses ready to step out of the ordinary.",
+    "awards": {
+      "siteOfTheDay": 20,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 26,
+      "nominees": 0,
+      "total": 46
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "niccolomiranda",
+    "name": "Niccolò Miranda",
+    "website": "https://www.niccolomiranda.com/",
+    "domain": "niccolomiranda.com",
+    "profileUrl": "https://www.awwwards.com/niccolo.miranda/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": "Amsterdam"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/474054/63e3c6031fb3e996705547.jpeg",
+    "description": "Independent Design Director & Visual Developer.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 21,
+      "nominees": 0,
+      "total": 42
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "basicagency",
+    "name": "BASIC/DEPT®",
+    "website": "https://www.basicagency.com/",
+    "domain": "basicagency.com",
+    "profileUrl": "https://www.awwwards.com/basic/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "San Diego"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/360/5a061404ca210.png",
+    "description": "BASIC/DEPT® is a branding & experience design agency working at the intersection of culture, design, and technology.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 1,
+      "developerAward": 0,
+      "honorableMentions": 44,
+      "nominees": 0,
+      "total": 65
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "spatzek",
+    "name": "Spatzek Studio",
+    "website": "https://spatzek.studio/",
+    "domain": "spatzek.studio",
+    "profileUrl": "https://www.awwwards.com/spatzekstudio/",
+    "location": {
+      "country": "Austria",
+      "countryCode": "AT",
+      "city": "Linz"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/531493/63518d9d43516459067774.jpg",
+    "description": "Spatzek Studio creates highly functional, unique & award-winning digital products in the most uncomplicated way possible.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 24,
+      "nominees": 0,
+      "total": 44
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "redcollar",
+    "name": "Red Collar",
+    "website": "https://redcollar.co/contacts",
+    "domain": "redcollar.co",
+    "profileUrl": "https://www.awwwards.com/redcollar/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "New York"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/87991/67f628d012eee823174720.jpeg",
+    "description": "🏆 An award-winning agency with 14 years of expertise | 🌏 redcollar.co | 🎁 Get a free consultation and custom moodboard – hello@redcollar.co",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 43,
+      "nominees": 0,
+      "total": 62
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "shiftbrain",
+    "name": "SHIFTBRAIN",
+    "website": "https://shiftbrain.com/",
+    "domain": "shiftbrain.com",
+    "profileUrl": "https://www.awwwards.com/shiftbrain-inc/",
+    "location": {
+      "country": "Japan",
+      "countryCode": "JP",
+      "city": "世田谷区"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/57156/6360f8c699ae7403810260.jpg",
+    "description": "SHIFTBRAIN is a development and production company that is mainly based in the digital sector and our fortes.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 42,
+      "nominees": 0,
+      "total": 61
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "akufen",
+    "name": "Akufen",
+    "website": "https://akufen.ca/",
+    "domain": "akufen.ca",
+    "profileUrl": "https://www.awwwards.com/akufen/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Montréal"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/223/69820831a8ecd628592185.jpg",
+    "description": "Akufen, Montreal studio of digital artists, brand strategists and creative technologists.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 34,
+      "nominees": 0,
+      "total": 53
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "bizar",
+    "name": "Luis Bizarro",
+    "website": "https://bizar.ro/",
+    "domain": "bizar.ro",
+    "profileUrl": "https://www.awwwards.com/bizarro/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "Norwalk"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/459220/664ee38d3ea0f946546817.png",
+    "description": "Creative Technologist.",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 22,
+      "nominees": 0,
+      "total": 41
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "holographik",
+    "name": "HOLOGRAPHIK",
+    "website": "https://www.holographik.co/",
+    "domain": "holographik.co",
+    "profileUrl": "https://www.awwwards.com/HOLOGRAPHIK/",
+    "location": {
+      "country": "Croatia",
+      "countryCode": "HR",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/1187231/63ea416fc9a01952437708.png",
+    "description": "Digital-first design studio, with a focus on both digital and brand projects",
+    "awards": {
+      "siteOfTheDay": 19,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 21,
+      "nominees": 0,
+      "total": 40
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "garden-eight",
+    "name": "Garden Eight",
+    "website": "https://garden-eight.com/",
+    "domain": "garden-eight.com",
+    "profileUrl": "https://www.awwwards.com/GardenEight/",
+    "location": {
+      "country": "Japan",
+      "countryCode": "JP",
+      "city": "世田谷区"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/submissions/2026/06/6a26d70336f13920733605.jpg",
+    "description": "Digital design studio in Tokyo",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 23,
+      "nominees": 0,
+      "total": 42
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "monogrid",
+    "name": "MONOGRID",
+    "website": "https://www.monogrid.com/en/",
+    "domain": "monogrid.com",
+    "profileUrl": "https://www.awwwards.com/MONOGRID/",
+    "location": {
+      "country": "Italy",
+      "countryCode": "IT",
+      "city": "Firenze"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/439438/65a694ae8aa76711443501.png",
+    "description": "We are MONOGRID, a Creative Innovation Studio based in Florence and Milan with an international presence in the Netherlands, Paris, and the USA.",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 40,
+      "nominees": 0,
+      "total": 58
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "videinfra",
+    "name": "Vide Infra",
+    "website": "https://www.videinfra.com/",
+    "domain": "videinfra.com",
+    "profileUrl": "https://www.awwwards.com/videinfra/",
+    "location": {
+      "country": "United Arab Emirates",
+      "countryCode": "AE",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/70867/641c2fb009445497401739.jpg",
+    "description": "We design and develop exceptional digital products & services, eCommerce, and brand communication solutions.",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 38,
+      "nominees": 0,
+      "total": 56
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "viens-la",
+    "name": "Viens-là",
+    "website": "https://viens-la.com/",
+    "domain": "viens-la.com",
+    "profileUrl": "https://www.awwwards.com/viensla/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "París"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/269/637b921fb1984481378430.png",
+    "description": "Digital Agency - Art direction / Web design / development / UX and so much more - with creativity and pleasure.",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 33,
+      "nominees": 0,
+      "total": 51
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "studiofreight",
+    "name": "Studio Freight",
+    "website": "https://studiofreight.com/",
+    "domain": "studiofreight.com",
+    "profileUrl": "https://www.awwwards.com/studiofreight/",
+    "location": {
+      "country": "United States",
+      "countryCode": "US",
+      "city": "New York"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/987268/69d935f786e60992940800.png",
+    "description": "Studio Freight is a global creative studio moving missions forward.",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 30,
+      "nominees": 0,
+      "total": 48
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "heycusp",
+    "name": "CUSP",
+    "website": "https://heycusp.com/",
+    "domain": "heycusp.com",
+    "profileUrl": "https://www.awwwards.com/CUSP/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Edmonton"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/758518/636d4be249b20048520285.png",
+    "description": "We’re a global team of specialists, focused on crafting world-class digital solutions for today’s modern creators",
+    "awards": {
+      "siteOfTheDay": 18,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 27,
+      "nominees": 0,
+      "total": 45
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "victor",
+    "name": "Victor Work",
+    "website": "https://victor.work/",
+    "domain": "victor.work",
+    "profileUrl": "https://www.awwwards.com/VictorWork/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Toronto"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/457595/6348c3bd902a5000814180.png",
+    "description": "Creative developer and designer, with skills to bringing beauty, interactivity, and lots of life to the Web. #WebGL #VueJs #GSAP",
+    "awards": {
+      "siteOfTheDay": 17,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 17,
+      "nominees": 0,
+      "total": 35
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "dennissnellenberg",
+    "name": "Dennis Snellenberg",
+    "website": "https://dennissnellenberg.com/",
+    "domain": "dennissnellenberg.com",
+    "profileUrl": "https://www.awwwards.com/dennissnellenberg/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/589090/63b7e15ec9d25422486740.jpg",
+    "description": "Co-Founder www.osmo.supply. Freelance Designer & Developer. Building sites with Webflow.",
+    "awards": {
+      "siteOfTheDay": 17,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 41,
+      "nominees": 0,
+      "total": 58
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "toyfight",
+    "name": "ToyFight",
+    "website": "https://toyfight.co/",
+    "domain": "toyfight.co",
+    "profileUrl": "https://www.awwwards.com/ToyFight/",
+    "location": {
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "city": "Manchester"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/445005/699338cc19fb3205980487.png",
+    "description": "A playful creative studio.",
+    "awards": {
+      "siteOfTheDay": 17,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 25,
+      "nominees": 0,
+      "total": 42
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "exoape",
+    "name": "Exo Ape",
+    "website": "https://www.exoape.com/",
+    "domain": "exoape.com",
+    "profileUrl": "https://www.awwwards.com/exo-ape/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": "Roermond"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/602593/6261289c819a9366291723.png",
+    "description": "Global digital design studio partnering with brands and businesses that create exceptional experiences where people live, work, and unwind.",
+    "awards": {
+      "siteOfTheDay": 16,
+      "siteOfTheMonth": 2,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 17,
+      "nominees": 0,
+      "total": 35
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "nk",
+    "name": "/nk.studio",
+    "website": "https://nk.studio/",
+    "domain": "nk.studio",
+    "profileUrl": "https://www.awwwards.com/nkdotstudio/",
+    "location": {
+      "country": "Argentina",
+      "countryCode": "AR",
+      "city": "Buenos Aires"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/333956/6798f44fbbe56850789248.jpg",
+    "description": "We're a design studio focused on creating innovative website, ecommerce & brands. The most awarded studio in Latam on Awwwards. From BA 🇦🇷 to the 🌎",
+    "awards": {
+      "siteOfTheDay": 16,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 67,
+      "nominees": 0,
+      "total": 83
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "jonathandacosta",
+    "name": "Jonathan Da Costa",
+    "website": "https://www.jonathandacosta.com/",
+    "domain": "jonathandacosta.com",
+    "profileUrl": "https://www.awwwards.com/jonathandacosta/",
+    "location": {
+      "country": "France",
+      "countryCode": "FR",
+      "city": "París"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/submissions/2026/07/6a494d0d8aa22745279419.jpg",
+    "description": "Freelance designer and art director.",
+    "awards": {
+      "siteOfTheDay": 16,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 27,
+      "nominees": 0,
+      "total": 43
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "dgrees",
+    "name": "Dgrees",
+    "website": "https://www.dgrees.studio/",
+    "domain": "dgrees.studio",
+    "profileUrl": "https://www.awwwards.com/dgrees/",
+    "location": {
+      "country": "Spain",
+      "countryCode": "ES",
+      "city": "Madrid"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/391137/635a83608578b726190882.jpg",
+    "description": "Independent design studio using strategy, technology, design — and human judgment — to craft award-winning websites and brands.",
+    "awards": {
+      "siteOfTheDay": 15,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 33,
+      "nominees": 0,
+      "total": 48
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "ref",
+    "name": "REF Digital",
+    "website": "https://ref.digital/",
+    "domain": "ref.digital",
+    "profileUrl": "https://www.awwwards.com/ref.digital/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Montréal"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/607820/68c032ae950dc316646221.jpg",
+    "description": "REF is a digital agency that delivers bespoke ecommerce platforms and digital experiences that answer the needs of the businesses of tomorrow.",
+    "awards": {
+      "siteOfTheDay": 15,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 32,
+      "nominees": 0,
+      "total": 47
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "gladeye",
+    "name": "Gladeye",
+    "website": "https://www.gladeye.com/",
+    "domain": "gladeye.com",
+    "profileUrl": "https://www.awwwards.com/gladeye/",
+    "location": {
+      "country": "New Zealand",
+      "countryCode": "NZ",
+      "city": "Auckland"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/227754/6a42df36718b7229505510.jpg",
+    "description": "Gladeye is a digital innovations agency. We work at the intersection of people and technology.",
+    "awards": {
+      "siteOfTheDay": 15,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 27,
+      "nominees": 0,
+      "total": 42
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "lusion",
+    "name": "Lusion",
+    "website": "https://lusion.co/",
+    "domain": "lusion.co",
+    "profileUrl": "https://www.awwwards.com/lusion/",
+    "location": {
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "city": null
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/724247/5c7e7d28510d5120867034.png",
+    "description": "Lusion is a real-time application focused creative studio.",
+    "awards": {
+      "siteOfTheDay": 14,
+      "siteOfTheMonth": 3,
+      "siteOfTheYear": 1,
+      "developerAward": 0,
+      "honorableMentions": 20,
+      "nominees": 0,
+      "total": 38
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "deuxhuithuit",
+    "name": "Deux Huit Huit",
+    "website": "https://deuxhuithuit.com/",
+    "domain": "deuxhuithuit.com",
+    "profileUrl": "https://www.awwwards.com/Deux.Huit.Huit/",
+    "location": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "city": "Montréal"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/179980/635989f24e580393561730.jpg",
+    "description": "Deux Huit Huit is a Montreal design company.",
+    "awards": {
+      "siteOfTheDay": 14,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 34,
+      "nominees": 0,
+      "total": 48
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "somefolk",
+    "name": "Somefolk®",
+    "website": "https://www.somefolk.co/",
+    "domain": "somefolk.co",
+    "profileUrl": "https://www.awwwards.com/Somefolk/",
+    "location": {
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "city": "London"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/1254125/6860918e03972233826892.jpg",
+    "description": "I partner with independent professionals and design houses to create bespoke digital experiences.",
+    "awards": {
+      "siteOfTheDay": 14,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 20,
+      "nominees": 0,
+      "total": 34
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "lamalama",
+    "name": "Lama Lama",
+    "website": "https://lamalama.com/",
+    "domain": "lamalama.com",
+    "profileUrl": "https://www.awwwards.com/lamalama/",
+    "location": {
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "city": "Amsterdam"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/357997/6a2274e6bfa66925078985.jpg",
+    "description": "Amsterdam based creative digital agency. We deliver digital solutions for companies with a conscience and brands with a heart.",
+    "awards": {
+      "siteOfTheDay": 13,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 33,
+      "nominees": 0,
+      "total": 47
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "dashdigital",
+    "name": "DashDigital",
+    "website": "https://www.dashdigital.studio/",
+    "domain": "dashdigital.studio",
+    "profileUrl": "https://www.awwwards.com/DashDigital/",
+    "location": {
+      "country": "South Africa",
+      "countryCode": "ZA",
+      "city": "Cape Town"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/797758/654913d3eb82e011711624.jpg",
+    "description": "A Digital Design Studio driven by research & strategy. Designed to engage, built to connect.",
+    "awards": {
+      "siteOfTheDay": 13,
+      "siteOfTheMonth": 1,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 23,
+      "nominees": 0,
+      "total": 37
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  },
+  {
+    "slug": "cuchillo",
+    "name": "Cuchillo",
+    "website": "https://cuchillo.studio/",
+    "domain": "cuchillo.studio",
+    "profileUrl": "https://www.awwwards.com/Cuchillo/",
+    "location": {
+      "country": "Spain",
+      "countryCode": "ES",
+      "city": "Bilbao"
+    },
+    "categories": [
+      "web-design"
+    ],
+    "services": [],
+    "teamSize": null,
+    "logoUrl": "https://assets.awwwards.com/awards/avatar/495220/65368334966ce985303985.jpeg",
+    "description": "Cuchillo is a creative team specialized in building new perspectives and bold digital concepts for brands to be timeless.",
+    "awards": {
+      "siteOfTheDay": 13,
+      "siteOfTheMonth": 0,
+      "siteOfTheYear": 0,
+      "developerAward": 0,
+      "honorableMentions": 27,
+      "nominees": 0,
+      "total": 40
+    },
+    "source": "awwwards",
+    "scrapedAt": "2026-09-03T10:23:46.304Z"
+  }
+]
