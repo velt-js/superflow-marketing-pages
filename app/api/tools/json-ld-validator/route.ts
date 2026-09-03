@@ -28,10 +28,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 import type {
   JsonLdEnvelopeFinding,
   JsonLdValidatorReport,
@@ -141,6 +147,24 @@ export async function POST(request: NextRequest): Promise<Response> {
       );
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a run this route already
+    // started and budgeted. It is read, never re-dispatched, so polling costs
+    // the caller nothing further.
+    const runId = runIdFrom(payload);
+    if (runId.length > 0) {
+      return settle(
+        await resumeRun({
+          toolId: BACKEND_TOOL_ID,
+          slug: TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs: waitBudgetFor(payload),
+        }),
+      );
+    }
+
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     if (rawUrl.trim().length === 0) {
       return json(
@@ -183,7 +207,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     // ── Rate limit the expensive path only ───────────────────────────────
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({
       tool: TOOL_SLUG,
       ip,
@@ -206,20 +229,50 @@ export async function POST(request: NextRequest): Promise<Response> {
       await invalidateCache(cacheKey);
     }
 
-    const result = await runToolViaBackend({
-      toolId: BACKEND_TOOL_ID,
-      url: rawUrl,
-      clientIp: ip,
-    });
+    return settle(
+      await beginRun({
+        toolId: BACKEND_TOOL_ID,
+        slug: TOOL_SLUG,
+        url: rawUrl,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl,
+        waitMs: waitBudgetFor(payload),
+      }),
+    );
+  } catch {
+    return json(
+      {
+        ok: false,
+        code: "internal",
+        message:
+          "Something went wrong running the check. Try again in a moment.",
+      },
+      422,
+    );
+  }
+}
 
-    if (!result.ok) {
+/**
+ * Turns a settled run into the response the caller sees.
+ *
+ * Shared by the start and the poll paths, so a report is shaped, validated and
+ * cached identically however the caller chose to wait for it.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ */
+async function settle(outcome: DeferredOutcome): Promise<Response> {
+  try {
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
+
+    if (outcome.kind === "failed") {
       return json(
-        { ok: false, code: result.code, message: result.message },
-        statusForCode(result.code),
+        { ok: false, code: outcome.code, message: outcome.message },
+        statusForCode(outcome.code),
       );
     }
 
-    const report = result.data as JsonLdValidatorReport | null;
+    const report = outcome.result.data as JsonLdValidatorReport | null;
     if (!report || typeof report !== "object") {
       return json(
         {
@@ -241,24 +294,11 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const stored: ValidatorPayload = {
       report,
-      findings: (result.findings ?? []) as JsonLdEnvelopeFinding[],
-      totalFindings: result.totalFindings ?? 0,
+      findings: (outcome.result.findings ?? []) as JsonLdEnvelopeFinding[],
+      totalFindings: outcome.result.totalFindings ?? 0,
     };
 
-    // Cache under the key derived from what the user typed AND, when they
-    // differ, under the post-redirect URL, so `example.com` and
-    // `www.example.com` do not each pay for a run.
-    await writeCache(cacheKey, RESULT_VERSION, stored, CACHE_TTL.checker);
-    if (typeof report.finalUrl === "string" && report.finalUrl.length > 0) {
-      const finalKey = toolCacheKey({
-        tool: TOOL_SLUG,
-        url: report.finalUrl,
-        version: RESULT_VERSION,
-      });
-      if (finalKey !== cacheKey) {
-        await writeCache(finalKey, RESULT_VERSION, stored, CACHE_TTL.checker);
-      }
-    }
+    await cacheResult(stored, outcome.context);
 
     return json({ ok: true, ...stored, cached: false, ageSeconds: 0 });
   } catch {
@@ -271,5 +311,38 @@ export async function POST(request: NextRequest): Promise<Response> {
       },
       422,
     );
+  }
+}
+
+/**
+ * Caches a finished result under the key the START call chose, and under the
+ * post-redirect URL when that differs, so `example.com` and `www.example.com`
+ * do not each pay for a run.
+ *
+ * @param stored - The finished result.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheResult(
+  stored: ValidatorPayload,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, RESULT_VERSION, stored, CACHE_TTL.checker);
+
+    const finalUrl = stored.report.finalUrl;
+    if (typeof finalUrl !== "string" || finalUrl.length === 0) return;
+
+    const finalKey = toolCacheKey({
+      tool: TOOL_SLUG,
+      url: finalUrl,
+      version: RESULT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, RESULT_VERSION, stored, CACHE_TTL.checker);
+    }
+  } catch {
+    // A cache write is never worth failing a completed check over.
   }
 }

@@ -287,6 +287,69 @@ test.describe("the AI visibility tools survive a real run", () => {
   }
 });
 
+test.describe("the slow backend tools survive a real run", () => {
+  // WHY THIS BLOCK EXISTS
+  //
+  // These three ran past the old in-request ceiling and answered "the check
+  // took too long", while the backend returned a perfectly good result nobody
+  // was left to collect. Timed against the production callable on 2026-09-02
+  // over a heavy page: full page screenshot 72s, llms.txt generator 57s, alt
+  // text generator 52s, against a 55 second ceiling.
+  //
+  // WHAT THIS DOES AND DOES NOT PROVE. The browser now sends `defer: true` on
+  // every run, so each of these goes through the whole start, pending, poll and
+  // collect path however fast the page is, and that is what they assert. They
+  // do NOT re-prove the duration ceiling: a light page answers in twenty
+  // seconds and would have passed under the old shape too. The ceiling itself
+  // is gated by the persona review below, which cannot finish inside one
+  // request no matter what you point it at.
+  const CASES = [
+    {
+      slug: "full-page-screenshot",
+      // The download link only renders once an image URL came back.
+      marker: /Download PNG/,
+    },
+    {
+      slug: "llms-txt-generator",
+      // A file tab only exists once both files were generated.
+      marker: /llms\.txt/,
+    },
+    {
+      slug: "alt-text-generator",
+      // Renders for both real outcomes: images with suggestions, and the
+      // honest "this page has no images" answer.
+      marker: /Check again fresh/,
+    },
+  ];
+
+  for (const testCase of CASES) {
+    test(`${testCase.slug} renders a result end to end`, async ({ page }) => {
+      test.setTimeout(REVIEW_TEST_TIMEOUT_MS);
+      const errors = collectErrors(page);
+
+      // A cache-busting parameter, so the run is real every time. A fixed URL
+      // is cached for 24 hours after the first run, which would answer the
+      // second run in milliseconds and quietly stop exercising the wait.
+      const subject = `https://usesuperflow.ai/?smoke=${Date.now()}`;
+
+      await page.goto(`${toolPath(testCase.slug)}?url=${encodeURIComponent(subject)}`, {
+        waitUntil: "domcontentloaded",
+      });
+
+      await expect(page.getByText(testCase.marker).first()).toBeVisible({
+        timeout: REVIEW_RUN_TIMEOUT_MS,
+      });
+
+      // The failure this block was written for, asserted directly.
+      await expect(
+        page.getByText(/took too long|taking longer than usual/),
+      ).toHaveCount(0);
+
+      expect(errors, `${testCase.slug} errors during run`).toEqual([]);
+    });
+  }
+});
+
 test.describe("a persona review survives a real run", () => {
   // WHY THIS BLOCK EXISTS
   //

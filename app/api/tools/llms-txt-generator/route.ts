@@ -30,10 +30,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 import {
   parseLlmsTxtReport,
   type LlmsTxtReport,
@@ -102,6 +108,24 @@ export async function POST(request: NextRequest): Promise<Response> {
       );
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a run this route already
+    // started and budgeted. It is read, never re-dispatched, so polling costs
+    // the caller nothing further.
+    const runId = runIdFrom(payload);
+    if (runId.length > 0) {
+      return settle(
+        await resumeRun({
+          toolId: TOOL_ID,
+          slug: TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs: waitBudgetFor(payload),
+        }),
+      );
+    }
+
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     if (rawUrl.trim().length === 0) {
       return json(
@@ -140,7 +164,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     // ── Rate limit the expensive path only ───────────────────────────────
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({
       tool: TOOL_SLUG,
       ip,
@@ -178,20 +201,50 @@ export async function POST(request: NextRequest): Promise<Response> {
     // The client IP rides along so the backend's own per-IP budget sees the
     // visitor rather than this server, which would otherwise look like one
     // very busy caller and rate limit everybody at once.
-    const result = await runToolViaBackend({
-      toolId: TOOL_ID,
-      url: rawUrl,
-      clientIp: ip,
-    });
+    return settle(
+      await beginRun({
+        toolId: TOOL_ID,
+        slug: TOOL_SLUG,
+        url: rawUrl,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl,
+        waitMs: waitBudgetFor(payload),
+      }),
+    );
+  } catch {
+    return json(
+      {
+        ok: false,
+        code: "internal",
+        message:
+          "Something went wrong generating those files. Try again in a moment.",
+      },
+      500,
+    );
+  }
+}
 
-    if (!result.ok) {
+/**
+ * Turns a settled run into the response the caller sees.
+ *
+ * Shared by the start and the poll paths, so the files are shaped, validated
+ * and cached identically however the caller chose to wait for them.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ */
+async function settle(outcome: DeferredOutcome): Promise<Response> {
+  try {
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
+
+    if (outcome.kind === "failed") {
       return json(
-        { ok: false, code: result.code, message: result.message },
-        result.code === "invalid-url" ? 400 : 422,
+        { ok: false, code: outcome.code, message: outcome.message },
+        outcome.code === "invalid-url" ? 400 : 422,
       );
     }
 
-    const report = parseLlmsTxtReport(result.data);
+    const report = parseLlmsTxtReport(outcome.result.data);
     if (!report || report.llmsTxt.trim().length === 0) {
       // Terminal with no index file is not a result. Refuse rather than hand
       // somebody an empty file to publish at their site root.
@@ -206,19 +259,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       );
     }
 
-    // Cache under the key derived from what the user typed AND, when they
-    // differ, under the post-redirect URL. Otherwise `example.com` and
-    // `www.example.com` each pay for a full site crawl.
-    await writeCache(cacheKey, REPORT_VERSION, report, CACHE_TTL.checker);
-
-    const finalKey = toolCacheKey({
-      tool: TOOL_SLUG,
-      url: report.url || cacheUrl,
-      version: REPORT_VERSION,
-    });
-    if (finalKey !== cacheKey) {
-      await writeCache(finalKey, REPORT_VERSION, report, CACHE_TTL.checker);
-    }
+    await cacheReport(report, outcome.context);
 
     return json({ ok: true, report, cached: false, ageSeconds: 0 });
   } catch {
@@ -231,5 +272,38 @@ export async function POST(request: NextRequest): Promise<Response> {
       },
       500,
     );
+  }
+}
+
+/**
+ * Caches the finished files under the key the START call chose, and under the
+ * post-redirect URL when that differs. Otherwise `example.com` and
+ * `www.example.com` each pay for a full site crawl.
+ *
+ * @param report - The finished files.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheReport(
+  report: LlmsTxtReport,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, REPORT_VERSION, report, CACHE_TTL.checker);
+
+    const finalUrl = report.url || context.cacheUrl;
+    if (finalUrl.length === 0) return;
+
+    const finalKey = toolCacheKey({
+      tool: TOOL_SLUG,
+      url: finalUrl,
+      version: REPORT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, REPORT_VERSION, report, CACHE_TTL.checker);
+    }
+  } catch {
+    // A cache write is never worth failing a completed run over.
   }
 }

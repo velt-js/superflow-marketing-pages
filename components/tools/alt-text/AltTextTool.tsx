@@ -25,6 +25,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import styles from "./AltText.module.css";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const SLUG = "alt-text-generator";
 const ENDPOINT = "/api/tools/alt-text-generator";
@@ -338,12 +339,13 @@ export function AltTextTool() {
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: SLUG, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<AltTextPayload>({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
         });
-        const payload = (await response.json()) as AltTextPayload;
 
         if (payload.error) {
           const code = payload.errorCode ?? "unknown";
@@ -381,15 +383,18 @@ export function AltTextTool() {
         } catch {
           // A history failure must not lose the result.
         }
-      } catch {
+      } catch (error) {
+        const runError = error instanceof ToolRunError ? error : null;
+        const code = runError?.code ?? "network";
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the generator. Check your connection and try again.",
-          code: "network",
+          code,
           calm: false,
         });
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code: "network" });
+        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code });
       }
     },
     [trackEvent],

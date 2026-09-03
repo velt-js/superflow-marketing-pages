@@ -6,7 +6,7 @@
 // The engine is not in this repo. It lives in the Superflow product backend
 // as an agent service, so the free tool and the in-product agent read the
 // same tags by the same rules and cannot drift apart. This route is the seam:
-// normalize, cache, rate limit, hand off to `runToolViaBackend`, and shape
+// normalize, cache, rate limit, hand off to the deferred runner, and shape
 // the answer.
 //
 // Envelope: every response is HTTP 200 JSON carrying `ok`. Failures carry the
@@ -28,10 +28,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 import {
   normalizeReport,
   REPORT_VERSION,
@@ -98,6 +104,24 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
+    const ip = clientIpFrom(request.headers);
+
+    // A body carrying a run id is the second half of a run this route already
+    // started and budgeted. It is read, never re-dispatched, so polling costs
+    // the caller nothing further.
+    const runId = runIdFrom(payload);
+    if (runId.length > 0) {
+      return settle(
+        await resumeRun({
+          toolId: BACKEND_TOOL_ID,
+          slug: TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs: waitBudgetFor(payload),
+        }),
+      );
+    }
+
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
     if (rawUrl.trim().length === 0) {
       return json({
@@ -148,7 +172,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     // ── Rate limit the expensive path only ───────────────────────────────
-    const ip = clientIpFrom(request.headers);
     const decision = await applyRateLimit({
       tool: TOOL_SLUG,
       ip,
@@ -171,21 +194,47 @@ export async function POST(request: NextRequest): Promise<Response> {
     // The client IP is forwarded so the backend's own per-IP budget sees the
     // visitor rather than this server, which would otherwise share one budget
     // across everybody.
-    const result = await runToolViaBackend({
-      toolId: BACKEND_TOOL_ID,
-      url: rawUrl,
-      clientIp: ip,
+    return settle(
+      await beginRun({
+        toolId: BACKEND_TOOL_ID,
+        slug: TOOL_SLUG,
+        url: rawUrl,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl,
+        waitMs: waitBudgetFor(payload),
+      }),
+    );
+  } catch {
+    return json({
+      ok: false,
+      code: "internal",
+      message: "Something went wrong running the check. Try again in a moment.",
     });
+  }
+}
 
-    if (!result.ok) {
+/**
+ * Turns a settled run into the response the caller sees.
+ *
+ * Shared by the start and the poll paths, so a report is shaped and cached
+ * identically however the caller chose to wait for it.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ */
+async function settle(outcome: DeferredOutcome): Promise<Response> {
+  try {
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
+
+    if (outcome.kind === "failed") {
       // The backend's refusals (invalid-url, rate-limited, unreachable) are
       // already written for end users. Pass its own words through.
-      return json({ ok: false, code: result.code, message: result.message });
+      return json({ ok: false, code: outcome.code, message: outcome.message });
     }
 
     // Findings ride the run envelope beside `data`, so they are merged in
     // here and the cache holds one object.
-    const report = normalizeReport(result.data, result.findings);
+    const report = normalizeReport(outcome.result.data, outcome.result.findings);
     if (!report) {
       return json({
         ok: false,
@@ -195,21 +244,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
-    // Cache under the key derived from what the user typed AND, when they
-    // differ, under the post-redirect URL. Otherwise checking `example.com`
-    // and `www.example.com` each pay for a run.
-    await writeCache(cacheKey, REPORT_VERSION, report, CACHE_TTL.checker);
-
-    if (report.url.length > 0) {
-      const finalKey = toolCacheKey({
-        tool: TOOL_SLUG,
-        url: report.url,
-        version: REPORT_VERSION,
-      });
-      if (finalKey !== cacheKey) {
-        await writeCache(finalKey, REPORT_VERSION, report, CACHE_TTL.checker);
-      }
-    }
+    await cacheReport(report, outcome.context);
 
     return json({ ok: true, report, cached: false, ageSeconds: 0 });
   } catch {
@@ -218,5 +253,37 @@ export async function POST(request: NextRequest): Promise<Response> {
       code: "internal",
       message: "Something went wrong running the check. Try again in a moment.",
     });
+  }
+}
+
+/**
+ * Caches a finished report under the key the START call chose, and under the
+ * post-redirect URL when that differs. Otherwise checking `example.com` and
+ * `www.example.com` each pay for a run.
+ *
+ * @param report - The finished report.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheReport(
+  report: SocialPreviewReport,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, REPORT_VERSION, report, CACHE_TTL.checker);
+
+    if (report.url.length === 0) return;
+
+    const finalKey = toolCacheKey({
+      tool: TOOL_SLUG,
+      url: report.url,
+      version: REPORT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, REPORT_VERSION, report, CACHE_TTL.checker);
+    }
+  } catch {
+    // A cache write is never worth failing a completed check over.
   }
 }

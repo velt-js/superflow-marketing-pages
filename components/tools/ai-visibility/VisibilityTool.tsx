@@ -9,6 +9,7 @@ import type {
   CategoryId,
   VisibilityReport,
 } from "@/lib/tools/ai-visibility/types";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const ENDPOINT = "/api/tools/ai-visibility";
 
@@ -103,20 +104,21 @@ export function VisibilityTool({
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: slug, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
-        });
-
-        const payload = (await response.json()) as
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<
           | {
               ok: true;
               report: VisibilityReport;
               cached: boolean;
               ageSeconds: number;
             }
-          | { ok: false; code: string; message: string };
+          | { ok: false; code: string; message: string }
+        >({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
+        });
 
         if (!payload.ok) {
           setState({ phase: "error", message: payload.message });
@@ -150,15 +152,19 @@ export function VisibilityTool({
         } catch {
           // A history failure must not lose the result.
         }
-      } catch {
+      } catch (error) {
+        // A run that never answered carries its own copy; anything else is a
+        // connection problem and reads as one.
+        const runError = error instanceof ToolRunError ? error : null;
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the checker. Check your connection and try again.",
         });
         trackEvent(AnalyticsEvents.TOOL_ERROR, {
           tool: slug,
-          code: "network",
+          code: runError?.code ?? "network",
         });
       }
     },

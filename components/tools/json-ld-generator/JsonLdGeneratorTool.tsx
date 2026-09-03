@@ -28,6 +28,7 @@ import {
   type JsonLdGeneratorReport,
 } from "@/lib/tools/json-ld/types";
 import styles from "./JsonLdGenerator.module.css";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 
 const SLUG = "json-ld-generator";
 const ENDPOINT = "/api/tools/json-ld-generator";
@@ -214,12 +215,13 @@ export function JsonLdGeneratorTool() {
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: SLUG, refresh });
 
       try {
-        const response = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, refresh }),
+        // The waiting happens here rather than on the server: these runs can
+        // outlast what one serverless request may hold open. See
+        // lib/tools/client/run-tool.ts.
+        const payload = await runToolRequest<GeneratorResponse>({
+          endpoint: ENDPOINT,
+          body: { url: trimmed, refresh },
         });
-        const payload = (await response.json()) as GeneratorResponse;
 
         if (payload.ok !== true || !payload.report) {
           const code = payload.code ?? "unknown";
@@ -263,14 +265,19 @@ export function JsonLdGeneratorTool() {
         } catch {
           // A history failure must not lose the result.
         }
-      } catch {
+      } catch (error) {
+        const runError = error instanceof ToolRunError ? error : null;
         setState({
           phase: "error",
           message:
+            runError?.message ??
             "We could not reach the generator. Check your connection and try again.",
           calm: false,
         });
-        trackEvent(AnalyticsEvents.TOOL_ERROR, { tool: SLUG, code: "network" });
+        trackEvent(AnalyticsEvents.TOOL_ERROR, {
+          tool: SLUG,
+          code: runError?.code ?? "network",
+        });
       }
     },
     [trackEvent],

@@ -73,10 +73,12 @@ export type ToolApiEntry = {
   /** Plain words, e.g. "10 runs per hour per IP". */
   rateLimit: string;
   /**
-   * Worst-case wall clock. Callers set timeouts from this: the engines behind
-   * the URL tools poll a backend run whose own ceiling is 55 seconds, and on a
-   * cold backend they use most of it, so anything under a minute here would
-   * have a client give up on a run that was about to answer.
+   * Worst-case wall clock for ONE request. Callers set timeouts from this.
+   *
+   * It is not how long a run takes: the slowest backend-run tools go on for two
+   * to three minutes, well past what a serverless request may hold open, and
+   * answer with a `runId` to collect instead. This is how long a caller should
+   * be willing to wait for any single answer, finished or pending.
    */
   timeoutSeconds: number;
 };
@@ -101,6 +103,31 @@ const URL_SCHEMA: ToolInputSchema = {
   additionalProperties: false,
 };
 
+/**
+ * The arguments a BACKEND-RUN tool takes: the URL ones, plus a run handle.
+ *
+ * These runs are dispatched into the product backend and take from half a
+ * minute to three minutes. A request that cannot wait that long answers with
+ * `{ status: "pending", runId }` instead, and the caller collects the result by
+ * sending that `runId` back to the same tool. See lib/toolkit/deferred-run.ts.
+ */
+const RUN_SCHEMA: ToolInputSchema = {
+  type: "object",
+  properties: {
+    ...URL_SCHEMA.properties,
+    runId: {
+      type: "string",
+      description:
+        "Collect a run that answered with `{ status: \"pending\", runId }` instead of a result. Send the runId back on its own, with no url, and the same tool returns the finished result once the run is done. Costs no rate-limit slot.",
+    },
+  },
+  // `url` stays out of `required` here: a call that carries a runId is
+  // collecting a run that already named its URL, and demanding it again would
+  // make the second half of the contract impossible to satisfy.
+  required: [],
+  additionalProperties: false,
+};
+
 /** The heavy tier every engine-backed tool sits on. */
 const HEAVY_LIMIT = "10 runs per hour per IP";
 
@@ -113,7 +140,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Check whether AI assistants (ChatGPT, Claude, Perplexity, Google AI) can reach, read, and cite a web page. Runs the full suite: robots.txt rules per AI crawler, a live firewall test that requests the page as GPTBot, JavaScript dependency, llms.txt, headings, structured data, and author identity. Returns a score out of 100 with a grade, a score per category, and a finding per check with why it matters and how to fix it. Use this for a whole-page verdict; use check_robots_txt_for_ai when the question is only about crawler access.",
     method: "POST",
     path: "/api/tools/ai-visibility",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { score, grade, scoredOutOf, categories[], findings[] with why and fix, detection }, cached, ageSeconds }",
@@ -128,7 +155,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Test a site's robots.txt against every AI crawler that matters (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot, Googlebot, Bingbot and the rest) and report which are allowed, which are blocked, and which rule decided it. Also runs a firewall test, because CDN-level blocks stop crawlers before robots.txt is ever read. This is the access-scoped view of check_ai_visibility.",
     method: "POST",
     path: "/api/tools/robots-txt-ai-checker",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { accessScore, crawlers[] with the rule that decided each verdict, firewall, findings[] }, cached, ageSeconds }",
@@ -143,7 +170,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Generate llms.txt and llms-full.txt for a site, following the llmstxt.org convention. Inventories the site from its robots.txt, sitemaps, and homepage links, then writes an index file and a full file with page content inlined. Deterministic: no model is involved, so two runs over an unchanged site produce the same bytes. Returns the file contents ready to write to disk.",
     method: "POST",
     path: "/api/tools/llms-txt-generator",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { siteName, llmsTxt, llmsFullTxt, pagesDiscovered, pagesIncluded, truncated }, cached, ageSeconds }",
@@ -158,7 +185,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Fetch one web page and convert it to clean CommonMark, with the navigation, cookie banners, and boilerplate stripped out. Use this to read a page as text an agent can reason over, or to publish a .md copy of a page alongside the HTML.",
     method: "POST",
     path: "/api/tools/markdown-for-agents",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { markdown, title, description, wordCount, bytes, truncated, httpStatus }, cached, ageSeconds }",
@@ -173,7 +200,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Read a page and write a schema.org JSON-LD block for it, then validate that block against the same checks a validator would run. The markup is model-written from the page's own content and should be reviewed before it is published. Returns the block ready to paste into a <script type=\"application/ld+json\"> tag.",
     method: "POST",
     path: "/api/tools/json-ld-generator",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { detectedType, jsonLd, jsonLdString, validation: { findings[], passed }, model } }",
@@ -188,7 +215,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Read the structured data already on a page and check it against Schema.org and what search engines actually accept. Reports every JSON-LD block found, the type of each, and the errors and warnings per block.",
     method: "POST",
     path: "/api/tools/json-ld-validator",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { blockCount, invalidBlockCount, declaredTypes[], eligibility[], categories[], findings[] } }",
@@ -203,7 +230,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Read a page's Open Graph and Twitter card tags and report how the link will render on X, LinkedIn, Facebook, Slack, Discord, and Google. Returns a per-platform preview (title, description, image) plus the findings for tags that are missing, truncated, or the wrong size.",
     method: "POST",
     path: "/api/tools/social-preview",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ ok, report: { previews[] per platform, tags, summary, findings[] }, cached, ageSeconds }",
@@ -248,7 +275,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Capture a full-height PNG of a page in a real headless browser, scrolling first so lazy-loaded content renders. Returns a signed link to the image that expires in about 24 hours; download the bytes if you need to keep them. No watermark and no height cap. Cannot capture anything behind a login.",
     method: "POST",
     path: "/api/tools/full-page-screenshot",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns: "{ imageUrl, expiresAt, bytes, width, height, deviceType }",
     rateLimit: HEAVY_LIMIT,
@@ -262,7 +289,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
       "Find every image on a page and draft alt text for the ones that need it, using a vision model that actually looks at the image. Lists every image with the alt it has today, the suggested alt, whether it looks decorative, and why any image was skipped. Up to 10 images per run go to the model. The suggestions are drafts for a human to review.",
     method: "POST",
     path: "/api/tools/alt-text-generator",
-    inputSchema: URL_SCHEMA,
+    inputSchema: RUN_SCHEMA,
     sample: { url: "example.com" },
     returns:
       "{ images[] with src, hadAlt, currentAlt, suggestedAlt, isDecorative, skippedReason; counts; model }",
@@ -469,7 +496,20 @@ export function mcpToolDefinitions(): McpToolDefinition[] {
     return availableToolApis().map((entry) => ({
       name: entry.mcpTool,
       title: entry.title,
-      description: `${entry.description}\n\nReturns ${entry.returns}. Limit: ${entry.rateLimit}. Allow up to ${entry.timeoutSeconds}s for a response. Free, no account, no API key.`,
+      description: [
+        entry.description,
+        "",
+        `Returns ${entry.returns}. Limit: ${entry.rateLimit}. Allow up to ${entry.timeoutSeconds}s for a response. Free, no account, no API key.`,
+        // Only the backend-run tools can answer with a handle, and a model
+        // that is not told what to do with one will treat it as a failure and
+        // start the whole run again.
+        ...(entry.inputSchema === RUN_SCHEMA
+          ? [
+              "",
+              'Pass `url` to start a run. A slow run answers with `{ status: "pending", runId }` instead of a result: call this same tool again with just that `runId` to collect it, as many times as it takes. Collecting costs no rate-limit slot.',
+            ]
+          : []),
+      ].join("\n"),
       inputSchema: entry.inputSchema,
     }));
   } catch {

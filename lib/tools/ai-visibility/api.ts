@@ -29,10 +29,13 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  runToolViaBackend,
-} from "@/lib/toolkit/superflow-api";
+  beginRun,
+  resumeRun,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 import type {
   CategoryId,
   DegradedNotice,
@@ -43,6 +46,9 @@ import type {
 
 /** The engine's own slug. Owns the cache entries and the hourly budget. */
 export const VISIBILITY_TOOL_SLUG = "ai-visibility-checker";
+
+/** The backend agent id. Not the marketing slug, which carries "-checker". */
+const BACKEND_TOOL_ID = "ai-visibility";
 
 /** Headless render, several fetches, a crawl of robots.txt and sitemaps. */
 const RATE_TIER = "heavy" as const;
@@ -57,12 +63,30 @@ export type VisibilityApiResponse = {
 export type VisibilityRunOutcome =
   | { ok: true; report: VisibilityReport; cached: boolean; ageSeconds: number }
   | {
+      /**
+       * Dispatched and still executing. The caller answers with the handle and
+       * the client comes back for it — see lib/toolkit/deferred-run.ts for why
+       * the waiting cannot happen inside one request.
+       */
+      ok: true;
+      pending: true;
+      runId: string;
+      pollIntervalSeconds: number;
+    }
+  | {
       ok: false;
       status: number;
       code: string;
       message: string;
       retryAfterSeconds?: number;
     };
+
+/** True when an outcome is a handle rather than a report. */
+export function isPendingVisibility(
+  outcome: VisibilityRunOutcome,
+): outcome is Extract<VisibilityRunOutcome, { pending: true }> {
+  return outcome.ok === true && "pending" in outcome && outcome.pending === true;
+}
 
 /**
  * Runs the visibility engine for one URL, through the cache and the limiter.
@@ -80,12 +104,35 @@ export async function runVisibility({
   rawUrl,
   refresh = false,
   ip,
+  waitMs,
+  runId = "",
 }: {
   rawUrl: string;
   refresh?: boolean;
   ip?: string;
+  /**
+   * How long to hold this request open waiting for the run. Zero answers with
+   * a handle as soon as the run is dispatched, which is what the browser wants.
+   */
+  waitMs: number;
+  /** An already-dispatched run to read instead of starting a new one. */
+  runId?: string;
 }): Promise<VisibilityRunOutcome> {
   try {
+    // A run id is the second half of a run already started and budgeted here.
+    // It is read, never re-dispatched, so it costs the caller nothing further.
+    if (runId.length > 0) {
+      return settleVisibility(
+        await resumeRun({
+          toolId: BACKEND_TOOL_ID,
+          slug: VISIBILITY_TOOL_SLUG,
+          runId,
+          clientIp: ip,
+          waitMs,
+        }),
+      );
+    }
+
     if (rawUrl.trim().length === 0) {
       return {
         ok: false,
@@ -144,44 +191,33 @@ export async function runVisibility({
     // Prefer the shared engine in the product backend, so the free tool and
     // the in-product `ai-visibility` agent can never drift apart. The in-repo
     // engine is the fallback for local dev and for any deploy that predates
-    // the backend release.
-    const result = isBackendConfigured()
-      ? await runToolViaBackend({
-          toolId: "ai-visibility",
-          url: rawUrl,
-          clientIp: ip,
-        })
-      : await runVisibilityCheck(rawUrl);
-
-    if (!result.ok) {
-      return {
-        ok: false,
-        status: result.code === "invalid-url" ? 400 : 422,
-        code: result.code,
-        message: result.message,
-      };
+    // the backend release; it runs in-process, so it has no handle to hand
+    // back and answers on the spot.
+    if (!isBackendConfigured()) {
+      const local = await runVisibilityCheck(rawUrl);
+      if (!local.ok) {
+        return {
+          ok: false,
+          status: local.code === "invalid-url" ? 400 : 422,
+          code: local.code,
+          message: local.message,
+        };
+      }
+      await cacheReport(local.report, { cacheKey, cacheUrl });
+      return { ok: true, report: local.report, cached: false, ageSeconds: 0 };
     }
 
-    // Cache under the key derived from what the user typed AND, when they
-    // differ, under the post-redirect URL. Otherwise checking `example.com`
-    // and `www.example.com` runs the whole suite twice.
-    await writeCache(cacheKey, REPORT_VERSION, result.report, CACHE_TTL.checker);
-
-    const finalKey = toolCacheKey({
-      tool: VISIBILITY_TOOL_SLUG,
-      url: result.report.finalUrl,
-      version: REPORT_VERSION,
-    });
-    if (finalKey !== cacheKey) {
-      await writeCache(
-        finalKey,
-        REPORT_VERSION,
-        result.report,
-        CACHE_TTL.checker,
-      );
-    }
-
-    return { ok: true, report: result.report, cached: false, ageSeconds: 0 };
+    return settleVisibility(
+      await beginRun({
+        toolId: BACKEND_TOOL_ID,
+        slug: VISIBILITY_TOOL_SLUG,
+        url: rawUrl,
+        clientIp: ip,
+        cacheKey,
+        cacheUrl,
+        waitMs,
+      }),
+    );
   } catch {
     return {
       ok: false,
@@ -189,6 +225,92 @@ export async function runVisibility({
       code: "internal",
       message: "Something went wrong running the check. Try again in a moment.",
     };
+  }
+}
+
+/**
+ * Turns a settled run into the outcome both callers already understand.
+ *
+ * @param outcome - Whatever the run left the deferred layer as.
+ */
+async function settleVisibility(
+  outcome: DeferredOutcome,
+): Promise<VisibilityRunOutcome> {
+  try {
+    if (outcome.kind === "pending") {
+      return {
+        ok: true,
+        pending: true,
+        runId: outcome.runId,
+        pollIntervalSeconds: outcome.pollIntervalSeconds,
+      };
+    }
+
+    if (outcome.kind === "failed") {
+      return {
+        ok: false,
+        status: outcome.code === "invalid-url" ? 400 : 422,
+        code: outcome.code,
+        message: outcome.message,
+      };
+    }
+
+    const report = outcome.result.report;
+    if (!report) {
+      return {
+        ok: false,
+        status: 422,
+        code: "backend-error",
+        message: "The check finished without a report. Try again in a moment.",
+      };
+    }
+
+    await cacheReport(report, outcome.context);
+
+    return { ok: true, report, cached: false, ageSeconds: 0 };
+  } catch {
+    return {
+      ok: false,
+      status: 500,
+      code: "internal",
+      message: "Something went wrong running the check. Try again in a moment.",
+    };
+  }
+}
+
+/**
+ * Caches a finished report under the key the START call chose, and under the
+ * post-redirect URL when that differs. Otherwise checking `example.com` and
+ * `www.example.com` runs the whole suite twice.
+ *
+ * A run whose ticket has expired still returns its report; it just is not
+ * stored, which costs the next visitor a re-run and nothing else.
+ *
+ * @param report - The finished report.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheReport(
+  report: VisibilityReport,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+
+    await writeCache(context.cacheKey, REPORT_VERSION, report, CACHE_TTL.checker);
+
+    const finalUrl = report.finalUrl || context.cacheUrl;
+    if (!finalUrl) return;
+
+    const finalKey = toolCacheKey({
+      tool: VISIBILITY_TOOL_SLUG,
+      url: finalUrl,
+      version: REPORT_VERSION,
+    });
+    if (finalKey !== context.cacheKey) {
+      await writeCache(finalKey, REPORT_VERSION, report, CACHE_TTL.checker);
+    }
+  } catch {
+    // A cache write is never worth failing a completed check over.
   }
 }
 

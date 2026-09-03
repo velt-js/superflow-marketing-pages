@@ -14,10 +14,11 @@
 //      `findings` and `totalFindings`.
 //
 // The older `runFreeTool` sub-event, which ran the engine inline within the
-// callable request, has been REMOVED from the backend. Runs now ride the
-// agent execution pipeline, so a single request cannot wait for the answer;
-// this client hides the polling behind the same one-call promise the callers
-// already use.
+// callable request, has been REMOVED from the backend. Runs ride the agent
+// execution pipeline, and the slowest of them take two to three minutes, so
+// this module deliberately does NOT hide the polling behind a one-call
+// promise: a serverless request cannot outlast the run. It exposes the two
+// halves, and lib/toolkit/deferred-run.ts is what routes build on.
 //
 // The free tools shipped to the production backend on 2026-08-18, so the
 // production callable is the built-in default and nothing has to be configured
@@ -106,24 +107,6 @@ export function isToolOnStagingBackend(toolId: string): boolean {
   return CONFIGURED_ENDPOINT.length === 0 && TOOLS_ON_STAGING.has(toolId);
 }
 
-/**
- * Ceiling on the whole start-and-poll round trip.
- *
- * The engines' own budget is 30 seconds, so a run still going well past that
- * has failed server-side. What the old 45 second ceiling did not allow for is
- * everything around the run: the callable's cold start, the dispatch onto the
- * agent pipeline, and the first poll interval. On a cold backend that overhead
- * pushed honest runs past the line, and a visitor who would have had their
- * report in 50 seconds got "The check took too long" instead — then a retry
- * seconds later answered in seven, because the second call found a warm
- * backend.
- *
- * 55 seconds covers that cold start while staying inside the 60 second
- * `maxDuration` the routes declare, so the function never dies mid-wait and
- * turns a slow answer into a platform error page.
- */
-const OVERALL_TIMEOUT_MS = 55_000;
-
 /** Per-request ceiling on the start call. Generous, to survive a cold start. */
 const START_TIMEOUT_MS = 25_000;
 
@@ -178,11 +161,6 @@ export type BackendRunSuccess = {
 };
 
 export type BackendRunResult = BackendRunSuccess | BackendRunFailure;
-
-/** The `ai-visibility` overload resolves with the mapped report present. */
-export type BackendVisibilityRunResult =
-  | (BackendRunSuccess & { report: VisibilityReport })
-  | BackendRunFailure;
 
 /**
  * The report shape the backend returns for `ai-visibility`. Close to the
@@ -645,138 +623,6 @@ function settlePoll({
       totalFindings,
     },
   };
-}
-
-/**
- * Runs a free tool through the Superflow backend: one start call, then a
- * poll every `pollIntervalSeconds` until the run reaches a terminal state,
- * all inside a single 45 second ceiling.
- *
- * Failure copy is the backend's own wherever it produced some, because its
- * messages are written for end users. The exceptions: a run that vanishes
- * mid-poll (`not-found`) reads as a generic try-again to the visitor, since
- * "we lost your run" is not something they can act on differently, and
- * transport-level failures use this module's own generic copy.
- *
- * @param toolId - The tool to run, e.g. "ai-visibility".
- * @param url - The URL to check.
- * @param clientIp - Forwarded so the backend's per-IP budget sees the real
- *   caller rather than this server.
- */
-export async function runToolViaBackend(params: {
-  toolId: "ai-visibility";
-  url: string;
-  clientIp?: string;
-  extra?: Record<string, unknown>;
-}): Promise<BackendVisibilityRunResult>;
-export async function runToolViaBackend(params: {
-  toolId: string;
-  url: string;
-  clientIp?: string;
-  extra?: Record<string, unknown>;
-}): Promise<BackendRunResult>;
-export async function runToolViaBackend({
-  toolId,
-  url,
-  clientIp,
-  extra,
-}: {
-  toolId: string;
-  url: string;
-  clientIp?: string;
-  /**
-   * Extra start fields, for the tools that take more than a URL (the Lookalike
-   * Test's benchmark). Spread into the start payload and nothing else, so a
-   * tool that sends none dispatches a byte-identical request. The backend
-   * validates them; passing them through unchecked here would put the guard in
-   * two places that can disagree.
-   */
-  extra?: Record<string, unknown>;
-}): Promise<BackendRunResult> {
-  try {
-    const deadline = Date.now() + OVERALL_TIMEOUT_MS;
-
-    // Resolved ONCE, before the start call, and reused for every poll. An
-    // executionId only exists in the environment that minted it, so a run
-    // started on staging and polled on prod would answer `not-found` forever —
-    // a tool that appears to hang rather than fail.
-    const endpoint = endpointForTool(toolId);
-
-    // ── Start the run ────────────────────────────────────────────────────
-    const started = await callAnonymousHandler({
-      data: { subEventType: "startFreeToolRun", toolId, url, ...(extra ?? {}) },
-      timeoutMs: Math.min(START_TIMEOUT_MS, deadline - Date.now()),
-      clientIp,
-      endpoint,
-    });
-
-    if (!started.ok) {
-      return {
-        ok: false,
-        code: started.timedOut ? "timeout" : "backend-error",
-        message: started.timedOut ? TIMEOUT_MESSAGE : TRY_AGAIN_MESSAGE,
-      };
-    }
-
-    const start = started.result;
-    if (start.success !== true) {
-      // The backend's own refusal: invalid-url, rate-limited,
-      // budget-exhausted, internal. Its copy is user-ready, pass it through.
-      return {
-        ok: false,
-        code: start.errorCode ?? "backend-error",
-        message: start.message ?? TRY_AGAIN_MESSAGE,
-      };
-    }
-
-    const executionId = start.executionId;
-    if (typeof executionId !== "string" || executionId.length === 0) {
-      return { ok: false, code: "backend-error", message: TRY_AGAIN_MESSAGE };
-    }
-
-    const intervalMs = pollIntervalMs(start.pollIntervalSeconds);
-
-    // ── Poll until terminal or the ceiling ───────────────────────────────
-    while (true) {
-      const waitMs = Math.min(intervalMs, deadline - Date.now());
-      if (waitMs <= 0) {
-        break;
-      }
-      await sleep(waitMs);
-
-      if (Date.now() >= deadline) {
-        break;
-      }
-
-      const polled = await callAnonymousHandler({
-        data: { subEventType: "getFreeToolRun", executionId },
-        timeoutMs: Math.min(POLL_TIMEOUT_MS, deadline - Date.now()),
-        clientIp,
-        endpoint,
-      });
-
-      // A dropped poll is not a dropped run: the run is still executing
-      // server-side, so ride out transient transport failures and try again
-      // on the next tick. The ceiling bounds how long this can go on.
-      if (!polled.ok) {
-        continue;
-      }
-
-      const settlement = settlePoll({ toolId, poll: polled.result });
-      if (settlement.done) return settlement.result;
-    }
-
-    return { ok: false, code: "timeout", message: TIMEOUT_MESSAGE };
-  } catch (error) {
-    const timedOut =
-      error instanceof Error &&
-      (error.name === "TimeoutError" || error.name === "AbortError");
-    return {
-      ok: false,
-      code: timedOut ? "timeout" : "backend-error",
-      message: timedOut ? TIMEOUT_MESSAGE : TRY_AGAIN_MESSAGE,
-    };
-  }
 }
 
 /**

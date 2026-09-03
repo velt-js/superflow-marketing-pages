@@ -21,6 +21,7 @@ import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import type { PersonaFinding } from "@/lib/tools/persona-review/types";
 import { PERSONAS, provenanceFor } from "@/lib/tools/persona-review/personas";
+import { runToolRequest, ToolRunError } from "@/lib/tools/client/run-tool";
 import styles from "./ReviewTool.module.css";
 
 /** What every review endpoint returns. */
@@ -55,44 +56,6 @@ type RunState =
   | { phase: "running"; waitedSeconds: number }
   | { phase: "done"; result: SuccessResult }
   | { phase: "error"; message: string };
-
-/**
- * How long the browser waits for a review before giving up.
- *
- * A review is a page load, a screenshot and an LLM call. Measured against the
- * production backend, the personas take 118 to 153 seconds and the Lookalike
- * Test 146, so the ceiling has to clear three minutes to be honest about the
- * work. It exists only to stop a spinner running forever; nothing about the
- * server side depends on it.
- */
-const RUN_CEILING_MS = 4 * 60 * 1000;
-
-/** Bounds on the cadence the server asks for, so a bad value stays sane. */
-const MIN_POLL_MS = 2_000;
-const MAX_POLL_MS = 10_000;
-
-/** After this long, polls widen — the answer is not seconds away. */
-const SLOW_POLL_AFTER_MS = 45_000;
-const SLOW_POLL_MS = 5_000;
-
-/**
- * Consecutive poll failures ridden out before the run is called dead.
- *
- * The backend answers `not-found` for a genuinely unknown run AND for any
- * transient failure to read a real one — it collapses the two deliberately, so
- * the endpoint cannot be used to enumerate which runs exist. That makes a
- * single `not-found` weak evidence that the run is gone, and killing a
- * two minute review on it would throw away a report that is still coming.
- */
-const TRANSIENT_FAILURE_TOLERANCE = 2;
-
-/** Codes that may be a blip rather than a verdict. See the constant above. */
-const TRANSIENT_CODES = new Set(["not-found", "backend-error", "timeout"]);
-
-/** Resolves after `ms` milliseconds. */
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 /**
  * The status line under the form, chosen by how long the run has been going.
@@ -199,23 +162,8 @@ export function ReviewTool({
       if (trimmed.length === 0 || inFlight.current) return;
 
       inFlight.current = true;
-      const startedAt = Date.now();
       setState({ phase: "running", waitedSeconds: 0 });
       trackEvent(AnalyticsEvents.TOOL_RUN, { tool: activeSlug });
-
-      /**
-       * Posts to this tool's endpoint. Both halves of the contract go to the
-       * same URL: a body with `url` starts a run, a body with `runId` reads
-       * one.
-       */
-      const post = async (body: Record<string, unknown>): Promise<ReviewResponse> => {
-        const response = await fetch(`/api/tools/${activeSlug}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        return (await response.json()) as ReviewResponse;
-      };
 
       const finish = (payload: ReviewResponse) => {
         const result: SuccessResult = {
@@ -248,93 +196,32 @@ export function ReviewTool({
           if (value.length > 0) body[field.name] = value;
         }
 
-        const started = await post(body);
+        // The waiting happens here rather than on the server: a review takes
+        // two to three minutes and a Vercel route may run for 60 seconds, which
+        // is what made every one of these answer "the check took too long".
+        const payload = await runToolRequest<ReviewResponse>({
+          endpoint: `/api/tools/${activeSlug}`,
+          body,
+          onWait: (waitedSeconds) => setState({ phase: "running", waitedSeconds }),
+        });
 
-        if (!started?.ok) {
+        if (!payload?.ok) {
           fail(
-            started?.message ?? "Something went wrong. Try again in a moment.",
-            started?.code ?? "unknown",
+            payload?.message ?? "Something went wrong. Try again in a moment.",
+            payload?.code ?? "unknown",
           );
           return;
         }
 
-        // A cached URL, or a tool that finished inside the first call.
-        if (started.status !== "pending" || typeof started.runId !== "string") {
-          finish(started);
-          return;
-        }
-
-        // ── Wait for the run, from here rather than from the server ───────
-        //
-        // The server cannot do this waiting: a Vercel route has a 60 second
-        // ceiling and these reviews take two to three minutes, which is what
-        // made every single one of them answer "the check took too long".
-        const runId = started.runId;
-        let intervalMs = Math.min(
-          MAX_POLL_MS,
-          Math.max(MIN_POLL_MS, (started.pollIntervalSeconds ?? 0) * 1000),
-        );
-        let consecutiveFailures = 0;
-
-        while (Date.now() - startedAt < RUN_CEILING_MS) {
-          await sleep(intervalMs);
-          setState({
-            phase: "running",
-            waitedSeconds: Math.round((Date.now() - startedAt) / 1000),
-          });
-
-          let polled: ReviewResponse;
-          try {
-            polled = await post({ runId });
-          } catch {
-            // A dropped poll is not a dropped run. The run is executing on the
-            // backend either way, so ride it out.
-            consecutiveFailures += 1;
-            if (consecutiveFailures > TRANSIENT_FAILURE_TOLERANCE) {
-              fail("Could not reach the review. Try again in a moment.", "network");
-              return;
-            }
-            continue;
-          }
-
-          if (!polled?.ok) {
-            const code = polled?.code ?? "unknown";
-            if (TRANSIENT_CODES.has(code)) {
-              consecutiveFailures += 1;
-              if (consecutiveFailures <= TRANSIENT_FAILURE_TOLERANCE) continue;
-            }
-            fail(
-              polled?.message ?? "Something went wrong. Try again in a moment.",
-              code,
-            );
-            return;
-          }
-
-          consecutiveFailures = 0;
-
-          if (polled.status === "pending") {
-            // The server's cadence is the floor, and the wait so far can only
-            // widen it. Reviews run for minutes, and the backend caps status
-            // polls per IP per minute — holding a two second cadence for the
-            // whole run would sit on that cap and throttle the visitor out of
-            // their own report.
-            const asked = (polled.pollIntervalSeconds ?? 0) * 1000;
-            const floor =
-              Date.now() - startedAt > SLOW_POLL_AFTER_MS ? SLOW_POLL_MS : MIN_POLL_MS;
-            intervalMs = Math.min(MAX_POLL_MS, Math.max(floor, asked));
-            continue;
-          }
-
-          finish(polled);
-          return;
-        }
-
+        finish(payload);
+      } catch (error) {
+        const isRunError = error instanceof ToolRunError;
         fail(
-          "The review is taking longer than usual. Try again in a moment.",
-          "timeout",
+          isRunError
+            ? error.message
+            : "Could not reach the review. Try again in a moment.",
+          isRunError ? error.code : "network",
         );
-      } catch {
-        fail("Could not reach the review. Try again in a moment.", "network");
       } finally {
         inFlight.current = false;
       }

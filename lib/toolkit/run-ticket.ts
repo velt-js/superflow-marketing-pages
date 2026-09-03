@@ -35,11 +35,19 @@ import { kvGet, kvSet } from "./kv";
 const TICKET_TTL_SECONDS = 15 * 60;
 
 /** What a start request knows and a poll request needs. */
-type RunTicket = {
+export type RunTicket = {
   /** The tool slug that started the run. */
   slug: string;
   /** The cache key the finished result belongs under. */
   cacheKey: string;
+  /**
+   * The normalized URL the run was started for.
+   *
+   * Several tools cache a result under a second key derived from the URL the
+   * run actually landed on after redirects, and need the requested URL to
+   * compare against. Empty when the ticket predates this field.
+   */
+  cacheUrl: string;
 };
 
 /**
@@ -61,18 +69,21 @@ function ticketKey(runId: string): string {
  * @param runId - The backend executionId.
  * @param slug - The tool slug that started the run.
  * @param cacheKey - The key the finished result belongs under.
+ * @param cacheUrl - The normalized URL the run was started for.
  */
 export async function rememberRun({
   runId,
   slug,
   cacheKey,
+  cacheUrl,
 }: {
   runId: string;
   slug: string;
   cacheKey: string;
+  cacheUrl: string;
 }): Promise<void> {
   try {
-    const ticket: RunTicket = { slug, cacheKey };
+    const ticket: RunTicket = { slug, cacheKey, cacheUrl };
     await kvSet(ticketKey(runId), JSON.stringify(ticket), TICKET_TTL_SECONDS);
   } catch {
     // Intentionally ignored. See the module note.
@@ -113,7 +124,7 @@ export async function recallRun({
       return null;
     }
 
-    return ticket;
+    return { ...ticket, cacheUrl: typeof ticket.cacheUrl === "string" ? ticket.cacheUrl : "" };
   } catch {
     return null;
   }

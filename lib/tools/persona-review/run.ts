@@ -44,13 +44,16 @@ import {
 } from "@/lib/toolkit/cache";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import { normalizeUrl } from "@/lib/toolkit/url";
+import { isBackendConfigured } from "@/lib/toolkit/superflow-api";
 import {
-  isBackendConfigured,
-  isPendingRun,
-  pollToolRun,
-  startToolRun,
-} from "@/lib/toolkit/superflow-api";
-import { recallRun, rememberRun } from "@/lib/toolkit/run-ticket";
+  beginRun,
+  pendingBody,
+  resumeRun,
+  runIdFrom,
+  waitBudgetFor,
+  type DeferredContext,
+  type DeferredOutcome,
+} from "@/lib/toolkit/deferred-run";
 import type { PersonaReviewPayload, PersonaFinding } from "./types";
 
 /** One extra body field a tool forwards to the backend. */
@@ -65,12 +68,6 @@ export const PERSONA_RESULT_VERSION = 1;
 
 /** A full page load, a screenshot, and an LLM call. The expensive tier. */
 const RATE_TIER = "heavy" as const;
-
-/**
- * Ceiling on a caller-supplied run id. Firestore auto-ids are 20 characters;
- * this leaves room for a format change and still refuses a padded string.
- */
-const MAX_RUN_ID_LENGTH = 128;
 
 /** Failure codes that mean the caller sent something we cannot run. */
 const BAD_REQUEST_CODES = new Set(["bad-request", "invalid-url"]);
@@ -274,9 +271,16 @@ export async function runPersonaReview({
     // A body carrying a run id is the second half of a run this route already
     // started and budgeted. It is read, never re-dispatched, so it costs the
     // caller nothing further.
-    const runId = typeof payload?.runId === "string" ? payload.runId.trim() : "";
+    const runId = runIdFrom(payload);
     if (runId.length > 0) {
-      return pollRun({ runId, slug, backendToolId, ip });
+      const outcome = await resumeRun({
+        toolId: backendToolId,
+        slug,
+        runId,
+        clientIp: ip,
+        waitMs: waitBudgetFor(payload),
+      });
+      return settle(outcome);
     }
 
     return startRun({ payload, slug, backendToolId, ip, extraFields });
@@ -363,31 +367,18 @@ async function startRun({
       await invalidateCache(cacheKey);
     }
 
-    const started = await startToolRun({
+    const outcome = await beginRun({
       toolId: backendToolId,
+      slug,
       url: rawUrl,
       clientIp: ip,
-      ...(Object.keys(extra).length > 0 ? { extra } : {}),
+      extra,
+      cacheKey,
+      cacheUrl,
+      waitMs: waitBudgetFor(payload),
     });
 
-    if (!started.ok) {
-      return json(
-        { ok: false, code: started.code, message: started.message },
-        statusForCode(started.code),
-      );
-    }
-
-    // Which question this run answers is decided HERE and nowhere else. The
-    // poll below reads it back rather than trusting the caller to restate it —
-    // see lib/toolkit/run-ticket.ts.
-    await rememberRun({ runId: started.runId, slug, cacheKey });
-
-    return json({
-      ok: true,
-      status: "pending",
-      runId: started.runId,
-      pollIntervalSeconds: started.pollIntervalSeconds,
-    });
+    return settle(outcome);
   } catch {
     return json(
       {
@@ -401,56 +392,27 @@ async function startRun({
 }
 
 /**
- * Reads a run once and answers with the review, a failure, or "still going".
+ * Turns a settled run into the response the caller sees.
  *
- * @param runId - The handle from the start call.
- * @param slug - The public tool slug.
- * @param backendToolId - The free-tool id the run belongs to.
- * @param ip - The caller's IP, forwarded for the backend's poll budget.
+ * @param outcome - Whatever the run left the deferred layer as.
  */
-async function pollRun({
-  runId,
-  slug,
-  backendToolId,
-  ip,
-}: {
-  runId: string;
-  slug: string;
-  backendToolId: string;
-  ip: string;
-}): Promise<Response> {
+async function settle(outcome: DeferredOutcome): Promise<Response> {
   try {
-    // A run id is a Firestore auto-id, so anything appreciably longer is not
-    // one. Refusing it here keeps a padded string out of the KV lookup and
-    // out of the backend call.
-    if (runId.length > MAX_RUN_ID_LENGTH) {
-      return json({ ok: false, code: "bad-request", message: "That run id is not valid." }, 400);
-    }
+    if (outcome.kind === "pending") return json(pendingBody(outcome));
 
-    const polled = await pollToolRun({ toolId: backendToolId, runId, clientIp: ip });
-
-    if (isPendingRun(polled)) {
-      return json({
-        ok: true,
-        status: "pending",
-        runId,
-        pollIntervalSeconds: polled.pollIntervalSeconds,
-      });
-    }
-
-    if (!polled.ok) {
+    if (outcome.kind === "failed") {
       return json(
-        { ok: false, code: polled.code, message: polled.message },
-        statusForCode(polled.code),
+        { ok: false, code: outcome.code, message: outcome.message },
+        statusForCode(outcome.code),
       );
     }
 
     // A findings-shaped agent writes no report, so the backend wraps its prose
     // as `{ summary }`. Both shapes are handled: a persona that later grows a
     // real report keeps working here.
-    const data = (polled.data ?? {}) as { summary?: unknown };
+    const data = (outcome.result.data ?? {}) as { summary?: unknown };
     const summary = typeof data.summary === "string" ? data.summary.trim() : "";
-    const findings = toPersonaFindings((polled.findings ?? []) as unknown[]);
+    const findings = toPersonaFindings((outcome.result.findings ?? []) as unknown[]);
 
     // A review with neither a verdict nor a single finding is not a review. It
     // means the run completed but produced nothing renderable, and showing an
@@ -469,16 +431,10 @@ async function pollRun({
     const stored: PersonaReviewPayload = {
       summary,
       findings,
-      totalFindings: polled.totalFindings ?? findings.length,
+      totalFindings: outcome.result.totalFindings ?? findings.length,
     };
 
-    // Cached under the key the START call chose. A run whose ticket has expired
-    // (or whose KV is not configured) still returns its review; it just is not
-    // stored, which costs the next visitor a re-run and nothing else.
-    const ticket = await recallRun({ runId, slug });
-    if (ticket) {
-      await writeCache(ticket.cacheKey, PERSONA_RESULT_VERSION, stored, CACHE_TTL.checker);
-    }
+    await cacheReview(stored, outcome.context);
 
     return json({ ok: true, status: "done", ...stored, cached: false, ageSeconds: 0 });
   } catch {
@@ -490,5 +446,27 @@ async function pollRun({
       },
       422,
     );
+  }
+}
+
+/**
+ * Caches a finished review under the key its START call chose.
+ *
+ * A run whose ticket has expired (or whose store is unreachable) still returns
+ * its review; it just is not stored, which costs the next visitor a re-run and
+ * nothing else.
+ *
+ * @param stored - The review to cache.
+ * @param context - The run's recovered context, or null when it is gone.
+ */
+async function cacheReview(
+  stored: PersonaReviewPayload,
+  context: DeferredContext | null,
+): Promise<void> {
+  try {
+    if (!context) return;
+    await writeCache(context.cacheKey, PERSONA_RESULT_VERSION, stored, CACHE_TTL.checker);
+  } catch {
+    // A cache write is never worth failing a completed review over.
   }
 }
