@@ -325,7 +325,7 @@
     .cell,
     .gridCompact .cell {
         flex: 0 0 auto;
-        width: 190px;
+        width: 160px;
         scroll-snap-align: start;
     }
 
@@ -342,14 +342,15 @@
         transform: none;
     }
 
-    /* Drop the fixed near-square aspect ratio so each ticket's height fits its
-       icon + label; group them at the top and tighten padding for the strip. */
+    /* Keep the 232 / 246 stamp proportions. The mask SVG letterboxes inside
+       any other shape (default preserveAspectRatio), which left the left and
+       right ~38px of a wide, short ticket transparent: the icon and the first
+       characters of every label were masked out. A narrower cell keeps the
+       strip compact instead. */
     .ticket {
-        aspect-ratio: auto;
-        justify-content: flex-start;
         gap: 14px;
-        padding: 22px;
-        padding-inline-end: 22px;
+        padding: 18px;
+        padding-inline-end: 18px;
     }
 
     /* Scale the icon + label down a touch so the roomier card doesn't feel

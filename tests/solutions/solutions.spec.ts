@@ -85,7 +85,7 @@ test.describe("solutions pages", () => {
       await expect(page.locator("h1")).toHaveCount(1);
 
       const copy = await bodyCopy(page);
-      expect(copy, "em dash or en dash in rendered copy").not.toMatch(/[—–]/);
+      expect(copy, "em dash or en dash in rendered copy").not.toMatch(/[\u2014\u2013]/);
       const lower = copy.toLowerCase();
       for (const phrase of BANNED_IN_BODY) {
         expect(lower, `banned phrase "${phrase}" in rendered copy`).not.toContain(phrase);

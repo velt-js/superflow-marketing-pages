@@ -573,6 +573,93 @@
   }
 }
 
+/* ====================================================== narrow frames */
+
+/* Below ~680px the media bubble (232px, hanging right from the hero image)
+   ran past the frame's right edge and was clipped, so it hangs inward from
+   the image's right edge instead. */
+@media (max-width: 680px) {
+  .commentAlt {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* Phone frames (the hero window is ~330px wide at 375px). The side-by-side
+   hero left a ~110px copy column, so two of the three finding bubbles were
+   cut off at the frame edge. The mock site becomes a vertical composition
+   instead: nav (the button and the Docs link overflowed the frame, so they
+   go), room for the nav-link bubble, a two-line headline with its bubble
+   below, then a short hero image with its pin and bubble. The subhead,
+   buttons and feature row were already clipped by the fixed-height frame,
+   so they are dropped here. Every bubble keeps its 232px width and its
+   anchor, and the three no longer overlap each other or the copy. */
+@media (max-width: 600px) {
+  .site {
+    padding: 24px 24px 0;
+  }
+
+  .navLinks .navLink:last-child,
+  .cta {
+    display: none;
+  }
+
+  .commentLink {
+    top: 24px;
+    left: auto;
+    right: 0;
+  }
+
+  .hero {
+    flex-direction: column;
+    gap: 14px;
+    /* Clears the nav-link bubble hanging above the copy. */
+    padding: 112px 0 0;
+  }
+
+  .heroCopy {
+    flex: none;
+    /* Keeps the headline on two lines at every phone width, so the headline
+       bubble (anchored to the last word) always lands inside the frame. */
+    max-width: 300px;
+  }
+
+  .headline {
+    font-size: 22px;
+  }
+
+  .subhead,
+  .heroButtons,
+  .features {
+    display: none;
+  }
+
+  .heroMediaTarget {
+    flex: none;
+    width: 100%;
+  }
+
+  .heroMedia {
+    max-height: 80px;
+  }
+
+  .commentSpell {
+    top: 20px;
+  }
+
+  .commentAlt {
+    top: 116px;
+  }
+
+  /* Sits on the media bubble's top-left corner (the bubble hangs from the
+     image's right edge, so the pin is placed from the right as well). */
+  .pin {
+    top: 80px;
+    left: auto;
+    right: 196px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chrome,
   .site,

@@ -26,11 +26,14 @@
   box-shadow: 0 12px 30px -18px rgba(67, 61, 243, 0.45);
 }
 
+/* The category chip sits above the name as an eyebrow. Beside the name it
+   would take its full width and break long names onto two lines, so cards in
+   one row started their description at different heights. */
 .head {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 
 .name {
@@ -44,6 +47,7 @@
 }
 
 .category {
+  order: -1;
   flex-shrink: 0;
   padding: 3px 9px;
   border-radius: 9999px;

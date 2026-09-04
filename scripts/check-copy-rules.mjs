@@ -6,8 +6,10 @@
  * the files that carry new copy. Runs before `next build` (see package.json
  * "prebuild") so a build with a rule violation fails.
  *
- * Scope is the new and edited copy files, not the whole repo: older code
- * comments elsewhere still use em dashes and that is not copy.
+ * Scope is the new and edited copy files plus the solutionPage CMS schema and
+ * query file, not the whole repo: older code comments elsewhere still use em
+ * dashes and that is not copy. Regex literals in the scanned files spell the
+ * dashes as \u2014 and \u2013 escapes so they pass.
  *
  *   node scripts/check-copy-rules.mjs
  *   node scripts/check-copy-rules.mjs path/to/file ...   # override the file set
@@ -26,10 +28,12 @@ const DEFAULT_TARGETS = [
   "components/home-2026/AgentsCatchSection.module.css",
   "lib/solutions",
   "app/solutions",
+  "sanity/schemas/solutionPage.ts",
+  "sanity/lib/queries.ts",
   "HANDOFF-app.md",
 ];
 
-const DASHES = /[—–]/;
+const DASHES = /[\u2014\u2013]/;
 const BANNED = [
   "one per row",
   "per row",

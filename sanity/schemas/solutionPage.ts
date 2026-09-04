@@ -2,7 +2,7 @@ import { defineType, defineField } from "sanity";
 
 import { AGENT_CATEGORY_OPTIONS } from "../../lib/solutions/agent-library";
 
-// solutionPage — drives the /solutions/<slug> pages (batch 1: dental, healthcare,
+// solutionPage: drives the /solutions/<slug> pages (batch 1: dental, healthcare,
 // home services, pre-launch QA, site care, website migration QA).
 //
 // One template (components/solutions-2026/SolutionPageBody.tsx) renders every
@@ -17,7 +17,7 @@ import { AGENT_CATEGORY_OPTIONS } from "../../lib/solutions/agent-library";
 /** Reject em dashes and en dashes in any copy field. */
 function noDashes(value: string | undefined): true | string {
   try {
-    if (typeof value === "string" && /[—–]/.test(value)) {
+    if (typeof value === "string" && /[\u2014\u2013]/.test(value)) {
       return "No em dashes or en dashes. Use a period, comma, or colon.";
     }
     return true;

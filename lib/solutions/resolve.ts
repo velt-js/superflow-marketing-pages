@@ -19,7 +19,8 @@ import type { SolutionPage, SolutionSummary } from "./types";
 /**
  * A CMS document counts as usable only when the fields the template needs are
  * present; a half-authored draft falls back to the seed rather than rendering
- * an empty page.
+ * an empty page. The list queries in sanity/lib/queries.ts apply the same test
+ * (SOLUTION_PAGE_FILTER), so a document this rejects is never listed either.
  *
  * @param doc - Whatever the GROQ projection returned.
  * @returns True when it can be rendered.

@@ -248,7 +248,7 @@ function validatePage(page, fileName) {
     if (/TODO/.test(text)) {
       errors.push(`${at}: TODO left in copy`);
     }
-    if (/[—–]/.test(text)) {
+    if (/[\u2014\u2013]/.test(text)) {
       errors.push(`${at}: em dash or en dash`);
     }
     if (/!/.test(text)) {

@@ -42,7 +42,7 @@ export default function BuildYourOwnCard({
       <div className={styles.left}>
         <p className={styles.heading}>{heading ?? HEADING}</p>
         <p className={styles.label}>{INPUT_LABEL}</p>
-        <div className={styles.input} aria-label={INPUT_LABEL}>
+        <div className={styles.input}>
           <span className={styles.inputText}>{input}</span>
           <span className={styles.caret} aria-hidden="true" />
         </div>

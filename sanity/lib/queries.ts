@@ -489,7 +489,7 @@ export async function getReviewPageBySlug(slug: string) {
   );
 }
 
-// Feature page queries (/preview/features/<slug>) — new 2026 template that
+// Feature page queries (/preview/features/<slug>): new 2026 template that
 // reuses the home-2026 sections. Separate from reviewPage; legacy pages are
 // left untouched.
 export async function getAllFeatureSlugs(): Promise<string[]> {
@@ -750,7 +750,7 @@ export async function getIntegrationPreviewHub() {
 }
 
 // ---------------------------------------------------------------------------
-// comparisonPreview* — the /preview/comparison pages (three new 2026 classes).
+// comparisonPreview*: the /preview/comparison pages (three new 2026 classes).
 // Isolated from the legacy comparisonPage/alternativePage queries above.
 // ---------------------------------------------------------------------------
 
@@ -934,7 +934,7 @@ export async function getAllBugBookSlugs(): Promise<string[]> {
 
 /**
  * One live entry with the full thread/finding payload. Bench entries
- * intentionally return null — the route redirects misses to /bug-book.
+ * intentionally return null. The route redirects misses to /bug-book.
  */
 export async function getBugBookEntryBySlug(
   slug: string
@@ -979,7 +979,7 @@ export async function getBugBookSamples(): Promise<BugBookSample[]> {
 }
 
 // ---------------------------------------------------------------------------
-// solutionPage — the /solutions/<slug> pages (one template, per-page data).
+// solutionPage: the /solutions/<slug> pages (one template, per-page data).
 // The projection mirrors `SolutionPage` in lib/solutions/types.ts exactly, so
 // the CMS document and the local seed fallback (lib/solutions/seed.ts) are
 // interchangeable. Hidden documents never surface anywhere.
@@ -1010,17 +1010,33 @@ const SOLUTION_PAGE_PROJECTION = `
   "ogImage": ogImage.asset->url
 `;
 
-/** Slugs of every visible solution page. */
+/**
+ * The document must be visible and complete enough to render. This mirrors
+ * `isRenderable` in lib/solutions/resolve.ts, so a half-authored document
+ * (written through the API, past the Studio's required-field checks) is never
+ * listed in the sitemap, llms.txt or the /solutions index while its own route
+ * falls back to the seed or 404s.
+ */
+const SOLUTION_PAGE_FILTER = `
+  _type == "solutionPage"
+  && defined(slug.current)
+  && hidden != true
+  && defined(hero.h1)
+  && defined(pack.name)
+  && count(pack.agents) > 0
+  && defined(human.agentsCheck)
+  && defined(human.youDecide)
+`;
+
+/** Slugs of every visible, renderable solution page. */
 export async function getAllSolutionSlugs(): Promise<string[]> {
-  return client.fetch(
-    `*[_type == "solutionPage" && defined(slug.current) && hidden != true].slug.current`
-  );
+  return client.fetch(`*[${SOLUTION_PAGE_FILTER}].slug.current`);
 }
 
-/** One visible solution page by slug, or null. */
+/** One visible, renderable solution page by slug, or null. */
 export async function getSolutionPageBySlug(slug: string) {
   return client.fetch(
-    `*[_type == "solutionPage" && slug.current == $slug && hidden != true][0] {
+    `*[${SOLUTION_PAGE_FILTER} && slug.current == $slug][0] {
       ${SOLUTION_PAGE_PROJECTION}
     }`,
     { slug }
@@ -1030,7 +1046,7 @@ export async function getSolutionPageBySlug(slug: string) {
 /** Lightweight entries for the /solutions index, ordered by kind then order. */
 export async function getAllSolutionsForIndex() {
   return client.fetch(
-    `*[_type == "solutionPage" && defined(slug.current) && hidden != true]
+    `*[${SOLUTION_PAGE_FILTER}]
       | order(kind asc, order asc, navLabel asc) {
       "slug": slug.current,
       kind,

@@ -862,6 +862,25 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
       return undefined;
     }
 
+    /**
+     * Return focus to a trigger without its focus handler reopening the menu
+     * that Escape just closed (a hover-opened menu never set the pointer flag,
+     * so the programmatic focus would otherwise count as keyboard focus). The
+     * focus event fires synchronously inside focus(), so the flag is cleared
+     * right after it whether or not the event fired.
+     */
+    function refocusTrigger(trigger: HTMLButtonElement | null) {
+      if (!trigger) {
+        return;
+      }
+      dropdownPointerFocusRef.current = true;
+      try {
+        trigger.focus();
+      } finally {
+        dropdownPointerFocusRef.current = false;
+      }
+    }
+
     /** Close the dropdown and refocus its trigger when Escape is pressed. */
     function handleDropdownKeyDown(event: KeyboardEvent) {
       try {
@@ -869,15 +888,15 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
           const label = openDropdown;
           closeDropdownMenu();
           if (label === PRODUCT_LABEL) {
-            productTriggerRef.current?.focus();
+            refocusTrigger(productTriggerRef.current);
           } else if (label === SOLUTIONS_LABEL) {
-            solutionsTriggerRef.current?.focus();
+            refocusTrigger(solutionsTriggerRef.current);
           } else if (label === ASSETS_LABEL) {
-            assetsTriggerRef.current?.focus();
+            refocusTrigger(assetsTriggerRef.current);
           } else if (label === INTEGRATIONS_LABEL) {
-            integrationsTriggerRef.current?.focus();
+            refocusTrigger(integrationsTriggerRef.current);
           } else if (label === RESOURCES_LABEL) {
-            resourcesTriggerRef.current?.focus();
+            refocusTrigger(resourcesTriggerRef.current);
           }
         }
       } catch {
@@ -1046,6 +1065,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                     className={`${styles.listMenu} ${
                       openDropdown === ASSETS_LABEL ? styles.listMenuOpen : ""
                     }`}
+                    role="group"
                     aria-label={`${ASSETS_LABEL} links`}
                   >
                     {ASSET_LINKS.map((link) => (
@@ -1102,6 +1122,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         ? styles.listMenuOpen
                         : ""
                     }`}
+                    role="group"
                     aria-label={`${INTEGRATIONS_LABEL} categories`}
                   >
                     <div className={styles.groupGrid}>
@@ -1170,6 +1191,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                     className={`${styles.listMenu} ${styles.groupMenu} ${styles.groupMenuRight} ${
                       openDropdown === RESOURCES_LABEL ? styles.listMenuOpen : ""
                     }`}
+                    role="group"
                     aria-label={`${RESOURCES_LABEL} links`}
                   >
                     <div className={styles.groupGrid}>
@@ -1238,6 +1260,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
         className={`${styles.megaMenu} ${
           openDropdown === PRODUCT_LABEL ? styles.megaMenuOpen : ""
         }`}
+        role="group"
         aria-label={`${PRODUCT_LABEL} features`}
         onMouseEnter={() => openDropdownMenu(PRODUCT_LABEL)}
         onMouseLeave={scheduleDropdownClose}
@@ -1276,6 +1299,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
         className={`${styles.megaMenu} ${styles.megaMenuTwoCol} ${
           openDropdown === SOLUTIONS_LABEL ? styles.megaMenuOpen : ""
         }`}
+        role="group"
         aria-label={`${SOLUTIONS_LABEL} pages`}
         onMouseEnter={() => openDropdownMenu(SOLUTIONS_LABEL)}
         onMouseLeave={scheduleDropdownClose}

@@ -164,17 +164,16 @@ async function fetchSolutionPages(): Promise<SolutionPage[]> {
 
 /**
  * The /solutions index plus one row per page: the nav label linked, then the
- * meta description and the hero subhead so an agent gets the pitch and what
- * the pack checks in one line.
+ * meta description (the hero subhead stands in when a page has none). One
+ * field per row: the two strings share sentences, so joining them repeats
+ * the same sentence twice.
  */
 function solutionsSection(pages: SolutionPage[]): string {
   const rows = [
     `- [${SOLUTIONS_INDEX_TITLE}](${SITE_URL}${SOLUTIONS_BASE_PATH}): ${SOLUTIONS_INDEX_DESCRIPTION}`,
     ...pages.map((page) => {
       const url = `${SITE_URL}${solutionPath(page.slug)}`;
-      const description = [page.seo?.description, page.hero?.sub]
-        .filter(Boolean)
-        .join(" ");
+      const description = page.seo?.description || page.hero?.sub || "";
       return `- [${page.navLabel || page.slug}](${url})${description ? `: ${description}` : ""}`;
     }),
   ];

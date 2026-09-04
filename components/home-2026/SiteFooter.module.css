@@ -503,8 +503,11 @@
         width: 100%;
     }
 
+    /* The stacked buttons end ~380px into the footer, so the crest (whose
+       fade begins ~46px into the 360px asset) starts just below the second
+       button instead of washing it out. */
     .waveLayer {
-        top: 200px;
+        top: 310px;
     }
 
     .footerMain {
