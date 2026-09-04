@@ -410,15 +410,15 @@ export const TOOLS: readonly ToolEntry[] = [
     category: "quality",
     // The HUB, and the only review entry with no agent and no API route of its
     // own — it renders the partner picker and posts to whichever partner is
-    // selected. It goes live with the four lenses below, since a picker whose
-    // every option 500s is worse than no page.
+    // selected. It is live because all four lenses below are: a picker whose
+    // options 500 would be worse than no page at all.
     // Backend-dependent: runs through the FreeToolsService start/poll
     // contract against its own agent, which is pinned to the STAGING
     // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. PLANNED until a real run through the deployed
-    // path returns a terminal review — a tool listed live before its agent
-    // exists 500s for every visitor, which is worse than not listing it.
-    status: "planned",
+    // it is released to prod. Live as of 2026-09-03, verified end to end
+    // against deployed staging through this repo's own route: a run on
+    // stripe.com returned a terminal review with a summary and findings.
+    status: "live",
     icon: "check",
     related: [
       "review-like-aaron-epstein",
@@ -435,10 +435,10 @@ export const TOOLS: readonly ToolEntry[] = [
     // Backend-dependent: runs through the FreeToolsService start/poll
     // contract against its own agent, which is pinned to the STAGING
     // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. PLANNED until a real run through the deployed
-    // path returns a terminal review — a tool listed live before its agent
-    // exists 500s for every visitor, which is worse than not listing it.
-    status: "planned",
+    // it is released to prod. Live as of 2026-09-03, verified end to end
+    // against deployed staging through this repo's own route: a run on
+    // stripe.com returned a terminal review with a summary and findings.
+    status: "live",
     icon: "eye",
     related: [
       "review-like-yc-partner",
@@ -455,10 +455,10 @@ export const TOOLS: readonly ToolEntry[] = [
     // Backend-dependent: runs through the FreeToolsService start/poll
     // contract against its own agent, which is pinned to the STAGING
     // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. PLANNED until a real run through the deployed
-    // path returns a terminal review — a tool listed live before its agent
-    // exists 500s for every visitor, which is worse than not listing it.
-    status: "planned",
+    // it is released to prod. Live as of 2026-09-03, verified end to end
+    // against deployed staging through this repo's own route: a run on
+    // stripe.com returned a terminal review with a summary and findings.
+    status: "live",
     icon: "check",
     related: [
       "review-like-yc-partner",
@@ -475,10 +475,10 @@ export const TOOLS: readonly ToolEntry[] = [
     // Backend-dependent: runs through the FreeToolsService start/poll
     // contract against its own agent, which is pinned to the STAGING
     // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. PLANNED until a real run through the deployed
-    // path returns a terminal review — a tool listed live before its agent
-    // exists 500s for every visitor, which is worse than not listing it.
-    status: "planned",
+    // it is released to prod. Live as of 2026-09-03, verified end to end
+    // against deployed staging through this repo's own route: a run on
+    // stripe.com returned a terminal review with a summary and findings.
+    status: "live",
     icon: "link",
     related: [
       "review-like-yc-partner",
@@ -495,10 +495,10 @@ export const TOOLS: readonly ToolEntry[] = [
     // Backend-dependent: runs through the FreeToolsService start/poll
     // contract against its own agent, which is pinned to the STAGING
     // backend (see TOOLS_ON_STAGING in lib/toolkit/superflow-api.ts) until
-    // it is released to prod. PLANNED until a real run through the deployed
-    // path returns a terminal review — a tool listed live before its agent
-    // exists 500s for every visitor, which is worse than not listing it.
-    status: "planned",
+    // it is released to prod. Live as of 2026-09-03, verified end to end
+    // against deployed staging through this repo's own route: a run on
+    // stripe.com returned a terminal review with a summary and findings.
+    status: "live",
     icon: "stack",
     related: [
       "review-like-yc-partner",
