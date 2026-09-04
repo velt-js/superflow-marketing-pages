@@ -27,6 +27,7 @@ import {
   type SanityAlternativeDoc,
 } from "@/lib/sanity-adapters/alternative";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -83,12 +84,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: previewDoc.metaTitle ?? previewDoc.title,
       description: previewDoc.metaDescription ?? FALLBACK_DESCRIPTION,
       path: `${BASE_PATH}/${slug}`,
+      ogImage: ogCardUrl(previewDoc.metaTitle ?? previewDoc.title),
     });
   }
 
   const doc = (await getAlternativePageBySlug(slug)) as SanityAlternativeDoc | null;
   if (!doc) return {};
-  const ogImage = doc.thumbnail ?? doc.competitor2Logo;
+  const ogImage =
+    doc.thumbnail ?? doc.competitor2Logo ?? ogCardUrl(doc.metaTitle ?? doc.title ?? "Alternative");
   return buildPageMetadata({
     title: doc.metaTitle ?? doc.title ?? "Alternative",
     description:
@@ -96,7 +99,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       doc.description ??
       `See how Superflow compares to ${doc.competitor2Name ?? "this alternative"}.`,
     path: `${BASE_PATH}/${slug}`,
-    ...(ogImage ? { ogImage } : {}),
+    ogImage,
   });
 }
 

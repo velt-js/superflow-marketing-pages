@@ -25,6 +25,7 @@ import {
   getReviewPageBySlug,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, ORG_ID, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -74,7 +75,7 @@ export async function generateMetadata({
         reviewDoc.hero.subheading ??
         "Review and collaborate on creative assets with Superflow.",
       path: `/${slug}`,
-      ogImage: reviewDoc.ogImage ?? REVIEW_OG_IMAGE_FALLBACKS[slug],
+      ogImage: reviewDoc.ogImage ?? REVIEW_OG_IMAGE_FALLBACKS[slug] ?? ogCardUrl(rawTitle),
       // Sanity metaTitle is often already brand-suffixed — let the helper
       // detect and bypass the layout template so we never double-suffix.
     });
@@ -88,6 +89,7 @@ export async function generateMetadata({
       title,
       description,
       path: `/${slug}`,
+      ogImage: ogCardUrl(title),
     });
     if (
       checklistDoc.noIndex &&
@@ -107,7 +109,7 @@ export async function generateMetadata({
         featureDoc.hero?.subhead ??
         FEATURE_FALLBACK_DESCRIPTION,
       path: `/${slug}`,
-      ogImage: featureDoc.ogImage ?? undefined,
+      ogImage: featureDoc.ogImage ?? ogCardUrl(featureDoc.metaTitle ?? featureDoc.title),
       // Feature pages are indexable at their root slug; buildPageMetadata
       // detects any brand suffix in metaTitle and bypasses the layout template.
     });

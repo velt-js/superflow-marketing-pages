@@ -17,6 +17,7 @@ import {
   getIntegrationPreviewPageBySlug,
 } from "@/sanity/lib/queries";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -49,7 +50,7 @@ export async function generateMetadata({
     description:
       doc.metaDescription ?? doc.hero?.subhead ?? FALLBACK_DESCRIPTION,
     path: `${BASE_PATH}/${slug}`,
-    ogImage: doc.ogImage ?? undefined,
+    ogImage: doc.ogImage ?? ogCardUrl(doc.metaTitle ?? doc.title),
   });
 }
 

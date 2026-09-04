@@ -12,6 +12,7 @@ import type {
   PersonaListItem,
 } from "@/lib/sanity-adapters/user-persona";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -44,7 +45,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const doc = (await getUserPersonaPageBySlug(slug)) as SanityUserPersonaDoc | null;
   if (!doc) return {};
-  const ogImage = doc.thumbnail ?? doc.icon;
+  const ogImage =
+    doc.thumbnail ?? doc.icon ?? ogCardUrl(doc.metaTitle ?? doc.title ?? "User Persona");
   return buildPageMetadata({
     title: doc.metaTitle ?? doc.title ?? "User Persona",
     description:
@@ -52,7 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       doc.hero?.description ??
       "Are you a designer, developer, PM? Superflow integrates seamlessly for everyone.",
     path: `/user-persona/${slug}`,
-    ...(ogImage ? { ogImage } : {}),
+    ogImage,
   });
 }
 

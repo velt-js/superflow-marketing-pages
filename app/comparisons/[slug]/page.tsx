@@ -31,6 +31,7 @@ import {
   type SanityComparisonDoc,
 } from "@/lib/sanity-adapters/comparisons";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { ogCardUrl } from "@/lib/og/card-url";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -87,6 +88,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: previewDoc.metaTitle ?? previewDoc.title,
       description: previewDoc.metaDescription ?? FALLBACK_DESCRIPTION,
       path: `${BASE_PATH}/${slug}`,
+      ogImage: ogCardUrl(previewDoc.metaTitle ?? previewDoc.title),
     });
   }
 
@@ -101,7 +103,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       doc.description ??
       "Compare collaboration apps for reviewing creative assets - see how Superflow stacks up.",
     path: `${BASE_PATH}/${slug}`,
-    ...(doc.thumbnail ? { ogImage: doc.thumbnail } : {}),
+    ogImage: doc.thumbnail ?? ogCardUrl(doc.metaTitle ?? doc.title ?? "Comparison"),
   });
   if (doc.noIndex && doc.noIndex.toLowerCase() === "noindex") {
     metadata.robots = { index: false, follow: false };
