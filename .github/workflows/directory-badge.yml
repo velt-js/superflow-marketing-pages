@@ -1,0 +1,66 @@
+# Browser tests for the agency directory's partner badge.
+#
+# Separate from tools-smoke.yml on purpose. That workflow answers "do the free
+# tools still work against the live backend", needs a backend endpoint, and
+# builds normally. This one needs the opposite: no backend, and a build with
+# NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1, because partners.json ships empty
+# and the badge would otherwise render on nobody and prove nothing.
+#
+# The flag is a NEXT_PUBLIC_* inline, read at BUILD time — setting it only for
+# the server does nothing, which is why it appears on the build step here.
+#
+# There is no scheduled or deployed job. The badge is static markup joined
+# against committed data, so it cannot break without a commit in this repo.
+
+name: Directory badge
+
+on:
+  pull_request:
+    paths:
+      - "app/directory/**"
+      - "components/directory/**"
+      - "lib/directory/**"
+      - "tests/directory/**"
+      - "playwright.config.ts"
+      - ".github/workflows/directory-badge.yml"
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "22"
+  # Both steps need it: the build inlines it, and the spec reads it to decide
+  # which partner list to assert against. They must agree.
+  NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS: "1"
+
+jobs:
+  browser:
+    name: Partner badge
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Build with sample partners
+        run: npm run build
+
+      - name: Test
+        run: npx playwright test tests/directory
+        env:
+          TOOLS_BASE_URL: http://127.0.0.1:3210
+          NODE_USE_ENV_PROXY: "1"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-directory
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

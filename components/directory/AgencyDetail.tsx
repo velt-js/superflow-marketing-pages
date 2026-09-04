@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatAgencyLocation, getAwardBreakdown, resolveAgencySourceLabel } from "@/lib/directory/agencies";
+import {
+  formatAgencyLocation,
+  getAgencyClients,
+  getAwardBreakdown,
+  resolveAgencySourceLabel,
+} from "@/lib/directory/agencies";
 import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 import PartnerBadge from "./PartnerBadge";
 import type { Agency, DirectoryCategory } from "@/lib/directory/types";
@@ -15,6 +20,35 @@ const WEBSITE_CTA_LABEL = "Visit website";
 
 /** Copy shown in the facts panel when no team size was recorded. */
 const UNKNOWN_TEAM_SIZE_LABEL = "Not listed";
+
+/** Heading above the client list. Matches the card's wording so a visitor
+ *  arriving from the grid recognises the same claim expanded. */
+const CLIENTS_HEADING = "Worked with";
+
+/**
+ * Whether a project title says anything the client name hasn't already.
+ *
+ * Plenty of awarded projects are titled after the client and nothing else
+ * ("Koenigsegg", "BITKRAFT"), and rendering both halves of the row then
+ * prints the same words twice - which reads as a rendering bug rather than
+ * as the two distinct facts the row is meant to carry. Compared on letters
+ * and digits alone so casing and punctuation ("Raymond Weil" vs
+ * "Raymond-Weil") don't count as a difference.
+ *
+ * @param clientName - The resolved client name.
+ * @param projectTitle - The awarded project's title.
+ * @returns True when the title is worth rendering alongside the name.
+ */
+function titleAddsDetail(clientName: string, projectTitle: string | null | undefined): boolean {
+  try {
+    const title = projectTitle?.trim();
+    if (!title) return false;
+    const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return normalize(title) !== normalize(clientName);
+  } catch {
+    return false;
+  }
+}
 
 /** Heading for the breadcrumb root, matching the hub page's H1 intent. */
 const DIRECTORY_ROOT_LABEL = "Directory";
@@ -92,8 +126,16 @@ function FactRow({ label, value }: { label: string; value: string }) {
 
 /**
  * Full-content body of an agency detail page: breadcrumb, header,
- * description, full award breakdown, services, and a facts/CTA panel
- * with the outbound website and attribution links.
+ * description, the brands the agency has shipped awarded work for, full
+ * award breakdown, services, and a facts/CTA panel with the outbound
+ * website and attribution links.
+ *
+ * The client list pairs each brand with the project it came from rather
+ * than listing bare names: the project title is what makes the claim
+ * checkable instead of asserted, and it is the detail a visitor comparing
+ * two studios actually reads. The names are deliberately not links - one
+ * attribution link in the panel covers sourcing without leaking a dozen
+ * outbound links from every page in the directory.
  *
  * Deliberately holds more than `AgencyCard` shows on the category grid -
  * the detail page needs to justify its own existence with real content,
@@ -116,6 +158,7 @@ export default function AgencyDetail({
     const awardBreakdown = getAwardBreakdown(agency?.awards);
     const awardTotal = agency?.awards?.total ?? 0;
     const services = agency?.services?.filter((service) => Boolean(service?.trim())) ?? [];
+    const clients = getAgencyClients(agency);
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const agencyName = agency?.name ?? "Unnamed agency";
 
@@ -163,6 +206,38 @@ export default function AgencyDetail({
                 >
                   {agency.description}
                 </p>
+              )}
+
+              {clients.length > 0 && (
+                <div className="flex flex-col gap-3">
+                  <h2
+                    className="text-black"
+                    style={{ fontFamily: "var(--font-poppins)", fontWeight: 600, fontSize: 18 }}
+                  >
+                    {CLIENTS_HEADING}
+                  </h2>
+                  <ul className="flex flex-col divide-y divide-black/10 rounded-[var(--radius-card)] border border-black/10">
+                    {clients.map((client) => (
+                      <li
+                        key={client.name}
+                        className="flex items-center justify-between gap-4 px-4 py-3"
+                        style={{ fontFamily: "var(--font-urbanist)", fontSize: 14 }}
+                      >
+                        <span className="text-black" style={{ fontWeight: 600 }}>
+                          {client.name}
+                        </span>
+                        {titleAddsDetail(client.name, client.projectTitle) && (
+                          <span
+                            className="truncate text-right"
+                            style={{ color: "rgba(10,10,10,0.5)" }}
+                          >
+                            {client.projectTitle}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               {services.length > 0 && (
@@ -230,6 +305,9 @@ export default function AgencyDetail({
                   <FactRow label="Total awards" value={`${awardTotal}`} />
                 )}
                 {category && <FactRow label="Category" value={category.title} />}
+                {clients.length > 0 && (
+                  <FactRow label="Clients on record" value={`${clients.length}`} />
+                )}
               </div>
 
               {agency?.profileUrl && (

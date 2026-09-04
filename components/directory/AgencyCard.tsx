@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   agencyPath,
+  formatAgencyClientSummary,
   formatAgencyLocation,
   getAwardBreakdown,
   resolveAgencySourceLabel,
@@ -15,6 +16,11 @@ const MAX_VISIBLE_SERVICES = 4;
 
 /** Separator between service names in the card's single-line summary. */
 const SERVICES_SEPARATOR = " · ";
+
+/** Leading label on the card's client line. Phrased as a claim about past
+ *  work ("Worked with"), not a capability ("Clients"), because that is the
+ *  thing a visitor scanning a grid of agencies is actually comparing. */
+const CLIENTS_LINE_LABEL = "Worked with ";
 
 /** Trailing glyph on outbound links, marking them as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
@@ -117,9 +123,13 @@ function pickTopAward(
 
 /**
  * Card for a single agency in a directory category grid. Leads with the
- * agency name (and partner badge, if applicable) - award record and
- * services are supporting detail, deliberately styled to read quieter
- * than the name rather than compete with it.
+ * agency name (and partner badge, if applicable) - client line, award
+ * record and services are supporting detail, deliberately styled to read
+ * quieter than the name rather than compete with it.
+ *
+ * The client line names only the first few brands; the full list is on the
+ * detail page. It sits above the award count on purpose - who an agency has
+ * built for separates two studios that a shared award tally does not.
  *
  * The name/logo header links to the agency's own directory detail page
  * (/directory/agency/<slug>), which holds the full profile - full award
@@ -143,6 +153,7 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
     );
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const websiteLabel = resolveWebsiteLabel(agency);
+    const clientSummary = formatAgencyClientSummary(agency);
     const awardTotal = agency?.awards?.total ?? 0;
     const servicesLine =
       shownServices.length > 0
@@ -213,6 +224,18 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
             style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.5)" }}
           >
             {servicesLine}
+          </p>
+        )}
+
+        {clientSummary && (
+          <p
+            className="line-clamp-1"
+            style={{ fontFamily: "var(--font-urbanist)", fontSize: 13 }}
+          >
+            <span style={{ color: "rgba(10,10,10,0.5)" }}>{CLIENTS_LINE_LABEL}</span>
+            <span className="text-black" style={{ fontWeight: 600 }}>
+              {clientSummary}
+            </span>
           </p>
         )}
 

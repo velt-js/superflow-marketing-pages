@@ -12,6 +12,7 @@
 
 import agenciesData from "./data/agencies.json";
 import partnersData from "./data/partners.json";
+import previewPartnersData from "./data/partners.preview.json";
 import {
   DIRECTORY_AGENCY_SEGMENT,
   DIRECTORY_BASE_PATH,
@@ -21,6 +22,7 @@ import {
 import type {
   Agency,
   AgencyAwards,
+  AgencyClient,
   AgencyLocation,
   AgencySource,
   DirectoryCategory,
@@ -39,10 +41,44 @@ const AGENCIES: Agency[] = agenciesData as Agency[];
  *  is a separate file from agencies.json rather than a field on `Agency`. */
 const PARTNERS: SuperflowPartnerList = partnersData as SuperflowPartnerList;
 
+/** Sample partner list, same shape, read ONLY when the preview flag below
+ *  is set. Exists so the badge and the partners-first sort can be seen end
+ *  to end while `partners.json` is still empty - the agencies in it are NOT
+ *  confirmed customers. Never merge it into `partners.json`. */
+const PREVIEW_PARTNERS: SuperflowPartnerList =
+  previewPartnersData as SuperflowPartnerList;
+
+/**
+ * True when this build should badge the sample agencies in
+ * `partners.preview.json` instead of the real (currently empty) CRM list.
+ *
+ * Off unless `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS` is exactly `"1"`, so
+ * an unset or misspelled value fails closed to real data. The badge's
+ * tooltip asserts that a named agency uses Superflow, so shipping the
+ * sample list publicly would publish a false claim about a real company -
+ * which is why production is also refused outright below.
+ *
+ * `NEXT_PUBLIC_VERCEL_ENV` is set automatically on Vercel (`production` |
+ * `preview` | `development`) and is a second, independent gate: even with
+ * the flag set project-wide, a production build ignores it while preview
+ * deploys still show the badge. On a host that does not set that variable
+ * the comparison is trivially true and the flag is the only gate, so keep
+ * the flag out of production env config there.
+ *
+ * Both reads are literal `process.env.NEXT_PUBLIC_*` lookups, never a
+ * computed key, so Next can inline them into the client bundle -
+ * `AgencyExplorer` is a `"use client"` component and re-sorts by partner
+ * status in the browser. See lib/analytics/amplitude-client.ts for the
+ * same constraint.
+ */
+const USE_PREVIEW_PARTNERS =
+  process.env.NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS === "1" &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV !== "production";
+
 /** Partner registrable domains, lowercased, for O(1) case-insensitive
  *  membership checks. Built once at module load - see `isSuperflowPartner`. */
 const PARTNER_DOMAINS = new Set(
-  (PARTNERS?.domains ?? [])
+  ((USE_PREVIEW_PARTNERS ? PREVIEW_PARTNERS : PARTNERS)?.domains ?? [])
     .map((domain) => domain?.trim().toLowerCase())
     .filter((domain): domain is string => Boolean(domain)),
 );
@@ -107,7 +143,9 @@ const GENERIC_SOURCE_LABEL = "View source profile";
  * join rather than a field on `Agency`. `partners.json` ships with an
  * empty `domains` array until a real CRM export replaces it, so this
  * returns false for every agency until then - that is the correct
- * behavior, not a bug to work around.
+ * behavior, not a bug to work around. To see the badge before that
+ * export exists, set `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1` and this
+ * reads `partners.preview.json` instead (see `USE_PREVIEW_PARTNERS`).
  *
  * @param agency - The agency to check.
  * @returns True when the agency's domain matches an entry in
@@ -317,13 +355,99 @@ export function getAllAgencySlugs(): string[] {
   }
 }
 
+/** How many clients the compact "worked with" summary names before it
+ *  collapses the rest into a count. Three fits one line on a card at the
+ *  narrowest supported width without wrapping. */
+const CLIENT_SUMMARY_NAME_LIMIT = 3;
+
+/** Joiners for the client summary, kept here rather than inlined so the
+ *  card, the detail page and the meta description all read identically. */
+const CLIENT_SUMMARY_SEPARATOR = ", ";
+const CLIENT_SUMMARY_FINAL_JOINER = " and ";
+
+/** Minimum clients for the list to count as real content on its own - see
+ *  `shouldIndexAgency`. One name is a footnote; three is a body of work. */
+const MIN_CLIENTS_FOR_INDEXING = 3;
+
+/**
+ * An agency's client list, cleaned for rendering: entries with no usable
+ * name dropped, and no two entries showing the same name twice.
+ *
+ * Deduping happens here rather than in the scraper because the scraper
+ * dedupes on `domain`, which is the correct key for *collection* (it can
+ * tell two brands apart before their names are resolved) but not for
+ * *display* - one brand reached under two domains would otherwise print
+ * its name twice in a row.
+ *
+ * @param agency - The agency whose clients to read.
+ * @returns Display-ready clients in stored order (recognisable first),
+ *          or an empty array when there are none.
+ */
+export function getAgencyClients(agency: Agency | null | undefined): AgencyClient[] {
+  try {
+    const seenNames = new Set<string>();
+    const clients: AgencyClient[] = [];
+    for (const client of agency?.clients ?? []) {
+      const name = client?.name?.trim();
+      if (!name) continue;
+      const dedupeKey = name.toLowerCase();
+      if (seenNames.has(dedupeKey)) continue;
+      seenNames.add(dedupeKey);
+      clients.push({ ...client, name });
+    }
+    return clients;
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * A one-line "Nike, Spotify, Xbox +4 more" summary of who an agency has built
+ * for, for the places that have room for a sentence rather than a list -
+ * the category-grid card and the meta description.
+ *
+ * @param agency - The agency to summarize.
+ * @param limit - How many clients to name before collapsing the remainder
+ *                into a count. Defaults to `CLIENT_SUMMARY_NAME_LIMIT`.
+ * @returns The summary - "A and B" when it names every client, "A, B, C
+ *          +N more" when it doesn't - or null when the agency has no
+ *          clients on record
+ *          (callers render nothing rather than an empty label).
+ */
+export function formatAgencyClientSummary(
+  agency: Agency | null | undefined,
+  limit: number = CLIENT_SUMMARY_NAME_LIMIT,
+): string | null {
+  try {
+    const clients = getAgencyClients(agency);
+    if (clients.length === 0) return null;
+
+    const safeLimit = Math.max(1, limit);
+    const namedClients = clients.slice(0, safeLimit).map((client) => client.name);
+    const remainingCount = clients.length - namedClients.length;
+
+    // "A, B and C" closes a complete list, but reads wrong in front of an
+    // overflow count - "A, B and C +9 more" implies C was the last one. With
+    // more to come the list stays open: "A, B, C +9 more".
+    const closesTheList = remainingCount === 0 && namedClients.length > 1;
+    const namedLabel = closesTheList
+      ? `${namedClients.slice(0, -1).join(CLIENT_SUMMARY_SEPARATOR)}${CLIENT_SUMMARY_FINAL_JOINER}${namedClients[namedClients.length - 1]}`
+      : namedClients.join(CLIENT_SUMMARY_SEPARATOR);
+
+    return remainingCount > 0 ? `${namedLabel} +${remainingCount} more` : namedLabel;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Decides whether an agency's detail page is substantial enough to index.
  *
- * A page is thin only when it has BOTH a stub blurb and a negligible
- * award record - it needs neither one on its own to be worth indexing.
- * The two signals are independent kinds of substance: a real paragraph of
- * prose is unique content, and so is a detailed award breakdown.
+ * A page is thin only when it has a stub blurb AND a negligible award
+ * record AND no client list - it needs only one of the three to be worth
+ * indexing. They are independent kinds of substance: a real paragraph of
+ * prose is unique content, so is a detailed award breakdown, and so is a
+ * named list of brands the agency has shipped work for.
  *
  * Requiring both (the original formulation) suppressed studios like Resn
  * and Active Theory, which carry 150+ awards behind a four-word tagline -
@@ -334,8 +458,9 @@ export function getAllAgencySlugs(): string[] {
  * only marked `noindex, follow` and dropped from the sitemap.
  *
  * @param agency - The agency to evaluate.
- * @returns True unless the agency has both a sub-threshold description
- *          and fewer than `MIN_AWARDS_FOR_INDEXING` awards.
+ * @returns True unless the agency has a sub-threshold description, fewer
+ *          than `MIN_AWARDS_FOR_INDEXING` awards, and fewer than
+ *          `MIN_CLIENTS_FOR_INDEXING` clients.
  */
 export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
   try {
@@ -345,7 +470,9 @@ export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
       description.length >= MIN_DESCRIPTION_LENGTH_FOR_INDEXING;
     const hasRealAwardRecord =
       (agency.awards?.total ?? 0) >= MIN_AWARDS_FOR_INDEXING;
-    return hasRealDescription || hasRealAwardRecord;
+    const hasRealClientList =
+      getAgencyClients(agency).length >= MIN_CLIENTS_FOR_INDEXING;
+    return hasRealDescription || hasRealAwardRecord || hasRealClientList;
   } catch {
     return false;
   }
@@ -538,6 +665,11 @@ export function buildAgencyMetaDescription(agency: Agency | null | undefined): s
       clauses.push(`Recognised with ${awardsTotal} ${awardsNoun}.`);
     }
 
+    // Named clients differentiate two agencies that share a city and an
+    // award count, which location and awards alone cannot.
+    const clientSummary = formatAgencyClientSummary(agency);
+    if (clientSummary) clauses.push(`Work for ${clientSummary}.`);
+
     const combined = clauses.join(" ").trim();
     return combined.length > 0
       ? truncateForMeta(combined, META_DESCRIPTION_MAX_LENGTH)
@@ -626,7 +758,8 @@ export function buildAgencyOrganizationJsonLd(
 export interface AgencyListItem {
   slug: string;
   name: string;
-  /** Lowercased "name + description + location" blob for substring search. */
+  /** Lowercased "name + description + location + client names" blob for
+   *  substring search. */
   searchText: string;
   country: string | null;
   isPartner: boolean;
@@ -646,7 +779,13 @@ export function buildAgencyListItem(agency: Agency | null | undefined): AgencyLi
   try {
     if (!agency?.slug) return null;
     const location = formatAgencyLocation(agency.location ?? null) ?? "";
-    const searchText = [agency.name ?? "", agency.description ?? "", location]
+    // Client names are in the search blob so a visitor can find agencies by
+    // who they have worked for ("nike") rather than only by agency name -
+    // the query a directory is actually asked.
+    const clientNames = getAgencyClients(agency)
+      .map((client) => client.name)
+      .join(" ");
+    const searchText = [agency.name ?? "", agency.description ?? "", location, clientNames]
       .join(" ")
       .toLowerCase();
     return {

@@ -26,8 +26,94 @@
       "nominees": 0,
       "total": 227
     },
+    "clients": [
+      {
+        "name": "Wolverine Worldwide",
+        "domain": "wolverineworldwide.com",
+        "projectTitle": "Wolverine Worldwide",
+        "projectUrl": "https://www.awwwards.com/sites/wolverine-worldwide",
+        "notable": false
+      },
+      {
+        "name": "Truck'N Roll",
+        "domain": "trucknroll.com",
+        "projectTitle": "Truck’N Roll®",
+        "projectUrl": "https://www.awwwards.com/sites/truckn-roll-r",
+        "notable": false
+      },
+      {
+        "name": "Aupale Vodka",
+        "domain": "aupalevodka.com",
+        "projectTitle": "Aupale Vodka",
+        "projectUrl": "https://www.awwwards.com/sites/aupale-vodka",
+        "notable": false
+      },
+      {
+        "name": "Dulcedo",
+        "domain": "dulcedo.com",
+        "projectTitle": "Dulcedo",
+        "projectUrl": "https://www.awwwards.com/sites/dulcedo",
+        "notable": false
+      },
+      {
+        "name": "Lightship",
+        "domain": "lightshiprv.com",
+        "projectTitle": "Lightship",
+        "projectUrl": "https://www.awwwards.com/sites/lightship-1",
+        "notable": false
+      },
+      {
+        "name": "Désourdy",
+        "domain": "constructiondesourdy.com",
+        "projectTitle": "Désourdy",
+        "projectUrl": "https://www.awwwards.com/sites/desourdy",
+        "notable": false
+      },
+      {
+        "name": "GKC Architecture & Design",
+        "domain": "gkc.ca",
+        "projectTitle": "GKC Architecture & Design",
+        "projectUrl": "https://www.awwwards.com/sites/gkc-architecture-design",
+        "notable": false
+      },
+      {
+        "name": "The Drake Hotel",
+        "domain": "thedrake.ca",
+        "projectTitle": "The Drake Hotel",
+        "projectUrl": "https://www.awwwards.com/sites/the-drake-hotel",
+        "notable": false
+      },
+      {
+        "name": "Vooban",
+        "domain": "vooban.com",
+        "projectTitle": "Vooban",
+        "projectUrl": "https://www.awwwards.com/sites/vooban-1",
+        "notable": false
+      },
+      {
+        "name": "Function10",
+        "domain": "function10.ca",
+        "projectTitle": "FUNCTION",
+        "projectUrl": "https://www.awwwards.com/sites/function",
+        "notable": false
+      },
+      {
+        "name": "McAlpine House",
+        "domain": "mcalpinehouse.com",
+        "projectTitle": "McAlpine House",
+        "projectUrl": "https://www.awwwards.com/sites/mcalpine-house",
+        "notable": false
+      },
+      {
+        "name": "Scout Motors",
+        "domain": "scoutmotors.com",
+        "projectTitle": "Scout Motors",
+        "projectUrl": "https://www.awwwards.com/sites/scout-motors",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "immersive-g",
@@ -56,8 +142,94 @@
       "nominees": 0,
       "total": 173
     },
+    "clients": [
+      {
+        "name": "Cartier",
+        "domain": "cartier.com",
+        "projectTitle": "Cartier Watches & Wonders 2026",
+        "projectUrl": "https://www.awwwards.com/sites/cartier-watches-wonders-2026",
+        "notable": true
+      },
+      {
+        "name": "Omega",
+        "domain": "omegawatches.com",
+        "projectTitle": "Omega My Little Secret",
+        "projectUrl": "https://www.awwwards.com/sites/omega-my-little-secret",
+        "notable": true
+      },
+      {
+        "name": "Aramco",
+        "domain": "aramco.com",
+        "projectTitle": "Aramco - The Birth of Oil",
+        "projectUrl": "https://www.awwwards.com/sites/aramco-the-birth-of-oil",
+        "notable": true
+      },
+      {
+        "name": "Louis Vuitton",
+        "domain": "imm-g-prod.com",
+        "projectTitle": "Louis Vuitton Collectibles",
+        "projectUrl": "https://www.awwwards.com/sites/louis-vuitton-collectibles",
+        "notable": true
+      },
+      {
+        "name": "GQ",
+        "domain": "gq.com",
+        "projectTitle": "GQ & AP The Extraordinary Lab",
+        "projectUrl": "https://www.awwwards.com/sites/gq-ap-the-extraordinary-lab",
+        "notable": false
+      },
+      {
+        "name": "Montfort",
+        "domain": "mont-fort.com",
+        "projectTitle": "Montfort",
+        "projectUrl": "https://www.awwwards.com/sites/montfort",
+        "notable": false
+      },
+      {
+        "name": "David Whyte",
+        "domain": "davidwhyte.com",
+        "projectTitle": "David Whyte Experience",
+        "projectUrl": "https://www.awwwards.com/sites/david-whyte-experience",
+        "notable": false
+      },
+      {
+        "name": "Hatom",
+        "domain": "hatom.com",
+        "projectTitle": "Hatom",
+        "projectUrl": "https://www.awwwards.com/sites/hatom",
+        "notable": false
+      },
+      {
+        "name": "Girard-Perregaux",
+        "domain": "girard-perregaux.com",
+        "projectTitle": "Girard Perregaux - Casquette",
+        "projectUrl": "https://www.awwwards.com/sites/girard-perregaux-casquette",
+        "notable": false
+      },
+      {
+        "name": "Longines",
+        "domain": "longines.com",
+        "projectTitle": "Longines Dolcevita",
+        "projectUrl": "https://www.awwwards.com/sites/longines-dolcevita",
+        "notable": false
+      },
+      {
+        "name": "Creandum",
+        "domain": "creandum.com",
+        "projectTitle": "Creandum",
+        "projectUrl": "https://www.awwwards.com/sites/creandum",
+        "notable": false
+      },
+      {
+        "name": "Aten7",
+        "domain": "aten7.com",
+        "projectTitle": "Aten7",
+        "projectUrl": "https://www.awwwards.com/sites/aten7",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "resn",
@@ -86,8 +258,94 @@
       "nominees": 0,
       "total": 152
     },
+    "clients": [
+      {
+        "name": "Adobe",
+        "domain": "adobexbowie75.com",
+        "projectTitle": "Adobe X Bowie",
+        "projectUrl": "https://www.awwwards.com/sites/adobe-x-bowie",
+        "notable": true
+      },
+      {
+        "name": "Maserati",
+        "domain": "maserati.com",
+        "projectTitle": "House of Maserati",
+        "projectUrl": "https://www.awwwards.com/sites/house-of-maserati",
+        "notable": true
+      },
+      {
+        "name": "Adidas",
+        "domain": "adidas.com",
+        "projectTitle": "adidas Futurecraft.Loop",
+        "projectUrl": "https://www.awwwards.com/sites/adidas-futurecraft-loop",
+        "notable": true
+      },
+      {
+        "name": "Squarespace",
+        "domain": "squarespace.com",
+        "projectTitle": "Squarespace Foundations",
+        "projectUrl": "https://www.awwwards.com/sites/squarespace-foundations",
+        "notable": false
+      },
+      {
+        "name": "Breakthrough Energy",
+        "domain": "breakthroughenergy.org",
+        "projectTitle": "Breakthrough Energy",
+        "projectUrl": "https://www.awwwards.com/sites/breakthrough-energy",
+        "notable": false
+      },
+      {
+        "name": "Savor",
+        "domain": "savor.it",
+        "projectTitle": "Savor",
+        "projectUrl": "https://www.awwwards.com/sites/savor",
+        "notable": false
+      },
+      {
+        "name": "Getty",
+        "domain": "getty.edu",
+        "projectTitle": "Tracing Art",
+        "projectUrl": "https://www.awwwards.com/sites/tracing-art",
+        "notable": false
+      },
+      {
+        "name": "NVG8",
+        "domain": "nvg8.io",
+        "projectTitle": "Navigate",
+        "projectUrl": "https://www.awwwards.com/sites/navigate",
+        "notable": false
+      },
+      {
+        "name": "Alpine Bio",
+        "domain": "alpbio.com",
+        "projectTitle": "Alpine Bio",
+        "projectUrl": "https://www.awwwards.com/sites/alpine-bio",
+        "notable": false
+      },
+      {
+        "name": "Zentry",
+        "domain": "zentry.com",
+        "projectTitle": "Zentry",
+        "projectUrl": "https://www.awwwards.com/sites/zentry",
+        "notable": false
+      },
+      {
+        "name": "Valmont",
+        "domain": "valmont.com",
+        "projectTitle": "Valmont",
+        "projectUrl": "https://www.awwwards.com/sites/valmont",
+        "notable": false
+      },
+      {
+        "name": "KPR",
+        "domain": "kprverse.com",
+        "projectTitle": "KPR",
+        "projectUrl": "https://www.awwwards.com/sites/kpr",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "monks",
@@ -116,8 +374,94 @@
       "nominees": 0,
       "total": 183
     },
+    "clients": [
+      {
+        "name": "Coca-Cola",
+        "domain": "coca-cola.com",
+        "projectTitle": "Coca-Cola: Wozzaah",
+        "projectUrl": "https://www.awwwards.com/sites/coca-cola-wozzaah",
+        "notable": true
+      },
+      {
+        "name": "EA",
+        "domain": "ea.com",
+        "projectTitle": "Welcome to EA Sports FC",
+        "projectUrl": "https://www.awwwards.com/sites/welcome-to-ea-sports-fc",
+        "notable": true
+      },
+      {
+        "name": "Netflix",
+        "domain": "witchernetflix.com",
+        "projectTitle": "Welcome To The Continent",
+        "projectUrl": "https://www.awwwards.com/sites/welcome-to-the-continent",
+        "notable": true
+      },
+      {
+        "name": "Oreo",
+        "domain": "oreo.eu",
+        "projectTitle": "The OREO Batcave Experience",
+        "projectUrl": "https://www.awwwards.com/sites/the-oreo-batcave-experience",
+        "notable": true
+      },
+      {
+        "name": "Nike",
+        "domain": "nikeplaylab.com",
+        "projectTitle": "Nike PLAYlab",
+        "projectUrl": "https://www.awwwards.com/sites/nike-playlab",
+        "notable": true
+      },
+      {
+        "name": "Xyzal",
+        "domain": "xyzal.com",
+        "projectTitle": "Xyzal: Storytime with Nigel",
+        "projectUrl": "https://www.awwwards.com/sites/xyzal-storytime-with-nigel",
+        "notable": false
+      },
+      {
+        "name": "Intuit",
+        "domain": "intuit.com",
+        "projectTitle": "‘Prosperity Quest’ Game",
+        "projectUrl": "https://www.awwwards.com/sites/prosperity-quest-game",
+        "notable": false
+      },
+      {
+        "name": "Future Record",
+        "domain": "futurerecord.ai",
+        "projectTitle": "Future Record",
+        "projectUrl": "https://www.awwwards.com/sites/future-record",
+        "notable": false
+      },
+      {
+        "name": "Raymond Weil",
+        "domain": "raymond-weil.com",
+        "projectTitle": "Raymond Weil × Basquiat",
+        "projectUrl": "https://www.awwwards.com/sites/raymond-weil-x-basquiat",
+        "notable": false
+      },
+      {
+        "name": "BITKRAFT",
+        "domain": "bitkraft.vc",
+        "projectTitle": "BITKRAFT",
+        "projectUrl": "https://www.awwwards.com/sites/bitkraft-com",
+        "notable": false
+      },
+      {
+        "name": "The Climate Pledge",
+        "domain": "theclimatepledge.com",
+        "projectTitle": "The Climate Pledge",
+        "projectUrl": "https://www.awwwards.com/sites/the-climate-pledge-2",
+        "notable": false
+      },
+      {
+        "name": "Koenigsegg",
+        "domain": "koenigsegg.com",
+        "projectTitle": "Koenigsegg",
+        "projectUrl": "https://www.awwwards.com/sites/koenigsegg-1",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "activetheory",
@@ -146,8 +490,94 @@
       "nominees": 0,
       "total": 148
     },
+    "clients": [
+      {
+        "name": "Spotify",
+        "domain": null,
+        "projectTitle": "Spotify Wrapped Party",
+        "projectUrl": "https://www.awwwards.com/sites/spotify-wrapped-party",
+        "notable": true
+      },
+      {
+        "name": "Hyundai",
+        "domain": "thefieldhyundai.com",
+        "projectTitle": "The Field From The Ground Up",
+        "projectUrl": "https://www.awwwards.com/sites/the-field-from-the-ground-up",
+        "notable": true
+      },
+      {
+        "name": "YouTube",
+        "domain": null,
+        "projectTitle": "Tarot with YouTube",
+        "projectUrl": "https://www.awwwards.com/sites/tarot-with-youtube",
+        "notable": true
+      },
+      {
+        "name": "Xbox",
+        "domain": "xbox.com",
+        "projectTitle": "20 Years of Xbox Museum",
+        "projectUrl": "https://www.awwwards.com/sites/20-years-of-xbox-museum",
+        "notable": true
+      },
+      {
+        "name": "HP",
+        "domain": "dojacode.com",
+        "projectTitle": "DojaCode",
+        "projectUrl": "https://www.awwwards.com/sites/dojacode",
+        "notable": true
+      },
+      {
+        "name": "IBM",
+        "domain": "ibm.com",
+        "projectTitle": "The Harmonic State",
+        "projectUrl": "https://www.awwwards.com/sites/the-harmonic-state",
+        "notable": true
+      },
+      {
+        "name": "Santioni Spirits",
+        "domain": "santionispirits.com",
+        "projectTitle": "Santioni Spirits",
+        "projectUrl": "https://www.awwwards.com/sites/santioni-spirits",
+        "notable": false
+      },
+      {
+        "name": "MSI",
+        "domain": "msi.com",
+        "projectTitle": "MSI AI PC",
+        "projectUrl": "https://www.awwwards.com/sites/msi-ai-pc",
+        "notable": false
+      },
+      {
+        "name": "Sustainable Horizons",
+        "domain": "sustainablehorizons.ai",
+        "projectTitle": "Sustainable Horizons",
+        "projectUrl": "https://www.awwwards.com/sites/sustainable-horizons",
+        "notable": false
+      },
+      {
+        "name": "AMBUSH",
+        "domain": "ambushsilverfctry.io",
+        "projectTitle": "AMBUSH® SILVER FCTRY",
+        "projectUrl": "https://www.awwwards.com/sites/ambush-r-silver-fctry",
+        "notable": false
+      },
+      {
+        "name": "The Wall Street Journal",
+        "domain": "wsjbarrons.com",
+        "projectTitle": "Iconic Mints",
+        "projectUrl": "https://www.awwwards.com/sites/iconic-mints",
+        "notable": false
+      },
+      {
+        "name": "The Game Awards",
+        "domain": "dreamwave.live",
+        "projectTitle": "The Game Awards Microverse",
+        "projectUrl": "https://www.awwwards.com/sites/the-game-awards-microverse",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "hellomonday",
@@ -176,8 +606,80 @@
       "nominees": 0,
       "total": 124
     },
+    "clients": [
+      {
+        "name": "Google",
+        "domain": "withgoogle.com",
+        "projectTitle": "Google - The Web Can Do What!?",
+        "projectUrl": "https://www.awwwards.com/sites/google-the-web-can-do-what",
+        "notable": true
+      },
+      {
+        "name": "Bang & Olufsen",
+        "domain": "bang-olufsen.com",
+        "projectTitle": "B&O — See yourself in sound",
+        "projectUrl": "https://www.awwwards.com/sites/b-o-see-yourself-in-sound",
+        "notable": false
+      },
+      {
+        "name": "Give A Hand",
+        "domain": "giveahand.ai",
+        "projectTitle": "Give A Hand",
+        "projectUrl": "https://www.awwwards.com/sites/give-a-hand",
+        "notable": false
+      },
+      {
+        "name": "Cloud Castles",
+        "domain": "cloudcastles.gg",
+        "projectTitle": "Cloud Castles",
+        "projectUrl": "https://www.awwwards.com/sites/cloud-castles",
+        "notable": false
+      },
+      {
+        "name": "Star Atlas",
+        "domain": "staratlas.com",
+        "projectTitle": "Star Atlas",
+        "projectUrl": "https://www.awwwards.com/sites/star-atlas",
+        "notable": false
+      },
+      {
+        "name": "Motley Crowd",
+        "domain": "motleycrowd.live",
+        "projectTitle": "Motley Crowd",
+        "projectUrl": "https://www.awwwards.com/sites/motley-crowd",
+        "notable": false
+      },
+      {
+        "name": "The Bartlett",
+        "domain": "bartlettarchucl.com",
+        "projectTitle": "The Bartlett Summer Show 2020",
+        "projectUrl": "https://www.awwwards.com/sites/the-bartlett-summer-show-2020",
+        "notable": false
+      },
+      {
+        "name": "Virgin Hyperloop",
+        "domain": "virginhyperloop.com",
+        "projectTitle": "Virgin Hyperloop",
+        "projectUrl": "https://www.awwwards.com/sites/virgin-hyperloop",
+        "notable": false
+      },
+      {
+        "name": "SDU",
+        "domain": "fremtidensuddannelser.dk",
+        "projectTitle": "SDU - Future Education",
+        "projectUrl": "https://www.awwwards.com/sites/sdu-future-education",
+        "notable": false
+      },
+      {
+        "name": "Signs AI",
+        "domain": "signs-ai.com",
+        "projectTitle": "Signs AI",
+        "projectUrl": "https://www.awwwards.com/sites/signs-ai",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "aquest",
@@ -206,8 +708,80 @@
       "nominees": 0,
       "total": 134
     },
+    "clients": [
+      {
+        "name": "Dolce & Gabbana",
+        "domain": "dolcegabbana.com",
+        "projectTitle": "DG Beauty - Gift Finder",
+        "projectUrl": "https://www.awwwards.com/sites/dg-beauty-gift-finder",
+        "notable": true
+      },
+      {
+        "name": "Bvlgari",
+        "domain": "bulgari.com",
+        "projectTitle": "Bvlgari Magnificent Wonder",
+        "projectUrl": "https://www.awwwards.com/sites/bvlgari-magnificent-wonder",
+        "notable": true
+      },
+      {
+        "name": "Lamborghini",
+        "domain": "lamborghini.com",
+        "projectTitle": "Lamborghini Huracan STO",
+        "projectUrl": "https://www.awwwards.com/sites/lamborghini-huracan-sto",
+        "notable": true
+      },
+      {
+        "name": "Gucci",
+        "domain": "gucci.com",
+        "projectTitle": "Gucci Flora Gorgeous Gardenia",
+        "projectUrl": "https://www.awwwards.com/sites/gucci-flora-gorgeous-gardenia",
+        "notable": true
+      },
+      {
+        "name": "Kiko Milano",
+        "domain": "deepbeautykikomilano.com",
+        "projectTitle": "Deep Beauty",
+        "projectUrl": "https://www.awwwards.com/sites/deep-beauty",
+        "notable": false
+      },
+      {
+        "name": "OTSea",
+        "domain": "otsea.io",
+        "projectTitle": "OTSea",
+        "projectUrl": "https://www.awwwards.com/sites/otsea",
+        "notable": false
+      },
+      {
+        "name": "Envy",
+        "domain": "melaenvy.it",
+        "projectTitle": "Envy™",
+        "projectUrl": "https://www.awwwards.com/sites/envytm",
+        "notable": false
+      },
+      {
+        "name": "Poltrona Frau",
+        "domain": "poltronafrau.com",
+        "projectTitle": "Poltrona Frau - Take Your Time",
+        "projectUrl": "https://www.awwwards.com/sites/poltrona-frau-take-your-time",
+        "notable": false
+      },
+      {
+        "name": "MA",
+        "domain": "matruecannabis.com",
+        "projectTitle": "MA",
+        "projectUrl": "https://www.awwwards.com/sites/ma",
+        "notable": false
+      },
+      {
+        "name": "Campo alle Comete",
+        "domain": "campoallecomete.it",
+        "projectTitle": "Campo alle Comete",
+        "projectUrl": "https://www.awwwards.com/sites/campo-alle-comete",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "adoratorio",
@@ -236,8 +810,94 @@
       "nominees": 0,
       "total": 110
     },
+    "clients": [
+      {
+        "name": "Gucci",
+        "domain": "gucciosteria.com",
+        "projectTitle": "Gucci Osteria",
+        "projectUrl": "https://www.awwwards.com/sites/gucci-osteria",
+        "notable": true
+      },
+      {
+        "name": "Mara",
+        "domain": "marasrl.it",
+        "projectTitle": "Mara",
+        "projectUrl": "https://www.awwwards.com/sites/mara",
+        "notable": false
+      },
+      {
+        "name": "Max Mara",
+        "domain": "maxmara.com",
+        "projectTitle": "Max Mara - Jacket Circle",
+        "projectUrl": "https://www.awwwards.com/sites/max-mara-jacket-circle",
+        "notable": false
+      },
+      {
+        "name": "Iris Ceramica Group",
+        "domain": "irisceramicagroup.com",
+        "projectTitle": "ICG Galleries",
+        "projectUrl": "https://www.awwwards.com/sites/icg-galleries",
+        "notable": false
+      },
+      {
+        "name": "Pasqua Wines",
+        "domain": "pasqua.it",
+        "projectTitle": "Pasqua Wines",
+        "projectUrl": "https://www.awwwards.com/sites/pasqua-wines",
+        "notable": false
+      },
+      {
+        "name": "Ariostea",
+        "domain": "ariostea.it",
+        "projectTitle": "Ariostea",
+        "projectUrl": "https://www.awwwards.com/sites/ariostea",
+        "notable": false
+      },
+      {
+        "name": "Salvatore Ferragamo",
+        "domain": "ferragamo.com",
+        "projectTitle": "The Metropolitan Enigma",
+        "projectUrl": "https://www.awwwards.com/sites/the-metropolitan-enigma",
+        "notable": false
+      },
+      {
+        "name": "The Hiring Chain",
+        "domain": "hiringchain.org",
+        "projectTitle": "The Hiring Chain",
+        "projectUrl": "https://www.awwwards.com/sites/the-hiring-chain",
+        "notable": false
+      },
+      {
+        "name": "Carvico",
+        "domain": "carvico.com",
+        "projectTitle": "Carvico",
+        "projectUrl": "https://www.awwwards.com/sites/carvico",
+        "notable": false
+      },
+      {
+        "name": "Tasca d'Almerita",
+        "domain": "tascadalmerita.wine",
+        "projectTitle": "Tasca d'Almerita",
+        "projectUrl": "https://www.awwwards.com/sites/tasca-dalmerita-2",
+        "notable": false
+      },
+      {
+        "name": "Regrub",
+        "domain": "regrub.me",
+        "projectTitle": "Regrub",
+        "projectUrl": "https://www.awwwards.com/sites/regrub",
+        "notable": false
+      },
+      {
+        "name": "Diesel",
+        "domain": "dieselwynwood.me",
+        "projectTitle": "Diesel Wynwood",
+        "projectUrl": "https://www.awwwards.com/sites/diesel-wynwood",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "merci-michel",
@@ -266,8 +926,94 @@
       "nominees": 0,
       "total": 113
     },
+    "clients": [
+      {
+        "name": "Lacoste",
+        "domain": "lacoste.com",
+        "projectTitle": "Lacoste Ace Breaker",
+        "projectUrl": "https://www.awwwards.com/sites/lacoste-ace-breaker",
+        "notable": true
+      },
+      {
+        "name": "Cartier",
+        "domain": "cartier.com",
+        "projectTitle": "Follow the baby panther",
+        "projectUrl": "https://www.awwwards.com/sites/follow-the-baby-panther",
+        "notable": true
+      },
+      {
+        "name": "Hermès",
+        "domain": "hermes.com",
+        "projectTitle": "Hermès - Tutti Twilly",
+        "projectUrl": "https://www.awwwards.com/sites/hermes-tutti-twilly",
+        "notable": true
+      },
+      {
+        "name": "Play-Doh",
+        "domain": "playdoh-lagaleriedesespeces.com",
+        "projectTitle": "Gallery of emerging species",
+        "projectUrl": "https://www.awwwards.com/sites/gallery-of-emerging-species",
+        "notable": true
+      },
+      {
+        "name": "Volkswagen",
+        "domain": "volkswagen-sportscars.fr",
+        "projectTitle": "Volkswagen Sportscars",
+        "projectUrl": "https://www.awwwards.com/sites/volkswagen-sportscars",
+        "notable": true
+      },
+      {
+        "name": "Miu Miu",
+        "domain": "miumiu.com",
+        "projectTitle": "MIU MIU A House that we shaped",
+        "projectUrl": "https://www.awwwards.com/sites/miu-miu-a-house-that-we-shaped",
+        "notable": false
+      },
+      {
+        "name": "Cdiscount",
+        "domain": "cdiscount.com",
+        "projectTitle": "Cdiscount - Jumping Max",
+        "projectUrl": "https://www.awwwards.com/sites/cdiscount-jumping-max",
+        "notable": false
+      },
+      {
+        "name": "Garance",
+        "domain": "garance.com",
+        "projectTitle": "Gary and the endless forest",
+        "projectUrl": "https://www.awwwards.com/sites/gary-and-the-endless-forest",
+        "notable": false
+      },
+      {
+        "name": "Taproot Wizards",
+        "domain": "taprootwizards.com",
+        "projectTitle": "Spellverse",
+        "projectUrl": "https://www.awwwards.com/sites/spellverse",
+        "notable": false
+      },
+      {
+        "name": "Pierret",
+        "domain": "pierret.net",
+        "projectTitle": "Pierret - Dream House",
+        "projectUrl": "https://www.awwwards.com/sites/pierret-dream-house",
+        "notable": false
+      },
+      {
+        "name": "Montblanc",
+        "domain": "montblanclegend.com",
+        "projectTitle": "The Run - Interparfums",
+        "projectUrl": "https://www.awwwards.com/sites/the-run-interparfums",
+        "notable": false
+      },
+      {
+        "name": "MSI",
+        "domain": null,
+        "projectTitle": "MSI - Egg Hunt",
+        "projectUrl": "https://www.awwwards.com/sites/msi-egg-hunt",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "dogstudio",
@@ -296,8 +1042,94 @@
       "nominees": 0,
       "total": 110
     },
+    "clients": [
+      {
+        "name": "Adobe",
+        "domain": "adobe.com",
+        "projectTitle": "Adobe: Taking Shape",
+        "projectUrl": "https://www.awwwards.com/sites/adobe-taking-shape",
+        "notable": true
+      },
+      {
+        "name": "Panasonic",
+        "domain": "panasonic.eu",
+        "projectTitle": "Panasonic - AV Digital World",
+        "projectUrl": "https://www.awwwards.com/sites/panasonic-av-digital-world",
+        "notable": true
+      },
+      {
+        "name": "UNKJD",
+        "domain": "unkjd.com",
+        "projectTitle": "UNKJD",
+        "projectUrl": "https://www.awwwards.com/sites/unkjd",
+        "notable": false
+      },
+      {
+        "name": "Hugo Boss",
+        "domain": null,
+        "projectTitle": "BOSS Dubai Experience",
+        "projectUrl": "https://www.awwwards.com/sites/boss-dubai-experience",
+        "notable": false
+      },
+      {
+        "name": "Vault",
+        "domain": "vault.xyz",
+        "projectTitle": "Vault.xyz",
+        "projectUrl": "https://www.awwwards.com/sites/vault-xyz",
+        "notable": false
+      },
+      {
+        "name": "Virgin Galactic",
+        "domain": "virgingalactic.com",
+        "projectTitle": "Virgin Galactic",
+        "projectUrl": "https://www.awwwards.com/sites/virgin-galactic",
+        "notable": false
+      },
+      {
+        "name": "Meebits",
+        "domain": "meebits.app",
+        "projectTitle": "Meebits 1.2",
+        "projectUrl": "https://www.awwwards.com/sites/meebits-1-2",
+        "notable": false
+      },
+      {
+        "name": "Mythical Games",
+        "domain": "mythicalgames.com",
+        "projectTitle": "Mythical Games",
+        "projectUrl": "https://www.awwwards.com/sites/mythical-games-1",
+        "notable": false
+      },
+      {
+        "name": "HAPE",
+        "domain": "hape.io",
+        "projectTitle": "HAPE",
+        "projectUrl": "https://www.awwwards.com/sites/hape",
+        "notable": false
+      },
+      {
+        "name": "Expo 2020 Dubai",
+        "domain": "virtualexpodubai.com",
+        "projectTitle": "Virtual Expo Dubai 2020",
+        "projectUrl": "https://www.awwwards.com/sites/virtual-expo-dubai-2020",
+        "notable": false
+      },
+      {
+        "name": "De Bijenkorf",
+        "domain": "debijenkorf.nl",
+        "projectTitle": "De Bijenkorf magical forest",
+        "projectUrl": "https://www.awwwards.com/sites/de-bijenkorf-magical-forest",
+        "notable": false
+      },
+      {
+        "name": "Jaeger-LeCoultre",
+        "domain": "jaeger-lecoultre.com",
+        "projectTitle": "Hybris Mechanica Calibre 590",
+        "projectUrl": "https://www.awwwards.com/sites/hybris-mechanica-calibre-590",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "makemepulse",
@@ -326,8 +1158,94 @@
       "nominees": 0,
       "total": 107
     },
+    "clients": [
+      {
+        "name": "UNESCO",
+        "domain": "unesco.org",
+        "projectTitle": "UNESCO Stolen Objects Museum",
+        "projectUrl": "https://www.awwwards.com/sites/unesco-stolen-objects-museum",
+        "notable": true
+      },
+      {
+        "name": "Netflix",
+        "domain": "montopnetflix.fr",
+        "projectTitle": "Mon top Netflix",
+        "projectUrl": "https://www.awwwards.com/sites/mon-top-netflix",
+        "notable": true
+      },
+      {
+        "name": "Dior",
+        "domain": "dior.com",
+        "projectTitle": "Rouge Dior",
+        "projectUrl": "https://www.awwwards.com/sites/rouge-dior",
+        "notable": true
+      },
+      {
+        "name": "Meta",
+        "domain": "escapeplanvr.com",
+        "projectTitle": "Meta - Escape Plan",
+        "projectUrl": "https://www.awwwards.com/sites/meta-escape-plan",
+        "notable": true
+      },
+      {
+        "name": "ApeChain",
+        "domain": "apechain.com",
+        "projectTitle": "Apechain",
+        "projectUrl": "https://www.awwwards.com/sites/apechain",
+        "notable": false
+      },
+      {
+        "name": "Brunello Cucinelli",
+        "domain": "brunellocucinelli.com",
+        "projectTitle": "Brunello Cucinelli - AI E-com",
+        "projectUrl": "https://www.awwwards.com/sites/brunello-cucinelli-ai-e-com",
+        "notable": false
+      },
+      {
+        "name": "Ruinart",
+        "domain": "ruinart.com",
+        "projectTitle": "Ruinart - Digital fresco",
+        "projectUrl": "https://www.awwwards.com/sites/ruinart-digital-fresco",
+        "notable": false
+      },
+      {
+        "name": "Audemars Piguet",
+        "domain": "audemarspiguet.com",
+        "projectTitle": "The House of Wonders",
+        "projectUrl": "https://www.awwwards.com/sites/the-house-of-wonders",
+        "notable": false
+      },
+      {
+        "name": "Bored Ape Yacht Club",
+        "domain": "boredapeyachtclub.com",
+        "projectTitle": "Yuga Labs - BAYC Clubhouse",
+        "projectUrl": "https://www.awwwards.com/sites/yuga-labs-bayc-clubhouse",
+        "notable": false
+      },
+      {
+        "name": "Girls Who Code",
+        "domain": "girlswhocodegirls.com",
+        "projectTitle": "Girls Who Code Girls",
+        "projectUrl": "https://www.awwwards.com/sites/girls-who-code-girls",
+        "notable": false
+      },
+      {
+        "name": "NARS",
+        "domain": "narscosmetics.com",
+        "projectTitle": "NARS - Play Your Power",
+        "projectUrl": "https://www.awwwards.com/sites/nars-play-your-power",
+        "notable": false
+      },
+      {
+        "name": "La Prairie",
+        "domain": "laprairie.com",
+        "projectTitle": "The Pursuit of Harmony",
+        "projectUrl": "https://www.awwwards.com/sites/the-pursuit-of-harmony",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "buildinamsterdam",
@@ -356,8 +1274,94 @@
       "nominees": 0,
       "total": 98
     },
+    "clients": [
+      {
+        "name": "Polaroid",
+        "domain": "polaroid.com",
+        "projectTitle": "Polaroid.com",
+        "projectUrl": "https://www.awwwards.com/sites/polaroid-com",
+        "notable": true
+      },
+      {
+        "name": "X-BIONIC",
+        "domain": "x-bionic.com",
+        "projectTitle": "X-BIONIC TerraSkin X00/C",
+        "projectUrl": "https://www.awwwards.com/sites/x-bionic-terraskin-x00-c",
+        "notable": false
+      },
+      {
+        "name": "KLABU",
+        "domain": "klabu.org",
+        "projectTitle": "KLABU",
+        "projectUrl": "https://www.awwwards.com/sites/klabu",
+        "notable": false
+      },
+      {
+        "name": "ARK/8",
+        "domain": "ark8.net",
+        "projectTitle": "ARK/8",
+        "projectUrl": "https://www.awwwards.com/sites/ark-8",
+        "notable": false
+      },
+      {
+        "name": "Secrid",
+        "domain": "secrid.com",
+        "projectTitle": "Secrid",
+        "projectUrl": "https://www.awwwards.com/sites/secrid",
+        "notable": false
+      },
+      {
+        "name": "Flying Papers",
+        "domain": "flyingpapers.eu",
+        "projectTitle": "Flying Papers",
+        "projectUrl": "https://www.awwwards.com/sites/flying-papers",
+        "notable": false
+      },
+      {
+        "name": "Suitsupply",
+        "domain": "suitsupply.com",
+        "projectTitle": "Suitsupply Look Builder",
+        "projectUrl": "https://www.awwwards.com/sites/suitsupply-look-builder",
+        "notable": false
+      },
+      {
+        "name": "Foam",
+        "domain": "foam.org",
+        "projectTitle": "Foam.org",
+        "projectUrl": "https://www.awwwards.com/sites/foam-org",
+        "notable": false
+      },
+      {
+        "name": "Vitra",
+        "domain": "vitra.com",
+        "projectTitle": "Vitra Gift Finder",
+        "projectUrl": "https://www.awwwards.com/sites/vitra-gift-finder",
+        "notable": false
+      },
+      {
+        "name": "Land of Ride",
+        "domain": "landofride.com",
+        "projectTitle": "Land of Ride",
+        "projectUrl": "https://www.awwwards.com/sites/land-of-ride",
+        "notable": false
+      },
+      {
+        "name": "Stellar Development",
+        "domain": "stellardevelopment.eu",
+        "projectTitle": "Stellar Development",
+        "projectUrl": "https://www.awwwards.com/sites/stellar-development",
+        "notable": false
+      },
+      {
+        "name": "Moooi",
+        "domain": "moooi.com",
+        "projectTitle": "Moooi - Defy Gravity",
+        "projectUrl": "https://www.awwwards.com/sites/moooi-defy-gravity",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "burocratik",
@@ -386,8 +1390,94 @@
       "nominees": 0,
       "total": 91
     },
+    "clients": [
+      {
+        "name": "Floema",
+        "domain": "floema.com",
+        "projectTitle": "Floema",
+        "projectUrl": "https://www.awwwards.com/sites/floema",
+        "notable": false
+      },
+      {
+        "name": "Phive",
+        "domain": "phive.pt",
+        "projectTitle": "Phive Clubs",
+        "projectUrl": "https://www.awwwards.com/sites/phive-clubs",
+        "notable": false
+      },
+      {
+        "name": "Jeton",
+        "domain": "jeton.com",
+        "projectTitle": "Jeton",
+        "projectUrl": "https://www.awwwards.com/sites/jeton",
+        "notable": false
+      },
+      {
+        "name": "Keikku",
+        "domain": "madebyburo.com",
+        "projectTitle": "Keikku Next-Gen Stethoscope",
+        "projectUrl": "https://www.awwwards.com/sites/keikku-next-gen-stethoscope",
+        "notable": false
+      },
+      {
+        "name": "Clear Street",
+        "domain": "clearstreet.io",
+        "projectTitle": "Clear Street",
+        "projectUrl": "https://www.awwwards.com/sites/clear-street",
+        "notable": false
+      },
+      {
+        "name": "Grab&Go",
+        "domain": "grabandgo.pt",
+        "projectTitle": "Grab&Go",
+        "projectUrl": "https://www.awwwards.com/sites/grab-go",
+        "notable": false
+      },
+      {
+        "name": "Kōzōwood",
+        "domain": "kozowood.com",
+        "projectTitle": "Kōzōwood — Made of Nature",
+        "projectUrl": "https://www.awwwards.com/sites/kozowood-made-of-nature",
+        "notable": false
+      },
+      {
+        "name": "VOS9X",
+        "domain": "vos9x.com",
+        "projectTitle": "VOS9X",
+        "projectUrl": "https://www.awwwards.com/sites/vos9x-1",
+        "notable": false
+      },
+      {
+        "name": "Hematogenix",
+        "domain": "hematogenix.com",
+        "projectTitle": "Hematogenix",
+        "projectUrl": "https://www.awwwards.com/sites/hematogenix",
+        "notable": false
+      },
+      {
+        "name": "Flecto",
+        "domain": "flecto.io",
+        "projectTitle": "Flecto",
+        "projectUrl": "https://www.awwwards.com/sites/flecto",
+        "notable": false
+      },
+      {
+        "name": "ALTS Digital",
+        "domain": "altsdigital.com",
+        "projectTitle": "ALTS Digital",
+        "projectUrl": "https://www.awwwards.com/sites/alts-digital",
+        "notable": false
+      },
+      {
+        "name": "Speedy",
+        "domain": "speedy.io",
+        "projectTitle": "Speedy",
+        "projectUrl": "https://www.awwwards.com/sites/speedy",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "louispaquet",
@@ -416,8 +1506,94 @@
       "nominees": 0,
       "total": 93
     },
+    "clients": [
+      {
+        "name": "Cerebrium",
+        "domain": "cerebrium.ai",
+        "projectTitle": "Cerebrium",
+        "projectUrl": "https://www.awwwards.com/sites/cerebrium",
+        "notable": false
+      },
+      {
+        "name": "Silent House",
+        "domain": "silent-house.com",
+        "projectTitle": "Silent House",
+        "projectUrl": "https://www.awwwards.com/sites/silent-house",
+        "notable": false
+      },
+      {
+        "name": "Maxima Therapy",
+        "domain": "maximatherapy.com",
+        "projectTitle": "Maxima Therapy",
+        "projectUrl": "https://www.awwwards.com/sites/maxima-therapy",
+        "notable": false
+      },
+      {
+        "name": "Adovasio",
+        "domain": "adovasio.it",
+        "projectTitle": "Adovasio",
+        "projectUrl": "https://www.awwwards.com/sites/adovasio",
+        "notable": false
+      },
+      {
+        "name": "MindMarket",
+        "domain": "mindmarket.com",
+        "projectTitle": "MindMarket",
+        "projectUrl": "https://www.awwwards.com/sites/mindmarket",
+        "notable": false
+      },
+      {
+        "name": "Telescope",
+        "domain": "telescope.fyi",
+        "projectTitle": "Telescope",
+        "projectUrl": "https://www.awwwards.com/sites/telescope",
+        "notable": false
+      },
+      {
+        "name": "Vazzi",
+        "domain": "vazzi.fun",
+        "projectTitle": "Vazzi",
+        "projectUrl": "https://www.awwwards.com/sites/vazzi",
+        "notable": false
+      },
+      {
+        "name": "Héloïse Thibodeau Architecte",
+        "domain": "htarchitecte.com",
+        "projectTitle": "Héloïse Thibodeau Architecte",
+        "projectUrl": "https://www.awwwards.com/sites/heloise-thibodeau-architecte-1",
+        "notable": false
+      },
+      {
+        "name": "C2 Montréal",
+        "domain": "koki-kiko.com",
+        "projectTitle": "C2 Montréal",
+        "projectUrl": "https://www.awwwards.com/sites/c2-montreal",
+        "notable": false
+      },
+      {
+        "name": "Tux Creative House",
+        "domain": "tux.co",
+        "projectTitle": "Tux Creative House",
+        "projectUrl": "https://www.awwwards.com/sites/tux-creative-house",
+        "notable": false
+      },
+      {
+        "name": "Mana Yerba Mate",
+        "domain": "manayerbamate.com",
+        "projectTitle": "Mana Yerba Mate",
+        "projectUrl": "https://www.awwwards.com/sites/mana-yerba-mate",
+        "notable": false
+      },
+      {
+        "name": "Escape Coffee",
+        "domain": "escape.cafe",
+        "projectTitle": "Escape Coffee",
+        "projectUrl": "https://www.awwwards.com/sites/escape-coffee",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "unseen",
@@ -446,8 +1622,94 @@
       "nominees": 0,
       "total": 88
     },
+    "clients": [
+      {
+        "name": "Illoca",
+        "domain": null,
+        "projectTitle": "Illoca",
+        "projectUrl": "https://www.awwwards.com/sites/illoca",
+        "notable": false
+      },
+      {
+        "name": "Hubtown",
+        "domain": "hubtown.co.in",
+        "projectTitle": "Hubtown",
+        "projectUrl": "https://www.awwwards.com/sites/hubtown",
+        "notable": false
+      },
+      {
+        "name": "Poly",
+        "domain": "poly.app",
+        "projectTitle": "Poly",
+        "projectUrl": "https://www.awwwards.com/sites/poly-1",
+        "notable": false
+      },
+      {
+        "name": "OceanX",
+        "domain": "oceanx.org",
+        "projectTitle": "OceanX 2025",
+        "projectUrl": "https://www.awwwards.com/sites/oceanx-2025",
+        "notable": false
+      },
+      {
+        "name": "The Symphony of Vines",
+        "domain": "symphonyofvines.com",
+        "projectTitle": "The Symphony of Vines",
+        "projectUrl": "https://www.awwwards.com/sites/the-symphony-of-vines",
+        "notable": false
+      },
+      {
+        "name": "Convex Seascape Survey",
+        "domain": "convexseascapesurvey.com",
+        "projectTitle": "Convex Seascape Survey",
+        "projectUrl": "https://www.awwwards.com/sites/convex-seascape-survey",
+        "notable": false
+      },
+      {
+        "name": "Cosmos",
+        "domain": "cosmos.so",
+        "projectTitle": "Cosmos",
+        "projectUrl": "https://www.awwwards.com/sites/cosmos",
+        "notable": false
+      },
+      {
+        "name": "RSPCA",
+        "domain": "bit.ly",
+        "projectTitle": "RSPCA Animal Futures",
+        "projectUrl": "https://www.awwwards.com/sites/rspca-animal-futures",
+        "notable": false
+      },
+      {
+        "name": "Contra",
+        "domain": "contra.com",
+        "projectTitle": "Contra Project Calculator",
+        "projectUrl": "https://www.awwwards.com/sites/contra-project-calculator",
+        "notable": false
+      },
+      {
+        "name": "25 Residences",
+        "domain": "25residences.com",
+        "projectTitle": "25 Residences",
+        "projectUrl": "https://www.awwwards.com/sites/25-residences",
+        "notable": false
+      },
+      {
+        "name": "Klook",
+        "domain": "experiencethebestyou.com",
+        "projectTitle": "The Best You by Klook",
+        "projectUrl": "https://www.awwwards.com/sites/the-best-you-by-klook",
+        "notable": false
+      },
+      {
+        "name": "BlueYard Capital",
+        "domain": "blueyard.com",
+        "projectTitle": "BlueYard Capital",
+        "projectUrl": "https://www.awwwards.com/sites/blueyard-capital",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "obys",
@@ -476,8 +1738,94 @@
       "nominees": 0,
       "total": 77
     },
+    "clients": [
+      {
+        "name": "Porsche",
+        "domain": "cnn.com",
+        "projectTitle": "Porsche Taycan",
+        "projectUrl": "https://www.awwwards.com/sites/porsche-taycan",
+        "notable": true
+      },
+      {
+        "name": "Glyphic Biotechnologies",
+        "domain": "glyphic.bio",
+        "projectTitle": "Glyphic Biotechnologies",
+        "projectUrl": "https://www.awwwards.com/sites/glyphic-biotechnologies",
+        "notable": false
+      },
+      {
+        "name": "AYOCIN",
+        "domain": "ayocin.com",
+        "projectTitle": "ATMOS® Lamp by AYOCIN",
+        "projectUrl": "https://www.awwwards.com/sites/atmos-r-lamp-by-ayocin",
+        "notable": false
+      },
+      {
+        "name": "Makhno Studio",
+        "domain": "makhnostudio.com",
+        "projectTitle": "MAKHNO",
+        "projectUrl": "https://www.awwwards.com/sites/makhno",
+        "notable": false
+      },
+      {
+        "name": "Autex Acoustics",
+        "domain": "autexacoustics.com",
+        "projectTitle": "Autex Acoustics®",
+        "projectUrl": "https://www.awwwards.com/sites/autex-acoustics-r",
+        "notable": false
+      },
+      {
+        "name": "Éminente",
+        "domain": "eminente.art",
+        "projectTitle": "Éminente",
+        "projectUrl": "https://www.awwwards.com/sites/eminente",
+        "notable": false
+      },
+      {
+        "name": "J-Vers",
+        "domain": "j-vers.com",
+        "projectTitle": "J-Vers",
+        "projectUrl": "https://www.awwwards.com/sites/j-vers",
+        "notable": false
+      },
+      {
+        "name": "New Layer Capital",
+        "domain": null,
+        "projectTitle": "New Layer Capital",
+        "projectUrl": "https://www.awwwards.com/sites/new-layer-capital",
+        "notable": false
+      },
+      {
+        "name": "Studio Chapeaux",
+        "domain": "studiochapeaux.com",
+        "projectTitle": "Studio Chapeaux",
+        "projectUrl": "https://www.awwwards.com/sites/studio-chapeaux",
+        "notable": false
+      },
+      {
+        "name": "Milk Network",
+        "domain": "milknetwork.com",
+        "projectTitle": "Milk Network",
+        "projectUrl": "https://www.awwwards.com/sites/milk-network",
+        "notable": false
+      },
+      {
+        "name": "Abetka",
+        "domain": "abetkaua.com",
+        "projectTitle": "Abetka",
+        "projectUrl": "https://www.awwwards.com/sites/abetka",
+        "notable": false
+      },
+      {
+        "name": "Inflection",
+        "domain": "inflection.xyz",
+        "projectTitle": "Inflection",
+        "projectUrl": "https://www.awwwards.com/sites/inflection",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "zhenyary",
@@ -506,8 +1854,94 @@
       "nominees": 0,
       "total": 66
     },
+    "clients": [
+      {
+        "name": "Synchrodogs",
+        "domain": "synchrodogs.com",
+        "projectTitle": "Synchrodogs Portfolio",
+        "projectUrl": "https://www.awwwards.com/sites/synchrodogs-portfolio",
+        "notable": false
+      },
+      {
+        "name": "ALET Agency",
+        "domain": "aletagency.com",
+        "projectTitle": "ALET Agency Folio",
+        "projectUrl": "https://www.awwwards.com/sites/alet-agency-folio",
+        "notable": false
+      },
+      {
+        "name": "Forner Studio",
+        "domain": "forner.studio",
+        "projectTitle": "FORNER Studio",
+        "projectUrl": "https://www.awwwards.com/sites/forner-studio",
+        "notable": false
+      },
+      {
+        "name": "Ore",
+        "domain": "ore.co",
+        "projectTitle": "ORE Bespoke Diamond Jewelry",
+        "projectUrl": "https://www.awwwards.com/sites/ore-bespoke-diamond-jewelry",
+        "notable": false
+      },
+      {
+        "name": "Resorts World Las Vegas",
+        "domain": "expedia.com",
+        "projectTitle": "Resorts World Las Vegas",
+        "projectUrl": "https://www.awwwards.com/sites/resorts-world-las-vegas",
+        "notable": false
+      },
+      {
+        "name": "Boba Ice Cream",
+        "domain": "bobaicecream.com",
+        "projectTitle": "Boba Ice Cream",
+        "projectUrl": "https://www.awwwards.com/sites/boba-ice-cream",
+        "notable": false
+      },
+      {
+        "name": "By Habit",
+        "domain": "byhabit.com",
+        "projectTitle": "Health By Habit",
+        "projectUrl": "https://www.awwwards.com/sites/health-by-habit",
+        "notable": false
+      },
+      {
+        "name": "Infrared Mind Body",
+        "domain": "infraredmindbody.com",
+        "projectTitle": "Infrared Promo Website",
+        "projectUrl": "https://www.awwwards.com/sites/infrared-promo-website",
+        "notable": false
+      },
+      {
+        "name": "Limnia",
+        "domain": "limnia.com",
+        "projectTitle": "The Araw Collection",
+        "projectUrl": "https://www.awwwards.com/sites/the-araw-collection",
+        "notable": false
+      },
+      {
+        "name": "The Covid Art Museum",
+        "domain": "covidartmuseum.com",
+        "projectTitle": "The Covid Art Museum",
+        "projectUrl": "https://www.awwwards.com/sites/the-covid-art-museum",
+        "notable": false
+      },
+      {
+        "name": "Hi, Skin",
+        "domain": "hiskin.care",
+        "projectTitle": "Hi, Skin",
+        "projectUrl": "https://www.awwwards.com/sites/hi-skin",
+        "notable": false
+      },
+      {
+        "name": "Playful Creative Collective",
+        "domain": "helloplayful.com",
+        "projectTitle": "Playful Creative Collective",
+        "projectUrl": "https://www.awwwards.com/sites/playful-creative-collective",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "jesperlandberg",
@@ -536,8 +1970,59 @@
       "nominees": 0,
       "total": 76
     },
+    "clients": [
+      {
+        "name": "Outpost",
+        "domain": "discoveroutpost.com",
+        "projectTitle": "Outpost",
+        "projectUrl": "https://www.awwwards.com/sites/outpost-1",
+        "notable": false
+      },
+      {
+        "name": "Varex Imaging",
+        "domain": "vareximaging.com",
+        "projectTitle": "Varex Imaging",
+        "projectUrl": "https://www.awwwards.com/sites/varex-imaging",
+        "notable": false
+      },
+      {
+        "name": "Kirschberg",
+        "domain": "kirschberg.co.nz",
+        "projectTitle": "Kirschberg",
+        "projectUrl": "https://www.awwwards.com/sites/kirschberg-2",
+        "notable": false
+      },
+      {
+        "name": "ThoughtLab",
+        "domain": "thoughtlab.com",
+        "projectTitle": "THOUGHTLAB",
+        "projectUrl": "https://www.awwwards.com/sites/thoughtlab",
+        "notable": false
+      },
+      {
+        "name": "Aston Currency Management",
+        "domain": "astoncm.com",
+        "projectTitle": "Aston Currency Management",
+        "projectUrl": "https://www.awwwards.com/sites/aston-currency-management",
+        "notable": false
+      },
+      {
+        "name": "Decoded Advertising",
+        "domain": "decodedadvertising.com",
+        "projectTitle": "Decoded Advertising",
+        "projectUrl": "https://www.awwwards.com/sites/decoded-advertising",
+        "notable": false
+      },
+      {
+        "name": "Saffron",
+        "domain": null,
+        "projectTitle": "Saffron",
+        "projectUrl": "https://www.awwwards.com/sites/saffron",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "rejouice",
@@ -566,8 +2051,94 @@
       "nominees": 0,
       "total": 62
     },
+    "clients": [
+      {
+        "name": "ICOMAT",
+        "domain": "icomat.co.uk",
+        "projectTitle": "ICOMAT",
+        "projectUrl": "https://www.awwwards.com/sites/icomat",
+        "notable": false
+      },
+      {
+        "name": "Terminal Industries",
+        "domain": "terminal-industries.com",
+        "projectTitle": "Terminal Industries",
+        "projectUrl": "https://www.awwwards.com/sites/terminal-industries",
+        "notable": false
+      },
+      {
+        "name": "DuChateau",
+        "domain": null,
+        "projectTitle": "DUCHATEAU",
+        "projectUrl": "https://www.awwwards.com/sites/duchateau",
+        "notable": false
+      },
+      {
+        "name": "Noovo",
+        "domain": "noovolife.com",
+        "projectTitle": "Noovo",
+        "projectUrl": "https://www.awwwards.com/sites/noovo",
+        "notable": false
+      },
+      {
+        "name": "Intrepid Automation",
+        "domain": "intrepidautomation.com",
+        "projectTitle": "Intrepid",
+        "projectUrl": "https://www.awwwards.com/sites/intrepid-site",
+        "notable": false
+      },
+      {
+        "name": "Rivian",
+        "domain": "rivian.com",
+        "projectTitle": "Rivian Automotive",
+        "projectUrl": "https://www.awwwards.com/sites/rivian-automotive",
+        "notable": false
+      },
+      {
+        "name": "Oura",
+        "domain": "ouraring.com",
+        "projectTitle": "Oura",
+        "projectUrl": "https://www.awwwards.com/sites/oura",
+        "notable": false
+      },
+      {
+        "name": "Moxion Power",
+        "domain": null,
+        "projectTitle": "Moxion Power",
+        "projectUrl": "https://www.awwwards.com/sites/moxion-power",
+        "notable": false
+      },
+      {
+        "name": "GenCell",
+        "domain": null,
+        "projectTitle": "GenCell",
+        "projectUrl": "https://www.awwwards.com/sites/gencell",
+        "notable": false
+      },
+      {
+        "name": "Hyperframe",
+        "domain": "hyperframe.com",
+        "projectTitle": "Hyperframe",
+        "projectUrl": "https://www.awwwards.com/sites/hyperframe",
+        "notable": false
+      },
+      {
+        "name": "Shildan Group",
+        "domain": "shildan.com",
+        "projectTitle": "Shildan Group",
+        "projectUrl": "https://www.awwwards.com/sites/shildan-group",
+        "notable": false
+      },
+      {
+        "name": "OV Loop",
+        "domain": "ovloopbrand.com",
+        "projectTitle": "OV Loop",
+        "projectUrl": "https://www.awwwards.com/sites/ov-loop",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "synchronized",
@@ -596,8 +2167,80 @@
       "nominees": 0,
       "total": 57
     },
+    "clients": [
+      {
+        "name": "By:Matthew",
+        "domain": "bymatthew.com",
+        "projectTitle": "By:Matthew The Shirt",
+        "projectUrl": "https://www.awwwards.com/sites/by-matthew-the-shirt",
+        "notable": false
+      },
+      {
+        "name": "Hero Collective",
+        "domain": "herocollective.co",
+        "projectTitle": "Hero Collective",
+        "projectUrl": "https://www.awwwards.com/sites/hero-collective",
+        "notable": false
+      },
+      {
+        "name": "Boba Ice Cream",
+        "domain": "bobaicecream.com",
+        "projectTitle": "Boba Ice Cream",
+        "projectUrl": "https://www.awwwards.com/sites/boba-ice-cream",
+        "notable": false
+      },
+      {
+        "name": "Atlas Bespoke",
+        "domain": "atlas-bespoke.com",
+        "projectTitle": "ATLAS",
+        "projectUrl": "https://www.awwwards.com/sites/atlas",
+        "notable": false
+      },
+      {
+        "name": "Forner Studio",
+        "domain": "forner.studio",
+        "projectTitle": "FORNER Studio",
+        "projectUrl": "https://www.awwwards.com/sites/forner-studio",
+        "notable": false
+      },
+      {
+        "name": "Ore",
+        "domain": "ore.co",
+        "projectTitle": "ORE Bespoke Diamond Jewelry",
+        "projectUrl": "https://www.awwwards.com/sites/ore-bespoke-diamond-jewelry",
+        "notable": false
+      },
+      {
+        "name": "ALET Agency",
+        "domain": "aletagency.com",
+        "projectTitle": "ALET Agency Folio",
+        "projectUrl": "https://www.awwwards.com/sites/alet-agency-folio",
+        "notable": false
+      },
+      {
+        "name": "By Habit",
+        "domain": "byhabit.com",
+        "projectTitle": "Health By Habit",
+        "projectUrl": "https://www.awwwards.com/sites/health-by-habit",
+        "notable": false
+      },
+      {
+        "name": "The Covid Art Museum",
+        "domain": "covidartmuseum.com",
+        "projectTitle": "The Covid Art Museum",
+        "projectUrl": "https://www.awwwards.com/sites/the-covid-art-museum",
+        "notable": false
+      },
+      {
+        "name": "Infrared Mind Body",
+        "domain": "infraredmindbody.com",
+        "projectTitle": "Infrared Promo Website",
+        "projectUrl": "https://www.awwwards.com/sites/infrared-promo-website",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "e-t",
@@ -626,8 +2269,94 @@
       "nominees": 0,
       "total": 60
     },
+    "clients": [
+      {
+        "name": "Wembi",
+        "domain": "wembi.ai",
+        "projectTitle": "Wembi",
+        "projectUrl": "https://www.awwwards.com/sites/wembi",
+        "notable": false
+      },
+      {
+        "name": "Don Molinico",
+        "domain": "donmolinico.es",
+        "projectTitle": "Don Molinico",
+        "projectUrl": "https://www.awwwards.com/sites/don-molinico",
+        "notable": false
+      },
+      {
+        "name": "9to5 Studio",
+        "domain": "9to5studio.it",
+        "projectTitle": "Nine To Five",
+        "projectUrl": "https://www.awwwards.com/sites/nine-to-five",
+        "notable": false
+      },
+      {
+        "name": "Sileent",
+        "domain": "sileent.com",
+        "projectTitle": "SILEENT",
+        "projectUrl": "https://www.awwwards.com/sites/sileent",
+        "notable": false
+      },
+      {
+        "name": "Jam Area",
+        "domain": "jamarea.com",
+        "projectTitle": "Jam Area",
+        "projectUrl": "https://www.awwwards.com/sites/jam-area",
+        "notable": false
+      },
+      {
+        "name": "Enoteca della Valpolicella",
+        "domain": "enotecadellavalpolicella.it",
+        "projectTitle": "Enoteca della Valpollicella",
+        "projectUrl": "https://www.awwwards.com/sites/enoteca-della-valpollicella",
+        "notable": false
+      },
+      {
+        "name": "Impronta",
+        "domain": "improntahome.com",
+        "projectTitle": "Impronta",
+        "projectUrl": "https://www.awwwards.com/sites/impronta",
+        "notable": false
+      },
+      {
+        "name": "Gini Vini",
+        "domain": "ginivini.com",
+        "projectTitle": "Gini Vini",
+        "projectUrl": "https://www.awwwards.com/sites/gini-vini",
+        "notable": false
+      },
+      {
+        "name": "Newtwen",
+        "domain": "newtwen.com",
+        "projectTitle": "Newtwen",
+        "projectUrl": "https://www.awwwards.com/sites/newtwen",
+        "notable": false
+      },
+      {
+        "name": "Moooor",
+        "domain": "moooor.com",
+        "projectTitle": "Moooor",
+        "projectUrl": "https://www.awwwards.com/sites/moooor",
+        "notable": false
+      },
+      {
+        "name": "Francobolli Monti Lessini",
+        "domain": "francobollimontilessini.com",
+        "projectTitle": "Francobolli Monti Lessini",
+        "projectUrl": "https://www.awwwards.com/sites/francobolli-monti-lessini",
+        "notable": false
+      },
+      {
+        "name": "Match Studio",
+        "domain": "match.studio",
+        "projectTitle": "Match Studio",
+        "projectUrl": "https://www.awwwards.com/sites/match-studio",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "thefirstthelast",
@@ -656,8 +2385,94 @@
       "nominees": 0,
       "total": 73
     },
+    "clients": [
+      {
+        "name": "ERA Residence",
+        "domain": "era-residence.com",
+        "projectTitle": "ERA Residence",
+        "projectUrl": "https://www.awwwards.com/sites/era-residence",
+        "notable": false
+      },
+      {
+        "name": "Son Daven",
+        "domain": "sondaven.com",
+        "projectTitle": "Son Daven",
+        "projectUrl": "https://www.awwwards.com/sites/son-daven",
+        "notable": false
+      },
+      {
+        "name": "Horizonte Village",
+        "domain": "horizonte-village.com",
+        "projectTitle": "Horizonte Village",
+        "projectUrl": "https://www.awwwards.com/sites/horizonte-village",
+        "notable": false
+      },
+      {
+        "name": "Jesko Jets",
+        "domain": "jeskojets.com",
+        "projectTitle": "Jesko Jets",
+        "projectUrl": "https://www.awwwards.com/sites/jesko-jets",
+        "notable": false
+      },
+      {
+        "name": "Yodezeen",
+        "domain": "yodezeen.com",
+        "projectTitle": "YODEZEEN",
+        "projectUrl": "https://www.awwwards.com/sites/yodezeen",
+        "notable": false
+      },
+      {
+        "name": "Bottega 53",
+        "domain": "bottega53.com",
+        "projectTitle": "BOTTEGA 53",
+        "projectUrl": "https://www.awwwards.com/sites/bottega-53",
+        "notable": false
+      },
+      {
+        "name": "Aventura Dental Arts",
+        "domain": "aventuradentalarts.com",
+        "projectTitle": "Aventura Dental Arts",
+        "projectUrl": "https://www.awwwards.com/sites/aventura-dental-arts",
+        "notable": false
+      },
+      {
+        "name": "DaVincii",
+        "domain": "davincii.com",
+        "projectTitle": "DaVincii",
+        "projectUrl": "https://www.awwwards.com/sites/davincii",
+        "notable": false
+      },
+      {
+        "name": "Fame Estate",
+        "domain": "fame-estate.com",
+        "projectTitle": "Fame Estate",
+        "projectUrl": "https://www.awwwards.com/sites/fame-estate",
+        "notable": false
+      },
+      {
+        "name": "AEXLAB",
+        "domain": "aexlab.com",
+        "projectTitle": "AEXLAB & VAIL VR",
+        "projectUrl": "https://www.awwwards.com/sites/aexlab-vail-vr",
+        "notable": false
+      },
+      {
+        "name": "Sami",
+        "domain": "sami.marketing",
+        "projectTitle": "Sami",
+        "projectUrl": "https://www.awwwards.com/sites/sami",
+        "notable": false
+      },
+      {
+        "name": "Purpose Talent",
+        "domain": "purposetalent.xyz",
+        "projectTitle": "Purpose Talent",
+        "projectUrl": "https://www.awwwards.com/sites/purpose-talent",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "bonhommeparis",
@@ -686,8 +2501,73 @@
       "nominees": 0,
       "total": 77
     },
+    "clients": [
+      {
+        "name": "TAG Heuer",
+        "domain": "tagheuer.com",
+        "projectTitle": "TAG Heuer x Kith",
+        "projectUrl": "https://www.awwwards.com/sites/tag-heuer-x-kith",
+        "notable": true
+      },
+      {
+        "name": "Lacoste",
+        "domain": "lacoste.com",
+        "projectTitle": "Lacoste Heritage",
+        "projectUrl": "https://www.awwwards.com/sites/lacoste-heritage",
+        "notable": true
+      },
+      {
+        "name": "The Eight Club",
+        "domain": "theeightclub.com",
+        "projectTitle": "The Eight",
+        "projectUrl": "https://www.awwwards.com/sites/the-eight-2",
+        "notable": false
+      },
+      {
+        "name": "Omnicom Reputation Group",
+        "domain": "omnicomreputationgroup.fr",
+        "projectTitle": "Omnicom Reputation Group",
+        "projectUrl": "https://www.awwwards.com/sites/omnicom-reputation-group",
+        "notable": false
+      },
+      {
+        "name": "Fauna",
+        "domain": "thefauna.co.uk",
+        "projectTitle": "Fauna",
+        "projectUrl": "https://www.awwwards.com/sites/fauna",
+        "notable": false
+      },
+      {
+        "name": "Duroc",
+        "domain": "duroc.ma",
+        "projectTitle": "Duroc",
+        "projectUrl": "https://www.awwwards.com/sites/duroc-1",
+        "notable": false
+      },
+      {
+        "name": "JC Biver",
+        "domain": "jcbiver.com",
+        "projectTitle": "Biver 2024",
+        "projectUrl": "https://www.awwwards.com/sites/biver-2024",
+        "notable": false
+      },
+      {
+        "name": "Sekri Valentin Zerrouk",
+        "domain": "svz.fr",
+        "projectTitle": "Sekri Valentin Zerrouk",
+        "projectUrl": "https://www.awwwards.com/sites/sekri-valentin-zerrouk",
+        "notable": false
+      },
+      {
+        "name": "AccorHotels Arena",
+        "domain": "accorhotelsarena.com",
+        "projectTitle": "#PartageTesSouvenirs",
+        "projectUrl": "https://www.awwwards.com/sites/partagetessouvenirs",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "springsummer",
@@ -716,8 +2596,94 @@
       "nominees": 0,
       "total": 55
     },
+    "clients": [
+      {
+        "name": "Nitex",
+        "domain": "nitex.com",
+        "projectTitle": "NITEX",
+        "projectUrl": "https://www.awwwards.com/sites/nitex",
+        "notable": false
+      },
+      {
+        "name": "Polène",
+        "domain": "polene-paris.com",
+        "projectTitle": "Polène",
+        "projectUrl": "https://www.awwwards.com/sites/polene",
+        "notable": false
+      },
+      {
+        "name": "NORR11",
+        "domain": "norr11.com",
+        "projectTitle": "NORR11",
+        "projectUrl": "https://www.awwwards.com/sites/norr11",
+        "notable": false
+      },
+      {
+        "name": "Diko",
+        "domain": "diko.co",
+        "projectTitle": "DIKO",
+        "projectUrl": "https://www.awwwards.com/sites/diko-1",
+        "notable": false
+      },
+      {
+        "name": "Soren Rose Studio",
+        "domain": "sorenrose.com",
+        "projectTitle": "Soren Rose Studio",
+        "projectUrl": "https://www.awwwards.com/sites/soren-rose-studio",
+        "notable": false
+      },
+      {
+        "name": "Canairi",
+        "domain": "canairi.io",
+        "projectTitle": "Canairi® A Fresh Air Monitor™",
+        "projectUrl": "https://www.awwwards.com/sites/canairi-r-a-fresh-air-monitortm",
+        "notable": false
+      },
+      {
+        "name": "Grasp Festival",
+        "domain": "graspfestival.dk",
+        "projectTitle": "Grasp",
+        "projectUrl": "https://www.awwwards.com/sites/grasp",
+        "notable": false
+      },
+      {
+        "name": "Stykka",
+        "domain": "stykka.com",
+        "projectTitle": "Stykka",
+        "projectUrl": "https://www.awwwards.com/sites/stykka",
+        "notable": false
+      },
+      {
+        "name": "Rudolph Care",
+        "domain": "rudolphcare.com",
+        "projectTitle": "Rudolph Care",
+        "projectUrl": "https://www.awwwards.com/sites/rudolph-care",
+        "notable": false
+      },
+      {
+        "name": "KD Capital",
+        "domain": "kdcap.com",
+        "projectTitle": "KD Capital",
+        "projectUrl": "https://www.awwwards.com/sites/kd-capital",
+        "notable": false
+      },
+      {
+        "name": "AIAIAI",
+        "domain": "aiaiai.audio",
+        "projectTitle": "AIAIAI.audio",
+        "projectUrl": "https://www.awwwards.com/sites/aiaiai-audio",
+        "notable": false
+      },
+      {
+        "name": "Mos Mosh",
+        "domain": "mosmosh.com",
+        "projectTitle": "MOS MOSH",
+        "projectUrl": "https://www.awwwards.com/sites/mos-mosh",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "snp",
@@ -746,8 +2712,94 @@
       "nominees": 0,
       "total": 57
     },
+    "clients": [
+      {
+        "name": "Radaville",
+        "domain": "radaville.studio",
+        "projectTitle": "Radaville",
+        "projectUrl": "https://www.awwwards.com/sites/radaville",
+        "notable": false
+      },
+      {
+        "name": "The Quarry House",
+        "domain": "mfisher-apollonas.com",
+        "projectTitle": "The Quarry House",
+        "projectUrl": "https://www.awwwards.com/sites/the-quarry-house-1",
+        "notable": false
+      },
+      {
+        "name": "Matthew Fisher",
+        "domain": "mfisher.com",
+        "projectTitle": "Matthew Fisher — Collection 02",
+        "projectUrl": "https://www.awwwards.com/sites/matthew-fisher-collection-02",
+        "notable": false
+      },
+      {
+        "name": "Liron Moran Interiors",
+        "domain": "lironmoran-interiors.com",
+        "projectTitle": "Liron Moran Interiors",
+        "projectUrl": "https://www.awwwards.com/sites/liron-moran-interiors",
+        "notable": false
+      },
+      {
+        "name": "Cusp",
+        "domain": "heycusp.com",
+        "projectTitle": "CUSP",
+        "projectUrl": "https://www.awwwards.com/sites/cusp",
+        "notable": false
+      },
+      {
+        "name": "Fitsole",
+        "domain": "fitsole.shop",
+        "projectTitle": "Fitsole",
+        "projectUrl": "https://www.awwwards.com/sites/fitsole",
+        "notable": false
+      },
+      {
+        "name": "DashDigital Studio",
+        "domain": "dashdigital.studio",
+        "projectTitle": "DashDigital® Studio",
+        "projectUrl": "https://www.awwwards.com/sites/dashdigital-r-studio",
+        "notable": false
+      },
+      {
+        "name": "Human Person",
+        "domain": "humanperson.com",
+        "projectTitle": "Human Person",
+        "projectUrl": "https://www.awwwards.com/sites/human-person",
+        "notable": false
+      },
+      {
+        "name": "Reclaim Your DNA",
+        "domain": "reclaimyourdna.com",
+        "projectTitle": "Reclaim Your DNA",
+        "projectUrl": "https://www.awwwards.com/sites/reclaim-your-dna",
+        "notable": false
+      },
+      {
+        "name": "TOGETHXR",
+        "domain": "togethxr.com",
+        "projectTitle": "TOGETHXR",
+        "projectUrl": "https://www.awwwards.com/sites/togethxr",
+        "notable": false
+      },
+      {
+        "name": "Seal + Co",
+        "domain": "sealco.ca",
+        "projectTitle": "Seal + Co",
+        "projectUrl": "https://www.awwwards.com/sites/seal-co",
+        "notable": false
+      },
+      {
+        "name": "Freshman",
+        "domain": "freshman.tv",
+        "projectTitle": "Freshman",
+        "projectUrl": "https://www.awwwards.com/sites/freshman",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "studiogusto",
@@ -776,8 +2828,94 @@
       "nominees": 0,
       "total": 56
     },
+    "clients": [
+      {
+        "name": "Gucci",
+        "domain": "globaltech.gucci",
+        "projectTitle": "The Art of Silk",
+        "projectUrl": "https://www.awwwards.com/sites/the-art-of-silk",
+        "notable": true
+      },
+      {
+        "name": "UFL",
+        "domain": "uflgame.com",
+        "projectTitle": "UFL GAME",
+        "projectUrl": "https://www.awwwards.com/sites/ufl-game",
+        "notable": false
+      },
+      {
+        "name": "Digital Mosaik",
+        "domain": "digitalmosaik.com",
+        "projectTitle": "Digital Mosaik",
+        "projectUrl": "https://www.awwwards.com/sites/digital-mosaik",
+        "notable": false
+      },
+      {
+        "name": "Boom & Bloom",
+        "domain": "boomandbloom.com",
+        "projectTitle": "Boom & Bloom",
+        "projectUrl": "https://www.awwwards.com/sites/boom-bloom",
+        "notable": false
+      },
+      {
+        "name": "Rossinavi",
+        "domain": "rossinavi.it",
+        "projectTitle": "SeaCat",
+        "projectUrl": "https://www.awwwards.com/sites/seacat",
+        "notable": false
+      },
+      {
+        "name": "Uprising",
+        "domain": "weareuprising.com",
+        "projectTitle": "Uprising™",
+        "projectUrl": "https://www.awwwards.com/sites/uprisingtm",
+        "notable": false
+      },
+      {
+        "name": "Peptone",
+        "domain": "peptone.io",
+        "projectTitle": "Peptone",
+        "projectUrl": "https://www.awwwards.com/sites/peptone",
+        "notable": false
+      },
+      {
+        "name": "Sterling",
+        "domain": "sterling.it",
+        "projectTitle": "STERLING",
+        "projectUrl": "https://www.awwwards.com/sites/sterling",
+        "notable": false
+      },
+      {
+        "name": "Ghost Unicorns",
+        "domain": "ghostunicorns.com",
+        "projectTitle": "GHOST UNICORNS",
+        "projectUrl": "https://www.awwwards.com/sites/ghost-unicorns",
+        "notable": false
+      },
+      {
+        "name": "Maria Callas",
+        "domain": "maria-callas.com",
+        "projectTitle": "Maria Callas official website",
+        "projectUrl": "https://www.awwwards.com/sites/maria-callas-official-website",
+        "notable": false
+      },
+      {
+        "name": "Ballsystem",
+        "domain": "ballsystem.it",
+        "projectTitle": "BALLSYSTEM",
+        "projectUrl": "https://www.awwwards.com/sites/ballsystem",
+        "notable": false
+      },
+      {
+        "name": "Locus Solus",
+        "domain": null,
+        "projectTitle": "LOCUS SOLUS",
+        "projectUrl": "https://www.awwwards.com/sites/locus-solus",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "iljavaneck",
@@ -806,8 +2944,94 @@
       "nominees": 0,
       "total": 54
     },
+    "clients": [
+      {
+        "name": "Paul Kalkbrenner",
+        "domain": "paulkalkbrenner.net",
+        "projectTitle": "Paul Kalkbrenner",
+        "projectUrl": "https://www.awwwards.com/sites/paul-kalkbrenner",
+        "notable": false
+      },
+      {
+        "name": "Slush",
+        "domain": "slush.app",
+        "projectTitle": "Slush",
+        "projectUrl": "https://www.awwwards.com/sites/slush",
+        "notable": false
+      },
+      {
+        "name": "Osmo",
+        "domain": "osmo.supply",
+        "projectTitle": "Osmo",
+        "projectUrl": "https://www.awwwards.com/sites/osmo-1",
+        "notable": false
+      },
+      {
+        "name": "David Alaba",
+        "domain": "davidalaba.com",
+        "projectTitle": "David Alaba",
+        "projectUrl": "https://www.awwwards.com/sites/david-alaba",
+        "notable": false
+      },
+      {
+        "name": "Cyphr",
+        "domain": "cyphr.studio",
+        "projectTitle": "Cyphr",
+        "projectUrl": "https://www.awwwards.com/sites/cyphr",
+        "notable": false
+      },
+      {
+        "name": "Walrus",
+        "domain": "walrus.xyz",
+        "projectTitle": "Walrus",
+        "projectUrl": "https://www.awwwards.com/sites/walrus",
+        "notable": false
+      },
+      {
+        "name": "FlowFest",
+        "domain": "flowfest.co.uk",
+        "projectTitle": "FlowFest 2025",
+        "projectUrl": "https://www.awwwards.com/sites/flowfest-2025",
+        "notable": false
+      },
+      {
+        "name": "Sui",
+        "domain": "sui.io",
+        "projectTitle": "Sui Overflow 2025",
+        "projectUrl": "https://www.awwwards.com/sites/sui-overflow-2025",
+        "notable": false
+      },
+      {
+        "name": "Walbi",
+        "domain": "walbi.com",
+        "projectTitle": "Walbi",
+        "projectUrl": "https://www.awwwards.com/sites/walbi",
+        "notable": false
+      },
+      {
+        "name": "Faith Of A Mustard Seed",
+        "domain": "foams.world",
+        "projectTitle": "Faith Of A Mustard Seed",
+        "projectUrl": "https://www.awwwards.com/sites/faith-of-a-mustard-seed",
+        "notable": false
+      },
+      {
+        "name": "Accordion",
+        "domain": "accordion.net.au",
+        "projectTitle": "Accordion",
+        "projectUrl": "https://www.awwwards.com/sites/accordion",
+        "notable": false
+      },
+      {
+        "name": "Sonar Music",
+        "domain": "sonarmusic.com.au",
+        "projectTitle": "Sonar Music",
+        "projectUrl": "https://www.awwwards.com/sites/sonar-music",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "ouiwill",
@@ -836,8 +3060,66 @@
       "nominees": 0,
       "total": 47
     },
+    "clients": [
+      {
+        "name": "Pebble",
+        "domain": "pebblelife.com",
+        "projectTitle": "Pebble",
+        "projectUrl": "https://www.awwwards.com/sites/pebble",
+        "notable": false
+      },
+      {
+        "name": "OV Loop",
+        "domain": "ovloopbrand.com",
+        "projectTitle": "OV Loop",
+        "projectUrl": "https://www.awwwards.com/sites/ov-loop",
+        "notable": false
+      },
+      {
+        "name": "Proof",
+        "domain": "proof.io",
+        "projectTitle": "Proof",
+        "projectUrl": "https://www.awwwards.com/sites/proof-1",
+        "notable": false
+      },
+      {
+        "name": "Oura",
+        "domain": "ouraring.com",
+        "projectTitle": "Oura",
+        "projectUrl": "https://www.awwwards.com/sites/oura",
+        "notable": false
+      },
+      {
+        "name": "Tenzr",
+        "domain": "rejouice.io",
+        "projectTitle": "Tenzr",
+        "projectUrl": "https://www.awwwards.com/sites/tenzr",
+        "notable": false
+      },
+      {
+        "name": "Hyperframe",
+        "domain": "hyperframe.com",
+        "projectTitle": "Hyperframe",
+        "projectUrl": "https://www.awwwards.com/sites/hyperframe",
+        "notable": false
+      },
+      {
+        "name": "Shildan Group",
+        "domain": "shildan.com",
+        "projectTitle": "Shildan Group",
+        "projectUrl": "https://www.awwwards.com/sites/shildan-group",
+        "notable": false
+      },
+      {
+        "name": "NexBank",
+        "domain": "nexbank.com",
+        "projectTitle": "NexBank",
+        "projectUrl": "https://www.awwwards.com/sites/nexbank",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "akaru",
@@ -866,8 +3148,94 @@
       "nominees": 0,
       "total": 65
     },
+    "clients": [
+      {
+        "name": "Archidomo Architects",
+        "domain": "archidomo.fr",
+        "projectTitle": "ARCHIDOMO Architects",
+        "projectUrl": "https://www.awwwards.com/sites/archidomo-architects",
+        "notable": false
+      },
+      {
+        "name": "Ubac Store",
+        "domain": "ubac-store.com",
+        "projectTitle": "UBAC STORE",
+        "projectUrl": "https://www.awwwards.com/sites/ubac-store-2",
+        "notable": false
+      },
+      {
+        "name": "Sanctuary On The Moon",
+        "domain": "sanctuaryonthemoon.com",
+        "projectTitle": "Sanctuary On The Moon",
+        "projectUrl": "https://www.awwwards.com/sites/sanctuary-on-the-moon",
+        "notable": false
+      },
+      {
+        "name": "When We Were Kids Production",
+        "domain": "whenwewerekids.fr",
+        "projectTitle": "WHEN WE WERE KIDS PRODUCTION",
+        "projectUrl": "https://www.awwwards.com/sites/when-we-were-kids",
+        "notable": false
+      },
+      {
+        "name": "Entreautre",
+        "domain": "entreautre.com",
+        "projectTitle": "Entreautre",
+        "projectUrl": "https://www.awwwards.com/sites/entreautre",
+        "notable": false
+      },
+      {
+        "name": "Wed'ze",
+        "domain": null,
+        "projectTitle": "Wed'ze - Lookbook Winter 17-18",
+        "projectUrl": "https://www.awwwards.com/sites/wedze-lookbook-winter-17-18",
+        "notable": false
+      },
+      {
+        "name": "Zorba Group",
+        "domain": "zorba-group.com",
+        "projectTitle": "Zorba",
+        "projectUrl": "https://www.awwwards.com/sites/zorba",
+        "notable": false
+      },
+      {
+        "name": "Mediakeys Experience",
+        "domain": "mediakeys-experience.com",
+        "projectTitle": "MEDIAKEYS EXPERIENCE",
+        "projectUrl": "https://www.awwwards.com/sites/mediakeys-experience",
+        "notable": false
+      },
+      {
+        "name": "Quechua",
+        "domain": null,
+        "projectTitle": "Quechua Lookbook Spring Summer 2016",
+        "projectUrl": "https://www.awwwards.com/sites/quechua-lookbook-spring-summer-2016",
+        "notable": false
+      },
+      {
+        "name": "EA Financial",
+        "domain": "madebybuzzworthy.com",
+        "projectTitle": "EA Financial",
+        "projectUrl": "https://www.awwwards.com/sites/ea-financial",
+        "notable": false
+      },
+      {
+        "name": "66°Nord",
+        "domain": "66nord.com",
+        "projectTitle": "66°Nord, the polar travel",
+        "projectUrl": "https://www.awwwards.com/sites/66degnord-the-polar-travel",
+        "notable": false
+      },
+      {
+        "name": "Maison Yoko",
+        "domain": "maisonyoko.com",
+        "projectTitle": "Maison Yoko",
+        "projectUrl": "https://www.awwwards.com/sites/maison-yoko",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "60fps",
@@ -896,8 +3264,73 @@
       "nominees": 0,
       "total": 56
     },
+    "clients": [
+      {
+        "name": "Renault",
+        "domain": "renault.com",
+        "projectTitle": "Le Défilé Renault®",
+        "projectUrl": "https://www.awwwards.com/sites/le-defile-renault-r",
+        "notable": true
+      },
+      {
+        "name": "Chanel",
+        "domain": "chanel.com",
+        "projectTitle": "Bleu de CHANEL l'Exclusif",
+        "projectUrl": "https://www.awwwards.com/sites/bleu-de-chanel-lexclusif",
+        "notable": true
+      },
+      {
+        "name": "Cartier",
+        "domain": null,
+        "projectTitle": "Cartier Watches & Wonders 2025",
+        "projectUrl": "https://www.awwwards.com/sites/cartier-watches-wonders-2025",
+        "notable": true
+      },
+      {
+        "name": "Neverhack",
+        "domain": "neverhack.com",
+        "projectTitle": "NEVERHACK",
+        "projectUrl": "https://www.awwwards.com/sites/neverhack",
+        "notable": false
+      },
+      {
+        "name": "Xapo Bank",
+        "domain": "xapobank.com",
+        "projectTitle": "Xapo Bank",
+        "projectUrl": "https://www.awwwards.com/sites/xapo-bank",
+        "notable": false
+      },
+      {
+        "name": "Creandum",
+        "domain": "creandum.com",
+        "projectTitle": "Creandum",
+        "projectUrl": "https://www.awwwards.com/sites/creandum",
+        "notable": false
+      },
+      {
+        "name": "Akinod",
+        "domain": "akinod.fr",
+        "projectTitle": "Akinod - Official online store",
+        "projectUrl": "https://www.awwwards.com/sites/akinod-official-online-store",
+        "notable": false
+      },
+      {
+        "name": "Alireza",
+        "domain": "alireza.com",
+        "projectTitle": "Alireza",
+        "projectUrl": "https://www.awwwards.com/sites/alireza",
+        "notable": false
+      },
+      {
+        "name": "Mechachain",
+        "domain": "mechachain.io",
+        "projectTitle": "2219 Mechachain",
+        "projectUrl": "https://www.awwwards.com/sites/2219-mechachain",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "malvah",
@@ -926,8 +3359,94 @@
       "nominees": 0,
       "total": 46
     },
+    "clients": [
+      {
+        "name": "White Desert",
+        "domain": "white-desert.com",
+        "projectTitle": "White Desert",
+        "projectUrl": "https://www.awwwards.com/sites/white-desert",
+        "notable": false
+      },
+      {
+        "name": "Odd Ritual",
+        "domain": "oddritualgolf.com",
+        "projectTitle": "Odd Ritual",
+        "projectUrl": "https://www.awwwards.com/sites/odd-ritual",
+        "notable": false
+      },
+      {
+        "name": "Hark Capital",
+        "domain": "harkcap.com",
+        "projectTitle": "Hark Capital",
+        "projectUrl": "https://www.awwwards.com/sites/hark-capital",
+        "notable": false
+      },
+      {
+        "name": "Estrela",
+        "domain": "estrela.studio",
+        "projectTitle": "Estrela",
+        "projectUrl": "https://www.awwwards.com/sites/estrela",
+        "notable": false
+      },
+      {
+        "name": "Seventeen",
+        "domain": "seventeenagency.com",
+        "projectTitle": "Seventeen",
+        "projectUrl": "https://www.awwwards.com/sites/seventeen",
+        "notable": false
+      },
+      {
+        "name": "Anthem",
+        "domain": "anthem.co.za",
+        "projectTitle": "Anthem",
+        "projectUrl": "https://www.awwwards.com/sites/anthem",
+        "notable": false
+      },
+      {
+        "name": "The Up&Up Group",
+        "domain": "theupandupgroup.com",
+        "projectTitle": "Up&Up",
+        "projectUrl": "https://www.awwwards.com/sites/up-up",
+        "notable": false
+      },
+      {
+        "name": "Bitter Creek",
+        "domain": "bittercreek.studio",
+        "projectTitle": "Bitter creek",
+        "projectUrl": "https://www.awwwards.com/sites/bitter-creek",
+        "notable": false
+      },
+      {
+        "name": "Boring",
+        "domain": "boring.industries",
+        "projectTitle": "Boring",
+        "projectUrl": "https://www.awwwards.com/sites/boring",
+        "notable": false
+      },
+      {
+        "name": "The Robot",
+        "domain": "therobot.tv",
+        "projectTitle": "Robot",
+        "projectUrl": "https://www.awwwards.com/sites/robot",
+        "notable": false
+      },
+      {
+        "name": "dhk Architects",
+        "domain": "dhk.co.za",
+        "projectTitle": "dhk Architects",
+        "projectUrl": "https://www.awwwards.com/sites/dhk-architects",
+        "notable": false
+      },
+      {
+        "name": "KODE Immersive",
+        "domain": "kodeimmersive.com",
+        "projectTitle": "KODE Immersive",
+        "projectUrl": "https://www.awwwards.com/sites/kode-immersive",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "niccolomiranda",
@@ -956,8 +3475,94 @@
       "nominees": 0,
       "total": 42
     },
+    "clients": [
+      {
+        "name": "Siena Film Foundation",
+        "domain": "siena.film",
+        "projectTitle": "Siena Film Foundation",
+        "projectUrl": "https://www.awwwards.com/sites/siena-film-foundation",
+        "notable": false
+      },
+      {
+        "name": "Sonar Music",
+        "domain": "sonarmusic.com.au",
+        "projectTitle": "Sonar Music",
+        "projectUrl": "https://www.awwwards.com/sites/sonar-music",
+        "notable": false
+      },
+      {
+        "name": "DocuSign",
+        "domain": "docusign.com",
+        "projectTitle": "Docusign Brand",
+        "projectUrl": "https://www.awwwards.com/sites/docusign-brand",
+        "notable": false
+      },
+      {
+        "name": "Breakthrough Energy",
+        "domain": "breakthroughenergy.org",
+        "projectTitle": "The State of the Transition 2023",
+        "projectUrl": "https://www.awwwards.com/sites/the-state-of-the-transition-2023",
+        "notable": false
+      },
+      {
+        "name": "AvroKO",
+        "domain": "avroko.com",
+        "projectTitle": "AvroKO",
+        "projectUrl": "https://www.awwwards.com/sites/avroko",
+        "notable": false
+      },
+      {
+        "name": "Cobo",
+        "domain": "cobosrl.co",
+        "projectTitle": "Cobo©",
+        "projectUrl": "https://www.awwwards.com/sites/cobo-c",
+        "notable": false
+      },
+      {
+        "name": "Om Swami",
+        "domain": "omswami.com",
+        "projectTitle": "Om Swami",
+        "projectUrl": "https://www.awwwards.com/sites/om-swami",
+        "notable": false
+      },
+      {
+        "name": "Argor-Heraeus",
+        "domain": "argor.com",
+        "projectTitle": "Argor-Heraeus",
+        "projectUrl": "https://www.awwwards.com/sites/argor-heraeus",
+        "notable": false
+      },
+      {
+        "name": "Aquerone",
+        "domain": "aquerone.com",
+        "projectTitle": "Aquerone",
+        "projectUrl": "https://www.awwwards.com/sites/aquerone",
+        "notable": false
+      },
+      {
+        "name": "Sal Parasuco",
+        "domain": "salparasuco-22.com",
+        "projectTitle": "Sal Parasuco",
+        "projectUrl": "https://www.awwwards.com/sites/sal-parasuco",
+        "notable": false
+      },
+      {
+        "name": "The Hiring Chain",
+        "domain": "hiringchain.org",
+        "projectTitle": "The Hiring Chain",
+        "projectUrl": "https://www.awwwards.com/sites/the-hiring-chain",
+        "notable": false
+      },
+      {
+        "name": "Loftgarten",
+        "domain": "loftgarten.co",
+        "projectTitle": "Loftgarten",
+        "projectUrl": "https://www.awwwards.com/sites/loftgarten",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "basicagency",
@@ -986,8 +3591,66 @@
       "nominees": 0,
       "total": 65
     },
+    "clients": [
+      {
+        "name": "Google Nest",
+        "domain": "google.com",
+        "projectTitle": "Google Nest Doorbell (battery)",
+        "projectUrl": "https://www.awwwards.com/sites/google-nest-doorbell-battery",
+        "notable": true
+      },
+      {
+        "name": "DocuSign",
+        "domain": "docusign.com",
+        "projectTitle": "Docusign Brand",
+        "projectUrl": "https://www.awwwards.com/sites/docusign-brand",
+        "notable": false
+      },
+      {
+        "name": "Jeff Koons",
+        "domain": "jeffkoonsmoonphases.com",
+        "projectTitle": "Jeff Koons Moon Phases",
+        "projectUrl": "https://www.awwwards.com/sites/jeff-koons-moon-phases",
+        "notable": false
+      },
+      {
+        "name": "Luminar",
+        "domain": "luminartech.com",
+        "projectTitle": "Luminar",
+        "projectUrl": "https://www.awwwards.com/sites/luminar",
+        "notable": false
+      },
+      {
+        "name": "Rad Power Bikes",
+        "domain": "radpowerbikes.com",
+        "projectTitle": "Rad Power Bikes",
+        "projectUrl": "https://www.awwwards.com/sites/rad-power-bikes",
+        "notable": false
+      },
+      {
+        "name": "Capti",
+        "domain": "capti.co",
+        "projectTitle": "Capti",
+        "projectUrl": "https://www.awwwards.com/sites/capti",
+        "notable": false
+      },
+      {
+        "name": "Cowboy",
+        "domain": "cowboy.com",
+        "projectTitle": "Cowboy",
+        "projectUrl": "https://www.awwwards.com/sites/cowboy-1",
+        "notable": false
+      },
+      {
+        "name": "Hidden Valley Ranch",
+        "domain": "hiddenvalley.com",
+        "projectTitle": "Hidden Valley Ranch",
+        "projectUrl": "https://www.awwwards.com/sites/hidden-valley-ranch",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "spatzek",
@@ -1016,8 +3679,66 @@
       "nominees": 0,
       "total": 44
     },
+    "clients": [
+      {
+        "name": "Orken",
+        "domain": "orkenworld.com",
+        "projectTitle": "Orken",
+        "projectUrl": "https://www.awwwards.com/sites/orken",
+        "notable": false
+      },
+      {
+        "name": "Bennett & Clive",
+        "domain": "bennettandclive.com",
+        "projectTitle": "Bennett & Clive",
+        "projectUrl": "https://www.awwwards.com/sites/bennett-clive",
+        "notable": false
+      },
+      {
+        "name": "Viita",
+        "domain": "smartdevicetec.com",
+        "projectTitle": "VIITA Watches",
+        "projectUrl": "https://www.awwwards.com/sites/viita-watches",
+        "notable": false
+      },
+      {
+        "name": "Six More Vodka",
+        "domain": "sixmorevodka.com",
+        "projectTitle": "SIXMOREVODKA",
+        "projectUrl": "https://www.awwwards.com/sites/sixmorevodka-1",
+        "notable": false
+      },
+      {
+        "name": "Blumenkopf",
+        "domain": null,
+        "projectTitle": "Blumenkopf",
+        "projectUrl": "https://www.awwwards.com/sites/blumenkopf",
+        "notable": false
+      },
+      {
+        "name": "Bugatti Smartwatches",
+        "domain": "bugatti-smartwatches.com",
+        "projectTitle": "Bugatti Smartwatches",
+        "projectUrl": "https://www.awwwards.com/sites/bugatti-smartwatches",
+        "notable": false
+      },
+      {
+        "name": "Eva Habermann",
+        "domain": "eva-habermann.com",
+        "projectTitle": "Eva Habermann",
+        "projectUrl": "https://www.awwwards.com/sites/eva-habermann",
+        "notable": false
+      },
+      {
+        "name": "Degenesis",
+        "domain": "degenesis.com",
+        "projectTitle": "DEGENESIS",
+        "projectUrl": "https://www.awwwards.com/sites/degenesis",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "redcollar",
@@ -1046,8 +3767,94 @@
       "nominees": 0,
       "total": 62
     },
+    "clients": [
+      {
+        "name": "DSK Supply",
+        "domain": null,
+        "projectTitle": "DSK Supply",
+        "projectUrl": "https://www.awwwards.com/sites/dsk-supply",
+        "notable": false
+      },
+      {
+        "name": "bloXroute",
+        "domain": "bloxroute.com",
+        "projectTitle": "BloXroute: Web3 Website for BDN – Crypto & Solana",
+        "projectUrl": "https://www.awwwards.com/sites/bloxroute-web3-website-for-bdn-crypto-solana",
+        "notable": false
+      },
+      {
+        "name": "CSS Design Awards",
+        "domain": "cssdesignawards.com",
+        "projectTitle": "New Certificate Suite by Red Collar & CSSDA",
+        "projectUrl": "https://www.awwwards.com/sites/new-certificate-suite-by-red-collar-cssda",
+        "notable": false
+      },
+      {
+        "name": "The Progressors",
+        "domain": null,
+        "projectTitle": "The Progressors",
+        "projectUrl": "https://www.awwwards.com/sites/the-progressors",
+        "notable": false
+      },
+      {
+        "name": "Clearway Bank",
+        "domain": "behance.net",
+        "projectTitle": "Clearway Bank: UI/UX, CGI & Service Design for ATM",
+        "projectUrl": "https://www.awwwards.com/sites/clearway-bank-ui-ux-cgi-service-design-for-atm",
+        "notable": false
+      },
+      {
+        "name": "Future Crew",
+        "domain": null,
+        "projectTitle": "Future Crew",
+        "projectUrl": "https://www.awwwards.com/sites/future-crew",
+        "notable": false
+      },
+      {
+        "name": "Gremir",
+        "domain": null,
+        "projectTitle": "Gremir",
+        "projectUrl": "https://www.awwwards.com/sites/gremir",
+        "notable": false
+      },
+      {
+        "name": "Neura",
+        "domain": "adanede.com",
+        "projectTitle": "Neura",
+        "projectUrl": "https://www.awwwards.com/sites/neura-2",
+        "notable": false
+      },
+      {
+        "name": "Bronitex",
+        "domain": null,
+        "projectTitle": "Bronitex",
+        "projectUrl": "https://www.awwwards.com/sites/bronitex",
+        "notable": false
+      },
+      {
+        "name": "ROWL",
+        "domain": null,
+        "projectTitle": "ROWL",
+        "projectUrl": "https://www.awwwards.com/sites/rowl",
+        "notable": false
+      },
+      {
+        "name": "ADBRO",
+        "domain": null,
+        "projectTitle": "ADBRO",
+        "projectUrl": "https://www.awwwards.com/sites/adbro",
+        "notable": false
+      },
+      {
+        "name": "FMEC Group",
+        "domain": null,
+        "projectTitle": "FMEC Group",
+        "projectUrl": "https://www.awwwards.com/sites/fmec-group",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "shiftbrain",
@@ -1076,8 +3883,94 @@
       "nominees": 0,
       "total": 61
     },
+    "clients": [
+      {
+        "name": "TBWA\\HAKUHODO",
+        "domain": "tbwahakuhodo.co.jp",
+        "projectTitle": "TBWA\\HAKUHODO Corporate Site",
+        "projectUrl": "https://www.awwwards.com/sites/tbwa-hakuhodo-corporate-site",
+        "notable": false
+      },
+      {
+        "name": "zeroz",
+        "domain": "otsuka-air.jp",
+        "projectTitle": "/zeroz Brand Site",
+        "projectUrl": "https://www.awwwards.com/sites/zeroz-brand-site",
+        "notable": false
+      },
+      {
+        "name": "Hitoba Design",
+        "domain": "hitoba-office.com",
+        "projectTitle": "HITOBA DESIGN \"workkit\"",
+        "projectUrl": "https://www.awwwards.com/sites/hitoba-design-workkit",
+        "notable": false
+      },
+      {
+        "name": "45R",
+        "domain": "45r.jp",
+        "projectTitle": "45R Denim Karuta",
+        "projectUrl": "https://www.awwwards.com/sites/45r-denim-karuta",
+        "notable": false
+      },
+      {
+        "name": "Sun-Ad",
+        "domain": "h-sunad.co.jp",
+        "projectTitle": "Harajuku Sun-Ad Corporate Site",
+        "projectUrl": "https://www.awwwards.com/sites/harajuku-sun-ad-corporate-site",
+        "notable": false
+      },
+      {
+        "name": "MOTA",
+        "domain": "mota.inc",
+        "projectTitle": "MOTA Corporate Site",
+        "projectUrl": "https://www.awwwards.com/sites/mota-corporate-site",
+        "notable": false
+      },
+      {
+        "name": "Cannes Lions",
+        "domain": "lionsgoodnews.com",
+        "projectTitle": "LIONES GOOD NEWS 2023",
+        "projectUrl": "https://www.awwwards.com/sites/liones-good-news-2023",
+        "notable": false
+      },
+      {
+        "name": "Sapporo Nishiyama Europe GmbH",
+        "domain": "nishiyama-ramen.com",
+        "projectTitle": "SAPPORO NISHIYAMA EUROPE GmbH",
+        "projectUrl": "https://www.awwwards.com/sites/sapporo-nishiyama-europe-gmbh",
+        "notable": false
+      },
+      {
+        "name": "Web.Auto",
+        "domain": "web.auto",
+        "projectTitle": "Web.Auto",
+        "projectUrl": "https://www.awwwards.com/sites/web-auto",
+        "notable": false
+      },
+      {
+        "name": "Pilot.Auto",
+        "domain": "pilot.auto",
+        "projectTitle": "Pilot.Auto",
+        "projectUrl": "https://www.awwwards.com/sites/pilot-auto",
+        "notable": false
+      },
+      {
+        "name": "AQM²",
+        "domain": "aqm2.ai",
+        "projectTitle": "AQM²",
+        "projectUrl": "https://www.awwwards.com/sites/aqm2",
+        "notable": false
+      },
+      {
+        "name": "BitStar",
+        "domain": "bitstar.tokyo",
+        "projectTitle": "BitStar Rebranding",
+        "projectUrl": "https://www.awwwards.com/sites/bitstar-rebranding",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "akufen",
@@ -1106,8 +3999,87 @@
       "nominees": 0,
       "total": 53
     },
+    "clients": [
+      {
+        "name": "Virtual Well-Being Hub",
+        "domain": "virtualwellbeinghub.ca",
+        "projectTitle": "Virtual Well-being Hub",
+        "projectUrl": "https://www.awwwards.com/sites/virtual-well-being-hub",
+        "notable": false
+      },
+      {
+        "name": "De Gaspé Beaubien Museum",
+        "domain": "degaspebeaubienmuseum.com",
+        "projectTitle": "De Gaspé Beaubien Museum",
+        "projectUrl": "https://www.awwwards.com/sites/de-gaspe-beaubien-museum",
+        "notable": false
+      },
+      {
+        "name": "La Fabrique à Souvenirs",
+        "domain": "lafabriqueasouvenirs.ca",
+        "projectTitle": "Making Memories",
+        "projectUrl": "https://www.awwwards.com/sites/making-memories",
+        "notable": false
+      },
+      {
+        "name": "KWM Agency",
+        "domain": "kwm-agency.com",
+        "projectTitle": "KWM Agency",
+        "projectUrl": "https://www.awwwards.com/sites/kwm-agency",
+        "notable": false
+      },
+      {
+        "name": "Gentilhomme",
+        "domain": "gentilhomme.com",
+        "projectTitle": "Gentilhomme",
+        "projectUrl": "https://www.awwwards.com/sites/gentilhomme",
+        "notable": false
+      },
+      {
+        "name": "La Puce à l'Oreille",
+        "domain": "lpalo.com",
+        "projectTitle": "La puce à l'oreille",
+        "projectUrl": "https://www.awwwards.com/sites/la-puce-a-loreille",
+        "notable": false
+      },
+      {
+        "name": "MUTEK",
+        "domain": "mutek.org",
+        "projectTitle": "Mutek Festival",
+        "projectUrl": "https://www.awwwards.com/sites/mutek-festival",
+        "notable": false
+      },
+      {
+        "name": "DPT.",
+        "domain": "dpt.co",
+        "projectTitle": "DPT.",
+        "projectUrl": "https://www.awwwards.com/sites/dpt",
+        "notable": false
+      },
+      {
+        "name": "ALDO",
+        "domain": "aldoshoes.com",
+        "projectTitle": "ALDO Step into Love Mobile XP",
+        "projectUrl": "https://www.awwwards.com/sites/aldo-step-into-love-mobile-xp",
+        "notable": false
+      },
+      {
+        "name": "Menu Durable",
+        "domain": "menudurable.ca",
+        "projectTitle": "Nourish Change",
+        "projectUrl": "https://www.awwwards.com/sites/nourish-change",
+        "notable": false
+      },
+      {
+        "name": "Montreal Holocaust Museum",
+        "domain": "museeholocauste.ca",
+        "projectTitle": "Witnesses to History",
+        "projectUrl": "https://www.awwwards.com/sites/witnesses-to-history",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "bizar",
@@ -1136,8 +4108,66 @@
       "nominees": 0,
       "total": 41
     },
+    "clients": [
+      {
+        "name": "Studio Chapeaux",
+        "domain": "studiochapeaux.com",
+        "projectTitle": "Studio Chapeaux",
+        "projectUrl": "https://www.awwwards.com/sites/studio-chapeaux",
+        "notable": false
+      },
+      {
+        "name": "Floema Jewelry",
+        "domain": "floema.jewelry",
+        "projectTitle": "Floema Jewelry",
+        "projectUrl": "https://www.awwwards.com/sites/floema-jewelry",
+        "notable": false
+      },
+      {
+        "name": "Garoa Skincare",
+        "domain": "garoaskincare.com",
+        "projectTitle": "Garoa Skincare",
+        "projectUrl": "https://www.awwwards.com/sites/garoa-skincare",
+        "notable": false
+      },
+      {
+        "name": "Studio Mærtens",
+        "domain": "studiomaertens.com",
+        "projectTitle": "Studio Mærtens",
+        "projectUrl": "https://www.awwwards.com/sites/studio-maertens",
+        "notable": false
+      },
+      {
+        "name": "Kaleidoz",
+        "domain": "kaleidozdesign.com",
+        "projectTitle": "Kaleidoz™ Design Website",
+        "projectUrl": "https://www.awwwards.com/sites/kaleidoztm-design-website",
+        "notable": false
+      },
+      {
+        "name": "BBDO",
+        "domain": "bbdo.de",
+        "projectTitle": "BBDO Creative Agency Portfolio",
+        "projectUrl": "https://www.awwwards.com/sites/bbdo-creative-agency-portfolio",
+        "notable": false
+      },
+      {
+        "name": "Design Embraced",
+        "domain": "designembraced.com",
+        "projectTitle": "Design Embraced",
+        "projectUrl": "https://www.awwwards.com/sites/design-embraced-3",
+        "notable": false
+      },
+      {
+        "name": "Cult",
+        "domain": "cultldn.com",
+        "projectTitle": "Cult",
+        "projectUrl": "https://www.awwwards.com/sites/cult",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "holographik",
@@ -1166,8 +4196,94 @@
       "nominees": 0,
       "total": 40
     },
+    "clients": [
+      {
+        "name": "CoMinVi",
+        "domain": "cominvi.com.mx",
+        "projectTitle": "CoMinVi",
+        "projectUrl": "https://www.awwwards.com/sites/cominvi",
+        "notable": false
+      },
+      {
+        "name": "Paul Kalkbrenner",
+        "domain": "paulkalkbrenner.net",
+        "projectTitle": "Paul Kalkbrenner",
+        "projectUrl": "https://www.awwwards.com/sites/paul-kalkbrenner",
+        "notable": false
+      },
+      {
+        "name": "Sui",
+        "domain": "sui.io",
+        "projectTitle": "Sui",
+        "projectUrl": "https://www.awwwards.com/sites/sui",
+        "notable": false
+      },
+      {
+        "name": "Slush",
+        "domain": "slush.app",
+        "projectTitle": "Slush",
+        "projectUrl": "https://www.awwwards.com/sites/slush",
+        "notable": false
+      },
+      {
+        "name": "Permian",
+        "domain": "permianworld.com",
+        "projectTitle": "Permian",
+        "projectUrl": "https://www.awwwards.com/sites/permian",
+        "notable": false
+      },
+      {
+        "name": "David Alaba",
+        "domain": "davidalaba.com",
+        "projectTitle": "David Alaba",
+        "projectUrl": "https://www.awwwards.com/sites/david-alaba",
+        "notable": false
+      },
+      {
+        "name": "Walrus",
+        "domain": "walrus.xyz",
+        "projectTitle": "Walrus",
+        "projectUrl": "https://www.awwwards.com/sites/walrus",
+        "notable": false
+      },
+      {
+        "name": "Cyphr",
+        "domain": "cyphr.studio",
+        "projectTitle": "Cyphr",
+        "projectUrl": "https://www.awwwards.com/sites/cyphr",
+        "notable": false
+      },
+      {
+        "name": "Trawelt",
+        "domain": "trawelt.com",
+        "projectTitle": "Trawelt",
+        "projectUrl": "https://www.awwwards.com/sites/trawelt",
+        "notable": false
+      },
+      {
+        "name": "Walbi",
+        "domain": "walbi.com",
+        "projectTitle": "Walbi",
+        "projectUrl": "https://www.awwwards.com/sites/walbi",
+        "notable": false
+      },
+      {
+        "name": "Accordion",
+        "domain": "accordion.net.au",
+        "projectTitle": "Accordion",
+        "projectUrl": "https://www.awwwards.com/sites/accordion",
+        "notable": false
+      },
+      {
+        "name": "Studio Sabia",
+        "domain": "studiosabia.com",
+        "projectTitle": "Studio Sabia",
+        "projectUrl": "https://www.awwwards.com/sites/studio-sabia",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "garden-eight",
@@ -1196,8 +4312,66 @@
       "nominees": 0,
       "total": 42
     },
+    "clients": [
+      {
+        "name": "ANAI",
+        "domain": "anaiwood.com",
+        "projectTitle": "ANAI",
+        "projectUrl": "https://www.awwwards.com/sites/anai",
+        "notable": false
+      },
+      {
+        "name": "Aircord",
+        "domain": "aircord.co.jp",
+        "projectTitle": "aircord",
+        "projectUrl": "https://www.awwwards.com/sites/aircord-2",
+        "notable": false
+      },
+      {
+        "name": "Plantica",
+        "domain": "plantica.net",
+        "projectTitle": "plantica",
+        "projectUrl": "https://www.awwwards.com/sites/plantica-1",
+        "notable": false
+      },
+      {
+        "name": "601 Inc.",
+        "domain": "rokumaruichi.tokyo",
+        "projectTitle": "601 Inc.",
+        "projectUrl": "https://www.awwwards.com/sites/601-inc",
+        "notable": false
+      },
+      {
+        "name": "Shapefarm",
+        "domain": "shapefarm.net",
+        "projectTitle": "Shapefarm",
+        "projectUrl": "https://www.awwwards.com/sites/shapefarm",
+        "notable": false
+      },
+      {
+        "name": "The Shift",
+        "domain": "theshift.tokyo",
+        "projectTitle": "The Shift",
+        "projectUrl": "https://www.awwwards.com/sites/the-shift-1",
+        "notable": false
+      },
+      {
+        "name": "FIL",
+        "domain": "fillinglife.co",
+        "projectTitle": "FIL - SUMI LIMITED",
+        "projectUrl": "https://www.awwwards.com/sites/fil-sumi-limited",
+        "notable": false
+      },
+      {
+        "name": "No-Mercy Studio",
+        "domain": "nomercy.studio",
+        "projectTitle": "No-Mercy Studio",
+        "projectUrl": "https://www.awwwards.com/sites/no-mercy-studio",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "monogrid",
@@ -1226,8 +4400,94 @@
       "nominees": 0,
       "total": 58
     },
+    "clients": [
+      {
+        "name": "Dolce & Gabbana",
+        "domain": "dolcegabbana.com",
+        "projectTitle": "Dolce&GabbanaBeauty GiftFinder",
+        "projectUrl": "https://www.awwwards.com/sites/dolce-gabbanabeauty-giftfinder",
+        "notable": true
+      },
+      {
+        "name": "Gucci",
+        "domain": "gucci.com",
+        "projectTitle": "Gucci: Mystery Unfolds",
+        "projectUrl": "https://www.awwwards.com/sites/gucci-mystery-unfolds",
+        "notable": true
+      },
+      {
+        "name": "BMW Motorrad",
+        "domain": "bmw-motorrad.it",
+        "projectTitle": "BMW Motorrad - RADLAND",
+        "projectUrl": "https://www.awwwards.com/sites/bmw-motorrad-radland",
+        "notable": true
+      },
+      {
+        "name": "Absolut",
+        "domain": "absolut-nft.com",
+        "projectTitle": "Seletti X Absolut Born to Mix",
+        "projectUrl": "https://www.awwwards.com/sites/seletti-x-absolut-born-to-mix",
+        "notable": true
+      },
+      {
+        "name": "Vogue",
+        "domain": "vogue.it",
+        "projectTitle": "Photovogue Festival 2021",
+        "projectUrl": "https://www.awwwards.com/sites/photovogue-festival-2021",
+        "notable": true
+      },
+      {
+        "name": "Miu Miu",
+        "domain": null,
+        "projectTitle": "Miu Miu - The Holiday Diary",
+        "projectUrl": "https://www.awwwards.com/sites/miu-miu-the-holiday-diary",
+        "notable": false
+      },
+      {
+        "name": "Weekend Max Mara",
+        "domain": null,
+        "projectTitle": "Weekend Max Mara Holiday Edit",
+        "projectUrl": "https://www.awwwards.com/sites/weekend-max-mara-holiday-edit",
+        "notable": false
+      },
+      {
+        "name": "Mockupper",
+        "domain": "mockupper.ai",
+        "projectTitle": "Mockupper",
+        "projectUrl": "https://www.awwwards.com/sites/mockupper",
+        "notable": false
+      },
+      {
+        "name": "Loro Piana",
+        "domain": "loropiana.com",
+        "projectTitle": "Loro Piana Workshop of Wonders",
+        "projectUrl": "https://www.awwwards.com/sites/loro-piana-workshop-of-wonders",
+        "notable": false
+      },
+      {
+        "name": "Acura",
+        "domain": "acuraunlockyourenergy.com",
+        "projectTitle": "Acura - Unlock Your Energy",
+        "projectUrl": "https://www.awwwards.com/sites/acura-unlock-your-energy",
+        "notable": false
+      },
+      {
+        "name": "Gundam",
+        "domain": "gndm.it",
+        "projectTitle": "GNDM - La galleria Ideale",
+        "projectUrl": "https://www.awwwards.com/sites/gndm-la-galleria-ideale",
+        "notable": false
+      },
+      {
+        "name": "Oakley",
+        "domain": "oakley.com",
+        "projectTitle": "Oakley Project 2075",
+        "projectUrl": "https://www.awwwards.com/sites/oakley-project-2075",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "videinfra",
@@ -1256,8 +4516,94 @@
       "nominees": 0,
       "total": 56
     },
+    "clients": [
+      {
+        "name": "Sobha",
+        "domain": "sobha-privy-collection.com",
+        "projectTitle": "Sobha Privy Collection",
+        "projectUrl": "https://www.awwwards.com/sites/sobha-privy-collection",
+        "notable": false
+      },
+      {
+        "name": "Likova",
+        "domain": "likova.space",
+        "projectTitle": "LIKOVA",
+        "projectUrl": "https://www.awwwards.com/sites/likova",
+        "notable": false
+      },
+      {
+        "name": "Zorge 9",
+        "domain": "zorge9.estate",
+        "projectTitle": "Zorge 9",
+        "projectUrl": "https://www.awwwards.com/sites/zorge-9",
+        "notable": false
+      },
+      {
+        "name": "AIR",
+        "domain": "aircenter.space",
+        "projectTitle": "AIR",
+        "projectUrl": "https://www.awwwards.com/sites/air-1",
+        "notable": false
+      },
+      {
+        "name": "Dr. Grigoriak",
+        "domain": "grigoriak.doctor",
+        "projectTitle": "Dr Grigoriak",
+        "projectUrl": "https://www.awwwards.com/sites/dr-grigoriak",
+        "notable": false
+      },
+      {
+        "name": "Follow.Art",
+        "domain": "follow.art",
+        "projectTitle": "FOLLOW.ART",
+        "projectUrl": "https://www.awwwards.com/sites/follow-art",
+        "notable": false
+      },
+      {
+        "name": "Springs",
+        "domain": "springs.estate",
+        "projectTitle": "Springs",
+        "projectUrl": "https://www.awwwards.com/sites/springs",
+        "notable": false
+      },
+      {
+        "name": "Madar",
+        "domain": "madarplatform.com",
+        "projectTitle": "Madar",
+        "projectUrl": "https://www.awwwards.com/sites/madar",
+        "notable": false
+      },
+      {
+        "name": "Poklonnaya 9",
+        "domain": "poklonnaya9.site",
+        "projectTitle": "Poklonnaya 9",
+        "projectUrl": "https://www.awwwards.com/sites/poklonnaya-9",
+        "notable": false
+      },
+      {
+        "name": "Era",
+        "domain": "era.estate",
+        "projectTitle": "Era",
+        "projectUrl": "https://www.awwwards.com/sites/era",
+        "notable": false
+      },
+      {
+        "name": "Azure",
+        "domain": "azure.sa",
+        "projectTitle": "Azure",
+        "projectUrl": "https://www.awwwards.com/sites/azure",
+        "notable": false
+      },
+      {
+        "name": "Clingr",
+        "domain": "clingr.me",
+        "projectTitle": "Clingr",
+        "projectUrl": "https://www.awwwards.com/sites/clingr",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "viens-la",
@@ -1286,8 +4632,94 @@
       "nominees": 0,
       "total": 51
     },
+    "clients": [
+      {
+        "name": "Maison Ferrand",
+        "domain": "maisonferrand.com",
+        "projectTitle": "Maison Ferrand",
+        "projectUrl": "https://www.awwwards.com/sites/maison-ferrand",
+        "notable": false
+      },
+      {
+        "name": "Venturi",
+        "domain": "venturi.space",
+        "projectTitle": "Venturi Space",
+        "projectUrl": "https://www.awwwards.com/sites/venturi-space",
+        "notable": false
+      },
+      {
+        "name": "Maison Boinaud",
+        "domain": "boinaud.com",
+        "projectTitle": "Maison boinaud",
+        "projectUrl": "https://www.awwwards.com/sites/maison-boinaud",
+        "notable": false
+      },
+      {
+        "name": "Canerock",
+        "domain": "canerock.com",
+        "projectTitle": "Canerock",
+        "projectUrl": "https://www.awwwards.com/sites/canerock",
+        "notable": false
+      },
+      {
+        "name": "Montvel",
+        "domain": "montvel.com",
+        "projectTitle": "Montvel",
+        "projectUrl": "https://www.awwwards.com/sites/montvel",
+        "notable": false
+      },
+      {
+        "name": "Barge 166",
+        "domain": "barge166.com",
+        "projectTitle": "Barge 166",
+        "projectUrl": "https://www.awwwards.com/sites/barge-166",
+        "notable": false
+      },
+      {
+        "name": "Citadelle Gin",
+        "domain": "citadellegin.com",
+        "projectTitle": "Citadelle Gin",
+        "projectUrl": "https://www.awwwards.com/sites/citadelle-gin",
+        "notable": false
+      },
+      {
+        "name": "Eleni Group",
+        "domain": "eleni-group.com",
+        "projectTitle": "Eleni Group",
+        "projectUrl": "https://www.awwwards.com/sites/eleni-group",
+        "notable": false
+      },
+      {
+        "name": "Akashi Sake Brewery",
+        "domain": "akashisakebrewery.com",
+        "projectTitle": "Akashi & Kaikyō",
+        "projectUrl": "https://www.awwwards.com/sites/akashi-kaikyo",
+        "notable": false
+      },
+      {
+        "name": "Kalios",
+        "domain": "mykalios.com",
+        "projectTitle": "Kalios",
+        "projectUrl": "https://www.awwwards.com/sites/kalios-1",
+        "notable": false
+      },
+      {
+        "name": "Marussia Beverages",
+        "domain": "marussiabeverages.com",
+        "projectTitle": "Marussia Beverages",
+        "projectUrl": "https://www.awwwards.com/sites/marussia-beverages",
+        "notable": false
+      },
+      {
+        "name": "John Nollet",
+        "domain": "johnnollet.com",
+        "projectTitle": "John Nollet",
+        "projectUrl": "https://www.awwwards.com/sites/john-nollet",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "studiofreight",
@@ -1316,8 +4748,94 @@
       "nominees": 0,
       "total": 48
     },
+    "clients": [
+      {
+        "name": "SharpLink",
+        "domain": "sharplink.com",
+        "projectTitle": "Sharplink",
+        "projectUrl": "https://www.awwwards.com/sites/sharplink",
+        "notable": false
+      },
+      {
+        "name": "Dragonfly",
+        "domain": "dragonfly.xyz",
+        "projectTitle": "Dragonfly Redux",
+        "projectUrl": "https://www.awwwards.com/sites/dragonfly-redux",
+        "notable": false
+      },
+      {
+        "name": "DeSo",
+        "domain": "deso.com",
+        "projectTitle": "DeSo",
+        "projectUrl": "https://www.awwwards.com/sites/deso",
+        "notable": false
+      },
+      {
+        "name": "Scrib3",
+        "domain": "scrib3.co",
+        "projectTitle": "SCRIB3",
+        "projectUrl": "https://www.awwwards.com/sites/scrib3",
+        "notable": false
+      },
+      {
+        "name": "Argus Labs",
+        "domain": null,
+        "projectTitle": "Argus Labs",
+        "projectUrl": "https://www.awwwards.com/sites/argus-labs",
+        "notable": false
+      },
+      {
+        "name": "Drive Capital",
+        "domain": "drivecapital.com",
+        "projectTitle": "Drive",
+        "projectUrl": "https://www.awwwards.com/sites/drive",
+        "notable": false
+      },
+      {
+        "name": "zkPass",
+        "domain": "zkpass.org",
+        "projectTitle": "zkPass",
+        "projectUrl": "https://www.awwwards.com/sites/zkpass-2",
+        "notable": false
+      },
+      {
+        "name": "Boost",
+        "domain": "takeboost.com",
+        "projectTitle": "BOOST",
+        "projectUrl": "https://www.awwwards.com/sites/boost",
+        "notable": false
+      },
+      {
+        "name": "Path Robotics",
+        "domain": null,
+        "projectTitle": "Path Robotics",
+        "projectUrl": "https://www.awwwards.com/sites/path-robotics",
+        "notable": false
+      },
+      {
+        "name": "Evmos",
+        "domain": null,
+        "projectTitle": "Evmos",
+        "projectUrl": "https://www.awwwards.com/sites/evmos",
+        "notable": false
+      },
+      {
+        "name": "Clyde",
+        "domain": "joinclyde.com",
+        "projectTitle": "Clyde",
+        "projectUrl": "https://www.awwwards.com/sites/clyde",
+        "notable": false
+      },
+      {
+        "name": "Wyre",
+        "domain": null,
+        "projectTitle": "Wyre",
+        "projectUrl": "https://www.awwwards.com/sites/wyre",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "heycusp",
@@ -1346,8 +4864,94 @@
       "nominees": 0,
       "total": 45
     },
+    "clients": [
+      {
+        "name": "Lusano",
+        "domain": "lusano.com",
+        "projectTitle": "Lusano",
+        "projectUrl": "https://www.awwwards.com/sites/lusano",
+        "notable": false
+      },
+      {
+        "name": "No Hero Studio",
+        "domain": "nohero.studio",
+        "projectTitle": "No Hero Studio",
+        "projectUrl": "https://www.awwwards.com/sites/no-hero-studio",
+        "notable": false
+      },
+      {
+        "name": "Rickman Architecture + Design",
+        "domain": "radga.com",
+        "projectTitle": "Rickman Architecture + Design",
+        "projectUrl": "https://www.awwwards.com/sites/rickman-architecture-design",
+        "notable": false
+      },
+      {
+        "name": "Monolith",
+        "domain": "monolith.nyc",
+        "projectTitle": "Monolith",
+        "projectUrl": "https://www.awwwards.com/sites/monolith",
+        "notable": false
+      },
+      {
+        "name": "Refire",
+        "domain": null,
+        "projectTitle": "REFIRE",
+        "projectUrl": "https://www.awwwards.com/sites/refire",
+        "notable": false
+      },
+      {
+        "name": "The Genius Club",
+        "domain": "wearegeniusclub.com",
+        "projectTitle": "The Genius Club",
+        "projectUrl": "https://www.awwwards.com/sites/the-genius-club",
+        "notable": false
+      },
+      {
+        "name": "Syndesi Collection",
+        "domain": "syndesicollection.com",
+        "projectTitle": "Syndesi Collection",
+        "projectUrl": "https://www.awwwards.com/sites/syndesi-collection",
+        "notable": false
+      },
+      {
+        "name": "Sculpture",
+        "domain": "sculpture.co",
+        "projectTitle": "Sculpture",
+        "projectUrl": "https://www.awwwards.com/sites/sculpture",
+        "notable": false
+      },
+      {
+        "name": "The Quarry House",
+        "domain": "mfisher-apollonas.com",
+        "projectTitle": "The Quarry House",
+        "projectUrl": "https://www.awwwards.com/sites/the-quarry-house-1",
+        "notable": false
+      },
+      {
+        "name": "Alinea",
+        "domain": "alinea-invest.com",
+        "projectTitle": "Alinea",
+        "projectUrl": "https://www.awwwards.com/sites/alinea",
+        "notable": false
+      },
+      {
+        "name": "Human Person",
+        "domain": "humanperson.com",
+        "projectTitle": "Human Person",
+        "projectUrl": "https://www.awwwards.com/sites/human-person",
+        "notable": false
+      },
+      {
+        "name": "ImReallyATRex",
+        "domain": "imreallyatrex.com",
+        "projectTitle": "ImReallyATRex",
+        "projectUrl": "https://www.awwwards.com/sites/imreallyatrex",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "victor",
@@ -1376,8 +4980,66 @@
       "nominees": 0,
       "total": 35
     },
+    "clients": [
+      {
+        "name": "Sleep Well Creative",
+        "domain": "sleep-well-creatives.com",
+        "projectTitle": "Sleep Well Creative",
+        "projectUrl": "https://www.awwwards.com/sites/sleep-well-creative",
+        "notable": false
+      },
+      {
+        "name": "Sol'ace",
+        "domain": "solace-store.com",
+        "projectTitle": "Sol’ace",
+        "projectUrl": "https://www.awwwards.com/sites/solace-2",
+        "notable": false
+      },
+      {
+        "name": "Lemkus",
+        "domain": "lemkus.com",
+        "projectTitle": "Lemkus",
+        "projectUrl": "https://www.awwwards.com/sites/lemkus",
+        "notable": false
+      },
+      {
+        "name": "Bulletproof",
+        "domain": "wearebulletproof.com",
+        "projectTitle": "We Bulletproof Brands",
+        "projectUrl": "https://www.awwwards.com/sites/we-are-bulletproof",
+        "notable": false
+      },
+      {
+        "name": "Amuse Bouche",
+        "domain": "amuse-bouche.pt",
+        "projectTitle": "Amuse Bouche",
+        "projectUrl": "https://www.awwwards.com/sites/amuse-bouche",
+        "notable": false
+      },
+      {
+        "name": "Garoa Skincare",
+        "domain": "garoaskincare.com",
+        "projectTitle": "Garoa Skincare",
+        "projectUrl": "https://www.awwwards.com/sites/garoa-skincare",
+        "notable": false
+      },
+      {
+        "name": "ContraBureau",
+        "domain": "com.pause",
+        "projectTitle": "ContraBureau™",
+        "projectUrl": "https://www.awwwards.com/sites/contrabureautm",
+        "notable": false
+      },
+      {
+        "name": "Impermanence",
+        "domain": "impermanence.us",
+        "projectTitle": "Impermanence",
+        "projectUrl": "https://www.awwwards.com/sites/impermanence",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "dennissnellenberg",
@@ -1406,8 +5068,94 @@
       "nominees": 0,
       "total": 58
     },
+    "clients": [
+      {
+        "name": "Osmo",
+        "domain": "osmo.supply",
+        "projectTitle": "Osmo",
+        "projectUrl": "https://www.awwwards.com/sites/osmo-1",
+        "notable": false
+      },
+      {
+        "name": "Truus",
+        "domain": "truus.co",
+        "projectTitle": "Truus",
+        "projectUrl": "https://www.awwwards.com/sites/truus",
+        "notable": false
+      },
+      {
+        "name": "Dapper",
+        "domain": "dapper.agency",
+        "projectTitle": "Dapper",
+        "projectUrl": "https://www.awwwards.com/sites/dapper",
+        "notable": false
+      },
+      {
+        "name": "FlowFest",
+        "domain": "flowfest.co.uk",
+        "projectTitle": "FlowFest 2025",
+        "projectUrl": "https://www.awwwards.com/sites/flowfest-2025",
+        "notable": false
+      },
+      {
+        "name": "GraphicHunters",
+        "domain": "graphichunters.com",
+        "projectTitle": "GRAPHICHUNTERS®",
+        "projectUrl": "https://www.awwwards.com/sites/graphichunters-r",
+        "notable": false
+      },
+      {
+        "name": "FC88",
+        "domain": "thisisfc88.com",
+        "projectTitle": "FC88",
+        "projectUrl": "https://www.awwwards.com/sites/fc88",
+        "notable": false
+      },
+      {
+        "name": "Hartmann Capital",
+        "domain": "hartmanncapital.com",
+        "projectTitle": "Hartmann Capital",
+        "projectUrl": "https://www.awwwards.com/sites/hartmann-capital",
+        "notable": false
+      },
+      {
+        "name": "De Foodtruck Club",
+        "domain": "defoodtruckclub.nl",
+        "projectTitle": "De Foodtruck Club",
+        "projectUrl": "https://www.awwwards.com/sites/de-foodtruck-club",
+        "notable": false
+      },
+      {
+        "name": "Flow",
+        "domain": "justgowiththeflow.com",
+        "projectTitle": "Flow",
+        "projectUrl": "https://www.awwwards.com/sites/flow",
+        "notable": false
+      },
+      {
+        "name": "STR8FIRE",
+        "domain": "str8fire.io",
+        "projectTitle": "STR8FIRE",
+        "projectUrl": "https://www.awwwards.com/sites/str8fire",
+        "notable": false
+      },
+      {
+        "name": "Mews",
+        "domain": "codebydennis.com",
+        "projectTitle": "Mews Unfold 2024",
+        "projectUrl": "https://www.awwwards.com/sites/mews-unfold-2024",
+        "notable": false
+      },
+      {
+        "name": "Artificial Garage",
+        "domain": "artificial-garage.com",
+        "projectTitle": "artificial-garage",
+        "projectUrl": "https://www.awwwards.com/sites/artificial-garage",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "toyfight",
@@ -1436,8 +5184,94 @@
       "nominees": 0,
       "total": 42
     },
+    "clients": [
+      {
+        "name": "Royal Caribbean",
+        "domain": "royalcaribbean.com",
+        "projectTitle": "Ultimate World Cruise",
+        "projectUrl": "https://www.awwwards.com/sites/ultimate-world-cruise",
+        "notable": true
+      },
+      {
+        "name": "Butter",
+        "domain": "butter.video",
+        "projectTitle": "Butter",
+        "projectUrl": "https://www.awwwards.com/sites/butter",
+        "notable": false
+      },
+      {
+        "name": "Dick Clark Productions",
+        "domain": "dickclark.com",
+        "projectTitle": "Dick Clark Productions",
+        "projectUrl": "https://www.awwwards.com/sites/dick-clark-productions",
+        "notable": false
+      },
+      {
+        "name": "ZAR",
+        "domain": "zar.app",
+        "projectTitle": "ZAR",
+        "projectUrl": "https://www.awwwards.com/sites/zar",
+        "notable": false
+      },
+      {
+        "name": "Flim",
+        "domain": "flim.ai",
+        "projectTitle": "Flim",
+        "projectUrl": "https://www.awwwards.com/sites/flim",
+        "notable": false
+      },
+      {
+        "name": "Ink Games",
+        "domain": "inkgames.com",
+        "projectTitle": "Ink Games",
+        "projectUrl": "https://www.awwwards.com/sites/ink-games",
+        "notable": false
+      },
+      {
+        "name": "Pantheon Media Group",
+        "domain": "pantheonmedia.com",
+        "projectTitle": "Pantheon Media Group",
+        "projectUrl": "https://www.awwwards.com/sites/pantheon-media-group",
+        "notable": false
+      },
+      {
+        "name": "Metropolis",
+        "domain": "metropolis.io",
+        "projectTitle": "Metropolis Test Drive",
+        "projectUrl": "https://www.awwwards.com/sites/metropolis-test-drive",
+        "notable": false
+      },
+      {
+        "name": "GSAP",
+        "domain": "gsap.com",
+        "projectTitle": "GSAP",
+        "projectUrl": "https://www.awwwards.com/sites/gsap",
+        "notable": false
+      },
+      {
+        "name": "Ogaki Digital",
+        "domain": "ogakidigital.com",
+        "projectTitle": "OGAKI",
+        "projectUrl": "https://www.awwwards.com/sites/ogaki",
+        "notable": false
+      },
+      {
+        "name": "Datum",
+        "domain": "datum.xyz",
+        "projectTitle": "Datum",
+        "projectUrl": "https://www.awwwards.com/sites/datum",
+        "notable": false
+      },
+      {
+        "name": "Hg",
+        "domain": "hgcapital.com",
+        "projectTitle": "Hg",
+        "projectUrl": "https://www.awwwards.com/sites/hg",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "exoape",
@@ -1466,8 +5300,94 @@
       "nominees": 0,
       "total": 35
     },
+    "clients": [
+      {
+        "name": "Fluid Glass",
+        "domain": "fluid.glass",
+        "projectTitle": "Fluid Glass",
+        "projectUrl": "https://www.awwwards.com/sites/fluid-glass",
+        "notable": false
+      },
+      {
+        "name": "Inversa",
+        "domain": "inversa.com",
+        "projectTitle": "Inversa",
+        "projectUrl": "https://www.awwwards.com/sites/inversa",
+        "notable": false
+      },
+      {
+        "name": "Ottografie",
+        "domain": "ottografie.nl",
+        "projectTitle": "Ottografie 2025",
+        "projectUrl": "https://www.awwwards.com/sites/ottografie-2025",
+        "notable": false
+      },
+      {
+        "name": "Amaterasu",
+        "domain": "amaterasu.ai",
+        "projectTitle": "Amaterasu",
+        "projectUrl": "https://www.awwwards.com/sites/amaterasu",
+        "notable": false
+      },
+      {
+        "name": "Studio D",
+        "domain": "studiod.nu",
+        "projectTitle": "Studio D",
+        "projectUrl": "https://www.awwwards.com/sites/studio-d",
+        "notable": false
+      },
+      {
+        "name": "Pixelflakes",
+        "domain": "pixelflakes.com",
+        "projectTitle": "Pixelflakes",
+        "projectUrl": "https://www.awwwards.com/sites/pixelflakes",
+        "notable": false
+      },
+      {
+        "name": "Plugged Live Shows",
+        "domain": "pluggedliveshows.com",
+        "projectTitle": "Plugged Live Shows",
+        "projectUrl": "https://www.awwwards.com/sites/plugged-live-shows",
+        "notable": false
+      },
+      {
+        "name": "Revolt",
+        "domain": "rvlt.net",
+        "projectTitle": "Revolt",
+        "projectUrl": "https://www.awwwards.com/sites/revolt",
+        "notable": false
+      },
+      {
+        "name": "Glossarie",
+        "domain": "glossarie.xyz",
+        "projectTitle": "Glossarie",
+        "projectUrl": "https://www.awwwards.com/sites/glossarie",
+        "notable": false
+      },
+      {
+        "name": "Æbele Interiors",
+        "domain": "aebeleinteriors.com",
+        "projectTitle": "Æbele Interiors",
+        "projectUrl": "https://www.awwwards.com/sites/aebele-interiors",
+        "notable": false
+      },
+      {
+        "name": "Ali Two Times",
+        "domain": "alitwotimes.com",
+        "projectTitle": "Ali Ali",
+        "projectUrl": "https://www.awwwards.com/sites/ali-ali",
+        "notable": false
+      },
+      {
+        "name": "Rino & Pelle",
+        "domain": null,
+        "projectTitle": "Rino & Pelle",
+        "projectUrl": "https://www.awwwards.com/sites/rino-pelle",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "nk",
@@ -1496,8 +5416,94 @@
       "nominees": 0,
       "total": 83
     },
+    "clients": [
+      {
+        "name": "IKEA",
+        "domain": "ikea.es",
+        "projectTitle": "IKEA “Taking Apart the 30”",
+        "projectUrl": "https://www.awwwards.com/sites/ikea-taking-apart-the-30",
+        "notable": true
+      },
+      {
+        "name": "Pomelo",
+        "domain": "pomelo.la",
+        "projectTitle": "Pomelo",
+        "projectUrl": "https://www.awwwards.com/sites/pomelo",
+        "notable": false
+      },
+      {
+        "name": "Vista Energy",
+        "domain": "vistaenergy.com",
+        "projectTitle": "Vista Energy",
+        "projectUrl": "https://www.awwwards.com/sites/vista-energy",
+        "notable": false
+      },
+      {
+        "name": "Untold",
+        "domain": "untold.site",
+        "projectTitle": "Untold",
+        "projectUrl": "https://www.awwwards.com/sites/untold-1",
+        "notable": false
+      },
+      {
+        "name": "Concha y Toro",
+        "domain": "conchaytoro.com",
+        "projectTitle": "Concha y Toro",
+        "projectUrl": "https://www.awwwards.com/sites/concha-y-toro-2",
+        "notable": false
+      },
+      {
+        "name": "Veritran",
+        "domain": "veritran.com",
+        "projectTitle": "Veritran",
+        "projectUrl": "https://www.awwwards.com/sites/veritran",
+        "notable": false
+      },
+      {
+        "name": "HOP Envíos",
+        "domain": "hopenvios.com.ar",
+        "projectTitle": "HOP envios",
+        "projectUrl": "https://www.awwwards.com/sites/hop-envios",
+        "notable": false
+      },
+      {
+        "name": "One World, One Dollar",
+        "domain": "oneworldonedollar.com",
+        "projectTitle": "One World, One Dollar",
+        "projectUrl": "https://www.awwwards.com/sites/one-world-one-dollar",
+        "notable": false
+      },
+      {
+        "name": "Astra Nova",
+        "domain": "astranova.world",
+        "projectTitle": "Astra Nova",
+        "projectUrl": "https://www.awwwards.com/sites/astra-nova",
+        "notable": false
+      },
+      {
+        "name": "Veiren",
+        "domain": "veiren.uy",
+        "projectTitle": "Veiren",
+        "projectUrl": "https://www.awwwards.com/sites/veiren",
+        "notable": false
+      },
+      {
+        "name": "Splight",
+        "domain": "splight-ai.com",
+        "projectTitle": "Splight",
+        "projectUrl": "https://www.awwwards.com/sites/splight",
+        "notable": false
+      },
+      {
+        "name": "Asterie Clinic",
+        "domain": "asterieclinic.com.au",
+        "projectTitle": "Asterie Clinic",
+        "projectUrl": "https://www.awwwards.com/sites/asterie-clinic",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "jonathandacosta",
@@ -1526,8 +5532,66 @@
       "nominees": 0,
       "total": 43
     },
+    "clients": [
+      {
+        "name": "Picky Joe",
+        "domain": "pickyjoe.com",
+        "projectTitle": "Picky Joe",
+        "projectUrl": "https://www.awwwards.com/sites/picky-joe",
+        "notable": false
+      },
+      {
+        "name": "Wanderful Chalet",
+        "domain": "index.studio",
+        "projectTitle": "Wanderful Chalet",
+        "projectUrl": "https://www.awwwards.com/sites/wanderful-chalet",
+        "notable": false
+      },
+      {
+        "name": "The Imagineers",
+        "domain": "gtheimagineers.com",
+        "projectTitle": "G!TheImagineers",
+        "projectUrl": "https://www.awwwards.com/sites/g-theimagineers",
+        "notable": false
+      },
+      {
+        "name": "Rubel & Menasche",
+        "domain": "rubel-menasche.com",
+        "projectTitle": "Rubel & Menasche",
+        "projectUrl": "https://www.awwwards.com/sites/rubel-menasche",
+        "notable": false
+      },
+      {
+        "name": "Karpov Paris",
+        "domain": "karpov.paris",
+        "projectTitle": "Karpov Paris",
+        "projectUrl": "https://www.awwwards.com/sites/karpov-paris",
+        "notable": false
+      },
+      {
+        "name": "Millemann Consulting",
+        "domain": "millemannconsulting.fr",
+        "projectTitle": "Millemann Consulting",
+        "projectUrl": "https://www.awwwards.com/sites/millemann-consulting",
+        "notable": false
+      },
+      {
+        "name": "Decathlon",
+        "domain": "decathlonyestalgia.com",
+        "projectTitle": "Decathlon Yestalgia",
+        "projectUrl": "https://www.awwwards.com/sites/decathlon-yestalgia",
+        "notable": false
+      },
+      {
+        "name": "Cash App",
+        "domain": "cash.app",
+        "projectTitle": "Cash App Brand Guidelines",
+        "projectUrl": "https://www.awwwards.com/sites/cash-app-brand-guidelines",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "dgrees",
@@ -1556,8 +5620,94 @@
       "nominees": 0,
       "total": 48
     },
+    "clients": [
+      {
+        "name": "Blit Studio",
+        "domain": "blit.studio",
+        "projectTitle": "Blit Studio",
+        "projectUrl": "https://www.awwwards.com/sites/blit-studio",
+        "notable": false
+      },
+      {
+        "name": "Tenity",
+        "domain": "tenity.com",
+        "projectTitle": "Tenity",
+        "projectUrl": "https://www.awwwards.com/sites/tenity",
+        "notable": false
+      },
+      {
+        "name": "Tresmares Capital",
+        "domain": "tresmarescapital.com",
+        "projectTitle": "Tresmares Capital",
+        "projectUrl": "https://www.awwwards.com/sites/tresmares-capital",
+        "notable": false
+      },
+      {
+        "name": "StepHouse",
+        "domain": "stephouse.es",
+        "projectTitle": "StepHouse",
+        "projectUrl": "https://www.awwwards.com/sites/stephouse",
+        "notable": false
+      },
+      {
+        "name": "Spain Collection",
+        "domain": "spaincollection.com",
+        "projectTitle": "Spain Collection Travel",
+        "projectUrl": "https://www.awwwards.com/sites/spain-collection-travel",
+        "notable": false
+      },
+      {
+        "name": "R Hotels",
+        "domain": null,
+        "projectTitle": "R - Hotels",
+        "projectUrl": "https://www.awwwards.com/sites/r-hotels",
+        "notable": false
+      },
+      {
+        "name": "Valid",
+        "domain": "valid.com",
+        "projectTitle": "Valid Trusted Connectivity",
+        "projectUrl": "https://www.awwwards.com/sites/valid-trusted-connectivity",
+        "notable": false
+      },
+      {
+        "name": "BTO Experience",
+        "domain": "btoexperience.com",
+        "projectTitle": "BTO Vip Sports Experiences",
+        "projectUrl": "https://www.awwwards.com/sites/bto-vip-sports-experiences",
+        "notable": false
+      },
+      {
+        "name": "Rosa Group",
+        "domain": "rosagroup.es",
+        "projectTitle": "Rosa Group",
+        "projectUrl": "https://www.awwwards.com/sites/rosa-group",
+        "notable": false
+      },
+      {
+        "name": "Terraza Balear",
+        "domain": "terrazabalear.com",
+        "projectTitle": "Terraza Balear",
+        "projectUrl": "https://www.awwwards.com/sites/terraza-balear",
+        "notable": false
+      },
+      {
+        "name": "Mioti Consulting",
+        "domain": null,
+        "projectTitle": "Mioti Consulting",
+        "projectUrl": "https://www.awwwards.com/sites/mioti-consulting-1",
+        "notable": false
+      },
+      {
+        "name": "BBVA",
+        "domain": null,
+        "projectTitle": "BBVA Open Innovation",
+        "projectUrl": "https://www.awwwards.com/sites/bbva-open-innovation",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "ref",
@@ -1586,8 +5736,94 @@
       "nominees": 0,
       "total": 47
     },
+    "clients": [
+      {
+        "name": "Dr Pepper",
+        "domain": "drpepper.ca",
+        "projectTitle": "Dr Pepper",
+        "projectUrl": "https://www.awwwards.com/sites/dr-pepper",
+        "notable": true
+      },
+      {
+        "name": "Schweppes",
+        "domain": "schweppes.ca",
+        "projectTitle": "Schweppes Canada",
+        "projectUrl": "https://www.awwwards.com/sites/schweppes-canada",
+        "notable": true
+      },
+      {
+        "name": "Dime MTL",
+        "domain": "dimemtl.com",
+        "projectTitle": "Dime MTL",
+        "projectUrl": "https://www.awwwards.com/sites/dime-mtl",
+        "notable": false
+      },
+      {
+        "name": "Cellart",
+        "domain": "cellart.com",
+        "projectTitle": "Cellart",
+        "projectUrl": "https://www.awwwards.com/sites/cellart",
+        "notable": false
+      },
+      {
+        "name": "HHHusher",
+        "domain": "hhhusher.com",
+        "projectTitle": "HHHusher",
+        "projectUrl": "https://www.awwwards.com/sites/hhhusher",
+        "notable": false
+      },
+      {
+        "name": "Hydro-Québec",
+        "domain": "hydroquebec.com",
+        "projectTitle": "Hydro Québec: Mission 2035",
+        "projectUrl": "https://www.awwwards.com/sites/hydro-quebec-mission-2035",
+        "notable": false
+      },
+      {
+        "name": "Halo Dental",
+        "domain": "halodental.com",
+        "projectTitle": "Halo Dental",
+        "projectUrl": "https://www.awwwards.com/sites/halo-dental",
+        "notable": false
+      },
+      {
+        "name": "Mellem",
+        "domain": "mellem.ca",
+        "projectTitle": "Mellem",
+        "projectUrl": "https://www.awwwards.com/sites/mellem",
+        "notable": false
+      },
+      {
+        "name": "Nortera",
+        "domain": "norterafoods.com",
+        "projectTitle": "Nortera",
+        "projectUrl": "https://www.awwwards.com/sites/nortera",
+        "notable": false
+      },
+      {
+        "name": "Canopy",
+        "domain": "canopyplanet.org",
+        "projectTitle": "Next Gen Now",
+        "projectUrl": "https://www.awwwards.com/sites/next-gen-now",
+        "notable": false
+      },
+      {
+        "name": "Oovie",
+        "domain": "oovie.ca",
+        "projectTitle": "Oovie",
+        "projectUrl": "https://www.awwwards.com/sites/oovie",
+        "notable": false
+      },
+      {
+        "name": "lg2",
+        "domain": "lg2.com",
+        "projectTitle": "5 Years Of Success",
+        "projectUrl": "https://www.awwwards.com/sites/5-years-of-success",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "gladeye",
@@ -1616,8 +5852,73 @@
       "nominees": 0,
       "total": 42
     },
+    "clients": [
+      {
+        "name": "National Geographic",
+        "domain": "nationalgeographic.com",
+        "projectTitle": "Into The Amazon",
+        "projectUrl": "https://www.awwwards.com/sites/into-the-amazon",
+        "notable": true
+      },
+      {
+        "name": "Ekos",
+        "domain": "ekos.io",
+        "projectTitle": "Ekos Genesis",
+        "projectUrl": "https://www.awwwards.com/sites/ekos-genesis",
+        "notable": false
+      },
+      {
+        "name": "Rolling Stone",
+        "domain": "rollingstone.com",
+        "projectTitle": "The DJ & the War Crimes",
+        "projectUrl": "https://www.awwwards.com/sites/the-dj-the-war-crimes",
+        "notable": false
+      },
+      {
+        "name": "CyberBrokers",
+        "domain": "cyberbrokers.com",
+        "projectTitle": "CyberBrokers",
+        "projectUrl": "https://www.awwwards.com/sites/cyberbrokers-1",
+        "notable": false
+      },
+      {
+        "name": "HuffPost",
+        "domain": "huffingtonpost.com",
+        "projectTitle": "Data Disappeared",
+        "projectUrl": "https://www.awwwards.com/sites/data-disappeared",
+        "notable": false
+      },
+      {
+        "name": "Imagr",
+        "domain": "imagr.co",
+        "projectTitle": "Imagr",
+        "projectUrl": "https://www.awwwards.com/sites/imagr",
+        "notable": false
+      },
+      {
+        "name": "OpenAVN",
+        "domain": "openavn.com",
+        "projectTitle": "OpenAVN",
+        "projectUrl": "https://www.awwwards.com/sites/openavn",
+        "notable": false
+      },
+      {
+        "name": "Allpress",
+        "domain": "allpressculture.com",
+        "projectTitle": "Allpress Culture Manual",
+        "projectUrl": "https://www.awwwards.com/sites/allpress-culture-manual",
+        "notable": false
+      },
+      {
+        "name": "ECI",
+        "domain": "eci.io",
+        "projectTitle": "ECI",
+        "projectUrl": "https://www.awwwards.com/sites/eci",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "lusion",
@@ -1646,8 +5947,66 @@
       "nominees": 0,
       "total": 38
     },
+    "clients": [
+      {
+        "name": "Stanford University",
+        "domain": "stanford.edu",
+        "projectTitle": "Fairer Tomorrow",
+        "projectUrl": "https://www.awwwards.com/sites/fairer-tomorrow",
+        "notable": true
+      },
+      {
+        "name": "EverSwap",
+        "domain": "everswap.com",
+        "projectTitle": "EverSwap",
+        "projectUrl": "https://www.awwwards.com/sites/everswap",
+        "notable": false
+      },
+      {
+        "name": "Oryzo AI",
+        "domain": "oryzo.ai",
+        "projectTitle": "Oryzo AI",
+        "projectUrl": "https://www.awwwards.com/sites/oryzo-ai",
+        "notable": false
+      },
+      {
+        "name": "Spaace",
+        "domain": "spaace.io",
+        "projectTitle": "Spaace",
+        "projectUrl": "https://www.awwwards.com/sites/spaace",
+        "notable": false
+      },
+      {
+        "name": "Zero",
+        "domain": "zero.tech",
+        "projectTitle": "Zero Tech",
+        "projectUrl": "https://www.awwwards.com/sites/zero-tech",
+        "notable": false
+      },
+      {
+        "name": "Choo-Choo World",
+        "domain": "choochooworld.com",
+        "projectTitle": "Choo-Choo World",
+        "projectUrl": "https://www.awwwards.com/sites/choo-choo-world",
+        "notable": false
+      },
+      {
+        "name": "Vivid & Co",
+        "domain": "vividand.co",
+        "projectTitle": "Vivid+Co",
+        "projectUrl": "https://www.awwwards.com/sites/vivid-co-1",
+        "notable": false
+      },
+      {
+        "name": "Opera North",
+        "domain": "operanorth.co.uk",
+        "projectTitle": "The Turn of the Screw",
+        "projectUrl": "https://www.awwwards.com/sites/the-turn-of-the-screw",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "deuxhuithuit",
@@ -1676,8 +6035,87 @@
       "nominees": 0,
       "total": 48
     },
+    "clients": [
+      {
+        "name": "LilFrog",
+        "domain": "lilfrogeth.com",
+        "projectTitle": "LilFrog",
+        "projectUrl": "https://www.awwwards.com/sites/lilfrog",
+        "notable": false
+      },
+      {
+        "name": "23bis",
+        "domain": "23bis.ch",
+        "projectTitle": "23bis",
+        "projectUrl": "https://www.awwwards.com/sites/23bis",
+        "notable": false
+      },
+      {
+        "name": "Les Éditions Bonsound",
+        "domain": "leseditionsbonsound.com",
+        "projectTitle": "Les Éditions Bonsound",
+        "projectUrl": "https://www.awwwards.com/sites/les-editions-bonsound",
+        "notable": false
+      },
+      {
+        "name": "PHI",
+        "domain": "phi.ca",
+        "projectTitle": "Phi",
+        "projectUrl": "https://www.awwwards.com/sites/phi",
+        "notable": false
+      },
+      {
+        "name": "Bonsound",
+        "domain": "bonsound.com",
+        "projectTitle": "Bonsound",
+        "projectUrl": "https://www.awwwards.com/sites/bonsound-1",
+        "notable": false
+      },
+      {
+        "name": "TWKS",
+        "domain": "twks.ch",
+        "projectTitle": "TWKS",
+        "projectUrl": "https://www.awwwards.com/sites/twks",
+        "notable": false
+      },
+      {
+        "name": "ALT Productions",
+        "domain": "altproductions.ca",
+        "projectTitle": "ALT",
+        "projectUrl": "https://www.awwwards.com/sites/alt-production",
+        "notable": false
+      },
+      {
+        "name": "GDW",
+        "domain": "gdw.kr",
+        "projectTitle": "GDW",
+        "projectUrl": "https://www.awwwards.com/sites/gdw",
+        "notable": false
+      },
+      {
+        "name": "NATIONAL",
+        "domain": "national.ca",
+        "projectTitle": "NATIONAL",
+        "projectUrl": "https://www.awwwards.com/sites/national",
+        "notable": false
+      },
+      {
+        "name": "C'est Beau",
+        "domain": "cestbeau.co",
+        "projectTitle": "C'est Beau",
+        "projectUrl": "https://www.awwwards.com/sites/cest-beau",
+        "notable": false
+      },
+      {
+        "name": "Make it Rain Records",
+        "domain": "justmakeitrain.com",
+        "projectTitle": "Make it Rain Records",
+        "projectUrl": "https://www.awwwards.com/sites/make-it-rain-records",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "somefolk",
@@ -1706,8 +6144,94 @@
       "nominees": 0,
       "total": 34
     },
+    "clients": [
+      {
+        "name": "Osmo",
+        "domain": "osmo.supply",
+        "projectTitle": "Osmo",
+        "projectUrl": "https://www.awwwards.com/sites/osmo-1",
+        "notable": false
+      },
+      {
+        "name": "TitanGate Equity",
+        "domain": "titangatequity.com",
+        "projectTitle": "TitanGate Equity",
+        "projectUrl": "https://www.awwwards.com/sites/titangate-equity",
+        "notable": false
+      },
+      {
+        "name": "The Foundation",
+        "domain": "thefoundation.house",
+        "projectTitle": "Foundation",
+        "projectUrl": "https://www.awwwards.com/sites/foundation",
+        "notable": false
+      },
+      {
+        "name": "Example",
+        "domain": "weareexample.com",
+        "projectTitle": "Example",
+        "projectUrl": "https://www.awwwards.com/sites/example",
+        "notable": false
+      },
+      {
+        "name": "More Nutrition",
+        "domain": null,
+        "projectTitle": "More Nutrition",
+        "projectUrl": "https://www.awwwards.com/sites/more-nutrition",
+        "notable": false
+      },
+      {
+        "name": "GraphicHunters",
+        "domain": "graphichunters.com",
+        "projectTitle": "GRAPHICHUNTERS®",
+        "projectUrl": "https://www.awwwards.com/sites/graphichunters-r",
+        "notable": false
+      },
+      {
+        "name": "David Kushner",
+        "domain": "davidkushnermusic.com",
+        "projectTitle": "David Kushner",
+        "projectUrl": "https://www.awwwards.com/sites/david-kushner",
+        "notable": false
+      },
+      {
+        "name": "Sound Ethics",
+        "domain": "soundethics.org",
+        "projectTitle": "Sound Ethics",
+        "projectUrl": "https://www.awwwards.com/sites/sound-ethics",
+        "notable": false
+      },
+      {
+        "name": "MITA",
+        "domain": "joinmita.com",
+        "projectTitle": "MITA®",
+        "projectUrl": "https://www.awwwards.com/sites/mita-r",
+        "notable": false
+      },
+      {
+        "name": "Critical Danger",
+        "domain": "criticaldanger.com",
+        "projectTitle": "Critical Danger",
+        "projectUrl": "https://www.awwwards.com/sites/critical-danger",
+        "notable": false
+      },
+      {
+        "name": "Proper Prompts",
+        "domain": "properprompts.ai",
+        "projectTitle": "Proper Prompts",
+        "projectUrl": "https://www.awwwards.com/sites/proper-prompts",
+        "notable": false
+      },
+      {
+        "name": "Day One",
+        "domain": null,
+        "projectTitle": "day one® Run",
+        "projectUrl": "https://www.awwwards.com/sites/day-one-r-run",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "lamalama",
@@ -1736,8 +6260,94 @@
       "nominees": 0,
       "total": 47
     },
+    "clients": [
+      {
+        "name": "Sony Music",
+        "domain": "sonymusic.nl",
+        "projectTitle": "Sony Music",
+        "projectUrl": "https://www.awwwards.com/sites/sony-music",
+        "notable": true
+      },
+      {
+        "name": "Tobacco",
+        "domain": "tobacco.nl",
+        "projectTitle": "Tobacco",
+        "projectUrl": "https://www.awwwards.com/sites/tobacco",
+        "notable": false
+      },
+      {
+        "name": "Bruut",
+        "domain": "bruut.media",
+        "projectTitle": "Bruut",
+        "projectUrl": "https://www.awwwards.com/sites/bruut",
+        "notable": false
+      },
+      {
+        "name": "Avancio",
+        "domain": "avancio.com",
+        "projectTitle": "Avancio",
+        "projectUrl": "https://www.awwwards.com/sites/avancio",
+        "notable": false
+      },
+      {
+        "name": "Justdiggit",
+        "domain": "justdiggit.org",
+        "projectTitle": "Our World",
+        "projectUrl": "https://www.awwwards.com/sites/our-world",
+        "notable": false
+      },
+      {
+        "name": "Jimmy Nelson",
+        "domain": "jimmynelson.com",
+        "projectTitle": "Jimmy Nelson",
+        "projectUrl": "https://www.awwwards.com/sites/jimmy-nelson-1",
+        "notable": false
+      },
+      {
+        "name": "D&L",
+        "domain": "dorstenlesser.com",
+        "projectTitle": "D&L",
+        "projectUrl": "https://www.awwwards.com/sites/d-l",
+        "notable": false
+      },
+      {
+        "name": "BannerBazen",
+        "domain": "bannerbazen.nl",
+        "projectTitle": "BannerBazen",
+        "projectUrl": "https://www.awwwards.com/sites/bannerbazen",
+        "notable": false
+      },
+      {
+        "name": "Laser by Sony Music",
+        "domain": "laserbysonymusic.com",
+        "projectTitle": "Laser by Sony Music",
+        "projectUrl": "https://www.awwwards.com/sites/laser-by-sony-music",
+        "notable": false
+      },
+      {
+        "name": "One Studios",
+        "domain": "onestudios.nl",
+        "projectTitle": "One Studios",
+        "projectUrl": "https://www.awwwards.com/sites/one-studios",
+        "notable": false
+      },
+      {
+        "name": "10 out of 10",
+        "domain": "10outof10.tv",
+        "projectTitle": "10 out of 10",
+        "projectUrl": "https://www.awwwards.com/sites/10-out-of-10",
+        "notable": false
+      },
+      {
+        "name": "YoungCapital",
+        "domain": "youngcapital.nl",
+        "projectTitle": "YoungCapital Next",
+        "projectUrl": "https://www.awwwards.com/sites/youngcapital-next",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "dashdigital",
@@ -1766,8 +6376,94 @@
       "nominees": 0,
       "total": 37
     },
+    "clients": [
+      {
+        "name": "Tengile Malamala",
+        "domain": "tengilemalamala.com",
+        "projectTitle": "Tengile Malamala Collection",
+        "projectUrl": "https://www.awwwards.com/sites/tengile-malamala-collection",
+        "notable": false
+      },
+      {
+        "name": "Goodman Gallery",
+        "domain": "goodman-gallery.com",
+        "projectTitle": "Goodman Gallery",
+        "projectUrl": "https://www.awwwards.com/sites/goodman-gallery",
+        "notable": false
+      },
+      {
+        "name": "Higherlife Foundation",
+        "domain": "higherlifefoundation.org",
+        "projectTitle": "Higherlife Foundation",
+        "projectUrl": "https://www.awwwards.com/sites/higherlife-foundation",
+        "notable": false
+      },
+      {
+        "name": "Gavin Schneider Productions",
+        "domain": "gsproductions.co.za",
+        "projectTitle": "Gavin Schneider Productions",
+        "projectUrl": "https://www.awwwards.com/sites/gavin-schneider-productions",
+        "notable": false
+      },
+      {
+        "name": "Freshman",
+        "domain": "freshman.tv",
+        "projectTitle": "Freshman",
+        "projectUrl": "https://www.awwwards.com/sites/freshman",
+        "notable": false
+      },
+      {
+        "name": "LO2S",
+        "domain": "lo2s.com",
+        "projectTitle": "LO2S",
+        "projectUrl": "https://www.awwwards.com/sites/lo2s",
+        "notable": false
+      },
+      {
+        "name": "Studio-PIC",
+        "domain": "studio-pic.com",
+        "projectTitle": "Studio-PIC",
+        "projectUrl": "https://www.awwwards.com/sites/studio-pic",
+        "notable": false
+      },
+      {
+        "name": "Inkfish",
+        "domain": "inkfishnyc.com",
+        "projectTitle": "Inkfish",
+        "projectUrl": "https://www.awwwards.com/sites/inkfish",
+        "notable": false
+      },
+      {
+        "name": "The Art of Documentary",
+        "domain": "theartofdocumentary.com",
+        "projectTitle": "Art of Documentary",
+        "projectUrl": "https://www.awwwards.com/sites/art-of-documentary",
+        "notable": false
+      },
+      {
+        "name": "Emma is Social",
+        "domain": "emmaissocial.com",
+        "projectTitle": "Emma is Social",
+        "projectUrl": "https://www.awwwards.com/sites/emma-is-social",
+        "notable": false
+      },
+      {
+        "name": "Southern Guild",
+        "domain": "southernguild.com",
+        "projectTitle": "Southern Guild",
+        "projectUrl": "https://www.awwwards.com/sites/southern-guild",
+        "notable": false
+      },
+      {
+        "name": "VANA",
+        "domain": "findyourvana.com",
+        "projectTitle": "VANA",
+        "projectUrl": "https://www.awwwards.com/sites/vana-1",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   },
   {
     "slug": "cuchillo",
@@ -1796,7 +6492,93 @@
       "nominees": 0,
       "total": 40
     },
+    "clients": [
+      {
+        "name": "Depo Luxe",
+        "domain": "depoluxe.xyz",
+        "projectTitle": "Depo Luxe",
+        "projectUrl": "https://www.awwwards.com/sites/depo-luxe",
+        "notable": false
+      },
+      {
+        "name": "Voku Studio",
+        "domain": "voku.studio",
+        "projectTitle": "Voku.Studio™",
+        "projectUrl": "https://www.awwwards.com/sites/voku-studiotm",
+        "notable": false
+      },
+      {
+        "name": "Ocean Films",
+        "domain": "oceanfilms.com.br",
+        "projectTitle": "Ocean",
+        "projectUrl": "https://www.awwwards.com/sites/ocean-2",
+        "notable": false
+      },
+      {
+        "name": "The Smile",
+        "domain": "thesmile.tv",
+        "projectTitle": "Smile",
+        "projectUrl": "https://www.awwwards.com/sites/smile",
+        "notable": false
+      },
+      {
+        "name": "YZA Voku",
+        "domain": "yzavoku.com",
+        "projectTitle": "YZA Voku",
+        "projectUrl": "https://www.awwwards.com/sites/yza-voku",
+        "notable": false
+      },
+      {
+        "name": "Kora Living",
+        "domain": "koraliving.com",
+        "projectTitle": "Kora Living",
+        "projectUrl": "https://www.awwwards.com/sites/kora-living",
+        "notable": false
+      },
+      {
+        "name": "BeAr Architects",
+        "domain": "bear-rabe.com",
+        "projectTitle": "BeAr Architects",
+        "projectUrl": "https://www.awwwards.com/sites/bear-architects",
+        "notable": false
+      },
+      {
+        "name": "Basque Government",
+        "domain": "euskadi.eus",
+        "projectTitle": "Ibaiak",
+        "projectUrl": "https://www.awwwards.com/sites/ibaiak",
+        "notable": false
+      },
+      {
+        "name": "IN56",
+        "domain": "in56.es",
+        "projectTitle": "IN56",
+        "projectUrl": "https://www.awwwards.com/sites/in56",
+        "notable": false
+      },
+      {
+        "name": "Novoa Jáuregui",
+        "domain": "novoajauregui.com",
+        "projectTitle": "Novoa Jáuregui",
+        "projectUrl": "https://www.awwwards.com/sites/novoa-jauregui",
+        "notable": false
+      },
+      {
+        "name": "Zapiens",
+        "domain": "zapiensdesign.com",
+        "projectTitle": "Zapiens Hybrid Design Agency",
+        "projectUrl": "https://www.awwwards.com/sites/zapiens-hybrid-design-agency",
+        "notable": false
+      },
+      {
+        "name": "2112 Run",
+        "domain": "2112.run",
+        "projectTitle": "2112.run",
+        "projectUrl": "https://www.awwwards.com/sites/2112-run",
+        "notable": false
+      }
+    ],
     "source": "awwwards",
-    "scrapedAt": "2026-09-03T10:23:46.304Z"
+    "scrapedAt": "2026-09-04T04:08:11.401Z"
   }
 ]

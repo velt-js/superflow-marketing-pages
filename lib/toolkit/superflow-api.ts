@@ -76,6 +76,12 @@ const TOOLS_ON_STAGING: ReadonlySet<string> = new Set([
   "review-like-elon-musk",
   "review-like-travis-kalanick",
   "lookalike-test",
+  // The YC partner lenses. Same rule as the personas above: remove each one
+  // the moment its agent is released to prod.
+  "review-like-aaron-epstein",
+  "review-like-pete-koomen",
+  "review-like-gustaf-alstromer",
+  "review-like-jared-friedman",
 ]);
 
 /** The sentinel that turns the backend off and restores the in-repo engine. */

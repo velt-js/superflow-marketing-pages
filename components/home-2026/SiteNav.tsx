@@ -394,6 +394,12 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
       },
       { label: "Checklists", href: "/checklist", Icon: ListCheckIcon },
       { label: "Free Tools", href: "/tools", Icon: WandIcon, badge: true },
+      // Grouped under Tools rather than Evaluate: "Evaluate" is the
+      // Superflow-vs-alternatives shelf, while this is a standalone free
+      // asset a visitor browses for its own sake, like the two above it.
+      // No `badge` - that chip renders a literal "$", which these carry
+      // because they are the money/ROI-flavoured tools; a directory isn't.
+      { label: "Agencies Directory", href: "/directory", Icon: GlobeIcon },
     ],
   },
   {

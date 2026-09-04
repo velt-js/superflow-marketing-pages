@@ -28,18 +28,6 @@ const TITLE = REVIEW_LIKE_TRAVIS_KALANICK_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_TRAVIS_KALANICK_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_TRAVIS_KALANICK_CONTENT.description;
 
-/** Rendered under the result so the lens can be checked against its source. */
-const SOURCES = [
-    {
-      title: "Early Uber product history and the launch playbook (public reporting)",
-      url: "https://en.wikipedia.org/wiki/Uber"
-    },
-    {
-      title: "TED talk on the original product insight",
-      url: "https://www.ted.com/talks/travis_kalanick_uber_s_plan_to_get_more_people_into_fewer_cars"
-    }
-  ];
-
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
@@ -126,7 +114,6 @@ export default function TravisKalanickReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          sources={SOURCES}
           showPersonaPicker
         />
       </ToolPage>

@@ -28,18 +28,6 @@ const TITLE = REVIEW_LIKE_ELON_MUSK_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_ELON_MUSK_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_ELON_MUSK_CONTENT.description;
 
-/** Rendered under the result so the lens can be checked against its source. */
-const SOURCES = [
-    {
-      title: "Starbase tour with Everyday Astronaut, 2021 — the five-step algorithm",
-      url: "https://www.youtube.com/watch?v=t705r8ICkRw"
-    },
-    {
-      title: "TED interview on first-principles reasoning",
-      url: "https://www.ted.com/talks/elon_musk_the_future_we_re_building_and_boring"
-    }
-  ];
-
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
@@ -125,7 +113,6 @@ export default function ElonMuskReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          sources={SOURCES}
           showPersonaPicker
         />
       </ToolPage>

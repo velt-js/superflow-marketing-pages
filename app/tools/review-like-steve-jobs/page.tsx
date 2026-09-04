@@ -30,26 +30,6 @@ const TITLE = REVIEW_LIKE_STEVE_JOBS_CONTENT.title;
 const SUBHEAD = REVIEW_LIKE_STEVE_JOBS_CONTENT.subhead;
 const DESCRIPTION = REVIEW_LIKE_STEVE_JOBS_CONTENT.description;
 
-/** Rendered under the result so the lens can be checked against its source. */
-const SOURCES = [
-  {
-    title: "Apple II brochure, 1977 — “Simplicity is the ultimate sophistication”",
-    url: "https://www.apple.com/",
-  },
-  {
-    title: "WWDC 1997 closing Q&A — start with the customer experience",
-    url: "https://www.youtube.com/watch?v=oeqPrUmVz-o",
-  },
-  {
-    title: "Apple Special Event, October 2001 — “1,000 songs in your pocket”",
-    url: "https://www.youtube.com/watch?v=kN0SVBCJqLs",
-  },
-  {
-    title: "Stanford commencement address, 2005",
-    url: "https://news.stanford.edu/2005/06/12/youve-got-find-love-jobs-says/",
-  },
-];
-
 export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
@@ -143,7 +123,6 @@ export default function SteveJobsReviewPage() {
         <ReviewTool
           slug={SLUG}
           actionLabel="Review my page"
-          sources={SOURCES}
           showPersonaPicker
         />
       </ToolPage>

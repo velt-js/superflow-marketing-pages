@@ -1,0 +1,5 @@
+{
+  "source": "SAMPLE DATA - NOT REAL CUSTOMERS. Read only when NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1, so the partner badge and the partners-first sort can be exercised locally and on preview deploys while partners.json is still empty. These agencies have NOT been confirmed as Superflow customers and this file must never be merged into partners.json. Domains chosen to sit at different award ranks so the sort change is visible: Monks is near the top by award total, Exo Ape is far down the list.",
+  "updatedAt": "2026-09-04",
+  "domains": ["locomotive.ca", "monks.com", "exoape.com"]
+}

@@ -32,6 +32,31 @@ export interface AgencyAwards {
   total: number;
 }
 
+/** One brand an agency has built awarded work for. */
+export interface AgencyClient {
+  /** Display name of the brand, e.g. "Coca-Cola". Already normalised - this
+   *  is what gets rendered, not the raw project title. */
+  name: string;
+  /** Registrable domain (eTLD+1) of the client's own site, when the awarded
+   *  work is hosted there. Null when the work lives on the agency's own
+   *  domain or a generic host (agency-hosted campaign microsites are common).
+   *  This is the dedupe key when present - never dedupe on `name`, since two
+   *  sources spell the same brand differently. */
+  domain: string | null;
+  /** Title of the awarded project this client was derived from, verbatim from
+   *  the source. Kept so the rendered name is always traceable back to a real
+   *  piece of work rather than looking asserted out of nowhere. */
+  projectTitle: string;
+  /** Absolute URL of the source's page for that awarded project, or null.
+   *  The attribution link, same role `profileUrl` plays for the agency. */
+  projectUrl: string | null;
+  /** True when this is a brand a general audience would recognise (Nike,
+   *  Coca-Cola, Spotify) rather than a local or niche client. Set by the
+   *  normalisation pass in the scraper, never inferred at render time.
+   *  Drives ordering so recognisable names surface first. */
+  notable: boolean;
+}
+
 /** One agency in the directory. */
 export interface Agency {
   /** URL-safe identifier, unique across the dataset. Derived from `domain`
@@ -61,6 +86,12 @@ export interface Agency {
   /** Short profile blurb, plain text, HTML stripped. */
   description: string | null;
   awards: AgencyAwards;
+  /** Brands this agency has built awarded work for, most recognisable first.
+   *  Derived by the scraper from the awarded submissions on the source
+   *  profile - which is why it lives here on `Agency` (scraper-owned, like
+   *  `awards`) rather than in a side file the way partner status does.
+   *  Empty when the source listed no attributable work. */
+  clients: AgencyClient[];
   source: AgencySource;
   /** ISO-8601 timestamp of when this record was collected. */
   scrapedAt: string;

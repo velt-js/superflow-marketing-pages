@@ -27,7 +27,10 @@ Each agency requires two page fetches:
    award counts (Honorable Mentions / Site of the Day / Site of the Month /
    Site of the Year).
 2. **The agency's own profile page** (`/<their-slug>/`) — gives us the city
-   (the listing only has country) and the profile description.
+   (the listing only has country), the profile description, and the
+   agency's awarded submissions, from which the client list is built (see
+   "Client names" below) — no extra fetch needed, since each submission's
+   title and client live URL are already embedded in the profile HTML.
 
 The script paginates the listing until it has collected `--limit` agencies
 that are unique by **registrable domain** (never by name — many studios share
@@ -94,6 +97,64 @@ Every fetched page is cached on disk at `scripts/directory-import/.cache/`
   node scripts/directory-import/scrape-awwwards.mjs --limit 60
   ```
 
+## Client names
+
+Each awarded submission on a profile page (`.js-collectable`, parsed from
+its `data-collectable-model-value` JSON) yields a client *candidate*: the
+project title, plus the submission's live URL when that URL's registrable
+domain looks like the client's own site rather than the agency's (see
+`isAgencyOwnDomain`) and isn't a known generic host (`GENERIC_HOST_DOMAINS`
+— see "Known limitations" below). Candidates are deduped per agency (by
+domain where there is one, otherwise by title) and capped at
+`MAX_CLIENT_CANDIDATES` (24) — deliberately higher than the
+`MAX_CLIENTS_PER_AGENCY` (12) that actually ship, so that candidates the
+normalisation pass rejects cost a candidate slot rather than a display
+slot. The final 12 are picked after rejection, and deduped once more by
+resolved name (two projects for the same brand are one client).
+
+A candidate's project title alone is not a usable display name — titles
+read like "Coca-Cola: Wozzaah" or "20 Years of Xbox Museum" — so every
+candidate across the whole run is resolved by a single normalisation pass
+before the output file is written:
+
+- Candidates are batched (`CLIENT_NAME_BATCH_SIZE`, 40 per request) and
+  sent to Claude (`claude-opus-5`, `effort: "low"`, structured JSON output
+  via `output_config`) with a prompt asking for the real organisation name
+  behind each project, a `notable` flag (true only for brands a general
+  international audience would recognise unprompted), or `null` when the
+  candidate isn't a real external client at all (the agency's own
+  self-promotional work, a personal portfolio, an unnamed concept piece,
+  …). The prompt is deliberately biased toward returning `null` over
+  guessing at a brand.
+- Results are memoised in the **committed**
+  `scripts/directory-import/client-names.json` — unlike `.cache/`, this
+  file is checked into git, because it doubles as the one place to
+  hand-correct a name. Its keys are built from the same two inputs the
+  pass reads (`<client-domain-or-"-">|<verbatim project title>`, e.g.
+  `coca-cola.com|Coca-Cola: Wozzaah`), so the same brand seen under two
+  different agencies resolves once and reuses the cached answer for both.
+- Only candidates missing from the cache are sent to Claude — a re-run
+  after a previous scrape makes zero normalisation calls unless new
+  candidates showed up. The file is written back key-sorted, so adding one
+  entry produces a one-line diff.
+- **To hand-correct a name**, edit its entry's `name` (and `notable`, if
+  needed) directly in `client-names.json`. **To drop a candidate from the
+  directory entirely** — a false positive, a client an agency shouldn't be
+  associated with, whatever the reason — set its value to `null` instead
+  of deleting the key; deleting it would just cause the same candidate to
+  be re-sent to Claude (and possibly re-added) on the next run, while an
+  explicit `null` is a permanent, self-documenting rejection.
+- **No API key, no problem.** If `@anthropic-ai/sdk` isn't installed, or
+  the SDK has no credentials (it reads `ANTHROPIC_API_KEY` from the
+  environment), `resolveClientNames` logs a warning and returns no new
+  resolutions — every affected candidate falls back to
+  `buildFallbackClientName`, a deterministic name derived from the client
+  domain's brand label (`coca-cola.com` → "Coca-Cola") or, failing that,
+  the project title's leading segment before a `:`/`×`/`|`. The scrape
+  still completes and writes a valid `agencies.json`; only the polish of
+  those particular names is deferred until the pass can run with
+  credentials.
+
 ## Known limitations
 
 - **Domain → eTLD+1 extraction** (`getRegistrableDomain` in the script) is a
@@ -113,3 +174,17 @@ Every fetched page is cached on disk at `scripts/directory-import/.cache/`
   3166-1 alpha-2 map covering every country used as an Awwwards directory
   facet at the time of writing. A country name outside that map resolves to
   `null`, not a guess.
+- **The client list is recent work, not a complete history.** A profile
+  page shows roughly 20-90 of an agency's most recent submissions — however
+  many awarded projects it has, that's the ceiling on what `clients` can be
+  built from. Older client relationships that predate an agency's visible
+  submissions simply aren't recoverable from this source.
+- **Platform-hosted client domains are ambiguous by construction.** A live
+  URL on a shared host like `squarespace.com` could be the platform's own
+  showcase, or a real client's site on a subdomain
+  (`brand.squarespace.com`) — no rule can tell those apart from the domain
+  alone. `GENERIC_HOST_DOMAINS` (in the script) only lists hosts that are
+  *never* a client (`vercel.app`, `webflow.io`, `wixsite.com`, …);
+  ambiguous cases like `squarespace.com` are deliberately left off that
+  list, and fall to the client-name normalisation pass to accept or reject
+  case by case (see "Client names" above).

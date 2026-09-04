@@ -33,6 +33,23 @@ const navLinks: NavLink[] = [
   { label: "Features", href: "/#features" },
   { label: "Integrations", href: "/integrations" },
   { label: "Pricing", href: "/pricing" },
+  {
+    label: "Resources",
+    // Hover-only trigger, like "Product" above - the href is never navigated
+    // to, it just keeps the shape uniform across NavLink entries.
+    href: "#resources",
+    // Paths are literal here rather than imported from the modules that own
+    // them (e.g. DIRECTORY_BASE_PATH in lib/directory/constants.ts). This is
+    // a client component rendered on every page, and importing that module
+    // would pull DIRECTORY_CATEGORIES into the global client bundle to save
+    // one string. Same convention the Footer's link table already follows.
+    dropdown: [
+      { label: "Agencies Directory", href: "/directory" },
+      { label: "Free Tools", href: "/tools" },
+      { label: "ROI Calculator", href: "/calculator" },
+      { label: "Case Study", href: "/case-study/writesonic" },
+    ],
+  },
   { label: "Blog", href: "/blog" },
   { label: "Try Demo", href: "/demo" },
 ];
