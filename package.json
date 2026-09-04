@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:directory": "NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1 next build && NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1 playwright test tests/directory",
     "og": "node scripts/og-image/generate-og.mjs",
     "og:pages": "node scripts/og-image/generate-og.mjs --manifest scripts/og-image/pages.json"
   },
