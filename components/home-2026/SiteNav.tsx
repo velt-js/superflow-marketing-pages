@@ -43,6 +43,7 @@ import {
   WebhookIcon,
 } from "./HeroIcons";
 import { GtmMark } from "@/components/integration-2026/IntegrationBrandMarks";
+import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 
 /** A single top-navigation entry. Chevron is shown for menu-style links. */
 type NavItem = {
@@ -409,6 +410,17 @@ const RESOURCE_GROUPS: readonly NavMenuGroup[] = [
         label: "Agency Tools Survey",
         href: "/state-of-agency-tools",
         Icon: ChartBarIcon,
+      },
+      // Sits beside the survey because both are for the same audience. The
+      // directory shipped with a sitemap entry and no link from anywhere on
+      // the site, so it was reachable from search and not from the nav.
+      // No `badge`: that prop renders the "$" paid cue, not a "new" chip, and
+      // the directory is free to browse. There is no new-badge treatment in
+      // this nav to reach for.
+      {
+        label: "Agency Directory",
+        href: DIRECTORY_BASE_PATH,
+        Icon: GlobeIcon,
       },
       {
         label: "Join Community",

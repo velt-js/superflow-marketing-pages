@@ -25,6 +25,8 @@ const CTA_HEADING = "Start Your 10-Day Trial";
 const CTA_SUBTITLE = "Your first full site scan is on us!";
 const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 
+import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
+
 type FooterLink = { label: string; href: string; paid?: boolean };
 type FooterColumn = { title: string; links: FooterLink[] };
 
@@ -101,6 +103,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "ROI Calculator", href: "/calculator", paid: true },
       { label: "Agency Tools Survey", href: "/state-of-agency-tools" },
+      { label: "Agency Directory", href: DIRECTORY_BASE_PATH },
       { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },
       { label: "Join Community", href: "https://superflowusers.slack.com/ssb/redirect" },
     ],
