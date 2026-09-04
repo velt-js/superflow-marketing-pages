@@ -33,10 +33,15 @@ export const RESERVED_CATEGORY_SLUGS: readonly string[] = [
 export const SOURCE_LABEL_AWWWARDS = "Awwwards";
 
 /**
- * Text on the partner badge. Says "partner" rather than "verified" on
+ * Name of the partner badge. Says "partner" rather than "verified" on
  * purpose: the badge attests that the agency uses Superflow, which is a
  * specific, checkable claim. A bare "Verified" would imply we vetted the
  * agency's quality or legitimacy, which we have not.
+ *
+ * The badge itself renders icon-only, so this string is not painted on the
+ * page - it is the tooltip heading and part of the mark's `aria-label`.
+ * That makes it the only place the claim is ever stated in words, so it
+ * matters more here, not less.
  */
 export const PARTNER_BADGE_LABEL = "Superflow partner";
 
