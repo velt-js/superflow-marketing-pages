@@ -165,6 +165,18 @@ const CATEGORY_RULES: readonly {
   { pattern: /founder|ceo|startup/, choice: { glyph: "target", color: ACCENT.coral } },
   { pattern: /product company|company/, choice: { glyph: "users", color: ACCENT.amber } },
   { pattern: /developer|engineer/, choice: { glyph: "code", color: ACCENT.teal } },
+  // The three directory categories below MUST stay above the generic
+  // /design|ux|ui/ rule. "Motion Design" matches that rule too, and with it
+  // first both it and "Web Design" resolved to the same pink brush, while
+  // "SEO" and "Branding" matched no rule at all and both fell to the default
+  // dashboard glyph - so the /directory hub rendered four cards carrying two
+  // icons between them.
+  //
+  // `motion design|motion graphic` rather than a bare `motion`, which also
+  // matches "promotions".
+  { pattern: /motion design|motion graphic/, choice: { glyph: "video", color: ACCENT.blue } },
+  { pattern: /\bseo\b|search engine optimi/, choice: { glyph: "trending-up", color: ACCENT.green } },
+  { pattern: /\bbranding\b|brand identity|brand strategy/, choice: { glyph: "typography", color: ACCENT.violet } },
   { pattern: /design|ux|ui/, choice: { glyph: "brush", color: ACCENT.pink } },
   { pattern: /market/, choice: { glyph: "trending-up", color: ACCENT.green } },
   { pattern: /qa|uat|test|bug/, choice: { glyph: "bug", color: ACCENT.coral } },
