@@ -159,6 +159,11 @@ const nextConfig: NextConfig = {
     // scoped away from PROXIED_HOSTS below.
     const pathRedirects: Redirect[] = [
       {
+        source: "/integrations/api",
+        destination: "/docs/rest-apis/projects/create-project",
+        permanent: true,
+      },
+      {
         source: "/trust",
         destination: "/security",
         permanent: true,

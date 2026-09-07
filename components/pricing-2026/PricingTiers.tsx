@@ -262,7 +262,7 @@ function PricingTiersCard({
       )}
       <article className={cardClassName}>
         <div className={styles.cardTop}>
-          <h3 className={styles.tierName}>{tier?.name}</h3>
+          <h2 className={styles.tierName}>{tier?.name}</h2>
           <PricingTiersPrice tier={tier} billing={billing} />
           {tier?.aiCredits ? (
             <div className={styles.creditsBlock}>

@@ -23,7 +23,7 @@ const navLinks: NavLink[] = [
     label: "Product",
     href: "#product",
     dropdown: [
-      { label: "Website Review", href: "/website-review" },
+      { label: "Website Review", href: "/" },
       { label: "Video Review", href: "/video-review" },
       { label: "Lottie Review", href: "/lottie-files-review" },
       { label: "PDF Review", href: "/pdf-review" },

@@ -46,7 +46,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!doc) return {};
   const ogImage = doc.thumbnail ?? doc.icon;
   return buildPageMetadata({
-    title: doc.metaTitle ?? doc.title ?? "User Persona",
+    title: ({
+      "product-managers": "Website QA for Product Managers",
+      founders: "Website QA for Founders",
+      designers: "Website Feedback for Designers",
+    } as Record<string, string>)[slug] ?? doc.metaTitle ?? doc.title ?? "User Persona",
     description:
       doc.metaDescription ??
       doc.hero?.description ??
