@@ -5,7 +5,7 @@
 // lib/directory/constants.ts and app/directory/README.md - this page needs
 // no edit to pick it up.
 
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import type { ListingItem } from "@/components/listing/ListingGrid";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";

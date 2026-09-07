@@ -8,15 +8,17 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
 - `app/directory/page.tsx` — hub page. Lists every category in
   `DIRECTORY_CATEGORIES`, each with a count of indexed agencies (or a
   "coming soon" label while that category's data is still empty). Built on
-  the shared `ListingPage` / `ListingGrid` components, so adding a category
-  needs **no edit here**.
+  the shared `ListingPage` / `ListingGrid` components (the 2026 set in
+  `components/listing-2026/`, same as `/use-case` and `/user-persona`), so
+  adding a category needs **no edit here**.
 - `app/directory/[category]/page.tsx` — category detail page. Statically
   generated for every slug in `DIRECTORY_CATEGORIES` via
   `generateStaticParams`; any other slug 404s via `notFound()`. Header is
-  `components/directory/CategoryHero.tsx` (not the shared `ListingHero` —
-  see that component's doc comment for why). Agencies render as a card
-  grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`), sorted
-  in the directory's default order: Superflow partners first, then total
+  `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
+  hero, closing on a white card carrying the live stat row. Agencies render
+  as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
+  each carrying a one-line "Worked with X, Y, Z +N more" summary),
+  sorted in the directory's default order: Superflow partners first, then total
   award count descending, then name. Each card links through to that
   agency's detail page. See "Category page controls" below for the
   search/filter/sort layer on top of this grid.
@@ -29,12 +31,40 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   Statically generated for every agency slug in the dataset via
   `generateStaticParams` — dropping N records into `agencies.json`
   produces N pages automatically, no code change. Unknown slug → `notFound()`.
-  Renders full content (`components/directory/AgencyDetail.tsx`): breadcrumb,
-  description, complete award breakdown, services, team size, a prominent
-  outbound "Visit website" CTA, the source attribution link, plus a
+  Renders full content (`components/directory/AgencyDetail.tsx`): a gradient
+  hero carrying the breadcrumb, logo, name, location, the prominent outbound
+  "Visit website" CTA, the source attribution link and a white facts card
+  (clients on record / total awards / category), then white cards below it
+  for the description, the "Worked with" client list, services and the
+  complete award breakdown, plus a
   data-derived "more agencies" block (`components/directory/RelatedAgencies.tsx`,
   capped at 6 — same country first, falling back to same category) so pages
   interlink instead of being orphaned behind the category listing.
+
+## Design system
+
+These pages are on the 2026 design system, the same one the homepage,
+`/integrations` and `/case-study` use — `SiteNav`/`SiteFooter` from
+`components/home-2026/`, the blue-gradient hero bitmap, Adamina serif
+headlines over Urbanist/Poppins, and the light card idiom (`#fbfbfd` fill,
+`#ececf1` hairline, 20px radius, `#433df3` accent). The directory's own
+pieces live in four CSS modules under `components/directory/`:
+
+- `DirectoryHero.module.css` — the gradient hero shared by the category page
+  and an agency profile, including the white meta card both close on.
+- `DirectoryGrid.module.css` — the white grid section, the search/country/sort
+  control bar, and both empty states. Shared by `AgencyGrid`, `AgencyExplorer`
+  and `RelatedAgencies` so the halves of one visual section can't drift.
+- `AgencyCard.module.css` — the category-grid card.
+- `AgencyDetail.module.css` — the profile's content cards.
+
+**Hover on cards and buttons is gated behind
+`@media (hover: hover) and (pointer: fine)`, and must stay that way.** Touch
+browsers emulate `:hover` on tap; with the card's `translateY(-2px)` lift
+ungated, the card slid out from under the finger between touchstart and
+touchend and swallowed the tap — which showed up as the partner badge
+refusing to open on a phone. See the note in `AgencyCard.module.css` and the
+"partner badge on touch" tests.
 
 ## Where the data comes from
 
@@ -50,6 +80,10 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   hundred records at runtime; every page and helper here is written to
   degrade to an empty state rather than crash when it's empty or when a
   category has no matches yet.
+- `scripts/directory-import/client-names.json` — the memoised brand-name
+  resolutions behind the client list (see "Client list" below). Committed on
+  purpose: it makes a re-scrape cheap and deterministic, and it is the file
+  you hand-edit to correct a mis-resolved brand name.
 - `lib/directory/data/partners.json` — the Superflow partner list (see
   "Superflow partner badge" below). Written by hand from a CRM/billing
   export, read by `lib/directory/agencies.ts`. Ships with an empty
@@ -75,10 +109,12 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
 
 ## Thin-content guard
 
-`shouldIndexAgency(agency)` returns false when an agency has no
-description, a description under ~80 characters, or zero total awards —
-that combination is thin content by Google's scaled-content standards even
-though the page itself renders correctly. Held-back agencies:
+`shouldIndexAgency(agency)` returns false only when an agency fails **all
+three** substance signals: a description of ~80 characters or more, at
+least one award, and at least three named clients. That combination is
+thin content by Google's scaled-content standards even though the page
+itself renders correctly — but an agency with three named clients and no
+blurb still qualifies on the client list alone. Held-back agencies:
 
 - Still get a full, working detail page (still linked from their category
   and from other agencies' "more agencies" blocks).
@@ -89,6 +125,54 @@ though the page itself renders correctly. Held-back agencies:
 
 `getAgencyIndexingSummary()` returns `{ total, indexable, heldBack }` for
 sanity-checking how much of a given scrape actually clears the bar.
+
+## Client list
+
+Each agency carries the brands it has built awarded work for — surfaced as
+a one-line "Worked with X, Y, Z +N more" summary on
+`components/directory/AgencyCard.tsx`, and as a full "Worked with" card on
+`AgencyDetail.tsx` pairing each client with the project it came from.
+
+- **Where it comes from:** `clients: AgencyClient[]` (`lib/directory/types.ts`)
+  is populated by `scripts/directory-import/scrape-awwwards.mjs` from the
+  awarded submissions already listed on the profile page it fetches anyway —
+  each submission carries a client's live URL and a project title, so
+  collecting clients costs zero extra HTTP requests. There is no "clients"
+  section in Awwwards' markup to scrape; the submissions grid *is* the
+  source. See that script's "Client extraction" section.
+- **Why it lives on `Agency`:** unlike Superflow partner status, which is
+  deliberately kept out of `Agency` because it comes from an external CRM
+  export the scraper must never clobber, the client list is *derived by the
+  scraper itself* from the same source data as `awards`. There is no
+  external source of truth to protect, so it is written onto the record and
+  regenerated on every scrape — the same reasoning that puts `awards` there.
+- **Name normalisation:** a raw candidate (project title, plus the client's
+  registrable domain when the live URL sits on the client's own site) is
+  resolved to a display name and a `notable` flag by a batched call to
+  Claude inside the scraper, memoised in the committed
+  `scripts/directory-import/client-names.json` so each brand resolves once
+  across the whole dataset.
+- **Hand-correcting a name:** open `client-names.json`, find the key
+  (`<client-domain-or-"-">|<verbatim project title>`), and edit its `name` /
+  `notable` fields — or set the value to `null` to drop that client from the
+  directory. The next scrape reads the edited file as-is.
+- **Notable exports:** `getAgencyClients(agency)` returns the display-ready,
+  deduped list (deduped by *name* here, separately from the scraper's
+  dedupe-by-domain, since one brand reached under two domains would
+  otherwise print twice); `formatAgencyClientSummary(agency, limit?)`
+  collapses it into the one-line summary shared by the card and the meta
+  description.
+- Capped at 12 per agency (`MAX_CLIENTS_PER_AGENCY` in the scraper), stored
+  with recognisable brands first.
+- **Rendering note:** the detail card hides the project title when it adds
+  nothing over the client name (`titleAddsDetail` in `AgencyDetail.tsx`) —
+  plenty of awarded projects are titled after the client and nothing else
+  ("Koenigsegg"), and printing both halves reads as a rendering bug. Client
+  names are deliberately **not** links: the one attribution link in the hero
+  covers sourcing without leaking a dozen outbound links per profile.
+- Feeds two things documented elsewhere here: the thin-content guard counts
+  three or more clients as a substance signal, and `searchText` includes
+  client names.
 
 ## Superflow partner badge
 
@@ -116,8 +200,16 @@ copy is what narrows it, not optional decoration.
 | Tap / click | `.badgeOpen` class | Component state, set in `PartnerBadgeMark` |
 | Enter / Space | `.badgeOpen` class | `role="button"` contract; Space is intercepted so the page doesn't scroll |
 
-Dismisses on outside pointer-down, `Escape`, or scroll. Those listeners are
-bound only while open, so a page of cards adds no idle listeners.
+Dismisses on outside pointer-down, `Escape`, or the user scrolling
+(`wheel` / `touchmove`). Those listeners are bound only while open, so a
+page of cards adds no idle listeners.
+
+Scroll dismissal deliberately watches the user's scroll **input** rather
+than the `scroll` event: `scroll` also fires for programmatic scrolling,
+including the smooth scroll-into-view `.focus()` performs when a keyboard
+user tabs to a badge far down the page. That scroll is still in flight when
+Enter opens the tooltip, so listening to `scroll` let the badge dismiss the
+panel it had just opened.
 
 ### The client/server split
 
@@ -249,8 +341,10 @@ server-rendered as HTML. Keep new client-side directory code following
 this pattern: type-only imports from `lib/directory/agencies.ts`, plain
 data passed in as props from a server component.
 
-The control set: search (name + description + location, via
-`AgencyListItem.searchText`), a country filter whose options are derived
+The control set: search (name + description + location + client names, via
+`AgencyListItem.searchText` — so searching a category page for "nike"
+surfaces the agencies that built for Nike, not just agencies named that),
+a country filter whose options are derived
 from the data (`buildCountryOptions`, never a hardcoded list), and three
 sort modes — "Award total" (partners first, default, matches the SSR
 order), "Name A-Z" (literal alphabetical, no partner boost), and

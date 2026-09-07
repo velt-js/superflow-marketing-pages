@@ -15,6 +15,7 @@
 // here re-renders a card's own content client-side.
 
 import { useMemo, useState, type ReactNode } from "react";
+import styles from "./DirectoryGrid.module.css";
 import type { AgencyListItem } from "@/lib/directory/agencies";
 
 /** Sentinel value for "no country filter applied". Not a real country
@@ -32,27 +33,17 @@ const SORT_OPTIONS: Array<{ value: SortMode; label: string }> = [
 ];
 
 const SEARCH_LABEL = "Search agencies";
-const SEARCH_PLACEHOLDER = "Search by name, service, or location";
+/** Names the fields `AgencyListItem.searchText` actually covers. Deliberately
+ *  says "client" rather than "service": the source exposes no per-agency
+ *  service tags, so `Agency.services` is empty for every record and offering
+ *  it here advertises a search that can never match, while client names -
+ *  which the blob does carry - go unmentioned. */
+const SEARCH_PLACEHOLDER = "Search by name, client, or location";
 const COUNTRY_LABEL = "Country";
 const SORT_LABEL = "Sort by";
 const RESET_LABEL = "Reset filters";
 const FILTER_EMPTY_HEADING = "No agencies match your filters";
 const FILTER_EMPTY_BODY = "Try a different search term or country, or reset your filters.";
-
-const LABEL_STYLE = {
-  fontFamily: "var(--font-urbanist)",
-  fontSize: 12,
-  fontWeight: 600,
-  color: "rgba(10,10,10,0.6)",
-} as const;
-
-const CONTROL_STYLE = {
-  fontFamily: "var(--font-urbanist)",
-  fontSize: 14,
-} as const;
-
-const CONTROL_CLASS =
-  "rounded-[10px] border border-black/15 bg-white px-3 py-2 text-black outline-none focus:border-black/40";
 
 /**
  * Compares two list items for the "Award total" sort (also the SSR
@@ -149,22 +140,10 @@ function buildCountryOptions(items: AgencyListItem[]): string[] {
 function FilterEmptyState({ onReset }: { onReset: () => void }) {
   try {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-[var(--radius-card)] border-2 border-dashed border-black/10 px-6 py-16 text-center">
-        <p className="text-black" style={{ fontFamily: "var(--font-poppins)", fontWeight: 600, fontSize: 18 }}>
-          {FILTER_EMPTY_HEADING}
-        </p>
-        <p
-          className="max-w-[420px]"
-          style={{ fontFamily: "var(--font-urbanist)", fontSize: 14, color: "rgba(10,10,10,0.55)" }}
-        >
-          {FILTER_EMPTY_BODY}
-        </p>
-        <button
-          type="button"
-          onClick={onReset}
-          className="rounded-[var(--radius-pill)] bg-black px-4 py-2 text-white transition-colors hover:bg-black/85"
-          style={{ fontFamily: "var(--font-poppins)", fontSize: 13, fontWeight: 600 }}
-        >
+      <div className={styles.empty}>
+        <p className={styles.emptyHeading}>{FILTER_EMPTY_HEADING}</p>
+        <p className={styles.emptyBody}>{FILTER_EMPTY_BODY}</p>
+        <button type="button" onClick={onReset} className={styles.emptyAction}>
           {RESET_LABEL}
         </button>
       </div>
@@ -198,9 +177,9 @@ function ControlsBar({
 }) {
   try {
     return (
-      <div className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-black/10 bg-[#fafafa] p-4 sm:flex-row sm:flex-wrap sm:items-end sm:gap-5">
-        <div className="flex min-w-[220px] flex-1 flex-col gap-1.5">
-          <label htmlFor="directory-search" style={LABEL_STYLE}>
+      <div className={styles.controls}>
+        <div className={`${styles.field} ${styles.fieldSearch}`}>
+          <label htmlFor="directory-search" className={styles.label}>
             {SEARCH_LABEL}
           </label>
           <input
@@ -209,21 +188,19 @@ function ControlsBar({
             value={searchQuery}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder={SEARCH_PLACEHOLDER}
-            className={CONTROL_CLASS}
-            style={CONTROL_STYLE}
+            className={styles.control}
           />
         </div>
 
-        <div className="flex min-w-[160px] flex-col gap-1.5">
-          <label htmlFor="directory-country" style={LABEL_STYLE}>
+        <div className={`${styles.field} ${styles.fieldSelect}`}>
+          <label htmlFor="directory-country" className={styles.label}>
             {COUNTRY_LABEL}
           </label>
           <select
             id="directory-country"
             value={countryFilter}
             onChange={(event) => onCountryChange(event.target.value)}
-            className={CONTROL_CLASS}
-            style={CONTROL_STYLE}
+            className={`${styles.control} ${styles.select}`}
           >
             <option value={ALL_COUNTRIES_VALUE}>{ALL_COUNTRIES_LABEL}</option>
             {countryOptions.map((country) => (
@@ -234,16 +211,15 @@ function ControlsBar({
           </select>
         </div>
 
-        <div className="flex min-w-[160px] flex-col gap-1.5">
-          <label htmlFor="directory-sort" style={LABEL_STYLE}>
+        <div className={`${styles.field} ${styles.fieldSelect}`}>
+          <label htmlFor="directory-sort" className={styles.label}>
             {SORT_LABEL}
           </label>
           <select
             id="directory-sort"
             value={sortMode}
             onChange={(event) => onSortChange(event.target.value as SortMode)}
-            className={CONTROL_CLASS}
-            style={CONTROL_STYLE}
+            className={`${styles.control} ${styles.select}`}
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -253,11 +229,7 @@ function ControlsBar({
           </select>
         </div>
 
-        <p
-          aria-live="polite"
-          className="text-black sm:ml-auto"
-          style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.55)" }}
-        >
+        <p aria-live="polite" className={styles.count}>
           Showing {visibleCount} of {totalCount} agenc{totalCount === 1 ? "y" : "ies"}
         </p>
       </div>
@@ -335,7 +307,7 @@ export default function AgencyExplorer({
     }
 
     return (
-      <div className="flex flex-col gap-6">
+      <div className={styles.stack}>
         <ControlsBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -351,11 +323,13 @@ export default function AgencyExplorer({
         {visibleItems.length === 0 ? (
           <FilterEmptyState onReset={resetFilters} />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className={styles.grid}>
             {visibleItems.map((item) => (
-              <div key={item.slug}>{cardsBySlug?.[item.slug] ?? null}</div>
+              <li key={item.slug} className={styles.item}>
+                {cardsBySlug?.[item.slug] ?? null}
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     );

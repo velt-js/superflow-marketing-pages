@@ -1,24 +1,61 @@
+import { Fragment } from "react";
+
 import type { AgencyListStats } from "@/lib/directory/agencies";
 import type { DirectoryCategory } from "@/lib/directory/types";
+import styles from "./DirectoryHero.module.css";
 
-/** Eyebrow label above the H1, orienting a visitor inside /directory
- *  before they read the category-specific heading. */
-const EYEBROW_LABEL = "Agency directory";
+/** Mono kicker above the H1, orienting a visitor inside /directory before
+ *  they read the category-specific heading. */
+const KICKER_TEXT = "Agency directory";
 
-/** One number+label pair in the stat row, e.g. "43 agencies". */
-function StatItem({ value, label }: { value: number; label: string }) {
+/** One `{ value, label }` pair in the hero's stat card. */
+interface CategoryStat {
+  value: number;
+  label: string;
+}
+
+/**
+ * Builds the hero stat card's entries from the live counts, dropping any
+ * that are zero so a small dataset shows two facts rather than three, one
+ * of which reads "0".
+ *
+ * @param stats - Agency/country/partner counts derived from the data.
+ * @returns The stat entries to render, in display order.
+ */
+function buildStatEntries(stats: AgencyListStats): CategoryStat[] {
+  try {
+    const entries: CategoryStat[] = [
+      {
+        value: stats?.agencyCount ?? 0,
+        label: stats?.agencyCount === 1 ? "Agency" : "Agencies",
+      },
+      {
+        value: stats?.countryCount ?? 0,
+        label: stats?.countryCount === 1 ? "Country" : "Countries",
+      },
+      { value: stats?.partnerCount ?? 0, label: "Superflow partners" },
+    ];
+    return entries.filter((entry) => entry.value > 0);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * One number+label pair inside the hero's white stat card.
+ *
+ * @param props - Component props.
+ * @param props.value - The count to display.
+ * @param props.label - What that count counts.
+ */
+function CategoryStatItem({ value, label }: CategoryStat) {
   try {
     return (
-      <div className="flex items-baseline gap-1.5">
-        <span
-          className="text-black"
-          style={{ fontFamily: "var(--font-poppins)", fontWeight: 700, fontSize: 20 }}
-        >
+      <div className={styles.metaItem}>
+        <span className={`${styles.metaValue} ${styles.metaValueStat}`}>
           {value}
         </span>
-        <span style={{ fontFamily: "var(--font-urbanist)", fontSize: 14, color: "rgba(10,10,10,0.55)" }}>
-          {label}
-        </span>
+        <span className={styles.metaLabel}>{label}</span>
       </div>
     );
   } catch {
@@ -27,22 +64,27 @@ function StatItem({ value, label }: { value: number; label: string }) {
 }
 
 /**
- * Header for a directory category page. Deliberately its own component
- * rather than reusing the shared marketing `ListingHero`
- * (components/listing/ListingHero.tsx): that component's dark hero,
- * "Photographer"/"Designer" cursor decorations, and generic "Try
- * Superflow for Free" CTA + customer logo bar are built for conversion
- * landing pages, and read as a mismatch on a reference/browse page like
- * this one. A lighter, data-forward header - heading, subheading, and a
- * live stat row - fits a directory better and removes an awkward
- * light-dark-light seam between this section and the white agency grid
- * directly below it.
+ * Header for a directory category page, on the 2026 design system: the
+ * shared blue-gradient bitmap and white Adamina serif headline used by the
+ * homepage, /integrations and /case-study, closed by a white stat card
+ * riding the fade into the white agency grid below.
+ *
+ * Replaces the flat white header this component used to ship. That version
+ * predated the 2026 chrome and was written to avoid the *old* dark
+ * `components/listing/ListingHero` — its cursor decorations and generic
+ * "Try Superflow for Free" CTA genuinely did read wrong on a browse page.
+ * The 2026 hero has neither, so the reason to opt out is gone, and opting
+ * out is now what makes the page look off-site.
+ *
+ * The stat row keeps its old job (it is the one thing on the page that
+ * proves the directory is real and populated) but moves into the hero's
+ * meta card, which is where every other 2026 detail hero parks its facts.
+ * Counts still come from the data via `buildAgencyListStats` — never
+ * hardcoded.
  *
  * @param props - Component props.
  * @param props.category - The category being rendered.
- * @param props.stats - Agency/country/partner counts for the stat row,
- *                       derived from the data (see `buildAgencyListStats`)
- *                       - never hardcoded.
+ * @param props.stats - Agency/country/partner counts for the stat card.
  */
 export default function CategoryHero({
   category,
@@ -52,50 +94,29 @@ export default function CategoryHero({
   stats: AgencyListStats;
 }) {
   try {
-    return (
-      <section className="bg-white pt-[120px] pb-[48px] lg:pt-[160px] lg:pb-[64px]">
-        <div className="container-page">
-          <div className="flex max-w-[720px] flex-col gap-4">
-            <span
-              className="w-fit rounded-[var(--radius-pill)] px-3 py-1"
-              style={{
-                fontFamily: "var(--font-urbanist)",
-                fontSize: 12,
-                fontWeight: 600,
-                color: "rgba(10,10,10,0.6)",
-                background: "rgba(10,10,10,0.05)",
-              }}
-            >
-              {EYEBROW_LABEL}
-            </span>
-            <h1
-              className="text-black"
-              style={{
-                fontFamily: "var(--font-poppins)",
-                fontWeight: 600,
-                fontSize: "clamp(32px, 4.5vw, 48px)",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.15,
-              }}
-            >
-              {category?.heading}
-            </h1>
-            <p style={{ fontFamily: "var(--font-urbanist)", fontSize: 17, lineHeight: 1.6, color: "rgba(10,10,10,0.65)" }}>
-              {category?.subheading}
-            </p>
-          </div>
+    const statEntries = buildStatEntries(stats);
 
-          {stats?.agencyCount > 0 && (
-            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-black/10 pt-6">
-              <StatItem value={stats.agencyCount} label={stats.agencyCount === 1 ? "agency" : "agencies"} />
-              {stats.countryCount > 0 && (
-                <StatItem value={stats.countryCount} label={stats.countryCount === 1 ? "country" : "countries"} />
-              )}
-              {stats.partnerCount > 0 && (
-                <StatItem value={stats.partnerCount} label="Superflow partners" />
-              )}
+    return (
+      <section className={styles.hero} data-section="directory-category-hero">
+        <div className={styles.inner}>
+          <p className={styles.kicker}>{KICKER_TEXT}</p>
+          <h1 className={styles.headline}>{category?.heading}</h1>
+          {category?.subheading ? (
+            <p className={styles.subhead}>{category.subheading}</p>
+          ) : null}
+
+          {statEntries.length > 0 ? (
+            <div className={styles.metaCard}>
+              {statEntries.map((entry, index) => (
+                <Fragment key={entry.label}>
+                  {index > 0 ? (
+                    <span className={styles.metaDivider} aria-hidden="true" />
+                  ) : null}
+                  <CategoryStatItem value={entry.value} label={entry.label} />
+                </Fragment>
+              ))}
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     );

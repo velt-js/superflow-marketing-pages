@@ -11,20 +11,20 @@
 // app/directory/agency/[slug]/page.tsx - which is where the ItemList
 // entries below point too.
 //
-// Header uses CategoryHero (components/directory/CategoryHero.tsx), not
-// the shared marketing ListingHero - see that component's doc comment
-// for why. The agency grid itself (AgencyGrid -> AgencyExplorer) is
-// server-rendered in full; only the search/country/sort controls are
-// client-side - see AgencyExplorer's header comment for the SEO contract
-// that design keeps.
+// Chrome and header are the 2026 design system, same as / and
+// /integrations: SiteNav/SiteFooter around CategoryHero's blue-gradient
+// hero (components/directory/CategoryHero.tsx). The agency grid itself
+// (AgencyGrid -> AgencyExplorer) is server-rendered in full; only the
+// search/country/sort controls are client-side - see AgencyExplorer's
+// header comment for the SEO contract that design keeps.
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import Nav from "@/components/home/Nav";
-import Footer from "@/components/home/Footer";
+import SiteNav from "@/components/home-2026/SiteNav";
+import SiteFooter from "@/components/home-2026/SiteFooter";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
 import IntercomButton from "@/components/home/IntercomButton";
-import DarkSection from "@/components/home/DarkSection";
 import CategoryHero from "@/components/directory/CategoryHero";
 import AgencyGrid from "@/components/directory/AgencyGrid";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -146,11 +146,11 @@ export default async function DirectoryCategoryPage({
         />
       )}
 
-      <Nav />
+      <SiteNav />
       <CategoryHero category={category} stats={stats} />
       <AgencyGrid agencies={agencies} />
-      <DarkSection withTopCurve />
-      <Footer />
+      <TestimonialsSection />
+      <SiteFooter />
       <IntercomButton />
     </main>
   );
