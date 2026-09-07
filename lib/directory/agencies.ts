@@ -11,29 +11,109 @@
 // without throwing.
 
 import agenciesData from "./data/agencies.json";
+import seoAgenciesData from "./data/seo-agencies.json";
+import brandingAgenciesData from "./data/branding-agencies.json";
+import motionDesignAgenciesData from "./data/motion-design-agencies.json";
 import partnersData from "./data/partners.json";
 import previewPartnersData from "./data/partners.preview.json";
 import {
+  isAccoladeRankedCategory,
   DIRECTORY_AGENCY_SEGMENT,
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
   SOURCE_LABEL_AWWWARDS,
+  SOURCE_LABEL_CLUTCH,
+  SOURCE_LABEL_DANDAD,
+  SOURCE_LABEL_DESIGNRUSH,
+  SOURCE_LABEL_MOTION_DESIGN_AWARDS,
+  SOURCE_LABEL_SEMRUSH,
 } from "./constants";
 import type {
   Agency,
   AgencyAwards,
   AgencyClient,
   AgencyLocation,
+  AgencyRating,
   AgencySource,
   DirectoryCategory,
   SuperflowPartnerList,
 } from "./types";
 
-/** Raw dataset, typed against the shared `Agency` contract. The scraper
- *  (a plain .mjs script, no TS build step) is the sole writer of this
- *  file and is responsible for conforming to `Agency` - this module only
- *  reads it. */
-const AGENCIES: Agency[] = agenciesData as Agency[];
+/**
+ * Merges the per-source datasets into the one array every helper below
+ * reads, deduping across them.
+ *
+ * `agencies.json` (Awwwards), `seo-agencies.json` (Semrush) and
+ * `branding-agencies.json` (the browser-sourced branding set) are - and
+ * must stay - separate files rather than one shared one: each writer under
+ * scripts/directory-import/ overwrites its OWN file wholesale on every run.
+ * A single shared file would mean the Semrush importer's run wipes out
+ * every Awwwards record the next time it executes, and vice versa. Keeping
+ * them apart lets each source refresh independently; this function is where
+ * they are recombined for reading. A fourth source means a fourth file and
+ * a fourth argument here, never an append into an existing file.
+ *
+ * Two "first occurrence wins" dedupe passes run in order, scanning the
+ * datasets in the order they are passed, so an earlier dataset wins any
+ * collision with a later one:
+ *
+ * 1. By registrable `domain`, case-insensitive - the one identity a
+ *    visitor would recognise as "the same company" regardless of which
+ *    directory it was scraped from. A null domain is never treated as an
+ *    identity to match on (two different agencies neither source could
+ *    resolve a domain for are not the same agency), so every domain-less
+ *    record is kept.
+ * 2. By `slug` - `getAgencyBySlug` below resolves by first array match,
+ *    so two records that happen to derive the same slug from different
+ *    names would otherwise make one of them unreachable at its own
+ *    canonical URL. `getAllAgencySlugs` already dedupes its output
+ *    defensively, but that only hides the symptom; this keeps the
+ *    dataset itself free of the collision.
+ *
+ * @param datasets - Per-source record arrays, highest priority first. A
+ *                    dataset kept earlier in this list wins any identity
+ *                    collision with a later one.
+ * @returns The concatenated, deduped dataset.
+ */
+export function mergeAgencySources(...datasets: Agency[][]): Agency[] {
+  try {
+    const combined = (datasets ?? []).flatMap((dataset) => dataset ?? []);
+
+    const seenDomains = new Set<string>();
+    const domainDeduped = combined.filter((agency) => {
+      const domain = agency?.domain?.trim().toLowerCase();
+      if (!domain) return true;
+      if (seenDomains.has(domain)) return false;
+      seenDomains.add(domain);
+      return true;
+    });
+
+    const seenSlugs = new Set<string>();
+    return domainDeduped.filter((agency) => {
+      const slug = agency?.slug;
+      if (!slug) return true;
+      if (seenSlugs.has(slug)) return false;
+      seenSlugs.add(slug);
+      return true;
+    });
+  } catch {
+    return datasets?.[0] ?? [];
+  }
+}
+
+/** Raw dataset, typed against the shared `Agency` contract and merged
+ *  across every source - see `mergeAgencySources`. The importers (plain
+ *  .mjs scripts, no TS build step) are the sole writers of the JSON files
+ *  and are responsible for conforming to `Agency` - this module only reads
+ *  them. `branding-agencies.json` is validated field by field on the way in
+ *  by load-branding-json.mjs, since unlike the others it is written from
+ *  a hand-driven browser session rather than by a scraper. */
+const AGENCIES: Agency[] = mergeAgencySources(
+  agenciesData as Agency[],
+  seoAgenciesData as Agency[],
+  brandingAgenciesData as Agency[],
+  motionDesignAgenciesData as Agency[],
+);
 
 /** Raw partner list, typed against `SuperflowPartnerList`. Ships with an
  *  empty `domains` array until someone pastes in the real CRM export - see
@@ -130,6 +210,11 @@ const AWARDS_META_NOUN_PLURAL = "Awwwards awards";
  *  AgencyDetail so the label logic lives in exactly one place. */
 const SOURCE_LABELS: Record<AgencySource, string> = {
   awwwards: SOURCE_LABEL_AWWWARDS,
+  semrush: SOURCE_LABEL_SEMRUSH,
+  clutch: SOURCE_LABEL_CLUTCH,
+  designrush: SOURCE_LABEL_DESIGNRUSH,
+  dandad: SOURCE_LABEL_DANDAD,
+  "motion-design-awards": SOURCE_LABEL_MOTION_DESIGN_AWARDS,
 };
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
@@ -163,10 +248,29 @@ export function isSuperflowPartner(agency: Agency | null | undefined): boolean {
 
 /**
  * Compares two agencies for the directory's default sort order: Superflow
- * partners first, then highest award total, then alphabetically by name
- * as a stable tiebreaker. Partner status is the primary key so a partner
- * is visible near the top of every listing without a visitor needing to
- * know to look for the badge.
+ * partners first, then highest award total, then highest rating score
+ * (see `getAgencyRatingScore`), then alphabetically by name as a stable
+ * tiebreaker. Partner status is the primary key so a partner is visible
+ * near the top of every listing without a visitor needing to know to look
+ * for the badge.
+ *
+ * The award-total and rating-score keys never actually compete inside the
+ * web design or SEO categories: Awwwards records carry awards and no
+ * rating, Semrush records carry a rating and no awards, so whichever
+ * signal is absent for a given agency is 0/0 and simply falls through to
+ * the next key. This is one comparator serving disjoint slices of the
+ * dataset - it is never attempting to weigh a counted award against a
+ * client review, which would be comparing two different kinds of claim
+ * (see `AgencyRating` in lib/directory/types.ts).
+ *
+ * This comparator is NOT used for every category. Branding records all have
+ * `awards.total === 0` - that field is an Awwwards-scheme tally, and those
+ * records keep their award wins in `accolades`, which this comparator does
+ * not read - so ranking them here fell straight through to review score and
+ * buried the award-only studios (Pentagram landed 126th of 144). That
+ * category uses `compareAgenciesByAccolades` instead; see
+ * ACCOLADE_RANKED_CATEGORIES in ./constants.ts for why the swap is scoped
+ * to named categories rather than applied globally.
  *
  * @param agencyOne - First agency being compared.
  * @param agencyTwo - Second agency being compared.
@@ -181,6 +285,42 @@ function compareAgenciesDefaultOrder(agencyOne: Agency, agencyTwo: Agency): numb
     const totalOne = agencyOne?.awards?.total ?? 0;
     const totalTwo = agencyTwo?.awards?.total ?? 0;
     if (totalTwo !== totalOne) return totalTwo - totalOne;
+    const ratingScoreOne = getAgencyRatingScore(agencyOne);
+    const ratingScoreTwo = getAgencyRatingScore(agencyTwo);
+    if (ratingScoreTwo !== ratingScoreOne) return ratingScoreTwo - ratingScoreOne;
+    return (agencyOne?.name ?? "").localeCompare(agencyTwo?.name ?? "");
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Orders a category whose credibility signal is `accolades` rather than a
+ * counted award tally or a review score - see ACCOLADE_RANKED_CATEGORIES
+ * for which categories those are and why the choice is scoped rather than
+ * global.
+ *
+ * Same shape as `compareAgenciesDefaultOrder` and same partners-first
+ * primary key; only the credibility key differs. The review score is kept
+ * as the tiebreaker so agencies with equal accolade counts (including the
+ * many with none) still rank against each other on something real.
+ *
+ * @param agencyOne - First agency being compared.
+ * @param agencyTwo - Second agency being compared.
+ * @returns Negative when `agencyOne` sorts before `agencyTwo`, positive
+ *          when it sorts after, zero when they are equivalent.
+ */
+function compareAgenciesByAccolades(agencyOne: Agency, agencyTwo: Agency): number {
+  try {
+    const partnerOne = isSuperflowPartner(agencyOne) ? 1 : 0;
+    const partnerTwo = isSuperflowPartner(agencyTwo) ? 1 : 0;
+    if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
+    const accoladesOne = agencyOne?.accolades?.length ?? 0;
+    const accoladesTwo = agencyTwo?.accolades?.length ?? 0;
+    if (accoladesTwo !== accoladesOne) return accoladesTwo - accoladesOne;
+    const ratingScoreOne = getAgencyRatingScore(agencyOne);
+    const ratingScoreTwo = getAgencyRatingScore(agencyTwo);
+    if (ratingScoreTwo !== ratingScoreOne) return ratingScoreTwo - ratingScoreOne;
     return (agencyOne?.name ?? "").localeCompare(agencyTwo?.name ?? "");
   } catch {
     return 0;
@@ -189,8 +329,8 @@ function compareAgenciesDefaultOrder(agencyOne: Agency, agencyTwo: Agency): numb
 
 /**
  * Returns every agency belonging to the given category slug, sorted by
- * the directory's default order (Superflow partners first, then award
- * total descending, then name).
+ * that category's ranking order (Superflow partners first, then its
+ * credibility signal descending, then review score, then name).
  *
  * @param categorySlug - The `DirectoryCategory.slug` to filter by.
  * @returns Matching agencies, sorted. Empty array for an unknown slug or
@@ -200,9 +340,12 @@ function compareAgenciesDefaultOrder(agencyOne: Agency, agencyTwo: Agency): numb
 export function getAgenciesByCategory(categorySlug: string): Agency[] {
   try {
     if (!categorySlug) return [];
+    const comparator = isAccoladeRankedCategory(categorySlug)
+      ? compareAgenciesByAccolades
+      : compareAgenciesDefaultOrder;
     return AGENCIES.filter((agency) => agency?.categories?.includes(categorySlug))
       .slice()
-      .sort(compareAgenciesDefaultOrder);
+      .sort(comparator);
   } catch {
     return [];
   }
@@ -303,6 +446,73 @@ export function getAwardBreakdown(
   }
 }
 
+/** Separator between the numeric score and the review count in a
+ *  formatted rating, e.g. the " · " in "4.8/5 · 453 reviews". */
+const RATING_SEPARATOR = " · ";
+
+/** Review-count noun, singular and plural, for `formatAgencyRating`. */
+const RATING_REVIEW_NOUN_SINGULAR = "review";
+const RATING_REVIEW_NOUN_PLURAL = "reviews";
+
+/**
+ * Formats an agency rating for display, e.g. "4.8/5 · 453 reviews".
+ *
+ * Returns null - "nothing to show", not "show a zero" - when the rating
+ * itself is null, or when its `value` or `reviewCount` is zero/absent: a
+ * `reviewCount` of 0 is documented as "listed but unreviewed" (see
+ * `AgencyRating` in lib/directory/types.ts) and has no average worth
+ * printing.
+ *
+ * @param rating - The agency's rating record, possibly null.
+ * @returns The formatted label, or null when there is nothing to show.
+ */
+export function formatAgencyRating(rating: AgencyRating | null | undefined): string | null {
+  try {
+    if (!rating) return null;
+    const value = rating.value ?? 0;
+    const reviewCount = rating.reviewCount ?? 0;
+    if (value <= 0 || reviewCount <= 0) return null;
+    const reviewNoun =
+      reviewCount === 1 ? RATING_REVIEW_NOUN_SINGULAR : RATING_REVIEW_NOUN_PLURAL;
+    return `${value}/${rating.scale}${RATING_SEPARATOR}${reviewCount} ${reviewNoun}`;
+  } catch {
+    return null;
+  }
+}
+
+/** "Phantom" review count blended into `getAgencyRatingScore`'s shrinkage
+ *  formula. See that function's JSDoc for why this exists. */
+const RATING_PRIOR_REVIEWS = 5;
+
+/**
+ * The ranking signal for review-based sources (currently Semrush): a
+ * rating's raw `value` shrunk toward zero by how few reviews back it, via
+ * `value * (reviewCount / (reviewCount + RATING_PRIOR_REVIEWS))`.
+ *
+ * Without shrinkage a single 5.0 review would outrank a 4.8 averaged over
+ * hundreds of reviews, which gets the ranking backwards - the
+ * well-reviewed 4.8 is far more likely to reflect the agency's actual
+ * quality. Blending in `RATING_PRIOR_REVIEWS` neutral "phantom" reviews
+ * pulls a thin sample's score down toward zero in proportion to how thin
+ * it is, without needing to invent what those phantom reviews would have
+ * said.
+ *
+ * @param agency - The agency to score.
+ * @returns The shrunk score, or 0 when the agency has no usable rating.
+ */
+export function getAgencyRatingScore(agency: Agency | null | undefined): number {
+  try {
+    const rating = agency?.rating;
+    if (!rating) return 0;
+    const value = rating.value ?? 0;
+    const reviewCount = rating.reviewCount ?? 0;
+    if (value <= 0 || reviewCount <= 0) return 0;
+    return value * (reviewCount / (reviewCount + RATING_PRIOR_REVIEWS));
+  } catch {
+    return 0;
+  }
+}
+
 /**
  * Builds the single canonical URL for an agency's detail page. The only
  * place `/directory/<DIRECTORY_AGENCY_SEGMENT>/<slug>` is assembled, so
@@ -368,6 +578,36 @@ const CLIENT_SUMMARY_FINAL_JOINER = " and ";
 /** Minimum clients for the list to count as real content on its own - see
  *  `shouldIndexAgency`. One name is a footnote; three is a body of work. */
 const MIN_CLIENTS_FOR_INDEXING = 3;
+
+/** Minimum review count for a rating to count as real substance on its
+ *  own - see `shouldIndexAgency`. A rating value alone says little; a
+ *  handful of reviews behind it is a credible signal, one or two is
+ *  closer to noise. */
+const MIN_RATING_REVIEWS_FOR_INDEXING = 3;
+
+/** Minimum listed services for the service list to count as real content
+ *  on its own - see `shouldIndexAgency`. A single free-text tag is not a
+ *  real capability list; a handful is. */
+const MIN_SERVICES_FOR_INDEXING = 3;
+
+/**
+ * Minimum `accolades` entries for the accolade list to count as real
+ * content on its own - see `shouldIndexAgency`.
+ *
+ * Added with the motion design category, which would otherwise be almost
+ * entirely `noindex`: Motion Design Awards records carry no services, no
+ * clients, no rating and a zeroed award tally, and their blurbs are short
+ * (Buff's is 60 characters against the 80 this guard wants). A studio
+ * holding several jury awards, each named with the project that won it, is
+ * not a thin page - the accolade list IS the substance, and it is unique
+ * per studio.
+ *
+ * Set to 3 to match the client and service thresholds either side of it:
+ * one win is a footnote, a handful is a record. This also closes the same
+ * latent gap for the branding category's D&AD records, where only 2 of 22
+ * carry a blurb long enough to clear the description route on its own.
+ */
+const MIN_ACCOLADES_FOR_INDEXING = 3;
 
 /**
  * An agency's client list, cleaned for rendering: entries with no usable
@@ -443,24 +683,28 @@ export function formatAgencyClientSummary(
 /**
  * Decides whether an agency's detail page is substantial enough to index.
  *
- * A page is thin only when it has a stub blurb AND a negligible award
- * record AND no client list - it needs only one of the three to be worth
- * indexing. They are independent kinds of substance: a real paragraph of
- * prose is unique content, so is a detailed award breakdown, and so is a
- * named list of brands the agency has shipped work for.
+ * A page is thin only when it fails every one of five independent
+ * substance signals: a real blurb, a real award record, a real client
+ * list, a real (well-reviewed) rating, or a real service list. It needs
+ * only one to be worth indexing - each is its own kind of unique content
+ * (prose, a counted award breakdown, named client work, a third-party
+ * review score, a capability list), so none of them needs the others to
+ * justify a page existing.
  *
- * Requiring both (the original formulation) suppressed studios like Resn
- * and Active Theory, which carry 150+ awards behind a four-word tagline -
- * plainly not thin content. The guard exists to catch bare stubs from
- * future bulk sources, not to punish a terse profile blurb.
+ * Requiring all of them at once (an earlier formulation only checked the
+ * first three) suppressed studios like Resn and Active Theory, which
+ * carry 150+ awards behind a four-word tagline - plainly not thin
+ * content. The guard exists to catch bare stubs from future bulk sources,
+ * not to punish a terse profile blurb, a source with no award scheme, or
+ * a source with no review scheme.
  *
  * Pages failing this still render and stay internally linked; they are
  * only marked `noindex, follow` and dropped from the sitemap.
  *
  * @param agency - The agency to evaluate.
- * @returns True unless the agency has a sub-threshold description, fewer
- *          than `MIN_AWARDS_FOR_INDEXING` awards, and fewer than
- *          `MIN_CLIENTS_FOR_INDEXING` clients.
+ * @returns True unless the agency clears none of: description length,
+ *          award total, client count, rating review count, and service
+ *          count against their respective `MIN_*_FOR_INDEXING` constants.
  */
 export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
   try {
@@ -472,7 +716,22 @@ export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
       (agency.awards?.total ?? 0) >= MIN_AWARDS_FOR_INDEXING;
     const hasRealClientList =
       getAgencyClients(agency).length >= MIN_CLIENTS_FOR_INDEXING;
-    return hasRealDescription || hasRealAwardRecord || hasRealClientList;
+    const hasRealRating =
+      (agency.rating?.reviewCount ?? 0) >= MIN_RATING_REVIEWS_FOR_INDEXING;
+    const realServiceCount =
+      agency.services?.filter((service) => Boolean(service?.trim())).length ?? 0;
+    const hasRealServiceList = realServiceCount >= MIN_SERVICES_FOR_INDEXING;
+    const realAccoladeCount =
+      agency.accolades?.filter((accolade) => Boolean(accolade?.trim())).length ?? 0;
+    const hasRealAccoladeList = realAccoladeCount >= MIN_ACCOLADES_FOR_INDEXING;
+    return (
+      hasRealDescription ||
+      hasRealAwardRecord ||
+      hasRealClientList ||
+      hasRealRating ||
+      hasRealServiceList ||
+      hasRealAccoladeList
+    );
   } catch {
     return false;
   }
@@ -534,10 +793,14 @@ export interface RelatedAgenciesBlock {
  * are crawlable via more than one path instead of being orphaned behind
  * the category listing alone.
  *
- * Prefers other agencies in the same country (a location-based grouping
- * reads more useful to a visitor than an arbitrary "related" label), and
- * falls back to the agency's primary category when no country is on
- * record or no country-mates exist.
+ * Three tiers, in order: same country AND same primary category, then
+ * same category anywhere, then same country in any category. A
+ * location-based grouping reads more useful to a visitor than an
+ * arbitrary "related" label - but only among agencies doing the same kind
+ * of work, which is why country no longer wins on its own. It used to,
+ * correctly, while web design was the only category; with a second
+ * category that rule started putting web design studios under an SEO
+ * agency's profile on the strength of a shared country alone.
  *
  * @param agency - The agency whose detail page is being rendered.
  * @param limit - Maximum agencies to return. Defaults to
@@ -553,34 +816,73 @@ export function getRelatedAgencies(
     if (!agency) return { heading: FALLBACK_RELATED_HEADING, agencies: [] };
 
     const countryName = agency.location?.country?.trim();
-    if (countryName) {
-      const sameCountry = AGENCIES.filter(
-        (candidate) =>
-          candidate?.slug !== agency.slug &&
-          candidate?.location?.country?.trim() === countryName,
-      )
-        .slice()
-        .sort(compareAgenciesDefaultOrder)
-        .slice(0, limit);
-      if (sameCountry.length > 0) {
-        return { heading: `More agencies in ${countryName}`, agencies: sameCountry };
+    const primaryCategorySlug = agency.categories?.[0];
+    const category = primaryCategorySlug
+      ? getDirectoryCategory(primaryCategorySlug)
+      : undefined;
+
+    /**
+     * Collects candidates for one tier: never the agency itself, and
+     * matching whichever of country/category that tier constrains on.
+     *
+     * @param requireCountry - Restrict to the agency's own country.
+     * @param requireCategory - Restrict to the agency's primary category.
+     * @returns Up to `limit` agencies in the directory's default order.
+     */
+    const collectTier = (requireCountry: boolean, requireCategory: boolean): Agency[] => {
+      try {
+        return AGENCIES.filter((candidate) => {
+          if (!candidate || candidate.slug === agency.slug) return false;
+          if (requireCountry && candidate.location?.country?.trim() !== countryName) {
+            return false;
+          }
+          if (requireCategory && !candidate.categories?.includes(primaryCategorySlug ?? "")) {
+            return false;
+          }
+          return true;
+        })
+          .slice()
+          .sort(compareAgenciesDefaultOrder)
+          .slice(0, limit);
+      } catch {
+        return [];
+      }
+    };
+
+    // Country AND category first. Country alone used to win outright, which
+    // was right while web-design was the only category but stopped being so
+    // the moment a second one existed: it put web design studios under an
+    // SEO agency's profile purely because both were in the same country.
+    // Same-country is still the most useful grouping to a visitor - it just
+    // has to be same-country *among agencies that do the same work*.
+    if (countryName && primaryCategorySlug) {
+      const sameCountryAndCategory = collectTier(true, true);
+      if (sameCountryAndCategory.length > 0) {
+        const categoryLabel = category?.title ?? "";
+        const heading = categoryLabel
+          ? `More ${categoryLabel} agencies in ${countryName}`
+          : `More agencies in ${countryName}`;
+        return { heading, agencies: sameCountryAndCategory };
       }
     }
 
-    const primaryCategorySlug = agency.categories?.[0];
+    // Then category anywhere in the world - relevance of discipline beats
+    // proximity once the country tier has come up empty.
     if (primaryCategorySlug) {
-      const sameCategory = AGENCIES.filter(
-        (candidate) =>
-          candidate?.slug !== agency.slug &&
-          candidate?.categories?.includes(primaryCategorySlug),
-      )
-        .slice()
-        .sort(compareAgenciesDefaultOrder)
-        .slice(0, limit);
+      const sameCategory = collectTier(false, true);
       if (sameCategory.length > 0) {
-        const category = getDirectoryCategory(primaryCategorySlug);
         const heading = category ? `More in ${category.title}` : FALLBACK_RELATED_HEADING;
         return { heading, agencies: sameCategory };
+      }
+    }
+
+    // Last resort: same country, any discipline. Only reachable for an
+    // agency whose category has no other members at all, where a
+    // cross-category link still beats an orphaned page.
+    if (countryName) {
+      const sameCountry = collectTier(true, false);
+      if (sameCountry.length > 0) {
+        return { heading: `More agencies in ${countryName}`, agencies: sameCountry };
       }
     }
 
@@ -656,13 +958,23 @@ export function buildAgencyMetaDescription(agency: Agency | null | undefined): s
     const location = formatAgencyLocation(agency.location ?? null);
     const awardsTotal = agency.awards?.total ?? 0;
     const awardsNoun = awardsTotal === 1 ? AWARDS_META_NOUN_SINGULAR : AWARDS_META_NOUN_PLURAL;
+    // A rating only stands in for the awards clause when there is no award
+    // record to report - the two never coexist on one record (an Awwwards
+    // profile has no rating, a Semrush profile has no awards; see
+    // `AgencyRating` in lib/directory/types.ts), so this is a substitution
+    // for the same clause slot, not an addition alongside it.
+    const ratingLabel = awardsTotal === 0 ? formatAgencyRating(agency.rating) : null;
 
     if (location && awardsTotal > 0) {
       clauses.push(`Based in ${location}, with ${awardsTotal} ${awardsNoun}.`);
+    } else if (location && ratingLabel) {
+      clauses.push(`Based in ${location}, rated ${ratingLabel}.`);
     } else if (location) {
       clauses.push(`Based in ${location}.`);
     } else if (awardsTotal > 0) {
       clauses.push(`Recognised with ${awardsTotal} ${awardsNoun}.`);
+    } else if (ratingLabel) {
+      clauses.push(`Rated ${ratingLabel} by clients.`);
     }
 
     // Named clients differentiate two agencies that share a city and an
@@ -758,12 +1070,21 @@ export function buildAgencyOrganizationJsonLd(
 export interface AgencyListItem {
   slug: string;
   name: string;
-  /** Lowercased "name + description + location + client names" blob for
-   *  substring search. */
+  /** Lowercased "name + description + location + client names + service
+   *  names + industry names" blob for substring search. */
   searchText: string;
   country: string | null;
   isPartner: boolean;
   awardTotal: number;
+  /** Ranking signal for review-based sources - see `getAgencyRatingScore`.
+   *  0 for a record with no rating (every Awwwards record today), so it
+   *  can be sorted on directly without a null-guard at the call site. */
+  ratingScore: number;
+  /** Number of `Agency.accolades`, the ranking signal for categories in
+   *  ACCOLADE_RANKED_CATEGORIES. Carried on every item rather than only
+   *  those categories' items so the client comparator never has to
+   *  null-guard it. */
+  accoladeCount: number;
 }
 
 /**
@@ -785,7 +1106,19 @@ export function buildAgencyListItem(agency: Agency | null | undefined): AgencyLi
     const clientNames = getAgencyClients(agency)
       .map((client) => client.name)
       .join(" ");
-    const searchText = [agency.name ?? "", agency.description ?? "", location, clientNames]
+    // Service and industry names go in too - a visitor searching "link
+    // building" or "ecommerce" should find a match, not just a visitor
+    // searching by agency or client name.
+    const serviceNames = (agency.services ?? []).join(" ");
+    const industryNames = (agency.industries ?? []).join(" ");
+    const searchText = [
+      agency.name ?? "",
+      agency.description ?? "",
+      location,
+      clientNames,
+      serviceNames,
+      industryNames,
+    ]
       .join(" ")
       .toLowerCase();
     return {
@@ -795,6 +1128,8 @@ export function buildAgencyListItem(agency: Agency | null | undefined): AgencyLi
       country: agency.location?.country?.trim() || null,
       isPartner: isSuperflowPartner(agency),
       awardTotal: agency.awards?.total ?? 0,
+      ratingScore: getAgencyRatingScore(agency),
+      accoladeCount: agency.accolades?.length ?? 0,
     };
   } catch {
     return null;

@@ -18,8 +18,14 @@ export const revalidate = 60;
 
 const HUB_TITLE = "Agency Directory";
 const HUB_HEADING = "Find the agency that fits your project";
+// Deliberately no longer says "award-winning": that was accurate when Web
+// Design was the only category, but the SEO category is ranked on published
+// client reviews, not awards (see DIRECTORY_CATEGORIES in
+// lib/directory/constants.ts). One hub subheading has to cover every
+// category, so it claims only what all of them can back up - that each
+// record is attributable to the source it was collected from.
 const HUB_SUBHEADING =
-  "Browse award-winning agencies by category. Every profile links back to its source so you can verify the work yourself.";
+  "Browse agencies by category, ranked on what their source directory publishes about them. Every profile links back to that source so you can verify the work yourself.";
 const BROWSE_CTA = "Browse agencies";
 const COMING_SOON_LABEL = "Agencies coming soon";
 
