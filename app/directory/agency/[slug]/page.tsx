@@ -17,10 +17,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import Nav from "@/components/home/Nav";
-import Footer from "@/components/home/Footer";
+import SiteNav from "@/components/home-2026/SiteNav";
+import SiteFooter from "@/components/home-2026/SiteFooter";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
 import IntercomButton from "@/components/home/IntercomButton";
-import DarkSection from "@/components/home/DarkSection";
 import AgencyDetail from "@/components/directory/AgencyDetail";
 import RelatedAgencies from "@/components/directory/RelatedAgencies";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -139,11 +139,11 @@ export default async function AgencyDetailPage({ params }: AgencyDetailPageProps
         <JsonLd id={`ld-agency-organization-${agency.slug}`} data={organizationSchema} />
       )}
 
-      <Nav />
+      <SiteNav />
       <AgencyDetail agency={agency} category={primaryCategory} />
       <RelatedAgencies block={relatedBlock} />
-      <DarkSection withTopCurve />
-      <Footer />
+      <TestimonialsSection />
+      <SiteFooter />
       <IntercomButton />
     </main>
   );

@@ -1,0 +1,343 @@
+/* Shared 2026 hero for the directory's two inner pages — the category
+   listing (components/directory/CategoryHero.tsx) and an agency profile
+   (components/directory/AgencyDetail.tsx).
+
+   Same blue gradient bitmap + white Adamina serif headline idiom as
+   components/case-study-2026/CaseStudyHero.module.css, so /directory reads
+   as the same site as /integrations, /case-study and the homepage rather
+   than the flat white header it used to ship. Both pages close the hero
+   with the white meta card riding the fade into the page below: the
+   category page fills it with the live stat row, an agency page with that
+   agency's facts.
+
+   One file rather than one per page on purpose — the two heroes differ only
+   in which slots they fill, and a second copy of the gradient/crop/fade
+   maths is exactly the thing that drifts. */
+
+.hero {
+    --dh-card: #feffff;
+    --dh-ink: #16171a;
+    --dh-muted: #6b7079;
+    --dh-serif: var(--font-adamina), Georgia, serif;
+    --dh-display: var(--font-urbanist), system-ui, sans-serif;
+    --dh-body: var(--font-poppins), system-ui, sans-serif;
+    --dh-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    /* Height of the fixed SiteNav overlay; reserved as top padding so hero
+       content is never hidden behind it. Keep in sync with SiteNav's height. */
+    --site-nav-height: 70px;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: var(--dh-display);
+    background-color: var(--dh-card);
+    background-image: url("/images/home-2026/hero/hero-gradient.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    /* Tall enough that the blue stays saturated behind the headline AND the
+       subhead — the breadcrumb/logo chip push an agency page's subhead deep
+       into the bitmap. The ::after fade dissolves wherever the crop lands. */
+    background-size: 100% 1020px;
+}
+
+.hero *,
+.hero *::before,
+.hero *::after {
+    box-sizing: border-box;
+}
+
+/* Soft white fade over the hero's lower edge — the meta card sits on this
+   transition so the section hands off seamlessly to the white page. */
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 240px;
+    background: linear-gradient(180deg, rgba(254, 255, 255, 0) 0%, var(--dh-card) 92%);
+    pointer-events: none;
+}
+
+.inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: calc(var(--site-nav-height) + 64px) 24px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+/* Breadcrumb on the gradient. White-on-blue rather than the page's grey,
+   and the current page is dimmed instead of coloured so the trail reads as
+   one line. */
+.breadcrumb {
+    margin: 0;
+}
+
+.breadcrumbList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--dh-display);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.breadcrumbLink {
+    color: rgba(255, 255, 255, 0.86);
+    text-decoration: none;
+    transition: color 140ms ease;
+}
+
+.breadcrumbLink:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.breadcrumbSeparator {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.breadcrumbCurrent {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #ffffff;
+}
+
+/* White chip parking the agency's brand mark on the gradient — same
+   treatment the case-study hero gives a customer logo. */
+.logoChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(10, 10, 30, 0.18);
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.kicker {
+    margin: 0;
+    font-family: var(--dh-mono);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* Headline row — the name plus, for a partner, its badge chip. */
+.headlineRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.headline {
+    margin: 0;
+    max-width: 980px;
+    font-family: var(--dh-serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.8vw, 56px);
+    line-height: 1.16;
+    letter-spacing: -1.4px;
+    color: #ffffff;
+    text-wrap: balance;
+}
+
+/* White disc behind the partner mark. The mark itself paints in Superflow
+   blue (see PartnerBadge.module.css), which would all but vanish against
+   the blue gradient — the disc gives it the light ground it was drawn for
+   without touching the shared badge component. */
+.badgeChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(10, 10, 30, 0.18);
+}
+
+.subhead {
+    margin: 0;
+    max-width: 62ch;
+    font-family: var(--dh-body);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.34px;
+    color: rgba(255, 255, 255, 0.8);
+    text-wrap: balance;
+}
+
+/* Primary outbound action on an agency profile. White pill on the gradient,
+   matching the homepage/listing hero CTA. */
+.cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding: 14px 28px;
+    border-radius: 32px;
+    background: #ffffff;
+    color: var(--dh-ink);
+    font-family: var(--dh-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+    line-height: 1;
+    text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+/* Gated to real pointers: touch browsers emulate :hover on tap, and a
+   button that lifts out from under the finger mid-gesture can drop the
+   tap (see the longer note in AgencyCard.module.css). */
+@media (hover: hover) and (pointer: fine) {
+    .cta:hover {
+        background: #f4f4f5;
+        transform: translateY(-1px);
+    }
+}
+
+.cta:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* Quiet secondary link under the CTA — the source attribution, which has to
+   be present but must not compete with the agency's own site. */
+.sourceLink {
+    font-family: var(--dh-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 140ms ease;
+}
+
+.sourceLink:hover {
+    color: #ffffff;
+}
+
+/* White meta card riding the fade into the page — the stat row on a category
+   page, the facts panel on an agency page. */
+.metaCard {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    max-width: 860px;
+    margin-top: 36px;
+    padding: 28px 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+}
+
+.metaItem {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.metaLabel {
+    font-family: var(--dh-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--dh-muted);
+}
+
+.metaValue {
+    font-family: var(--dh-display);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--dh-ink);
+    text-align: center;
+}
+
+/* The category page's stat row leads with a number, so it gets the larger
+   serif-adjacent treatment the homepage uses for figures. */
+.metaValueStat {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+}
+
+.metaDivider {
+    align-self: stretch;
+    width: 1px;
+    background: #ececf1;
+}
+
+@media (max-width: 700px) {
+    .hero {
+        background-size: 100% 1160px;
+    }
+
+    .inner {
+        padding: calc(var(--site-nav-height) + 44px) 20px 44px;
+        gap: 16px;
+    }
+
+    .metaCard {
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px;
+    }
+
+    .metaDivider {
+        width: 100%;
+        height: 1px;
+        align-self: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cta,
+    .breadcrumbLink,
+    .sourceLink {
+        transition: none;
+    }
+
+    .cta:hover {
+        transform: none;
+    }
+}

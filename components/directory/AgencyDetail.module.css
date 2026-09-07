@@ -1,0 +1,179 @@
+/* Agency profile body — the white sections under the shared directory
+   gradient hero (components/directory/DirectoryHero.module.css).
+
+   Card idiom is the 2026 one used by
+   components/case-study-2026/CaseStudyOverview.module.css: light #fbfbfd
+   fill, #ececf1 hairline, 20px radius, 32px padding, serif-free Urbanist
+   headings over Poppins body copy.
+
+   The facts that used to sit in a right-hand sidebar (team size, award
+   total, category) now ride the hero's white meta card, and the outbound
+   website CTA is the hero's own button — so this file only styles the
+   agency's own words and its two data blocks. */
+
+.section {
+    --ad-display: var(--font-urbanist), system-ui, sans-serif;
+    --ad-body: var(--font-poppins), system-ui, sans-serif;
+    --ad-ink: #16171a;
+    --ad-muted: #6b7079;
+    --ad-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    /* No top padding: the hero's fade already lands white on the page. */
+    padding: 8px 24px 96px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+/* The agency's own blurb, as the section's lead paragraph. Centred and
+   measure-capped like every other 2026 intro. */
+.lead {
+    margin: 0;
+    max-width: 68ch;
+    font-family: var(--ad-body);
+    font-size: 17px;
+    line-height: 1.7;
+    letter-spacing: -0.2px;
+    color: var(--ad-ink);
+    text-align: center;
+    text-wrap: pretty;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+/* A single card spans the full width when it is the only one — a profile
+   with services but no awards should not render a half-empty row. */
+.cardsSingle {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 720px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--ad-display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--ad-ink);
+}
+
+/* Services render as chips — the same pill vocabulary the nav and hero
+   eyebrows use, on a white ground so they read as tags, not buttons. */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    border: 1px solid #e2e2ea;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--ad-body);
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--ad-muted);
+}
+
+/* Award breakdown: label left, count right, hairline between rows. */
+.awardList {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.awardRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #ececf1;
+    font-family: var(--ad-body);
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ad-muted);
+}
+
+.awardRow:first-child {
+    padding-top: 0;
+}
+
+.awardRow:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.awardCount {
+    flex: 0 0 auto;
+    font-family: var(--ad-display);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ad-accent);
+}
+
+@media (max-width: 800px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 8px 20px 64px;
+    }
+
+    .inner {
+        gap: 36px;
+    }
+
+    .lead {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .card {
+        padding: 24px;
+    }
+}

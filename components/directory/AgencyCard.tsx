@@ -8,6 +8,7 @@ import {
   resolveAgencySourceLabel,
 } from "@/lib/directory/agencies";
 import PartnerBadge from "./PartnerBadge";
+import styles from "./AgencyCard.module.css";
 import type { Agency } from "@/lib/directory/types";
 
 /** Maximum number of services listed before collapsing into a "+N". */
@@ -150,105 +151,57 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
         : null;
 
     return (
-      <article
-        className="flex h-full flex-col gap-4 rounded-[var(--radius-card)] border-2 border-[#f7f7f7] bg-[#f7f7f7] p-6 transition-colors hover:border-[#111] hover:bg-white lg:p-7"
-      >
-        <Link
-          href={agencyPath(agency?.slug ?? "")}
-          className="-m-1 flex items-start gap-3 rounded-[12px] p-1 transition-colors hover:bg-black/[0.04]"
-        >
+      <article className={styles.card}>
+        <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
           {agency?.logoUrl && (
-            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[8px] bg-white">
+            <div className={styles.logo}>
               <Image
+                className={styles.logoImage}
                 src={agency.logoUrl}
                 alt=""
                 fill
                 sizes="44px"
-                className="object-contain"
               />
             </div>
           )}
-          <div className="flex min-w-0 flex-col gap-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3
-                className="truncate text-black"
-                style={{
-                  fontFamily: "var(--font-poppins)",
-                  fontWeight: 600,
-                  fontSize: 20,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {agency?.name ?? "Unnamed agency"}
-              </h3>
+          <div className={styles.headerText}>
+            <div className={styles.nameRow}>
+              <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
               <PartnerBadge agency={agency} />
             </div>
-            {locationLabel && (
-              <p
-                className="truncate"
-                style={{
-                  fontFamily: "var(--font-urbanist)",
-                  fontSize: 14,
-                  color: "rgba(10,10,10,0.55)",
-                }}
-              >
-                {locationLabel}
-              </p>
-            )}
+            {locationLabel && <p className={styles.location}>{locationLabel}</p>}
           </div>
         </Link>
 
         {agency?.description && (
-          <p
-            className="line-clamp-2 text-black"
-            style={{ fontFamily: "var(--font-urbanist)", fontSize: 14, lineHeight: 1.5 }}
-          >
-            {agency.description}
-          </p>
+          <p className={styles.description}>{agency.description}</p>
         )}
 
-        {servicesLine && (
-          <p
-            className="line-clamp-1"
-            style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.5)" }}
-          >
-            {servicesLine}
-          </p>
-        )}
+        {servicesLine && <p className={styles.services}>{servicesLine}</p>}
 
         {awardTotal > 0 && (
-          <div className="flex items-baseline gap-1.5">
-            <span
-              className="text-black"
-              style={{ fontFamily: "var(--font-poppins)", fontWeight: 700, fontSize: 16 }}
-            >
-              {awardTotal}
-            </span>
-            <span style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.55)" }}>
+          <p className={styles.awards}>
+            <span className={styles.awardCount}>{awardTotal}</span>
+            <span className={styles.awardLabel}>
               award{awardTotal === 1 ? "" : "s"}
-              {topAward ? ` · ${topAward.count}x ${topAward.label}` : ""}
+              {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
             </span>
-          </div>
+          </p>
         )}
 
-        <div className="mt-auto flex items-center justify-between gap-3 border-t border-black/10 pt-4">
+        <div className={styles.footer}>
           {agency?.teamSize ? (
-            <span
-              style={{ fontFamily: "var(--font-urbanist)", fontSize: 12, color: "rgba(10,10,10,0.55)" }}
-            >
-              Team: {agency.teamSize}
-            </span>
+            <span className={styles.teamSize}>Team: {agency.teamSize}</span>
           ) : (
             <span />
           )}
-          <div className="flex min-w-0 shrink-0 flex-col items-end gap-1">
+          <div className={styles.links}>
             {agency?.website && (
               <a
                 href={agency.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="max-w-full truncate text-black underline underline-offset-2"
-                style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, fontWeight: 600 }}
+                className={styles.websiteLink}
               >
                 {websiteLabel} {EXTERNAL_LINK_GLYPH}
               </a>
@@ -258,12 +211,7 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
                 href={agency.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="whitespace-nowrap underline underline-offset-2"
-                style={{
-                  fontFamily: "var(--font-urbanist)",
-                  fontSize: 12,
-                  color: "rgba(10,10,10,0.55)",
-                }}
+                className={styles.sourceLink}
               >
                 {sourceLabel} {EXTERNAL_LINK_GLYPH}
               </a>

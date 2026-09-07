@@ -8,15 +8,16 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
 - `app/directory/page.tsx` — hub page. Lists every category in
   `DIRECTORY_CATEGORIES`, each with a count of indexed agencies (or a
   "coming soon" label while that category's data is still empty). Built on
-  the shared `ListingPage` / `ListingGrid` components, so adding a category
-  needs **no edit here**.
+  the shared `ListingPage` / `ListingGrid` components (the 2026 set in
+  `components/listing-2026/`, same as `/use-case` and `/user-persona`), so
+  adding a category needs **no edit here**.
 - `app/directory/[category]/page.tsx` — category detail page. Statically
   generated for every slug in `DIRECTORY_CATEGORIES` via
   `generateStaticParams`; any other slug 404s via `notFound()`. Header is
-  `components/directory/CategoryHero.tsx` (not the shared `ListingHero` —
-  see that component's doc comment for why). Agencies render as a card
-  grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`), sorted
-  in the directory's default order: Superflow partners first, then total
+  `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
+  hero, closing on a white card carrying the live stat row. Agencies render
+  as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`),
+  sorted in the directory's default order: Superflow partners first, then total
   award count descending, then name. Each card links through to that
   agency's detail page. See "Category page controls" below for the
   search/filter/sort layer on top of this grid.
@@ -29,12 +30,39 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   Statically generated for every agency slug in the dataset via
   `generateStaticParams` — dropping N records into `agencies.json`
   produces N pages automatically, no code change. Unknown slug → `notFound()`.
-  Renders full content (`components/directory/AgencyDetail.tsx`): breadcrumb,
-  description, complete award breakdown, services, team size, a prominent
-  outbound "Visit website" CTA, the source attribution link, plus a
+  Renders full content (`components/directory/AgencyDetail.tsx`): a gradient
+  hero carrying the breadcrumb, logo, name, location, the prominent outbound
+  "Visit website" CTA, the source attribution link and a white facts card
+  (team size / total awards / category), then white cards below it for the
+  description, services and the complete award breakdown, plus a
   data-derived "more agencies" block (`components/directory/RelatedAgencies.tsx`,
   capped at 6 — same country first, falling back to same category) so pages
   interlink instead of being orphaned behind the category listing.
+
+## Design system
+
+These pages are on the 2026 design system, the same one the homepage,
+`/integrations` and `/case-study` use — `SiteNav`/`SiteFooter` from
+`components/home-2026/`, the blue-gradient hero bitmap, Adamina serif
+headlines over Urbanist/Poppins, and the light card idiom (`#fbfbfd` fill,
+`#ececf1` hairline, 20px radius, `#433df3` accent). The directory's own
+pieces live in four CSS modules under `components/directory/`:
+
+- `DirectoryHero.module.css` — the gradient hero shared by the category page
+  and an agency profile, including the white meta card both close on.
+- `DirectoryGrid.module.css` — the white grid section, the search/country/sort
+  control bar, and both empty states. Shared by `AgencyGrid`, `AgencyExplorer`
+  and `RelatedAgencies` so the halves of one visual section can't drift.
+- `AgencyCard.module.css` — the category-grid card.
+- `AgencyDetail.module.css` — the profile's content cards.
+
+**Hover on cards and buttons is gated behind
+`@media (hover: hover) and (pointer: fine)`, and must stay that way.** Touch
+browsers emulate `:hover` on tap; with the card's `translateY(-2px)` lift
+ungated, the card slid out from under the finger between touchstart and
+touchend and swallowed the tap — which showed up as the partner badge
+refusing to open on a phone. See the note in `AgencyCard.module.css` and the
+"partner badge on touch" tests.
 
 ## Where the data comes from
 
@@ -116,8 +144,16 @@ copy is what narrows it, not optional decoration.
 | Tap / click | `.badgeOpen` class | Component state, set in `PartnerBadgeMark` |
 | Enter / Space | `.badgeOpen` class | `role="button"` contract; Space is intercepted so the page doesn't scroll |
 
-Dismisses on outside pointer-down, `Escape`, or scroll. Those listeners are
-bound only while open, so a page of cards adds no idle listeners.
+Dismisses on outside pointer-down, `Escape`, or the user scrolling
+(`wheel` / `touchmove`). Those listeners are bound only while open, so a
+page of cards adds no idle listeners.
+
+Scroll dismissal deliberately watches the user's scroll **input** rather
+than the `scroll` event: `scroll` also fires for programmatic scrolling,
+including the smooth scroll-into-view `.focus()` performs when a keyboard
+user tabs to a badge far down the page. That scroll is still in flight when
+Enter opens the tooltip, so listening to `scroll` let the badge dismiss the
+panel it had just opened.
 
 ### The client/server split
 

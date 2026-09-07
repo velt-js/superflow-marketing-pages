@@ -1,0 +1,269 @@
+/* Directory grid furniture — the white section that holds a category's
+   agency cards, the search/country/sort control bar above them, and the two
+   empty states.
+
+   Shared by components/directory/AgencyGrid.tsx (the server-rendered
+   section + the "nothing scraped yet" empty state) and
+   components/directory/AgencyExplorer.tsx (the client control bar, the grid
+   itself, and the "filters match nothing" empty state), so the two halves
+   of one visual section can't drift apart.
+
+   Section metrics (white ground, 1200px inner, 96px/64px padding) match
+   components/case-study-2026/CaseStudyGrid.module.css and
+   components/listing-2026/ListingGrid.module.css. */
+
+.section {
+    --dg-display: var(--font-urbanist), system-ui, sans-serif;
+    --dg-body: var(--font-poppins), system-ui, sans-serif;
+    --dg-ink: #16171a;
+    --dg-muted: #6b7079;
+    --dg-quiet: #8b909a;
+    --dg-accent: #433df3;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    /* No top padding: this section always follows the gradient hero, whose
+       white fade already lands on the page. Adding the usual 96px on top of
+       that fade opened a dead band between the stat card and the controls. */
+    padding: 8px 24px 96px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---- Control bar ---------------------------------------------------- */
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fieldSearch {
+    flex: 1 1 260px;
+    min-width: 220px;
+}
+
+.fieldSelect {
+    flex: 0 1 190px;
+    min-width: 160px;
+}
+
+.label {
+    font-family: var(--dg-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--dg-muted);
+}
+
+.control {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #e2e2ea;
+    border-radius: 12px;
+    background: #ffffff;
+    font-family: var(--dg-body);
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--dg-ink);
+    outline: none;
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.control::placeholder {
+    color: var(--dg-quiet);
+}
+
+.control:hover {
+    border-color: #d5d5e0;
+}
+
+.control:focus {
+    border-color: rgba(67, 61, 243, 0.5);
+    box-shadow: 0 0 0 3px rgba(67, 61, 243, 0.12);
+}
+
+/* Native selects ignore most box styling on some platforms; the custom
+   chevron keeps the two select fields looking like the search input. */
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 38px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7079' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    cursor: pointer;
+}
+
+.count {
+    margin: 0;
+    font-family: var(--dg-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--dg-muted);
+}
+
+/* Sections that do NOT follow the hero (the related-agencies block at the
+   bottom of a profile) need the full 2026 section rhythm back on top. */
+.sectionSpaced {
+    padding-top: 88px;
+}
+
+.heading {
+    margin: 0 0 24px;
+    font-family: var(--dg-display);
+    font-size: clamp(24px, 2.6vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    color: var(--dg-ink);
+}
+
+/* ---- Card grid ------------------------------------------------------ */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+/* ---- Empty states --------------------------------------------------- */
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 64px 24px;
+    border: 1px dashed #dcdce5;
+    border-radius: 20px;
+    background: #fbfbfd;
+    text-align: center;
+}
+
+.emptyHeading {
+    margin: 0;
+    font-family: var(--dg-display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--dg-ink);
+}
+
+.emptyBody {
+    margin: 0;
+    max-width: 440px;
+    font-family: var(--dg-body);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--dg-muted);
+}
+
+.emptyAction {
+    margin-top: 8px;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 999px;
+    background: var(--dg-accent);
+    font-family: var(--dg-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 140ms ease, transform 140ms ease;
+}
+
+/* Gated to real pointers — see the note in AgencyCard.module.css. */
+@media (hover: hover) and (pointer: fine) {
+    .emptyAction:hover {
+        background: #372fd8;
+        transform: translateY(-1px);
+    }
+}
+
+.emptyAction:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
+@media (min-width: 640px) {
+    .controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 16px;
+    }
+
+    .count {
+        margin-left: auto;
+        padding-bottom: 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 8px 20px 64px;
+    }
+
+    .sectionSpaced {
+        padding-top: 56px;
+    }
+
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .control,
+    .emptyAction {
+        transition: none;
+    }
+
+    .emptyAction:hover {
+        transform: none;
+    }
+}

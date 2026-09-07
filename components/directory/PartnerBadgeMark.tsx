@@ -105,8 +105,19 @@ export default function PartnerBadgeMark({
   );
 
   // Dismiss on anything that means "I'm done looking at this": a pointer
-  // down elsewhere, Escape, or the page scrolling away underneath it.
-  // Only bound while open, so a page of cards adds no idle listeners.
+  // down elsewhere, Escape, or the user scrolling the page away underneath
+  // it. Only bound while open, so a page of cards adds no idle listeners.
+  //
+  // Scroll dismissal listens for `wheel`/`touchmove` - the user's scroll
+  // INPUT - rather than the `scroll` event, on purpose. `scroll` also fires
+  // for programmatic scrolling, including the smooth scroll-into-view that
+  // `.focus()` performs when a keyboard user tabs to a badge far down the
+  // page. That scroll is still in flight when Enter opens the tooltip, so
+  // listening to `scroll` let the badge dismiss the panel it had just
+  // opened - a race that got much easier to lose once the directory pages
+  // grew a full-height 2026 hero and pushed the first card ~1500px down.
+  // Input events never fire for programmatic scrolls, so this is dismissal
+  // on the thing actually meant: the user moving on.
   useEffect(() => {
     try {
       if (!isOpen) return;
@@ -132,12 +143,14 @@ export default function PartnerBadgeMark({
 
       document.addEventListener("pointerdown", handleOutsidePointer);
       document.addEventListener("keydown", handleEscape);
-      window.addEventListener("scroll", closeTooltip, { passive: true });
+      window.addEventListener("wheel", closeTooltip, { passive: true });
+      window.addEventListener("touchmove", closeTooltip, { passive: true });
 
       return () => {
         document.removeEventListener("pointerdown", handleOutsidePointer);
         document.removeEventListener("keydown", handleEscape);
-        window.removeEventListener("scroll", closeTooltip);
+        window.removeEventListener("wheel", closeTooltip);
+        window.removeEventListener("touchmove", closeTooltip);
       };
     } catch {
       return;

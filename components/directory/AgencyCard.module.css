@@ -1,0 +1,276 @@
+/* Agency card — 2026 restyle of the directory's category-grid card.
+
+   Reuses the canonical 2026 card idiom (light #fbfbfd fill, #ececf1
+   hairline, 20px radius, accent hover border/shadow/lift) shared by
+   components/case-study-2026/CaseStudyGrid.module.css and
+   components/listing-2026/ListingGrid.module.css, so a directory card is
+   visibly the same object as a case-study or use-case card.
+
+   Unlike those two, this card is NOT a single card-wide <Link>: it carries
+   three independent destinations (the agency's own detail page, the
+   agency's website, and the source attribution link). The header stays the
+   internal link and the footer links stay separate — see AgencyCard.tsx.
+   That structure is also what the partner-badge browser tests drive, so
+   restyling must not collapse it into one link. */
+
+.card {
+    --ac-display: var(--font-urbanist), system-ui, sans-serif;
+    --ac-body: var(--font-poppins), system-ui, sans-serif;
+    --ac-ink: #16171a;
+    --ac-muted: #6b7079;
+    --ac-quiet: #8b909a;
+    --ac-accent: #433df3;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+    padding: 28px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.card *,
+.card *::before,
+.card *::after {
+    box-sizing: border-box;
+}
+
+/* The card's internal link: the logo + name + location block. Sized to its
+   own content so the outbound footer links stay independently clickable. */
+.header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: -6px;
+    padding: 6px;
+    border-radius: 14px;
+    text-decoration: none;
+}
+
+.header:focus-visible {
+    outline: 2px solid var(--ac-accent);
+    outline-offset: 2px;
+}
+
+/* Brand marks are already colourful, so no tile or disc behind them —
+   the 2026 icon rule the case-study grid follows. */
+.logo {
+    position: relative;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.headerText {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nameRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.name {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--ac-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    color: var(--ac-ink);
+    transition: color 140ms ease;
+}
+
+.location {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--ac-body);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ac-muted);
+}
+
+.description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    margin: 0;
+    font-family: var(--ac-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ac-muted);
+}
+
+.services {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    margin: 0;
+    font-family: var(--ac-body);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ac-quiet);
+}
+
+/* Award record — the card's one real credential, so it gets the accent
+   colour that every other 2026 card spends on its CTA line. */
+.awards {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: var(--ac-display);
+}
+
+.awardCount {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ac-accent);
+}
+
+.awardLabel {
+    font-family: var(--ac-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ac-muted);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #ececf1;
+}
+
+.teamSize {
+    font-family: var(--ac-body);
+    font-size: 12px;
+    color: var(--ac-quiet);
+}
+
+.links {
+    display: flex;
+    min-width: 0;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.websiteLink {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--ac-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ac-ink);
+    text-decoration: none;
+    transition: color 140ms ease;
+}
+
+.sourceLink {
+    white-space: nowrap;
+    font-family: var(--ac-body);
+    font-size: 12px;
+    color: var(--ac-quiet);
+    text-decoration: none;
+    transition: color 140ms ease;
+}
+
+.websiteLink:focus-visible,
+.sourceLink:focus-visible {
+    outline: 2px solid var(--ac-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Hover is gated to real pointers, exactly as the partner badge's own
+   tooltip is (see PartnerBadge.module.css) — and here it is load-bearing,
+   not cosmetic.
+ *
+ * Touch browsers emulate :hover on tap. With the lift ungated, the first
+ * touch on a card fired the emulated hover, `transform: translateY(-2px)`
+ * started animating, and the card slid 2px out from under the finger
+ * between touchstart and touchend — which dropped the tap. The visible
+ * symptom was the partner badge inside the card refusing to open its
+ * tooltip on a phone (its `aria-expanded` never flipped), caught by
+ * tests/directory/partner-badge.spec.ts "partner badge on touch".
+ *
+ * A sticky emulated hover is wrong on touch anyway: it strands the last
+ * tapped card in a highlighted state with no way to clear it. So the whole
+ * hover treatment, not just the transform, stays behind this query. */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover {
+        border-color: rgba(67, 61, 243, 0.35);
+        background: #ffffff;
+        box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+        transform: translateY(-2px);
+    }
+
+    .header:hover .name {
+        color: var(--ac-accent);
+    }
+
+    .websiteLink:hover {
+        color: var(--ac-accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    .sourceLink:hover {
+        color: var(--ac-muted);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}
