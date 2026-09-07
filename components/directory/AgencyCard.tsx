@@ -155,13 +155,18 @@ function buildFooterMetaLabel(agency: Agency | null | undefined): string | null 
  * services are supporting detail, deliberately styled to read quieter
  * than the name rather than compete with it.
  *
- * The name/logo header links to the agency's own directory detail page
- * (/directory/agency/<slug>), which holds the full profile - full award
+ * The whole body above the footer rule - logo, name, location,
+ * description, services, "Worked with" line and the award/rating line -
+ * is one link to the agency's own directory detail page
+ * (/directory/agency/<slug>), which holds the full profile: full award
  * breakdown and service list included, this card only summarizes both.
- * The footer carries the two outbound links separately: the agency's own
- * website and an attribution link back to the source profile the record
- * was collected from - both keep working independently of the internal
- * link above.
+ * The link covers the body rather than just the name header because the
+ * body is what a visitor scanning the grid actually aims at; a card that
+ * lifts on hover but only navigates from its top row reads as broken.
+ * The footer sits outside the link and carries the two outbound links
+ * separately: the agency's own website and an attribution link back to
+ * the source profile the record was collected from - both keep working
+ * independently of the internal link above.
  *
  * @param props - Component props.
  * @param props.agency - The agency record to render.
@@ -192,64 +197,66 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
 
     return (
       <article className={styles.card}>
-        <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
-          {agency?.logoUrl && (
-            <div className={styles.logo}>
-              <Image
-                className={styles.logoImage}
-                src={agency.logoUrl}
-                alt=""
-                fill
-                sizes="44px"
-              />
+        <Link href={agencyPath(agency?.slug ?? "")} className={styles.body}>
+          <div className={styles.header}>
+            {agency?.logoUrl && (
+              <div className={styles.logo}>
+                <Image
+                  className={styles.logoImage}
+                  src={agency.logoUrl}
+                  alt=""
+                  fill
+                  sizes="44px"
+                />
+              </div>
+            )}
+            <div className={styles.headerText}>
+              <div className={styles.nameRow}>
+                <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
+                <PartnerBadge agency={agency} />
+              </div>
+              {locationLabel && <p className={styles.location}>{locationLabel}</p>}
             </div>
-          )}
-          <div className={styles.headerText}>
-            <div className={styles.nameRow}>
-              <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
-              <PartnerBadge agency={agency} />
-            </div>
-            {locationLabel && <p className={styles.location}>{locationLabel}</p>}
           </div>
+
+          {agency?.description && (
+            <p className={styles.description}>{agency.description}</p>
+          )}
+
+          {servicesLine && <p className={styles.services}>{servicesLine}</p>}
+
+          {clientSummary && (
+            <p className={styles.clients}>
+              <span className={styles.clientsLabel}>{CLIENTS_LINE_LABEL}</span>
+              <span className={styles.clientsNames}>{clientSummary}</span>
+            </p>
+          )}
+
+          {/* A record carries an award total or a rating, never both (see
+              AgencyRating in lib/directory/types.ts) - written as two
+              independent conditions rather than an if/else so that stays
+              true by the data, not by an assumption baked into the JSX. */}
+          {awardTotal > 0 && (
+            <p className={styles.awards}>
+              <span className={styles.awardCount}>{awardTotal}</span>
+              <span className={styles.awardLabel}>
+                award{awardTotal === 1 ? "" : "s"}
+                {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
+              </span>
+            </p>
+          )}
+
+          {ratingSummary && agency?.rating && (
+            <p className={styles.rating}>
+              <span className={styles.ratingScore}>
+                {agency.rating.value}/{agency.rating.scale}
+              </span>
+              <span className={styles.ratingLabel}>
+                {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
+              </span>
+            </p>
+          )}
         </Link>
-
-        {agency?.description && (
-          <p className={styles.description}>{agency.description}</p>
-        )}
-
-        {servicesLine && <p className={styles.services}>{servicesLine}</p>}
-
-        {clientSummary && (
-          <p className={styles.clients}>
-            <span className={styles.clientsLabel}>{CLIENTS_LINE_LABEL}</span>
-            <span className={styles.clientsNames}>{clientSummary}</span>
-          </p>
-        )}
-
-        {/* A record carries an award total or a rating, never both (see
-            AgencyRating in lib/directory/types.ts) - written as two
-            independent conditions rather than an if/else so that stays
-            true by the data, not by an assumption baked into the JSX. */}
-        {awardTotal > 0 && (
-          <p className={styles.awards}>
-            <span className={styles.awardCount}>{awardTotal}</span>
-            <span className={styles.awardLabel}>
-              award{awardTotal === 1 ? "" : "s"}
-              {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
-            </span>
-          </p>
-        )}
-
-        {ratingSummary && agency?.rating && (
-          <p className={styles.rating}>
-            <span className={styles.ratingScore}>
-              {agency.rating.value}/{agency.rating.scale}
-            </span>
-            <span className={styles.ratingLabel}>
-              {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
-            </span>
-          </p>
-        )}
 
         <div className={styles.footer}>
           {footerMetaLabel ? (

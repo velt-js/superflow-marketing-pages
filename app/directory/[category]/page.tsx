@@ -33,7 +33,6 @@ import { SITE_URL } from "@/app/_seo/schema";
 import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
 import {
   agencyPath,
-  buildAgencyListStats,
   getAgenciesByCategory,
   getDirectoryCategory,
 } from "@/lib/directory/agencies";
@@ -102,7 +101,6 @@ export default async function DirectoryCategoryPage({
   if (!category) notFound();
 
   const agencies = getAgenciesByCategory(category.slug);
-  const stats = buildAgencyListStats(agencies);
   const path = `${DIRECTORY_BASE_PATH}/${category.slug}`;
 
   return (
@@ -146,7 +144,7 @@ export default async function DirectoryCategoryPage({
       )}
 
       <SiteNav />
-      <CategoryHero category={category} stats={stats} />
+      <CategoryHero category={category} />
       <AgencyGrid agencies={agencies} categorySlug={category.slug} />
       {/* No testimonials section. It is social proof about agencies using
           Superflow, which reads as an endorsement of the agencies listed

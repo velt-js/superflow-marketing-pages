@@ -138,15 +138,18 @@ why the two are kept structurally apart.
   generated for every slug in `DIRECTORY_CATEGORIES` via
   `generateStaticParams`; any other slug 404s via `notFound()`. Header is
   `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
-  hero, closing on a white card carrying the live stat row. Agencies render
+  hero, closing on its copy (no stat card — see `.heroNoCard` in
+  `DirectoryHero.module.css`). Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
   each carrying a one-line "Worked with X, Y, Z +N more" summary),
   sorted in the directory's default order: Superflow partners first, then
   total award count descending, then review score descending, then name.
   The two credibility keys are disjoint per category (see the top of this
-  file), so in practice web-design sorts on awards and SEO on reviews. Each card links through to that
-  agency's detail page. See "Category page controls" below for the
-  search/filter/sort layer on top of this grid.
+  file), so in practice web-design sorts on awards and SEO on reviews. Each
+  card's body — everything above its footer rule — links through to that
+  agency's detail page; only the footer's two outbound links go elsewhere.
+  See "Category page controls" below for the search/filter/sort layer on
+  top of this grid.
 - `app/directory/agency/[slug]/page.tsx` — agency detail page. **Flat**
   route, deliberately not nested under a category — `Agency.categories` is
   an array, so a nested scheme would mint two URLs for an agency in two
@@ -177,7 +180,8 @@ headlines over Urbanist/Poppins, and the light card idiom (`#fbfbfd` fill,
 pieces live in four CSS modules under `components/directory/`:
 
 - `DirectoryHero.module.css` — the gradient hero shared by the category page
-  and an agency profile, including the white meta card both close on.
+  and an agency profile, including the white facts card the profile closes
+  on (the category page's `.heroNoCard` variant closes on its copy instead).
 - `DirectoryGrid.module.css` — the white grid section, the search/country/sort
   control bar, and both empty states. Shared by `AgencyGrid`, `AgencyExplorer`
   and `RelatedAgencies` so the halves of one visual section can't drift.
@@ -249,8 +253,7 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   review-based counterparts, see "Review ranking" below),
   `mergeAgencySources`, `resolveAgencySourceLabel`, `isSuperflowPartner`,
   `buildAgencyListItems` / `AgencyListItem` (the slim, client-safe
-  projection behind the category page's controls), `buildAgencyListStats`
-  (agency/country/partner counts for `CategoryHero`), and the thin-content
+  projection behind the category page's controls), and the thin-content
   gate described next.
 
 ## Thin-content guard
@@ -538,9 +541,10 @@ guards this, and was confirmed to fail when the boundary is moved up.
   styled one after roughly a second and repeat the same sentence.
 - The tooltip is `pointer-events: none`, so it cannot swallow taps meant
   for the card link it overlaps.
-- The category hero's "N Superflow partners" stat (`buildAgencyListStats` →
-  `CategoryHero`) is the only place the phrase appears as visible text on a
-  category page; the agency detail page has no equivalent.
+- **No visible copy repeats the claim.** The badge's tooltip and
+  `aria-label` are the only place a category page states it: the hero's
+  stat card, which used to carry an "N Superflow partners" count, is gone,
+  and the agency detail page has no equivalent.
 
 ### Previewing the badge
 

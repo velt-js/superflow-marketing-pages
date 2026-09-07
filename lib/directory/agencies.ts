@@ -1154,34 +1154,3 @@ export function buildAgencyListItems(agencies: Agency[] | null | undefined): Age
     return [];
   }
 }
-
-/** Aggregate counts shown in the category page header - see
- *  components/directory/CategoryHero.tsx. */
-export interface AgencyListStats {
-  agencyCount: number;
-  countryCount: number;
-  partnerCount: number;
-}
-
-/**
- * Summarizes a list of agencies for the category header's stat row:
- * how many agencies, how many distinct countries, how many are Superflow
- * partners. All derived from the data - never a hardcoded count.
- *
- * @param agencies - Agencies to summarize.
- * @returns Agency count, distinct country count, and partner count.
- */
-export function buildAgencyListStats(agencies: Agency[] | null | undefined): AgencyListStats {
-  try {
-    const list = agencies ?? [];
-    const countries = new Set(
-      list
-        .map((agency) => agency?.location?.country?.trim())
-        .filter((country): country is string => Boolean(country)),
-    );
-    const partnerCount = list.filter((agency) => isSuperflowPartner(agency)).length;
-    return { agencyCount: list.length, countryCount: countries.size, partnerCount };
-  } catch {
-    return { agencyCount: 0, countryCount: 0, partnerCount: 0 };
-  }
-}

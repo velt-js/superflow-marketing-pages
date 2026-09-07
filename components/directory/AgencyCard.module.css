@@ -8,10 +8,11 @@
 
    Unlike those two, this card is NOT a single card-wide <Link>: it carries
    three independent destinations (the agency's own detail page, the
-   agency's website, and the source attribution link). The header stays the
-   internal link and the footer links stay separate — see AgencyCard.tsx.
-   That structure is also what the partner-badge browser tests drive, so
-   restyling must not collapse it into one link. */
+   agency's website, and the source attribution link). The body — everything
+   above the footer rule — is the internal link and the footer links stay
+   separate — see AgencyCard.tsx. That structure is also what the
+   partner-badge browser tests drive, so restyling must not collapse it into
+   one link. */
 
 .card {
     --ac-display: var(--font-urbanist), system-ui, sans-serif;
@@ -44,21 +45,33 @@
     box-sizing: border-box;
 }
 
-/* The card's internal link: the logo + name + location block. Sized to its
-   own content so the outbound footer links stay independently clickable. */
+/* The card's internal link: the whole body above the footer rule — logo,
+   name, location, description, services, "Worked with" line and the
+   credential line. It flexes to fill the card so the slack above the
+   footer is part of the hit area too, while the outbound footer links
+   stay independently clickable. Text colour is set per child, so the link
+   itself only has to reset the UA's blue/underline. */
+.body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    border-radius: 14px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.body:focus-visible {
+    outline: 2px solid var(--ac-accent);
+    outline-offset: 6px;
+}
+
+/* Logo + name + location row at the top of the body. */
 .header {
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    margin: -6px;
-    padding: 6px;
-    border-radius: 14px;
-    text-decoration: none;
-}
-
-.header:focus-visible {
-    outline: 2px solid var(--ac-accent);
-    outline-offset: 2px;
 }
 
 /* Brand marks are already colourful, so no tile or disc behind them —
@@ -292,7 +305,7 @@
         transform: translateY(-2px);
     }
 
-    .header:hover .name {
+    .body:hover .name {
         color: var(--ac-accent);
     }
 

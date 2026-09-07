@@ -5,10 +5,10 @@
    Same blue gradient bitmap + white Adamina serif headline idiom as
    components/case-study-2026/CaseStudyHero.module.css, so /directory reads
    as the same site as /integrations, /case-study and the homepage rather
-   than the flat white header it used to ship. Both pages close the hero
-   with the white meta card riding the fade into the page below: the
-   category page fills it with the live stat row, an agency page with that
-   agency's facts.
+   than the flat white header it used to ship. An agency page closes the
+   hero with the white meta card riding the fade into the page below,
+   filled with that agency's facts; the category page carries no card and
+   closes on its copy instead (see .heroNoCard).
 
    One file rather than one per page on purpose — the two heroes differ only
    in which slots they fill, and a second copy of the gradient/crop/fade
@@ -70,6 +70,19 @@
     align-items: center;
     gap: 20px;
     text-align: center;
+}
+
+/* Category listing: no meta card, so nothing rides the fade. The same
+   240px fade under a 56px bottom pad would wash the white subhead out, so
+   this variant takes the listing hero's proportions instead
+   (components/listing-2026/ListingHero.module.css): a shorter fade, and
+   bottom padding that exceeds it so the copy stays on saturated blue. */
+.heroNoCard::after {
+    height: 140px;
+}
+
+.heroNoCard .inner {
+    padding-bottom: 150px;
 }
 
 /* Breadcrumb on the gradient. White-on-blue rather than the page's grey,
@@ -247,8 +260,8 @@
     color: #ffffff;
 }
 
-/* White meta card riding the fade into the page — the stat row on a category
-   page, the facts panel on an agency page. */
+/* White meta card riding the fade into the page — the facts panel on an
+   agency page. (The category hero has no card; see .heroNoCard above.) */
 .metaCard {
     display: flex;
     align-items: stretch;
@@ -292,14 +305,6 @@
     text-align: center;
 }
 
-/* The category page's stat row leads with a number, so it gets the larger
-   serif-adjacent treatment the homepage uses for figures. */
-.metaValueStat {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-}
-
 .metaDivider {
     align-self: stretch;
     width: 1px;
@@ -314,6 +319,10 @@
     .inner {
         padding: calc(var(--site-nav-height) + 44px) 20px 44px;
         gap: 16px;
+    }
+
+    .heroNoCard .inner {
+        padding-bottom: 96px;
     }
 
     .metaCard {

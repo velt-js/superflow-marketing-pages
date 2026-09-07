@@ -25,7 +25,7 @@
     width: 100%;
     /* No top padding: this section always follows the gradient hero, whose
        white fade already lands on the page. Adding the usual 96px on top of
-       that fade opened a dead band between the stat card and the controls. */
+       that fade opened a dead band between the hero and the controls. */
     padding: 8px 24px 96px;
     background: #ffffff;
 }
