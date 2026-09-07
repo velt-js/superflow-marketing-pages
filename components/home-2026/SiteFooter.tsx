@@ -2,11 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./SiteFooter.module.css";
 import { liveTools, toolPath } from "@/lib/tools/registry";
-import {
-  SOLUTIONS_BASE_PATH,
-  SOLUTION_SUMMARIES,
-  solutionPath,
-} from "@/lib/solutions/seed";
+import { SolutionsFooterLinks } from "@/components/solutions-2026/SolutionsChrome";
 
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
@@ -31,7 +27,16 @@ const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 
 type FooterLink = { label: string; href: string; paid?: boolean };
-type FooterColumn = { title: string; links: FooterLink[] };
+/**
+ * A footer column: static links, or the Solutions column, whose links come
+ * from the resolved solution summaries (see SolutionsFooterLinks).
+ */
+type FooterColumn = {
+  title: string;
+  links: FooterLink[];
+  /** Render the resolved solution pages instead of `links`. */
+  solutions?: boolean;
+};
 
 /** Navigation columns rendered on the blue footer band. Data-driven so copy/links stay in one place. */
 const FOOTER_COLUMNS: FooterColumn[] = [
@@ -179,18 +184,14 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    // The solutions pages, read from the seed summaries (nav order: agency
-    // pages first, then job pages) so a page added in lib/solutions shows up
-    // here with no second edit. Replaces the retired Use Cases and User
-    // Persona columns, whose URLs now redirect here (see next.config.ts).
+    // The solutions pages (agency pages first, then job pages), read from the
+    // summaries the root layout resolves so a page added or hidden in Sanity
+    // shows up or disappears here with no code change. Replaces the retired
+    // Use Cases and User Persona columns, whose URLs now redirect here (see
+    // next.config.ts).
     title: "Solutions",
-    links: [
-      ...SOLUTION_SUMMARIES.map((solution) => ({
-        label: solution.navLabel,
-        href: solutionPath(solution.slug),
-      })),
-      { label: "All solutions", href: SOLUTIONS_BASE_PATH },
-    ],
+    links: [],
+    solutions: true,
   },
 ];
 
@@ -297,6 +298,9 @@ function FooterLinkColumn({ column }: { column: FooterColumn }) {
     <div className={styles.column}>
       <h3 className={styles.columnTitle}>{column.title}</h3>
       <ul className={styles.columnLinks}>
+        {column.solutions ? (
+          <SolutionsFooterLinks linkClassName={styles.footerLink} />
+        ) : null}
         {column.links?.map((link) => (
           <li key={link.label}>
             <Link href={link.href} className={styles.footerLink}>

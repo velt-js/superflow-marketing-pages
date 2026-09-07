@@ -1,13 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  SOLUTIONS_BASE_PATH,
-  SOLUTION_SUMMARIES,
-  solutionPath,
-} from "@/lib/solutions/seed";
+import { SolutionsFooterLinks } from "@/components/solutions-2026/SolutionsChrome";
 
 type LinkItem = { label: string; href: string; dollar?: boolean };
-type Column = { title: string; links: LinkItem[] };
+/** A column of static links, or the Solutions column (links resolved at render). */
+type Column = { title: string; links: LinkItem[]; solutions?: boolean };
 
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
 
@@ -81,13 +78,8 @@ const COLUMNS: Column[] = [
     // the solutions pages (see next.config.ts), so this column mirrors the
     // Solutions column in components/home-2026/SiteFooter.tsx.
     title: "Solutions",
-    links: [
-      ...SOLUTION_SUMMARIES.map((solution) => ({
-        label: solution.navLabel,
-        href: solutionPath(solution.slug),
-      })),
-      { label: "All solutions", href: SOLUTIONS_BASE_PATH },
-    ],
+    links: [],
+    solutions: true,
   },
   {
     title: "Legal",
@@ -127,6 +119,12 @@ function ColumnBlock({ col }: { col: Column }) {
         {col.title}
       </h4>
       <ul className="flex flex-col gap-[16px]">
+        {col.solutions ? (
+          <SolutionsFooterLinks
+            linkClassName="flex items-center text-[16px] leading-[20px] hover:text-white transition-colors"
+            linkStyle={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-urbanist)" }}
+          />
+        ) : null}
         {col.links.map((l) => (
           <li key={l.label}>
             <Link

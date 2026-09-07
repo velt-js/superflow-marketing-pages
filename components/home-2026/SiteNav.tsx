@@ -47,12 +47,9 @@ import {
 } from "./HeroIcons";
 import { GtmMark } from "@/components/integration-2026/IntegrationBrandMarks";
 import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
-import {
-  SOLUTIONS_BASE_PATH,
-  solutionPath,
-  solutionsOfKind,
-} from "@/lib/solutions/seed";
+import { SOLUTIONS_BASE_PATH, solutionPath } from "@/lib/solutions/seed";
 import type { SolutionKind, SolutionSummary } from "@/lib/solutions/types";
+import { useSolutionSummaries } from "@/components/solutions-2026/SolutionsChrome";
 
 /** A single top-navigation entry. Chevron is shown for menu-style links. */
 type NavItem = {
@@ -265,26 +262,34 @@ type SolutionGroup = {
   links: readonly SolutionSummary[];
 };
 
+/** The two Solutions columns, without their links. */
+const SOLUTION_GROUP_SHAPES: readonly Omit<SolutionGroup, "links">[] = [
+  { heading: "By agency", kind: "agency", tone: "ai" },
+  { heading: "By job", kind: "job", tone: "review" },
+];
+
 /**
  * Solution pages surfaced in the Solutions mega-menu, one column per kind.
- * Read from the seed summaries (lib/solutions/seed.ts) so a page added there
- * shows up here with no second edit. Shared by the desktop sheet and the
- * mobile accordion so both stay in sync.
+ * Built from the summaries the root layout resolves (CMS merged over the
+ * seed, hidden documents removed; see SolutionsChromeProvider), so a page
+ * added or hidden in Sanity shows up or disappears here with no code change.
+ * Shared by the desktop sheet and the mobile accordion so both stay in sync.
+ *
+ * @param summaries - The resolved summaries, in display order.
+ * @returns The columns; a kind with no pages is left out.
  */
-const SOLUTION_GROUPS: readonly SolutionGroup[] = [
-  {
-    heading: "By agency",
-    kind: "agency",
-    tone: "ai",
-    links: solutionsOfKind("agency"),
-  },
-  {
-    heading: "By job",
-    kind: "job",
-    tone: "review",
-    links: solutionsOfKind("job"),
-  },
-];
+function buildSolutionGroups(
+  summaries: readonly SolutionSummary[],
+): SolutionGroup[] {
+  try {
+    return SOLUTION_GROUP_SHAPES.map((shape) => ({
+      ...shape,
+      links: summaries.filter((summary) => summary?.kind === shape.kind),
+    })).filter((group) => group.links.length > 0);
+  } catch {
+    return [];
+  }
+}
 
 /**
  * Menu icon per solution slug. Batch 2 slugs from the spec are listed ahead
@@ -595,6 +600,7 @@ interface SiteNavProps {
 }
 
 export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
+  const solutionGroups = buildSolutionGroups(useSolutionSummaries());
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   /* Label of the desktop dropdown currently open, or null. A single value keeps
@@ -1318,7 +1324,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
         onBlur={handleDropdownBlur}
       >
         <div className={`${styles.megaInner} ${styles.megaInnerTwoCol}`}>
-          {SOLUTION_GROUPS.map((group) => (
+          {solutionGroups.map((group) => (
             <div
               key={group.kind}
               className={`${styles.megaColumn} ${toneClassName(group.tone)}`}
@@ -1465,7 +1471,7 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         : ""
                     }`}
                   >
-                    {SOLUTION_GROUPS.map((group) => (
+                    {solutionGroups.map((group) => (
                       <div
                         key={group.kind}
                         className={`${styles.mobileSubGroup} ${toneClassName(

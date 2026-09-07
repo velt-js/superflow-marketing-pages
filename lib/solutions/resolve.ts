@@ -1,11 +1,16 @@
-// Server-side resolvers: CMS first, seed fallback.
+// Server-side resolvers: CMS first, seed fallback, hidden documents honoured.
 //
-// Kept separate from ./seed so client components (nav, footer) can import the
-// seed summaries without pulling the Sanity client into their bundle.
+// Kept separate from ./seed so client components can import the seed
+// summaries without pulling the Sanity client into their bundle. The nav and
+// footers read the resolved summaries through SolutionsChromeProvider
+// (components/solutions-2026/SolutionsChrome.tsx), which the root layout
+// feeds from resolveSolutionSummaries().
 
+import { cache } from "react";
 import {
   getAllSolutionSlugs,
   getAllSolutionsForIndex,
+  getHiddenSolutionSlugs,
   getSolutionPageBySlug,
 } from "@/sanity/lib/queries";
 import {
@@ -44,11 +49,30 @@ function isRenderable(doc: unknown): doc is SolutionPage {
 }
 
 /**
+ * Slugs an editor has hidden in the CMS, as a set. A hidden document beats the
+ * seed: the page is not served, listed, or linked, even though a seed file
+ * for it exists (a pack that is not live in the app yet). When the CMS is
+ * unreachable nothing is hidden and the seed stands in, which keeps the site
+ * up through an outage. Memoised per request so the layout, the route and
+ * the footer share one lookup.
+ *
+ * @returns The hidden slugs.
+ */
+const resolveHiddenSlugs = cache(async (): Promise<ReadonlySet<string>> => {
+  try {
+    return new Set((await getHiddenSolutionSlugs()) ?? []);
+  } catch {
+    return new Set();
+  }
+});
+
+/**
  * Resolve one solution page: the Sanity document when it exists and is
- * renderable, else the seed with the same slug, else null.
+ * renderable; null when an editor has hidden it; else the seed with the same
+ * slug; else null.
  *
  * @param slug - The page slug.
- * @returns The page to render, or null for an unknown slug.
+ * @returns The page to render, or null for an unknown or hidden slug.
  */
 export async function resolveSolutionPage(slug: string): Promise<SolutionPage | null> {
   let doc: unknown = null;
@@ -60,31 +84,41 @@ export async function resolveSolutionPage(slug: string): Promise<SolutionPage | 
   if (isRenderable(doc)) {
     return doc;
   }
+  const hidden = await resolveHiddenSlugs();
+  if (hidden.has(slug)) {
+    return null;
+  }
   return getSeedSolution(slug) ?? null;
 }
 
 /**
- * Every visible solution slug: the union of CMS slugs and seed slugs.
+ * Every visible solution slug: the union of CMS slugs and seed slugs, minus
+ * the slugs an editor has hidden.
  *
  * @returns Unique slugs.
  */
-export async function resolveSolutionSlugs(): Promise<string[]> {
+export const resolveSolutionSlugs = cache(async (): Promise<string[]> => {
   let cmsSlugs: string[] = [];
   try {
     cmsSlugs = (await getAllSolutionSlugs()) ?? [];
   } catch {
     cmsSlugs = [];
   }
-  return Array.from(new Set([...cmsSlugs, ...SOLUTION_SLUGS]));
-}
+  const hidden = await resolveHiddenSlugs();
+  return Array.from(new Set([...cmsSlugs, ...SOLUTION_SLUGS])).filter(
+    (slug) => !hidden.has(slug),
+  );
+});
 
 /**
- * Index entries: CMS summaries merged over the seed summaries by slug, sorted
- * for display.
+ * Summaries for the index, the nav and the footers: CMS summaries merged over
+ * the seed summaries by slug, hidden slugs removed, sorted for display.
+ * Memoised per request so the root layout (which feeds the nav and footer)
+ * and a solutions route share one fetch.
  *
- * @returns The summaries to list on /solutions.
+ * @returns The summaries to list.
  */
-export async function resolveSolutionSummaries(): Promise<SolutionSummary[]> {
+export const resolveSolutionSummaries = cache(async (): Promise<SolutionSummary[]> => {
   const bySlug = new Map<string, SolutionSummary>();
   for (const summary of SOLUTION_SUMMARIES) {
     bySlug.set(summary.slug, summary);
@@ -109,5 +143,8 @@ export async function resolveSolutionSummaries(): Promise<SolutionSummary[]> {
   } catch {
     // Seed summaries stand in when the CMS is unreachable.
   }
-  return Array.from(bySlug.values()).sort(compareSolutions);
-}
+  const hidden = await resolveHiddenSlugs();
+  return Array.from(bySlug.values())
+    .filter((summary) => !hidden.has(summary.slug))
+    .sort(compareSolutions);
+});

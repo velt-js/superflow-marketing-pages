@@ -1058,3 +1058,15 @@ export async function getAllSolutionsForIndex() {
     }`
   );
 }
+
+/**
+ * Slugs of every solution page an editor has hidden. The resolvers in
+ * lib/solutions/resolve.ts use this to tell a hidden document apart from a
+ * missing one: a hidden page is never served from the seed, listed, or
+ * linked, while a slug with no document at all still falls back to the seed.
+ */
+export async function getHiddenSolutionSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "solutionPage" && hidden == true && defined(slug.current)].slug.current`
+  );
+}
