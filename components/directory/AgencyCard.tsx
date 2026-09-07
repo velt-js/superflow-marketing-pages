@@ -5,6 +5,7 @@ import {
   agencyPath,
   formatAgencyClientSummary,
   formatAgencyLocation,
+  formatAgencyRating,
   getAwardBreakdown,
   resolveAgencySourceLabel,
 } from "@/lib/directory/agencies";
@@ -29,6 +30,10 @@ const CLIENTS_LINE_LABEL = "Worked with ";
 /** Shown as the website link text when a record has a URL but no parsed
  *  domain, so the link never renders with an empty label. */
 const FALLBACK_WEBSITE_LABEL = "Visit site";
+
+/** Joiner between team size and budget in the card footer's left slot,
+ *  when both are present on the record. */
+const FOOTER_META_SEPARATOR = " · ";
 
 /**
  * Resolves the visible label for an agency's own website link. Prefers the
@@ -123,6 +128,28 @@ function pickTopAward(
 }
 
 /**
+ * Builds the footer's left-slot label from team size and budget, joining
+ * whichever of the two are present. Kept as one combined string rather
+ * than two separate elements so the footer's left slot stays the single
+ * `<span/>` it already was when neither is present - see the layout
+ * comment on the footer JSX below.
+ *
+ * @param agency - The agency record to read.
+ * @returns The combined label, or null when neither field is present.
+ */
+function buildFooterMetaLabel(agency: Agency | null | undefined): string | null {
+  try {
+    const parts = [
+      agency?.teamSize ? `Team: ${agency.teamSize}` : null,
+      agency?.budgetLabel ?? null,
+    ].filter((part): part is string => Boolean(part));
+    return parts.length > 0 ? parts.join(FOOTER_META_SEPARATOR) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Card for a single agency in a directory category grid. Leads with the
  * agency name (and partner badge, if applicable) - award record and
  * services are supporting detail, deliberately styled to read quieter
@@ -152,6 +179,12 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
     const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
     const awardTotal = agency?.awards?.total ?? 0;
+    // Used only as the "is there a meaningful rating" guard - the actual
+    // score/count spans below are built from `agency.rating` directly so
+    // they can render as two separately styled elements, matching the
+    // award line's bold-count/muted-label split just below.
+    const ratingSummary = formatAgencyRating(agency?.rating ?? null);
+    const footerMetaLabel = buildFooterMetaLabel(agency);
     const servicesLine =
       shownServices.length > 0
         ? shownServices.join(SERVICES_SEPARATOR) + (hiddenCount > 0 ? ` +${hiddenCount} more` : "")
@@ -193,6 +226,10 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
           </p>
         )}
 
+        {/* A record carries an award total or a rating, never both (see
+            AgencyRating in lib/directory/types.ts) - written as two
+            independent conditions rather than an if/else so that stays
+            true by the data, not by an assumption baked into the JSX. */}
         {awardTotal > 0 && (
           <p className={styles.awards}>
             <span className={styles.awardCount}>{awardTotal}</span>
@@ -203,9 +240,20 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
           </p>
         )}
 
+        {ratingSummary && agency?.rating && (
+          <p className={styles.rating}>
+            <span className={styles.ratingScore}>
+              {agency.rating.value}/{agency.rating.scale}
+            </span>
+            <span className={styles.ratingLabel}>
+              {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
+            </span>
+          </p>
+        )}
+
         <div className={styles.footer}>
-          {agency?.teamSize ? (
-            <span className={styles.teamSize}>Team: {agency.teamSize}</span>
+          {footerMetaLabel ? (
+            <span className={styles.teamSize}>{footerMetaLabel}</span>
           ) : (
             <span />
           )}

@@ -23,22 +23,41 @@ import type { AgencyListItem } from "@/lib/directory/agencies";
 const ALL_COUNTRIES_VALUE = "all";
 const ALL_COUNTRIES_LABEL = "All countries";
 
-type SortMode = "award-total" | "name-az" | "partners-first";
-const DEFAULT_SORT_MODE: SortMode = "award-total";
+type SortMode = "top-ranked" | "rating" | "name-az" | "partners-first";
+
+/**
+ * SSR/default mode. Its comparator must stay a mirror of
+ * `compareAgenciesDefaultOrder` in lib/directory/agencies.ts, which is what
+ * the server sorted by before handing these items over - if the two drift,
+ * the client's initial sort silently reorders the page away from the order
+ * the server rendered and the category's own ItemList JSON-LD claims.
+ *
+ * It was previously "award-total", ranking on awards alone. That was a
+ * mirror while every record came from Awwwards, but the SEO category's
+ * records all score 0 on awards, so the mode fell through to its name
+ * tiebreaker and rendered that whole category alphabetically - under a
+ * heading promising agencies "ranked on their published client reviews".
+ */
+const DEFAULT_SORT_MODE: SortMode = "top-ranked";
+
+/** Label for the rating sort option, shared between `SORT_OPTIONS` and the
+ *  option-visibility check in `AgencyExplorer`. */
+const RATING_SORT_LABEL = "Client rating";
 
 const SORT_OPTIONS: Array<{ value: SortMode; label: string }> = [
-  { value: "award-total", label: "Award total" },
+  { value: "top-ranked", label: "Top ranked" },
+  { value: "rating", label: RATING_SORT_LABEL },
   { value: "name-az", label: "Name A-Z" },
   { value: "partners-first", label: "Partners first" },
 ];
 
 const SEARCH_LABEL = "Search agencies";
-/** Names the fields `AgencyListItem.searchText` actually covers. Deliberately
- *  says "client" rather than "service": the source exposes no per-agency
- *  service tags, so `Agency.services` is empty for every record and offering
- *  it here advertises a search that can never match, while client names -
- *  which the blob does carry - go unmentioned. */
-const SEARCH_PLACEHOLDER = "Search by name, client, or location";
+/** Names the fields `AgencyListItem.searchText` actually covers - see
+ *  `buildAgencyListItem` in lib/directory/agencies.ts, which folds service
+ *  and industry names into the blob alongside name, description, location
+ *  and client names. A visitor searching "link building" or "ecommerce"
+ *  should find a match, not just one searching by agency or client name. */
+const SEARCH_PLACEHOLDER = "Search by name, service, client, or location";
 const COUNTRY_LABEL = "Country";
 const SORT_LABEL = "Sort by";
 const RESET_LABEL = "Reset filters";
@@ -46,21 +65,34 @@ const FILTER_EMPTY_HEADING = "No agencies match your filters";
 const FILTER_EMPTY_BODY = "Try a different search term or country, or reset your filters.";
 
 /**
- * Compares two list items for the "Award total" sort (also the SSR
- * default order, so selecting it in the dropdown always reproduces the
- * page's initial state): Superflow partners first, then award total
- * descending, then name.
+ * Compares two list items for the "Top ranked" sort (also the SSR default
+ * order, so selecting it in the dropdown always reproduces the page's
+ * initial state): Superflow partners first, then award total descending,
+ * then review score descending, then name.
+ *
+ * **This is a mirror of `compareAgenciesDefaultOrder` in
+ * lib/directory/agencies.ts and must be kept identical to it.** The server
+ * sorts with that one; this sorts the same list again on the client. Any
+ * key present in one and missing from the other makes the page reorder
+ * itself on hydration.
+ *
+ * The two credibility keys never compete inside one category - an Awwwards
+ * record has no rating and a Semrush record has no awards - so in practice
+ * this ranks web design by awards and SEO by reviews, off one comparator.
  *
  * @param itemOne - First agency item being compared.
  * @param itemTwo - Second agency item being compared.
  * @returns Standard comparator sign (see `Array.prototype.sort`).
  */
-function compareByAwardTotalDefault(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
+function compareByDirectoryRanking(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
   try {
     const partnerOne = itemOne.isPartner ? 1 : 0;
     const partnerTwo = itemTwo.isPartner ? 1 : 0;
     if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
     if (itemTwo.awardTotal !== itemOne.awardTotal) return itemTwo.awardTotal - itemOne.awardTotal;
+    if (itemTwo.ratingScore !== itemOne.ratingScore) {
+      return itemTwo.ratingScore - itemOne.ratingScore;
+    }
     return itemOne.name.localeCompare(itemTwo.name);
   } catch {
     return 0;
@@ -106,8 +138,35 @@ function compareByPartnersFirst(itemOne: AgencyListItem, itemTwo: AgencyListItem
   }
 }
 
+/**
+ * Compares two list items for the "Client rating" sort: highest
+ * `ratingScore` first (see `getAgencyRatingScore` in
+ * lib/directory/agencies.ts), name as a stable tiebreaker. No partner
+ * privileging, matching "Name A-Z" - a visitor who explicitly asks to
+ * rank by review score wants that score, not partners nudged ahead of it.
+ *
+ * An Awwwards record's `ratingScore` is always 0 (it has no rating at
+ * all), so within a mixed-source list those records simply sink to the
+ * bottom rather than being excluded from the sort.
+ *
+ * @param itemOne - First agency item being compared.
+ * @param itemTwo - Second agency item being compared.
+ * @returns Standard comparator sign (see `Array.prototype.sort`).
+ */
+function compareByRatingDescending(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
+  try {
+    if (itemTwo.ratingScore !== itemOne.ratingScore) {
+      return itemTwo.ratingScore - itemOne.ratingScore;
+    }
+    return itemOne.name.localeCompare(itemTwo.name);
+  } catch {
+    return 0;
+  }
+}
+
 const COMPARATORS: Record<SortMode, (itemOne: AgencyListItem, itemTwo: AgencyListItem) => number> = {
-  "award-total": compareByAwardTotalDefault,
+  "top-ranked": compareByDirectoryRanking,
+  rating: compareByRatingDescending,
   "name-az": compareByNameAscending,
   "partners-first": compareByPartnersFirst,
 };
@@ -162,6 +221,7 @@ function ControlsBar({
   countryOptions,
   sortMode,
   onSortChange,
+  sortOptions,
   visibleCount,
   totalCount,
 }: {
@@ -172,6 +232,7 @@ function ControlsBar({
   countryOptions: string[];
   sortMode: SortMode;
   onSortChange: (value: SortMode) => void;
+  sortOptions: Array<{ value: SortMode; label: string }>;
   visibleCount: number;
   totalCount: number;
 }) {
@@ -221,7 +282,7 @@ function ControlsBar({
             onChange={(event) => onSortChange(event.target.value as SortMode)}
             className={`${styles.control} ${styles.select}`}
           >
-            {SORT_OPTIONS.map((option) => (
+            {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -254,8 +315,9 @@ function ControlsBar({
  *
  * @param props - Component props.
  * @param props.items - Slim per-agency metadata for filtering/sorting,
- *                       already in the default (partner-first,
- *                       award-total-descending) order.
+ *                       already in the directory's default order
+ *                       (partners, then awards, then review score, then
+ *                       name) - see `compareByDirectoryRanking`.
  * @param props.cardsBySlug - Pre-rendered card elements, keyed by
  *                             `Agency.slug` so lookups never depend on
  *                             array position.
@@ -274,6 +336,25 @@ export default function AgencyExplorer({
 
     const safeItems = items ?? [];
     const countryOptions = useMemo(() => buildCountryOptions(safeItems), [safeItems]);
+    // The "Client rating" option is hidden when nobody in this list has a
+    // rating at all (every agency in a pure web-design category, for
+    // instance) - a sort mode that can never reorder anything is a dead
+    // control, not a real choice. "Award total" never gets the same
+    // treatment even though the symmetric case exists (a pure SEO
+    // category, where every award total is 0): it is the SSR/default
+    // mode, and a <select> whose selected value has no matching <option>
+    // renders as an unlabelled blank, which is worse than an option that
+    // does nothing.
+    const sortOptions = useMemo(() => {
+      try {
+        const hasAnyRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
+        return hasAnyRating
+          ? SORT_OPTIONS
+          : SORT_OPTIONS.filter((option) => option.value !== "rating");
+      } catch {
+        return SORT_OPTIONS;
+      }
+    }, [safeItems]);
 
     const visibleItems = useMemo(() => {
       try {
@@ -284,7 +365,7 @@ export default function AgencyExplorer({
             countryFilter === ALL_COUNTRIES_VALUE || item?.country === countryFilter;
           return matchesQuery && matchesCountry;
         });
-        const comparator = COMPARATORS[sortMode] ?? compareByAwardTotalDefault;
+        const comparator = COMPARATORS[sortMode] ?? compareByDirectoryRanking;
         return filtered.slice().sort(comparator);
       } catch {
         return [];
@@ -316,6 +397,7 @@ export default function AgencyExplorer({
           countryOptions={countryOptions}
           sortMode={sortMode}
           onSortChange={setSortMode}
+          sortOptions={sortOptions}
           visibleCount={visibleItems.length}
           totalCount={safeItems.length}
         />

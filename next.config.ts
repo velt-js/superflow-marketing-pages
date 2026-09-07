@@ -65,6 +65,16 @@ const nextConfig: NextConfig = {
         hostname: "assets.awwwards.com",
         pathname: "/awards/**",
       },
+      // Same arrangement for the SEO half of the directory, whose logos are
+      // hotlinked from Semrush Agency Partners profiles. Scoped to the
+      // agency-directory upload prefix - that is the only path any record's
+      // `logoUrl` uses, and narrowing it keeps this from becoming a blanket
+      // allowlist for everything Semrush serves off that CDN.
+      {
+        protocol: "https",
+        hostname: "static.semrush.com",
+        pathname: "/agency-directory/**",
+      },
     ],
   },
   async redirects() {

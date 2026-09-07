@@ -1,7 +1,50 @@
 # Agency directory (`/directory`)
 
 A programmatic directory of agencies, browsable by category, with a full
-detail page per agency. Launch category: Web Design (`/directory/web-design`).
+detail page per agency.
+
+| Category | Route | Source | Data file | Ranked on | Filtered to |
+| --- | --- | --- | --- | --- | --- |
+| Web Design | `/directory/web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
+| SEO | `/directory/seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
+
+Counts at time of writing: 60 web design, 294 SEO.
+
+**One source per category, one data file per source, merged at read time.**
+Each importer under `scripts/directory-import/` overwrites its own file
+wholesale on every run, so a single shared file would mean each importer's
+run wiped the other's records. `mergeAgencySources` in
+`lib/directory/agencies.ts` recombines them for reading, deduping by
+registrable `domain` and then by `slug` (Awwwards wins any collision, since
+it is scanned first).
+
+**A category may be a filtered slice of its source, and the SEO one is.**
+Its source lists roughly 1,400 SEO agencies, most of which take sub-$2,500
+work; a directory that lists all of them helps nobody choose. The category
+is therefore cut to agencies whose *minimum* project is
+`SEO_MIN_BUDGET_FLOOR_USD` ($5,000) or more — 295 of the ~1,400, which
+becomes 294 records once the source's own duplicate listings are deduped by
+domain. The rule
+lives in `lib/directory/constants.ts` and is enforced by the importer at
+collection time: a below-threshold agency is never fetched, let alone
+written, so the pages themselves have no filtering to do and cannot drift
+from the rule. Changing the threshold means re-running the importer.
+
+The category's own subheading states the floor outright. That is not
+optional copy: a visitor comparing this against the full source listing
+should be told why the cheaper agencies are missing, rather than being
+left to assume the directory is incomplete.
+
+**The two categories are ranked on different, non-interchangeable signals**,
+because their sources publish different things. Awwwards is an awards jury
+and publishes no reviews; Semrush is a business directory and publishes no
+award tallies. So `Agency.awards` is all-zeros for every Semrush record and
+`Agency.rating` is null for every Awwwards record — both are correct, not
+missing data. `compareAgenciesDefaultOrder` reads both keys in sequence, but
+they never actually compete inside one category: it is one comparator
+serving two disjoint slices, not an attempt to rank an award against a
+review. See the `AgencyRating` doc comment in `lib/directory/types.ts` for
+why the two are kept structurally apart.
 
 ## Routes
 
@@ -18,8 +61,10 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   hero, closing on a white card carrying the live stat row. Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
   each carrying a one-line "Worked with X, Y, Z +N more" summary),
-  sorted in the directory's default order: Superflow partners first, then total
-  award count descending, then name. Each card links through to that
+  sorted in the directory's default order: Superflow partners first, then
+  total award count descending, then review score descending, then name.
+  The two credibility keys are disjoint per category (see the top of this
+  file), so in practice web-design sorts on awards and SEO on reviews. Each card links through to that
   agency's detail page. See "Category page controls" below for the
   search/filter/sort layer on top of this grid.
 - `app/directory/agency/[slug]/page.tsx` — agency detail page. **Flat**
@@ -38,8 +83,9 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   for the description, the "Worked with" client list, services and the
   complete award breakdown, plus a
   data-derived "more agencies" block (`components/directory/RelatedAgencies.tsx`,
-  capped at 6 — same country first, falling back to same category) so pages
-  interlink instead of being orphaned behind the category listing.
+  capped at 6 — same country *and* category first, then category alone,
+  then country alone) so pages interlink instead of being orphaned behind
+  the category listing.
 
 ## Design system
 
@@ -74,12 +120,20 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
 - `lib/directory/constants.ts` — `DIRECTORY_CATEGORIES` (the category
   registry), `DIRECTORY_BASE_PATH`, `DIRECTORY_AGENCY_SEGMENT`, and source
   attribution labels.
-- `lib/directory/data/agencies.json` — the scraped dataset. Written by
-  `scripts/directory-import/*` (a separate, non-TS pipeline), read by
-  `lib/directory/agencies.ts`. Starts as `[]` and is expected to hold a few
-  hundred records at runtime; every page and helper here is written to
-  degrade to an empty state rather than crash when it's empty or when a
-  category has no matches yet.
+- `lib/directory/data/agencies.json` — the Awwwards dataset (`web-design`).
+  Written by `scripts/directory-import/scrape-awwwards.mjs` (a separate,
+  non-TS pipeline), read by `lib/directory/agencies.ts`. Starts as `[]` and
+  is expected to hold a few hundred records at runtime; every page and
+  helper here is written to degrade to an empty state rather than crash
+  when it's empty or when a category has no matches yet.
+- `lib/directory/data/seo-agencies.json` — the Semrush dataset (`seo`),
+  filtered to the $5,000+ slice described above. Written by
+  `scripts/directory-import/import-semrush.mjs`, same contract, same
+  degradation rules. **Kept as its own file on purpose** — see the
+  note under the category table at the top of this file, and
+  `mergeAgencySources` in `lib/directory/agencies.ts`. Adding a third
+  source means adding a third file and a third merge argument, never
+  appending into one of these two.
 - `scripts/directory-import/client-names.json` — the memoised brand-name
   resolutions behind the client list (see "Client list" below). Committed on
   purpose: it makes a re-scrape cheap and deterministic, and it is the file
@@ -101,7 +155,9 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   is assembled), `getRelatedAgencies`, `buildAgencyMetaTitle` /
   `buildAgencyMetaDescription` (per-agency, composed from real fields —
   see below), `buildAgencyOrganizationJsonLd`, `formatAgencyLocation`,
-  `getAwardBreakdown`, `resolveAgencySourceLabel`, `isSuperflowPartner`,
+  `getAwardBreakdown`, `formatAgencyRating` / `getAgencyRatingScore` (the
+  review-based counterparts, see "Review ranking" below),
+  `mergeAgencySources`, `resolveAgencySourceLabel`, `isSuperflowPartner`,
   `buildAgencyListItems` / `AgencyListItem` (the slim, client-safe
   projection behind the category page's controls), `buildAgencyListStats`
   (agency/country/partner counts for `CategoryHero`), and the thin-content
@@ -109,12 +165,25 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
 
 ## Thin-content guard
 
-`shouldIndexAgency(agency)` returns false only when an agency fails **all
-three** substance signals: a description of ~80 characters or more, at
-least one award, and at least three named clients. That combination is
-thin content by Google's scaled-content standards even though the page
-itself renders correctly — but an agency with three named clients and no
-blurb still qualifies on the client list alone. Held-back agencies:
+`shouldIndexAgency(agency)` returns false only when an agency fails **every**
+substance signal. Each is independent — clearing any one is enough:
+
+| Signal | Bar |
+| --- | --- |
+| Description | ~80 characters or more of real prose |
+| Awards | at least `MIN_AWARDS_FOR_INDEXING` |
+| Named clients | at least `MIN_CLIENTS_FOR_INDEXING` |
+| Client reviews | at least `MIN_RATING_REVIEWS_FOR_INDEXING` behind a rating |
+| Services | at least `MIN_SERVICES_FOR_INDEXING` listed |
+
+Failing all of them at once is thin content by Google's scaled-content
+standards even though the page itself renders correctly — but an agency
+with three named clients and no blurb still qualifies on the client list
+alone, and a well-reviewed agency with a real service list qualifies on
+those. The last two signals were added with the SEO category: a Semrush
+record has no awards by construction, so without them a genuine,
+well-reviewed agency would have been held back for failing an
+Awwwards-shaped test it could never pass. Held-back agencies:
 
 - Still get a full, working detail page (still linked from their category
   and from other agencies' "more agencies" blocks).
@@ -126,20 +195,116 @@ blurb still qualifies on the client list alone. Held-back agencies:
 `getAgencyIndexingSummary()` returns `{ total, indexable, heldBack }` for
 sanity-checking how much of a given scrape actually clears the bar.
 
+## Review ranking
+
+The SEO category has no award tallies to rank on, so it ranks on the review
+score its source publishes. Two things about that are deliberate.
+
+**The score is the one Semrush displays, not the raw one it stores.** The
+Semrush API exposes both `agency.score` (what the profile page renders as
+the agency's rating) and `reviews.rating` (a raw sub-aggregate, largely the
+agency's Google Maps average). These disagree: `click-here-digital`'s page
+reads "567 reviews · 4.7" while its `reviews.rating` is `5`. We render the
+rating right next to an attribution link back to that profile, so
+publishing the number the profile does *not* show would contradict our own
+citation. `import-semrush.mjs` maps `rating.value` from `score`. Do not
+"fix" it to `reviews.rating`.
+
+**A rating is weighted by how many reviews are behind it.**
+`getAgencyRatingScore` applies shrinkage rather than sorting on the raw
+average:
+
+```
+value × reviewCount / (reviewCount + RATING_PRIOR_REVIEWS)   // prior = 5
+```
+
+Sorting on the bare average would put a single unverifiable 5.0 review
+above a 4.8 averaged over hundreds. The prior blends in five neutral
+"phantom" reviews, so a score has to be *earned across volume* to rank.
+Agencies with no reviews score 0 and sort last — which is why an agency can
+be well known in the field and still not appear: the category is ranked on
+published client reviews, and an unreviewed agency has none. That is a
+property of the ranking, not a bug in the import.
+
+The same score is the `"Client rating"` sort mode in `AgencyExplorer` and
+the third key in `compareAgenciesDefaultOrder`.
+
+## Budget: label vs floor
+
+Two fields, deliberately not one:
+
+- `budgetLabel` — the display string ("Starting from $5,000", "Under
+  $1,000"). What the card footer and the detail page's facts list render.
+- `budgetFloorUsd` — the same thing as a number (`5000`), which is what the
+  SEO category's threshold is applied against.
+
+Neither derives cleanly from the other. Re-parsing a number out of the
+label is brittle the moment a source localises its currency formatting, and
+rendering the bare number loses the band phrasing the source actually
+chose. So the importer writes both, from the same parse, in one place.
+
+Two traps worth knowing, both real:
+
+- **`null` is not `0`.** Null means the source listed no budget bands at
+  all; zero means the agency explicitly accepts work at any budget. A
+  filter written as `(floor ?? 0) >= threshold` treats "didn't say" as
+  "free", which is how an unqualified agency ends up in a premium listing.
+- **The floor comes from the *cheapest* band, taken by `min`, not from
+  `budgets[0]`.** Every payload observed so far happens to be ascending,
+  but nothing guarantees it, and an unsorted array would yield a wrong
+  floor with no visible symptom — the record would just quietly sit in the
+  wrong category.
+
+Note also that the source's own `budgets=` API filter answers a different
+question — "will this agency accept work in this band" — so it cannot
+express "premium only". `import-semrush.mjs` computes the floor
+client-side for exactly this reason; see its comment before swapping it
+for the server-side filter.
+
+## Accolades vs awards
+
+`Agency.accolades` (Semrush) and `Agency.awards` (Awwwards) are **not** the
+same kind of claim and the UI must never present them as interchangeable:
+
+- `awards` is a counted tally from one known scheme with a public jury. It
+  can be summed, compared and ranked — which is what the web-design
+  category does.
+- `accolades` is free text pulled from images the agency uploaded to its
+  own profile. The alt text mixes genuine awards ("UK Search Awards") with
+  vendor certifications ("Google Search Ads", "ISO Certification"). It is
+  self-reported and unverified, so it can only be listed, never counted or
+  ranked.
+
+That is why they are separate fields rather than one, why nothing computes
+an accolade *count* as a credibility figure, and why the detail page
+section is headed "Awards & certifications" and attributed to the source
+profile rather than stated in our own voice.
+
 ## Client list
 
-Each agency carries the brands it has built awarded work for — surfaced as
-a one-line "Worked with X, Y, Z +N more" summary on
+Each agency carries the brands it has shipped work for — surfaced as a
+one-line "Worked with X, Y, Z +N more" summary on
 `components/directory/AgencyCard.tsx`, and as a full "Worked with" card on
 `AgencyDetail.tsx` pairing each client with the project it came from.
 
-- **Where it comes from:** `clients: AgencyClient[]` (`lib/directory/types.ts`)
-  is populated by `scripts/directory-import/scrape-awwwards.mjs` from the
-  awarded submissions already listed on the profile page it fetches anyway —
-  each submission carries a client's live URL and a project title, so
-  collecting clients costs zero extra HTTP requests. There is no "clients"
-  section in Awwwards' markup to scrape; the submissions grid *is* the
-  source. See that script's "Client extraction" section.
+- **Where it comes from (Awwwards):** `clients: AgencyClient[]`
+  (`lib/directory/types.ts`) is populated by
+  `scripts/directory-import/scrape-awwwards.mjs` from the awarded
+  submissions already listed on the profile page it fetches anyway — each
+  submission carries a client's live URL and a project title, so collecting
+  clients costs zero extra HTTP requests. There is no "clients" section in
+  Awwwards' markup to scrape; the submissions grid *is* the source. See that
+  script's "Client extraction" section.
+- **Where it comes from (Semrush):** `import-semrush.mjs` reads the client
+  logo wall on the profile, whose `alt` text is already a clean brand name
+  ("ASICS", "Under Armour", "N Brown"), and pairs each with a matching
+  success-story title where one exists. **There is no LLM normalisation
+  pass on this path and that is deliberate**, not an omission — the source
+  publishes usable names directly, so there is nothing to resolve. `notable`
+  stays `false` across every Semrush client for the same reason: false means
+  "not asserted to be notable", so a uniformly-false list simply preserves
+  the source's own ordering rather than inventing a ranking (see the
+  `AgencyClient.notable` doc comment).
 - **Why it lives on `Agency`:** unlike Superflow partner status, which is
   deliberately kept out of `Agency` because it comes from an external CRM
   export the scraper must never clobber, the client list is *derived by the
@@ -317,7 +482,7 @@ serializable `AgencyListItem[]` (see `buildAgencyListItems`) for the
 filtering/sorting logic itself.
 
 **Why this split matters for SEO:** `AgencyExplorer`'s `useState` defaults
-(empty search, "all" countries, "Award total" sort) reproduce exactly what
+(empty search, "all" countries, "Top ranked" sort) reproduce exactly what
 the server already rendered, so the first-paint HTML — what a crawler or
 `curl` sees — always contains every agency card and its link, regardless
 of client JS. Filtering/reordering only happens after a visitor actually
@@ -341,15 +506,39 @@ server-rendered as HTML. Keep new client-side directory code following
 this pattern: type-only imports from `lib/directory/agencies.ts`, plain
 data passed in as props from a server component.
 
-The control set: search (name + description + location + client names, via
-`AgencyListItem.searchText` — so searching a category page for "nike"
+The control set: search (name + description + location + client names +
+services + industries, via `AgencyListItem.searchText` — so searching a category page for "nike"
 surfaces the agencies that built for Nike, not just agencies named that),
 a country filter whose options are derived
-from the data (`buildCountryOptions`, never a hardcoded list), and three
-sort modes — "Award total" (partners first, default, matches the SSR
-order), "Name A-Z" (literal alphabetical, no partner boost), and
-"Partners first" (partners first, then name — distinct from "Award total"
-in its secondary key). A live `aria-live="polite"` result count and a
+from the data (`buildCountryOptions`, never a hardcoded list), and four
+sort modes — "Top ranked" (the default, and the only mode that reproduces
+the SSR order), "Client rating" (shrinkage-weighted review score with no
+partner boost, see "Review ranking" above), "Name A-Z" (literal
+alphabetical, no partner boost), and "Partners first" (partners first,
+then name).
+
+**"Top ranked" (`compareByDirectoryRanking`) must stay a key-for-key
+mirror of `compareAgenciesDefaultOrder` in `lib/directory/agencies.ts`.**
+The server sorts the list with that comparator; the explorer sorts the
+same list again on the client, so a key in one and not the other makes
+the page reorder itself on hydration — and leaves the visible order
+disagreeing with the `ItemList` JSON-LD, which is built from the server's
+order.
+
+This mode used to be "Award total" and ranked on awards alone, which was
+a faithful mirror while Awwwards was the only source. The SEO category
+broke it: every record there scores 0 on awards, so the mode fell through
+to its name tiebreaker and rendered the whole category **alphabetically**,
+under a heading promising agencies "ranked on their published client
+reviews". Adding the review score as a third key fixed it — one comparator
+that ranks web design by awards and SEO by reviews, because the two keys
+never compete inside a single category.
+
+"Client rating" is hidden when nothing in the current list has a rating,
+so it never appears on a pure web-design category. There is no
+"Award total" option to hide symmetrically — "Top ranked" already *is*
+award ranking on a web-design category. A live `aria-live="polite"` result
+count and a
 "no matches" empty state with a reset action round it out. All controls
 are native `<input>`/`<select>`/`<button>` elements with paired
 `<label htmlFor>`s, so keyboard access and screen readers work without
@@ -362,9 +551,40 @@ Add one entry to `DIRECTORY_CATEGORIES` in `lib/directory/constants.ts`
 `DIRECTORY_AGENCY_SEGMENT` value, which `assertNoReservedCategorySlug`
 rejects at build time. That's it — the hub page, the category route's
 `generateStaticParams`, and the sitemap (`app/sitemap.ts`) all read off
-that array, so no page code needs to change. The scraper is responsible
+that array, so no page code needs to change. The importer is responsible
 for tagging agency records with the new category slug in their
 `categories` array.
+
+Adding a category with a **new source** behind it is a bigger change than
+adding a slug, and the SEO category is the worked example of it:
+
+1. Add the source to the `AgencySource` union in `lib/directory/types.ts`.
+   `SOURCE_LABELS` in `lib/directory/agencies.ts` is typed
+   `Record<AgencySource, string>`, so this immediately fails the build until
+   you give the source an attribution label — that tripwire is the point.
+2. Add its data file under `lib/directory/data/` and pass it to
+   `mergeAgencySources`. Never append into an existing source's file: each
+   importer overwrites its own file wholesale.
+3. Write the importer under `scripts/directory-import/`, with its own cache
+   directory (add it to `.gitignore` — the existing entries are exact
+   paths, not a pattern) and its own README section.
+4. Allowlist the source's logo CDN in `next.config.ts` under
+   `images.remotePatterns`, scoped to the path prefix its `logoUrl` values
+   actually use. Agency logos are hotlinked from the source profile, and
+   `next/image` answers an un-allowlisted host with a **400**, so every
+   logo in the new category renders blank — with no build error and no
+   server-side warning. It is only visible in the browser console, which
+   is how it slipped through once per source so far.
+5. Check whether the credibility signal the new source publishes already
+   exists on `Agency`. If it does not, add a field rather than forcing it
+   into an existing one — `AgencyRating` exists precisely because a review
+   average could not honestly be stored as an award tally. Then extend
+   `compareAgenciesDefaultOrder`, `shouldIndexAgency` and
+   `buildAgencyMetaDescription`, all of which reason about those signals.
+6. Backfill the new fields onto every existing record in the other
+   sources' data files, and make those importers emit them, so every record
+   in `lib/directory/data/` is a complete `Agency` regardless of which
+   importer wrote it.
 
 ## SEO
 

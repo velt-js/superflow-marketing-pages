@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
+  formatAgencyRating,
   getAgencyClients,
   getAwardBreakdown,
   isSuperflowPartner,
@@ -34,6 +35,14 @@ const AWARDS_HEADING = "Award record";
 /** Heading above the client list. Matches the card's wording so a visitor
  *  arriving from the grid recognises the same claim expanded. */
 const CLIENTS_HEADING = "Worked with";
+/** Heading above the industries list, when the services card also carries
+ *  one - see `AgencyDetail`'s services/industries card. */
+const INDUSTRIES_HEADING = "Industries";
+/** Heading above the accolades list. Deliberately NOT "Awards" alone: this
+ *  list mixes counted award names with certifications and accreditations
+ *  (see `Agency.accolades` in lib/directory/types.ts), so the heading
+ *  itself has to admit that rather than imply a second award tally. */
+const ACCOLADES_HEADING = "Awards & certifications";
 
 /**
  * Whether a project title says anything the client name hasn't already.
@@ -68,6 +77,26 @@ function titleAddsDetail(
 interface AgencyFact {
   label: string;
   value: string;
+}
+
+/**
+ * Builds the caption under the accolades heading, naming the source
+ * profile they came from and explicitly disclaiming that this is a
+ * verified or counted claim - unlike `AWARDS_HEADING`'s breakdown, which
+ * is a tally from one known scheme. See `Agency.accolades` in
+ * lib/directory/types.ts: these mix award names and certifications and
+ * are only ever self-reported by the source profile.
+ *
+ * @param sourceLabel - The agency's resolved source label, e.g.
+ *                       "Awwwards" or "Semrush Agency Partners".
+ * @returns The caption text.
+ */
+function buildAccoladesNote(sourceLabel: string): string {
+  try {
+    return `Self-reported on the agency's ${sourceLabel} profile - a mix of awards and certifications, not independently verified.`;
+  } catch {
+    return "Self-reported on the agency's source profile - a mix of awards and certifications, not independently verified.";
+  }
 }
 
 /**
@@ -134,6 +163,11 @@ function Breadcrumb({
  * known limitations). The client count took its slot precisely because it
  * is a number that differs per agency and is worth comparing.
  *
+ * Rating, founded year, and budget are the same treatment extended to the
+ * fields the Semrush source adds: each only renders when the record
+ * actually carries it, so an Awwwards profile (which has none of the
+ * three) is unaffected.
+ *
  * @param agency - The agency being rendered.
  * @param category - Its primary category, if resolvable.
  * @param clientCount - How many distinct clients are on record.
@@ -146,6 +180,7 @@ function buildAgencyFacts(
 ): AgencyFact[] {
   try {
     const awardTotal = agency?.awards?.total ?? 0;
+    const ratingLabel = formatAgencyRating(agency?.rating ?? null);
     const facts: AgencyFact[] = [];
     if (clientCount > 0) {
       facts.push({ label: "Clients on record", value: `${clientCount}` });
@@ -153,8 +188,17 @@ function buildAgencyFacts(
     if (awardTotal > 0) {
       facts.push({ label: "Total awards", value: `${awardTotal}` });
     }
+    if (ratingLabel) {
+      facts.push({ label: "Client rating", value: ratingLabel });
+    }
     if (agency?.teamSize) {
       facts.push({ label: "Team size", value: agency.teamSize });
+    }
+    if (agency?.foundedYear) {
+      facts.push({ label: "Founded", value: `${agency.foundedYear}` });
+    }
+    if (agency?.budgetLabel) {
+      facts.push({ label: "Typical budget", value: agency.budgetLabel });
     }
     if (category?.title) {
       facts.push({ label: "Category", value: category.title });
@@ -218,6 +262,10 @@ export default function AgencyDetail({
     const awardBreakdown = getAwardBreakdown(agency?.awards);
     const services =
       agency?.services?.filter((service) => Boolean(service?.trim())) ?? [];
+    const industries =
+      agency?.industries?.filter((industry) => Boolean(industry?.trim())) ?? [];
+    const accolades =
+      agency?.accolades?.filter((accolade) => Boolean(accolade?.trim())) ?? [];
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const agencyName = agency?.name ?? "Unnamed agency";
     const clients = getAgencyClients(agency);
@@ -226,8 +274,9 @@ export default function AgencyDetail({
     // A lone card would otherwise sit in a half-empty two-column row.
     const cardCount =
       (clients.length > 0 ? 1 : 0) +
-      (services.length > 0 ? 1 : 0) +
-      (awardBreakdown.length > 0 ? 1 : 0);
+      (services.length > 0 || industries.length > 0 ? 1 : 0) +
+      (awardBreakdown.length > 0 ? 1 : 0) +
+      (accolades.length > 0 ? 1 : 0);
 
     return (
       <>
@@ -326,19 +375,42 @@ export default function AgencyDetail({
                   </div>
                 )}
 
-                {services.length > 0 && (
+                {(services.length > 0 || industries.length > 0) && (
                   <div className={styles.card}>
-                    <h2 className={styles.cardTitle}>{SERVICES_HEADING}</h2>
-                    <ul className={styles.chips}>
-                      {services.map((service) => (
-                        <li key={service} className={styles.chip}>
-                          {service}
-                        </li>
-                      ))}
-                    </ul>
+                    {services.length > 0 && (
+                      <>
+                        <h2 className={styles.cardTitle}>{SERVICES_HEADING}</h2>
+                        <ul className={styles.chips}>
+                          {services.map((service) => (
+                            <li key={service} className={styles.chip}>
+                              {service}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {industries.length > 0 && (
+                      <>
+                        <h2
+                          className={services.length > 0 ? styles.cardSubtitle : styles.cardTitle}
+                        >
+                          {INDUSTRIES_HEADING}
+                        </h2>
+                        <ul className={styles.chips}>
+                          {industries.map((industry) => (
+                            <li key={industry} className={styles.chip}>
+                              {industry}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                   </div>
                 )}
 
+                {/* awardBreakdown is already empty for a zero award total,
+                    so an agency with no awards (every Semrush record
+                    today) renders no empty "Award record" shell. */}
                 {awardBreakdown.length > 0 && (
                   <div className={styles.card}>
                     <h2 className={styles.cardTitle}>{AWARDS_HEADING}</h2>
@@ -347,6 +419,20 @@ export default function AgencyDetail({
                         <li key={entry.label} className={styles.awardRow}>
                           <span>{entry.label}</span>
                           <span className={styles.awardCount}>{entry.count}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {accolades.length > 0 && (
+                  <div className={styles.card}>
+                    <h2 className={styles.cardTitle}>{ACCOLADES_HEADING}</h2>
+                    <p className={styles.accoladesNote}>{buildAccoladesNote(sourceLabel)}</p>
+                    <ul className={styles.chips}>
+                      {accolades.map((accolade) => (
+                        <li key={accolade} className={styles.chip}>
+                          {accolade}
                         </li>
                       ))}
                     </ul>

@@ -191,6 +191,30 @@
     color: var(--ac-muted);
 }
 
+/* Client rating — the Semrush counterpart to .awards above. A record
+   carries one or the other, never both, so this is styled identically
+   rather than as a visually distinct "second credential". */
+.rating {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: var(--ac-display);
+}
+
+.ratingScore {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ac-accent);
+}
+
+.ratingLabel {
+    font-family: var(--ac-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ac-muted);
+}
+
 .footer {
     display: flex;
     align-items: center;

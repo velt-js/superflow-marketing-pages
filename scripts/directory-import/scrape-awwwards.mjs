@@ -1594,6 +1594,17 @@ function buildAgencyRecord(record, usedSlugs, scrapedAt, clientNames) {
       logoUrl: record.logoUrl,
       description: record.profileDescription,
       awards: record.awards,
+      // Awwwards is an awards jury, not a review site or a business
+      // directory: it publishes none of the fields below for any profile.
+      // They are emitted as explicit nulls/empties rather than omitted so
+      // every record in lib/directory/data/ is a complete `Agency` and a
+      // reader never has to know which importer wrote it.
+      rating: null,
+      accolades: [],
+      foundedYear: null,
+      industries: [],
+      budgetLabel: null,
+      budgetFloorUsd: null,
       clients: buildAgencyClients(
         buildClientCandidates(record.submissions, record.domain, name),
         clientNames,

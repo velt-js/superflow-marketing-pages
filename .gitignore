@@ -31,6 +31,12 @@ scripts/og-image/.fonts/
 # selector iteration don't re-hit the site. See scripts/directory-import/README.md.
 scripts/directory-import/.cache/
 
+# Cached JSON responses from the Semrush agency importer. Separate directory
+# from the Awwwards cache above (JSON, not HTML, and keyed against a
+# different origin) so the two importers' caches can never collide.
+# See scripts/directory-import/README.md.
+scripts/directory-import/.cache-semrush/
+
 # Playwright
 /test-results/
 /playwright-report/

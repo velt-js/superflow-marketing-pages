@@ -89,6 +89,28 @@
     color: var(--ad-ink);
 }
 
+/* Second heading inside a card that already opened with .cardTitle - the
+   services/industries card, when both lists are present. Sits closer to
+   its own chip list than to the block above it. */
+.cardSubtitle {
+    margin: 8px 0 0;
+    font-family: var(--ad-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: var(--ad-ink);
+}
+
+/* Caption under the accolades heading, disclaiming that the list is
+   self-reported rather than a counted tally like the award breakdown. */
+.accoladesNote {
+    margin: -8px 0 0;
+    font-family: var(--ad-body);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ad-muted);
+}
+
 /* Services render as chips — the same pill vocabulary the nav and hero
    eyebrows use, on a white ground so they read as tags, not buttons. */
 .chips {
