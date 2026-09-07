@@ -12,6 +12,7 @@
 
 import agenciesData from "./data/agencies.json";
 import partnersData from "./data/partners.json";
+import previewPartnersData from "./data/partners.preview.json";
 import {
   DIRECTORY_AGENCY_SEGMENT,
   DIRECTORY_BASE_PATH,
@@ -39,10 +40,44 @@ const AGENCIES: Agency[] = agenciesData as Agency[];
  *  is a separate file from agencies.json rather than a field on `Agency`. */
 const PARTNERS: SuperflowPartnerList = partnersData as SuperflowPartnerList;
 
+/** Sample partner list, same shape, read ONLY when the preview flag below
+ *  is set. Exists so the badge and the partners-first sort can be seen end
+ *  to end while `partners.json` is still empty - the agencies in it are NOT
+ *  confirmed customers. Never merge it into `partners.json`. */
+const PREVIEW_PARTNERS: SuperflowPartnerList =
+  previewPartnersData as SuperflowPartnerList;
+
+/**
+ * True when this build should badge the sample agencies in
+ * `partners.preview.json` instead of the real (currently empty) CRM list.
+ *
+ * Off unless `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS` is exactly `"1"`, so
+ * an unset or misspelled value fails closed to real data. The badge's
+ * tooltip asserts that a named agency uses Superflow, so shipping the
+ * sample list publicly would publish a false claim about a real company -
+ * which is why production is also refused outright below.
+ *
+ * `NEXT_PUBLIC_VERCEL_ENV` is set automatically on Vercel (`production` |
+ * `preview` | `development`) and is a second, independent gate: even with
+ * the flag set project-wide, a production build ignores it while preview
+ * deploys still show the badge. On a host that does not set that variable
+ * the comparison is trivially true and the flag is the only gate, so keep
+ * the flag out of production env config there.
+ *
+ * Both reads are literal `process.env.NEXT_PUBLIC_*` lookups, never a
+ * computed key, so Next can inline them into the client bundle -
+ * `AgencyExplorer` is a `"use client"` component and re-sorts by partner
+ * status in the browser. See lib/analytics/amplitude-client.ts for the
+ * same constraint.
+ */
+const USE_PREVIEW_PARTNERS =
+  process.env.NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS === "1" &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV !== "production";
+
 /** Partner registrable domains, lowercased, for O(1) case-insensitive
  *  membership checks. Built once at module load - see `isSuperflowPartner`. */
 const PARTNER_DOMAINS = new Set(
-  (PARTNERS?.domains ?? [])
+  ((USE_PREVIEW_PARTNERS ? PREVIEW_PARTNERS : PARTNERS)?.domains ?? [])
     .map((domain) => domain?.trim().toLowerCase())
     .filter((domain): domain is string => Boolean(domain)),
 );
@@ -107,7 +142,9 @@ const GENERIC_SOURCE_LABEL = "View source profile";
  * join rather than a field on `Agency`. `partners.json` ships with an
  * empty `domains` array until a real CRM export replaces it, so this
  * returns false for every agency until then - that is the correct
- * behavior, not a bug to work around.
+ * behavior, not a bug to work around. To see the badge before that
+ * export exists, set `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1` and this
+ * reads `partners.preview.json` instead (see `USE_PREVIEW_PARTNERS`).
  *
  * @param agency - The agency to check.
  * @returns True when the agency's domain matches an entry in

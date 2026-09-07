@@ -1,0 +1,106 @@
+/* Icon-only Superflow partner mark and its tooltip.
+   Reveal styling mirrors `.sourcesTooltip` in
+   components/comparison-2026/comparison.module.css - same transition, same
+   opacity/visibility pair - so the site has one tooltip look rather than
+   two. The trigger differs on purpose: that one is hover/focus only, this
+   one must also work on touch, so the open state comes from a class the
+   component sets (see PartnerBadgeMark.tsx) rather than from CSS alone. */
+
+.badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* The mark inherits this via fill="currentColor". */
+  color: var(--color-superflow-blue);
+  outline: none;
+  /* Tappable: it opens its own tooltip. On the card it sits inside the
+     card-wide <Link> and deliberately does NOT navigate - the component
+     stops the event - so the pointer cursor promises only "this reacts". */
+  cursor: pointer;
+  /* Skip the synthetic-click delay and the grey flash box on tap. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge:focus-visible {
+  border-radius: var(--radius-pill);
+  outline: 2px solid var(--color-superflow-blue);
+  outline-offset: 2px;
+}
+
+.mark {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+/* Opens below the mark, centred on it. `pointer-events: none` matters on
+   the card, where the badge sits inside the card-wide <Link>: without it
+   the panel would swallow taps aimed at the card underneath it. */
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 20;
+  /* Visual gap, as padding rather than margin so nothing shifts on show. */
+  padding-top: 8px;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 40px));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+/* Hover is gated to real pointers. Touch browsers emulate :hover on tap and
+   then leave it stuck on the last-tapped element, which would strand this
+   panel open with no way to dismiss it. Touch opens via .badgeOpen instead. */
+@media (hover: hover) and (pointer: fine) {
+  .badge:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%);
+  }
+}
+
+/* Tap, click, or Enter/Space. Not tied to :focus-visible on purpose: focus
+   alone showing it would fight the explicit toggle, leaving Enter looking
+   like it did nothing when it closed a panel that focus was reopening. */
+.badgeOpen .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%);
+}
+
+.tooltipCard {
+  display: block;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--color-superflow-charcoal);
+  color: #ffffff;
+  box-shadow: 0 12px 32px rgba(10, 10, 10, 0.22);
+  font-family: var(--font-urbanist);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  /* The description is a full sentence; let it wrap rather than force the
+     panel wider than `max-width`. */
+  white-space: normal;
+}
+
+.tooltipLabel {
+  display: block;
+  font-weight: 700;
+  /* Same blue as the mark, so the panel reads as that badge's explanation. */
+  color: var(--color-superflow-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none;
+  }
+}

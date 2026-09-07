@@ -55,6 +55,10 @@ detail page per agency. Launch category: Web Design (`/directory/web-design`).
   export, read by `lib/directory/agencies.ts`. Ships with an empty
   `domains` array; keep it that way until someone has a real export to
   paste in.
+- `lib/directory/data/partners.preview.json` — same shape, sample data,
+  read **only** when `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1` (see
+  "Previewing the badge" below). Not real customers; never merge it into
+  `partners.json`.
 - `lib/directory/agencies.ts` — the only module that reads the JSON files
   directly. Pages should go through these helpers rather than importing
   the JSON files themselves. Notable exports: `getAgenciesByCategory`,
@@ -88,12 +92,108 @@ sanity-checking how much of a given scrape actually clears the bar.
 
 ## Superflow partner badge
 
-`components/directory/PartnerBadge.tsx` renders a "Superflow partner" pill
-(`PARTNER_BADGE_LABEL` / `PARTNER_BADGE_DESCRIPTION`, `lib/directory/constants.ts`)
-on both the card and the detail page for any agency `isSuperflowPartner`
-matches. The label deliberately says "partner", not "verified" — see the
-constant's own comment. It renders nothing for a non-partner, so both call
-sites use it unconditionally.
+`components/directory/PartnerBadge.tsx` renders an icon-only, verified-style
+tick on both the card and the detail page for any agency `isSuperflowPartner`
+matches. It renders nothing for a non-partner, so both call sites use it
+unconditionally. The mark is a scalloped burst in `--color-superflow-blue`
+with a white tick, sized 18px; the burst path is generated (12 lobes,
+Catmull-Rom spline), not hand-drawn — regenerate it rather than nudging
+points. Styles are in `PartnerBadge.module.css`.
+
+**The badge paints no words, so the claim lives entirely in the tooltip and
+the `aria-label`.** The panel carries `PARTNER_BADGE_LABEL` +
+`PARTNER_BADGE_DESCRIPTION` (`lib/directory/constants.ts`); the label
+deliberately says "partner", not "verified" — see the constant's own
+comment. A verified-style tick is a loaded symbol — most people read it as
+"identity verified", which is broader than what it means here — so that
+copy is what narrows it, not optional decoration.
+
+### How it opens
+
+| Input | Opens via | Notes |
+|---|---|---|
+| Mouse hover | CSS `:hover` | Gated to `@media (hover: hover) and (pointer: fine)` |
+| Tap / click | `.badgeOpen` class | Component state, set in `PartnerBadgeMark` |
+| Enter / Space | `.badgeOpen` class | `role="button"` contract; Space is intercepted so the page doesn't scroll |
+
+Dismisses on outside pointer-down, `Escape`, or scroll. Those listeners are
+bound only while open, so a page of cards adds no idle listeners.
+
+### The client/server split
+
+`PartnerBadge.tsx` stays a **server** component and `PartnerBadgeMark.tsx`
+carries the `"use client"` directive. That boundary placement is
+load-bearing: `PartnerBadge` calls `isSuperflowPartner`, a real runtime
+import from `lib/directory/agencies.ts`, whose module scope imports
+`agencies.json`. Marking *that* component `"use client"` would very likely
+pull the whole scraped dataset into the browser bundle — the same trap
+`AgencyExplorer` avoids with a type-only import (see "Category page
+controls"). `PartnerBadgeMark` therefore takes plain strings and imports
+nothing from `lib/directory/`. `tests/directory/partner-badge.spec.ts`
+guards this, and was confirmed to fail when the boundary is moved up.
+
+### Other things to preserve
+
+- **The tap is intercepted.** On the card the mark sits inside the
+  card-wide `<Link>`, so `PartnerBadgeMark` calls `preventDefault()` +
+  `stopPropagation()` — otherwise tapping the badge would navigate to the
+  agency page instead of explaining the badge.
+- **Hover is gated to fine pointers.** Touch browsers emulate `:hover` on
+  tap and leave it stuck on the last-tapped element, which would strand the
+  panel open with nothing able to dismiss it.
+- **Focus does not auto-open it.** `:focus-visible` draws the outline only.
+  Tying the reveal to focus as well would fight the explicit toggle, making
+  Enter look inert when it closed a panel focus immediately reopened.
+- **On the card it adds a tab stop inside the `<Link>`.** Accepted trade
+  for the claim being reachable without a mouse.
+- **No `title` attribute.** The native tooltip would open on top of the
+  styled one after roughly a second and repeat the same sentence.
+- The tooltip is `pointer-events: none`, so it cannot swallow taps meant
+  for the card link it overlaps.
+- The category hero's "N Superflow partners" stat (`buildAgencyListStats` →
+  `CategoryHero`) is the only place the phrase appears as visible text on a
+  category page; the agency detail page has no equivalent.
+
+### Previewing the badge
+
+Because `partners.json` is empty, the badge renders on nobody by default —
+which looks identical to it being broken. To exercise it end to end, run
+with the preview flag:
+
+```
+NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1 npm run dev
+```
+
+`lib/directory/agencies.ts` (`USE_PREVIEW_PARTNERS`) then reads
+`lib/directory/data/partners.preview.json` in place of `partners.json`, so
+the badge appears and the partners-first sort visibly reorders the grid.
+Two things to keep in mind:
+
+- **The sample agencies are not customers.** The badge's tooltip asserts
+  that a named agency uses Superflow, so shipping the sample list publicly
+  would publish a false claim about a real company. The flag is for local
+  dev and preview deploys only. On Vercel a production build ignores it
+  regardless (`USE_PREVIEW_PARTNERS` also requires
+  `NEXT_PUBLIC_VERCEL_ENV !== "production"`).
+- **It is a swap, not a merge.** Once real domains land in
+  `partners.json`, the flag hides them and shows only the sample set, so
+  drop the flag rather than leaving it on. Delete
+  `partners.preview.json` and the `USE_PREVIEW_PARTNERS` branch once the
+  real list is populated and the badge no longer needs a stand-in.
+
+### Tests
+
+`tests/directory/partner-badge.spec.ts` (9 tests) covers the domain join,
+the accessible name, hover/tap/keyboard opening, dismissal, the sort key,
+and the client-bundle boundary. It needs partners to exist, and the flag is
+inlined at **build** time, so run:
+
+```
+npm run test:directory
+```
+
+which builds with the flag and then runs the spec. CI does the same in
+`.github/workflows/directory-badge.yml`.
 
 The join is domain-based and lives in `lib/directory/agencies.ts`
 (`isSuperflowPartner`), matching `Agency.domain` against
