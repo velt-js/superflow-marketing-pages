@@ -71,8 +71,18 @@ function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
  *
  * @param props - Component props.
  * @param props.agencies - Agencies to render, already sorted by the caller.
+ * @param props.categorySlug - The category being rendered. Forwarded to
+ *                             AgencyExplorer so its client-side "Top
+ *                             ranked" sort reproduces the server order for
+ *                             this category rather than a different one.
  */
-export default function AgencyGrid({ agencies }: { agencies: Agency[] }) {
+export default function AgencyGrid({
+  agencies,
+  categorySlug,
+}: {
+  agencies: Agency[];
+  categorySlug: string;
+}) {
   try {
     const safeAgencies = agencies ?? [];
 
@@ -92,7 +102,7 @@ export default function AgencyGrid({ agencies }: { agencies: Agency[] }) {
     return (
       <section className={styles.section} data-section="directory-agency-grid">
         <div className={styles.inner}>
-          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} />
+          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} categorySlug={categorySlug} />
         </div>
       </section>
     );

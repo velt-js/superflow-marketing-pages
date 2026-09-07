@@ -37,6 +37,12 @@ scripts/directory-import/.cache/
 # See scripts/directory-import/README.md.
 scripts/directory-import/.cache-semrush/
 
+# Raw JSON batches dropped by the hand-driven browser session that sources
+# the branding category. Unvalidated intermediates - the artefact worth
+# committing is lib/directory/data/branding-agencies.json, which
+# load-branding-json.mjs writes after validating every field.
+scripts/directory-import/inbox/
+
 # Playwright
 /test-results/
 /playwright-report/

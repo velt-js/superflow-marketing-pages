@@ -148,7 +148,7 @@ export default async function DirectoryCategoryPage({
 
       <SiteNav />
       <CategoryHero category={category} stats={stats} />
-      <AgencyGrid agencies={agencies} />
+      <AgencyGrid agencies={agencies} categorySlug={category.slug} />
       <TestimonialsSection />
       <SiteFooter />
       <IntercomButton />

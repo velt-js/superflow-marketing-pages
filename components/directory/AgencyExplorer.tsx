@@ -17,6 +17,11 @@
 import { useMemo, useState, type ReactNode } from "react";
 import styles from "./DirectoryGrid.module.css";
 import type { AgencyListItem } from "@/lib/directory/agencies";
+// Value import from ./constants, never from ./agencies - that module imports
+// the agency JSON datasets, and pulling a value out of it here would ship
+// the whole directory into the client bundle. See `AgencyListItem`'s doc
+// comment in lib/directory/agencies.ts.
+import { isAccoladeRankedCategory } from "@/lib/directory/constants";
 
 /** Sentinel value for "no country filter applied". Not a real country
  *  name, so it can never collide with a value derived from the data. */
@@ -155,6 +160,38 @@ function compareByPartnersFirst(itemOne: AgencyListItem, itemTwo: AgencyListItem
  */
 function compareByRatingDescending(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
   try {
+    if (itemTwo.ratingScore !== itemOne.ratingScore) {
+      return itemTwo.ratingScore - itemOne.ratingScore;
+    }
+    return itemOne.name.localeCompare(itemTwo.name);
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Compares two list items for the "Top ranked" sort in categories ranked on
+ * accolades rather than on an award tally - see
+ * `ACCOLADE_RANKED_CATEGORIES` in lib/directory/constants.ts.
+ *
+ * **This is a mirror of `compareAgenciesByAccolades` in
+ * lib/directory/agencies.ts and must be kept identical to it**, for the
+ * same reason `compareByDirectoryRanking` mirrors the default one: the
+ * server sorts with that, this re-sorts the same list on the client, and
+ * any drift makes the page reorder itself on hydration.
+ *
+ * @param itemOne - First agency item being compared.
+ * @param itemTwo - Second agency item being compared.
+ * @returns Standard comparator sign (see `Array.prototype.sort`).
+ */
+function compareByAccoladeRanking(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
+  try {
+    const partnerOne = itemOne.isPartner ? 1 : 0;
+    const partnerTwo = itemTwo.isPartner ? 1 : 0;
+    if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
+    if (itemTwo.accoladeCount !== itemOne.accoladeCount) {
+      return itemTwo.accoladeCount - itemOne.accoladeCount;
+    }
     if (itemTwo.ratingScore !== itemOne.ratingScore) {
       return itemTwo.ratingScore - itemOne.ratingScore;
     }
@@ -321,13 +358,19 @@ function ControlsBar({
  * @param props.cardsBySlug - Pre-rendered card elements, keyed by
  *                             `Agency.slug` so lookups never depend on
  *                             array position.
+ * @param props.categorySlug - The category being rendered. Selects the
+ *                             "Top ranked" comparator so the client
+ *                             reproduces the server's order exactly - see
+ *                             `compareByAccoladeRanking`.
  */
 export default function AgencyExplorer({
   items,
   cardsBySlug,
+  categorySlug,
 }: {
   items: AgencyListItem[];
   cardsBySlug: Record<string, ReactNode>;
+  categorySlug: string;
 }) {
   try {
     const [searchQuery, setSearchQuery] = useState("");
@@ -365,12 +408,21 @@ export default function AgencyExplorer({
             countryFilter === ALL_COUNTRIES_VALUE || item?.country === countryFilter;
           return matchesQuery && matchesCountry;
         });
-        const comparator = COMPARATORS[sortMode] ?? compareByDirectoryRanking;
+        // "Top ranked" means a different thing per category - see
+        // `compareByAccoladeRanking`. Every other sort mode is
+        // category-independent and comes straight from COMPARATORS.
+        const topRankedComparator = isAccoladeRankedCategory(categorySlug)
+          ? compareByAccoladeRanking
+          : compareByDirectoryRanking;
+        const comparator =
+          sortMode === "top-ranked"
+            ? topRankedComparator
+            : (COMPARATORS[sortMode] ?? topRankedComparator);
         return filtered.slice().sort(comparator);
       } catch {
         return [];
       }
-    }, [safeItems, searchQuery, countryFilter, sortMode]);
+    }, [safeItems, searchQuery, countryFilter, sortMode, categorySlug]);
 
     /**
      * Clears search, country, and sort back to their SSR-matching

@@ -12,13 +12,18 @@
 
 import agenciesData from "./data/agencies.json";
 import seoAgenciesData from "./data/seo-agencies.json";
+import brandingAgenciesData from "./data/branding-agencies.json";
 import partnersData from "./data/partners.json";
 import previewPartnersData from "./data/partners.preview.json";
 import {
+  isAccoladeRankedCategory,
   DIRECTORY_AGENCY_SEGMENT,
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
   SOURCE_LABEL_AWWWARDS,
+  SOURCE_LABEL_CLUTCH,
+  SOURCE_LABEL_DANDAD,
+  SOURCE_LABEL_DESIGNRUSH,
   SOURCE_LABEL_SEMRUSH,
 } from "./constants";
 import type {
@@ -33,20 +38,22 @@ import type {
 } from "./types";
 
 /**
- * Merges the two per-source datasets into the one array every helper below
+ * Merges the per-source datasets into the one array every helper below
  * reads, deduping across them.
  *
- * `agencies.json` (Awwwards) and `seo-agencies.json` (Semrush) are - and
- * must stay - separate files rather than one shared one: each importer
- * (scripts/directory-import/*) overwrites its OWN file wholesale on every
- * run. A single shared file would mean the Semrush importer's run wipes
- * out every Awwwards record the next time it executes, and vice versa.
- * Keeping them apart lets each source refresh independently; this
- * function is where they are recombined for reading.
+ * `agencies.json` (Awwwards), `seo-agencies.json` (Semrush) and
+ * `branding-agencies.json` (the browser-sourced branding set) are - and
+ * must stay - separate files rather than one shared one: each writer under
+ * scripts/directory-import/ overwrites its OWN file wholesale on every run.
+ * A single shared file would mean the Semrush importer's run wipes out
+ * every Awwwards record the next time it executes, and vice versa. Keeping
+ * them apart lets each source refresh independently; this function is where
+ * they are recombined for reading. A fourth source means a fourth file and
+ * a fourth argument here, never an append into an existing file.
  *
- * Two "first occurrence wins" dedupe passes run in order, both scanning
- * `primary` before `secondary` so an Awwwards record wins any collision
- * with a Semrush one:
+ * Two "first occurrence wins" dedupe passes run in order, scanning the
+ * datasets in the order they are passed, so an earlier dataset wins any
+ * collision with a later one:
  *
  * 1. By registrable `domain`, case-insensitive - the one identity a
  *    visitor would recognise as "the same company" regardless of which
@@ -61,14 +68,14 @@ import type {
  *    defensively, but that only hides the symptom; this keeps the
  *    dataset itself free of the collision.
  *
- * @param primary - Records kept over `secondary` on any identity
- *                  collision.
- * @param secondary - Records merged in after `primary`.
+ * @param datasets - Per-source record arrays, highest priority first. A
+ *                    dataset kept earlier in this list wins any identity
+ *                    collision with a later one.
  * @returns The concatenated, deduped dataset.
  */
-export function mergeAgencySources(primary: Agency[], secondary: Agency[]): Agency[] {
+export function mergeAgencySources(...datasets: Agency[][]): Agency[] {
   try {
-    const combined = [...(primary ?? []), ...(secondary ?? [])];
+    const combined = (datasets ?? []).flatMap((dataset) => dataset ?? []);
 
     const seenDomains = new Set<string>();
     const domainDeduped = combined.filter((agency) => {
@@ -88,18 +95,21 @@ export function mergeAgencySources(primary: Agency[], secondary: Agency[]): Agen
       return true;
     });
   } catch {
-    return primary ?? [];
+    return datasets?.[0] ?? [];
   }
 }
 
 /** Raw dataset, typed against the shared `Agency` contract and merged
- *  across both sources - see `mergeAgencySources`. The importers (plain
- *  .mjs scripts, no TS build step) are the sole writers of the two JSON
- *  files and are responsible for conforming to `Agency` - this module
- *  only reads them. */
+ *  across every source - see `mergeAgencySources`. The importers (plain
+ *  .mjs scripts, no TS build step) are the sole writers of the JSON files
+ *  and are responsible for conforming to `Agency` - this module only reads
+ *  them. `branding-agencies.json` is validated field by field on the way in
+ *  by load-branding-json.mjs, since unlike the other two it is written from
+ *  a hand-driven browser session rather than by a scraper. */
 const AGENCIES: Agency[] = mergeAgencySources(
   agenciesData as Agency[],
   seoAgenciesData as Agency[],
+  brandingAgenciesData as Agency[],
 );
 
 /** Raw partner list, typed against `SuperflowPartnerList`. Ships with an
@@ -198,6 +208,9 @@ const AWARDS_META_NOUN_PLURAL = "Awwwards awards";
 const SOURCE_LABELS: Record<AgencySource, string> = {
   awwwards: SOURCE_LABEL_AWWWARDS,
   semrush: SOURCE_LABEL_SEMRUSH,
+  clutch: SOURCE_LABEL_CLUTCH,
+  designrush: SOURCE_LABEL_DESIGNRUSH,
+  dandad: SOURCE_LABEL_DANDAD,
 };
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
@@ -237,14 +250,23 @@ export function isSuperflowPartner(agency: Agency | null | undefined): boolean {
  * near the top of every listing without a visitor needing to know to look
  * for the badge.
  *
- * The award-total and rating-score keys never actually compete inside one
- * category: Awwwards records carry awards and no rating, Semrush records
- * carry a rating and no awards, so whichever signal is absent for a given
- * agency is 0/0 and simply falls through to the next key. This is one
- * comparator serving two disjoint slices of the dataset - it is never
- * attempting to weigh a counted award against a client review, which
- * would be comparing two different kinds of claim (see `AgencyRating` in
- * lib/directory/types.ts).
+ * The award-total and rating-score keys never actually compete inside the
+ * web design or SEO categories: Awwwards records carry awards and no
+ * rating, Semrush records carry a rating and no awards, so whichever
+ * signal is absent for a given agency is 0/0 and simply falls through to
+ * the next key. This is one comparator serving disjoint slices of the
+ * dataset - it is never attempting to weigh a counted award against a
+ * client review, which would be comparing two different kinds of claim
+ * (see `AgencyRating` in lib/directory/types.ts).
+ *
+ * This comparator is NOT used for every category. Branding records all have
+ * `awards.total === 0` - that field is an Awwwards-scheme tally, and those
+ * records keep their award wins in `accolades`, which this comparator does
+ * not read - so ranking them here fell straight through to review score and
+ * buried the award-only studios (Pentagram landed 126th of 144). That
+ * category uses `compareAgenciesByAccolades` instead; see
+ * ACCOLADE_RANKED_CATEGORIES in ./constants.ts for why the swap is scoped
+ * to named categories rather than applied globally.
  *
  * @param agencyOne - First agency being compared.
  * @param agencyTwo - Second agency being compared.
@@ -269,9 +291,42 @@ function compareAgenciesDefaultOrder(agencyOne: Agency, agencyTwo: Agency): numb
 }
 
 /**
+ * Orders a category whose credibility signal is `accolades` rather than a
+ * counted award tally or a review score - see ACCOLADE_RANKED_CATEGORIES
+ * for which categories those are and why the choice is scoped rather than
+ * global.
+ *
+ * Same shape as `compareAgenciesDefaultOrder` and same partners-first
+ * primary key; only the credibility key differs. The review score is kept
+ * as the tiebreaker so agencies with equal accolade counts (including the
+ * many with none) still rank against each other on something real.
+ *
+ * @param agencyOne - First agency being compared.
+ * @param agencyTwo - Second agency being compared.
+ * @returns Negative when `agencyOne` sorts before `agencyTwo`, positive
+ *          when it sorts after, zero when they are equivalent.
+ */
+function compareAgenciesByAccolades(agencyOne: Agency, agencyTwo: Agency): number {
+  try {
+    const partnerOne = isSuperflowPartner(agencyOne) ? 1 : 0;
+    const partnerTwo = isSuperflowPartner(agencyTwo) ? 1 : 0;
+    if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
+    const accoladesOne = agencyOne?.accolades?.length ?? 0;
+    const accoladesTwo = agencyTwo?.accolades?.length ?? 0;
+    if (accoladesTwo !== accoladesOne) return accoladesTwo - accoladesOne;
+    const ratingScoreOne = getAgencyRatingScore(agencyOne);
+    const ratingScoreTwo = getAgencyRatingScore(agencyTwo);
+    if (ratingScoreTwo !== ratingScoreOne) return ratingScoreTwo - ratingScoreOne;
+    return (agencyOne?.name ?? "").localeCompare(agencyTwo?.name ?? "");
+  } catch {
+    return 0;
+  }
+}
+
+/**
  * Returns every agency belonging to the given category slug, sorted by
- * the directory's default order (Superflow partners first, then award
- * total descending, then name).
+ * that category's ranking order (Superflow partners first, then its
+ * credibility signal descending, then review score, then name).
  *
  * @param categorySlug - The `DirectoryCategory.slug` to filter by.
  * @returns Matching agencies, sorted. Empty array for an unknown slug or
@@ -281,9 +336,12 @@ function compareAgenciesDefaultOrder(agencyOne: Agency, agencyTwo: Agency): numb
 export function getAgenciesByCategory(categorySlug: string): Agency[] {
   try {
     if (!categorySlug) return [];
+    const comparator = isAccoladeRankedCategory(categorySlug)
+      ? compareAgenciesByAccolades
+      : compareAgenciesDefaultOrder;
     return AGENCIES.filter((agency) => agency?.categories?.includes(categorySlug))
       .slice()
-      .sort(compareAgenciesDefaultOrder);
+      .sort(comparator);
   } catch {
     return [];
   }
@@ -995,6 +1053,11 @@ export interface AgencyListItem {
    *  0 for a record with no rating (every Awwwards record today), so it
    *  can be sorted on directly without a null-guard at the call site. */
   ratingScore: number;
+  /** Number of `Agency.accolades`, the ranking signal for categories in
+   *  ACCOLADE_RANKED_CATEGORIES. Carried on every item rather than only
+   *  those categories' items so the client comparator never has to
+   *  null-guard it. */
+  accoladeCount: number;
 }
 
 /**
@@ -1039,6 +1102,7 @@ export function buildAgencyListItem(agency: Agency | null | undefined): AgencyLi
       isPartner: isSuperflowPartner(agency),
       awardTotal: agency.awards?.total ?? 0,
       ratingScore: getAgencyRatingScore(agency),
+      accoladeCount: agency.accolades?.length ?? 0,
     };
   } catch {
     return null;

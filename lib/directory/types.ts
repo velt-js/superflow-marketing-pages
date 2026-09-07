@@ -9,8 +9,22 @@
 
 /** Source directory an agency record was collected from. Each source owns
  *  exactly one data file under `lib/directory/data/` and one importer under
- *  `scripts/directory-import/`; the two are merged at read time. */
-export type AgencySource = "awwwards" | "semrush";
+ *  `scripts/directory-import/`; the two are merged at read time.
+ *
+ *  The last three are browser-sourced rather than scraped: Clutch,
+ *  DesignRush and D&AD all sit behind bot walls that the honest-UA fetch in
+ *  the two scraper scripts cannot clear, so their records are collected by
+ *  hand through a browser session and validated on the way in by
+ *  `scripts/directory-import/load-branding-json.mjs`. They share one data
+ *  file (`branding-agencies.json`) because one loader writes all three -
+ *  the one-file-per-writer rule is about which SCRIPT overwrites what, not
+ *  about which directory the rows came from. */
+export type AgencySource =
+  | "awwwards"
+  | "semrush"
+  | "clutch"
+  | "designrush"
+  | "dandad";
 
 /** Where an agency is based. Fields are independently nullable because
  *  source profiles frequently list a country with no city. */

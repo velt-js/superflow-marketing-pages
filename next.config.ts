@@ -75,6 +75,21 @@ const nextConfig: NextConfig = {
         hostname: "static.semrush.com",
         pathname: "/agency-directory/**",
       },
+      // Same arrangement again for the branding category, whose records come
+      // from three source directories rather than one - so two CDNs, not
+      // one. D&AD is the third source and needs no entry: its company pages
+      // publish no logo, so those 23 records carry a null `logoUrl` and
+      // render the initials fallback instead of hotlinking anything.
+      {
+        protocol: "https",
+        hostname: "img.shgstatic.com",
+        pathname: "/clutch-static-prod/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.designrush.com",
+        pathname: "/agencies/**",
+      },
     ],
   },
   async redirects() {
