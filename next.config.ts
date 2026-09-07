@@ -90,6 +90,21 @@ const nextConfig: NextConfig = {
         hostname: "media.designrush.com",
         pathname: "/agencies/**",
       },
+      // Motion design studio logos, hotlinked from Motion Design Awards
+      // profile avatars. The host is their storage proxy rather than the
+      // site domain (`runtimeConfig.storageProxy` in the page payload), and
+      // every avatar sits under /p/<profileId>/renditions/, so the pattern
+      // is scoped to that prefix.
+      //
+      // A missing entry here is the failure mode that shipped blank logos
+      // across the whole SEO category: next/image answers an un-allowlisted
+      // host with a 400 that surfaces only in the browser console, so the
+      // build stays green and nothing fails until someone looks at the page.
+      {
+        protocol: "https",
+        hostname: "storage-01-mda.keyfram.es",
+        pathname: "/p/**",
+      },
     ],
   },
   async redirects() {

@@ -7,16 +7,81 @@ detail page per agency.
 | --- | --- | --- | --- | --- | --- |
 | Web Design | `/directory/web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
 | SEO | `/directory/seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
+| Branding | `/directory/branding` | Clutch, DesignRush, D&AD | `lib/directory/data/branding-agencies.json` | Accolades, then review score | Projects from $10,000 **or** award provenance |
+| Motion Design | `/directory/motion-design` | Motion Design Awards | `lib/directory/data/motion-design-agencies.json` | Accolades (= award count) | Top 60 by award count |
 
-Counts at time of writing: 60 web design, 60 SEO.
+Counts at time of writing: 60 web design, 60 SEO, 143 branding, 60 motion
+design.
 
-**One source per category, one data file per source, merged at read time.**
-Each importer under `scripts/directory-import/` overwrites its own file
-wholesale on every run, so a single shared file would mean each importer's
-run wiped the other's records. `mergeAgencySources` in
-`lib/directory/agencies.ts` recombines them for reading, deduping by
-registrable `domain` and then by `slug` (Awwwards wins any collision, since
-it is scanned first).
+**One data file per writer, merged at read time.** Each script under
+`scripts/directory-import/` overwrites its own file wholesale on every run,
+so a single shared file would mean each script's run wiped the others'
+records. `mergeAgencySources` in `lib/directory/agencies.ts` recombines them
+for reading, deduping by registrable `domain` and then by `slug` (earlier
+arguments win any collision, so Awwwards beats Semrush beats branding
+beats motion design).
+
+Note the rule is one file per **writer**, not one per source directory: the
+branding file holds records from three directories because one loader writes
+all three.
+
+**The branding category is sourced differently from the other two, and
+deliberately so.** It has no scraper. Clutch, DesignRush, Sortlist, The
+Manifest and GoodFirms — the only directories that publish a minimum project
+size — all refuse the honest bot UA the scrapers identify with, and the
+award sources that are readable (D&AD, Transform, Red Dot) publish no
+budgets at all. So its records are collected by hand through a browser
+session and validated on the way in by
+`scripts/directory-import/load-branding-json.mjs`, which is a validation
+gate rather than an importer. Its README section is the reference for what
+it rejects and why.
+
+**It is also the one category with two admission routes**, because the
+$10,000 floor is unsourceable at the top of that market: a published floor
+at or above `BRANDING_MIN_BUDGET_FLOOR_USD`, **or** award provenance (a
+non-empty `accolades`) with `budgetFloorUsd` left `null`. A branding record
+may therefore have a null floor — the constant names the editorial line the
+category is curated to, not a property every record carries.
+
+**Motion design has no budget gate at all, and that is a property of the
+market rather than a gap to fill later.** Nobody publishes minimum project
+sizes for motion design. The directories that publish floors for other
+disciplines either bot-wall automated access (Clutch, Sortlist and GoodFirms
+return edge 403s — Clutch on `robots.txt` itself) or, where reachable, carry
+general video-production shops rather than motion specialists: of 50
+companies sampled on DesignRush's US motion-graphics listing, two reached its
+"$50,000 & Up" band. Semrush has no motion taxonomy whatsoever — no
+Animation, Motion Graphics or Motion Design leaf service exists, only broad
+"Video Production" (~380) and "Video Marketing" (~523) buckets whose top
+results are digital-marketing generalists. Awwwards has no motion facet
+either.
+
+So the category is gated on jury awards instead. Every record holds at least
+one Motion Design Awards win, and the published set is the top
+`MOTION_DESIGN_PUBLISHED_LIMIT` by award count. "Premium" here means craft
+reputation, not spend — the studio that set the bar for this category, Buff,
+is a 2–10 person shop in Brighton.
+
+**Its records are null-heavy, and that is correct.** Motion Design Awards is
+an awards jury, not a business directory: it publishes no services, no team
+size, no client names, no ratings and no budgets. The importer writes those
+fields as `null`/`[]` rather than synthesising them, and the category's
+subheading and meta description deliberately promise none of them.
+
+Websites are the one field that is sometimes absent — 5 of the 60 records
+carry a null `website`/`domain`, and those cards render without an outbound
+site link. Logos, against expectation, are complete: all 60 resolve a real
+image on `storage-01-mda.keyfram.es`. The importer still writes `null` when
+it cannot extract one, because the source's avatar field carries a base64
+placeholder alongside the real `srcSet`, and a `data:` URI must never reach
+`logoUrl`.
+
+**Its award wins live in `accolades`, never in `awards`.** The `awards` tally
+is Awwwards' scheme; calling a Video of the Day a "Site of the Day" would be
+a false claim about a different jury. Each win is one `accolades` entry
+naming the award and the project that took it, so the array's length is the
+studio's award count — which is what `ACCOLADE_RANKED_CATEGORIES` then sorts
+on.
 
 **A category may be a filtered slice of its source, and the SEO one is —
 through two cuts.** Its source lists roughly 1,400 SEO agencies, most of
@@ -47,7 +112,7 @@ optional copy: a visitor comparing this against the full source listing
 should be told why the cheaper agencies are missing, rather than being
 left to assume the directory is incomplete.
 
-**The two categories are ranked on different, non-interchangeable signals**,
+**Categories are ranked on different, non-interchangeable signals**,
 because their sources publish different things. Awwwards is an awards jury
 and publishes no reviews; Semrush is a business directory and publishes no
 award tallies. So `Agency.awards` is all-zeros for every Semrush record and
@@ -143,9 +208,19 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   `scripts/directory-import/import-semrush.mjs`, same contract, same
   degradation rules. **Kept as its own file on purpose** — see the
   note under the category table at the top of this file, and
-  `mergeAgencySources` in `lib/directory/agencies.ts`. Adding a third
-  source means adding a third file and a third merge argument, never
-  appending into one of these two.
+  `mergeAgencySources` in `lib/directory/agencies.ts`. Adding a new
+  **writer** means adding a new file and a new merge argument, never
+  appending into an existing one.
+- `lib/directory/data/branding-agencies.json` — the branding dataset
+  (`branding`), holding Clutch, DesignRush and D&AD records. Written by
+  `scripts/directory-import/load-branding-json.mjs`, which validates a
+  hand-collected dataset rather than scraping one — same contract, same
+  degradation rules. Ships as `[]` until a browser session has been run;
+  the hub card shows "Coming soon" until then.
+- `lib/directory/data/motion-design-agencies.json` — the Motion Design Awards
+  dataset (`motion-design`). Written by
+  `scripts/directory-import/import-motion-design-awards.mjs`. Unlike the
+  branding file this one IS scraped, so a re-run needs no browser session.
 - `scripts/directory-import/client-names.json` — the memoised brand-name
   resolutions behind the client list (see "Client list" below). Committed on
   purpose: it makes a re-scrape cheap and deterministic, and it is the file
@@ -240,6 +315,47 @@ property of the ranking, not a bug in the import.
 
 The same score is the `"Client rating"` sort mode in `AgencyExplorer` and
 the third key in `compareAgenciesDefaultOrder`.
+
+### Branding ranks on accolades, not on the award tally
+
+`compareAgenciesDefaultOrder` was written for two categories whose signals
+never compete — Awwwards records carry awards and no rating, Semrush records
+carry a rating and no awards, so whichever is absent falls through to the
+next key. **The branding category breaks that assumption.** Every branding
+record has `awards.total === 0` (its award wins live in `accolades`, which
+that comparator does not read), so ranking it there fell straight through to
+review score — and the D&AD-sourced studios have no reviews anywhere. When
+the category was first populated this put Pentagram 126th of 144 and Wolff
+Olins 140th, below shops with a dozen reviews and no awards.
+
+So branding sorts with `compareAgenciesByAccolades` instead: partners, then
+accolade count descending, then the same review score, then name.
+
+**Motion design is the same problem one step further.** Its records have
+`awards.total === 0` *and* no rating at all, so the default comparator would
+fall past both keys to the name tiebreaker and render the category
+alphabetically — exactly the bug the SEO category shipped with, on a page
+whose own heading claims it is ranked. It is in
+`ACCOLADE_RANKED_CATEGORIES` for that reason. Its accolades carry one entry
+per win, so accolade count *is* award count and the sort is a genuine award
+ranking rather than a proxy for one.
+
+**The swap is scoped to named categories, not global** — see
+`ACCOLADE_RANKED_CATEGORIES` in `lib/directory/constants.ts`. Accolades mean
+different things by source: in branding they are D&AD Pencils, but half the
+SEO records carry self-reported badges ("Top Advertising Company", BBB
+awards), and ranking on those would promote the most self-congratulatory
+agencies over the best-reviewed ones.
+
+**Both sides of the ranking must agree.** The server sorts in
+`getAgenciesByCategory`; `AgencyExplorer` re-sorts the same list on the
+client for its "Top ranked" mode, so `compareByAccoladeRanking` there is a
+mirror of `compareAgenciesByAccolades` here and the two must stay identical
+or the page reorders itself on hydration. Both read
+`isAccoladeRankedCategory`, which lives in `constants.ts` rather than
+`agencies.ts` precisely so the client can import it — `agencies.ts` imports
+the JSON datasets, and taking a *value* from it in a `"use client"` file
+would ship the whole directory into the browser bundle.
 
 ## Budget: label vs floor
 

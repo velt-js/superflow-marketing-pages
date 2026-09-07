@@ -26,6 +26,43 @@ export const CATEGORY_SEO = "seo";
 export const CATEGORY_BRANDING = "branding";
 
 /**
+ * Category slug for the motion design / animation slice.
+ *
+ * `motion-design` rather than `motion`: the bare word is ambiguous (motion
+ * capture, motion graphics templates, stock animation) and the two-word
+ * form is what the studios themselves and their clients search for.
+ *
+ * This is the first category with NO budget gate, and that is a property of
+ * the market, not an oversight. Nobody publishes minimum project sizes for
+ * motion design - every budget-bearing directory (Clutch, DesignRush,
+ * Sortlist, GoodFirms, Semrush) either bot-walls automated access or, where
+ * reachable, carries general video-production shops rather than motion
+ * specialists. Of 50 companies sampled on DesignRush's US motion-graphics
+ * listing, two reached its "$50,000 & Up" band. So the category is gated on
+ * jury awards instead: see MOTION_DESIGN_PUBLISHED_LIMIT and
+ * ACCOLADE_RANKED_CATEGORIES.
+ */
+export const CATEGORY_MOTION_DESIGN = "motion-design";
+
+/**
+ * How many motion design studios are published, out of everyone holding at
+ * least one Motion Design Awards win.
+ *
+ * The single cut for this category, where SEO and branding each have two.
+ * There is no qualifying bar to apply first - holding a jury award IS the
+ * bar - so the importer ranks every studio by award count and keeps this
+ * many. 60 matches the other categories, which keeps the page weight in
+ * line: the SEO listing at 294 cards ran to 2.8 MB and 7,315 DOM elements,
+ * enough to trip Lighthouse's excessive-DOM audit, where 60 cards land
+ * around 0.74 MB.
+ *
+ * Enforced by the importer at collection time, so the pages have no
+ * filtering to do. Changing it means re-running the importer; see
+ * scripts/directory-import/README.md.
+ */
+export const MOTION_DESIGN_PUBLISHED_LIMIT = 60;
+
+/**
  * Minimum `Agency.budgetFloorUsd` for a record to belong in the SEO
  * category, in whole US dollars.
  *
@@ -120,6 +157,12 @@ export const SOURCE_LABEL_DESIGNRUSH = "DesignRush";
  *  under the one institution. */
 export const SOURCE_LABEL_DANDAD = "D&AD";
 
+/** Attribution label for records collected from Motion Design Awards.
+ *  Written in full rather than as "MDA": the abbreviation collides with
+ *  motionawards.com, a separate organisation run by Motionographer, and a
+ *  provenance label that could point at either body attests to nothing. */
+export const SOURCE_LABEL_MOTION_DESIGN_AWARDS = "Motion Design Awards";
+
 /**
  * Name of the partner badge. Says "partner" rather than "verified" on
  * purpose: the badge attests that the agency uses Superflow, which is a
@@ -176,6 +219,21 @@ export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
     metaDescription:
       "A directory of branding and logo design agencies taking projects from $10,000, with location, services, team size, awards and named clients for each.",
   },
+  {
+    slug: CATEGORY_MOTION_DESIGN,
+    title: "Motion Design",
+    // "studios" rather than "agencies", which every other category uses:
+    // it is what this industry calls itself, and what its buyers search.
+    heading: "Motion design studios",
+    // Copy names the award record as the ranking basis and claims nothing
+    // else. The other categories advertise services, team size and budget;
+    // this source publishes none of the three, and a subheading promising
+    // them would be selling a page we cannot render.
+    subheading:
+      "Motion design and animation studios, ranked by their Motion Design Awards record. Every profile links back to its source.",
+    metaDescription:
+      "A directory of award-winning motion design and animation studios, with location, award record and a link to each studio's own site.",
+  },
 ];
 
 /**
@@ -198,7 +256,20 @@ export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
  * client. They must agree or the page reorders itself on hydration, which
  * is why this lives here rather than being decided independently in each.
  */
-export const ACCOLADE_RANKED_CATEGORIES: readonly string[] = [CATEGORY_BRANDING];
+export const ACCOLADE_RANKED_CATEGORIES: readonly string[] = [
+  CATEGORY_BRANDING,
+  // Motion design for the same reason as branding, one step further: its
+  // records carry no review score AND no award tally, because Motion
+  // Design Awards is not an Awwwards-scheme source. Every win it publishes
+  // is written as one `accolades` entry naming the award and the project
+  // that took it, so the array's LENGTH is the studio's award count and
+  // ranking on it ranks on award record. This is also why the importer
+  // must emit one entry per win rather than one per award type - collapsing
+  // "Video of the Day x3" into a single string would quietly flatten the
+  // ranking to near-ties, exactly the bug that sorted the SEO category
+  // alphabetically on launch.
+  CATEGORY_MOTION_DESIGN,
+];
 
 /**
  * Reports whether a category ranks on accolade count instead of the

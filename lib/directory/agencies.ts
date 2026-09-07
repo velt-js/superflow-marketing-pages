@@ -13,6 +13,7 @@
 import agenciesData from "./data/agencies.json";
 import seoAgenciesData from "./data/seo-agencies.json";
 import brandingAgenciesData from "./data/branding-agencies.json";
+import motionDesignAgenciesData from "./data/motion-design-agencies.json";
 import partnersData from "./data/partners.json";
 import previewPartnersData from "./data/partners.preview.json";
 import {
@@ -24,6 +25,7 @@ import {
   SOURCE_LABEL_CLUTCH,
   SOURCE_LABEL_DANDAD,
   SOURCE_LABEL_DESIGNRUSH,
+  SOURCE_LABEL_MOTION_DESIGN_AWARDS,
   SOURCE_LABEL_SEMRUSH,
 } from "./constants";
 import type {
@@ -104,12 +106,13 @@ export function mergeAgencySources(...datasets: Agency[][]): Agency[] {
  *  .mjs scripts, no TS build step) are the sole writers of the JSON files
  *  and are responsible for conforming to `Agency` - this module only reads
  *  them. `branding-agencies.json` is validated field by field on the way in
- *  by load-branding-json.mjs, since unlike the other two it is written from
+ *  by load-branding-json.mjs, since unlike the others it is written from
  *  a hand-driven browser session rather than by a scraper. */
 const AGENCIES: Agency[] = mergeAgencySources(
   agenciesData as Agency[],
   seoAgenciesData as Agency[],
   brandingAgenciesData as Agency[],
+  motionDesignAgenciesData as Agency[],
 );
 
 /** Raw partner list, typed against `SuperflowPartnerList`. Ships with an
@@ -211,6 +214,7 @@ const SOURCE_LABELS: Record<AgencySource, string> = {
   clutch: SOURCE_LABEL_CLUTCH,
   designrush: SOURCE_LABEL_DESIGNRUSH,
   dandad: SOURCE_LABEL_DANDAD,
+  "motion-design-awards": SOURCE_LABEL_MOTION_DESIGN_AWARDS,
 };
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
@@ -587,6 +591,25 @@ const MIN_RATING_REVIEWS_FOR_INDEXING = 3;
 const MIN_SERVICES_FOR_INDEXING = 3;
 
 /**
+ * Minimum `accolades` entries for the accolade list to count as real
+ * content on its own - see `shouldIndexAgency`.
+ *
+ * Added with the motion design category, which would otherwise be almost
+ * entirely `noindex`: Motion Design Awards records carry no services, no
+ * clients, no rating and a zeroed award tally, and their blurbs are short
+ * (Buff's is 60 characters against the 80 this guard wants). A studio
+ * holding several jury awards, each named with the project that won it, is
+ * not a thin page - the accolade list IS the substance, and it is unique
+ * per studio.
+ *
+ * Set to 3 to match the client and service thresholds either side of it:
+ * one win is a footnote, a handful is a record. This also closes the same
+ * latent gap for the branding category's D&AD records, where only 2 of 22
+ * carry a blurb long enough to clear the description route on its own.
+ */
+const MIN_ACCOLADES_FOR_INDEXING = 3;
+
+/**
  * An agency's client list, cleaned for rendering: entries with no usable
  * name dropped, and no two entries showing the same name twice.
  *
@@ -698,12 +721,16 @@ export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
     const realServiceCount =
       agency.services?.filter((service) => Boolean(service?.trim())).length ?? 0;
     const hasRealServiceList = realServiceCount >= MIN_SERVICES_FOR_INDEXING;
+    const realAccoladeCount =
+      agency.accolades?.filter((accolade) => Boolean(accolade?.trim())).length ?? 0;
+    const hasRealAccoladeList = realAccoladeCount >= MIN_ACCOLADES_FOR_INDEXING;
     return (
       hasRealDescription ||
       hasRealAwardRecord ||
       hasRealClientList ||
       hasRealRating ||
-      hasRealServiceList
+      hasRealServiceList ||
+      hasRealAccoladeList
     );
   } catch {
     return false;

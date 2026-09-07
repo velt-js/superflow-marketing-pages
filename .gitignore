@@ -37,6 +37,15 @@ scripts/directory-import/.cache/
 # See scripts/directory-import/README.md.
 scripts/directory-import/.cache-semrush/
 
+# Motion Design Awards page cache. Kept separate from the two above for the
+# same reason they are separate from each other. This one is by far the
+# largest of the three - the importer walks every project in MDA's sitemap
+# (~1,871 pages) plus a profile page per award-winning studio, which runs to
+# roughly 640 MB of HTML. It is also what makes a re-run cheap: the fetch
+# helpers check this directory before touching the network, so an
+# interrupted crawl resumes rather than restarting.
+scripts/directory-import/.cache-mda/
+
 # Raw JSON batches dropped by the hand-driven browser session that sources
 # the branding category. Unvalidated intermediates - the artefact worth
 # committing is lib/directory/data/branding-agencies.json, which

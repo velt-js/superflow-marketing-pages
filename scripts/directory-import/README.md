@@ -1,8 +1,10 @@
 # Directory importers
 
-Two standalone Node ESM scripts populate `lib/directory/data/*.json` for the
-agency directory, each from a different public source. Both write records
-conforming exactly to the `Agency` interface in `lib/directory/types.ts`.
+Four standalone Node ESM scripts populate `lib/directory/data/*.json` for
+the agency directory. Three are scrapers, each fetching a different public
+source; the fourth is a loader that validates a hand-collected dataset rather
+than fetching anything. All four write records conforming exactly to the
+`Agency` interface in `lib/directory/types.ts`.
 Categories and shared string constants live in `lib/directory/constants.ts`;
 each script mirrors the ones it needs (see the comment near the top of each
 script) rather than importing them, since neither has a TypeScript build
@@ -14,6 +16,8 @@ and its own on-disk cache directory.
 | --- | --- | --- | --- |
 | `scrape-awwwards.mjs` | [Awwwards directory](https://www.awwwards.com/directory/) | `lib/directory/data/agencies.json` | `web-design` |
 | `import-semrush.mjs` | [Semrush Agency Partners](https://agencies.semrush.com) | `lib/directory/data/seo-agencies.json` | `seo` |
+| `load-branding-json.mjs` | Clutch / DesignRush / D&AD, via a hand-driven browser session (no network access of its own) | `lib/directory/data/branding-agencies.json` | `branding` |
+| `import-motion-design-awards.mjs` | [Motion Design Awards](https://www.motiondesignawards.com) | `lib/directory/data/motion-design-agencies.json` | `motion-design` |
 
 ## Awwwards directory scraper
 
@@ -471,3 +475,344 @@ node scripts/directory-import/import-semrush.mjs --limit 60
   in `main()` (250–350, expecting ~295) is the tripwire that should catch it
   — a silent id/amount mismatch is exactly the failure mode that check exists
   to surface before a wrong file gets written.
+
+## Branding loader
+
+Validates the browser-sourced branding dataset and writes
+`lib/directory/data/branding-agencies.json`.
+
+Unlike its two siblings, **this script makes no network requests at all.**
+It has no cache directory, no robots.txt handling and no rate limiting,
+because it never fetches anything.
+
+### Why this one is different
+
+The branding category cannot be scraped the way the other two were, and the
+reason is worth recording so nobody re-tries the obvious approach:
+
+- **Semrush has the wrong population.** Its branding pool (leaf services
+  `30` Brand Strategy, `82` Logo Design, `85` Graphic Design) runs to ~686
+  agencies, of which only 53 have a budget floor at or above $10,000 — and
+  none of the studios that define this category are in it. Semrush Agency
+  Partners is a performance-marketing directory where branding is a
+  checkbox, not a population of brand consultancies.
+- **Every budget-bearing directory is bot-walled.** Clutch, The Manifest,
+  DesignRush, Sortlist and GoodFirms all refuse the honest
+  `SuperflowDirectoryBot/1.0` UA that the scrapers identify with
+  (Cloudflare challenges and edge 403s). These are precisely the sources
+  that publish a minimum project size.
+- **Award sources publish no budgets.** D&AD, Transform and Red Dot are
+  readable and carry the quality signal, but none of them states what a
+  studio charges.
+
+So the records are collected by hand through a browser session and this
+script is the gate they pass through. Its governing rule is:
+
+> **Normalise representation, never repair a claim.**
+
+Casing, URL form, whitespace, a derivable slug, a re-summed award total —
+those are shapes of the same fact and get fixed silently, with a warning.
+A budget, a rating, a `notable` flag, an award tally — those are assertions
+about the world, and a wrong one is repaired only by going back to the
+source. A record whose assertion is missing or malformed is **rejected**,
+never patched to something plausible.
+
+### Usage
+
+```bash
+# reads every *.json in scripts/directory-import/inbox/branding/
+node scripts/directory-import/load-branding-json.mjs
+
+# explicit batches
+node scripts/directory-import/load-branding-json.mjs --input batch-01.json --input batch-02.json
+
+# validate without writing
+node scripts/directory-import/load-branding-json.mjs --dry-run
+```
+
+The script always overwrites the output file with the full result of that
+run (it does not merge with the previous file), so every batch that belongs
+in the dataset must be present in the inbox on every run.
+
+### Flags
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `--input PATH` (repeatable, `-i`, `--input=PATH`) | every `*.json` in `inbox/branding/` | Batch file(s) to read. |
+| `--out PATH` (`-o`, `--out=PATH`) | `lib/directory/data/branding-agencies.json` | Where to write. |
+| `--dry-run` | off | Validate and report, write nothing. |
+| `--strict` | off | Exit non-zero if any record was rejected. For CI. |
+
+### Input format
+
+`inbox/branding/` is gitignored — the batches are unvalidated intermediates,
+and the artefact worth committing is the validated output file.
+
+Batch files are JSON arrays of `Agency`-shaped objects. Parsing is
+deliberately **lenient about the wrapper and strict about nothing else**: a
+saved chat response often arrives fenced in ` ```json `, prefixed with a
+sentence, or wrapped in `{"agencies": [...]}`. Unwrapping those changes no
+field of any record, so it is the same class of fix as trimming whitespace.
+Everything inside the array is then held to the full contract.
+
+### The admission rule
+
+There are exactly **two routes** into the branding category, and the second
+one exists because the $10,000 floor is unsourceable at the top of this
+market:
+
+1. **A published floor** at or above `BRANDING_MIN_BUDGET_FLOOR_USD`
+   ($10,000). The Clutch/DesignRush route — those directories print a
+   minimum project size, so the claim is attributable to `profileUrl`.
+2. **Award provenance** — a non-empty `accolades` with `budgetFloorUsd`
+   left `null`. The D&AD route. Pentagram, Jones Knowles Ritchie,
+   Bulletproof and PORTO ROCHA publish no budget bands anywhere and their
+   real floors run far above $10,000; gating on a published number alone
+   would admit mid-market shops and exclude exactly the agencies the
+   category exists to list.
+
+A record with neither is rejected. **A consequence worth knowing when
+reading the data:** a listed agency may have a null `budgetFloorUsd`, so the
+constant describes the editorial line the category is curated to, not a
+property every record carries.
+
+### Rejections vs warnings
+
+**Rejected** (the whole record is dropped and reported):
+
+- Missing/unparseable `name` or `profileUrl`.
+- A `source` outside `clutch` / `designrush` / `dandad` — an unknown source
+  has no attribution label, and an entry that cannot say where it came from
+  is worse than a missing entry.
+- `categories` not containing `branding`.
+- A **non-zero `awards` tally.** These sources publish no Awwwards-scheme
+  awards, so a non-zero count means someone mapped a D&AD Pencil onto a
+  counted field it does not belong in — and `awards.total` is a sort key a
+  visitor reads as "Awwwards awards". Zeroing it silently would hide an
+  authoring mistake that recurs across a whole batch; failing loudly sends
+  it back to `accolades`, where free-text recognitions belong.
+- A malformed `rating` — dropping a broken one to `null` would quietly turn
+  "we misread the page" into "this agency has no reviews".
+- A `budgetFloorUsd` that is neither `null` nor a non-negative whole number.
+  `null` ("did not say") and `0` ("takes any budget") are different claims
+  and neither may stand in for the other.
+- A `budgetLabel` stating a budget while `budgetFloorUsd` is `null` — a
+  displayed floor must have a machine-readable one behind it.
+- Failing the admission rule above.
+
+**Warned** (record kept, field normalised): a derived `budgetLabel`, a
+non-ISO `countryCode` set to null, an unparseable `website`/`logoUrl` set to
+null, an implausible `foundedYear` set to null, a missing `scrapedAt` filled
+with the run timestamp (safe — it records when *we* collected the record,
+not anything the source asserted), a `clients` entry dropped, a `clients`
+list truncated to 12, and a `domain` that disagrees with the `website` host.
+
+That last one is worth watching: the website is the more primitive fact so
+it wins, but a mismatch usually means two agencies got conflated.
+
+### Dedupe and merge
+
+Records are deduped on **registrable domain**, never on name. A null domain
+is never an identity to match on — two agencies whose domain could not be
+derived are not the same agency — so every domain-less record survives, the
+same rule `mergeAgencySources` applies at read time.
+
+On a collision the higher-priority source wins: **Clutch > DesignRush >
+D&AD**. Clutch first because it is the only one of the three that publishes
+a minimum project size, and losing that to a D&AD record with no budget
+field would drop the agency's floor to `null`.
+
+First-wins applies to every scalar field, exactly like `mergeAgencySources`
+— a record's fields and its `profileUrl` must keep describing the same page,
+or the attribution link stops backing the data next to it. **`accolades` is
+the one exception and is unioned across duplicates.** An award is a fact
+about the agency rather than about the directory that listed it, and each
+accolade names its own awarding body ("D&AD Wood Pencil 2025"), so it stays
+self-attributing wherever it lands. This is what lets a Clutch record —
+which carries the budget floor the category gates on — also carry the D&AD
+provenance that makes it worth listing.
+
+### Editorial exclusions
+
+`EDITORIALLY_EXCLUDED_DOMAINS` is a domain → reason map of agencies that are
+real and correctly reported but should not be listed. A match is reported
+separately from a validation failure, because nothing is wrong with the
+record — we chose not to list it.
+
+It is an explicit list rather than "just delete the record from the batch",
+for the same reason `client-names.json` records a rejected client as an
+explicit `null` instead of a missing key: the batches live in a gitignored
+inbox and get regenerated by a fresh browser session, so a deleted record
+comes back next time with no trace of why it went. An entry here is
+permanent and self-documenting.
+
+It is **not** a place to suppress records that fail validation — those are
+rejected on their own merits, and fixing them means fixing the data.
+
+Currently one entry: `superunion.com`, defunct since WPP merged Superunion
+into Design Bridge and Partners (listed separately, under its own name and
+award record). Its site now 404s through a broken redirect, so the record
+would give the directory a dead outbound link for an agency nobody can hire.
+
+### Output ordering
+
+The file is sorted by accolade count first, then a shrinkage-adjusted review
+score (`value * count / (count + 5)`, matching `computeRankingScore` in
+`import-semrush.mjs`), then name. Accolades lead because the category admits
+agencies by two different routes and the award route carries the stronger
+claim.
+
+The rendered page applies the same ranking, but independently:
+`getAgenciesByCategory` re-sorts on read with `compareAgenciesByAccolades`,
+so the file's order is a convenience for reading the JSON, not what the page
+depends on. See `app/directory/README.md`, "branding ranks on accolades".
+
+### Refusing to write
+
+The script will not write an empty file. Overwriting a good dataset with
+`[]` because an inbox was empty or a batch was malformed would silently
+empty a live category — the same reasoning behind `import-semrush.mjs`'s
+qualifying-count check.
+
+### Known limitations
+
+- **No source verification.** The scrapers can be re-run to check their
+  output against the live page; this one cannot. Every field traces back to
+  what a browser session reported, and the validation here checks internal
+  consistency and plausibility, never truth. `profileUrl` is the only
+  recourse — which is why a record missing it is rejected outright.
+- **`domain` → eTLD+1 extraction** duplicates the sibling scripts'
+  `KNOWN_TWO_LABEL_SUFFIXES` table verbatim, with the same accuracy caveat
+  (not a full Public Suffix List).
+- **No client-name normalisation pass.** Clutch and D&AD both name clients
+  directly, so unlike Awwwards' project titles there is nothing for an LLM
+  pass to resolve.
+- **`accolades` are unverified self-reported or third-party labels of mixed
+  provenance**, exactly as in the Semrush importer — deliberately kept out
+  of the counted `awards` tally. See `AgencyAwards` in
+  `lib/directory/types.ts`.
+
+## Motion Design Awards importer
+
+Sources the `motion-design` category from
+[Motion Design Awards](https://www.motiondesignawards.com), writing
+`lib/directory/data/motion-design-agencies.json`.
+
+The third scraper, and the only one whose source is an awards jury with no
+commercial data at all. It exists because no business directory carries a
+premium motion tier — see the "Motion design" discussion in
+`app/directory/README.md` for the sourcing evidence behind that call.
+
+### Usage
+
+```bash
+node scripts/directory-import/import-motion-design-awards.mjs
+node scripts/directory-import/import-motion-design-awards.mjs --limit=200
+node scripts/directory-import/import-motion-design-awards.mjs --limit=all
+node scripts/directory-import/import-motion-design-awards.mjs --dry-run
+node scripts/directory-import/import-motion-design-awards.mjs --refresh
+```
+
+### How it works
+
+The source is a Next.js app, so every server-rendered page embeds its data as
+a `__NEXT_DATA__` payload holding a normalised Apollo cache — a flat map of
+`"Type:id"` keys cross-referencing each other through `{"__ref": …}`
+pointers. No HTML parsing is involved; this is closer to `import-semrush.mjs`
+than to the Awwwards scraper.
+
+The crawl is **two-phase**, which is a real departure from the
+two-requests-per-agency shape of the other two importers:
+
+1. **Phase 1** walks every project named in `sitemap.projects.xml.gz` (~1,871
+   URLs). Each project carries its title, its `awards[]` (`{id, type}` pairs
+   such as `{type: "VOTD"}`) and a reference to the credited profile.
+   Projects that won nothing are skipped without ever fetching a profile —
+   the sitemap lists every published submission, not just winners.
+2. **Phase 2** fetches `/profile/<id>` once per distinct award-winning
+   profile.
+
+Phase 2 is not an optimisation, it is required. **The Profile object embedded
+in a project page is a stripped fragment** (company/city/country/website/
+avatar) that carries no `type` field, and `type` is the filter this whole
+importer depends on: MDA's leaderboard is roughly half individual
+freelancers, and only `type === "STUDIO"` separates them from studios. There
+is no way to tell the two apart from a project page alone, and guessing from
+the name would put freelancers into a directory that calls itself a list of
+agencies.
+
+### Ranking and the `accolades` contract
+
+Every win becomes **one** `accolades` entry naming the award and the project
+that took it — `"Video of the Day — Malibu Boats: The M240"`. That is
+load-bearing, not cosmetic: `motion-design` is in
+`ACCOLADE_RANKED_CATEGORIES`, so `accolades.length` *is* the sort key on both
+the server and the client. Collapsing repeats into `"Video of the Day ×31"`
+would flatten a 40-award studio to a single point and silently destroy the
+ranking.
+
+Award codes are expanded from a label map lifted from MDA's own
+`pages/winners/[[...type]]` bundle and cross-checked against the six
+`/winners/<code>` routes in `sitemap.static.xml`: HM, VOTD, VOTM, VOTY, DOTY,
+SOTY. A code with no confident expansion falls back to a generic string
+rather than being guessed at — a wrong award name is a false claim about a
+jury's verdict.
+
+Honorable Mentions count the same as any other win, matching how the
+`web-design` category sums `honorableMentions` into `awards.total`. This was
+checked rather than assumed: HM is 8.9% of the top ten's accolades and ~9.5%
+of the shipped set, so the ranking is driven by Video of the Day rather than
+by HM volume.
+
+`awards` is written as all zeros. That tally is Awwwards' scheme, and calling
+a Video of the Day a "Site of the Day" would misattribute one jury's verdict
+to another.
+
+### Flags
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `--limit=<n>` | `60` | Publish the top N studios by award count. |
+| `--limit=all` | — | Publish every qualifying studio, uncapped. Case-insensitive. |
+| `--dry-run` | off | Collect and report without writing the JSON file. |
+| `--refresh` | off | Skip cache reads (writes still happen, refreshing the cache). |
+
+### Rate limits / politeness
+
+`MAX_CONCURRENCY = 2`, three retries with exponential backoff from 1s, and
+`HARD_REQUEST_CAP = 4000` — sized for the theoretical worst case of 1,871
+projects plus 1,871 profiles, well above the ~2,470 a real run uses. Identifies
+honestly as `SuperflowDirectoryBot/1.0`; never spoofs a browser UA.
+
+### robots.txt
+
+Fetched and parsed at runtime, failing closed. MDA serves a Cloudflare
+content-signals file that is entirely comments — no `Disallow`, and no signal
+set to `no` — so nothing is restricted. The projects sitemap is explicitly
+published for crawlers, which is what makes the enumeration path the
+sanctioned one rather than probing the undocumented GraphQL endpoint behind
+the site.
+
+### Cache
+
+`.cache-mda/`, separate from `.cache/` and `.cache-semrush/` so the three
+importers can never collide. By far the largest of the three at roughly
+640 MB, and gitignored. It is also what makes the crawl resumable: the fetch
+helpers check disk before touching the network, so an interrupted run picks
+up where it stopped instead of restarting.
+
+### Known limitations
+
+- **No budget, rating, team size, client names or services, ever.** The
+  source publishes none of them; the importer writes `null`/`[]` rather than
+  synthesising values. The category's copy is written to promise none of
+  them either.
+- **Only award-winning studios are reachable.** A studio that has never won
+  an MDA award is invisible to this importer by construction, so the category
+  is a list of award winners rather than a census of the industry.
+- **Coverage skews to MDA entrants.** Submitting costs money, so studios that
+  don't enter are absent regardless of reputation — several blue-chip names
+  (BUCK, ManvsMachine, Framestore) sit in D&AD's index but not here.
+- **`type` is trusted as reported.** A studio that registered as an
+  individual, or vice versa, is filtered on the source's own label with no
+  second opinion.
