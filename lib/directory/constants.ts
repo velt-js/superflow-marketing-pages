@@ -22,11 +22,23 @@ export const CATEGORY_SEO = "seo";
  * which take sub-$2,500 work, and a directory that lists everyone helps
  * nobody choose. This threshold is the editorial line.
  *
- * Enforced by the importer at collection time (an agency below it is never
- * fetched, let alone written), so this constant documents and names the
- * rule rather than applying it at render time - the pages have no
- * filtering to do. Changing it means re-running the importer; see
- * scripts/directory-import/README.md.
+ * It is the first of two cuts. This one is a hard qualifying bar; the
+ * importer then ranks what clears it by review score and keeps the top 60
+ * (its `DEFAULT_LIMIT`). So the shipped category is "the 60 best-reviewed
+ * agencies that take $5,000+ work", not "every agency above $5,000" -
+ * roughly 295 clear the bar and 60 are published.
+ *
+ * A useful side effect of the second cut: every published record has
+ * reviews. Around a third of the qualifying pool has none and scores zero
+ * under the shrinkage ranking, so the cap excludes them rather than
+ * stranding them at the bottom of a listing that claims to be ranked on
+ * reviews.
+ *
+ * Both cuts are enforced by the importer at collection time (an agency
+ * below the floor is never fetched, let alone written), so this constant
+ * documents and names the rule rather than applying it at render time -
+ * the pages have no filtering to do. Changing it means re-running the
+ * importer; see scripts/directory-import/README.md.
  */
 export const SEO_MIN_BUDGET_FLOOR_USD = 5000;
 

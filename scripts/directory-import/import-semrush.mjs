@@ -15,9 +15,12 @@
  *
  * The SEO category is PREMIUM-ONLY: an agency qualifies only if its
  * cheapest listed project budget (`Agency.budgetFloorUsd`) is at or above
- * SEO_MIN_BUDGET_FLOOR_USD. This importer takes its WHOLE qualifying pool
- * by default (currently ~295 agencies), not a top-N slice - `--limit` only
- * exists as a cap for quick test runs.
+ * SEO_MIN_BUDGET_FLOOR_USD. The QUALIFYING POOL (currently ~295 agencies)
+ * is always computed and ranked in full, but the shipped default is the
+ * top 60 of it (DEFAULT_LIMIT) - matching what's actually committed to
+ * lib/directory/data/seo-agencies.json, so running this script the obvious
+ * way reproduces the shipped file rather than silently regenerating a
+ * ~294-record one. Pass `--limit all` for the full qualifying pool.
  *
  * Two-endpoint crawl, but NOT a simple "fetch N and stop":
  *   1. Paginated listing (`GET /api/agencies/?services=<id>&...&pageNumber=<n>`) -
@@ -43,7 +46,7 @@
  *   - A hard total-request cap protects against runaway crawls.
  *
  * Usage:
- *   node scripts/directory-import/import-semrush.mjs [--limit N]
+ *   node scripts/directory-import/import-semrush.mjs [--limit N | --limit all]
  *
  * See scripts/directory-import/README.md for full flag/cache documentation.
  */
@@ -90,23 +93,33 @@ const USER_AGENT = "SuperflowDirectoryBot/1.0 (+https://usesuperflow.ai; mihir@v
 /** robots.txt group-matching token for this bot (lowercased, no version). */
 const ROBOTS_PRODUCT_TOKEN = "superflowdirectorybot";
 
-/** Default `--limit`: no cap at all. The SEO category is premium-only (see
- *  SEO_MIN_BUDGET_FLOOR_USD below) and takes its WHOLE qualifying pool, not
- *  a top-N slice - `--limit N` still works as an override, capping the
- *  ranked pool for a quick test run, but omitting it must never quietly
- *  truncate the real dataset the way a numeric default would. */
-const DEFAULT_LIMIT = null;
+/**
+ * Default `--limit`: 60 - not an arbitrary number, but the count the SEO
+ * category actually ships (lib/directory/data/seo-agencies.json is a
+ * 60-record slice of the ~295-agency qualifying pool), and it matches
+ * scrape-awwwards.mjs's own DEFAULT_LIMIT so the two importers behave alike
+ * when run the obvious way. Running this script with no flags MUST
+ * reproduce the committed file, not silently regenerate a ~294-record one -
+ * a previous version of this constant was `null` ("no cap") for exactly the
+ * period when the whole pool WAS what shipped; it changed back once the
+ * product decision became "top 60".
+ *
+ * The full qualifying pool is still a legitimate thing to want - pass
+ * `--limit all` (case-insensitive) for it, uncapped, same as this constant
+ * used to default to. `--limit N` continues to work as a plain numeric cap.
+ */
+const DEFAULT_LIMIT = 60;
 const MAX_CONCURRENCY = 2;
 const MIN_REQUEST_DELAY_MS = 1000;
 const MAX_RETRIES = 3;
 const RETRY_BASE_DELAY_MS = 1000;
 
 /** Absolute ceiling on real HTTP requests for one run (cache hits are free).
- *  Higher than the Awwwards script's 300: this importer now fetches a
- *  profile for its whole qualifying pool rather than a fixed top-N, and
- *  36 listing pages + ~295 profiles (see EXPECTED_QUALIFYING_COUNT) already
- *  exceeds 300. 600 leaves headroom for the pool to grow before this needs
- *  raising again. */
+ *  Higher than the Awwwards script's 300: `--limit all` fetches a profile
+ *  for the whole qualifying pool, and 36 listing pages + ~295 profiles (see
+ *  EXPECTED_QUALIFYING_COUNT) already exceeds 300, even though the default
+ *  run (top DEFAULT_LIMIT) uses far fewer. 600 leaves headroom for the pool
+ *  to grow before this needs raising again. */
 const HARD_REQUEST_CAP = 600;
 
 // ---------- Data-contract constants (mirrors lib/directory/constants.ts;
@@ -1786,10 +1799,35 @@ function buildAgencyRecord(agencyProfile, usedSlugs, scrapedAt) {
 
 // ---------- CLI / orchestration ----------
 
+/** Case-insensitive `--limit` value meaning "no cap - take the whole
+ *  qualifying pool", the one way to reach that mode now that DEFAULT_LIMIT
+ *  is a number. */
+const LIMIT_ALL_KEYWORD = "all";
+
 /**
- * Parses `--limit N` / `--limit=N` from CLI args. Same shape as the parser
- * in scrape-awwwards.mjs, except the default here is `null` ("no cap - take
- * the whole qualifying pool"), not a fixed number - see DEFAULT_LIMIT.
+ * Parses one raw `--limit` value into a usable option value.
+ * @param {string | undefined} rawValue Raw CLI value, e.g. "60" or "all".
+ * @returns {number | null | undefined} `null` for the `all` keyword (no
+ *   cap), a positive integer for a numeric value, or `undefined` when
+ *   `rawValue` is missing/unparseable - callers should leave their current
+ *   `limit` unchanged in that case rather than overwrite it with garbage.
+ */
+function parseLimitValue(rawValue) {
+  try {
+    if (!rawValue) return undefined;
+    if (rawValue.toLowerCase() === LIMIT_ALL_KEYWORD) return null;
+    const parsedValue = Number.parseInt(rawValue, 10);
+    return !Number.isNaN(parsedValue) && parsedValue > 0 ? parsedValue : undefined;
+  } catch (error) {
+    console.warn(`parseLimitValue() failed for "${rawValue}": ${error?.message ?? error}`);
+    return undefined;
+  }
+}
+
+/**
+ * Parses `--limit N` / `--limit=N` / `--limit all` from CLI args. Same
+ * shape as the parser in scrape-awwwards.mjs, extended with the `all`
+ * keyword - see DEFAULT_LIMIT and LIMIT_ALL_KEYWORD.
  * @param {string[]} argv Arguments after the script path (`process.argv.slice(2)`).
  * @returns {{limit: number | null}} Parsed options. `limit: null` means uncapped.
  */
@@ -1799,12 +1837,12 @@ function parseCliArgs(argv) {
     for (let index = 0; index < argv.length; index += 1) {
       const argument = argv[index];
       if (argument === "--limit") {
-        const parsedValue = Number.parseInt(argv[index + 1] ?? "", 10);
-        if (!Number.isNaN(parsedValue) && parsedValue > 0) options.limit = parsedValue;
+        const parsedLimit = parseLimitValue(argv[index + 1]);
+        if (parsedLimit !== undefined) options.limit = parsedLimit;
         index += 1;
       } else if (argument?.startsWith("--limit=")) {
-        const parsedValue = Number.parseInt(argument.slice("--limit=".length), 10);
-        if (!Number.isNaN(parsedValue) && parsedValue > 0) options.limit = parsedValue;
+        const parsedLimit = parseLimitValue(argument.slice("--limit=".length));
+        if (parsedLimit !== undefined) options.limit = parsedLimit;
       }
     }
     return options;
@@ -1858,9 +1896,9 @@ async function main() {
     console.log(
       cliOptions.limit !== null
         ? `Ranked ${ranked.length} qualifying candidate(s) by shrinkage-adjusted score ` +
-            `(prior=${RANKING_SHRINKAGE_PRIOR}); capped at the top ${selected.length} (--limit ${cliOptions.limit}).`
+            `(prior=${RANKING_SHRINKAGE_PRIOR}); taking the top ${selected.length} (limit ${cliOptions.limit}).`
         : `Ranked ${ranked.length} qualifying candidate(s) by shrinkage-adjusted score ` +
-            `(prior=${RANKING_SHRINKAGE_PRIOR}); taking the entire qualifying pool (no --limit given).`,
+            `(prior=${RANKING_SHRINKAGE_PRIOR}); taking the entire qualifying pool (--limit all).`,
     );
 
     console.log("Fetching agency profile pages…");

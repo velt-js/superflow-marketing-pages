@@ -8,7 +8,7 @@ detail page per agency.
 | Web Design | `/directory/web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
 | SEO | `/directory/seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
 
-Counts at time of writing: 60 web design, 294 SEO.
+Counts at time of writing: 60 web design, 60 SEO.
 
 **One source per category, one data file per source, merged at read time.**
 Each importer under `scripts/directory-import/` overwrites its own file
@@ -18,17 +18,29 @@ run wiped the other's records. `mergeAgencySources` in
 registrable `domain` and then by `slug` (Awwwards wins any collision, since
 it is scanned first).
 
-**A category may be a filtered slice of its source, and the SEO one is.**
-Its source lists roughly 1,400 SEO agencies, most of which take sub-$2,500
-work; a directory that lists all of them helps nobody choose. The category
-is therefore cut to agencies whose *minimum* project is
-`SEO_MIN_BUDGET_FLOOR_USD` ($5,000) or more — 295 of the ~1,400, which
-becomes 294 records once the source's own duplicate listings are deduped by
-domain. The rule
-lives in `lib/directory/constants.ts` and is enforced by the importer at
-collection time: a below-threshold agency is never fetched, let alone
-written, so the pages themselves have no filtering to do and cannot drift
-from the rule. Changing the threshold means re-running the importer.
+**A category may be a filtered slice of its source, and the SEO one is —
+through two cuts.** Its source lists roughly 1,400 SEO agencies, most of
+which take sub-$2,500 work; a directory that lists all of them helps nobody
+choose.
+
+1. **A hard qualifying bar** — agencies whose *minimum* project is
+   `SEO_MIN_BUDGET_FLOOR_USD` ($5,000) or more. About 295 of the ~1,400
+   clear it.
+2. **A cap** — those are ranked by review score (see "Review ranking") and
+   the top 60 published, matching the web design category's size and the
+   importer's `DEFAULT_LIMIT`.
+
+So the category is "the 60 best-reviewed agencies that take $5,000+ work",
+not "every agency above $5,000". A useful side effect of the cap: **every
+published SEO record has reviews.** Roughly a third of the qualifying pool
+has none, scores zero under the shrinkage ranking, and would otherwise sit
+at the bottom of a listing that claims to be ranked on reviews.
+
+The threshold lives in `lib/directory/constants.ts`; both cuts are enforced
+by the importer at collection time, so a below-threshold agency is never
+fetched, let alone written, and the pages themselves have no filtering to
+do and cannot drift from the rule. Changing either means re-running the
+importer.
 
 The category's own subheading states the floor outright. That is not
 optional copy: a visitor comparing this against the full source listing
@@ -127,7 +139,7 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   helper here is written to degrade to an empty state rather than crash
   when it's empty or when a category has no matches yet.
 - `lib/directory/data/seo-agencies.json` — the Semrush dataset (`seo`),
-  filtered to the $5,000+ slice described above. Written by
+  the top-60 slice of the $5,000+ pool described above. Written by
   `scripts/directory-import/import-semrush.mjs`, same contract, same
   degradation rules. **Kept as its own file on purpose** — see the
   note under the category table at the top of this file, and

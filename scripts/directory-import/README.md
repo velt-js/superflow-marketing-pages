@@ -216,9 +216,10 @@ there's no DOM to parse and no `jsdom` dependency involved.
 ### Usage
 
 ```bash
-node scripts/directory-import/import-semrush.mjs             # default: the whole qualifying pool (~294 agencies)
-node scripts/directory-import/import-semrush.mjs --limit 50  # capped, for a quick test run
-node scripts/directory-import/import-semrush.mjs --limit=25  # = form also works
+node scripts/directory-import/import-semrush.mjs              # default: top 60 (what's shipped)
+node scripts/directory-import/import-semrush.mjs --limit 25   # a smaller capped run, e.g. for a quick test
+node scripts/directory-import/import-semrush.mjs --limit=25   # = form also works
+node scripts/directory-import/import-semrush.mjs --limit all  # the entire qualifying pool, uncapped (~295 agencies)
 ```
 
 The script always overwrites `lib/directory/data/seo-agencies.json` with the
@@ -228,9 +229,13 @@ full result of that run (it does not merge with the previous file).
 
 The SEO category is **premium-only**: an agency qualifies only if its
 cheapest listed project budget (`Agency.budgetFloorUsd`) is at or above
-`SEO_MIN_BUDGET_FLOOR_USD` ($5,000). Unlike a top-N category, this one takes
-its **whole qualifying pool** by default — `--limit` only exists to cap a
-quick test run, never the real dataset.
+`SEO_MIN_BUDGET_FLOOR_USD` ($5,000). The full qualifying pool (~295 agencies)
+is always computed and ranked, but the **default is the top 60 of it**
+(`DEFAULT_LIMIT`) — that's what's actually shipped in
+`lib/directory/data/seo-agencies.json`, so running this script with no flags
+reproduces the committed file rather than silently regenerating a much
+bigger one. Pass `--limit all` for the entire qualifying pool uncapped, or
+`--limit N` for any other size.
 
 Two JSON endpoints, used very differently from each other:
 
@@ -270,10 +275,10 @@ rank paying agencies highest. Instead:
    `rating * (reviewCount / (reviewCount + 5))` — a lone 5.0-with-1-review
    cannot outrank a well-reviewed 4.8-with-453 this way (see
    `computeRankingScore`'s doc comment for the full reasoning). Agencies with
-   no reviews score `0` and sort last, tied-broken by name. Ranking now
-   orders the output; with no `--limit`, it doesn't select anything out.
-4. The whole ranked pool (or a `--limit`-capped slice of it) goes on to a
-   profile fetch.
+   no reviews score `0` and sort last, tied-broken by name.
+4. The ranked pool is capped to the top `--limit` (default `60` — what's
+   shipped; pass `--limit all` for the entire ranked pool uncapped) before
+   any profile fetch happens.
 5. Built records are deduped by **registrable domain**, keeping the first
    (best-ranked) occurrence — matching the Awwwards script's own "unique by
    registrable domain, never by name" rule. This runs post-fetch, not at the
@@ -289,13 +294,16 @@ rank paying agencies highest. Instead:
    `mergeAgencySources` uses (two agencies with an unresolvable domain are
    not assumed to be the same agency).
 
-Before any profile fetch happens, the script checks the qualifying pool's
-size against a plausibility range (250–350, expecting ~295 qualifying, which
-becomes ~294 written after duplicate-domain deduping) and **refuses to
-write the output file** if it's wildly off — see `QUALIFYING_COUNT_MIN`/
-`MAX` in the script. That would mean Semrush's budget-band semantics moved
-out from under this importer, and writing a file gated on a broken filter
-would be worse than writing nothing.
+Before ranking or any profile fetch happens, the script checks the
+qualifying pool's size (not the `--limit`-capped output) against a
+plausibility range (250–350, expecting ~295) and **refuses to write the
+output file** if it's wildly off — see `QUALIFYING_COUNT_MIN`/`MAX` in the
+script. That would mean Semrush's budget-band semantics moved out from
+under this importer, and writing a file gated on a broken filter would be
+worse than writing nothing. (With `--limit all`, ~295 qualifying becomes
+~294 written after duplicate-domain deduping; with the default `--limit 60`,
+far fewer duplicates are ever encountered since only the top 60 get fetched
+at all — the committed file happens to have none.)
 
 `budgetFloorUsd` is computed a second time after the profile fetch, from the
 profile's own `budgets` (not the listing's) — see the `budgetFloorUsd`
@@ -384,7 +392,8 @@ rename:
 
 | Flag | Default | Meaning |
 | --- | --- | --- |
-| `--limit N` (or `--limit=N`) | none (whole qualifying pool) | Caps the ranked, floor-qualifying pool to the top N before fetching profiles — for a quick test run. Omit it for a real import; the SEO category is not a top-N slice. |
+| `--limit N` (or `--limit=N`) | `60` | Caps the ranked, floor-qualifying pool to the top N before fetching profiles. `60` is what's shipped; a smaller value is useful for a quick test run. |
+| `--limit all` | — | Takes the entire qualifying pool uncapped (~295 agencies), not a top-N slice. Case-insensitive. |
 
 ### Rate limits / politeness
 
@@ -395,10 +404,11 @@ import job, not a production crawler) — one number differs:
 - Exponential backoff on `429`/`5xx` responses (1s → 2s → 4s), **3 retries**
   max, then the URL is recorded as a failure and the run continues without it.
 - A hard cap of **600 real HTTP requests per run** (`HARD_REQUEST_CAP`) —
-  raised from the Awwwards script's 300, since this importer now fetches a
-  profile for its whole qualifying pool (36 listing pages + ~295 profiles is
-  already over 300) rather than a fixed top-N. Cache hits don't count toward
-  it. If it's hit mid-listing-pagination, the script stops paginating early
+  raised from the Awwwards script's 300, since `--limit all` fetches a
+  profile for the whole qualifying pool (36 listing pages + ~295 profiles is
+  already over 300), even though the default run (top 60) uses far fewer.
+  Cache hits don't count toward it. If it's hit mid-listing-pagination, the
+  script stops paginating early
   and ranks whatever it collected; if it's hit while fetching profiles,
   remaining profile fetches are skipped — either way it degrades gracefully
   rather than crashing.
