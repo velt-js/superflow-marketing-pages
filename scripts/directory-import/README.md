@@ -732,6 +732,11 @@ two-requests-per-agency shape of the other two importers:
 2. **Phase 2** fetches `/profile/<id>` once per distinct award-winning
    profile.
 
+A full run finds **601 distinct profiles** credited with at least one award,
+of which **354 are individuals and 247 are studios** — so the `type`
+filter discards well over half of everyone who has ever won. The default
+run publishes the top 60 of those 247.
+
 Phase 2 is not an optimisation, it is required. **The Profile object embedded
 in a project page is a stripped fragment** (company/city/country/website/
 avatar) that carries no `type` field, and `type` is the filter this whole

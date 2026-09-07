@@ -51,7 +51,8 @@ export const CATEGORY_MOTION_DESIGN = "motion-design";
  * The single cut for this category, where SEO and branding each have two.
  * There is no qualifying bar to apply first - holding a jury award IS the
  * bar - so the importer ranks every studio by award count and keeps this
- * many. 60 matches the other categories, which keeps the page weight in
+ * many. 247 studios hold at least one win, so this is the top ~24% of the
+ * pool rather than nearly all of it. 60 matches the other categories, which keeps the page weight in
  * line: the SEO listing at 294 cards ran to 2.8 MB and 7,315 DOM elements,
  * enough to trip Lighthouse's excessive-DOM audit, where 60 cards land
  * around 0.74 MB.

@@ -58,7 +58,10 @@ either.
 
 So the category is gated on jury awards instead. Every record holds at least
 one Motion Design Awards win, and the published set is the top
-`MOTION_DESIGN_PUBLISHED_LIMIT` by award count. "Premium" here means craft
+`MOTION_DESIGN_PUBLISHED_LIMIT` by award count. **247 studios hold at least
+one win**, so the shipped 60 is the top ~24% of the real pool rather than
+most of what exists — there is headroom below it if the category is ever
+widened (`--limit=all` ships all 247). "Premium" here means craft
 reputation, not spend — the studio that set the bar for this category, Buff,
 is a 2–10 person shop in Brighton.
 
