@@ -19,7 +19,6 @@ import type { Metadata } from "next";
 
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
-import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
 import IntercomButton from "@/components/home/IntercomButton";
 import AgencyDetail from "@/components/directory/AgencyDetail";
 import RelatedAgencies from "@/components/directory/RelatedAgencies";
@@ -142,7 +141,10 @@ export default async function AgencyDetailPage({ params }: AgencyDetailPageProps
       <SiteNav />
       <AgencyDetail agency={agency} category={primaryCategory} />
       <RelatedAgencies block={relatedBlock} />
-      <TestimonialsSection />
+      {/* No testimonials section. It is social proof about agencies using
+          Superflow, which reads as an endorsement of the agencies listed
+          here when it sits directly beneath them - a claim the directory
+          does not make and cannot support. */}
       <SiteFooter />
       <IntercomButton />
     </main>

@@ -104,7 +104,12 @@ export default function DirectoryHubPage() {
           })),
         }}
       />
+      {/* No testimonials section here. It is social proof about agencies
+          using Superflow, which reads as an endorsement of the listed
+          agencies when it sits under a directory of them - a claim this
+          directory does not make. See `showTestimonials` on ListingPage. */}
       <ListingPage
+        showTestimonials={false}
         config={{
           hero: { heading: HUB_HEADING, subheading: HUB_SUBHEADING },
           grid: { variant: "text-only", items },
