@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   agencyPath,
+  formatAgencyClientSummary,
   formatAgencyLocation,
   getAwardBreakdown,
   resolveAgencySourceLabel,
@@ -19,6 +20,11 @@ const SERVICES_SEPARATOR = " · ";
 
 /** Trailing glyph on outbound links, marking them as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
+
+/** Leading label on the card's client line. Phrased as a claim about past
+ *  work ("Worked with"), not a capability ("Clients"), because that is the
+ *  thing a visitor scanning a grid of agencies is actually comparing. */
+const CLIENTS_LINE_LABEL = "Worked with ";
 
 /** Shown as the website link text when a record has a URL but no parsed
  *  domain, so the link never renders with an empty label. */
@@ -143,6 +149,7 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
       MAX_VISIBLE_SERVICES,
     );
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
+    const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
     const awardTotal = agency?.awards?.total ?? 0;
     const servicesLine =
@@ -178,6 +185,13 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
         )}
 
         {servicesLine && <p className={styles.services}>{servicesLine}</p>}
+
+        {clientSummary && (
+          <p className={styles.clients}>
+            <span className={styles.clientsLabel}>{CLIENTS_LINE_LABEL}</span>
+            <span className={styles.clientsNames}>{clientSummary}</span>
+          </p>
+        )}
 
         {awardTotal > 0 && (
           <p className={styles.awards}>

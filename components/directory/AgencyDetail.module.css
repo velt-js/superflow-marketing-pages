@@ -113,6 +113,59 @@
     color: var(--ad-muted);
 }
 
+/* Client list: brand left, the awarded project it was derived from right.
+   The project title is what makes the claim checkable rather than asserted,
+   and it is the detail a visitor comparing two studios actually reads. The
+   names are deliberately not links - one attribution link in the hero covers
+   sourcing without leaking a dozen outbound links from every profile. */
+.clientList {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.clientRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #ececf1;
+}
+
+.clientRow:first-child {
+    padding-top: 0;
+}
+
+.clientRow:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.clientName {
+    font-family: var(--ad-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.4;
+    color: var(--ad-ink);
+}
+
+.clientProject {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--ad-body);
+    font-size: 13.5px;
+    line-height: 1.4;
+    text-align: right;
+    color: var(--ad-muted);
+}
+
 /* Award breakdown: label left, count right, hairline between rows. */
 .awardList {
     display: flex;

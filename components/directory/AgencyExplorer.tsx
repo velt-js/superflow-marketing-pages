@@ -33,7 +33,12 @@ const SORT_OPTIONS: Array<{ value: SortMode; label: string }> = [
 ];
 
 const SEARCH_LABEL = "Search agencies";
-const SEARCH_PLACEHOLDER = "Search by name, service, or location";
+/** Names the fields `AgencyListItem.searchText` actually covers. Deliberately
+ *  says "client" rather than "service": the source exposes no per-agency
+ *  service tags, so `Agency.services` is empty for every record and offering
+ *  it here advertises a search that can never match, while client names -
+ *  which the blob does carry - go unmentioned. */
+const SEARCH_PLACEHOLDER = "Search by name, client, or location";
 const COUNTRY_LABEL = "Country";
 const SORT_LABEL = "Sort by";
 const RESET_LABEL = "Reset filters";

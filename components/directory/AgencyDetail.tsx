@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
+  getAgencyClients,
   getAwardBreakdown,
   isSuperflowPartner,
   resolveAgencySourceLabel,
@@ -21,18 +22,47 @@ const EXTERNAL_LINK_GLYPH = "↗";
  *  record. */
 const WEBSITE_CTA_LABEL = "Visit website";
 
-/** Copy shown in the facts card when no team size was recorded. */
-const UNKNOWN_TEAM_SIZE_LABEL = "Not listed";
-
 /** Heading for the breadcrumb root, matching the hub page's H1 intent. */
 const DIRECTORY_ROOT_LABEL = "Directory";
 
 /** Pixel size the agency logo renders at inside its white hero chip. */
 const LOGO_SIZE = 44;
 
-/** Section headings for the two data blocks under the hero. */
+/** Section headings for the data blocks under the hero. */
 const SERVICES_HEADING = "Services";
 const AWARDS_HEADING = "Award record";
+/** Heading above the client list. Matches the card's wording so a visitor
+ *  arriving from the grid recognises the same claim expanded. */
+const CLIENTS_HEADING = "Worked with";
+
+/**
+ * Whether a project title says anything the client name hasn't already.
+ *
+ * Plenty of awarded projects are titled after the client and nothing else
+ * ("Koenigsegg", "BITKRAFT"), and rendering both halves of the row then
+ * prints the same words twice - which reads as a rendering bug rather than
+ * as the two distinct facts the row is meant to carry. Compared on letters
+ * and digits alone so casing and punctuation ("Raymond Weil" vs
+ * "Raymond-Weil") don't count as a difference.
+ *
+ * @param clientName - The resolved client name.
+ * @param projectTitle - The awarded project's title.
+ * @returns True when the title is worth rendering alongside the name.
+ */
+function titleAddsDetail(
+  clientName: string,
+  projectTitle: string | null | undefined,
+): boolean {
+  try {
+    const title = projectTitle?.trim();
+    if (!title) return false;
+    const normalize = (value: string) =>
+      value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return normalize(title) !== normalize(clientName);
+  } catch {
+    return false;
+  }
+}
 
 /** One labelled fact in the hero's white meta card. */
 interface AgencyFact {
@@ -94,26 +124,37 @@ function Breadcrumb({
 }
 
 /**
- * Builds the hero meta card's facts. Team size always shows (with an
- * explicit "Not listed" rather than a silent gap, since its absence is
- * itself information on a directory); the award total and category drop out
- * when there is nothing real to print.
+ * Builds the hero meta card's facts, dropping any the record cannot back
+ * with a real value.
+ *
+ * Team size is included only when the source actually recorded one. It used
+ * to render unconditionally with a "Not listed" fallback, which meant every
+ * page in the directory printed the same empty fact - the scraper populates
+ * `teamSize` for nobody today (see scripts/directory-import/README.md's
+ * known limitations). The client count took its slot precisely because it
+ * is a number that differs per agency and is worth comparing.
  *
  * @param agency - The agency being rendered.
  * @param category - Its primary category, if resolvable.
+ * @param clientCount - How many distinct clients are on record.
  * @returns The facts to render, in display order.
  */
 function buildAgencyFacts(
   agency: Agency,
   category: DirectoryCategory | undefined,
+  clientCount: number,
 ): AgencyFact[] {
   try {
     const awardTotal = agency?.awards?.total ?? 0;
-    const facts: AgencyFact[] = [
-      { label: "Team size", value: agency?.teamSize ?? UNKNOWN_TEAM_SIZE_LABEL },
-    ];
+    const facts: AgencyFact[] = [];
+    if (clientCount > 0) {
+      facts.push({ label: "Clients on record", value: `${clientCount}` });
+    }
     if (awardTotal > 0) {
       facts.push({ label: "Total awards", value: `${awardTotal}` });
+    }
+    if (agency?.teamSize) {
+      facts.push({ label: "Team size", value: agency.teamSize });
     }
     if (category?.title) {
       facts.push({ label: "Category", value: category.title });
@@ -179,11 +220,14 @@ export default function AgencyDetail({
       agency?.services?.filter((service) => Boolean(service?.trim())) ?? [];
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const agencyName = agency?.name ?? "Unnamed agency";
-    const facts = buildAgencyFacts(agency, category);
+    const clients = getAgencyClients(agency);
+    const facts = buildAgencyFacts(agency, category, clients.length);
     const isPartner = isSuperflowPartner(agency);
     // A lone card would otherwise sit in a half-empty two-column row.
     const cardCount =
-      (services.length > 0 ? 1 : 0) + (awardBreakdown.length > 0 ? 1 : 0);
+      (clients.length > 0 ? 1 : 0) +
+      (services.length > 0 ? 1 : 0) +
+      (awardBreakdown.length > 0 ? 1 : 0);
 
     return (
       <>
@@ -264,6 +308,24 @@ export default function AgencyDetail({
               <div
                 className={`${styles.cards}${cardCount === 1 ? ` ${styles.cardsSingle}` : ""}`}
               >
+                {clients.length > 0 && (
+                  <div className={styles.card}>
+                    <h2 className={styles.cardTitle}>{CLIENTS_HEADING}</h2>
+                    <ul className={styles.clientList}>
+                      {clients.map((client) => (
+                        <li key={client.name} className={styles.clientRow}>
+                          <span className={styles.clientName}>{client.name}</span>
+                          {titleAddsDetail(client.name, client.projectTitle) && (
+                            <span className={styles.clientProject}>
+                              {client.projectTitle}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 {services.length > 0 && (
                   <div className={styles.card}>
                     <h2 className={styles.cardTitle}>{SERVICES_HEADING}</h2>

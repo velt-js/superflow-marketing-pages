@@ -142,6 +142,32 @@
     color: var(--ac-quiet);
 }
 
+/* "Worked with Nike, Spotify and 4 more" — the brands the agency has
+   shipped awarded work for. Sits directly above the award count because who
+   a studio has built for separates two studios that a shared award tally
+   does not. Clamped to one line; the full list is on the detail page. */
+.clients {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    margin: 0;
+    font-family: var(--ac-body);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.clientsLabel {
+    color: var(--ac-quiet);
+}
+
+.clientsNames {
+    font-family: var(--ac-display);
+    font-weight: 600;
+    color: var(--ac-ink);
+}
+
 /* Award record — the card's one real credential, so it gets the accent
    colour that every other 2026 card spends on its CTA line. */
 .awards {
