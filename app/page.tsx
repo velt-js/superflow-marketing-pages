@@ -18,11 +18,7 @@ import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import {
   ORG_DESCRIPTION,
-  ORG_ID,
-  ORG_OG_IMAGE,
-  ORG_SAME_AS,
   SITE_TITLE_WITH_BRAND,
-  SITE_URL,
   buildFaqPageSchema,
 } from "@/app/_seo/schema";
 
@@ -48,29 +44,6 @@ export const metadata = buildPageMetadata({
   path: "/",
 });
 
-const SOFTWARE_APPLICATION_SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Superflow",
-  url: SITE_URL,
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  description: ORG_DESCRIPTION,
-  image: ORG_OG_IMAGE,
-  // Tiers: Starter ($0), Growth ($24/seat/mo annual), Scale ($28/seat/mo annual),
-  // Enterprise (custom — excluded from highPrice per schema best-practice).
-  // offerCount = 4 (all four published tiers including Enterprise).
-  offers: {
-    "@type": "AggregateOffer",
-    priceCurrency: "USD",
-    lowPrice: "0",
-    highPrice: "28",
-    offerCount: 4,
-  },
-  sameAs: ORG_SAME_AS,
-  creator: { "@id": ORG_ID },
-};
-
 const FAQ_SCHEMA = buildFaqPageSchema(FAQ_ITEMS);
 
 export default function HomePage() {
@@ -81,7 +54,6 @@ export default function HomePage() {
         description={PAGE_DESCRIPTION}
         path="/"
       />
-      <JsonLd id="ld-software-application" data={SOFTWARE_APPLICATION_SCHEMA} />
       <JsonLd id="ld-faq-home" data={FAQ_SCHEMA} />
       <SiteNav />
       <Hero />

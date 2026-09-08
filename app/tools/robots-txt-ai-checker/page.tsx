@@ -91,7 +91,7 @@ export async function generateMetadata({
 
     if (!cached) {
       return buildPageMetadata({
-        title: `${TITLE}: Test GPTBot, ClaudeBot and More`,
+        title: TITLE,
         description: DESCRIPTION,
         path: PATH,
       });
@@ -116,7 +116,7 @@ export async function generateMetadata({
     };
   } catch {
     return buildPageMetadata({
-      title: `${TITLE}: Test GPTBot, ClaudeBot and More`,
+      title: TITLE,
       description: DESCRIPTION,
       path: PATH,
     });

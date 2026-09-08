@@ -39,10 +39,8 @@ const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
 const HERO_SUBHEADING =
   "Transparent per-seat pricing with a free 10-day trial, plus AI credits priced by scan, not by token. Start free and upgrade whenever your team is ready.";
 
-// Product schema with one Offer per pricing tier. Starter is free (price
-// "0"), Growth/Scale carry the annual-per-month price, Enterprise is
-// custom — we use `priceSpecification` with a free-text description for
-// the latter (Google permits this for B2B tiers).
+// Only tiers with published numeric prices qualify as Product offers.
+// Enterprise remains visible in the pricing cards as a custom quote.
 const PRICING_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -51,7 +49,7 @@ const PRICING_PRODUCT_SCHEMA = {
     "Superflow plans - Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
   brand: { "@id": ORG_ID },
   url: `${SITE_URL}/pricing`,
-  offers: TIERS.map((tier) => {
+  offers: TIERS.filter((tier) => !tier.customPrice).map((tier) => {
     const offerUrl = tier.cta.href.startsWith("http")
       ? tier.cta.href
       : `${SITE_URL}${tier.cta.href}`;
@@ -62,22 +60,13 @@ const PRICING_PRODUCT_SCHEMA = {
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
     };
-    if (tier.customPrice) {
-      base.priceSpecification = {
-        "@type": "PriceSpecification",
-        priceCurrency: "USD",
-        valueAddedTaxIncluded: false,
-        description: "Custom - contact sales for a quote",
-      };
-    } else {
-      base.price = tier.annualPrice;
-      base.priceSpecification = {
-        "@type": "UnitPriceSpecification",
-        price: tier.annualPrice,
-        priceCurrency: "USD",
-        unitText: "per seat per month, billed yearly",
-      };
-    }
+    base.price = tier.annualPrice;
+    base.priceSpecification = {
+      "@type": "UnitPriceSpecification",
+      price: tier.annualPrice,
+      priceCurrency: "USD",
+      unitText: "per seat per month, billed yearly",
+    };
     return base;
   }),
 };

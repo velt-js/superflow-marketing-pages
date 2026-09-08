@@ -119,7 +119,7 @@ function ThirdOptionPanel({
                   key={`${link.label}-${link.href}`}
                   className={styles.thirdOptionLink}
                   href={normalizedHref}
-                  rel="nofollow noopener"
+                  rel="noopener"
                 >
                   {link.label}
                   <ChevronRightIcon />

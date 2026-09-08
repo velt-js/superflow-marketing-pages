@@ -27,7 +27,7 @@ import {
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
-import { SITE_URL, ORG_ID, buildFaqPageSchema } from "@/app/_seo/schema";
+import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 
 export const revalidate = 60;
 
@@ -127,16 +127,6 @@ export default async function RootSlugPage({
     const name = reviewDoc.metaTitle ?? reviewDoc.title;
     const description =
       reviewDoc.metaDescription ?? reviewDoc.hero.subheading ?? undefined;
-    const softwareSchema: Record<string, unknown> = {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: reviewDoc.title,
-      url: `${SITE_URL}/${slug}`,
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      description,
-      creator: { "@id": ORG_ID },
-    };
     return (
       <>
         <PageJsonLd
@@ -145,7 +135,6 @@ export default async function RootSlugPage({
           path={`/${slug}`}
           trail={[{ name, url: `${SITE_URL}/${slug}` }]}
         />
-        <JsonLd id={`ld-software-${slug}`} data={softwareSchema} />
         <ReviewPageBody doc={reviewDoc} />
       </>
     );
@@ -185,20 +174,6 @@ export default async function RootSlugPage({
         : FAQ_ITEMS;
     const faqSchema = buildFaqPageSchema(faqEntries);
 
-    // SoftwareApplication schema mirrors the legacy /<feature>-review route so
-    // feature pages carry the same product structured data; `creator` links
-    // back to the site-wide Organization node emitted from app/layout.tsx.
-    const softwareSchema: Record<string, unknown> = {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: featureDoc.title,
-      url: `${SITE_URL}/${slug}`,
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      description,
-      creator: { "@id": ORG_ID },
-    };
-
     return (
       <>
         <PageJsonLd
@@ -207,7 +182,6 @@ export default async function RootSlugPage({
           path={`/${slug}`}
           trail={[{ name: featureDoc.title, url: `${SITE_URL}/${slug}` }]}
         />
-        <JsonLd id={`ld-software-feature-${slug}`} data={softwareSchema} />
         <JsonLd id={`ld-faq-feature-${slug}`} data={faqSchema} />
         <FeaturePageBody doc={featureDoc} />
       </>

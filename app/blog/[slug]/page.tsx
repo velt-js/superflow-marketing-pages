@@ -77,7 +77,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return {};
-  const rawTitle = post.metaTitle || `${post.title} | Superflow Blog`;
+  const rawTitle = slug === "top-13-asana-alternatives-for-project-management-in-startups-and-agencies"
+    ? "13 Asana Alternatives for Agencies | Superflow Blog"
+    : post.metaTitle || `${post.title} | Superflow Blog`;
   const description = post.metaDescription || post.description || "";
   const metadata = buildPageMetadata({
     title: rawTitle,

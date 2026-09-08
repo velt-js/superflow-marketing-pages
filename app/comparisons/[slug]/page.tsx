@@ -84,7 +84,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   )) as ComparisonPreviewDoc | null;
   if (previewDoc && previewDoc._type !== "comparisonPreviewAlternativesPage") {
     return buildPageMetadata({
-      title: previewDoc.metaTitle ?? previewDoc.title,
+      title: ({
+        "superflow-vs-userback": "Superflow vs Userback: Website QA Compared",
+        "superflow-vs-spur": "Superflow vs Spur: Website QA Compared",
+        "superflow-vs-ruttl": "Superflow vs Ruttl: Website Reviews Compared",
+        "superflow-vs-pastel": "Superflow vs Pastel: Website Reviews Compared",
+        "superflow-vs-markup": "Superflow vs MarkUp: Website Reviews Compared",
+        "superflow-vs-filestage": "Superflow vs Filestage: Review Tools Compared",
+      } as Record<string, string>)[slug] ?? previewDoc.metaTitle ?? previewDoc.title,
       description: previewDoc.metaDescription ?? FALLBACK_DESCRIPTION,
       path: `${BASE_PATH}/${slug}`,
     });

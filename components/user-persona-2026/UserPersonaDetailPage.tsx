@@ -43,6 +43,17 @@ export default function UserPersonaDetailPage({
         <PersonaProblemSection content={content.problem} />
         <PersonaShowcaseSection content={content.showcase} />
         <PersonaFeatureRows rows={content.featureRows} />
+        {doc.slug === "project-managers" && (
+          <section className="container-page py-12">
+            <h2 className="text-2xl font-semibold">Choosing a project management tool?</h2>
+            <p className="mt-3">
+              Compare workflows and collaboration options in our guide to{" "}
+              <a className="underline" href="/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies">
+                13 Asana alternatives for startups and agencies
+              </a>.
+            </p>
+          </section>
+        )}
         <RelatedPersonas content={content.related} />
         <TestimonialsSection />
         <FaqSection items={content.faq} />

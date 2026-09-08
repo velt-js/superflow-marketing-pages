@@ -57,25 +57,27 @@ export function ReviewHero({
       <div className="container-page relative flex flex-col items-center gap-[40px] lg:gap-[52px]">
         <div className="relative flex flex-col items-center gap-[24px]">
           <div className="relative flex flex-col items-center gap-[0px]">
-            <h1
-              className="text-center text-white font-semibold tracking-[-0.03em]"
-              style={{
-                fontFamily: "var(--font-poppins)",
-                fontSize: "clamp(40px, 7vw, 80px)",
-                lineHeight: "1.3em",
-              }}
-            >
-              {headlineLine1}
-            </h1>
-            <h1
-              className="text-gradient-superflow text-center font-semibold tracking-[-0.03em]"
-              style={{
-                fontFamily: "var(--font-poppins)",
-                fontSize: "clamp(40px, 7vw, 80px)",
-                lineHeight: "1.3em",
-              }}
-            >
-              {headlineLine2}
+            <h1 className="flex flex-col items-center gap-0">
+              <span
+                className="text-center text-white font-semibold tracking-[-0.03em]"
+                style={{
+                  fontFamily: "var(--font-poppins)",
+                  fontSize: "clamp(40px, 7vw, 80px)",
+                  lineHeight: "1.3em",
+                }}
+              >
+                {headlineLine1}
+              </span>{" "}
+              <span
+                className="text-gradient-superflow text-center font-semibold tracking-[-0.03em]"
+                style={{
+                  fontFamily: "var(--font-poppins)",
+                  fontSize: "clamp(40px, 7vw, 80px)",
+                  lineHeight: "1.3em",
+                }}
+              >
+                {headlineLine2}
+              </span>
             </h1>
           </div>
 

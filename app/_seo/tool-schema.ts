@@ -1,17 +1,4 @@
-// Schema.org helpers for the free tools.
-//
-// Every tool page gets a SoftwareApplication (via `buildToolAppSchema`) and
-// the index gets an ItemList (via `buildToolListSchema`). Those are the two
-// shapes search and answer engines actually use for "free X tool" queries:
-// the application schema is what can earn a rich result, and the ItemList is
-// what lets an engine enumerate the suite rather than treating the index as
-// one undifferentiated page.
-//
-// `offers` with a zero price is not decoration. It is how a machine learns
-// the tool is free without parsing marketing copy, and "free" is the whole
-// proposition here.
-
-import { SITE_URL } from "./schema";
+import { SITE_URL, ORG_LOGO_URL } from "./schema";
 
 /** Publisher block, repeated on every tool so each page identifies its owner. */
 function publisher() {
@@ -19,12 +6,12 @@ function publisher() {
     "@type": "Organization",
     name: "Superflow",
     url: SITE_URL,
-    logo: `${SITE_URL}/images/logo.png`,
+    logo: ORG_LOGO_URL,
   };
 }
 
 /**
- * SoftwareApplication schema for one tool page.
+ * WebPage schema for an interactive tool without published app reviews.
  *
  * @param params - The tool's name, description, and path.
  */
@@ -40,19 +27,10 @@ export function buildToolAppSchema({
   try {
     return {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
+      "@type": "WebPage",
       name,
       description,
       url: `${SITE_URL}${path}`,
-      applicationCategory: "DeveloperApplication",
-      operatingSystem: "Any",
-      browserRequirements: "Requires JavaScript",
-      // The signal that matters for a "free tool" query.
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-      },
       isAccessibleForFree: true,
       publisher: publisher(),
     };
@@ -88,13 +66,10 @@ export function buildToolListSchema({
         "@type": "ListItem",
         position: index + 1,
         item: {
-          "@type": "SoftwareApplication",
+          "@type": "WebPage",
           name: tool.name,
           description: tool.tagline,
           url: `${SITE_URL}${tool.path}`,
-          applicationCategory: "DeveloperApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           isAccessibleForFree: true,
         },
       })),
