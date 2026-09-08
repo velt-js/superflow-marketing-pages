@@ -1,380 +1,212 @@
-// State of Agency Tools 2026 - results report.
-//
-// Renders whatever lib/agency-tools-survey/report-data.ts exports. While
-// that file's `sample` flag is true the page shows a sample-data banner and
-// stays noindex; publishing the real results in November is a data swap,
-// not a rebuild. Update pipeline: ../README.md.
-//
-// Section order mirrors the survey: the stack, ops & money, new business,
-// client management, review & QA, AI. Review is deliberately ONE section
-// among several rather than the spine of the page - a broad industry
-// report is what agencies want to read (and share); a report that bends
-// every section back to review reads as a pitch and gets ignored.
-
+// Current questionnaire: published Tally form ODqdPK, verified 2026-09-08.
+// Sample fixtures stay visibly labeled and noindex until real results replace them.
 import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import styles from "@/components/agency-survey-2026/Survey.module.css";
 import reportStyles from "@/components/agency-survey-2026/Report.module.css";
 import chartStyles from "@/components/agency-survey-2026/charts/Charts.module.css";
-import {
-  BarList,
-  StatTiles,
-  UsePayBars,
-} from "@/components/agency-survey-2026/charts/BarCharts";
-import { QuadrantChart } from "@/components/agency-survey-2026/charts/QuadrantChart";
-import { REPORT_DATA } from "@/lib/agency-tools-survey/report-data";
-import {
-  REPORT_PATH,
-  SURVEY_PATH,
-} from "@/lib/agency-tools-survey/config";
+import { BarList, UsePayBars } from "@/components/agency-survey-2026/charts/BarCharts";
+import { REPORT_DATA, assistantUsePay } from "@/lib/agency-tools-survey/report-data";
+import type { ShareChart } from "@/lib/agency-tools-survey/report-data";
+import { REPORT_PATH, SURVEY_PATH } from "@/lib/agency-tools-survey/config";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
-const TITLE = "State of Agency Tools 2026 Report";
-const DESCRIPTION =
-  "What 500+ agencies really run on: website platforms, PM, time tracking, accounting, payroll, CRM, proposals, client comms, review, and AI - including the use-vs-pay gap and the most resented tool in agency life.";
+const TITLE = REPORT_DATA.sample
+  ? "State of Agency Tools 2026: Sample Report"
+  : "State of Agency Tools 2026 Report";
+const DESCRIPTION = REPORT_DATA.sample
+  ? "An illustrative report preview, not survey findings. Explore agency stacks, CRM, outreach, support, review and AI tools, with question-specific denominators."
+  : "Agency tool adoption across creative work, operations, CRM, outreach, client support, review and AI, plus whole-stack satisfaction and tool value.";
 
 export const metadata = buildPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: REPORT_PATH,
-  // Noindex while the numbers are sample data. Flip together with
-  // REPORT_DATA.sample when the real results land.
   noindex: REPORT_DATA.sample,
 });
+
+function QuestionChart({ chart, sample }: { chart: ShareChart; sample: boolean }) {
+  return (
+    <div className={chartStyles.chartCard} id={chart.id}>
+      <h3 className={chartStyles.chartCardTitle}>{chart.title}</h3>
+      <p className={chartStyles.chartCardSubtitle}>
+        {sample ? "Illustrative sample · " : ""}n={chart.answered}. {chart.audience}.
+        {chart.multiple ? " Multiple selections allowed; totals may exceed 100%." : " One answer per respondent."}
+      </p>
+      <BarList rows={chart.rows} />
+    </div>
+  );
+}
+
+function AssistantCharts({ sample }: { sample: boolean }) {
+  const rows = REPORT_DATA.aiAssistants;
+  return (
+    <div className={chartStyles.chartCard} style={{ marginBottom: 16 }}>
+      <h3 className={chartStyles.chartCardTitle}>AI assistants: use and agency-paid use</h3>
+      <p className={chartStyles.chartCardSubtitle}>
+        {sample ? "Illustrative sample. " : ""}
+        Percent of respondents who answered each assistant&apos;s row. Used includes all
+        three used statuses. Agency-paid includes reimbursed accounts and paid bundles.
+      </p>
+      <UsePayBars rows={rows.map((row) => ({
+        ...assistantUsePay(row), name: `${row.name} (n=${row.answered})`,
+      }))} />
+      <details className={chartStyles.tableToggle}>
+        <summary>View all four response statuses and sample sizes</summary>
+        <div style={{ overflowX: "auto" }} tabIndex={0} role="region" aria-label="AI assistant response counts">
+          <table className={chartStyles.dataTable} style={{ minWidth: 640 }}>
+            <caption>
+              {sample ? "Illustrative counts. " : "Response counts. "}
+              One status per assistant; n excludes skipped rows.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Assistant</th>
+                <th scope="col">n</th>
+                <th scope="col">Not used</th>
+                <th scope="col">Used, agency-paid</th>
+                <th scope="col">Used, not agency-paid</th>
+                <th scope="col">Used, payment unknown</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.name}>
+                  <th scope="row">{row.name}</th>
+                  <td>{row.answered}</td>
+                  <td>{row.notUsed}</td>
+                  <td>{row.agencyPaid}</td>
+                  <td>{row.notAgencyPaid}</td>
+                  <td>{row.paymentUnknown}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <p className={chartStyles.chartCardSubtitle} style={{ margin: "16px 0 0" }}>
+        Not agency-paid does not necessarily mean free: an individual may pay personally.
+        Unknown payment is kept separate. A skipped row is not counted as non-use.
+      </p>
+    </div>
+  );
+}
 
 export default function AgencyToolsReportPage() {
   const data = REPORT_DATA;
   return (
     <div className={styles.page}>
       <SiteNav solidAtTop />
-
       {data.sample ? (
         <div className={reportStyles.sampleBanner}>
           <p className={reportStyles.sampleBannerText}>
-            Sample data. Every number on this page is illustrative, here so
-            the report design can be reviewed before responses close. Real
-            results publish in {data.publishedLabel}.{" "}
-            <Link href={SURVEY_PATH}>Take the survey</Link> to get them
-            first.
+            Sample report, not survey findings. Every number is illustrative.
+            Real results are planned for {data.publishedLabel}.{" "}
+            <Link href={SURVEY_PATH}>Contribute your agency&apos;s experience</Link>.
           </p>
         </div>
       ) : null}
-
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>The report</span>
+          <span className={styles.eyebrow}>{data.sample ? "Example report · Sample data" : "The report"}</span>
           <h1 className={styles.h1}>State of Agency Tools 2026</h1>
           <p className={styles.subhead}>
-            What {data.respondents}+ agencies actually run on, from the
-            platforms they build in to the tools that pay the team.
+            The tools behind agency work, from creative production to sales,
+            client support and AI. What teams use, who pays, and which stacks they would keep.
           </p>
           <p className={reportStyles.reportMeta}>
-            {data.respondents}+ responses · Published {data.publishedLabel}
+            {data.sample
+              ? `Illustrative dataset: ${data.respondents} fictional responses · Full report planned for ${data.publishedLabel}`
+              : `${data.respondents} responses · Published ${data.publishedLabel}`}
           </p>
         </div>
       </header>
 
-      {/* Headline tiles pull from four different parts of the business so
-          the report opens broad, not on one theme. */}
-      <section className={styles.section}>
+      <section className={styles.section} aria-labelledby="reading-the-report">
         <div className={styles.sectionInner}>
-          <StatTiles
-            tiles={[
-              {
-                value: `${data.noMarginPct}%`,
-                label: "do not know their profit margin per client",
-              },
-              {
-                value: `${data.noCrmPct}%`,
-                label: "run new business without a CRM",
-              },
-              {
-                value: `${data.aiTouchesWorkPct}%`,
-                label: "have AI touching client deliverable work",
-              },
-              {
-                value: `${data.avgRevisionRounds}`,
-                label: "revision rounds on the average website project",
-              },
-            ]}
-          />
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Most used vs would choose again</h2>
-          <p className={reportStyles.headlineStat}>
-            Usage tells you what won the last five years. The loyalty axis,
-            would you choose it again, tells you what wins the next five.
-            Top-right is the safe zone; bottom-right is installed-base
-            resentment.
+          <h2 className={styles.h2} id="reading-the-report">How to read this report</h2>
+          <p className={styles.sectionLede}>
+            Each chart names its audience and answer count. Service-specific questions,
+            the optional eight-question business-tools section and conditional follow-ups
+            have different denominators. Multiple-choice tool lists allow more than one selection.
+            Skipped questions are excluded; explicit none and not-sure answers remain visible.
           </p>
-          <div className={chartStyles.chartGrid2}>
-            <QuadrantChart
-              title="Website platforms"
-              subtitle="Usage among agencies that build client sites vs loyalty among each platform's users"
-              points={data.platformQuadrant}
-              usageLabel="Agencies using it"
-            />
-            <QuadrantChart
-              title="Project management tools"
-              subtitle="Usage across all agencies vs loyalty among each tool's users"
-              points={data.pmQuadrant}
-              usageLabel="Agencies using it"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Ops and money</h2>
-          <p className={reportStyles.headlineStat}>
-            The back office is where the spreadsheet keeps winning:{" "}
-            <strong>
-              {data.timeTracking.find((r) => r.label === "Spreadsheets")?.pct ?? 0}%
-              still track time in a spreadsheet
-            </strong>
-            , and <strong>{data.noMarginPct}%</strong> cannot say what any
-            single client earns them.
-          </p>
-          <div className={chartStyles.chartGrid2}>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Time tracking and resourcing
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.timeTracking} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Do you know your profit margin per client?
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.marginKnowledge} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Accounting and invoicing
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.accounting} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Paying the team and contractors
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.payroll} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>How new business actually runs</h2>
-          <p className={reportStyles.headlineStat}>
-            <strong>
-              {data.noCrmPct}% of agencies have no CRM at all
-            </strong>{" "}
-            - the pipeline lives in an inbox - and the most common proposal
-            tool is still a document:{" "}
-            {data.proposals[0]?.pct}% send{" "}
-            {data.proposals[0]?.label.toLowerCase()}.
-          </p>
-          <div className={chartStyles.chartGrid2}>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Sales pipeline and CRM
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.crm} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Proposals, contracts and e-signatures
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.proposals} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Living with clients</h2>
-          <p className={reportStyles.headlineStat}>
-            Email still carries the relationship at{" "}
-            <strong>{data.clientComms[0]?.pct}% of agencies</strong>, while
-            AI notetakers have quietly reached{" "}
-            <strong>{data.notetakerAdoptionPct}%</strong> of client calls.
-          </p>
-          <div className={chartStyles.chartGrid2}>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Where day-to-day client communication happens
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.clientComms} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                AI notetakers on client calls
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.notetakers} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>Review, revisions and QA</h2>
-          <p className={reportStyles.headlineStat}>
-            <strong>
-              {data.emailOrScreenshotsPct}% collect creative feedback over
-              email or screenshots
-            </strong>
-            , the average website takes{" "}
-            <strong>{data.avgRevisionRounds} rounds of revisions</strong>,
-            and <strong>{data.noQaPct}%</strong> ship with no real QA
-            process.
-          </p>
-          <div className={chartStyles.chartGrid2}>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                How client feedback reaches you
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies, multi-select
-              </p>
-              <BarList rows={data.feedbackChannels} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Rounds of client revisions
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.revisionRounds} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Do you QA websites before launch?
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.qaProcess} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>AI: what they use, what they pay for</h2>
-          <p className={reportStyles.headlineStat}>
-            Nearly everyone uses ChatGPT; the paying is where the market
-            actually is (
-            <strong>
-              {data.llmUsePay[0]?.usePct}% use it, {data.llmUsePay[0]?.payPct}%
-              pay
-            </strong>
-            ). AI touches client work at {data.aiTouchesWorkPct}% of
-            agencies, but only{" "}
-            <strong>{data.alwaysTellClientsPct}% always tell clients</strong>.
-          </p>
-          <div className={chartStyles.chartCard}>
-            <h3 className={chartStyles.chartCardTitle}>
-              AI assistants: use it vs pay for it
-            </h3>
-            <p className={chartStyles.chartCardSubtitle}>
-              Share of agencies, multi-select
-            </p>
-            <UsePayBars rows={data.llmUsePay} />
-          </div>
-          <div
-            className={chartStyles.chartGrid2}
-            style={{ marginTop: "16px" }}
-          >
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Share of client work AI touches
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.aiShare} />
-            </div>
-            <div className={chartStyles.chartCard}>
-              <h3 className={chartStyles.chartCardTitle}>
-                Do you tell clients when AI is involved?
-              </h3>
-              <p className={chartStyles.chartCardSubtitle}>
-                Share of agencies
-              </p>
-              <BarList rows={data.aiDisclosure} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.sectionInner}>
-          <h2 className={styles.h2}>The most resented tool in agency life</h2>
-          <p className={reportStyles.headlineStat}>
-            One open question, no options to hide behind: which tool do you
-            resent paying for? The most-mentioned answers, counted by hand.
-          </p>
-          <ol className={reportStyles.resentList}>
-            {data.resentedTools.map((tool) => (
-              <li key={tool.name} className={reportStyles.resentItem}>
-                <span className={reportStyles.resentName}>{tool.name}</span>
-                <span className={reportStyles.resentMentions}>
-                  {tool.mentions} mentions
-                </span>
-              </li>
+          <nav aria-label="Report sections" style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px" }}>
+            {data.sections.map((section) => (
+              <a key={section.id} href={`#section-${section.id}`} className={styles.ctaSecondaryLink}>
+                {section.title}
+              </a>
             ))}
-          </ol>
+          </nav>
         </div>
       </section>
 
+      {data.sections.map((section, index) => (
+        <section
+          key={section.id}
+          id={`section-${section.id}`}
+          aria-labelledby={`heading-${section.id}`}
+          className={`${styles.section} ${index % 2 === 0 ? styles.sectionAlt : ""}`}
+          style={{ scrollMarginTop: 88 }}
+        >
+          <div className={styles.sectionInner}>
+            <h2 className={styles.h2} id={`heading-${section.id}`}>{section.title}</h2>
+            <p className={reportStyles.headlineStat}>{section.description}</p>
+            {section.id === "ai" ? <AssistantCharts sample={data.sample} /> : null}
+            <div className={chartStyles.chartGrid2}>
+              {section.charts.map((chart) => (
+                <QuestionChart key={chart.id} chart={chart} sample={data.sample} />
+              ))}
+              {section.id === "value" ? (
+                <div className={chartStyles.chartCard}>
+                  <h3 className={chartStyles.chartCardTitle}>Tools that feel least worth the cost</h3>
+                  <p className={chartStyles.chartCardSubtitle}>
+                    {data.sample ? "Illustrative sample · " : ""}n={data.leastValue.answered} write-in answers.
+                    Mentions, not satisfaction scores or market-wide rankings.
+                    {data.sample ? " Generic names are placeholders, not ratings of real vendors." : ""}
+                  </p>
+                  <ol className={reportStyles.resentList}>
+                    {data.leastValue.tools.map((tool) => (
+                      <li key={tool.name} className={reportStyles.resentItem}>
+                        <span className={reportStyles.resentName}>{tool.name}</span>
+                        <span className={reportStyles.resentMentions}>{tool.mentions} mentions</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      ))}
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.h2}>About the sample and publication</h2>
+          <p className={styles.sectionLede}>
+            {data.sample ? "This preview uses invented data to demonstrate the report format. " : ""}
+            The survey also collects role, team size, services, location, optional revenue
+            and industry focus. Published comparisons should identify their audience and
+            sample size, avoid identifying individual agencies, and not present a
+            self-selected sample as representative of every agency.
+          </p>
+          <p className={styles.sectionLede}>
+            Report delivery and Superflow setup help are separate opt-ins.
+            Contact details and product follow-up answers are not published in the report.
+          </p>
+        </div>
+      </section>
       <section className={styles.cta}>
         <div className={styles.ctaInner}>
-          <h2 className={styles.h2}>Add your stack to the data</h2>
+          <h2 className={styles.h2}>Add your agency&apos;s experience</h2>
           <p className={styles.sectionLede} style={{ margin: 0 }}>
-            The survey takes 5 minutes, every question is a single tap, and
-            respondents get the full report before anyone else.
+            Mostly multiple choice. Contact details are optional.
+            Request the free report for {data.publishedLabel} at the end.
           </p>
-          <Link href={SURVEY_PATH} className={styles.ctaLink}>
-            Take the survey
-          </Link>
+          <Link href={SURVEY_PATH} className={styles.ctaLink}>Take the survey</Link>
         </div>
       </section>
-
       <SiteFooter />
     </div>
   );
