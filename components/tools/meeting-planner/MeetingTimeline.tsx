@@ -177,6 +177,13 @@ export function MeetingTimeline({
     delta: number,
   ): Selection {
     if (delta === 0) return before;
+    // Older shared links can be shorter than today's minimum. A contraction
+    // must not expand their range in the opposite direction to the gesture.
+    if (
+      before.duration < SELECTION_STEP &&
+      ((action === "start" && delta > 0) || (action === "end" && delta < 0))
+    )
+      return before;
     const step = SELECTION_STEP * MINUTE;
     if (action === "move") {
       return {
@@ -380,6 +387,8 @@ export function MeetingTimeline({
                       e.shiftKey &&
                       ["ArrowLeft", "ArrowRight"].includes(e.key)
                     ) {
+                      if (e.key === "ArrowLeft" && duration < SELECTION_STEP)
+                        return;
                       onSelect({
                         selected,
                         duration: Math.max(
