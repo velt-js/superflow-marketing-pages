@@ -4,21 +4,21 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
   slug: "meeting-planner",
   title: "Time Zone Converter & Meeting Planner",
   subhead:
-    "Compare local times and find overlapping working hours for customer calls. A free World Time Buddy alternative: search cities or countries, pick a date, and share a time that works.",
+    "Add your customers’ cities, choose a time, and copy it for everyone.",
   description:
     "Free time zone converter and meeting planner by city or country. Find overlapping working hours with this World Time Buddy alternative. No signup.",
   howItWorks: [
     {
-      title: "Add your locations",
-      body: "Your local time zone is detected automatically. Search a city or country to add your customers. For countries with multiple time zones, choose the right city or region.",
+      title: "Add cities",
+      body: "Start with your city, then add your customers’ cities or countries. We work out the time differences for you.",
     },
     {
-      title: "Find the shared hours",
-      body: "Pick a date, then click and drag across the timeline in 30-minute steps to select a time range. Adjust each location’s working hours and days. Green shows when everyone is working.",
+      title: "Pick a time",
+      body: "Click Suggest a time, or drag across a row to choose your own. Green times fit everyone’s workday. Each row shows the meeting time in that city.",
     },
     {
-      title: "Share a good time",
-      body: "Select a suggested time, copy the local times, share the plan, or download a calendar event to send to your customer.",
+      title: "Copy and send",
+      body: "Click Copy meeting times and paste the result into your chat or email. More ways to share includes a plan link and a calendar download.",
     },
   ],
   faq: [

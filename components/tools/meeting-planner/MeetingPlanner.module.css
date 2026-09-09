@@ -108,8 +108,8 @@
 .searchSection {
   display: flex;
   align-items: center;
-  gap: 32px;
-  padding: 22px;
+  gap: 16px;
+  padding: 16px;
   background: #f7f7fc;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -117,7 +117,7 @@
 .searchWrap {
   position: relative;
   width: 100%;
-  max-width: 670px;
+  max-width: none;
 }
 .searchWrap > label {
   display: flex;
@@ -535,13 +535,13 @@
   padding: 0;
   border: 0;
   border-right: 1px solid #ffffff80;
-  background: #f0eff5;
-  color: #777486;
+  background: #e7e8ed;
+  color: #727582;
   border-radius: 0;
 }
 .cell[data-working="true"] {
-  background: #e4e1fa;
-  color: #514976;
+  background: #f0f1f5;
+  color: #444757;
 }
 .cell[data-shared="true"] {
   background: #b5ddc8;
@@ -612,7 +612,7 @@
   border: 1px solid #dddbed;
   background: #fafaff;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 .meetingHeading {
   display: flex;
@@ -804,12 +804,6 @@
   font-size: 10px;
   font-weight: 500;
 }
-.timelineRow:last-child {
-  min-height: 56px;
-}
-.timelineRow:last-child .cells {
-  padding: 16px 0;
-}
 .editorPanel {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -825,11 +819,116 @@
   background: #fafafe;
 }
 
+.timelineRow:first-child {
+  border-top: 0;
+}
+.overlapBanner > div {
+  flex: 1;
+}
+.suggestButton {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 1px solid #b4d9c4;
+  border-radius: 6px;
+  background: white;
+  color: #25634b;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+.simpleHint {
+  margin: 4px 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.simpleHint span {
+  color: #397756;
+}
+.viewOptions,
+.shareOptions {
+  position: relative;
+}
+.viewOptions summary,
+.shareOptions summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 9px 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.viewOptions summary::-webkit-details-marker,
+.shareOptions summary::-webkit-details-marker {
+  display: none;
+}
+.viewOptions summary::after,
+.shareOptions summary::after {
+  content: " ▾";
+}
+.viewOptions[open] summary::after,
+.shareOptions[open] summary::after {
+  content: " ▴";
+}
+.viewOptions > div,
+.shareOptions > div {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  width: max-content;
+  max-width: min(310px, 85vw);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  padding: 12px;
+  box-shadow: 0 6px 24px #24253516;
+}
+.viewOptions > div {
+  top: 100%;
+}
+.shareOptions > div {
+  position: static;
+  width: auto;
+  max-width: none;
+  border: 0;
+  background: transparent;
+  padding: 8px 0 0;
+  box-shadow: none;
+}
+.viewOptions .timeScale {
+  flex-direction: column;
+  align-items: start;
+}
+.viewOptions .segmented {
+  width: fit-content;
+}
+.cityDetails > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meeting .kicker {
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+.meetingHeading {
+  gap: 12px;
+}
+.fitBadge {
+  white-space: normal;
+  max-width: 200px;
+}
+.shareOptions summary:focus-visible,
+.viewOptions summary:focus-visible {
+  outline: 3px solid #807cff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 @media (max-width: 950px) {
   .searchSection {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   .searchHint {
     margin: 0;
@@ -870,7 +969,29 @@
     min-height: 36px;
   }
   .searchSection {
-    padding: 14px;
+    padding: 12px;
+  }
+  .overlapBanner {
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .overlapBanner > div {
+    min-width: 190px;
+  }
+  .suggestButton {
+    margin-left: 29px;
+  }
+  .shareOptions {
+    width: 100%;
+  }
+  .shareOptions summary {
+    text-align: center;
+  }
+  .shareOptions > div {
+    width: 100%;
+  }
+  .simpleHint {
+    line-height: 1.6;
   }
   .searchWrap > label {
     font-size: 12px;

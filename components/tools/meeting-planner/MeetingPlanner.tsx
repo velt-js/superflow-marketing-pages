@@ -13,15 +13,14 @@ import {
   calendarFile,
   dateLabel,
   DEFAULT_PEOPLE,
-  hoursLabel,
   hourValue,
   localParts,
   meetingCopyText,
+  meetingFits,
   MINUTE,
   parseState,
   STEP,
   timeLabel,
-  zoneLabel,
   type Participant,
   type PlannerState,
 } from "@/lib/tools/meeting-planner/time";
@@ -270,15 +269,6 @@ export function MeetingPlanner() {
       day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
     );
   }, [day, state?.duration]);
-  const selectionFits = useMemo(() => {
-    if (!day || !state) return [];
-    if (state.duration % SELECTION_STEP === 0) return fits;
-    const count =
-      (Math.ceil(state.duration / SELECTION_STEP) * SELECTION_STEP) / STEP;
-    return day.instants.map((_, i) =>
-      day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
-    );
-  }, [day, fits, state?.duration]);
   if (!state || !day)
     return (
       <div className={styles.loading} role="status">
@@ -287,8 +277,7 @@ export function MeetingPlanner() {
     );
 
   const base = state.people[0];
-  const firstFit = fits.findIndex(Boolean);
-  const firstSelectableFit = selectionFits.findIndex(
+  const firstSelectableFit = fits.findIndex(
     (fit, i) => fit && i % (SELECTION_STEP / STEP) === 0,
   );
   const defaultIndex =
@@ -304,14 +293,29 @@ export function MeetingPlanner() {
       : Math.max(0, day.instants.indexOf(state.selected));
   const selected = day.instants[selectedIndex];
   const selectedFits = fits[selectedIndex] ?? false;
-  const suggestions = day.instants
-    .filter(
-      (_, i) =>
-        selectionFits[i] &&
-        i % (SELECTION_STEP / STEP) === 0 &&
-        (i === firstSelectableFit || i % 4 === 0),
-    )
-    .slice(0, 5);
+  const suggestionIndex = day.instants.findIndex(
+    (_, i) =>
+      i % (SELECTION_STEP / STEP) === 0 &&
+      day.availability.every((row) =>
+        row.slice(i, i + SELECTION_STEP / STEP).every(Boolean),
+      ),
+  );
+  const outside =
+    selected === undefined
+      ? []
+      : state.people.filter(
+          (person) => !meetingFits(selected, state.duration, person),
+        );
+  const overlapHours = Math.floor(day.overlapMinutes / 60);
+  const overlapRemainder = day.overlapMinutes % 60;
+  const overlapText = [
+    overlapHours
+      ? `${overlapHours} ${overlapHours === 1 ? "hour" : "hours"}`
+      : "",
+    overlapRemainder ? `${overlapRemainder} minutes` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   const patch = (value: Partial<PlannerState>) =>
     setState((current) => (current ? { ...current, ...value } : current));
   const patchPerson = (id: string, value: Partial<Participant>) =>
@@ -377,19 +381,7 @@ export function MeetingPlanner() {
     now === null ? "" : timeLabel(now, person.zone, state.hour12);
 
   return (
-    <div className={styles.planner}>
-      <div className={styles.topbar}>
-        <div>
-          <div className={styles.kicker}>
-            <span className={styles.liveDot} /> MADE FOR CUSTOMER CALLS
-          </div>
-          <h2>Different places. One good time.</h2>
-        </div>
-        <button className={styles.button} onClick={share}>
-          <Icon name="link" /> Share plan
-        </button>
-      </div>
-
+    <div className={styles.planner} data-meeting-planner>
       <div className={styles.searchSection}>
         <div
           className={styles.searchWrap}
@@ -517,8 +509,7 @@ export function MeetingPlanner() {
                           {result.hint ??
                             [result.region, result.country]
                               .filter(Boolean)
-                              .join(", ")}{" "}
-                          · {zoneLabel(selected ?? Date.now(), result.zone)}
+                              .join(", ")}
                         </small>
                       </span>
                       {added ? <small>Added</small> : <Icon name="plus" />}
@@ -527,18 +518,15 @@ export function MeetingPlanner() {
                 })}
               </div>
               <p className={styles.searchMessage}>
-                Countries with multiple time zones show a choice of cities and
-                regions.
+                For a large country, choose a city closest to your customer.
               </p>
             </div>
           )}
         </div>
         <div className={styles.searchHint}>
-          <Icon name="clock" />
           <div>
             {detected ? (
               <>
-                <strong>Your time zone is detected.</strong>
                 <button
                   className={styles.locationButton}
                   onClick={() => {
@@ -566,30 +554,38 @@ export function MeetingPlanner() {
                 </button>
               </>
             ) : (
-              <strong>Add your city to set your local time.</strong>
+              <span>Add your city to get started.</span>
             )}
           </div>
         </div>
       </div>
 
       <div
-        className={`${styles.overlapBanner} ${firstFit < 0 ? styles.noOverlap : ""}`}
+        className={`${styles.overlapBanner} ${day.overlapMinutes === 0 ? styles.noOverlap : ""}`}
         role="status"
       >
         <span className={styles.overlapIcon}>
-          <Icon name={firstFit >= 0 ? "check" : "clock"} />
+          <Icon name={day.overlapMinutes > 0 ? "check" : "clock"} />
         </span>
         <div>
           <strong>
             {state.people.length === 1
-              ? "Add a customer’s location to compare"
-              : firstFit >= 0
-                ? `${hoursLabel(day.overlapMinutes)} of shared working hours`
-                : day.overlapMinutes > 0
-                  ? `Shared hours are too short for a ${state.duration}-minute call`
-                  : "No shared working hours on this date"}
+              ? "Add another city to compare times"
+              : day.overlapMinutes > 0
+                ? `${overlapText} within everyone’s work hours`
+                : "No work hours in common. Try another day or edit work hours."}
           </strong>
         </div>
+        {state.people.length > 1 && suggestionIndex >= 0 && (
+          <button
+            className={styles.suggestButton}
+            onClick={() =>
+              patch({ selected: day.instants[suggestionIndex], duration: 30 })
+            }
+          >
+            Suggest a time
+          </button>
+        )}
       </div>
 
       <div className={styles.controls}>
@@ -631,80 +627,62 @@ export function MeetingPlanner() {
             Today
           </button>
         </div>
-        <div className={styles.preferences}>
-          <label className={styles.timeScale}>
-            Show times in
-            <select
-              value={base.id}
-              onChange={(e) => {
-                const person = state.people.find(
-                  (p) => p.id === e.target.value,
-                );
-                if (!person) return;
-                patch({
-                  people: [
-                    person,
-                    ...state.people.filter((p) => p.id !== person.id),
-                  ],
-                  date: localParts(selected ?? Date.now(), person.zone).date,
-                  selected: selected ?? null,
-                });
-              }}
-            >
-              {state.people.map((person) => (
-                <option key={person.id} value={person.id}>
-                  {person.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <div className={styles.segmented} aria-label="Time display">
-            <button
-              aria-pressed={state.hour12}
-              onClick={() => patch({ hour12: true })}
-            >
-              12h
-            </button>
-            <button
-              aria-pressed={!state.hour12}
-              onClick={() => patch({ hour12: false })}
-            >
-              24h
-            </button>
+        <details className={styles.viewOptions}>
+          <summary>View options</summary>
+          <div className={styles.preferences}>
+            <label className={styles.timeScale}>
+              Show times in
+              <select
+                value={base.id}
+                onChange={(e) => {
+                  const person = state.people.find(
+                    (p) => p.id === e.target.value,
+                  );
+                  if (!person) return;
+                  patch({
+                    people: [
+                      person,
+                      ...state.people.filter((p) => p.id !== person.id),
+                    ],
+                    date: localParts(selected ?? Date.now(), person.zone).date,
+                    selected: selected ?? null,
+                  });
+                }}
+              >
+                {state.people.map((person) => (
+                  <option key={person.id} value={person.id}>
+                    {person.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className={styles.segmented} aria-label="Time display">
+              <button
+                aria-pressed={state.hour12}
+                onClick={() => patch({ hour12: true })}
+              >
+                12h
+              </button>
+              <button
+                aria-pressed={!state.hour12}
+                onClick={() => patch({ hour12: false })}
+              >
+                24h
+              </button>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
 
-      <div className={styles.timelineHeader}>
-        <div>
-          <h3>Find your overlap</h3>
-          <p>
-            Drag to select a range in 30-minute steps. Each row shows local
-            time.
-          </p>
-        </div>
-        <div className={styles.legend}>
-          <span>
-            <i className={styles.sharedSwatch} />
-            Everyone working
-          </span>
-          <span>
-            <i className={styles.workSwatch} />
-            Working hours
-          </span>
-          <span>
-            <i />
-            Off hours
-          </span>
-        </div>
-      </div>
+      <p className={styles.simpleHint}>
+        Drag to choose a time. <span>Green times fit everyone’s workday.</span>
+      </p>
       <MeetingTimeline
         day={day}
         people={state.people}
         selected={selected}
         duration={state.duration}
         hour12={state.hour12}
-        fits={selectionFits}
         onSelect={patch}
         renderLocation={(person) => (
           <>
@@ -730,15 +708,11 @@ export function MeetingPlanner() {
               aria-label={`Current time in ${person.name}`}
             >
               <strong>{currentTime(person)}</strong>
-              <span>
-                now · {now === null ? "" : zoneLabel(now, person.zone)}
-              </span>
+              <span>now</span>
             </div>
             <div className={styles.cityDetails}>
               <span title={person.country}>
-                {selected === undefined
-                  ? person.countryCode
-                  : dateLabel(selected, person.zone)}
+                {person.country || "Your local time"}
               </span>
               <button
                 className={styles.hoursButton}
@@ -752,13 +726,6 @@ export function MeetingPlanner() {
                 <Icon name="clock" /> Edit hours
               </button>
             </div>
-            {person.id.startsWith("device:") && (
-              <span className={styles.detectedLabel}>
-                {person.name === "Your location"
-                  ? "Auto-detected time zone"
-                  : "Approximate location"}
-              </span>
-            )}
           </>
         )}
       />
@@ -835,31 +802,10 @@ export function MeetingPlanner() {
             </div>
           </section>
         ))}
-      <p className={styles.timelineNote}>
+      <p className={styles.srOnly}>
         Arrow keys move by 30 minutes. Shift + arrow keys adjust the range. On
         mobile, swipe the time scale to scroll. Daylight saving is included.
       </p>
-
-      {suggestions.length > 0 && state.people.length > 1 && (
-        <div className={styles.suggestions}>
-          <span>Good times in {base.name}</span>
-          {suggestions.map((t) => (
-            <button
-              key={t}
-              aria-pressed={t === selected}
-              onClick={() =>
-                patch({
-                  selected: t,
-                  duration:
-                    Math.ceil(state.duration / SELECTION_STEP) * SELECTION_STEP,
-                })
-              }
-            >
-              {timeLabel(t, base.zone, state.hour12)}
-            </button>
-          ))}
-        </div>
-      )}
 
       {selected !== undefined ? (
         <section
@@ -868,7 +814,7 @@ export function MeetingPlanner() {
         >
           <div className={styles.meetingHeading}>
             <div>
-              <p className={styles.kicker}>YOUR SELECTED TIME</p>
+              <p className={styles.kicker}>YOUR MEETING</p>
               <h3 id="selected-meeting-heading">
                 {timeLabel(selected, base.zone, state.hour12)} <span>–</span>{" "}
                 {timeLabel(
@@ -886,7 +832,11 @@ export function MeetingPlanner() {
               className={`${styles.fitBadge} ${!selectedFits ? styles.outsideBadge : ""}`}
             >
               <Icon name={selectedFits ? "check" : "clock"} />
-              {selectedFits ? "Works for everyone" : "Outside working hours"}
+              {selectedFits
+                ? "Within everyone’s work hours"
+                : outside.length === 1
+                  ? `Outside ${outside[0].name}’s work hours`
+                  : `Outside work hours in ${outside.length} cities`}
             </span>
           </div>
           <div className={styles.actions}>
@@ -902,41 +852,47 @@ export function MeetingPlanner() {
               <Icon name="copy" />
               Copy meeting times
             </button>
-            <button
-              className={styles.button}
-              onClick={() => {
-                const blob = new Blob(
-                  [
-                    calendarFile(
-                      state.people,
-                      selected,
-                      state.duration,
-                      state.hour12,
-                    ),
-                  ],
-                  { type: "text/calendar;charset=utf-8" },
-                );
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "customer-meeting.ics";
-                a.click();
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-                setNotice(
-                  "Calendar file downloaded. Open it to add the meeting to your calendar.",
-                );
-              }}
-            >
-              <Icon name="calendar" />
-              Download calendar event
-            </button>
-            <span>Copy or download, then send it to your customer.</span>
+            <details className={styles.shareOptions}>
+              <summary>More ways to share</summary>
+              <div>
+                <button className={styles.button} onClick={share}>
+                  <Icon name="link" /> Share plan
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    const blob = new Blob(
+                      [
+                        calendarFile(
+                          state.people,
+                          selected,
+                          state.duration,
+                          state.hour12,
+                        ),
+                      ],
+                      { type: "text/calendar;charset=utf-8" },
+                    );
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "customer-meeting.ics";
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    setNotice(
+                      "Calendar file downloaded. Open it to add the meeting to your calendar.",
+                    );
+                  }}
+                >
+                  <Icon name="calendar" />
+                  Download calendar event
+                </button>
+              </div>
+            </details>
           </div>
         </section>
       ) : (
         <p className={styles.noDate}>
-          This date does not exist in the location selected under “Show times
-          in”. Please choose another date.
+          This date is not available in {base.name}. Please choose another day.
         </p>
       )}
       <div className={styles.notice} role="status" aria-live="polite">
@@ -953,10 +909,7 @@ export function MeetingPlanner() {
         />
       )}
       <div className={styles.bottomNote}>
-        <span>
-          Locations and working hours are saved in this browser. No account
-          needed.
-        </span>
+        <span>Your cities and work hours are saved automatically.</span>
         <span>
           City data:{" "}
           <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">

@@ -227,7 +227,7 @@ test("MCP plan opens in the browser with readable copy and discoverable page met
     "Free Time Zone Converter & Meeting Planner | Superflow",
   );
   await expect(
-    page.getByText("1h of shared working hours", { exact: true }),
+    page.getByText("1 hour within everyone’s work hours", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Copy meeting times", exact: true })

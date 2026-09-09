@@ -27,6 +27,8 @@ export type ToolPageProps = {
   wide?: boolean;
   /** Storage behavior when it differs from the default server cache. */
   privacyNote?: string;
+  /** Keep developer references below the workspace when the main flow is for everyone. */
+  developerLinksInHero?: boolean;
   /** The interactive tool. Rendered directly under the subhead. */
   children: React.ReactNode;
   /** Exactly three steps, per the page template in the brief. */
@@ -73,6 +75,7 @@ export function ToolPage({
   eyebrow,
   wide = false,
   privacyNote = "Free, no login, no email. Nothing stored beyond a 24 hour cache.",
+  developerLinksInHero = true,
   children,
   howItWorks,
   whyThisMatters,
@@ -111,7 +114,7 @@ export function ToolPage({
         footnote={
           <>
             {privacyNote}
-            {markdownPath ? (
+            {developerLinksInHero && markdownPath ? (
               <>
                 {" "}
                 <a href={markdownPath}>Markdown copy</a>
@@ -119,7 +122,7 @@ export function ToolPage({
             ) : null}
             {/* The separator carries the leading space, so a tool with an API
                 and no Markdown copy does not run the link into the sentence. */}
-            {hasApi ? (
+            {developerLinksInHero && hasApi ? (
               <>
                 {markdownPath ? " · " : " "}
                 <a href="#api">API and MCP</a>

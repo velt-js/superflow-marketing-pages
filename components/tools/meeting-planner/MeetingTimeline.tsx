@@ -31,7 +31,6 @@ type Props = {
   selected: number;
   duration: number;
   hour12: boolean;
-  fits: boolean[];
   onSelect: (selection: Selection) => void;
   renderLocation: (person: Participant) => ReactNode;
 };
@@ -42,7 +41,6 @@ export function MeetingTimeline({
   selected,
   duration,
   hour12,
-  fits,
   onSelect,
   renderLocation,
 }: Props) {
@@ -78,8 +76,8 @@ export function MeetingTimeline({
   const clock = (t: number, zone: string) =>
     timeLabel(t, zone, hour12)
       .replace(/:00(?= )/, "")
-      .replace(" AM", "a")
-      .replace(" PM", "p");
+      .replace(" AM", "am")
+      .replace(" PM", "pm");
   const base = people[0];
   // Formatting and availability do not change while the selection moves.
   const labels = useMemo(
@@ -256,25 +254,6 @@ export function MeetingTimeline({
         className={styles.timeline}
         style={{ minWidth: `calc(var(--city-width) + ${slots.length * 26}px)` }}
       >
-        <div className={styles.axis}>
-          <span>
-            {base.name === "Your location"
-              ? "YOUR LOCAL TIME"
-              : `${base.name.toUpperCase()} TIME`}
-          </span>
-          <div className={styles.axisTicks}>
-            {slots
-              .filter((_, i) => i % 2 === 0)
-              .map((t, i) => (
-                <span
-                  key={t}
-                  style={{ flex: Math.min(2, slots.length - i * 2) }}
-                >
-                  {timeLabel(t, base.zone, hour12).replace(":00", "")}
-                </span>
-              ))}
-          </div>
-        </div>
         {people.map((person, row) => (
           <div className={styles.timelineRow} key={person.id}>
             <div className={styles.rowLabel} data-city-label>
@@ -395,6 +374,13 @@ export function MeetingTimeline({
                         : undefined,
                     }}
                   >
+                    {localParts(selected, person.zone).date !==
+                      localParts(selected, base.zone).date && (
+                      <small>
+                        {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
+                        ·{" "}
+                      </small>
+                    )}
                     {clock(selected, person.zone)} – {clock(end, person.zone)}
                     {localParts(selected, person.zone).date !==
                       localParts(end, person.zone).date && (
@@ -417,27 +403,6 @@ export function MeetingTimeline({
             </div>
           </div>
         ))}
-        <div className={styles.timelineRow}>
-          <div className={styles.rowLabel}>
-            <strong className={styles.sharedLabel}>Everyone available</strong>
-            <span>{nextDuration}-minute call fits</span>
-          </div>
-          <div className={styles.cells}>
-            {slots.map((t, i) => (
-              <button
-                key={t}
-                className={styles.overlapCell}
-                data-fits={fits[i * STRIDE]}
-                disabled={!fits[i * STRIDE]}
-                tabIndex={-1}
-                aria-label={`Select ${timeLabel(t, base.zone, hour12)} for everyone`}
-                onClick={() =>
-                  onSelect({ selected: t, duration: nextDuration })
-                }
-              />
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
