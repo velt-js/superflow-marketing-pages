@@ -449,7 +449,7 @@ export function MeetingPlanner() {
           {searchOpen && (
             <div className={styles.searchResults}>
               <p className={styles.resultHeading}>
-                {query ? "MATCHING CITIES & COUNTRIES" : "POPULAR CITIES"}
+                {query ? "MATCHING CITIES & COUNTRIES" : "POPULAR TECH HUBS"}
               </p>
               {!catalog && (
                 <p className={styles.searchMessage}>

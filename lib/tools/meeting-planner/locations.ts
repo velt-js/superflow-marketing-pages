@@ -39,6 +39,30 @@ const CITY_ALIASES: Record<string, string> = {
   "new york": "New York City",
 };
 
+// Curated shortcuts for customer calls. GeoNames IDs disambiguate namesakes.
+const POPULAR_TECH_HUB_IDS = [
+  "5391959", // San Francisco, United States
+  "5128581", // New York City, United States
+  "2643743", // London, United Kingdom
+  "1277333", // Bengaluru, India
+  "1880252", // Singapore
+  "5809844", // Seattle, United States
+  "4671654", // Austin, Texas, United States
+  "4930956", // Boston, United States
+  "6167865", // Toronto, Canada
+  "2950159", // Berlin, Germany
+  "1269843", // Hyderabad, India
+  "293397", // Tel Aviv, Israel
+  "2759794", // Amsterdam, Netherlands
+  "2988507", // Paris, France
+  "2673730", // Stockholm, Sweden
+  "2964574", // Dublin, Ireland
+  "292223", // Dubai, United Arab Emirates
+  "2147714", // Sydney, Australia
+  "1850147", // Tokyo, Japan
+  "1835848", // Seoul, South Korea
+];
+
 export function createLocationSearch(catalog: LocationCatalog) {
   const places = catalog.cities.map(
     ([id, name, code, region, zone, population, aliases]) => ({
@@ -55,9 +79,12 @@ export function createLocationSearch(catalog: LocationCatalog) {
       ),
     }),
   );
+  const popularPlaces = POPULAR_TECH_HUB_IDS.map((id) =>
+    places.find((place) => place.id === id),
+  ).filter((place) => place !== undefined);
   return (query: string): SearchResult[] => {
     const q = normalize(query);
-    if (!q) return places.slice(0, 8);
+    if (!q) return popularPlaces;
     const country = Object.entries(catalog.countries).find(
       ([code, c]) =>
         code.toLowerCase() === q ||
