@@ -558,6 +558,11 @@
   outline-offset: 0 !important;
   z-index: 2;
 }
+.cell[aria-pressed="true"]:focus-visible {
+  /* The selected range already identifies the keyboard target. Avoid drawing
+     the underlying half-hour tile's rectangle through a longer selection. */
+  outline: none !important;
+}
 .overlapCell {
   flex: 1;
   background: #efeff4;

@@ -304,6 +304,10 @@ test("half-hour dragging stays smooth and labels the local range on every city r
     page.getByRole("heading", { name: "09:00 – 10:30" }),
   ).toBeVisible();
   expect(await viewport.evaluate((el) => el.scrollLeft)).toBeCloseTo(scroll, 0);
+  await expect(row.getByRole("button", { pressed: true })).toHaveCSS(
+    "outline-style",
+    "none",
+  );
   await page
     .locator("[data-meeting-planner]")
     .screenshot({ path: testInfo.outputPath("desktop-planner.png") });

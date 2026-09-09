@@ -176,6 +176,7 @@ export function MeetingTimeline({
     action: "move" | "start" | "end",
     delta: number,
   ): Selection {
+    if (delta === 0) return before;
     const step = SELECTION_STEP * MINUTE;
     if (action === "move") {
       return {
