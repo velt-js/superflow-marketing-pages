@@ -26,6 +26,7 @@ const STRIDE = SELECTION_STEP / STEP;
 
 type Selection = { selected: number; duration: number };
 type Props = {
+  revealSelection: number;
   day: ReturnType<typeof buildDay>;
   people: Participant[];
   selected: number;
@@ -36,6 +37,7 @@ type Props = {
 };
 
 export function MeetingTimeline({
+  revealSelection,
   day,
   people,
   selected,
@@ -52,6 +54,8 @@ export function MeetingTimeline({
     element: HTMLDivElement;
     pointer: number;
     anchor: number;
+    action: "create" | "move" | "start" | "end";
+    startX: number;
     left: number;
     width: number;
     before: Selection;
@@ -88,10 +92,13 @@ export function MeetingTimeline({
           const working = day.availability[row]
             .slice(i * STRIDE, (i + 1) * STRIDE)
             .every(Boolean);
+          const minute = localParts(t, person.zone).minute;
+          const daytime = minute >= 6 * 60 && minute < 18 * 60;
           return {
+            daytime,
             clock: clock(t, person.zone),
             working,
-            title: `${time} · ${working ? "Working hours" : "Off hours"}`,
+            title: `${time} · ${daytime ? "Day" : "Night"} · ${working ? "Working hours" : "Off hours"}`,
             aria: `${person.name}, ${dateLabel(t, person.zone)} ${time}, ${zoneLabel(t, person.zone)}, ${working ? "working hours" : "off hours"}`,
           };
         }),
@@ -106,7 +113,7 @@ export function MeetingTimeline({
     [],
   );
 
-  // Center once when a different day/zone opens, never in response to dragging.
+  // Center on a new day/zone or an explicit suggestion, never while dragging.
   useEffect(() => {
     const viewport = viewportRef.current;
     const cell = viewport?.querySelector<HTMLElement>('[aria-pressed="true"]');
@@ -119,7 +126,7 @@ export function MeetingTimeline({
         labelWidth(viewport) -
         (viewport.clientWidth - labelWidth(viewport) - cell.offsetWidth) / 2,
     );
-  }, [day.start, base.zone]);
+  }, [day.start, base.zone, revealSelection]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -164,48 +171,96 @@ export function MeetingTimeline({
     });
   }
 
+  function changeRange(
+    before: Selection,
+    action: "move" | "start" | "end",
+    delta: number,
+  ): Selection {
+    const step = SELECTION_STEP * MINUTE;
+    if (action === "move") {
+      return {
+        selected: Math.max(
+          day.start,
+          Math.min(slots[slots.length - 1], before.selected + delta * step),
+        ),
+        duration: before.duration,
+      };
+    }
+    const beforeEnd = before.selected + before.duration * MINUTE;
+    if (action === "start") {
+      const start = Math.max(
+        day.start,
+        beforeEnd - 1440 * MINUTE,
+        Math.min(beforeEnd - step, before.selected + delta * step),
+      );
+      return { selected: start, duration: (beforeEnd - start) / MINUTE };
+    }
+    return {
+      selected: before.selected,
+      duration: Math.max(
+        SELECTION_STEP,
+        Math.min(1440, before.duration + delta * SELECTION_STEP),
+      ),
+    };
+  }
+
   function pointerDown(e: PointerEvent<HTMLDivElement>) {
     if (!e.isPrimary || e.button !== 0 || !slots.length) return;
     const target = e.target as HTMLElement;
+    const control = target.closest<HTMLElement>("[data-range-action]");
     const cell = target.closest<HTMLButtonElement>("button[data-index]");
-    if (!cell) return;
+    if (!cell && !control) return;
+    // A touch swipe pans the day; a tap selects a slot through onClick.
+    // Only the selection and its handles capture touch dragging.
+    if (e.pointerType === "touch" && !control) return;
     e.preventDefault();
-    const anchor = Number(cell.dataset.index);
     const rect = e.currentTarget.getBoundingClientRect();
-    const next = { selected: slots[anchor], duration: nextDuration };
+    const action = control
+      ? (control.dataset.rangeAction as "move" | "start" | "end")
+      : "create";
     drag.current = {
       element: e.currentTarget,
       pointer: e.pointerId,
-      anchor,
+      anchor: cell ? Number(cell.dataset.index) : selectedIndex,
+      action,
+      startX: e.clientX,
       left: rect.left,
       width: rect.width,
       before: { selected, duration },
-      latest: next,
+      latest: { selected, duration },
       moved: false,
     };
     e.currentTarget.setPointerCapture(e.pointerId);
-    cell.focus({ preventScroll: true });
-    onSelect(next);
+    (cell ?? control)?.focus({ preventScroll: true });
   }
 
   function pointerMove(e: PointerEvent<HTMLDivElement>) {
     const active = drag.current;
     if (!active || active.pointer !== e.pointerId) return;
-    const index = Math.max(
-      0,
-      Math.min(
-        slots.length - 1,
-        Math.floor(((e.clientX - active.left) / active.width) * slots.length),
-      ),
-    );
-    if (index !== active.anchor) active.moved = true;
-    if (!active.moved) return;
-    const first = Math.min(index, active.anchor);
-    const minutes = Math.min(
-      1440,
-      (Math.abs(index - active.anchor) + 1) * SELECTION_STEP,
-    );
-    active.latest = { selected: slots[first], duration: minutes };
+    // Normal click jitter must never move or resize an existing selection.
+    if (!active.moved && Math.abs(e.clientX - active.startX) < 6) return;
+    active.moved = true;
+    if (active.action === "create") {
+      const index = Math.max(
+        0,
+        Math.min(
+          slots.length - 1,
+          Math.floor(((e.clientX - active.left) / active.width) * slots.length),
+        ),
+      );
+      active.latest = {
+        selected: slots[Math.min(index, active.anchor)],
+        duration: Math.min(
+          1440,
+          (Math.abs(index - active.anchor) + 1) * SELECTION_STEP,
+        ),
+      };
+    } else {
+      const delta = Math.round(
+        ((e.clientX - active.startX) / active.width) * slots.length,
+      );
+      active.latest = changeRange(active.before, active.action, delta);
+    }
     queue(active.latest);
   }
 
@@ -216,7 +271,11 @@ export function MeetingTimeline({
     frame.current = null;
     pending.current = null;
     drag.current = null;
-    const result = cancel ? active.before : active.latest;
+    const result = cancel
+      ? active.before
+      : !active.moved && active.action === "create"
+        ? { selected: slots[active.anchor], duration: SELECTION_STEP }
+        : active.latest;
     onSelect(result);
     const index = Math.floor(
       (result.selected - day.start) / (SELECTION_STEP * MINUTE),
@@ -246,13 +305,14 @@ export function MeetingTimeline({
       tabIndex={0}
       role="region"
       aria-label="Time comparison. Scroll horizontally to see the full day."
+      aria-describedby="meeting-selection-help"
       onKeyDown={(e) => {
         if (e.key === "Escape") finish(true);
       }}
     >
       <div
         className={styles.timeline}
-        style={{ minWidth: `calc(var(--city-width) + ${slots.length * 26}px)` }}
+        style={{ minWidth: `calc(var(--city-width) + ${slots.length * 36}px)` }}
       >
         {people.map((person, row) => (
           <div className={styles.timelineRow} key={person.id}>
@@ -273,6 +333,7 @@ export function MeetingTimeline({
                 <button
                   key={t}
                   data-index={i}
+                  data-period={labels[row][i].daytime ? "day" : "night"}
                   data-working={labels[row][i].working}
                   data-shared={day.shared
                     .slice(i * STRIDE, (i + 1) * STRIDE)
@@ -285,9 +346,9 @@ export function MeetingTimeline({
                   title={labels[row][i].title}
                   aria-pressed={i === selectedIndex}
                   tabIndex={i === selectedIndex ? 0 : -1}
-                  onClick={(e) => {
-                    if (e.detail === 0)
-                      onSelect({ selected: t, duration: nextDuration });
+                  onClick={() => {
+                    if (!(t >= selected && t < end))
+                      onSelect({ selected: t, duration: SELECTION_STEP });
                   }}
                   onKeyDown={(e) => {
                     if (
@@ -319,7 +380,7 @@ export function MeetingTimeline({
                       ["ArrowLeft", "ArrowRight"].includes(e.key)
                     ) {
                       onSelect({
-                        selected: slots[selectedIndex],
+                        selected,
                         duration: Math.max(
                           SELECTION_STEP,
                           Math.min(
@@ -337,8 +398,8 @@ export function MeetingTimeline({
                         duration: nextDuration,
                       });
                       const buttons =
-                        e.currentTarget.parentElement?.querySelectorAll(
-                          "button",
+                        e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+                          "button[data-index]",
                         );
                       if (buttons?.[next]) focusCell(buttons[next]);
                     }
@@ -359,10 +420,42 @@ export function MeetingTimeline({
                       left: `${selectionLeft}%`,
                       width: `${selectionWidth}%`,
                     }}
-                    aria-hidden="true"
-                  />
+                  >
+                    {(["move", "start", "end"] as const).map((action) => (
+                      <button
+                        key={action}
+                        data-range-action={action}
+                        className={
+                          action === "move"
+                            ? styles.rangeMove
+                            : styles.rangeEdge
+                        }
+                        data-edge={action}
+                        aria-label={`${action === "move" ? "Move meeting" : `Resize ${action}`} in ${person.name}`}
+                        title={
+                          action === "move"
+                            ? "Drag to move"
+                            : `Drag to change ${action} time`
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key !== "ArrowLeft" && e.key !== "ArrowRight")
+                            return;
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onSelect(
+                            changeRange(
+                              { selected, duration },
+                              action,
+                              e.key === "ArrowRight" ? 1 : -1,
+                            ),
+                          );
+                        }}
+                      />
+                    ))}
+                  </div>
                   <div
                     className={styles.selectionLabel}
+                    data-range-action="move"
                     aria-label={`Selected time in ${person.name}`}
                     title={`${dateLabel(selected, person.zone)} ${timeLabel(selected, person.zone, hour12)} ${zoneLabel(selected, person.zone)} – ${dateLabel(end, person.zone)} ${timeLabel(end, person.zone, hour12)} ${zoneLabel(end, person.zone)}`}
                     style={{

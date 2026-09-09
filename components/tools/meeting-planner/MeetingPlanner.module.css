@@ -520,7 +520,7 @@
 }
 .cells {
   position: relative;
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
   user-select: none;
   flex: 1;
   display: flex;
@@ -539,9 +539,9 @@
   color: #727582;
   border-radius: 0;
 }
-.cell[data-working="true"] {
-  background: #f0f1f5;
-  color: #444757;
+.cell[data-period="day"] {
+  background: #e7f1ff;
+  color: #526c89;
 }
 .cell[data-shared="true"] {
   background: #b5ddc8;
@@ -777,11 +777,54 @@
   position: absolute;
   top: 34px;
   bottom: 12px;
-  background: #4941df;
-  border: 2px solid #3830c8;
+  background: #dcd8ff;
+  border: 2px solid #9d92e7;
+  box-shadow: 0 2px 5px #7d72c81a;
   border-radius: 5px;
-  pointer-events: none;
   z-index: 2;
+}
+.rangeMove,
+.rangeEdge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  touch-action: none;
+}
+.rangeMove {
+  inset: 0;
+  border-radius: inherit;
+  cursor: grab !important;
+}
+.rangeMove:active,
+.selectionLabel:active {
+  cursor: grabbing !important;
+}
+.rangeEdge {
+  width: 16px;
+  z-index: 1;
+  cursor: ew-resize !important;
+}
+.rangeEdge[data-edge="start"] {
+  left: -8px;
+}
+.rangeEdge[data-edge="end"] {
+  right: -8px;
+}
+.rangeEdge::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 18px;
+  border: 1px solid #9d92e7;
+  border-radius: 3px;
+  background: white;
+  box-shadow: 0 1px 3px #24253520;
 }
 .selectionLabel {
   position: absolute;
@@ -797,7 +840,8 @@
   font-variant-numeric: tabular-nums;
   width: max-content;
   text-align: center;
-  pointer-events: none;
+  cursor: grab;
+  touch-action: none;
   z-index: 3;
 }
 .selectionLabel small {
@@ -840,8 +884,39 @@
   font-size: 12px;
   color: var(--muted);
 }
-.simpleHint span {
-  color: #397756;
+.simpleHint p {
+  margin: 0 0 8px;
+}
+.periodLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.periodLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.periodLegend i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1px solid #0000000d;
+}
+.daySwatch {
+  background: #e7f1ff;
+}
+.nightSwatch {
+  background: #e7e8ed;
+}
+.sharedSwatch {
+  background: #b5ddc8;
+}
+.quickActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
 }
 .viewOptions,
 .shareOptions {
@@ -1124,4 +1199,11 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   font-size: 12px !important;
+}
+
+.compromiseNote {
+  margin: 8px 2px 0;
+  color: #7b633b;
+  font-size: 12px;
+  line-height: 1.6;
 }
