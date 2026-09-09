@@ -133,10 +133,14 @@ export function buildDay(
   };
 }
 
-function labelFormatter(key: string, options: Intl.DateTimeFormatOptions) {
+function labelFormatter(
+  key: string,
+  options: Intl.DateTimeFormatOptions,
+  locale = "en-US",
+) {
   let formatter = formatters.get(key);
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat("en-US", options);
+    formatter = new Intl.DateTimeFormat(locale, options);
     formatters.set(key, formatter);
   }
   return formatter;
@@ -295,6 +299,72 @@ export function parseState(raw: string): PlannerState | null {
   } catch {
     return null;
   }
+}
+
+function copyZoneLabel(instant: number, person: Participant, specific = false) {
+  const name = (style: "shortGeneric" | "short", locale = "en-US") =>
+    labelFormatter(
+      `copy-zone:${person.zone}:${style}:${locale}`,
+      { timeZone: person.zone, timeZoneName: style },
+      locale,
+    )
+      .formatToParts(instant)
+      .find((part) => part.type === "timeZoneName")?.value;
+  const generic = name("shortGeneric");
+  // CLDR supplies familiar generic names such as PT/ET without hardcoded offsets.
+  if (!specific && generic && /^[A-Z]{2,5}$/.test(generic))
+    return generic.toLowerCase();
+  const locale = /^[A-Z]{2}$/.test(person.countryCode)
+    ? `en-${person.countryCode}`
+    : "en-US";
+  const short = name("short", locale);
+  if (short && /^[A-Z]{2,5}$/.test(short)) return short.toLowerCase();
+  // Where English has no short abbreviation, keep a readable name, e.g. Japan time.
+  return (
+    specific
+      ? zoneLabel(instant, person.zone)
+      : (generic ?? zoneLabel(instant, person.zone))
+  ).replace(/ Time$/, " time");
+}
+
+/** Compact text for pasting into a customer conversation, regardless of the grid's clock format. */
+export function meetingCopyText(
+  people: Participant[],
+  instant: number,
+  duration: number,
+) {
+  const end = instant + duration * MINUTE;
+  const clock = (minute: number) => {
+    const hour = Math.floor(minute / 60);
+    const minutes = minute % 60;
+    return `${hour % 12 || 12}${minutes ? `:${String(minutes).padStart(2, "0")}` : ""}${hour < 12 ? "a" : "p"}`;
+  };
+  return people
+    .map((person) => {
+      const startParts = localParts(instant, person.zone);
+      const endParts = localParts(end, person.zone);
+      const includeYear =
+        startParts.date.slice(0, 4) !== endParts.date.slice(0, 4);
+      const date = (at: number) =>
+        labelFormatter(`copy-date:${person.zone}:${includeYear}`, {
+          timeZone: person.zone,
+          month: "short",
+          day: "numeric",
+          ...(includeYear ? ({ year: "numeric" } as const) : {}),
+        })
+          .formatToParts(at)
+          .filter((part) => ["month", "day", "year"].includes(part.type))
+          .map((part) => part.value)
+          .join(" ");
+      const startTime = `${date(instant)} ${clock(startParts.minute)}`;
+      const endTime = `${startParts.date !== endParts.date ? `${date(end)} ` : ""}${clock(endParts.minute)}`;
+      // A repeated clock hour is ambiguous without both standard/daylight labels.
+      if (zoneLabel(instant, person.zone) !== zoneLabel(end, person.zone)) {
+        return `${person.name}: ${startTime} ${copyZoneLabel(instant, person, true)} - ${endTime} ${copyZoneLabel(end, person, true)}`;
+      }
+      return `${person.name}: ${startTime} - ${endTime} ${copyZoneLabel(instant, person)}`;
+    })
+    .join("\n");
 }
 
 export function meetingSummary(

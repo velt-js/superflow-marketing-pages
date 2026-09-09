@@ -17,7 +17,7 @@ import {
   hourValue,
   localParts,
   meetingFits,
-  meetingSummary,
+  meetingCopyText,
   MINUTE,
   parseState,
   STEP,
@@ -892,12 +892,7 @@ export function MeetingPlanner() {
               className={styles.primaryButton}
               onClick={() =>
                 void copy(
-                  meetingSummary(
-                    state.people,
-                    selected,
-                    state.duration,
-                    state.hour12,
-                  ),
+                  meetingCopyText(state.people, selected, state.duration),
                   "Meeting times copied.",
                 )
               }
