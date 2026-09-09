@@ -39,6 +39,11 @@ const CITY_ALIASES: Record<string, string> = {
   "new york": "New York City",
 };
 
+export function normalizeCityQuery(query: string): string {
+  const q = normalize(query);
+  return normalize(CITY_ALIASES[q] ?? q);
+}
+
 // Curated shortcuts for customer calls. GeoNames IDs disambiguate namesakes.
 const POPULAR_TECH_HUB_IDS = [
   "5391959", // San Francisco, United States
@@ -126,7 +131,7 @@ export function createLocationSearch(catalog: LocationCatalog) {
             };
       });
     }
-    const target = normalize(CITY_ALIASES[q] ?? q);
+    const target = normalizeCityQuery(q);
     const words = target.split(/\s+/);
     return places
       .filter((p) => words.every((word) => p.text.includes(word)))

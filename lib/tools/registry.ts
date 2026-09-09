@@ -60,8 +60,8 @@ export type ToolIconKey =
 export const TOOLS: readonly ToolEntry[] = [
   {
     slug: "meeting-planner",
-    name: "Time Zone Meeting Planner",
-    tagline: "Find overlapping working hours with customers by city or country",
+    name: "Time Zone Converter & Meeting Planner",
+    tagline: "Convert local times and find overlapping working hours by city or country",
     category: "scheduling",
     status: "live",
     icon: "clock",

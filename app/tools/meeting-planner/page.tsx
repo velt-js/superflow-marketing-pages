@@ -9,7 +9,7 @@ import { MEETING_PLANNER_CONTENT as content } from "@/lib/tools/content/meeting-
 
 const path = "/tools/meeting-planner";
 export const metadata = buildPageMetadata({
-  title: "Free Time Zone Meeting Planner by City & Country",
+  title: "Free Time Zone Converter & Meeting Planner",
   description: content.description,
   path,
 });

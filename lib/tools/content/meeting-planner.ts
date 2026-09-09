@@ -2,11 +2,11 @@ import type { ToolContent } from "./types";
 
 export const MEETING_PLANNER_CONTENT: ToolContent = {
   slug: "meeting-planner",
-  title: "Time Zone Meeting Planner",
+  title: "Time Zone Converter & Meeting Planner",
   subhead:
-    "Find a time that works for you and your customers. Add cities or countries, compare working hours, and leave the time-zone math to us.",
+    "Compare local times and find overlapping working hours for customer calls. A free World Time Buddy alternative: search cities or countries, pick a date, and share a time that works.",
   description:
-    "Free time zone meeting planner. Search cities or countries, automatically compare local times and working-hour overlap, and share a customer meeting time. No signup required.",
+    "Free time zone converter and meeting planner by city or country. Find overlapping working hours with this World Time Buddy alternative. No signup.",
   howItWorks: [
     {
       title: "Add your locations",
@@ -22,6 +22,21 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     },
   ],
   faq: [
+    {
+      question: "Is this a free World Time Buddy alternative?",
+      answer:
+        "Yes. Superflow's Time Zone Converter & Meeting Planner helps you compare cities and find a meeting time across time zones. Add up to eight locations without an account, see overlapping working hours, drag to select a meeting, and copy readable local times or share a plan. It is an independent tool from Superflow, not affiliated with World Time Buddy.",
+    },
+    {
+      question: "How do I convert a meeting time between cities?",
+      answer:
+        "Add the cities or countries you want to compare, choose the meeting date, and select a time on the timeline. Each row shows that same moment in the location's local time. The selected meeting summary includes each city's date and time, including when the meeting falls on the next or previous day.",
+    },
+    {
+      question: "Can an AI assistant find overlapping meeting times with MCP?",
+      answer:
+        "Yes. Connect to Superflow's free MCP server at https://usesuperflow.ai/api/mcp and use find_meeting_times with locations and a date. It returns time zones, shared working hours, suggested meeting times, readable copy text, and a plan link. The same calculation is available at POST /api/tools/meeting-planner. No API key is required.",
+    },
     {
       question: "Can I search by country instead of time zone?",
       answer:
@@ -68,12 +83,12 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     {
       label: "Calculation",
       value:
-        "Browser-based, using named IANA time zones through Intl. Quarter-hour precision, including half-hour and quarter-hour offsets, daylight saving, and overnight shifts.",
+        "The browser and MCP/API share the same calculation engine, using named IANA time zones through Intl. Quarter-hour precision, including half-hour and quarter-hour offsets, daylight saving, and overnight shifts.",
     },
     {
       label: "Storage",
       value:
-        "Locations and settings are saved in localStorage. Share links encode the selected plan in the URL fragment.",
+        "The browser saves locations and settings in localStorage. Share links encode the selected plan in the URL fragment. MCP/API calls send the supplied locations and schedule to the server for calculation; results are not stored by the application.",
     },
     {
       label: "Availability",

@@ -87,11 +87,11 @@ const SUPPORTED_PROTOCOL_VERSIONS = new Set([
 
 /** What every client is told at handshake time. */
 const INSTRUCTIONS = [
-  "Superflow's free website tools, published with no account and no API key.",
+  "Superflow's free website and scheduling tools, published with no account and no API key.",
   "",
-  "Each tool takes a URL and answers about that one page or site: whether AI assistants can read it, how it renders when shared, what it is built with, what its structured data says, what its images should say.",
+  "Website checks take a URL and answer about that page or site: whether AI assistants can read it, how it renders when shared, what it is built with, what its structured data says, what its images should say. find_meeting_times takes cities or countries and a date to find shared working hours and convert meeting times. build_utm_url builds campaign links; hash_md5 hashes text.",
   "",
-  "They are rate limited to 10 runs per hour per IP (60 for detect_tech_stack) and results are cached for 24 hours, so re-asking about a URL you already checked is free. Nothing you send is stored beyond that cache.",
+  "Website checks are rate limited to 10 runs per hour per IP (60 for detect_tech_stack) and results are cached for 24 hours, so re-asking about a URL you already checked is free. find_meeting_times, build_utm_url, and hash_md5 run locally on the server with bounded inputs, no application rate limit, and no result storage. Each tool describes its own limits.",
   "",
   'The engines fetch, render, and crawl real pages, so a run can take a couple of minutes. A tool that is still running answers with `{ status: "pending", runId }` rather than a result: that is a healthy run, not an error. Call the same tool again with just that `runId` to collect it, as many times as it takes. Collecting costs no rate-limit slot; starting over does.',
 ].join("\n");
@@ -146,7 +146,9 @@ function fail(id: JsonRpcId, code: number, message: string): JsonRpcResponse {
 export function coerceArguments(
   schema: ToolInputSchema,
   raw: unknown,
-): { ok: true; args: Record<string, unknown> } | { ok: false; message: string } {
+):
+  | { ok: true; args: Record<string, unknown> }
+  | { ok: false; message: string } {
   try {
     const input =
       typeof raw === "object" && raw !== null && !Array.isArray(raw)
@@ -157,6 +159,27 @@ export function coerceArguments(
     for (const [key, property] of Object.entries(schema.properties)) {
       const value = input[key];
       if (value === undefined || value === null || value === "") continue;
+
+      if (property.type === "array") {
+        if (
+          !Array.isArray(value) ||
+          value.length < property.minItems ||
+          value.length > property.maxItems ||
+          !value.every(
+            (item) =>
+              typeof item === "string" &&
+              (!property.items.maxLength ||
+                item.length <= property.items.maxLength),
+          )
+        ) {
+          return {
+            ok: false,
+            message: `\`${key}\` must be an array of ${property.minItems} to ${property.maxItems} strings${property.items.maxLength ? `, up to ${property.items.maxLength} characters each` : ""}.`,
+          };
+        }
+        args[key] = value;
+        continue;
+      }
 
       if (property.type === "string") {
         if (typeof value !== "string") {
@@ -192,9 +215,11 @@ export function coerceArguments(
 
     for (const key of schema.required ?? []) {
       if (args[key] === undefined) {
+        const example =
+          schema.properties[key]?.type === "array" ? '["..."]' : '"..."';
         return {
           ok: false,
-          message: `\`${key}\` is required. Send it as: {"${key}": "..."}.`,
+          message: `\`${key}\` is required. Send it as: {"${key}": ${example}}.`,
         };
       }
     }
@@ -365,7 +390,9 @@ async function handleToolCall({
   return {
     result: {
       content: [{ type: "text", text: resultText(entry, payload) }],
-      ...(typeof payload === "object" && payload !== null && !Array.isArray(payload)
+      ...(typeof payload === "object" &&
+      payload !== null &&
+      !Array.isArray(payload)
         ? { structuredContent: payload as Record<string, unknown> }
         : {}),
       isError: failed,
@@ -465,7 +492,11 @@ export async function handleMcpMessage({
         // Including resources/* and prompts/*: this server advertises neither
         // capability, so method-not-found is the correct answer rather than an
         // empty list that implies the capability exists.
-        return fail(id, JSONRPC.methodNotFound, `Unknown method \`${method}\`.`);
+        return fail(
+          id,
+          JSONRPC.methodNotFound,
+          `Unknown method \`${method}\`.`,
+        );
     }
   } catch {
     return fail(

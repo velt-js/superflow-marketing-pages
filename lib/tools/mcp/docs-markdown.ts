@@ -38,7 +38,7 @@ export function mcpDocsToMarkdown(): string {
 
     lines.push("# Superflow free tools: MCP server and HTTP API", "");
     lines.push(
-      `> ${tools.length} free website tools, available as MCP tools and as plain HTTP endpoints. No account, no API key, no OAuth.`,
+      `> ${tools.length} free website and scheduling tools, available as MCP tools and as plain HTTP endpoints. No account, no API key, no OAuth.`,
       "",
     );
     lines.push(
@@ -96,11 +96,12 @@ export function mcpDocsToMarkdown(): string {
     }
 
     lines.push("## Limits and privacy", "");
+    lines.push("- Meeting planning, UTM building, and MD5 hashing compute on the server with bounded inputs, no application rate limit, and no result storage.");
     lines.push(
       "- Rate limits are per IP, per hour, and stated per tool above. A cached result does not spend a slot.",
     );
     lines.push(
-      "- Results are cached for 24 hours keyed on the URL. Send `\"refresh\": true` to run again.",
+      "- Website check results are cached for 24 hours keyed on the URL. Send `\"refresh\": true` to run again.",
     );
     lines.push(
       "- Failures are always JSON: either `{ ok: false, code, message }` with a 4xx, or HTTP 200 with an `error` and `errorCode`. Never a stack trace, never an empty 500.",
@@ -109,7 +110,7 @@ export function mcpDocsToMarkdown(): string {
       "- Nothing is stored beyond that cache. There is no account and no history. Screenshots are held in a bucket behind a link that expires in about 24 hours.",
     );
     lines.push(
-      "- Only public URLs are accepted. Private networks, localhost, and non-http(s) schemes are refused with `invalid-url`.",
+      "- For URL-based website checks, only public URLs are accepted. Private networks, localhost, and non-http(s) schemes are refused with `invalid-url`.",
       "",
     );
 
