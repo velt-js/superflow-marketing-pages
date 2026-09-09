@@ -26,6 +26,7 @@ const STRIDE = SELECTION_STEP / STEP;
 
 type Selection = { selected: number; duration: number };
 type Props = {
+  now: number | null;
   revealSelection: number;
   day: ReturnType<typeof buildDay>;
   people: Participant[];
@@ -37,6 +38,7 @@ type Props = {
 };
 
 export function MeetingTimeline({
+  now,
   revealSelection,
   day,
   people,
@@ -93,12 +95,17 @@ export function MeetingTimeline({
             .slice(i * STRIDE, (i + 1) * STRIDE)
             .every(Boolean);
           const minute = localParts(t, person.zone).minute;
-          const daytime = minute >= 6 * 60 && minute < 18 * 60;
+          const period =
+            minute < 8 * 60
+              ? "overnight"
+              : minute < 18 * 60
+                ? "day"
+                : "evening";
           return {
-            daytime,
+            period,
             clock: clock(t, person.zone),
             working,
-            title: `${time} · ${daytime ? "Day" : "Night"} · ${working ? "Working hours" : "Off hours"}`,
+            title: `${time} · ${period === "overnight" ? "Sleep hours — avoid meetings" : period === "day" ? "Day" : "Evening"} · ${working ? "Working hours" : "Off hours"}`,
             aria: `${person.name}, ${dateLabel(t, person.zone)} ${time}, ${zoneLabel(t, person.zone)}, ${working ? "working hours" : "off hours"}`,
           };
         }),
@@ -341,7 +348,8 @@ export function MeetingTimeline({
                 <button
                   key={t}
                   data-index={i}
-                  data-period={labels[row][i].daytime ? "day" : "night"}
+                  data-period={labels[row][i].period}
+                  data-past={now !== null && t + SELECTION_STEP * MINUTE <= now}
                   data-working={labels[row][i].working}
                   data-shared={day.shared
                     .slice(i * STRIDE, (i + 1) * STRIDE)
@@ -350,8 +358,8 @@ export function MeetingTimeline({
                     t >= selected && t < selected + duration * MINUTE
                   }
                   className={styles.cell}
-                  aria-label={labels[row][i].aria}
-                  title={labels[row][i].title}
+                  aria-label={`${labels[row][i].aria}${labels[row][i].period === "overnight" ? ", sleep hours — avoid meetings" : ""}${now !== null && t + SELECTION_STEP * MINUTE <= now ? ", past time" : ""}`}
+                  title={`${labels[row][i].title}${now !== null && t + SELECTION_STEP * MINUTE <= now ? " · Past time" : ""}`}
                   aria-pressed={i === selectedIndex}
                   tabIndex={i === selectedIndex ? 0 : -1}
                   onClick={() => {
@@ -477,13 +485,10 @@ export function MeetingTimeline({
                         : undefined,
                     }}
                   >
-                    {localParts(selected, person.zone).date !==
-                      localParts(selected, base.zone).date && (
-                      <small>
-                        {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
-                        ·{" "}
-                      </small>
-                    )}
+                    <small>
+                      {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
+                      ·{" "}
+                    </small>
                     {clock(selected, person.zone)} – {clock(end, person.zone)}
                     {localParts(selected, person.zone).date !==
                       localParts(end, person.zone).date && (

@@ -10,7 +10,8 @@ import {
 import {
   addDays,
   buildDay,
-  calendarFile,
+  calendarDateLabel,
+  currentMeetingSelection,
   dateLabel,
   DEFAULT_PEOPLE,
   hourValue,
@@ -166,9 +167,8 @@ export function MeetingPlanner() {
         shared ?? {
           version: 1,
           people,
-          date: localParts(Date.now(), people[0].zone).date,
+          ...currentMeetingSelection(Date.now(), people[0].zone),
           duration: 30,
-          selected: null,
           hour12: saved?.hour12 ?? true,
         },
       );
@@ -317,6 +317,20 @@ export function MeetingPlanner() {
   ]
     .filter(Boolean)
     .join(" ");
+  const showingSuggestion = suggestion === selected && state.duration === 30;
+  const compactTime = (instant: number) =>
+    timeLabel(instant, base.zone, state.hour12)
+      .replace(/:00(?= )/, "")
+      .replace(" AM", "am")
+      .replace(" PM", "pm");
+  const bannerText = showingSuggestion
+    ? `${selectedFits ? "Suggested" : "Compromise"}: ${compactTime(selected)} – ${compactTime(selected + 30 * MINUTE)} · ${base.name}`
+    : state.people.length === 1
+      ? "Add another city to compare times"
+      : day.overlapMinutes > 0
+        ? `${overlapText} within everyone’s work hours`
+        : "No shared work hours. Try a suggested compromise.";
+  const bannerFits = showingSuggestion ? selectedFits : day.overlapMinutes > 0;
   const patch = (value: Partial<PlannerState>) =>
     setState((current) => (current ? { ...current, ...value } : current));
   const patchPerson = (id: string, value: Partial<Participant>) =>
@@ -350,7 +364,7 @@ export function MeetingPlanner() {
         ...state.people,
         { ...asPlace(result), start: 540, end: 1080, days: [1, 2, 3, 4, 5] },
       ],
-      selected: null,
+      selected,
     });
     setQuery("");
     setSearchOpen(false);
@@ -567,24 +581,20 @@ export function MeetingPlanner() {
       </div>
 
       <div
-        className={`${styles.overlapBanner} ${day.overlapMinutes === 0 ? styles.noOverlap : ""}`}
+        className={`${styles.overlapBanner} ${!bannerFits ? styles.noOverlap : ""}`}
+        data-meeting-suggestion
         role="status"
       >
         <span className={styles.overlapIcon}>
-          <Icon name={day.overlapMinutes > 0 ? "check" : "clock"} />
+          <Icon name={bannerFits ? "check" : "clock"} />
         </span>
         <div>
-          <strong>
-            {state.people.length === 1
-              ? "Add another city to compare times"
-              : day.overlapMinutes > 0
-                ? `${overlapText} within everyone’s work hours`
-                : "No shared work hours. Try a suggested compromise."}
-          </strong>
+          <strong title={bannerText}>{bannerText}</strong>
         </div>
         <button
           className={styles.suggestButton}
           disabled={!suggestions.length}
+          title="Click again to see another suggested time"
           onClick={() => {
             const index =
               suggestion === selected ? suggestions.indexOf(selected) : -1;
@@ -597,14 +607,6 @@ export function MeetingPlanner() {
           Suggest a time
         </button>
       </div>
-
-      {suggestion === selected && !selectedFits && (
-        <p className={styles.compromiseNote} role="status">
-          Closest compromise: {outside.map((person) => person.name).join(", ")}{" "}
-          would meet outside work hours. Click “Suggest a time” again for
-          another option.
-        </p>
-      )}
 
       <div className={styles.controls}>
         <div className={styles.dateControls}>
@@ -619,11 +621,23 @@ export function MeetingPlanner() {
           </button>
           <label className={styles.dateField}>
             <span className={styles.srOnly}>Meeting date</span>
+            <span className={styles.dateDisplay} aria-hidden="true">
+              <span data-selected-date>{calendarDateLabel(state.date)}</span>
+              <Icon name="calendar" />
+            </span>
             <input
               type="date"
+              aria-label="Meeting date"
               value={state.date}
               min="2000-01-01"
               max="2099-12-31"
+              onClick={(e) => {
+                try {
+                  e.currentTarget.showPicker?.();
+                } catch {
+                  /* Native input remains usable. */
+                }
+              }}
               onChange={(e) => changeDate(e.target.value)}
               onBlur={(e) => {
                 if (e.currentTarget.value !== state.date)
@@ -639,10 +653,18 @@ export function MeetingPlanner() {
             <Icon name="arrow" />
           </button>
           <button
-            className={styles.textButton}
-            onClick={() => changeDate(localParts(Date.now(), base.zone).date)}
+            className={`${styles.textButton} ${styles.todayButton}`}
+            onClick={() => {
+              patch({
+                ...currentMeetingSelection(Date.now(), base.zone),
+                duration: 30,
+              });
+              setRevealSelection((value) => value + 1);
+            }}
           >
-            Today
+            {now !== null && state.date === localParts(now, base.zone).date
+              ? "Today"
+              : "Back to today"}
           </button>
         </div>
         <details className={styles.viewOptions}>
@@ -698,21 +720,30 @@ export function MeetingPlanner() {
           to change its length.
         </p>
         <div className={styles.periodLegend}>
-          <span title="6am–6pm in each city">
+          <span title="8am–6pm in each city">
             <i className={styles.daySwatch} />
             Day
           </span>
-          <span title="6pm–6am in each city">
-            <i className={styles.nightSwatch} />
-            Night
+          <span title="6pm–midnight in each city">
+            <i className={styles.eveningSwatch} />
+            Evening
+          </span>
+          <span title="Midnight–8am in each city — avoid meetings">
+            <i className={styles.sleepSwatch} />
+            Sleep hours
           </span>
           <span>
             <i className={styles.sharedSwatch} />
             Everyone’s work hours
           </span>
+          <span title="Time slots that have already ended">
+            <i className={styles.pastSwatch} />
+            Past
+          </span>
         </div>
       </div>
       <MeetingTimeline
+        now={now}
         revealSelection={revealSelection}
         day={day}
         people={state.people}
@@ -888,39 +919,6 @@ export function MeetingPlanner() {
               <Icon name="copy" />
               Copy meeting times
             </button>
-            <details className={styles.shareOptions}>
-              <summary>More ways to share</summary>
-              <div>
-                <button
-                  className={styles.button}
-                  onClick={() => {
-                    const blob = new Blob(
-                      [
-                        calendarFile(
-                          state.people,
-                          selected,
-                          state.duration,
-                          state.hour12,
-                        ),
-                      ],
-                      { type: "text/calendar;charset=utf-8" },
-                    );
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "customer-meeting.ics";
-                    a.click();
-                    setTimeout(() => URL.revokeObjectURL(url), 1000);
-                    setNotice(
-                      "Calendar file downloaded. Open it to add the meeting to your calendar.",
-                    );
-                  }}
-                >
-                  <Icon name="calendar" />
-                  Download calendar event
-                </button>
-              </div>
-            </details>
           </div>
         </section>
       ) : (
