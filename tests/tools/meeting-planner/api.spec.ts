@@ -23,7 +23,7 @@ test("API engine resolves cities, returns full-duration overlap and a valid brow
   expect(result.totalAvailableStarts).toBe(3);
   expect(result.slots[0].startUtc).toBe("2026-09-09T16:00:00.000Z");
   expect(result.slots[0].copyText).toBe(
-    "San Francisco: Sep 9 9a - 9:30a pt\nNew York City: Sep 9 12p - 12:30p et\nLondon: Sep 9 5p - 5:30p bst",
+    "San Francisco: Sep 9, 9a - 9:30a PT\nNew York City: Sep 9, 12p - 12:30p ET\nLondon: Sep 9, 5p - 5:30p BST",
   );
   const plan = parseState(
     decodeURIComponent(new URL(result.planUrl).hash.slice(6)),

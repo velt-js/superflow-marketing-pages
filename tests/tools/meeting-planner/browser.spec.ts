@@ -79,9 +79,9 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
   const summary = await page.evaluate(() => navigator.clipboard.readText());
   expect(summary).toBe(
     [
-      "San Francisco: Sep 9 9:15a - 9:45a pt",
-      "New York City: Sep 9 12:15p - 12:45p et",
-      "London: Sep 9 5:15p - 5:45p bst",
+      "San Francisco: Sep 9, 9:15a - 9:45a PT",
+      "New York City: Sep 9, 12:15p - 12:45p ET",
+      "London: Sep 9, 5:15p - 5:45p BST",
     ].join("\n"),
   );
   const download = page.waitForEvent("download");
