@@ -1,4 +1,4 @@
-# Meeting planner
+# Time Zone Converter & Meeting Planner
 
 Route: `/tools/meeting-planner`. The free-tools registry also exposes it in the directory, footer, sitemap, and Markdown index.
 
@@ -36,3 +36,11 @@ python3 scripts/meeting-planner/build-locations.py /path/to/downloads
 Commit the generated catalog. The catalog currently includes over 34,000 cities; smaller places may require a nearby city. GeoNames data is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), attributed in both the data file and the visible tool. Time-zone rule updates come from the browser/OS, not fixed offsets in this catalog. Unsupported newly introduced zones fail gracefully and suggest updating the browser.
 
 Timeline cells have no visible numeric labels; the top scale identifies the chosen location. Pointer capture and animation-frame batching allow click-and-drag ranges (15 minutes to 24 hours), with arrow-key movement and Shift + arrows to resize. Formatting and availability are cached independently of selection, storage writes are debounced, and dragging does not recenter the viewport.
+
+## Public API and MCP
+
+The same engine is exposed at `POST /api/tools/meeting-planner` and as `find_meeting_times` on `/api/mcp`. The catalog in `lib/tools/api-catalog.ts` publishes the schema and examples to the page, `/tools/mcp`, and their Markdown copies.
+
+Required arguments are `locations` (1–8 city/country strings or returned location IDs) and `date` (YYYY-MM-DD in the first location's zone). Optional arguments: `durationMinutes` (default 30), `workStart`/`workEnd` (09:00–18:00 in each location), `workDays` (1,2,3,4,5, with Sunday=0), and `limit` (10, maximum 20). Ambiguous cities or multi-zone countries return HTTP 400 with choices and IDs to retry. No arbitrary timezone strings or offsets are accepted as location IDs.
+
+Results include resolved locations, shared windows clipped to the first location's date, earliest fitting starts, UTC/local timestamps and readable copy, plus a browser plan link. Meetings may end after that date's midnight. All locations use the supplied working schedule; the linked browser plan permits individual edits. No calendar is consulted or booked. Input is capped at 16 KB and no result is cached or stored by the application.

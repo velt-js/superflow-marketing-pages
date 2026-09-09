@@ -12,9 +12,9 @@ const state = {
 };
 const url = `${path}#plan=${encodeURIComponent(JSON.stringify(state))}`;
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ context }) => {
   // Product-owned resources stay real; unrelated analytics are outside this test.
-  await page.route(
+  await context.route(
     /(googletagmanager|google-analytics|amplitude|claydar|intercom|termly|rewardful)/,
     (route) => route.abort(),
   );
@@ -93,7 +93,7 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
   const share = await page.evaluate(() => navigator.clipboard.readText());
   expect(share).toContain("#plan=");
   const other = await context.newPage();
-  await other.goto(share);
+  await other.goto(share, { waitUntil: "domcontentloaded" });
   await expect(
     other.getByRole("heading", { name: "09:15 – 09:45" }),
   ).toBeVisible();
