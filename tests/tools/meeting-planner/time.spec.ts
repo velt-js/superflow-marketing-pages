@@ -174,14 +174,14 @@ test("copied ranges retain minutes, midnight dates, and years across the date li
         DEFAULT_PEOPLE[1],
         DEFAULT_PEOPLE[2],
       ],
-      utc("2026-09-09T17:00:00Z"),
+      utc("2026-09-09T16:00:00Z"),
       300,
     ),
   ).toBe(
     [
-      "San Diego: Sep 9 10a - 3p pt",
-      "New York City: Sep 9 1p - 6p et",
-      "London: Sep 9 6p - 11p bst",
+      "San Diego: Sep 9, 9a - 2p PT",
+      "New York City: Sep 9, 12p - 5p ET",
+      "London: Sep 9, 5p - 10p BST",
     ].join("\n"),
   );
   expect(
@@ -190,23 +190,23 @@ test("copied ranges retain minutes, midnight dates, and years across the date li
       utc("2027-01-01T07:45:00Z"),
       30,
     ),
-  ).toBe("San Diego: Dec 31 2026 11:45p - Jan 1 2027 12:15a pt");
+  ).toBe("San Diego: Dec 31 2026, 11:45p - Jan 1 2027, 12:15a PT");
   expect(
     meetingCopyText(
       [person("Asia/Kolkata", { name: "Bengaluru", countryCode: "IN" })],
       utc("2026-09-09T18:15:00Z"),
       30,
     ),
-  ).toBe("Bengaluru: Sep 9 11:45p - Sep 10 12:15a ist");
+  ).toBe("Bengaluru: Sep 9, 11:45p - Sep 10, 12:15a IST");
 });
 
 test("copied ranges distinguish repeated hours and season-specific zone names", () => {
   expect(
     meetingCopyText([DEFAULT_PEOPLE[0]], utc("2026-11-01T08:30:00Z"), 60),
-  ).toBe("San Francisco: Nov 1 1:30a pdt - 1:30a pst");
+  ).toBe("San Francisco: Nov 1, 1:30a PDT - 1:30a PST");
   expect(
     meetingCopyText([DEFAULT_PEOPLE[2]], utc("2026-12-09T12:00:00Z"), 30),
-  ).toBe("London: Dec 9 12p - 12:30p gmt");
+  ).toBe("London: Dec 9, 12p - 12:30p GMT");
 });
 
 test("country searches offer all regions and city aliases find actual places", () => {

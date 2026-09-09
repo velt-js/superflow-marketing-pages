@@ -313,12 +313,12 @@ function copyZoneLabel(instant: number, person: Participant, specific = false) {
   const generic = name("shortGeneric");
   // CLDR supplies familiar generic names such as PT/ET without hardcoded offsets.
   if (!specific && generic && /^[A-Z]{2,5}$/.test(generic))
-    return generic.toLowerCase();
+    return generic;
   const locale = /^[A-Z]{2}$/.test(person.countryCode)
     ? `en-${person.countryCode}`
     : "en-US";
   const short = name("short", locale);
-  if (short && /^[A-Z]{2,5}$/.test(short)) return short.toLowerCase();
+  if (short && /^[A-Z]{2,5}$/.test(short)) return short;
   // Where English has no short abbreviation, keep a readable name, e.g. Japan time.
   return (
     specific
@@ -356,8 +356,8 @@ export function meetingCopyText(
           .filter((part) => ["month", "day", "year"].includes(part.type))
           .map((part) => part.value)
           .join(" ");
-      const startTime = `${date(instant)} ${clock(startParts.minute)}`;
-      const endTime = `${startParts.date !== endParts.date ? `${date(end)} ` : ""}${clock(endParts.minute)}`;
+      const startTime = `${date(instant)}, ${clock(startParts.minute)}`;
+      const endTime = `${startParts.date !== endParts.date ? `${date(end)}, ` : ""}${clock(endParts.minute)}`;
       // A repeated clock hour is ambiguous without both standard/daylight labels.
       if (zoneLabel(instant, person.zone) !== zoneLabel(end, person.zone)) {
         return `${person.name}: ${startTime} ${copyZoneLabel(instant, person, true)} - ${endTime} ${copyZoneLabel(end, person, true)}`;

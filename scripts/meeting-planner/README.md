@@ -8,7 +8,7 @@ The planner runs in the browser without an API key. It detects the device time z
 
 The versioned plan in localStorage is validated before use. Normal visits restore saved locations and hours on today's date; shared URL fragments restore the exact date and selection. Clipboard failure exposes selectable text. Calendar downloads use UTC timestamps, unique event IDs, escaping, and UTF-8 line folding.
 
-Copied meeting times use one readable line per city, e.g. `San Diego: Sep 9 10a - 3p pt`, independently of the timeline's 12/24-hour display. Minutes, overnight dates, year changes, and standard/daylight labels across clock changes remain explicit. English time-zone names come from Intl/CLDR; calendar event descriptions retain the detailed format.
+Copied meeting times use one readable line per city, e.g. `San Diego: Sep 9, 9a - 2p PT`, independently of the timeline's 12/24-hour display. Minutes, overnight dates, year changes, and standard/daylight labels across clock changes remain explicit. English time-zone names come from Intl/CLDR; calendar event descriptions retain the detailed format.
 
 ## Validation
 
