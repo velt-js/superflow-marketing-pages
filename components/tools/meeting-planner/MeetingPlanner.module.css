@@ -585,6 +585,11 @@
   color: #727582;
   border-radius: 0;
 }
+.cell:has(.cellTime) {
+  /* Hour labels span two half-hour tiles. Raise their parent above the next
+     tile, including the stacking context created by fading past times. */
+  z-index: 1;
+}
 .cell[data-period="day"] {
   background: #e7f1ff;
   color: #526c89;
@@ -618,11 +623,9 @@
 }
 .cell:hover {
   box-shadow: inset 0 0 0 2px #746bf5;
-  z-index: 2;
 }
 .cell:focus-visible {
   outline-offset: 0 !important;
-  z-index: 2;
 }
 .cell[aria-pressed="true"]:focus-visible {
   /* The selected range already identifies the keyboard target. Avoid drawing

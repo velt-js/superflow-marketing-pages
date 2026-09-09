@@ -715,6 +715,57 @@ test("Share plan is prominent and sleep hours have a distinct local color", asyn
   );
 });
 
+test("hour labels remain above adjacent half-hour tiles, including past time and hover", async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date("2026-09-09T15:59:00Z"));
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(url);
+    const rows = page
+      .getByRole("region", { name: /Time comparison/ })
+      .getByRole("group");
+    await expect(rows).toHaveCount(3);
+    for (const row of await rows.all()) {
+      const cell = row.locator('[data-index="16"]');
+      const next = row.locator('[data-index="17"]');
+      await expect(cell).toHaveAttribute("data-past", "true");
+      await expect(next).toHaveAttribute("data-past", "false");
+      await cell.scrollIntoViewIfNeeded();
+      for (const hovered of [false, true]) {
+        if (hovered) {
+          const box = (await next.boundingBox())!;
+          await page.mouse.move(box.x + box.width - 3, box.y + 3);
+        } else {
+          await page.mouse.move(0, 0);
+        }
+        // Probe the text's paint order across the tile boundary. Geometry alone
+        // passes even when the next tile's background covers half of the label.
+        const paint = await cell.evaluate((button) => {
+          const label = button.querySelector<HTMLElement>("span")!;
+          const text = [...label.childNodes].find(
+            (node) => node.nodeType === Node.TEXT_NODE,
+          )!;
+          const range = document.createRange();
+          range.selectNodeContents(text);
+          const bounds = range.getBoundingClientRect();
+          const x = bounds.right - 2;
+          const y = bounds.y + bounds.height / 2;
+          const original = label.style.pointerEvents;
+          label.style.pointerEvents = "auto";
+          const hit = document.elementFromPoint(x, y);
+          label.style.pointerEvents = original;
+          return {
+            extendsIntoNextTile: x > button.getBoundingClientRect().right,
+            visible: hit === label || (hit !== null && label.contains(hit)),
+          };
+        });
+        expect(paint).toEqual({ extendsIntoNextTile: true, visible: true });
+      }
+    }
+  }
+});
+
 test("elapsed slots fade together across zones and update without moving the selection", async ({
   page,
 }) => {
