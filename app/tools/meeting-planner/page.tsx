@@ -7,6 +7,7 @@ import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
 import { buildToolAppSchema } from "@/app/_seo/tool-schema";
 import { MEETING_PLANNER_CONTENT as content } from "@/lib/tools/content/meeting-planner";
+import styles from "@/components/tools/meeting-planner/MeetingPlanner.module.css";
 
 const path = "/tools/meeting-planner";
 export const metadata = buildPageMetadata({
@@ -18,7 +19,7 @@ export const metadata = buildPageMetadata({
 
 export default function MeetingPlannerPage() {
   return (
-    <>
+    <div className={styles.mobilePage}>
       <PageJsonLd
         name={content.title}
         description={content.description}
@@ -88,6 +89,6 @@ export default function MeetingPlannerPage() {
       >
         <MeetingPlanner />
       </ToolPage>
-    </>
+    </div>
   );
 }

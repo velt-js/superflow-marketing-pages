@@ -18,7 +18,7 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     },
     {
       title: "Copy and send",
-      body: "Click Copy meeting times and paste them into a chat or email. Share plan at the top copies a link to your exact plan. More ways to share includes a calendar download.",
+      body: "Click Copy meeting times and paste them into a chat or email. Share plan at the top copies a link to your exact plan.",
     },
   ],
   faq: [
@@ -70,7 +70,7 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     {
       question: "Is it free, and can I share the result?",
       answer:
-        "It is free with no account, email, or API key required. Up to eight locations and their working hours are saved in your browser. A shared link includes the date, meeting duration, selected time, and location settings. Copying or downloading an event does not send invitations or book anyone’s calendar.",
+        "It is free with no account, email, or API key required. Up to eight locations and their working hours are saved in your browser. A shared link includes the date, meeting duration, selected time, and location settings. Copying meeting times or sharing a plan does not send invitations or book anyone’s calendar.",
     },
   ],
   facts: [
