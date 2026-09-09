@@ -212,12 +212,12 @@ test("half-hour dragging stays smooth and labels the local range on every city r
     exact: true,
   });
   await expect(row.getByRole("button")).toHaveCount(48);
-  await expect(row.locator('[data-index="18"]')).toHaveText("09:00");
+  await expect(row.locator('[data-index="16"]')).toHaveText("08:00");
   await expect(
     page
       .getByRole("group", { name: "London timeline", exact: true })
-      .locator('[data-index="18"]'),
-  ).toHaveText("17:00");
+      .locator('[data-index="16"]'),
+  ).toHaveText("16:00");
   await expect(
     page.getByLabel("Current time in San Francisco", { exact: true }),
   ).toContainText("now");
