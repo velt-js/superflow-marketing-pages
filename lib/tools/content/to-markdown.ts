@@ -75,8 +75,13 @@ export function toolToMarkdown(content: ToolContent): string {
         `**MCP:** this tool is \`${api.mcpTool}\` on Superflow's MCP server at \`${SITE_URL}${MCP_PATH}\` (Streamable HTTP, no authentication). Setup for every client: ${SITE_URL}/tools/mcp`,
         "",
       );
+      // Only advertise cache bypass when the published schema supports it.
+      // The planner, UTM builder, and MD5 API do not cache their results.
+      const cacheNote = api.inputSchema.properties.refresh
+        ? ' Results are cached for 24 hours per URL; pass `"refresh": true` to run again.'
+        : "";
       lines.push(
-        `Limits: ${api.rateLimit}${api.rateLimit.endsWith(".") ? "" : "."} Allow up to ${api.timeoutSeconds} seconds for a response. Results are cached for 24 hours per URL; pass \`"refresh": true\` to run again.`,
+        `Limits: ${api.rateLimit}${api.rateLimit.endsWith(".") ? "" : "."} Allow up to ${api.timeoutSeconds} seconds for a response.${cacheNote}`,
         "",
       );
     }

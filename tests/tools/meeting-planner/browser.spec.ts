@@ -242,71 +242,69 @@ test("dragging selects a range without scroll jumps or numeric tile labels", asy
   expect(await viewport.evaluate((el) => el.scrollLeft)).toBeCloseTo(scroll, 0);
 });
 
-test("a new visitor gets their device zone and an approximate city without a permission prompt", async ({
-  browser,
-}) => {
-  const context = await browser.newContext({
-    baseURL: test.info().project.use.baseURL,
-    timezoneId: "Asia/Kolkata",
+test.describe("India device time zone", () => {
+  // Use the fixture context so the shared analytics routing applies here too.
+  test.use({ timezoneId: "Asia/Kolkata" });
+
+  test("a new visitor gets their device zone and an approximate city without a permission prompt", async ({
+    page,
+  }) => {
+    await page.route("**/api/tools/meeting-planner/location", (route) =>
+      route.fulfill({
+        json: { city: "Mumbai", countryCode: "IN", zone: "Asia/Kolkata" },
+      }),
+    );
+    await page.goto(path, { waitUntil: "domcontentloaded" });
+    await expect(
+      page.getByRole("button", { name: "Remove Mumbai", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Approximate location", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("combobox", { name: "Show times in" })
+        .locator("option:checked"),
+    ).toHaveText("Mumbai");
   });
-  const page = await context.newPage();
-  await page.route("**/api/tools/meeting-planner/location", (route) =>
-    route.fulfill({
-      json: { city: "Mumbai", countryCode: "IN", zone: "Asia/Kolkata" },
-    }),
-  );
-  await page.goto(path);
-  await expect(
-    page.getByRole("button", { name: "Remove Mumbai", exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.getByText("Approximate location", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    page
-      .getByRole("combobox", { name: "Show times in" })
-      .locator("option:checked"),
-  ).toHaveText("Mumbai");
-  await context.close();
 });
 
-test("location detection falls back to device time and preserves shared plans", async ({
-  browser,
-}) => {
-  const context = await browser.newContext({
-    baseURL: test.info().project.use.baseURL,
-    timezoneId: "Asia/Kathmandu",
+test.describe("Nepal device time zone", () => {
+  // Use the fixture context so the shared analytics routing applies here too.
+  test.use({ timezoneId: "Asia/Kathmandu" });
+
+  test("location detection falls back to device time and preserves shared plans", async ({
+    page,
+  }) => {
+    await page.route("**/api/tools/meeting-planner/location", (route) =>
+      route.fulfill({ status: 503, body: "Unavailable" }),
+    );
+    await page.goto(path, { waitUntil: "domcontentloaded" });
+    await expect(
+      page.getByRole("button", { name: "Remove Your location", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Auto-detected time zone", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("combobox", { name: "Show times in" })
+        .locator("option:checked"),
+    ).toHaveText("Your location");
+    await page.goto(url, { waitUntil: "domcontentloaded" });
+    await expect(
+      page.getByRole("combobox", { name: "Show times in" }),
+    ).toHaveValue("5391959");
+    await expect(
+      page.getByRole("button", { name: "Remove Your location", exact: true }),
+    ).toHaveCount(0);
+    await page
+      .getByRole("button", { name: "Use my location", exact: true })
+      .click();
+    await expect(
+      page
+        .getByRole("combobox", { name: "Show times in" })
+        .locator("option:checked"),
+    ).toHaveText("Your location");
   });
-  const page = await context.newPage();
-  await page.route("**/api/tools/meeting-planner/location", (route) =>
-    route.fulfill({ status: 503, body: "Unavailable" }),
-  );
-  await page.goto(path);
-  await expect(
-    page.getByRole("button", { name: "Remove Your location", exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.getByText("Auto-detected time zone", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    page
-      .getByRole("combobox", { name: "Show times in" })
-      .locator("option:checked"),
-  ).toHaveText("Your location");
-  await page.goto(url);
-  await expect(
-    page.getByRole("combobox", { name: "Show times in" }),
-  ).toHaveValue("5391959");
-  await expect(
-    page.getByRole("button", { name: "Remove Your location", exact: true }),
-  ).toHaveCount(0);
-  await page
-    .getByRole("button", { name: "Use my location", exact: true })
-    .click();
-  await expect(
-    page
-      .getByRole("combobox", { name: "Show times in" })
-      .locator("option:checked"),
-  ).toHaveText("Your location");
-  await context.close();
 });
