@@ -135,23 +135,9 @@ export async function invalidateCache(key: string): Promise<void> {
   await kvDelete(key);
 }
 
-/**
- * Formats a cache age as the UI phrase. Plain words, no em dashes.
- *
- * @param ageSeconds - Seconds since the result was produced.
- */
-export function formatCacheAge(ageSeconds: number): string {
-  try {
-    if (ageSeconds < 60) return "just now";
-    const minutes = Math.floor(ageSeconds / 60);
-    if (minutes < 60) {
-      return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-    }
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-    const days = Math.floor(hours / 24);
-    return `${days} ${days === 1 ? "day" : "days"} ago`;
-  } catch {
-    return "recently";
-  }
-}
+// `formatCacheAge` used to live here, next to the cache it describes. It now
+// lives in `./cache-age`, because this module is server-only: `./kv` talks to
+// Upstash and `./url` imports `node:dns` for the SSRF guard. The report view
+// that renders "Checked 3 hours ago" is a client component, so importing the
+// formatter from here pulled `node:dns` into the browser bundle and 500'd the
+// page. Import it from `./cache-age` instead - server and client alike.

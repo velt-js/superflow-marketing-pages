@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const assetPills = [
   { label: "Websites", icon: "/images/hero/icon-world.svg", href: "/" },
@@ -75,13 +76,13 @@ export default function Hero() {
           </p>
 
           <div className="flex items-center gap-[17px]">
-            <a
+            <Link
               href="/demo"
               className="flex items-center justify-center rounded-[32px] bg-white/[0.08] px-6 py-3 text-white transition-colors hover:bg-white/[0.14]"
               style={{ fontFamily: "var(--font-poppins)", fontSize: 18, fontWeight: 500, lineHeight: "1.5em" }}
             >
               Try Demo
-            </a>
+            </Link>
             <a
               href="https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU."
               rel="noopener"

@@ -6,7 +6,7 @@ import { FindingCard } from "./FindingCard";
 import { CopyButton } from "./CopyButton";
 import { colorForScore, STATUS_ORDER, verdictFor } from "./status";
 import { CtaLink } from "@/components/tools/CtaLink";
-import { formatCacheAge } from "@/lib/toolkit/cache";
+import { formatCacheAge } from "@/lib/toolkit/cache-age";
 import {
   gradeFor,
   type CategoryId,

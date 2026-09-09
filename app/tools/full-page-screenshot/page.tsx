@@ -93,7 +93,7 @@ export default function FullPageScreenshotPage() {
               This tool has none of those. You paste a URL and you get a PNG.
               The one thing it does ask of you is attention to a single fact:
               the link to that image expires in about a day, because the file
-              lives in our storage bucket and we do not keep strangers' page
+              lives in our storage bucket and we do not keep strangers&apos; page
               captures forever. Download the file and it is yours. Leave the
               link in a document and it will be dead by next week. We say that
               next to the download button rather than in a footnote, because a
@@ -119,7 +119,7 @@ export default function FullPageScreenshotPage() {
               quiet, then capture the full height in one pass. That is why this
               takes a few seconds rather than being instant, and it is the
               difference between a screenshot of a page and a screenshot of a
-              page's loading state.
+              page&apos;s loading state.
             </p>
             <h3>What people actually use these for</h3>
             <p>
@@ -128,7 +128,7 @@ export default function FullPageScreenshotPage() {
               through it. Then there is the archive case: proving what a page
               said on a given day, before a price changed or a claim was
               edited. Competitive research runs on it too, because a folder of
-              full page captures shows how a rival's messaging moved over a
+              full page captures shows how a rival&apos;s messaging moved over a
               quarter in a way no notes ever do. And the quiet one is
               regression: capturing your own pages before and after a release,
               and putting the two side by side to see what moved that nobody

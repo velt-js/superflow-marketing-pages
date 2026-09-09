@@ -9,6 +9,7 @@
 // MEDDICC, vareto), and a two-cell CTA row ("Compare Velt" /
 // "Migration Guide").
 
+import Link from "next/link";
 import { useState } from "react";
 
 type Tile =
@@ -293,7 +294,7 @@ function CompetitorsGrid() {
 
       {/* Row 3 — Compare Velt CTA */}
       <div className="flex" style={{ width: 1280 }}>
-        <a
+        <Link
           href="/comparisons"
           className="group flex items-center justify-center gap-2 font-urbanist whitespace-nowrap"
           style={{
@@ -312,7 +313,7 @@ function CompetitorsGrid() {
               <path d="M5 3l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );

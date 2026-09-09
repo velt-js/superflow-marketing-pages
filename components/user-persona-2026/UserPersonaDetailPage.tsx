@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
@@ -48,9 +49,9 @@ export default function UserPersonaDetailPage({
             <h2 className="text-2xl font-semibold">Choosing a project management tool?</h2>
             <p className="mt-3">
               Compare workflows and collaboration options in our guide to{" "}
-              <a className="underline" href="/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies">
+              <Link className="underline" href="/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies">
                 13 Asana alternatives for startups and agencies
-              </a>.
+              </Link>.
             </p>
           </section>
         )}

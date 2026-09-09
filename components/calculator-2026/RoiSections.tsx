@@ -7,6 +7,7 @@
 //   RoiOutputs    - what each of the three result numbers means
 //   RoiCost       - the scan-priced AI-credits cost set against the recovery
 
+import Link from "next/link";
 import styles from "./RoiSections.module.css";
 
 /** The calculator's math, one step per card, in calculation order. */
@@ -152,9 +153,9 @@ export function RoiCost() {
               </li>
             ))}
           </ul>
-          <a className={styles.costCta} href="/pricing">
+          <Link className={styles.costCta} href="/pricing">
             See the full pricing breakdown
-          </a>
+          </Link>
         </div>
       </div>
     </section>
