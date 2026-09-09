@@ -18,6 +18,7 @@
 export type ToolStatus = "live" | "planned";
 
 export type ToolCategory =
+  | "scheduling"
   | "ai-visibility"
   | "structured-data"
   | "social"
@@ -40,6 +41,7 @@ export type ToolEntry = {
 };
 
 export type ToolIconKey =
+  | "clock"
   | "robot"
   | "file"
   | "markdown"
@@ -56,6 +58,15 @@ export type ToolIconKey =
   | "tab";
 
 export const TOOLS: readonly ToolEntry[] = [
+  {
+    slug: "meeting-planner",
+    name: "Time Zone Meeting Planner",
+    tagline: "Find overlapping working hours with customers by city or country",
+    category: "scheduling",
+    status: "live",
+    icon: "clock",
+    related: ["utm-builder", "markdown-viewer", "full-page-screenshot"],
+  },
   {
     slug: "ai-visibility-checker",
     name: "AI Visibility Checker",
@@ -529,6 +540,7 @@ export const TOOLS: readonly ToolEntry[] = [
 
 /** Human labels for the index page's grouping. */
 export const CATEGORY_LABELS: Record<ToolCategory, string> = {
+  scheduling: "Scheduling",
   "ai-visibility": "AI visibility",
   "structured-data": "Structured data",
   social: "Social and sharing",
@@ -544,6 +556,7 @@ export const CATEGORY_LABELS: Record<ToolCategory, string> = {
  * headings actually needs.
  */
 export const CATEGORY_BLURBS: Record<ToolCategory, string> = {
+  scheduling: "Find a good time to meet customers across cities and countries, with time zones handled for you.",
   "ai-visibility":
     "Check what ChatGPT, Claude, and Perplexity can read on your site, and give them a cleaner copy to read.",
   "structured-data":

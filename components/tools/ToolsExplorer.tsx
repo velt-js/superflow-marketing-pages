@@ -26,6 +26,7 @@ const CATEGORY_ICONS: Record<Filter, ToolIconKey> = {
   quality: "check",
   campaigns: "link",
   assets: "image",
+  scheduling: "clock",
 };
 
 /** Copy for the "everything" entry, so the rail and header read the same. */
