@@ -5,6 +5,7 @@
 // it cannot use, which is worse than a 404.
 
 import type { ToolContent } from "./types";
+import { MEETING_PLANNER_CONTENT } from "./meeting-planner";
 import { UTM_BUILDER_CONTENT } from "./utm-builder";
 import { MARKDOWN_VIEWER_CONTENT } from "./markdown-viewer";
 import { MD5_GENERATOR_CONTENT } from "./md5-generator";
@@ -32,6 +33,7 @@ import { REVIEW_LIKE_JARED_FRIEDMAN_CONTENT } from "./review-like-jared-friedman
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
 export const TOOL_CONTENT: readonly ToolContent[] = [
+  MEETING_PLANNER_CONTENT,
   UTM_BUILDER_CONTENT,
   MD5_GENERATOR_CONTENT,
   MARKDOWN_VIEWER_CONTENT,
@@ -71,6 +73,7 @@ export function findToolContent(slug: string): ToolContent | undefined {
 }
 
 export {
+  MEETING_PLANNER_CONTENT,
   UTM_BUILDER_CONTENT,
   MARKDOWN_VIEWER_CONTENT,
   MD5_GENERATOR_CONTENT,
