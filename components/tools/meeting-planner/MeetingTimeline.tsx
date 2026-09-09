@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useRef, type PointerEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+  type ReactNode,
+} from "react";
 import {
   dateLabel,
+  localParts,
   MINUTE,
   STEP,
   timeLabel,
@@ -12,6 +20,10 @@ import {
 } from "@/lib/tools/meeting-planner/time";
 import styles from "./MeetingPlanner.module.css";
 
+// Keep the calculation engine at 15 minutes for quarter-hour zones and existing shared plans.
+export const SELECTION_STEP = 30;
+const STRIDE = SELECTION_STEP / STEP;
+
 type Selection = { selected: number; duration: number };
 type Props = {
   day: ReturnType<typeof buildDay>;
@@ -19,8 +31,8 @@ type Props = {
   selected: number;
   duration: number;
   hour12: boolean;
-  fits: boolean[];
   onSelect: (selection: Selection) => void;
+  renderLocation: (person: Participant) => ReactNode;
 };
 
 export function MeetingTimeline({
@@ -29,10 +41,11 @@ export function MeetingTimeline({
   selected,
   duration,
   hour12,
-  fits,
   onSelect,
+  renderLocation,
 }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [view, setView] = useState({ left: 0, width: 0, cityWidth: 240 });
   const frame = useRef<number | null>(null);
   const pending = useRef<Selection | null>(null);
   const drag = useRef<{
@@ -45,22 +58,45 @@ export function MeetingTimeline({
     latest: Selection;
     moved: boolean;
   } | null>(null);
-  const selectedIndex = day.instants.indexOf(selected);
+  const slots = useMemo(
+    () => day.instants.filter((_, i) => i % STRIDE === 0),
+    [day],
+  );
+  const selectedIndex = Math.floor(
+    (selected - day.start) / (SELECTION_STEP * MINUTE),
+  );
+  const nextDuration = Math.max(
+    SELECTION_STEP,
+    Math.ceil(duration / SELECTION_STEP) * SELECTION_STEP,
+  );
+  const end = selected + duration * MINUTE;
+  const selectionLeft = ((selected - day.start) / (day.end - day.start)) * 100;
+  const selectionWidth =
+    ((Math.min(end, day.end) - selected) / (day.end - day.start)) * 100;
+  const clock = (t: number, zone: string) =>
+    timeLabel(t, zone, hour12)
+      .replace(/:00(?= )/, "")
+      .replace(" AM", "am")
+      .replace(" PM", "pm");
   const base = people[0];
   // Formatting and availability do not change while the selection moves.
   const labels = useMemo(
     () =>
       people.map((person, row) =>
-        day.instants.map((t, i) => {
+        slots.map((t, i) => {
           const time = timeLabel(t, person.zone, hour12);
-          const working = day.availability[row][i];
+          const working = day.availability[row]
+            .slice(i * STRIDE, (i + 1) * STRIDE)
+            .every(Boolean);
           return {
+            clock: clock(t, person.zone),
+            working,
             title: `${time} · ${working ? "Working hours" : "Off hours"}`,
             aria: `${person.name}, ${dateLabel(t, person.zone)} ${time}, ${zoneLabel(t, person.zone)}, ${working ? "working hours" : "off hours"}`,
           };
         }),
       ),
-    [day, people, hour12],
+    [day, people, hour12, slots],
   );
 
   useEffect(
@@ -77,9 +113,46 @@ export function MeetingTimeline({
     if (!viewport || !cell) return;
     viewport.scrollLeft = Math.max(
       0,
-      cell.offsetLeft - 180 - (viewport.clientWidth - 180) / 2,
+      cell.getBoundingClientRect().left -
+        viewport.getBoundingClientRect().left +
+        viewport.scrollLeft -
+        labelWidth(viewport) -
+        (viewport.clientWidth - labelWidth(viewport) - cell.offsetWidth) / 2,
     );
   }, [day.start, base.zone]);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const observer = new ResizeObserver(measureViewport);
+    observer.observe(viewport);
+    measureViewport();
+    return () => observer.disconnect();
+  }, []);
+
+  function measureViewport() {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const next = {
+      left: viewport.scrollLeft,
+      width: viewport.clientWidth,
+      cityWidth: labelWidth(viewport),
+    };
+    setView((before) =>
+      before.left === next.left &&
+      before.width === next.width &&
+      before.cityWidth === next.cityWidth
+        ? before
+        : next,
+    );
+  }
+
+  function labelWidth(viewport: HTMLElement) {
+    return (
+      viewport.querySelector<HTMLElement>(`[data-city-label]`)?.offsetWidth ??
+      240
+    );
+  }
 
   function queue(selection: Selection) {
     pending.current = selection;
@@ -92,14 +165,14 @@ export function MeetingTimeline({
   }
 
   function pointerDown(e: PointerEvent<HTMLDivElement>) {
-    if (!e.isPrimary || e.button !== 0 || !day.instants.length) return;
+    if (!e.isPrimary || e.button !== 0 || !slots.length) return;
     const target = e.target as HTMLElement;
     const cell = target.closest<HTMLButtonElement>("button[data-index]");
     if (!cell) return;
     e.preventDefault();
     const anchor = Number(cell.dataset.index);
     const rect = e.currentTarget.getBoundingClientRect();
-    const next = { selected: day.instants[anchor], duration };
+    const next = { selected: slots[anchor], duration: nextDuration };
     drag.current = {
       element: e.currentTarget,
       pointer: e.pointerId,
@@ -121,10 +194,8 @@ export function MeetingTimeline({
     const index = Math.max(
       0,
       Math.min(
-        day.instants.length - 1,
-        Math.floor(
-          ((e.clientX - active.left) / active.width) * day.instants.length,
-        ),
+        slots.length - 1,
+        Math.floor(((e.clientX - active.left) / active.width) * slots.length),
       ),
     );
     if (index !== active.anchor) active.moved = true;
@@ -132,9 +203,9 @@ export function MeetingTimeline({
     const first = Math.min(index, active.anchor);
     const minutes = Math.min(
       1440,
-      (Math.abs(index - active.anchor) + 1) * STEP,
+      (Math.abs(index - active.anchor) + 1) * SELECTION_STEP,
     );
-    active.latest = { selected: day.instants[first], duration: minutes };
+    active.latest = { selected: slots[first], duration: minutes };
     queue(active.latest);
   }
 
@@ -147,7 +218,9 @@ export function MeetingTimeline({
     drag.current = null;
     const result = cancel ? active.before : active.latest;
     onSelect(result);
-    const index = day.instants.indexOf(result.selected);
+    const index = Math.floor(
+      (result.selected - day.start) / (SELECTION_STEP * MINUTE),
+    );
     active.element
       .querySelector<HTMLButtonElement>(`[data-index="${index}"]`)
       ?.focus({ preventScroll: true });
@@ -159,8 +232,8 @@ export function MeetingTimeline({
     if (!viewport) return;
     const box = cell.getBoundingClientRect();
     const visible = viewport.getBoundingClientRect();
-    if (box.left < visible.left + 180)
-      viewport.scrollLeft -= visible.left + 180 - box.left;
+    if (box.left < visible.left + labelWidth(viewport))
+      viewport.scrollLeft -= visible.left + labelWidth(viewport) - box.left;
     else if (box.right > visible.right)
       viewport.scrollLeft += box.right - visible.right;
   }
@@ -169,6 +242,7 @@ export function MeetingTimeline({
     <div
       ref={viewportRef}
       className={styles.timelineScroll}
+      onScroll={measureViewport}
       tabIndex={0}
       role="region"
       aria-label="Time comparison. Scroll horizontally to see the full day."
@@ -178,34 +252,12 @@ export function MeetingTimeline({
     >
       <div
         className={styles.timeline}
-        style={{ minWidth: `${180 + day.instants.length * 10}px` }}
+        style={{ minWidth: `calc(var(--city-width) + ${slots.length * 26}px)` }}
       >
-        <div className={styles.axis}>
-          <span>
-            {base.name === "Your location"
-              ? "YOUR LOCAL TIME"
-              : `${base.name.toUpperCase()} TIME`}
-          </span>
-          <div className={styles.axisTicks}>
-            {day.instants
-              .filter((_, i) => i % 4 === 0)
-              .map((t, i) => (
-                <span
-                  key={t}
-                  style={{ flex: Math.min(4, day.instants.length - i * 4) }}
-                >
-                  {timeLabel(t, base.zone, hour12).replace(":00", "")}
-                </span>
-              ))}
-          </div>
-        </div>
         {people.map((person, row) => (
           <div className={styles.timelineRow} key={person.id}>
-            <div className={styles.rowLabel}>
-              <strong>{person.name}</strong>
-              <span>
-                {selected === undefined ? "" : dateLabel(selected, person.zone)}
-              </span>
+            <div className={styles.rowLabel} data-city-label>
+              {renderLocation(person)}
             </div>
             <div
               className={styles.cells}
@@ -217,12 +269,14 @@ export function MeetingTimeline({
               onPointerCancel={() => finish(true)}
               onLostPointerCapture={() => finish()}
             >
-              {day.instants.map((t, i) => (
+              {slots.map((t, i) => (
                 <button
                   key={t}
                   data-index={i}
-                  data-working={day.availability[row][i]}
-                  data-shared={day.shared[i]}
+                  data-working={labels[row][i].working}
+                  data-shared={day.shared
+                    .slice(i * STRIDE, (i + 1) * STRIDE)
+                    .every(Boolean)}
                   data-selected={
                     t >= selected && t < selected + duration * MINUTE
                   }
@@ -232,7 +286,8 @@ export function MeetingTimeline({
                   aria-pressed={i === selectedIndex}
                   tabIndex={i === selectedIndex ? 0 : -1}
                   onClick={(e) => {
-                    if (e.detail === 0) onSelect({ selected: t, duration });
+                    if (e.detail === 0)
+                      onSelect({ selected: t, duration: nextDuration });
                   }}
                   onKeyDown={(e) => {
                     if (
@@ -246,12 +301,17 @@ export function MeetingTimeline({
                       e.key === "Home"
                         ? 0
                         : e.key === "End"
-                          ? day.instants.length - 1
+                          ? slots.length - 1
                           : Math.max(
                               0,
                               Math.min(
-                                day.instants.length - 1,
-                                i + (e.key === "ArrowRight" ? 1 : -1),
+                                slots.length - 1,
+                                i +
+                                  (e.key === "ArrowRight"
+                                    ? 1
+                                    : selected !== slots[i]
+                                      ? 0
+                                      : -1),
                               ),
                             );
                     if (
@@ -259,17 +319,23 @@ export function MeetingTimeline({
                       ["ArrowLeft", "ArrowRight"].includes(e.key)
                     ) {
                       onSelect({
-                        selected,
+                        selected: slots[selectedIndex],
                         duration: Math.max(
-                          STEP,
+                          SELECTION_STEP,
                           Math.min(
                             1440,
-                            duration + (e.key === "ArrowRight" ? STEP : -STEP),
+                            nextDuration +
+                              (e.key === "ArrowRight"
+                                ? SELECTION_STEP
+                                : -SELECTION_STEP),
                           ),
                         ),
                       });
                     } else {
-                      onSelect({ selected: day.instants[next], duration });
+                      onSelect({
+                        selected: slots[next],
+                        duration: nextDuration,
+                      });
                       const buttons =
                         e.currentTarget.parentElement?.querySelectorAll(
                           "button",
@@ -277,30 +343,66 @@ export function MeetingTimeline({
                       if (buttons?.[next]) focusCell(buttons[next]);
                     }
                   }}
-                />
+                >
+                  {i % 2 === 0 && !(t < end && t + 60 * MINUTE > selected) && (
+                    <span className={styles.cellTime} aria-hidden="true">
+                      {labels[row][i].clock}
+                    </span>
+                  )}
+                </button>
               ))}
+              {Number.isFinite(selected) && (
+                <>
+                  <div
+                    className={styles.selectionFill}
+                    style={{
+                      left: `${selectionLeft}%`,
+                      width: `${selectionWidth}%`,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className={styles.selectionLabel}
+                    aria-label={`Selected time in ${person.name}`}
+                    title={`${dateLabel(selected, person.zone)} ${timeLabel(selected, person.zone, hour12)} ${zoneLabel(selected, person.zone)} – ${dateLabel(end, person.zone)} ${timeLabel(end, person.zone, hour12)} ${zoneLabel(end, person.zone)}`}
+                    style={{
+                      left: view.width
+                        ? `clamp(${view.left + Math.min(85, (view.width - view.cityWidth) / 2)}px, ${selectionLeft + selectionWidth / 2}%, ${view.left + view.width - view.cityWidth - Math.min(85, (view.width - view.cityWidth) / 2)}px)`
+                        : `${selectionLeft + selectionWidth / 2}%`,
+                      maxWidth: view.width
+                        ? `${view.width - view.cityWidth - 8}px`
+                        : undefined,
+                    }}
+                  >
+                    {localParts(selected, person.zone).date !==
+                      localParts(selected, base.zone).date && (
+                      <small>
+                        {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
+                        ·{" "}
+                      </small>
+                    )}
+                    {clock(selected, person.zone)} – {clock(end, person.zone)}
+                    {localParts(selected, person.zone).date !==
+                      localParts(end, person.zone).date && (
+                      <small>
+                        {" "}
+                        · {dateLabel(end, person.zone).replace(/^\w+, /, "")}
+                      </small>
+                    )}
+                    {zoneLabel(selected, person.zone) !==
+                      zoneLabel(end, person.zone) && (
+                      <small>
+                        {" "}
+                        · {zoneLabel(selected, person.zone)} →{" "}
+                        {zoneLabel(end, person.zone)}
+                      </small>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ))}
-        <div className={styles.timelineRow}>
-          <div className={styles.rowLabel}>
-            <strong className={styles.sharedLabel}>Everyone available</strong>
-            <span>{duration}-minute call fits</span>
-          </div>
-          <div className={styles.cells}>
-            {day.instants.map((t, i) => (
-              <button
-                key={t}
-                className={styles.overlapCell}
-                data-fits={fits[i]}
-                disabled={!fits[i]}
-                tabIndex={-1}
-                aria-label={`Select ${timeLabel(t, base.zone, hour12)} for everyone`}
-                onClick={() => onSelect({ selected: t, duration })}
-              />
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

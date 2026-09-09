@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { DEFAULT_PEOPLE } from "../../../lib/tools/meeting-planner/time";
 
 const path = "/tools/meeting-planner";
@@ -11,6 +11,12 @@ const state = {
   hour12: true,
 };
 const url = `${path}#plan=${encodeURIComponent(JSON.stringify(state))}`;
+
+async function use24HourClock(page: Page) {
+  await page.getByText("View options", { exact: true }).click();
+  await page.getByRole("button", { name: "24h", exact: true }).click();
+  await page.getByText("View options", { exact: true }).click();
+}
 
 test.beforeEach(async ({ context }) => {
   // Product-owned resources stay real; unrelated analytics are outside this test.
@@ -27,7 +33,7 @@ test("city/country search, working hours, date changes, and no overlap", async (
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(url);
   await expect(
-    page.getByText("1h of shared working hours", { exact: true }),
+    page.getByText("1 hour within everyone’s work hours", { exact: true }),
   ).toBeVisible();
   const search = page.getByRole("combobox", { name: "Add a city or country" });
   await search.fill("India");
@@ -39,12 +45,18 @@ test("city/country search, working hours, date changes, and no overlap", async (
     page.getByRole("button", { name: "Remove India", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText("No shared working hours on this date", { exact: true }),
+    page.getByText(
+      "No work hours in common. Try another day or edit work hours.",
+      { exact: true },
+    ),
   ).toBeVisible();
   await page.getByRole("button", { name: "Remove India", exact: true }).click();
   await page.getByLabel("Meeting date", { exact: true }).fill("2026-09-12");
   await expect(
-    page.getByText("No shared working hours on this date", { exact: true }),
+    page.getByText(
+      "No work hours in common. Try another day or edit work hours.",
+      { exact: true },
+    ),
   ).toBeVisible();
   await page.getByLabel("Meeting date", { exact: true }).fill("2026-09-09");
   await search.fill("United States");
@@ -65,13 +77,13 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto(url);
-  await page.getByRole("button", { name: "24h", exact: true }).click();
+  await use24HourClock(page);
   await page
     .getByRole("group", { name: "London timeline", exact: true })
     .getByRole("button", { pressed: true })
     .press("ArrowRight");
   await expect(
-    page.getByRole("heading", { name: "09:15 – 09:45" }),
+    page.getByRole("heading", { name: "09:30 – 10:00" }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Copy meeting times", exact: true })
@@ -79,11 +91,12 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
   const summary = await page.evaluate(() => navigator.clipboard.readText());
   expect(summary).toBe(
     [
-      "San Francisco: Sep 9, 9:15a - 9:45a PT",
-      "New York City: Sep 9, 12:15p - 12:45p ET",
-      "London: Sep 9, 5:15p - 5:45p BST",
+      "San Francisco: Sep 9, 9:30a - 10a PT",
+      "New York City: Sep 9, 12:30p - 1p ET",
+      "London: Sep 9, 5:30p - 6p BST",
     ].join("\n"),
   );
+  await page.getByText("More ways to share", { exact: true }).click();
   const download = page.waitForEvent("download");
   await page
     .getByRole("button", { name: "Download calendar event", exact: true })
@@ -95,10 +108,14 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
   const other = await context.newPage();
   await other.goto(share, { waitUntil: "domcontentloaded" });
   await expect(
-    other.getByRole("heading", { name: "09:15 – 09:45" }),
+    other.getByRole("heading", { name: "09:30 – 10:00" }),
   ).toBeVisible();
   await expect(
-    other.getByRole("button", { name: "24h", exact: true }),
+    other.getByRole("button", {
+      name: "24h",
+      exact: true,
+      includeHidden: true,
+    }),
   ).toHaveAttribute("aria-pressed", "true");
 });
 
@@ -114,17 +131,19 @@ test("per-location schedules persist, time scale changes, and only the final loc
     .getByLabel("San Francisco work start", { exact: true })
     .selectOption("480");
   await expect(
-    page.getByText("2h of shared working hours", { exact: true }),
+    page.getByText("2 hours within everyone’s work hours", { exact: true }),
   ).toBeVisible();
+  await page.getByText("View options", { exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Show times in" })
+    .getByRole("combobox", { name: "Show times in", includeHidden: true })
     .selectOption("2643743");
+  await page.getByText("View options", { exact: true }).click();
   await expect(
-    page.getByRole("combobox", { name: "Show times in" }),
+    page.getByRole("combobox", { name: "Show times in", includeHidden: true }),
   ).toHaveValue("2643743");
   await page.goto(path);
   await expect(
-    page.getByRole("combobox", { name: "Show times in" }),
+    page.getByRole("combobox", { name: "Show times in", includeHidden: true }),
   ).toHaveValue("2643743");
   await page
     .getByRole("button", { name: "Remove San Francisco", exact: true })
@@ -139,7 +158,7 @@ test("per-location schedules persist, time scale changes, and only the final loc
 
 test("mobile fits the viewport and location search works with the keyboard", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(url);
   await expect(
@@ -157,6 +176,21 @@ test("mobile fits the viewport and location search works with the keyboard", asy
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+  await page
+    .getByRole("region", { name: /Time comparison/ })
+    .scrollIntoViewIfNeeded();
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toBeInViewport();
+  const selectionBox = await page
+    .getByLabel("Selected time in San Francisco", { exact: true })
+    .boundingBox();
+  const cityBox = await page.locator("[data-city-label]").first().boundingBox();
+  expect(selectionBox!.x).toBeGreaterThanOrEqual(cityBox!.x + cityBox!.width);
+  expect(selectionBox!.x + selectionBox!.width).toBeLessThanOrEqual(390);
+  await page
+    .locator("[data-meeting-planner]")
+    .screenshot({ path: testInfo.outputPath("mobile-planner.png") });
 });
 
 test("failed catalog download can retry; invalid shared links remain usable", async ({
@@ -178,12 +212,12 @@ test("failed catalog download can retry; invalid shared links remain usable", as
   await expect(page.getByRole("option").first()).toContainText("Paris");
 });
 
-test("dragging selects a range without scroll jumps or numeric tile labels", async ({
+test("half-hour dragging stays smooth and labels the local range on every city row", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.setViewportSize({ width: 1000, height: 900 });
   await page.goto(url);
-  await page.getByRole("button", { name: "24h", exact: true }).click();
+  await use24HourClock(page);
   await expect(
     page.getByLabel("Meeting duration", { exact: true }),
   ).toHaveCount(0);
@@ -192,17 +226,41 @@ test("dragging selects a range without scroll jumps or numeric tile labels", asy
     name: "San Francisco timeline",
     exact: true,
   });
-  expect(
-    (await row.getByRole("button").allTextContents()).every(
-      (text) => text === "",
-    ),
-  ).toBe(true);
+  await expect(row.getByRole("button")).toHaveCount(48);
+  await expect(row.locator('[data-index="16"]')).toHaveText("08:00");
+  await expect(
+    page
+      .getByRole("group", { name: "London timeline", exact: true })
+      .locator('[data-index="16"]'),
+  ).toHaveText("16:00");
+  await expect(
+    page.getByLabel("Current time in San Francisco", { exact: true }),
+  ).toContainText("now");
+  const searchBox = await page
+    .getByRole("combobox", { name: "Add a city or country" })
+    .boundingBox();
+  const overlapBox = await page
+    .getByText("1 hour within everyone’s work hours", { exact: true })
+    .boundingBox();
+  const dateBox = await page
+    .getByLabel("Meeting date", { exact: true })
+    .boundingBox();
+  expect(overlapBox!.y).toBeGreaterThan(searchBox!.y + searchBox!.height);
+  expect(overlapBox!.y).toBeLessThan(dateBox!.y);
   const viewport = page.getByRole("region", { name: /Time comparison/ });
   await row.scrollIntoViewIfNeeded();
-  const from = await row.locator('[data-index="36"]').boundingBox();
-  const to = await row.locator('[data-index="41"]').boundingBox();
+  const from = await row.locator('[data-index="18"]').boundingBox();
+  const to = await row.locator('[data-index="20"]').boundingBox();
   expect(from).not.toBeNull();
   expect(to).not.toBeNull();
+  const rowBox = await row.boundingBox();
+  const clockBox = await page
+    .getByLabel("Current time in San Francisco", { exact: true })
+    .boundingBox();
+  expect(clockBox!.y).toBeGreaterThanOrEqual(rowBox!.y);
+  expect(clockBox!.y + clockBox!.height).toBeLessThanOrEqual(
+    rowBox!.y + rowBox!.height,
+  );
   const scroll = await viewport.evaluate((el) => el.scrollLeft);
   await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2);
   await page.mouse.down();
@@ -214,14 +272,21 @@ test("dragging selects a range without scroll jumps or numeric tile labels", asy
     page.getByRole("heading", { name: "09:00 – 10:30" }),
   ).toBeVisible();
   await expect(
-    page.getByText("Shared hours are too short for a 90-minute call", {
-      exact: true,
-    }),
+    page.getByText("Outside London’s work hours", { exact: true }),
   ).toBeVisible();
   expect(await viewport.evaluate((el) => el.scrollLeft)).toBeCloseTo(scroll, 0);
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:00 – 10:30");
+  await expect(
+    page.getByLabel("Selected time in New York City", { exact: true }),
+  ).toHaveText("12:00 – 13:30");
+  await expect(
+    page.getByLabel("Selected time in London", { exact: true }),
+  ).toHaveText("17:00 – 18:30");
   await row.getByRole("button", { pressed: true }).press("Shift+ArrowRight");
   await expect(
-    page.getByRole("heading", { name: "09:00 – 10:45" }),
+    page.getByRole("heading", { name: "09:00 – 11:00" }),
   ).toBeVisible();
   await row.getByRole("button", { pressed: true }).press("Shift+ArrowLeft");
   await expect(
@@ -240,6 +305,9 @@ test("dragging selects a range without scroll jumps or numeric tile labels", asy
     page.getByRole("heading", { name: "09:00 – 10:30" }),
   ).toBeVisible();
   expect(await viewport.evaluate((el) => el.scrollLeft)).toBeCloseTo(scroll, 0);
+  await page
+    .locator("[data-meeting-planner]")
+    .screenshot({ path: testInfo.outputPath("desktop-planner.png") });
 });
 
 test.describe("India device time zone", () => {
@@ -259,11 +327,11 @@ test.describe("India device time zone", () => {
       page.getByRole("button", { name: "Remove Mumbai", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByText("Approximate location", { exact: true }),
+      page.getByLabel("Current time in Mumbai", { exact: true }),
     ).toBeVisible();
     await expect(
       page
-        .getByRole("combobox", { name: "Show times in" })
+        .getByRole("combobox", { name: "Show times in", includeHidden: true })
         .locator("option:checked"),
     ).toHaveText("Mumbai");
   });
@@ -284,16 +352,19 @@ test.describe("Nepal device time zone", () => {
       page.getByRole("button", { name: "Remove Your location", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByText("Auto-detected time zone", { exact: true }),
+      page.getByLabel("Current time in Your location", { exact: true }),
     ).toBeVisible();
     await expect(
       page
-        .getByRole("combobox", { name: "Show times in" })
+        .getByRole("combobox", { name: "Show times in", includeHidden: true })
         .locator("option:checked"),
     ).toHaveText("Your location");
     await page.goto(url, { waitUntil: "domcontentloaded" });
     await expect(
-      page.getByRole("combobox", { name: "Show times in" }),
+      page.getByRole("combobox", {
+        name: "Show times in",
+        includeHidden: true,
+      }),
     ).toHaveValue("5391959");
     await expect(
       page.getByRole("button", { name: "Remove Your location", exact: true }),
@@ -303,8 +374,104 @@ test.describe("Nepal device time zone", () => {
       .click();
     await expect(
       page
-        .getByRole("combobox", { name: "Show times in" })
+        .getByRole("combobox", { name: "Show times in", includeHidden: true })
         .locator("option:checked"),
     ).toHaveText("Your location");
   });
+});
+
+test("half-hour rows retain DST day lengths, quarter-hour zones, and existing shared selections", async ({
+  page,
+}) => {
+  for (const [date, count] of [
+    ["2026-03-08", 46],
+    ["2026-11-01", 50],
+  ] as const) {
+    await page.goto(
+      `${path}#plan=${encodeURIComponent(JSON.stringify({ ...state, date }))}`,
+      { waitUntil: "domcontentloaded" },
+    );
+    await expect(
+      page
+        .getByRole("group", { name: "San Francisco timeline", exact: true })
+        .getByRole("button"),
+    ).toHaveCount(count);
+  }
+  const kathmandu = {
+    ...DEFAULT_PEOPLE[0],
+    id: "kathmandu-test",
+    name: "Kathmandu",
+    country: "Nepal",
+    countryCode: "NP",
+    zone: "Asia/Kathmandu",
+  };
+  const legacy = {
+    ...state,
+    people: [...DEFAULT_PEOPLE, kathmandu],
+    selected: Date.parse("2026-09-09T16:15:00Z"),
+    duration: 15,
+    hour12: false,
+  };
+  await page.goto(
+    `${path}#plan=${encodeURIComponent(JSON.stringify(legacy))}`,
+    { waitUntil: "domcontentloaded" },
+  );
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 09:30");
+  await expect(
+    page.getByLabel("Selected time in Kathmandu", { exact: true }),
+  ).toHaveText("22:00 – 22:15");
+  const row = page.getByRole("group", {
+    name: "San Francisco timeline",
+    exact: true,
+  });
+  await row.getByRole("button", { pressed: true }).press("ArrowRight");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:30 – 10:00");
+  await expect(
+    page.getByLabel("Selected time in Kathmandu", { exact: true }),
+  ).toHaveText("22:15 – 22:45");
+  await row.getByRole("button", { pressed: true }).press("End");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("23:30 – 00:00 · Sep 10");
+});
+
+test("a simple suggestion leads straight to readable copy with advanced controls tucked away", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto(url, { waitUntil: "domcontentloaded" });
+  await expect(
+    page.getByRole("combobox", { name: "Show times in", includeHidden: true }),
+  ).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: "Download calendar event", exact: true }),
+  ).toBeHidden();
+  const row = page.getByRole("group", { name: "London timeline", exact: true });
+  await row.getByRole("button", { pressed: true }).press("Home");
+  await expect(
+    page.getByLabel("Selected time in London", { exact: true }),
+  ).toHaveText("8am – 8:30am");
+  await page
+    .getByRole("button", { name: "Suggest a time", exact: true })
+    .click();
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("9am – 9:30am");
+  await expect(
+    page.getByLabel("Selected time in London", { exact: true }),
+  ).toHaveText("5pm – 5:30pm");
+  await page
+    .getByRole("button", { name: "Copy meeting times", exact: true })
+    .click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    "San Francisco: Sep 9, 9a - 9:30a PT\nNew York City: Sep 9, 12p - 12:30p ET\nLondon: Sep 9, 5p - 5:30p BST",
+  );
+  expect(
+    await page.locator("[data-meeting-planner]").innerText(),
+  ).not.toContain("UTC");
 });

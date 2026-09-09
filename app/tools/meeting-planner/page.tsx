@@ -44,7 +44,8 @@ export default function MeetingPlannerPage() {
         h1={content.title}
         subhead={content.subhead}
         wide
-        privacyNote="Free, no login, no email. Locations and settings stay saved in your browser."
+        developerLinksInHero={false}
+        privacyNote="Free. No sign-up needed."
         howItWorks={content.howItWorks}
         faq={content.faq}
         whyThisMatters={

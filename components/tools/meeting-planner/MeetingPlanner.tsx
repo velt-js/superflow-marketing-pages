@@ -13,16 +13,14 @@ import {
   calendarFile,
   dateLabel,
   DEFAULT_PEOPLE,
-  hoursLabel,
   hourValue,
   localParts,
-  meetingFits,
   meetingCopyText,
+  meetingFits,
   MINUTE,
   parseState,
   STEP,
   timeLabel,
-  zoneLabel,
   type Participant,
   type PlannerState,
 } from "@/lib/tools/meeting-planner/time";
@@ -30,7 +28,7 @@ import {
   deviceLocation,
   withDetectedCity,
 } from "@/lib/tools/meeting-planner/detection";
-import { MeetingTimeline } from "./MeetingTimeline";
+import { MeetingTimeline, SELECTION_STEP } from "./MeetingTimeline";
 import styles from "./MeetingPlanner.module.css";
 
 const STORAGE_KEY = "superflow-meeting-planner-v1";
@@ -279,10 +277,12 @@ export function MeetingPlanner() {
     );
 
   const base = state.people[0];
-  const firstFit = fits.findIndex(Boolean);
+  const firstSelectableFit = fits.findIndex(
+    (fit, i) => fit && i % (SELECTION_STEP / STEP) === 0,
+  );
   const defaultIndex =
-    firstFit >= 0
-      ? firstFit
+    firstSelectableFit >= 0
+      ? firstSelectableFit
       : Math.max(
           0,
           day.instants.findIndex((t) => localParts(t, base.zone).minute >= 540),
@@ -293,9 +293,29 @@ export function MeetingPlanner() {
       : Math.max(0, day.instants.indexOf(state.selected));
   const selected = day.instants[selectedIndex];
   const selectedFits = fits[selectedIndex] ?? false;
-  const suggestions = day.instants
-    .filter((_, i) => fits[i] && (i === firstFit || i % 4 === 0))
-    .slice(0, 5);
+  const suggestionIndex = day.instants.findIndex(
+    (_, i) =>
+      i % (SELECTION_STEP / STEP) === 0 &&
+      day.availability.every((row) =>
+        row.slice(i, i + SELECTION_STEP / STEP).every(Boolean),
+      ),
+  );
+  const outside =
+    selected === undefined
+      ? []
+      : state.people.filter(
+          (person) => !meetingFits(selected, state.duration, person),
+        );
+  const overlapHours = Math.floor(day.overlapMinutes / 60);
+  const overlapRemainder = day.overlapMinutes % 60;
+  const overlapText = [
+    overlapHours
+      ? `${overlapHours} ${overlapHours === 1 ? "hour" : "hours"}`
+      : "",
+    overlapRemainder ? `${overlapRemainder} minutes` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   const patch = (value: Partial<PlannerState>) =>
     setState((current) => (current ? { ...current, ...value } : current));
   const patchPerson = (id: string, value: Partial<Participant>) =>
@@ -361,19 +381,7 @@ export function MeetingPlanner() {
     now === null ? "" : timeLabel(now, person.zone, state.hour12);
 
   return (
-    <div className={styles.planner}>
-      <div className={styles.topbar}>
-        <div>
-          <div className={styles.kicker}>
-            <span className={styles.liveDot} /> MADE FOR CUSTOMER CALLS
-          </div>
-          <h2>Different places. One good time.</h2>
-        </div>
-        <button className={styles.button} onClick={share}>
-          <Icon name="link" /> Share plan
-        </button>
-      </div>
-
+    <div className={styles.planner} data-meeting-planner>
       <div className={styles.searchSection}>
         <div
           className={styles.searchWrap}
@@ -501,8 +509,7 @@ export function MeetingPlanner() {
                           {result.hint ??
                             [result.region, result.country]
                               .filter(Boolean)
-                              .join(", ")}{" "}
-                          · {zoneLabel(selected ?? Date.now(), result.zone)}
+                              .join(", ")}
                         </small>
                       </span>
                       {added ? <small>Added</small> : <Icon name="plus" />}
@@ -511,18 +518,15 @@ export function MeetingPlanner() {
                 })}
               </div>
               <p className={styles.searchMessage}>
-                Countries with multiple time zones show a choice of cities and
-                regions.
+                For a large country, choose a city closest to your customer.
               </p>
             </div>
           )}
         </div>
         <div className={styles.searchHint}>
-          <Icon name="clock" />
           <div>
             {detected ? (
               <>
-                <strong>Your time zone is detected.</strong>
                 <button
                   className={styles.locationButton}
                   onClick={() => {
@@ -550,10 +554,38 @@ export function MeetingPlanner() {
                 </button>
               </>
             ) : (
-              <strong>Add your city to set your local time.</strong>
+              <span>Add your city to get started.</span>
             )}
           </div>
         </div>
+      </div>
+
+      <div
+        className={`${styles.overlapBanner} ${day.overlapMinutes === 0 ? styles.noOverlap : ""}`}
+        role="status"
+      >
+        <span className={styles.overlapIcon}>
+          <Icon name={day.overlapMinutes > 0 ? "check" : "clock"} />
+        </span>
+        <div>
+          <strong>
+            {state.people.length === 1
+              ? "Add another city to compare times"
+              : day.overlapMinutes > 0
+                ? `${overlapText} within everyone’s work hours`
+                : "No work hours in common. Try another day or edit work hours."}
+          </strong>
+        </div>
+        {state.people.length > 1 && suggestionIndex >= 0 && (
+          <button
+            className={styles.suggestButton}
+            onClick={() =>
+              patch({ selected: day.instants[suggestionIndex], duration: 30 })
+            }
+          >
+            Suggest a time
+          </button>
+        )}
       </div>
 
       <div className={styles.controls}>
@@ -595,62 +627,67 @@ export function MeetingPlanner() {
             Today
           </button>
         </div>
-        <div className={styles.preferences}>
-          <div className={styles.segmented} aria-label="Time display">
-            <button
-              aria-pressed={state.hour12}
-              onClick={() => patch({ hour12: true })}
-            >
-              12h
-            </button>
-            <button
-              aria-pressed={!state.hour12}
-              onClick={() => patch({ hour12: false })}
-            >
-              24h
-            </button>
+        <details className={styles.viewOptions}>
+          <summary>View options</summary>
+          <div className={styles.preferences}>
+            <label className={styles.timeScale}>
+              Show times in
+              <select
+                value={base.id}
+                onChange={(e) => {
+                  const person = state.people.find(
+                    (p) => p.id === e.target.value,
+                  );
+                  if (!person) return;
+                  patch({
+                    people: [
+                      person,
+                      ...state.people.filter((p) => p.id !== person.id),
+                    ],
+                    date: localParts(selected ?? Date.now(), person.zone).date,
+                    selected: selected ?? null,
+                  });
+                }}
+              >
+                {state.people.map((person) => (
+                  <option key={person.id} value={person.id}>
+                    {person.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className={styles.segmented} aria-label="Time display">
+              <button
+                aria-pressed={state.hour12}
+                onClick={() => patch({ hour12: true })}
+              >
+                12h
+              </button>
+              <button
+                aria-pressed={!state.hour12}
+                onClick={() => patch({ hour12: false })}
+              >
+                24h
+              </button>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
 
-      <div className={styles.locationList}>
-        {state.people.map((person, index) => (
-          <div key={person.id} className={styles.locationCard}>
-            <div className={styles.locationMain}>
-              <span
-                className={`${styles.countryBadge} ${index === 0 ? styles.baseBadge : ""}`}
-              >
-                {person.countryCode || "◎"}
-              </span>
-              <div className={styles.placeName}>
-                <strong>{person.name}</strong>
-                <small>
-                  {person.country} ·{" "}
-                  {zoneLabel(selected ?? Date.now(), person.zone)}
-                  {person.id.startsWith("device:") && (
-                    <span className={styles.detectedLabel}>
-                      {person.name === "Your location"
-                        ? "Auto-detected time zone"
-                        : "Approximate location"}
-                    </span>
-                  )}
-                </small>
-              </div>
-              <div className={styles.liveTime}>
-                <strong>{currentTime(person)}</strong>
-                <small>local time now</small>
-              </div>
-              <button
-                className={styles.hoursButton}
-                aria-expanded={editing === person.id}
-                onClick={() =>
-                  setEditing(editing === person.id ? null : person.id)
-                }
-              >
-                <Icon name="clock" />
-                {hourValue(person.start)}–{hourValue(person.end)}
-                <span className={styles.editLabel}>Edit hours</span>
-              </button>
+      <p className={styles.simpleHint}>
+        Drag to choose a time. <span>Green times fit everyone’s workday.</span>
+      </p>
+      <MeetingTimeline
+        day={day}
+        people={state.people}
+        selected={selected}
+        duration={state.duration}
+        hour12={state.hour12}
+        onSelect={patch}
+        renderLocation={(person) => (
+          <>
+            <div className={styles.cityTop}>
+              <strong title={person.name}>{person.name}</strong>
               <button
                 className={styles.iconButton}
                 disabled={state.people.length === 1}
@@ -666,163 +703,109 @@ export function MeetingPlanner() {
                 <Icon name="close" />
               </button>
             </div>
-            {editing === person.id && (
-              <div className={styles.hoursEditor}>
-                <div className={styles.hoursFields}>
-                  {(["start", "end"] as const).map((key) => (
-                    <label key={key}>
-                      {key === "start" ? "Work starts" : "Work ends"}
-                      <select
-                        aria-label={`${person.name} work ${key}`}
-                        value={person[key]}
-                        onChange={(e) =>
-                          patchPerson(person.id, {
-                            [key]: Number(e.target.value),
-                          })
-                        }
-                      >
-                        {HOURS.map((n) => (
-                          <option value={n} key={n}>
-                            {hourValue(n)}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+            <div
+              className={styles.cityNow}
+              aria-label={`Current time in ${person.name}`}
+            >
+              <strong>{currentTime(person)}</strong>
+              <span>now</span>
+            </div>
+            <div className={styles.cityDetails}>
+              <span title={person.country}>
+                {person.country || "Your local time"}
+              </span>
+              <button
+                className={styles.hoursButton}
+                aria-label={`${person.name}: ${hourValue(person.start)}–${hourValue(person.end)} Edit hours`}
+                aria-expanded={editing === person.id}
+                aria-controls="working-hours-editor"
+                onClick={() =>
+                  setEditing(editing === person.id ? null : person.id)
+                }
+              >
+                <Icon name="clock" /> Edit hours
+              </button>
+            </div>
+          </>
+        )}
+      />
+      {state.people
+        .filter((person) => person.id === editing)
+        .map((person) => (
+          <section
+            id="working-hours-editor"
+            key={person.id}
+            className={styles.editorPanel}
+            aria-label={`Working hours for ${person.name}`}
+          >
+            <div className={styles.editorHeading}>
+              <strong>Working hours for {person.name}</strong>
+              <button
+                className={styles.textButton}
+                onClick={() => setEditing(null)}
+              >
+                Done
+              </button>
+            </div>
+
+            <div className={styles.hoursEditor}>
+              <div className={styles.hoursFields}>
+                {(["start", "end"] as const).map((key) => (
+                  <label key={key}>
+                    {key === "start" ? "Work starts" : "Work ends"}
+                    <select
+                      aria-label={`${person.name} work ${key}`}
+                      value={person[key]}
+                      onChange={(e) =>
+                        patchPerson(person.id, {
+                          [key]: Number(e.target.value),
+                        })
+                      }
+                    >
+                      {HOURS.map((n) => (
+                        <option value={n} key={n}>
+                          {hourValue(n)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ))}
+              </div>
+              <div>
+                <p>Working days</p>
+                <div className={styles.dayButtons}>
+                  {[1, 2, 3, 4, 5, 6, 0].map((n) => (
+                    <button
+                      key={n}
+                      aria-label={`${person.name} works ${DAYS[n]}`}
+                      aria-pressed={person.days.includes(n)}
+                      onClick={() =>
+                        patchPerson(person.id, {
+                          days: person.days.includes(n)
+                            ? person.days.filter((d) => d !== n)
+                            : [...person.days, n],
+                        })
+                      }
+                    >
+                      {DAYS[n]}
+                    </button>
                   ))}
                 </div>
-                <div>
-                  <p>Working days</p>
-                  <div className={styles.dayButtons}>
-                    {[1, 2, 3, 4, 5, 6, 0].map((n) => (
-                      <button
-                        key={n}
-                        aria-label={`${person.name} works ${DAYS[n]}`}
-                        aria-pressed={person.days.includes(n)}
-                        onClick={() =>
-                          patchPerson(person.id, {
-                            days: person.days.includes(n)
-                              ? person.days.filter((d) => d !== n)
-                              : [...person.days, n],
-                          })
-                        }
-                      >
-                        {DAYS[n]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {person.start >= person.end && (
-                  <p className={styles.editorHint}>
-                    {person.start === person.end
-                      ? "Start and end match, so no working hours are available."
-                      : "Overnight shift: working days refer to the day the shift starts."}
-                  </p>
-                )}
               </div>
-            )}
-          </div>
+              {person.start >= person.end && (
+                <p className={styles.editorHint}>
+                  {person.start === person.end
+                    ? "Start and end match, so no working hours are available."
+                    : "Overnight shift: working days refer to the day the shift starts."}
+                </p>
+              )}
+            </div>
+          </section>
         ))}
-      </div>
-
-      <div
-        className={`${styles.overlapBanner} ${firstFit < 0 ? styles.noOverlap : ""}`}
-        role="status"
-      >
-        <span className={styles.overlapIcon}>
-          <Icon name={firstFit >= 0 ? "check" : "clock"} />
-        </span>
-        <div>
-          <strong>
-            {state.people.length === 1
-              ? "Add a customer’s location to compare"
-              : firstFit >= 0
-                ? `${hoursLabel(day.overlapMinutes)} of shared working hours`
-                : day.overlapMinutes > 0
-                  ? `Shared hours are too short for a ${state.duration}-minute call`
-                  : "No shared working hours on this date"}
-          </strong>
-          <p>
-            {firstFit >= 0
-              ? `Green is working time for everyone. The time scale follows ${base.name}.`
-              : "Try a shorter call, a different date, or adjust someone’s working hours."}
-          </p>
-        </div>
-      </div>
-
-      <div className={styles.timelineHeader}>
-        <div>
-          <h3>Find your overlap</h3>
-          <p>Click a time, or drag across the tiles to select a time range.</p>
-          <label className={styles.timeScale}>
-            Show times in
-            <select
-              value={base.id}
-              onChange={(e) => {
-                const person = state.people.find(
-                  (p) => p.id === e.target.value,
-                );
-                if (!person) return;
-                patch({
-                  people: [
-                    person,
-                    ...state.people.filter((p) => p.id !== person.id),
-                  ],
-                  date: localParts(selected ?? Date.now(), person.zone).date,
-                  selected: selected ?? null,
-                });
-              }}
-            >
-              {state.people.map((person) => (
-                <option key={person.id} value={person.id}>
-                  {person.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div className={styles.legend}>
-          <span>
-            <i className={styles.sharedSwatch} />
-            Everyone working
-          </span>
-          <span>
-            <i className={styles.workSwatch} />
-            Working hours
-          </span>
-          <span>
-            <i />
-            Off hours
-          </span>
-        </div>
-      </div>
-      <MeetingTimeline
-        day={day}
-        people={state.people}
-        selected={selected}
-        duration={state.duration}
-        hour12={state.hour12}
-        fits={fits}
-        onSelect={patch}
-      />
-      <p className={styles.timelineNote}>
-        Arrow keys move by 15 minutes. Shift + arrow keys adjust the range. On
+      <p className={styles.srOnly}>
+        Arrow keys move by 30 minutes. Shift + arrow keys adjust the range. On
         mobile, swipe the time scale to scroll. Daylight saving is included.
       </p>
-
-      {suggestions.length > 0 && state.people.length > 1 && (
-        <div className={styles.suggestions}>
-          <span>Good times in {base.name}</span>
-          {suggestions.map((t) => (
-            <button
-              key={t}
-              aria-pressed={t === selected}
-              onClick={() => patch({ selected: t })}
-            >
-              {timeLabel(t, base.zone, state.hour12)}
-            </button>
-          ))}
-        </div>
-      )}
 
       {selected !== undefined ? (
         <section
@@ -831,7 +814,7 @@ export function MeetingPlanner() {
         >
           <div className={styles.meetingHeading}>
             <div>
-              <p className={styles.kicker}>YOUR SELECTED TIME</p>
+              <p className={styles.kicker}>YOUR MEETING</p>
               <h3 id="selected-meeting-heading">
                 {timeLabel(selected, base.zone, state.hour12)} <span>–</span>{" "}
                 {timeLabel(
@@ -849,43 +832,12 @@ export function MeetingPlanner() {
               className={`${styles.fitBadge} ${!selectedFits ? styles.outsideBadge : ""}`}
             >
               <Icon name={selectedFits ? "check" : "clock"} />
-              {selectedFits ? "Works for everyone" : "Outside working hours"}
+              {selectedFits
+                ? "Within everyone’s work hours"
+                : outside.length === 1
+                  ? `Outside ${outside[0].name}’s work hours`
+                  : `Outside work hours in ${outside.length} cities`}
             </span>
-          </div>
-          <div className={styles.meetingPeople}>
-            {state.people.map((person) => (
-              <div key={person.id}>
-                <span>{person.name}</span>
-                <strong>
-                  {timeLabel(selected, person.zone, state.hour12)} –{" "}
-                  {timeLabel(
-                    selected + state.duration * MINUTE,
-                    person.zone,
-                    state.hour12,
-                  )}
-                </strong>
-                <small>
-                  {dateLabel(selected, person.zone)}
-                  {localParts(selected, person.zone).date !==
-                  localParts(selected + state.duration * MINUTE, person.zone)
-                    .date
-                    ? ` → ${dateLabel(selected + state.duration * MINUTE, person.zone)}`
-                    : ""}{" "}
-                  · {zoneLabel(selected, person.zone)}
-                </small>
-                <span
-                  className={
-                    meetingFits(selected, state.duration, person)
-                      ? styles.available
-                      : styles.unavailable
-                  }
-                >
-                  {meetingFits(selected, state.duration, person)
-                    ? "Within working hours"
-                    : "Outside working hours"}
-                </span>
-              </div>
-            ))}
           </div>
           <div className={styles.actions}>
             <button
@@ -900,41 +852,47 @@ export function MeetingPlanner() {
               <Icon name="copy" />
               Copy meeting times
             </button>
-            <button
-              className={styles.button}
-              onClick={() => {
-                const blob = new Blob(
-                  [
-                    calendarFile(
-                      state.people,
-                      selected,
-                      state.duration,
-                      state.hour12,
-                    ),
-                  ],
-                  { type: "text/calendar;charset=utf-8" },
-                );
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "customer-meeting.ics";
-                a.click();
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-                setNotice(
-                  "Calendar file downloaded. Open it to add the meeting to your calendar.",
-                );
-              }}
-            >
-              <Icon name="calendar" />
-              Download calendar event
-            </button>
-            <span>Copy or download, then send it to your customer.</span>
+            <details className={styles.shareOptions}>
+              <summary>More ways to share</summary>
+              <div>
+                <button className={styles.button} onClick={share}>
+                  <Icon name="link" /> Share plan
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    const blob = new Blob(
+                      [
+                        calendarFile(
+                          state.people,
+                          selected,
+                          state.duration,
+                          state.hour12,
+                        ),
+                      ],
+                      { type: "text/calendar;charset=utf-8" },
+                    );
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "customer-meeting.ics";
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    setNotice(
+                      "Calendar file downloaded. Open it to add the meeting to your calendar.",
+                    );
+                  }}
+                >
+                  <Icon name="calendar" />
+                  Download calendar event
+                </button>
+              </div>
+            </details>
           </div>
         </section>
       ) : (
         <p className={styles.noDate}>
-          This date does not exist in the location selected under “Show times
-          in”. Please choose another date.
+          This date is not available in {base.name}. Please choose another day.
         </p>
       )}
       <div className={styles.notice} role="status" aria-live="polite">
@@ -951,10 +909,7 @@ export function MeetingPlanner() {
         />
       )}
       <div className={styles.bottomNote}>
-        <span>
-          Locations and working hours are saved in this browser. No account
-          needed.
-        </span>
+        <span>Your cities and work hours are saved automatically.</span>
         <span>
           City data:{" "}
           <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">
