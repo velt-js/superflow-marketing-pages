@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import AgencyCard from "./AgencyCard";
 import AgencyExplorer from "./AgencyExplorer";
+import styles from "./DirectoryGrid.module.css";
 import { buildAgencyListItems } from "@/lib/directory/agencies";
 import type { Agency } from "@/lib/directory/types";
 
@@ -21,21 +22,9 @@ const EMPTY_STATE_BODY =
 function EmptyState() {
   try {
     return (
-      <div
-        className="flex flex-col items-center gap-2 rounded-[var(--radius-card)] border-2 border-dashed border-black/10 px-6 py-16 text-center"
-      >
-        <p
-          className="text-black"
-          style={{ fontFamily: "var(--font-poppins)", fontWeight: 600, fontSize: 18 }}
-        >
-          {EMPTY_STATE_HEADING}
-        </p>
-        <p
-          className="max-w-[420px]"
-          style={{ fontFamily: "var(--font-urbanist)", fontSize: 14, color: "rgba(10,10,10,0.55)" }}
-        >
-          {EMPTY_STATE_BODY}
-        </p>
+      <div className={styles.empty}>
+        <p className={styles.emptyHeading}>{EMPTY_STATE_HEADING}</p>
+        <p className={styles.emptyBody}>{EMPTY_STATE_BODY}</p>
       </div>
     );
   } catch {
@@ -82,26 +71,25 @@ function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
  *
  * @param props - Component props.
  * @param props.agencies - Agencies to render, already sorted by the caller.
+ * @param props.categorySlug - The category being rendered. Forwarded to
+ *                             AgencyExplorer so its client-side "Top
+ *                             ranked" sort reproduces the server order for
+ *                             this category rather than a different one.
  */
-/**
- * Section wrapper classes, shared by the populated and empty states so the
- * two can't drift apart.
- *
- * No top padding on purpose: this section always follows CategoryHero,
- * which already closes with 48/64px of bottom padding. Using the global
- * `section-pad-y` here stacked the two into a ~227px dead gap between the
- * stat row and the filter controls.
- */
-const SECTION_CLASS = "bg-white pt-0 pb-[64px] lg:pb-[120px]";
-
-export default function AgencyGrid({ agencies }: { agencies: Agency[] }) {
+export default function AgencyGrid({
+  agencies,
+  categorySlug,
+}: {
+  agencies: Agency[];
+  categorySlug: string;
+}) {
   try {
     const safeAgencies = agencies ?? [];
 
     if (safeAgencies.length === 0) {
       return (
-        <section className={SECTION_CLASS}>
-          <div className="container-page">
+        <section className={styles.section} data-section="directory-agency-grid">
+          <div className={styles.inner}>
             <EmptyState />
           </div>
         </section>
@@ -112,9 +100,9 @@ export default function AgencyGrid({ agencies }: { agencies: Agency[] }) {
     const cardsBySlug = buildCardsBySlug(safeAgencies);
 
     return (
-      <section className={SECTION_CLASS}>
-        <div className="container-page">
-          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} />
+      <section className={styles.section} data-section="directory-agency-grid">
+        <div className={styles.inner}>
+          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} categorySlug={categorySlug} />
         </div>
       </section>
     );

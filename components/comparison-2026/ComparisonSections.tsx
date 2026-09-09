@@ -62,7 +62,7 @@ export function ComparisonSmartLink({
     );
   }
   return (
-    <a href={normalizedHref} className={className} rel="nofollow noopener">
+    <a href={normalizedHref} className={className} rel="noopener">
       {link?.label}
     </a>
   );
@@ -470,7 +470,7 @@ export function ComparisonRelatedLinks({
               <a
                 className={styles.hubCard}
                 href={normalizedHref}
-                rel="nofollow noopener"
+                rel="noopener"
               >
                 {cardBody}
               </a>
@@ -783,7 +783,7 @@ export function ComparisonSources({
                   className={styles.sourcesTooltipLink}
                   href={url}
                   target="_blank"
-                  rel="nofollow noopener noreferrer"
+                  rel="noopener noreferrer"
                 >
                   {sourceUrlLabel(url)}
                 </a>

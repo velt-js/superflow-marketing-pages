@@ -1,0 +1,3676 @@
+{
+  "source": "Client names resolved from Awwwards submission titles and live URLs. Machine-written by scrape-awwwards.mjs, safe to hand-edit: set a key's value to null to drop that entry from the directory entirely.",
+  "names": {
+    "-|/nk.studio": null,
+    "-|18 years of Büro": null,
+    "-|20 Years Inspired by People": null,
+    "-|8 Design Trends by Red Collar": null,
+    "-|ADBRO": {
+      "name": "ADBRO",
+      "notable": false
+    },
+    "-|AI in Banking UX Design": null,
+    "-|AIM — AI Modernism of Kharkiv": null,
+    "-|Abduction": null,
+    "-|Active Theory V6": null,
+    "-|Akaru": null,
+    "-|Applause": null,
+    "-|Argus Labs": {
+      "name": "Argus Labs",
+      "notable": false
+    },
+    "-|B/D® JAMS": null,
+    "-|BBVA Open Innovation": {
+      "name": "BBVA",
+      "notable": false
+    },
+    "-|BIZARRØ": null,
+    "-|BOSS Dubai Experience": {
+      "name": "Hugo Boss",
+      "notable": false
+    },
+    "-|Bad Boys": null,
+    "-|Below the Surface AR": null,
+    "-|Blumenkopf": {
+      "name": "Blumenkopf",
+      "notable": false
+    },
+    "-|Bonhomme 10the anniversary": null,
+    "-|Bronitex": {
+      "name": "Bronitex",
+      "notable": false
+    },
+    "-|Cartier Watches & Wonders 2024": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "-|Cartier Watches & Wonders 2025": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "-|Casa Batlló Experience": {
+      "name": "Casa Batlló",
+      "notable": false
+    },
+    "-|Cobo": null,
+    "-|Crosswire": {
+      "name": "Crosswire",
+      "notable": false
+    },
+    "-|DSK Supply": {
+      "name": "DSK Supply",
+      "notable": false
+    },
+    "-|DUCHATEAU": {
+      "name": "DuChateau",
+      "notable": false
+    },
+    "-|DashDigital® Studio": null,
+    "-|DeGirum": {
+      "name": "DeGirum",
+      "notable": false
+    },
+    "-|Death Chef": null,
+    "-|Design Education Series®": null,
+    "-|Dgrees Studio": null,
+    "-|Digital City": null,
+    "-|Discovermarket": {
+      "name": "Discovermarket",
+      "notable": false
+    },
+    "-|ET Studio": null,
+    "-|Engineered Floors": {
+      "name": "Engineered Floors",
+      "notable": false
+    },
+    "-|Evmos": {
+      "name": "Evmos",
+      "notable": false
+    },
+    "-|Exo Ape": null,
+    "-|FILAYYYY": null,
+    "-|FMEC Group": {
+      "name": "FMEC Group",
+      "notable": false
+    },
+    "-|Future Crew": {
+      "name": "Future Crew",
+      "notable": false
+    },
+    "-|Garden Eight": null,
+    "-|Gemini": null,
+    "-|GenCell": {
+      "name": "GenCell",
+      "notable": false
+    },
+    "-|Gremir": {
+      "name": "Gremir",
+      "notable": false
+    },
+    "-|Grids": null,
+    "-|Gusto Play 2": null,
+    "-|Hyperbolic": null,
+    "-|Illoca": {
+      "name": "Illoca",
+      "notable": false
+    },
+    "-|Immersive Garden website": null,
+    "-|Infinite Passerella": null,
+    "-|Ion X1": null,
+    "-|Jesper Landberg": null,
+    "-|Joy From Africa": null,
+    "-|KPR - Ramen Wars": null,
+    "-|Kaizen": null,
+    "-|L.I.S.A.": null,
+    "-|LOCUS SOLUS": {
+      "name": "Locus Solus",
+      "notable": false
+    },
+    "-|Lama Lama": null,
+    "-|Lenis": null,
+    "-|Little Red Riding Hood's Quest": null,
+    "-|Lost in Parallel Universe": null,
+    "-|Luis Bizarro": null,
+    "-|Lusion": null,
+    "-|Lusion Labs": null,
+    "-|Lusion v3": null,
+    "-|MONOGRID.COM": null,
+    "-|MSI - Egg Hunt": {
+      "name": "MSI",
+      "notable": false
+    },
+    "-|MSI - I want it all": {
+      "name": "MSI",
+      "notable": false
+    },
+    "-|MSI - The Match Maker": {
+      "name": "MSI",
+      "notable": false
+    },
+    "-|Making Maisel Marvelous": null,
+    "-|Malvah.Studio": null,
+    "-|Mioti Consulting": {
+      "name": "Mioti Consulting",
+      "notable": false
+    },
+    "-|Miranda – Paper Portfolio": null,
+    "-|Miu Miu - The Holiday Diary": {
+      "name": "Miu Miu",
+      "notable": false
+    },
+    "-|More Nutrition": {
+      "name": "More Nutrition",
+      "notable": false
+    },
+    "-|Moxion Power": {
+      "name": "Moxion Power",
+      "notable": false
+    },
+    "-|My Little Storybook": null,
+    "-|New Layer Capital": {
+      "name": "New Layer Capital",
+      "notable": false
+    },
+    "-|Niccolò Miranda - Portfolio": null,
+    "-|Noiz!": null,
+    "-|Obys": null,
+    "-|Obys' Design Books": null,
+    "-|Obys® Experiment Space": null,
+    "-|Olaian - Lookbook summer 2018": {
+      "name": "Olaian",
+      "notable": false
+    },
+    "-|Path Robotics": {
+      "name": "Path Robotics",
+      "notable": false
+    },
+    "-|Patrick Mahomes": {
+      "name": "Patrick Mahomes",
+      "notable": false
+    },
+    "-|Pinch Banking": {
+      "name": "Pinch",
+      "notable": false
+    },
+    "-|Pioneer - Corn Revolutionized": {
+      "name": "Pioneer",
+      "notable": false
+    },
+    "-|Quatre 20th Anniversary": null,
+    "-|Quechua Lookbook Spring Summer 2016": {
+      "name": "Quechua",
+      "notable": false
+    },
+    "-|R - Hotels": {
+      "name": "R Hotels",
+      "notable": false
+    },
+    "-|REF Digital": null,
+    "-|REFIRE": {
+      "name": "Refire",
+      "notable": false
+    },
+    "-|REJOUICE®": null,
+    "-|ROWL": {
+      "name": "ROWL",
+      "notable": false
+    },
+    "-|Red Collar": null,
+    "-|Repeat": null,
+    "-|Resn Black Friday Sale": null,
+    "-|Rino & Pelle": {
+      "name": "Rino & Pelle",
+      "notable": false
+    },
+    "-|Royal Salute Experience": {
+      "name": "Royal Salute",
+      "notable": false
+    },
+    "-|SALT AND PEPPER": null,
+    "-|SHIFTBRAIN 20th": null,
+    "-|Saffron": {
+      "name": "Saffron",
+      "notable": false
+    },
+    "-|Somefolk®": null,
+    "-|Somefolk® Digital Goods": null,
+    "-|Spatzek Studio": null,
+    "-|Spotify Wrapped Party": {
+      "name": "Spotify",
+      "notable": true
+    },
+    "-|Spring/Summer": null,
+    "-|Spring/Summer 2016": null,
+    "-|Studiogusto®": null,
+    "-|Sugar": null,
+    "-|Sunday Drive: Mini Racing Game Design & Development": null,
+    "-|Tarot with YouTube": {
+      "name": "YouTube",
+      "notable": true
+    },
+    "-|Tenzr": {
+      "name": "Tenzr",
+      "notable": false
+    },
+    "-|The First The Last® Agency": null,
+    "-|The Future in Mind": null,
+    "-|The Progressors": {
+      "name": "The Progressors",
+      "notable": false
+    },
+    "-|The St. Regis Venice Hotel": {
+      "name": "The St. Regis Venice",
+      "notable": false
+    },
+    "-|The Tie-break": null,
+    "-|The Tuscan Journey Begins": null,
+    "-|The Watch": null,
+    "-|The World of Vogue Talents 21": {
+      "name": "Vogue",
+      "notable": true
+    },
+    "-|ToyFight": null,
+    "-|Tula microphones": {
+      "name": "Tula Microphones",
+      "notable": false
+    },
+    "-|Unseen Studio": null,
+    "-|Unseen Studio 2025 Wrapped": null,
+    "-|Unspun": {
+      "name": "Unspun",
+      "notable": false
+    },
+    "-|VRTL WRLD": null,
+    "-|Victor Work": null,
+    "-|Vide Infra": null,
+    "-|Viens-la": null,
+    "-|Wannabe™": null,
+    "-|We are Büro": null,
+    "-|Wed'ze - Lookbook Winter 17-18": {
+      "name": "Wed'ze",
+      "notable": false
+    },
+    "-|Wed'ze ski goggles collection": {
+      "name": "Wed'ze",
+      "notable": false
+    },
+    "-|Weekend Max Mara Holiday Edit": {
+      "name": "Weekend Max Mara",
+      "notable": false
+    },
+    "-|Wyre": {
+      "name": "Wyre",
+      "notable": false
+    },
+    "-|XOX": null,
+    "-|Zhenya Rynzhuk Folio 2019": null,
+    "-|day one® Run": {
+      "name": "Day One",
+      "notable": false
+    },
+    "-|i-Spy": null,
+    "-|makemeplay": null,
+    "100lostspecies.com|100 Lost Species": null,
+    "10outof10.tv|10 out of 10": {
+      "name": "10 out of 10",
+      "notable": false
+    },
+    "13322566869.com|+13322566869": null,
+    "2112.run|2112.run": {
+      "name": "2112 Run",
+      "notable": false
+    },
+    "23bis.ch|23bis": {
+      "name": "23bis",
+      "notable": false
+    },
+    "25residences.com|25 Residences": {
+      "name": "25 Residences",
+      "notable": false
+    },
+    "2authenticators.co|Two Authenticators": {
+      "name": "Two Authenticators",
+      "notable": false
+    },
+    "45r.jp|45R Denim Karuta": {
+      "name": "45R",
+      "notable": false
+    },
+    "60fps.fr|Cartier Watches & Wonders 2025": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "65db.fr|65dB": {
+      "name": "65dB",
+      "notable": false
+    },
+    "66nord.com|66°Nord, the polar travel": {
+      "name": "66°Nord",
+      "notable": false
+    },
+    "8bit.ai|8bit AI": {
+      "name": "8bit",
+      "notable": false
+    },
+    "9to5studio.it|Nine To Five": {
+      "name": "9to5 Studio",
+      "notable": false
+    },
+    "aalimentaria.com|Analytica Alimentaria": {
+      "name": "Analytica Alimentaria",
+      "notable": false
+    },
+    "aanstekelijk.nl|Aanstekelijk - Creative Agency": {
+      "name": "Aanstekelijk",
+      "notable": false
+    },
+    "abelodor.com|Abel": {
+      "name": "Abel",
+      "notable": false
+    },
+    "abetkaua.com|Abetka": {
+      "name": "Abetka",
+      "notable": false
+    },
+    "absolut-nft.com|Seletti X Absolut Born to Mix": {
+      "name": "Absolut",
+      "notable": true
+    },
+    "accordion.net.au|Accordion": {
+      "name": "Accordion",
+      "notable": false
+    },
+    "accorhotelsarena.com|#PartageTesSouvenirs": {
+      "name": "AccorHotels Arena",
+      "notable": false
+    },
+    "acuraunlockyourenergy.com|Acura - Unlock Your Energy": {
+      "name": "Acura",
+      "notable": false
+    },
+    "adambricker.com|Adam Bricker": null,
+    "adanede.com|Neura": {
+      "name": "Neura",
+      "notable": false
+    },
+    "addendumhair.com|The Proof®": {
+      "name": "Addendum",
+      "notable": false
+    },
+    "adidas.com|adidas Futurecraft.Loop": {
+      "name": "Adidas",
+      "notable": true
+    },
+    "adobe.com|Adobe: Taking Shape": {
+      "name": "Adobe",
+      "notable": true
+    },
+    "adobexbowie75.com|Adobe X Bowie": {
+      "name": "Adobe",
+      "notable": true
+    },
+    "adovasio.it|Adovasio": {
+      "name": "Adovasio",
+      "notable": false
+    },
+    "aebeleinteriors.com|Æbele Interiors": {
+      "name": "Æbele Interiors",
+      "notable": false
+    },
+    "aexlab.com|AEXLAB & VAIL VR": {
+      "name": "AEXLAB",
+      "notable": false
+    },
+    "aiaiai.audio|AIAIAI.audio": {
+      "name": "AIAIAI",
+      "notable": false
+    },
+    "aikawakenichi.com|Kenichi Aikawa": null,
+    "aircenter.space|AIR": {
+      "name": "AIR",
+      "notable": false
+    },
+    "aircord.co.jp|aircord": {
+      "name": "Aircord",
+      "notable": false
+    },
+    "akashisakebrewery.com|Akashi & Kaikyō": {
+      "name": "Akashi Sake Brewery",
+      "notable": false
+    },
+    "akinod.fr|Akinod - Official online store": {
+      "name": "Akinod",
+      "notable": false
+    },
+    "alanmenken.com|Alan Menken": null,
+    "aldoshoes.com|ALDO Step into Love Mobile XP": {
+      "name": "ALDO",
+      "notable": false
+    },
+    "aletagency.com|ALET Agency Folio": {
+      "name": "ALET Agency",
+      "notable": false
+    },
+    "alextkachev.com|Alex Tkachev 2023": null,
+    "alinea-invest.com|Alinea": {
+      "name": "Alinea",
+      "notable": false
+    },
+    "alireza.com|Alireza": {
+      "name": "Alireza",
+      "notable": false
+    },
+    "alitwotimes.com|Ali Ali": {
+      "name": "Ali Two Times",
+      "notable": false
+    },
+    "allpressculture.com|Allpress Culture Manual": {
+      "name": "Allpress",
+      "notable": false
+    },
+    "alpbio.com|Alpine Bio": {
+      "name": "Alpine Bio",
+      "notable": false
+    },
+    "altproductions.ca|ALT": {
+      "name": "ALT Productions",
+      "notable": false
+    },
+    "altsdigital.com|ALTS Digital": {
+      "name": "ALTS Digital",
+      "notable": false
+    },
+    "amaterasu.ai|Amaterasu": {
+      "name": "Amaterasu",
+      "notable": false
+    },
+    "ambushsilverfctry.io|AMBUSH® SILVER FCTRY": {
+      "name": "AMBUSH",
+      "notable": false
+    },
+    "amuse-bouche.pt|Amuse Bouche": {
+      "name": "Amuse Bouche",
+      "notable": false
+    },
+    "anablagojevic.com|Ana Blagojevic": null,
+    "anaiwood.com|ANAI": {
+      "name": "ANAI",
+      "notable": false
+    },
+    "andreadiego.es|Andrea Diego": null,
+    "anthem.co.za|Anthem": {
+      "name": "Anthem",
+      "notable": false
+    },
+    "apechain.com|Apechain": {
+      "name": "ApeChain",
+      "notable": false
+    },
+    "apeel.com|Apeel": {
+      "name": "Apeel",
+      "notable": false
+    },
+    "aqm2.ai|AQM²": {
+      "name": "AQM²",
+      "notable": false
+    },
+    "aquerone.com|Aquerone": {
+      "name": "Aquerone",
+      "notable": false
+    },
+    "aramco.com|Aramco - The Birth of Oil": {
+      "name": "Aramco",
+      "notable": true
+    },
+    "aranja.com|Aranja": {
+      "name": "Aranja",
+      "notable": false
+    },
+    "archidomo.fr|ARCHIDOMO Architects": {
+      "name": "Archidomo Architects",
+      "notable": false
+    },
+    "argor.com|Argor-Heraeus": {
+      "name": "Argor-Heraeus",
+      "notable": false
+    },
+    "ariostea.it|Ariostea": {
+      "name": "Ariostea",
+      "notable": false
+    },
+    "ark8.net|ARK/8": {
+      "name": "ARK/8",
+      "notable": false
+    },
+    "artemartemartem.com|Artem Shcherbakov": null,
+    "artificial-garage.com|artificial-garage": {
+      "name": "Artificial Garage",
+      "notable": false
+    },
+    "artisansdidees.com|Artisans d'Idées": {
+      "name": "Artisans d'Idées",
+      "notable": false
+    },
+    "asterieclinic.com.au|Asterie Clinic": {
+      "name": "Asterie Clinic",
+      "notable": false
+    },
+    "astoncm.com|Aston Currency Management": {
+      "name": "Aston Currency Management",
+      "notable": false
+    },
+    "astranova.world|Astra Nova": {
+      "name": "Astra Nova",
+      "notable": false
+    },
+    "atelier.net|Opportunities for Our Avatars": null,
+    "aten7.com|Aten7": {
+      "name": "Aten7",
+      "notable": false
+    },
+    "atlas-bespoke.com|ATLAS": {
+      "name": "Atlas Bespoke",
+      "notable": false
+    },
+    "audemarspiguet.com|The House of Wonders": {
+      "name": "Audemars Piguet",
+      "notable": false
+    },
+    "aupalevodka.com|Aupale Vodka": {
+      "name": "Aupale Vodka",
+      "notable": false
+    },
+    "autexacoustics.com|Autex Acoustics®": {
+      "name": "Autex Acoustics",
+      "notable": false
+    },
+    "autonomyrealestate.com|Autonomy Real Estate": {
+      "name": "Autonomy Real Estate",
+      "notable": false
+    },
+    "avancio.com|Avancio": {
+      "name": "Avancio",
+      "notable": false
+    },
+    "aventuradentalarts.com|Aventura Dental Arts": {
+      "name": "Aventura Dental Arts",
+      "notable": false
+    },
+    "avoriaz.com|Avoriaz 1800": {
+      "name": "Avoriaz",
+      "notable": false
+    },
+    "avroko.com|AvroKO": {
+      "name": "AvroKO",
+      "notable": false
+    },
+    "avvr.nl|De Advocaten van Van Riet": {
+      "name": "Advocaten van Van Riet",
+      "notable": false
+    },
+    "ayocin.com|ATMOS® Lamp by AYOCIN": {
+      "name": "AYOCIN",
+      "notable": false
+    },
+    "azab.es|AZAB": {
+      "name": "Azab",
+      "notable": false
+    },
+    "azure.sa|Azure": {
+      "name": "Azure",
+      "notable": false
+    },
+    "azzerad.com|Azzerad Studios": {
+      "name": "Azzerad Studios",
+      "notable": false
+    },
+    "badass35.com|The Badass Project": {
+      "name": "Badass 35",
+      "notable": false
+    },
+    "ballsystem.it|BALLSYSTEM": {
+      "name": "Ballsystem",
+      "notable": false
+    },
+    "bang-olufsen.com|B&O — See yourself in sound": {
+      "name": "Bang & Olufsen",
+      "notable": false
+    },
+    "banky.io|Banky": {
+      "name": "Banky",
+      "notable": false
+    },
+    "bannerbazen.nl|BannerBazen": {
+      "name": "BannerBazen",
+      "notable": false
+    },
+    "barge166.com|Barge 166": {
+      "name": "Barge 166",
+      "notable": false
+    },
+    "bartlettarchucl.com|The Bartlett Summer Show 2020": {
+      "name": "The Bartlett",
+      "notable": false
+    },
+    "basecreate.com|Base Creative ® Portfolio": {
+      "name": "Base Creative",
+      "notable": false
+    },
+    "batokasafaris.com|Batoka Safaris": {
+      "name": "Batoka Safaris",
+      "notable": false
+    },
+    "baunfire.com|Baunfire Portfolio Review 2022": null,
+    "bbdo.de|BBDO Creative Agency Portfolio": {
+      "name": "BBDO",
+      "notable": false
+    },
+    "bear-rabe.com|BeAr Architects": {
+      "name": "BeAr Architects",
+      "notable": false
+    },
+    "behance.net|AAWU(M)": null,
+    "behance.net|Clearway Bank: UI/UX, CGI & Service Design for ATM": {
+      "name": "Clearway Bank",
+      "notable": false
+    },
+    "belka-games.com|Belka Games": {
+      "name": "Belka Games",
+      "notable": false
+    },
+    "bennettandclive.com|Bennett & Clive": {
+      "name": "Bennett & Clive",
+      "notable": false
+    },
+    "beoplay.com|Beoplay H4 - UNFILTERED": {
+      "name": "Beoplay",
+      "notable": false
+    },
+    "bethebuzz.co|Be The Buzz": {
+      "name": "Be The Buzz",
+      "notable": false
+    },
+    "betteroff.studio|The Lookback": null,
+    "bit.ly|RSPCA Animal Futures": {
+      "name": "RSPCA",
+      "notable": false
+    },
+    "bitkraft.vc|BITKRAFT": {
+      "name": "BITKRAFT",
+      "notable": false
+    },
+    "bitstar.tokyo|BitStar Rebranding": {
+      "name": "BitStar",
+      "notable": false
+    },
+    "bittercreek.studio|Bitter creek": {
+      "name": "Bitter Creek",
+      "notable": false
+    },
+    "bleibtgleich.dev|bleibtgleich'26": null,
+    "blit.studio|Blit Studio": {
+      "name": "Blit Studio",
+      "notable": false
+    },
+    "bloxroute.com|BloXroute: Web3 Website for BDN – Crypto & Solana": {
+      "name": "bloXroute",
+      "notable": false
+    },
+    "blueyard.com|BlueYard Capital": {
+      "name": "BlueYard Capital",
+      "notable": false
+    },
+    "bmw-motorrad.it|BMW Motorrad - RADLAND": {
+      "name": "BMW Motorrad",
+      "notable": true
+    },
+    "bobaicecream.com|Boba Ice Cream": {
+      "name": "Boba Ice Cream",
+      "notable": false
+    },
+    "boinaud.com|Maison boinaud": {
+      "name": "Maison Boinaud",
+      "notable": false
+    },
+    "bonsound.com|Bonsound": {
+      "name": "Bonsound",
+      "notable": false
+    },
+    "boomandbloom.com|Boom & Bloom": {
+      "name": "Boom & Bloom",
+      "notable": false
+    },
+    "boredapeyachtclub.com|Yuga Labs - BAYC Clubhouse": {
+      "name": "Bored Ape Yacht Club",
+      "notable": false
+    },
+    "boring.industries|Boring": {
+      "name": "Boring",
+      "notable": false
+    },
+    "bottega53.com|BOTTEGA 53": {
+      "name": "Bottega 53",
+      "notable": false
+    },
+    "boyd.ae|Boyd": {
+      "name": "Boyd",
+      "notable": false
+    },
+    "bramnaus.com|bram naus Portfolio Website": null,
+    "branu.jp|BRANU Rebranding": {
+      "name": "BRANU",
+      "notable": false
+    },
+    "breakthroughenergy.org|Breakthrough Energy": {
+      "name": "Breakthrough Energy",
+      "notable": false
+    },
+    "breakthroughenergy.org|The State of the Transition 2023": {
+      "name": "Breakthrough Energy",
+      "notable": false
+    },
+    "bricedarmon.com|Brice Darmon": null,
+    "brunellocucinelli.com|Brunello Cucinelli - AI E-com": {
+      "name": "Brunello Cucinelli",
+      "notable": false
+    },
+    "brunoarizio.com|Bruno Arizio – Portfolio": null,
+    "bruut.media|Bruut": {
+      "name": "Bruut",
+      "notable": false
+    },
+    "btoexperience.com|BTO Vip Sports Experiences": {
+      "name": "BTO Experience",
+      "notable": false
+    },
+    "bugatti-smartwatches.com|Bugatti Smartwatches": {
+      "name": "Bugatti Smartwatches",
+      "notable": false
+    },
+    "bulgari.com|Bvlgari Magnificent Wonder": {
+      "name": "Bvlgari",
+      "notable": true
+    },
+    "butter.video|Butter": {
+      "name": "Butter",
+      "notable": false
+    },
+    "byhabit.com|Health By Habit": {
+      "name": "By Habit",
+      "notable": false
+    },
+    "bymatthew.com|By:Matthew The Shirt": {
+      "name": "By:Matthew",
+      "notable": false
+    },
+    "byspotify.com|Made to Be Found": {
+      "name": "Spotify",
+      "notable": true
+    },
+    "caledonian.es|Caledonian": {
+      "name": "Caledonian",
+      "notable": false
+    },
+    "calem.pt|Porto Cálem": {
+      "name": "Cálem",
+      "notable": false
+    },
+    "campoallecomete.it|Campo alle Comete": {
+      "name": "Campo alle Comete",
+      "notable": false
+    },
+    "canadiens.com|Montreal Canadiens Foundation": {
+      "name": "Montreal Canadiens Foundation",
+      "notable": false
+    },
+    "canairi.io|Canairi® A Fresh Air Monitor™": {
+      "name": "Canairi",
+      "notable": false
+    },
+    "canerock.com|Canerock": {
+      "name": "Canerock",
+      "notable": false
+    },
+    "cannesprlions.com|LIONS GOOD NEWS2020": {
+      "name": "Cannes Lions",
+      "notable": false
+    },
+    "canopyplanet.org|Next Gen Now": {
+      "name": "Canopy",
+      "notable": false
+    },
+    "capti.co|Capti": {
+      "name": "Capti",
+      "notable": false
+    },
+    "carlosmunnoz.com|Munnoz": null,
+    "cartier.com|Cartier The Fabulous Page": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "cartier.com|Cartier Watches & Wonders 2026": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "cartier.com|Follow the baby panther": {
+      "name": "Cartier",
+      "notable": true
+    },
+    "carvico.com|Carvico": {
+      "name": "Carvico",
+      "notable": false
+    },
+    "casadisolare.com|Casa di Solare": {
+      "name": "Casa di Solare",
+      "notable": false
+    },
+    "cash.app|Cash App Brand Guidelines": {
+      "name": "Cash App",
+      "notable": false
+    },
+    "caveworld.com|Cave World": {
+      "name": "Cave World",
+      "notable": false
+    },
+    "cdiscount.com|Cdiscount - Jumping Max": {
+      "name": "Cdiscount",
+      "notable": false
+    },
+    "cellart.com|Cellart": {
+      "name": "Cellart",
+      "notable": false
+    },
+    "cerebrium.ai|Cerebrium": {
+      "name": "Cerebrium",
+      "notable": false
+    },
+    "cestbeau.co|C'est Beau": {
+      "name": "C'est Beau",
+      "notable": false
+    },
+    "cevitxef.com|Cevitxef": {
+      "name": "Cevitxef",
+      "notable": false
+    },
+    "chanel.com|Bleu de CHANEL l'Exclusif": {
+      "name": "Chanel",
+      "notable": true
+    },
+    "chiaraluzzana.com|Chiara Luzzana–Sound Designer": null,
+    "choochooworld.com|Choo-Choo World": {
+      "name": "Choo-Choo World",
+      "notable": false
+    },
+    "chungiyoo.com|Chungi Folio": null,
+    "cieffemilano.it|Cieffe Milano": {
+      "name": "Cieffe Milano",
+      "notable": false
+    },
+    "cinekidfestival.nl|Cinekid Festival": {
+      "name": "Cinekid",
+      "notable": false
+    },
+    "cineshader.com|CineShader": null,
+    "citadellegin.com|Citadelle Gin": {
+      "name": "Citadelle Gin",
+      "notable": false
+    },
+    "clearstreet.io|Clear Street": {
+      "name": "Clear Street",
+      "notable": false
+    },
+    "clingr.me|Clingr": {
+      "name": "Clingr",
+      "notable": false
+    },
+    "clouarchitects.com|CLOU": {
+      "name": "CLOU Architects",
+      "notable": false
+    },
+    "cloudcastles.gg|Cloud Castles": {
+      "name": "Cloud Castles",
+      "notable": false
+    },
+    "cmcc.vc|CMCC": {
+      "name": "CMCC",
+      "notable": false
+    },
+    "cnn.com|Porsche Taycan": {
+      "name": "Porsche",
+      "notable": true
+    },
+    "coastalworld.com|Coastal World": {
+      "name": "Coastal World",
+      "notable": false
+    },
+    "cobosrl.co|Cobo©": {
+      "name": "Cobo",
+      "notable": false
+    },
+    "coca-cola.com|Coca-Cola: Wozzaah": {
+      "name": "Coca-Cola",
+      "notable": true
+    },
+    "codebydennis.com|Mews Unfold 2024": {
+      "name": "Mews",
+      "notable": false
+    },
+    "coloniazacamil.com|Colonia Zacamil": null,
+    "com.pause|ContraBureau™": {
+      "name": "ContraBureau",
+      "notable": false
+    },
+    "cominvi.com.mx|CoMinVi": {
+      "name": "CoMinVi",
+      "notable": false
+    },
+    "conchaytoro.com|Concha y Toro": {
+      "name": "Concha y Toro",
+      "notable": false
+    },
+    "constructiondesourdy.com|Désourdy": {
+      "name": "Désourdy",
+      "notable": false
+    },
+    "contra.com|Contra Project Calculator": {
+      "name": "Contra",
+      "notable": false
+    },
+    "convexity.space|Convexity": {
+      "name": "Convexity",
+      "notable": false
+    },
+    "convexseascapesurvey.com|Convex Seascape Survey": {
+      "name": "Convex Seascape Survey",
+      "notable": false
+    },
+    "copydennis.com|Copy Dennis — Collection": null,
+    "cosmos.so|Cosmos": {
+      "name": "Cosmos",
+      "notable": false
+    },
+    "couroazul.com|Couro Azul": {
+      "name": "Couro Azul",
+      "notable": false
+    },
+    "covermymeds.com|CoverMyMeds Careers": {
+      "name": "CoverMyMeds",
+      "notable": false
+    },
+    "covidartmuseum.com|The Covid Art Museum": {
+      "name": "The Covid Art Museum",
+      "notable": false
+    },
+    "cowboy.com|Cowboy": {
+      "name": "Cowboy",
+      "notable": false
+    },
+    "craftedbygc.com|Dala": null,
+    "creandum.com|Creandum": {
+      "name": "Creandum",
+      "notable": false
+    },
+    "creative-nights.com|InteriorLab": null,
+    "criticaldanger.com|Critical Danger": {
+      "name": "Critical Danger",
+      "notable": false
+    },
+    "cronos.nl|cronos.nl": {
+      "name": "Cronos",
+      "notable": false
+    },
+    "cssdesignawards.com|New Certificate Suite by Red Collar & CSSDA": {
+      "name": "CSS Design Awards",
+      "notable": false
+    },
+    "cubansedge.com|CUBAN'S EDGE": {
+      "name": "Cuban's Edge",
+      "notable": false
+    },
+    "cultldn.com|Cult": {
+      "name": "Cult",
+      "notable": false
+    },
+    "cultofthenorth.com|Cult of the North": {
+      "name": "Cult of the North",
+      "notable": false
+    },
+    "curvy.dk|Beagle - Better proposals": {
+      "name": "Beagle",
+      "notable": false
+    },
+    "cyberbrokers.com|CyberBrokers": {
+      "name": "CyberBrokers",
+      "notable": false
+    },
+    "cyphr.studio|Cyphr": {
+      "name": "Cyphr",
+      "notable": false
+    },
+    "danielspatzek.com|dnlsptzk IV": null,
+    "danish.tm|Danish™": {
+      "name": "Danish",
+      "notable": false
+    },
+    "dapper.agency|Dapper": {
+      "name": "Dapper",
+      "notable": false
+    },
+    "dashdigital.studio|DashDigital® Studio": {
+      "name": "DashDigital Studio",
+      "notable": false
+    },
+    "datum.xyz|Datum": {
+      "name": "Datum",
+      "notable": false
+    },
+    "davidalaba.com|David Alaba": {
+      "name": "David Alaba",
+      "notable": false
+    },
+    "davidkushnermusic.com|David Kushner": {
+      "name": "David Kushner",
+      "notable": false
+    },
+    "davidlaxer.com|Laxer": null,
+    "davidlubofsky.com|David Lubofsky": null,
+    "davidwhyte.com|David Whyte Experience": {
+      "name": "David Whyte",
+      "notable": false
+    },
+    "daviescreations.co.uk|Andy Davies": null,
+    "davincii.com|DaVincii": {
+      "name": "DaVincii",
+      "notable": false
+    },
+    "debijenkorf.nl|De Bijenkorf magical forest": {
+      "name": "De Bijenkorf",
+      "notable": false
+    },
+    "decathlonyestalgia.com|Decathlon Yestalgia": {
+      "name": "Decathlon",
+      "notable": false
+    },
+    "decodedadvertising.com|Decoded Advertising": {
+      "name": "Decoded Advertising",
+      "notable": false
+    },
+    "deepbeautykikomilano.com|Deep Beauty": {
+      "name": "Kiko Milano",
+      "notable": false
+    },
+    "deepmedia.ai|DeepMedia": {
+      "name": "DeepMedia",
+      "notable": false
+    },
+    "defoodtruckclub.nl|De Foodtruck Club": {
+      "name": "De Foodtruck Club",
+      "notable": false
+    },
+    "degaspebeaubienmuseum.com|De Gaspé Beaubien Museum": {
+      "name": "De Gaspé Beaubien Museum",
+      "notable": false
+    },
+    "degenesis.com|DEGENESIS": {
+      "name": "Degenesis",
+      "notable": false
+    },
+    "dennisberti.com|Dennis Berti Photography": null,
+    "deplacemaison.com|Déplacé Maison": {
+      "name": "Déplacé Maison",
+      "notable": false
+    },
+    "depoluxe.xyz|Depo Luxe": {
+      "name": "Depo Luxe",
+      "notable": false
+    },
+    "designembraced.com|Design Embraced": {
+      "name": "Design Embraced",
+      "notable": false
+    },
+    "deso.com|DeSo": {
+      "name": "DeSo",
+      "notable": false
+    },
+    "destigmatize.ca|Destigmatize": {
+      "name": "Destigmatize",
+      "notable": false
+    },
+    "dhk.co.za|dhk Architects": {
+      "name": "dhk Architects",
+      "notable": false
+    },
+    "dhnn.com|DHNN™": {
+      "name": "DHNN",
+      "notable": false
+    },
+    "dickclark.com|Dick Clark Productions": {
+      "name": "Dick Clark Productions",
+      "notable": false
+    },
+    "dieselwynwood.me|Diesel Wynwood": {
+      "name": "Diesel",
+      "notable": false
+    },
+    "digitalmosaik.com|Digital Mosaik": {
+      "name": "Digital Mosaik",
+      "notable": false
+    },
+    "diko.co|DIKO": {
+      "name": "Diko",
+      "notable": false
+    },
+    "dimemtl.com|Dime MTL": {
+      "name": "Dime MTL",
+      "notable": false
+    },
+    "dior.com|Rouge Dior": {
+      "name": "Dior",
+      "notable": true
+    },
+    "directedbywes.com|wes": null,
+    "discoveroutpost.com|Outpost": {
+      "name": "Outpost",
+      "notable": false
+    },
+    "divinalingua.it|Dante": null,
+    "docusign.com|Docusign Brand": {
+      "name": "DocuSign",
+      "notable": false
+    },
+    "dogstudio-dev.co|The Hall of Zero Limits": null,
+    "dojacode.com|DojaCode": {
+      "name": "HP",
+      "notable": true
+    },
+    "dola.me|Dola": {
+      "name": "Dola",
+      "notable": false
+    },
+    "dolcegabbana.com|DG Beauty - Gift Finder": {
+      "name": "Dolce & Gabbana",
+      "notable": true
+    },
+    "dolcegabbana.com|Dolce&GabbanaBeauty GiftFinder": {
+      "name": "Dolce & Gabbana",
+      "notable": true
+    },
+    "dominic.bz|Dominic Berzins": null,
+    "dominiquesire.com|Dominique Sire": null,
+    "donmolinico.es|Don Molinico": {
+      "name": "Don Molinico",
+      "notable": false
+    },
+    "dontboardme.com|Don't Board Me": {
+      "name": "Don't Board Me",
+      "notable": false
+    },
+    "dorstenlesser.com|D&L": {
+      "name": "D&L",
+      "notable": false
+    },
+    "dottodot.es|Dot to dot": {
+      "name": "Dot to Dot",
+      "notable": false
+    },
+    "dpt.co|DPT.": {
+      "name": "DPT.",
+      "notable": false
+    },
+    "dragonfly.xyz|Dragonfly Redux": {
+      "name": "Dragonfly",
+      "notable": false
+    },
+    "dreamwave.live|The Game Awards Microverse": {
+      "name": "The Game Awards",
+      "notable": false
+    },
+    "drivecapital.com|Drive": {
+      "name": "Drive Capital",
+      "notable": false
+    },
+    "drpepper.ca|Dr Pepper": {
+      "name": "Dr Pepper",
+      "notable": true
+    },
+    "duck.school|Duck English 🦆": {
+      "name": "Duck English",
+      "notable": false
+    },
+    "duiliocortella.com|Duilio Cortella": null,
+    "dulcedo.com|Dulcedo": {
+      "name": "Dulcedo",
+      "notable": false
+    },
+    "duroc.ma|Duroc": {
+      "name": "Duroc",
+      "notable": false
+    },
+    "dyavol.com|D'YAVOL": {
+      "name": "D'Yavol",
+      "notable": false
+    },
+    "ea.com|Welcome to EA Sports FC": {
+      "name": "EA",
+      "notable": true
+    },
+    "easol.com|Easol": {
+      "name": "Easol",
+      "notable": false
+    },
+    "ebikestore.nl|E Bike Store": {
+      "name": "E-Bike Store",
+      "notable": false
+    },
+    "eci.io|ECI": {
+      "name": "ECI",
+      "notable": false
+    },
+    "ecopiatech.com|Ecopia": {
+      "name": "Ecopia",
+      "notable": false
+    },
+    "edifis.ca|Edifis": {
+      "name": "Edifis",
+      "notable": false
+    },
+    "edoardosmerilli.com|Edoardo Smerilli–Film Director": null,
+    "eeq.ca|EEQ": {
+      "name": "EEQ",
+      "notable": false
+    },
+    "ekos.io|Ekos Genesis": {
+      "name": "Ekos",
+      "notable": false
+    },
+    "eleni-group.com|Eleni Group": {
+      "name": "Eleni Group",
+      "notable": false
+    },
+    "eminente.art|Éminente": {
+      "name": "Éminente",
+      "notable": false
+    },
+    "emmaissocial.com|Emma is Social": {
+      "name": "Emma is Social",
+      "notable": false
+    },
+    "empathyexperiment.com|The Empathy Experiment": null,
+    "endlessletter.com|The Endless Letter": null,
+    "engine.land|Engine Station": {
+      "name": "Engine Station",
+      "notable": false
+    },
+    "eniteo.ru|Eniteo": {
+      "name": "Eniteo",
+      "notable": false
+    },
+    "enotecadellavalpolicella.it|Enoteca della Valpollicella": {
+      "name": "Enoteca della Valpolicella",
+      "notable": false
+    },
+    "enpowertrading.co.za|Enpower Trading": {
+      "name": "Enpower Trading",
+      "notable": false
+    },
+    "entreautre.com|Entreautre": {
+      "name": "Entreautre",
+      "notable": false
+    },
+    "eqtventures.com|EQT Ventures": {
+      "name": "EQT Ventures",
+      "notable": false
+    },
+    "era-residence.com|ERA Residence": {
+      "name": "ERA Residence",
+      "notable": false
+    },
+    "era.estate|Era": {
+      "name": "Era",
+      "notable": false
+    },
+    "erikamoreira.co|Erika Moreira — Portfolio": null,
+    "eringwesley.com|Erin Wesley": null,
+    "escape.cafe|Escape Coffee": {
+      "name": "Escape Coffee",
+      "notable": false
+    },
+    "escapeplanvr.com|Meta - Escape Plan": {
+      "name": "Meta",
+      "notable": true
+    },
+    "estrela.studio|Estrela": {
+      "name": "Estrela",
+      "notable": false
+    },
+    "estudionk.com|Magic Bottle": null,
+    "ethnocare.ca|Ethnocare": {
+      "name": "Ethnocare",
+      "notable": false
+    },
+    "etq-amsterdam.com|ETQ Amsterdam": {
+      "name": "ETQ Amsterdam",
+      "notable": false
+    },
+    "europa.eu|EXPO 58 - Immersive Experience": {
+      "name": "European Union",
+      "notable": false
+    },
+    "euskadi.eus|Ibaiak": {
+      "name": "Basque Government",
+      "notable": false
+    },
+    "eva-habermann.com|Eva Habermann": {
+      "name": "Eva Habermann",
+      "notable": false
+    },
+    "ever-live-here.com|Ever": {
+      "name": "Ever",
+      "notable": false
+    },
+    "everswap.com|EverSwap": {
+      "name": "EverSwap",
+      "notable": false
+    },
+    "expedia.com|Resorts World Las Vegas": {
+      "name": "Resorts World Las Vegas",
+      "notable": false
+    },
+    "experiencethebestyou.com|The Best You by Klook": {
+      "name": "Klook",
+      "notable": false
+    },
+    "fabiofantolino.com|Fabio Fantolino": {
+      "name": "Fabio Fantolino",
+      "notable": false
+    },
+    "fabriziomilesi.com|FABRIZIO MILESI": {
+      "name": "Fabrizio Milesi",
+      "notable": false
+    },
+    "fame-estate.com|Fame Estate": {
+      "name": "Fame Estate",
+      "notable": false
+    },
+    "fatfatfatfestival.it|FAT FAT FAT Festival — 19": {
+      "name": "FAT FAT FAT Festival",
+      "notable": false
+    },
+    "fedrigonitopaward.com|Fedrigoni Top Awards 2021": {
+      "name": "Fedrigoni",
+      "notable": false
+    },
+    "ferragamo.com|The Metropolitan Enigma": {
+      "name": "Salvatore Ferragamo",
+      "notable": false
+    },
+    "ferro.pt|Ferro - Grupo Ferpinta": {
+      "name": "Ferro",
+      "notable": false
+    },
+    "fifpro.org|The FIFPRO gallery": {
+      "name": "FIFPRO",
+      "notable": false
+    },
+    "filipporuffini.com|Filippo Ruffini - Portfolio": null,
+    "fillinglife.co|FIL - SUMI LIMITED": {
+      "name": "FIL",
+      "notable": false
+    },
+    "findyourvana.com|VANA": {
+      "name": "VANA",
+      "notable": false
+    },
+    "fingerspelling.xyz|Fingerspelling.xyz": null,
+    "firstfit.com|FirstFit": {
+      "name": "FirstFit",
+      "notable": false
+    },
+    "fitsole.shop|Fitsole": {
+      "name": "Fitsole",
+      "notable": false
+    },
+    "flecto.io|Flecto": {
+      "name": "Flecto",
+      "notable": false
+    },
+    "fledge.tv|Fledge": {
+      "name": "Fledge",
+      "notable": false
+    },
+    "flim.ai|Flim": {
+      "name": "Flim",
+      "notable": false
+    },
+    "floema.com|Floema": {
+      "name": "Floema",
+      "notable": false
+    },
+    "floema.jewelry|Floema Jewelry": {
+      "name": "Floema Jewelry",
+      "notable": false
+    },
+    "flowfest.co.uk|FlowFest 2025": {
+      "name": "FlowFest",
+      "notable": false
+    },
+    "fluid.glass|Fluid Glass": {
+      "name": "Fluid Glass",
+      "notable": false
+    },
+    "flyingpapers.eu|Flying Papers": {
+      "name": "Flying Papers",
+      "notable": false
+    },
+    "foam.org|Foam.org": {
+      "name": "Foam",
+      "notable": false
+    },
+    "foams.world|Faith Of A Mustard Seed": {
+      "name": "Faith Of A Mustard Seed",
+      "notable": false
+    },
+    "fold7.com|Fold7": {
+      "name": "Fold7",
+      "notable": false
+    },
+    "follow.art|FOLLOW.ART": {
+      "name": "Follow.Art",
+      "notable": false
+    },
+    "foodcomplianceinternational.com|Food Compliance International": {
+      "name": "Food Compliance International",
+      "notable": false
+    },
+    "forner.studio|FORNER Studio": {
+      "name": "Forner Studio",
+      "notable": false
+    },
+    "francobollimontilessini.com|Francobolli Monti Lessini": {
+      "name": "Francobolli Monti Lessini",
+      "notable": false
+    },
+    "franshalsmuseum.nl|Frans Hals Museum": {
+      "name": "Frans Hals Museum",
+      "notable": false
+    },
+    "freemarketsdestroy.com|Free Markets Destroy": null,
+    "fremtidensuddannelser.dk|SDU - Future Education": {
+      "name": "SDU",
+      "notable": false
+    },
+    "freshman.tv|Freshman": {
+      "name": "Freshman",
+      "notable": false
+    },
+    "frills.de|Frills": {
+      "name": "Frills",
+      "notable": false
+    },
+    "fruitful.com|Fruitful": {
+      "name": "Fruitful",
+      "notable": false
+    },
+    "function10.ca|FUNCTION": {
+      "name": "Function10",
+      "notable": false
+    },
+    "futuregoals.com|Future Goals": {
+      "name": "Future Goals",
+      "notable": false
+    },
+    "futurerecord.ai|Future Record": {
+      "name": "Future Record",
+      "notable": false
+    },
+    "garance.com|Gary and the endless forest": {
+      "name": "Garance",
+      "notable": false
+    },
+    "garoaskincare.com|Garoa Skincare": {
+      "name": "Garoa Skincare",
+      "notable": false
+    },
+    "garonzi1925.com|Garonzi Tailored Interiors": {
+      "name": "Garonzi Tailored Interiors",
+      "notable": false
+    },
+    "gavkag.com|GaVKaG": {
+      "name": "GaVKaG",
+      "notable": false
+    },
+    "gdw.kr|GDW": {
+      "name": "GDW",
+      "notable": false
+    },
+    "gentilhomme.com|Gentilhomme": {
+      "name": "Gentilhomme",
+      "notable": false
+    },
+    "getty.edu|Persepolis Reimagined": {
+      "name": "Getty",
+      "notable": false
+    },
+    "getty.edu|Tracing Art": {
+      "name": "Getty",
+      "notable": false
+    },
+    "ghostunicorns.com|GHOST UNICORNS": {
+      "name": "Ghost Unicorns",
+      "notable": false
+    },
+    "ginivini.com|Gini Vini": {
+      "name": "Gini Vini",
+      "notable": false
+    },
+    "girard-perregaux.com|Girard Perregaux - Casquette": {
+      "name": "Girard-Perregaux",
+      "notable": false
+    },
+    "girlswhocodegirls.com|Girls Who Code Girls": {
+      "name": "Girls Who Code",
+      "notable": false
+    },
+    "giveahand.ai|Give A Hand": {
+      "name": "Give A Hand",
+      "notable": false
+    },
+    "gkc.ca|GKC Architecture & Design": {
+      "name": "GKC Architecture & Design",
+      "notable": false
+    },
+    "gleec.com|Gleec": {
+      "name": "Gleec",
+      "notable": false
+    },
+    "globaltech.gucci|The Art of Silk": {
+      "name": "Gucci",
+      "notable": true
+    },
+    "glossarie.xyz|Glossarie": {
+      "name": "Glossarie",
+      "notable": false
+    },
+    "glyphic.bio|Glyphic Biotechnologies": {
+      "name": "Glyphic Biotechnologies",
+      "notable": false
+    },
+    "gndm.it|GNDM - La galleria Ideale": {
+      "name": "Gundam",
+      "notable": false
+    },
+    "goodlifemeds.com|Good Life Meds": {
+      "name": "Good Life Meds",
+      "notable": false
+    },
+    "goodman-gallery.com|Goodman Gallery": {
+      "name": "Goodman Gallery",
+      "notable": false
+    },
+    "goodmeat.co|GOOD Meat": {
+      "name": "GOOD Meat",
+      "notable": false
+    },
+    "google.com|Google Nest Doorbell (battery)": {
+      "name": "Google Nest",
+      "notable": true
+    },
+    "gq.com|GQ & AP The Extraordinary Lab": {
+      "name": "GQ",
+      "notable": false
+    },
+    "grabandgo.pt|Grab&Go": {
+      "name": "Grab&Go",
+      "notable": false
+    },
+    "graphichunters.com|GRAPHICHUNTERS®": {
+      "name": "GraphicHunters",
+      "notable": false
+    },
+    "graspfestival.dk|Grasp": {
+      "name": "Grasp Festival",
+      "notable": false
+    },
+    "grigoriak.doctor|Dr Grigoriak": {
+      "name": "Dr. Grigoriak",
+      "notable": false
+    },
+    "gsap.com|GSAP": {
+      "name": "GSAP",
+      "notable": false
+    },
+    "gsproductions.co.za|Gavin Schneider Productions": {
+      "name": "Gavin Schneider Productions",
+      "notable": false
+    },
+    "gtheimagineers.com|G!TheImagineers": {
+      "name": "The Imagineers",
+      "notable": false
+    },
+    "gucci.com|Gucci Flora Gorgeous Gardenia": {
+      "name": "Gucci",
+      "notable": true
+    },
+    "gucci.com|Gucci LadyBug": {
+      "name": "Gucci",
+      "notable": true
+    },
+    "gucci.com|Gucci: Mystery Unfolds": {
+      "name": "Gucci",
+      "notable": true
+    },
+    "gucciosteria.com|Gucci Osteria": {
+      "name": "Gucci",
+      "notable": true
+    },
+    "h-sunad.co.jp|Harajuku Sun-Ad Corporate Site": {
+      "name": "Sun-Ad",
+      "notable": false
+    },
+    "hafhcircle.com|HAFH": {
+      "name": "HAFH",
+      "notable": false
+    },
+    "halodental.com|Halo Dental": {
+      "name": "Halo Dental",
+      "notable": false
+    },
+    "hape.io|HAPE": {
+      "name": "HAPE",
+      "notable": false
+    },
+    "harkcap.com|Hark Capital": {
+      "name": "Hark Capital",
+      "notable": false
+    },
+    "hartmanncapital.com|Hartmann Capital": {
+      "name": "Hartmann Capital",
+      "notable": false
+    },
+    "hatom.com|Hatom": {
+      "name": "Hatom",
+      "notable": false
+    },
+    "heights.agency|Heights Agency": {
+      "name": "Heights Agency",
+      "notable": false
+    },
+    "hello-jury.com|We Are All Angel NFT Project": null,
+    "helloplayful.com|Playful Creative Collective": {
+      "name": "Playful Creative Collective",
+      "notable": false
+    },
+    "hematogenix.com|Hematogenix": {
+      "name": "Hematogenix",
+      "notable": false
+    },
+    "henge07.com|HENGE": {
+      "name": "Henge",
+      "notable": false
+    },
+    "hermes.com|Hermès - Tutti Twilly": {
+      "name": "Hermès",
+      "notable": true
+    },
+    "herocollective.co|Hero Collective": {
+      "name": "Hero Collective",
+      "notable": false
+    },
+    "heycusp.com|CUSP": {
+      "name": "Cusp",
+      "notable": false
+    },
+    "hgcapital.com|Hg": {
+      "name": "Hg",
+      "notable": false
+    },
+    "hhhusher.com|HHHusher": {
+      "name": "HHHusher",
+      "notable": false
+    },
+    "hiddenvalley.com|Hidden Valley Ranch": {
+      "name": "Hidden Valley Ranch",
+      "notable": false
+    },
+    "hifly.aero|Hi Fly": {
+      "name": "Hi Fly",
+      "notable": false
+    },
+    "higherlifefoundation.org|Higherlife Foundation": {
+      "name": "Higherlife Foundation",
+      "notable": false
+    },
+    "hiringchain.org|The Hiring Chain": {
+      "name": "The Hiring Chain",
+      "notable": false
+    },
+    "hiskin.care|Hi, Skin": {
+      "name": "Hi, Skin",
+      "notable": false
+    },
+    "hitoba-office.com|HITOBA DESIGN \"workkit\"": {
+      "name": "Hitoba Design",
+      "notable": false
+    },
+    "hopenvios.com.ar|HOP envios": {
+      "name": "HOP Envíos",
+      "notable": false
+    },
+    "horizonte-village.com|Horizonte Village": {
+      "name": "Horizonte Village",
+      "notable": false
+    },
+    "howtotalktowhitekidsaboutracism.com|HTTTWKAR": null,
+    "htarchitecte.com|Héloïse Thibodeau Architecte": {
+      "name": "Héloïse Thibodeau Architecte",
+      "notable": false
+    },
+    "hubtown.co.in|Hubtown": {
+      "name": "Hubtown",
+      "notable": false
+    },
+    "huffingtonpost.com|Data Disappeared": {
+      "name": "HuffPost",
+      "notable": false
+    },
+    "humanperson.com|Human Person": {
+      "name": "Human Person",
+      "notable": false
+    },
+    "hydroquebec.com|Hydro Québec: Mission 2035": {
+      "name": "Hydro-Québec",
+      "notable": false
+    },
+    "hyperframe.com|Hyperframe": {
+      "name": "Hyperframe",
+      "notable": false
+    },
+    "ibm.com|The Harmonic State": {
+      "name": "IBM",
+      "notable": true
+    },
+    "ibuongiorno.com|I Buongiorno": {
+      "name": "Buongiorno",
+      "notable": false
+    },
+    "icomat.co.uk|ICOMAT": {
+      "name": "ICOMAT",
+      "notable": false
+    },
+    "ics.ac.jp|Joint Graduation Exhibition": null,
+    "if-an-a-bomb-falls.com|If An A-Bomb Falls": null,
+    "ikea.es|IKEA “Taking Apart the 30”": {
+      "name": "IKEA",
+      "notable": true
+    },
+    "imagr.co|Imagr": {
+      "name": "Imagr",
+      "notable": false
+    },
+    "imm-g-prod.com|Louis Vuitton Collectibles": {
+      "name": "Louis Vuitton",
+      "notable": true
+    },
+    "impermanence.us|Impermanence": {
+      "name": "Impermanence",
+      "notable": false
+    },
+    "implementconsultinggroup.com|Implement Consulting Group": {
+      "name": "Implement Consulting Group",
+      "notable": false
+    },
+    "improntahome.com|Impronta": {
+      "name": "Impronta",
+      "notable": false
+    },
+    "imreallyatrex.com|ImReallyATRex": {
+      "name": "ImReallyATRex",
+      "notable": false
+    },
+    "in56.es|IN56": {
+      "name": "IN56",
+      "notable": false
+    },
+    "index.studio|Wanderful Chalet": {
+      "name": "Wanderful Chalet",
+      "notable": false
+    },
+    "inflection.xyz|Inflection": {
+      "name": "Inflection",
+      "notable": false
+    },
+    "infraredmindbody.com|Infrared Promo Website": {
+      "name": "Infrared Mind Body",
+      "notable": false
+    },
+    "inkfishnyc.com|Inkfish": {
+      "name": "Inkfish",
+      "notable": false
+    },
+    "inkgames.com|Ink Games": {
+      "name": "Ink Games",
+      "notable": false
+    },
+    "insidekristallnacht.org|Inside Kristallnacht": null,
+    "intrepidautomation.com|Intrepid": {
+      "name": "Intrepid Automation",
+      "notable": false
+    },
+    "intrusionproject.com|Intrusion - Voices of Alice": null,
+    "intuit.com|‘Prosperity Quest’ Game": {
+      "name": "Intuit",
+      "notable": false
+    },
+    "inversa.com|Inversa": {
+      "name": "Inversa",
+      "notable": false
+    },
+    "irisceramicagroup.com|ICG Galleries": {
+      "name": "Iris Ceramica Group",
+      "notable": false
+    },
+    "isabelmoranta.com|Isabel Moranta": null,
+    "istitutomarangoni.com|Metaverse Istituto Marangoni": {
+      "name": "Istituto Marangoni",
+      "notable": false
+    },
+    "iweighcommunity.com|I Weigh": {
+      "name": "I Weigh",
+      "notable": false
+    },
+    "j-vers.com|J-Vers": {
+      "name": "J-Vers",
+      "notable": false
+    },
+    "jacquesrival.com|Jacques Rival": {
+      "name": "Jacques Rival",
+      "notable": false
+    },
+    "jaeger-lecoultre.com|Hybris Mechanica Calibre 590": {
+      "name": "Jaeger-LeCoultre",
+      "notable": false
+    },
+    "jamarea.com|Jam Area": {
+      "name": "Jam Area",
+      "notable": false
+    },
+    "jcbiver.com|Biver 2024": {
+      "name": "JC Biver",
+      "notable": false
+    },
+    "jeffkoonsmoonphases.com|Jeff Koons Moon Phases": {
+      "name": "Jeff Koons",
+      "notable": false
+    },
+    "jeskojets.com|Jesko Jets": {
+      "name": "Jesko Jets",
+      "notable": false
+    },
+    "jeton.com|Jeton": {
+      "name": "Jeton",
+      "notable": false
+    },
+    "jimmynelson.com|Jimmy Nelson": {
+      "name": "Jimmy Nelson",
+      "notable": false
+    },
+    "johnnollet.com|John Nollet": {
+      "name": "John Nollet",
+      "notable": false
+    },
+    "joinclyde.com|Clyde": {
+      "name": "Clyde",
+      "notable": false
+    },
+    "joinmita.com|MITA®": {
+      "name": "MITA",
+      "notable": false
+    },
+    "joinsparq.com|SPARQ": {
+      "name": "Sparq",
+      "notable": false
+    },
+    "ju.st|JUST Egg": {
+      "name": "JUST Egg",
+      "notable": false
+    },
+    "juicebro.com|Juicebrothers": {
+      "name": "Juicebrothers",
+      "notable": false
+    },
+    "justdiggit.org|Our World": {
+      "name": "Justdiggit",
+      "notable": false
+    },
+    "justgowiththeflow.com|Flow": {
+      "name": "Flow",
+      "notable": false
+    },
+    "justmakeitrain.com|Make it Rain Records": {
+      "name": "Make it Rain Records",
+      "notable": false
+    },
+    "jybh.fr|JY BH": null,
+    "kacper.ch|Kacper Chlebowicz 2021": null,
+    "kaleidozdesign.com|Kaleidoz™ Design Website": {
+      "name": "Kaleidoz",
+      "notable": false
+    },
+    "karinasirqueira.com|Karina Sirqueira Gallery": null,
+    "karpov.paris|Karpov Paris": {
+      "name": "Karpov Paris",
+      "notable": false
+    },
+    "kategora.com|Kategora": {
+      "name": "Kategora",
+      "notable": false
+    },
+    "katiforner.com|Kati Forner Folio Website": null,
+    "kdcap.com|KD Capital": {
+      "name": "KD Capital",
+      "notable": false
+    },
+    "kikk.be|KIKK Festival 2022": {
+      "name": "KIKK Festival",
+      "notable": false
+    },
+    "kimkneipp.com|Kim Kneipp Folio": null,
+    "kirlian.xyz|The Kirlian Frequency": null,
+    "kirschberg.co.nz|Kirschberg": {
+      "name": "Kirschberg",
+      "notable": false
+    },
+    "klabu.org|KLABU": {
+      "name": "KLABU",
+      "notable": false
+    },
+    "kodeclubs.com|Kode Sports Club": {
+      "name": "Kode Sports Club",
+      "notable": false
+    },
+    "kodeimmersive.com|KODE Immersive": {
+      "name": "KODE Immersive",
+      "notable": false
+    },
+    "kodemedia.com|Kode Media": {
+      "name": "Kode Media",
+      "notable": false
+    },
+    "koenigsegg.com|Koenigsegg": {
+      "name": "Koenigsegg",
+      "notable": false
+    },
+    "koki-kiko.com|C2 Montréal": {
+      "name": "C2 Montréal",
+      "notable": false
+    },
+    "kopke1638.com|Kopke, since 1638.": {
+      "name": "Kopke",
+      "notable": false
+    },
+    "koraliving.com|Kora Living": {
+      "name": "Kora Living",
+      "notable": false
+    },
+    "kozowood.com|Kōzōwood — Made of Nature": {
+      "name": "Kōzōwood",
+      "notable": false
+    },
+    "kprverse.com|KPR": {
+      "name": "KPR",
+      "notable": false
+    },
+    "kwm-agency.com|KWM Agency": {
+      "name": "KWM Agency",
+      "notable": false
+    },
+    "lacoste.com|Lacoste Ace Breaker": {
+      "name": "Lacoste",
+      "notable": true
+    },
+    "lacoste.com|Lacoste Heritage": {
+      "name": "Lacoste",
+      "notable": true
+    },
+    "lafabriqueasouvenirs.ca|Making Memories": {
+      "name": "La Fabrique à Souvenirs",
+      "notable": false
+    },
+    "lamborghini.com|Lamborghini Huracan STO": {
+      "name": "Lamborghini",
+      "notable": true
+    },
+    "landofride.com|Land of Ride": {
+      "name": "Land of Ride",
+      "notable": false
+    },
+    "laphil.com|SOUND/STAGE": {
+      "name": "LA Phil",
+      "notable": false
+    },
+    "laprairie.com|The Pursuit of Harmony": {
+      "name": "La Prairie",
+      "notable": false
+    },
+    "largo.studio|LARGO Inc. Rebranding": {
+      "name": "Largo Inc.",
+      "notable": false
+    },
+    "laserbysonymusic.com|Laser by Sony Music": {
+      "name": "Laser by Sony Music",
+      "notable": false
+    },
+    "lemkus.com|Lemkus": {
+      "name": "Lemkus",
+      "notable": false
+    },
+    "leseditionsbonsound.com|Les Éditions Bonsound": {
+      "name": "Les Éditions Bonsound",
+      "notable": false
+    },
+    "letterstoevan.com|UNANSWERED": null,
+    "leviev-group.com|Leviev Group": {
+      "name": "Leviev Group",
+      "notable": false
+    },
+    "lg.jp|Misato town": {
+      "name": "Misato",
+      "notable": false
+    },
+    "lg2.com|5 Years Of Success": {
+      "name": "lg2",
+      "notable": false
+    },
+    "lightshiprv.com|Lightship": {
+      "name": "Lightship",
+      "notable": false
+    },
+    "likova.space|LIKOVA": {
+      "name": "Likova",
+      "notable": false
+    },
+    "lilfrogeth.com|LilFrog": {
+      "name": "LilFrog",
+      "notable": false
+    },
+    "limnia.com|The Araw Collection": {
+      "name": "Limnia",
+      "notable": false
+    },
+    "lincorwatches.com|Lincor": {
+      "name": "Lincor",
+      "notable": false
+    },
+    "lionsgoodnews.com|LIONES GOOD NEWS 2023": {
+      "name": "Cannes Lions",
+      "notable": false
+    },
+    "lironmoran-interiors.com|Liron Moran Interiors": {
+      "name": "Liron Moran Interiors",
+      "notable": false
+    },
+    "listacross.com|ListAcross": {
+      "name": "ListAcross",
+      "notable": false
+    },
+    "lo2s.com|LO2S": {
+      "name": "LO2S",
+      "notable": false
+    },
+    "loccitane-seeds-of-dreams.com|L'occitane: Seeds of dreams": {
+      "name": "L'Occitane",
+      "notable": false
+    },
+    "loftgarten.co|Loftgarten": {
+      "name": "Loftgarten",
+      "notable": false
+    },
+    "longines.com|Longines Dolcevita": {
+      "name": "Longines",
+      "notable": false
+    },
+    "lorenzodaldosso.it|Lorenzo Dal Dosso": null,
+    "loropiana.com|Loro Piana Workshop of Wonders": {
+      "name": "Loro Piana",
+      "notable": false
+    },
+    "lowesinnovationlabs.com|Lowe's Innovation Labs": {
+      "name": "Lowe's",
+      "notable": false
+    },
+    "lpalo.com|La puce à l'oreille": {
+      "name": "La Puce à l'Oreille",
+      "notable": false
+    },
+    "lukaskmoth.com|Lukas Kmoth": null,
+    "luminartech.com|Luminar": {
+      "name": "Luminar",
+      "notable": false
+    },
+    "lusano.com|Lusano": {
+      "name": "Lusano",
+      "notable": false
+    },
+    "mac-media.io|Mac Media": {
+      "name": "Mac Media",
+      "notable": false
+    },
+    "madarplatform.com|Madar": {
+      "name": "Madar",
+      "notable": false
+    },
+    "madebyburo.com|Keikku Next-Gen Stethoscope": {
+      "name": "Keikku",
+      "notable": false
+    },
+    "madebybuzzworthy.com|EA Financial": {
+      "name": "EA Financial",
+      "notable": false
+    },
+    "maisonferrand.com|Maison Ferrand": {
+      "name": "Maison Ferrand",
+      "notable": false
+    },
+    "maisonyoko.com|Maison Yoko": {
+      "name": "Maison Yoko",
+      "notable": false
+    },
+    "makhnostudio.com|MAKHNO": {
+      "name": "Makhno Studio",
+      "notable": false
+    },
+    "mammut.com|Mammut Digital Flagship Store": {
+      "name": "Mammut",
+      "notable": false
+    },
+    "manayerbamate.com|Mana Yerba Mate": {
+      "name": "Mana Yerba Mate",
+      "notable": false
+    },
+    "mappmtl.com|Perspectives": {
+      "name": "MAPP_MTL",
+      "notable": false
+    },
+    "maraka.co|Maraka": {
+      "name": "Maraka",
+      "notable": false
+    },
+    "marasrl.it|Mara": {
+      "name": "Mara",
+      "notable": false
+    },
+    "maria-callas.com|Maria Callas official website": {
+      "name": "Maria Callas",
+      "notable": false
+    },
+    "martinbriceno.com|Martin Briceno - Portfolio": null,
+    "marussiabeverages.com|Marussia Beverages": {
+      "name": "Marussia Beverages",
+      "notable": false
+    },
+    "masaigon.space|Má Sài Gòn (Space)": {
+      "name": "Má Sài Gòn",
+      "notable": false
+    },
+    "masardestination.com|Masar Destination": {
+      "name": "Masar Destination",
+      "notable": false
+    },
+    "maserati.com|House of Maserati": {
+      "name": "Maserati",
+      "notable": true
+    },
+    "match.studio|Match Studio": {
+      "name": "Match Studio",
+      "notable": false
+    },
+    "matruecannabis.com|MA": {
+      "name": "MA",
+      "notable": false
+    },
+    "maximatherapy.com|Maxima Therapy": {
+      "name": "Maxima Therapy",
+      "notable": false
+    },
+    "maxmara.com|Max Mara - Jacket Circle": {
+      "name": "Max Mara",
+      "notable": false
+    },
+    "mcalpinehouse.com|McAlpine House": {
+      "name": "McAlpine House",
+      "notable": false
+    },
+    "mcsaatchiabel.co.za|M&CSaatchi Abel": {
+      "name": "M&C Saatchi Abel",
+      "notable": false
+    },
+    "mcsaatchigroup.co.za|M&CSaatchi Group SA": {
+      "name": "M&C Saatchi Group SA",
+      "notable": false
+    },
+    "mechachain.io|2219 Mechachain": {
+      "name": "Mechachain",
+      "notable": false
+    },
+    "mediakeys-experience.com|MEDIAKEYS EXPERIENCE": {
+      "name": "Mediakeys Experience",
+      "notable": false
+    },
+    "meebits.app|Meebits 1.2": {
+      "name": "Meebits",
+      "notable": false
+    },
+    "melaenvy.it|Envy™": {
+      "name": "Envy",
+      "notable": false
+    },
+    "mellem.ca|Mellem": {
+      "name": "Mellem",
+      "notable": false
+    },
+    "mendo.nl|Mendo": {
+      "name": "Mendo",
+      "notable": false
+    },
+    "menudurable.ca|Nourish Change": {
+      "name": "Menu Durable",
+      "notable": false
+    },
+    "metropolis.io|Metropolis Test Drive": {
+      "name": "Metropolis",
+      "notable": false
+    },
+    "mfg-tokyo.com|MFG Corporate Site": {
+      "name": "MFG",
+      "notable": false
+    },
+    "mfisher-apollonas.com|The Quarry House": {
+      "name": "The Quarry House",
+      "notable": false
+    },
+    "mfisher.com|Matthew Fisher": null,
+    "mfisher.com|Matthew Fisher — Collection 02": {
+      "name": "Matthew Fisher",
+      "notable": false
+    },
+    "miamisrl.co|Miami Srl": {
+      "name": "Miami Srl",
+      "notable": false
+    },
+    "michaelgatt.com|Michael Gatt": null,
+    "milknetwork.com|Milk Network": {
+      "name": "Milk Network",
+      "notable": false
+    },
+    "millemannconsulting.fr|Millemann Consulting": {
+      "name": "Millemann Consulting",
+      "notable": false
+    },
+    "mindmarket.com|MindMarket": {
+      "name": "MindMarket",
+      "notable": false
+    },
+    "miro.com|The Ways We Work": {
+      "name": "Miro",
+      "notable": false
+    },
+    "mirror-planet.world|Mirror City": null,
+    "miumiu.com|MIU MIU A House that we shaped": {
+      "name": "Miu Miu",
+      "notable": false
+    },
+    "mockupper.ai|Mockupper": {
+      "name": "Mockupper",
+      "notable": false
+    },
+    "modyn.com|MODYN": {
+      "name": "Modyn",
+      "notable": false
+    },
+    "monolith.nyc|Monolith": {
+      "name": "Monolith",
+      "notable": false
+    },
+    "mont-fort.com|Montfort": {
+      "name": "Montfort",
+      "notable": false
+    },
+    "montblancexplorer.com|The Race Explorer Interparfums": {
+      "name": "Montblanc",
+      "notable": true
+    },
+    "montblanclegend.com|The Run - Interparfums": {
+      "name": "Montblanc",
+      "notable": false
+    },
+    "montopnetflix.fr|Mon top Netflix": {
+      "name": "Netflix",
+      "notable": true
+    },
+    "montvel.com|Montvel": {
+      "name": "Montvel",
+      "notable": false
+    },
+    "moooi.com|Moooi - Defy Gravity": {
+      "name": "Moooi",
+      "notable": false
+    },
+    "moooor.com|Moooor": {
+      "name": "Moooor",
+      "notable": false
+    },
+    "mosmosh.com|MOS MOSH": {
+      "name": "Mos Mosh",
+      "notable": false
+    },
+    "mota.inc|MOTA Corporate Site": {
+      "name": "MOTA",
+      "notable": false
+    },
+    "motleycrowd.live|Motley Crowd": {
+      "name": "Motley Crowd",
+      "notable": false
+    },
+    "msi.com|MSI AI PC": {
+      "name": "MSI",
+      "notable": false
+    },
+    "museeholocauste.ca|Witnesses to History": {
+      "name": "Montreal Holocaust Museum",
+      "notable": false
+    },
+    "mutek.org|Mutek Festival": {
+      "name": "MUTEK",
+      "notable": false
+    },
+    "myafterglo.com|Afterglo": {
+      "name": "Afterglo",
+      "notable": false
+    },
+    "mykalios.com|Kalios": {
+      "name": "Kalios",
+      "notable": false
+    },
+    "mythicalgames.com|Mythical Games": {
+      "name": "Mythical Games",
+      "notable": false
+    },
+    "nabazabih.com|Naba Zabih": null,
+    "nabilissa.com|Nabil Issa Architect": null,
+    "naftagaz.com|NaftaGaz": {
+      "name": "NaftaGaz",
+      "notable": false
+    },
+    "nannalagerman.com|Nanna Lagerman Folio": null,
+    "narscosmetics.com|NARS - Play Your Power": {
+      "name": "NARS",
+      "notable": false
+    },
+    "national.ca|NATIONAL": {
+      "name": "NATIONAL",
+      "notable": false
+    },
+    "nationalgeographic.com|Into The Amazon": {
+      "name": "National Geographic",
+      "notable": true
+    },
+    "natroceutics.com|Natroceutics®": {
+      "name": "Natroceutics",
+      "notable": false
+    },
+    "navigatingresponsibly.dk|Navigating Responsibly": null,
+    "nesta.org.uk|Finding Ctrl": {
+      "name": "Nesta",
+      "notable": false
+    },
+    "neverhack.com|NEVERHACK": {
+      "name": "Neverhack",
+      "notable": false
+    },
+    "newtwen.com|Newtwen": {
+      "name": "Newtwen",
+      "notable": false
+    },
+    "nexbank.com|NexBank": {
+      "name": "NexBank",
+      "notable": false
+    },
+    "nikeplaylab.com|Nike PLAYlab": {
+      "name": "Nike",
+      "notable": true
+    },
+    "nishiyama-ramen.com|SAPPORO NISHIYAMA EUROPE GmbH": {
+      "name": "Sapporo Nishiyama Europe GmbH",
+      "notable": false
+    },
+    "nitex.com|NITEX": {
+      "name": "Nitex",
+      "notable": false
+    },
+    "nocodecommunity.nl|No-Code Community": {
+      "name": "No-Code Community",
+      "notable": false
+    },
+    "nohero.studio|No Hero Studio": {
+      "name": "No Hero Studio",
+      "notable": false
+    },
+    "nomercy.studio|No-Mercy Studio": {
+      "name": "No-Mercy Studio",
+      "notable": false
+    },
+    "noovolife.com|Noovo": {
+      "name": "Noovo",
+      "notable": false
+    },
+    "nordarun.com|Norda": {
+      "name": "Norda",
+      "notable": false
+    },
+    "nordquantique.ca|Nord Quantique": {
+      "name": "Nord Quantique",
+      "notable": false
+    },
+    "norr11.com|NORR11": {
+      "name": "NORR11",
+      "notable": false
+    },
+    "norterafoods.com|Nortera": {
+      "name": "Nortera",
+      "notable": false
+    },
+    "north-east-venture.com|North-East Venture": {
+      "name": "North-East Venture",
+      "notable": false
+    },
+    "novoajauregui.com|Novoa Jáuregui": {
+      "name": "Novoa Jáuregui",
+      "notable": false
+    },
+    "numbered.studio|Sandland": null,
+    "nurtu.re|Nurture": {
+      "name": "Nurture",
+      "notable": false
+    },
+    "nvg8.io|Navigate": {
+      "name": "NVG8",
+      "notable": false
+    },
+    "oakley.com|Oakley Project 2075": {
+      "name": "Oakley",
+      "notable": false
+    },
+    "oceanfilms.com.br|Ocean": {
+      "name": "Ocean Films",
+      "notable": false
+    },
+    "oceanx.org|OceanX 2025": {
+      "name": "OceanX",
+      "notable": false
+    },
+    "ochi.design|Ochi Design": {
+      "name": "Ochi Design",
+      "notable": false
+    },
+    "oddritualgolf.com|Odd Ritual": {
+      "name": "Odd Ritual",
+      "notable": false
+    },
+    "odins-crow.com|Odin's Crow": {
+      "name": "Odin's Crow",
+      "notable": false
+    },
+    "ogakidigital.com|OGAKI": {
+      "name": "Ogaki Digital",
+      "notable": false
+    },
+    "olgaprudka.com|Olga Prudka": null,
+    "ollopa.ca|Ollopa": {
+      "name": "Ollopa",
+      "notable": false
+    },
+    "omegawatches.com|Omega My Little Secret": {
+      "name": "Omega",
+      "notable": true
+    },
+    "omnicomreputationgroup.fr|Omnicom Reputation Group": {
+      "name": "Omnicom Reputation Group",
+      "notable": false
+    },
+    "omswami.com|Om Swami": {
+      "name": "Om Swami",
+      "notable": false
+    },
+    "on.ca|Royal Ontario Museum (ROM)": {
+      "name": "Royal Ontario Museum",
+      "notable": false
+    },
+    "onestudios.nl|One Studios": {
+      "name": "One Studios",
+      "notable": false
+    },
+    "oneworldonedollar.com|One World, One Dollar": {
+      "name": "One World, One Dollar",
+      "notable": false
+    },
+    "oovie.ca|Oovie": {
+      "name": "Oovie",
+      "notable": false
+    },
+    "openavn.com|OpenAVN": {
+      "name": "OpenAVN",
+      "notable": false
+    },
+    "operanorth.co.uk|The Turn of the Screw": {
+      "name": "Opera North",
+      "notable": false
+    },
+    "ore.co|ORE Bespoke Diamond Jewelry": {
+      "name": "Ore",
+      "notable": false
+    },
+    "oreo.eu|The OREO Batcave Experience": {
+      "name": "Oreo",
+      "notable": true
+    },
+    "organimo.com|Organimo": {
+      "name": "Organimo",
+      "notable": false
+    },
+    "orkenworld.com|Orken": {
+      "name": "Orken",
+      "notable": false
+    },
+    "oryzo.ai|Oryzo AI": {
+      "name": "Oryzo AI",
+      "notable": false
+    },
+    "osmo.supply|Osmo": {
+      "name": "Osmo",
+      "notable": false
+    },
+    "otsea.io|OTSea": {
+      "name": "OTSea",
+      "notable": false
+    },
+    "otsuka-air.jp|/zeroz Brand Site": {
+      "name": "zeroz",
+      "notable": false
+    },
+    "ottografie.nl|Ottografie 2025": {
+      "name": "Ottografie",
+      "notable": false
+    },
+    "ouigo.com|OUIGO - Let's play": {
+      "name": "OUIGO",
+      "notable": false
+    },
+    "ouraring.com|Oura": {
+      "name": "Oura",
+      "notable": false
+    },
+    "ovloopbrand.com|OV Loop": {
+      "name": "OV Loop",
+      "notable": false
+    },
+    "panasonic.eu|Panasonic - AV Digital World": {
+      "name": "Panasonic",
+      "notable": true
+    },
+    "pantheoneaudio.com|Pantheone Audio": {
+      "name": "Pantheone Audio",
+      "notable": false
+    },
+    "pantheonmedia.com|Pantheon Media Group": {
+      "name": "Pantheon Media Group",
+      "notable": false
+    },
+    "paolovendramini.com|Paolo Vendramini": null,
+    "pasqua.it|Pasqua Wines": {
+      "name": "Pasqua Wines",
+      "notable": false
+    },
+    "pasticceriaverona.it|Adami": {
+      "name": "Adami",
+      "notable": false
+    },
+    "patriziagarganti.com|Patrizia Garganti": null,
+    "paulkalkbrenner.net|Paul Kalkbrenner": {
+      "name": "Paul Kalkbrenner",
+      "notable": false
+    },
+    "pave.ai|PAVE®": {
+      "name": "Pave",
+      "notable": false
+    },
+    "pebblelife.com|Pebble": {
+      "name": "Pebble",
+      "notable": false
+    },
+    "peptone.io|Peptone": {
+      "name": "Peptone",
+      "notable": false
+    },
+    "permianworld.com|Permian": {
+      "name": "Permian",
+      "notable": false
+    },
+    "phi.ca|Phi": {
+      "name": "PHI",
+      "notable": false
+    },
+    "phive.pt|Phive Clubs": {
+      "name": "Phive",
+      "notable": false
+    },
+    "photoyoshi.com|Takamitsu Motoyoshi": null,
+    "pickyjoe.com|Picky Joe": {
+      "name": "Picky Joe",
+      "notable": false
+    },
+    "pictoric.com.ua|Pictoric": {
+      "name": "Pictoric",
+      "notable": false
+    },
+    "pierret.net|Pierret - Dream House": {
+      "name": "Pierret",
+      "notable": false
+    },
+    "pilot.auto|Pilot.Auto": {
+      "name": "Pilot.Auto",
+      "notable": false
+    },
+    "piscinasdecemento.com|Pool & Cement": {
+      "name": "Pool & Cement",
+      "notable": false
+    },
+    "pixelflakes.com|Pixelflakes": {
+      "name": "Pixelflakes",
+      "notable": false
+    },
+    "pizzatoits.it|Pizzato": {
+      "name": "Pizzato",
+      "notable": false
+    },
+    "plantica.net|plantica": {
+      "name": "Plantica",
+      "notable": false
+    },
+    "play.gl|Play for Good": {
+      "name": "Play for Good",
+      "notable": false
+    },
+    "playdoh-lagaleriedesespeces.com|Gallery of emerging species": {
+      "name": "Play-Doh",
+      "notable": true
+    },
+    "playstarfall.com|Starfall Arena": {
+      "name": "Starfall Arena",
+      "notable": false
+    },
+    "playup.jp|PLAY/UP Brand Site": {
+      "name": "PLAY/UP",
+      "notable": false
+    },
+    "pluggedliveshows.com|Plugged Live Shows": {
+      "name": "Plugged Live Shows",
+      "notable": false
+    },
+    "poklonnaya9.site|Poklonnaya 9": {
+      "name": "Poklonnaya 9",
+      "notable": false
+    },
+    "polaroid.com|Polaroid.com": {
+      "name": "Polaroid",
+      "notable": true
+    },
+    "polene-paris.com|Polène": {
+      "name": "Polène",
+      "notable": false
+    },
+    "poltronafrau.com|Poltrona Frau - Take Your Time": {
+      "name": "Poltrona Frau",
+      "notable": false
+    },
+    "poly.ai|Looped": {
+      "name": "PolyAI",
+      "notable": false
+    },
+    "poly.app|Poly": {
+      "name": "Poly",
+      "notable": false
+    },
+    "pomelo.la|Pomelo": {
+      "name": "Pomelo",
+      "notable": false
+    },
+    "populous.com|Populous": {
+      "name": "Populous",
+      "notable": false
+    },
+    "powerhouse-company.com|Powerhouse Company": {
+      "name": "Powerhouse Company",
+      "notable": false
+    },
+    "preparetopioneer.com|Prepare to Pioneer": null,
+    "primt.es|Primt": {
+      "name": "Primt",
+      "notable": false
+    },
+    "project-parallax.com|Project Parallax": null,
+    "proof.io|Proof": {
+      "name": "Proof",
+      "notable": false
+    },
+    "properprompts.ai|Proper Prompts": {
+      "name": "Proper Prompts",
+      "notable": false
+    },
+    "purposetalent.xyz|Purpose Talent": {
+      "name": "Purpose Talent",
+      "notable": false
+    },
+    "qc.ca|25 years of Héma-Québec": {
+      "name": "Héma-Québec",
+      "notable": false
+    },
+    "qc.ca|Vie de compost": null,
+    "qu.ai|Quai Network": {
+      "name": "Quai Network",
+      "notable": false
+    },
+    "radaville.studio|Radaville": {
+      "name": "Radaville",
+      "notable": false
+    },
+    "radga.com|Rickman Architecture + Design": {
+      "name": "Rickman Architecture + Design",
+      "notable": false
+    },
+    "radpowerbikes.com|Rad Power Bikes": {
+      "name": "Rad Power Bikes",
+      "notable": false
+    },
+    "railroadladies.com|Ukrainian Railroad Ladies": null,
+    "raymond-weil.com|Raymond Weil × Basquiat": {
+      "name": "Raymond Weil",
+      "notable": false
+    },
+    "reclaimyourdna.com|Reclaim Your DNA": {
+      "name": "Reclaim Your DNA",
+      "notable": false
+    },
+    "redlight.dev|RedLight": {
+      "name": "RedLight",
+      "notable": false
+    },
+    "regi.it|REGI Laboratories": {
+      "name": "Regi Laboratories",
+      "notable": false
+    },
+    "regrub.me|Regrub": {
+      "name": "Regrub",
+      "notable": false
+    },
+    "rejouice.io|Tenzr": {
+      "name": "Tenzr",
+      "notable": false
+    },
+    "renault.com|Le Défilé Renault®": {
+      "name": "Renault",
+      "notable": true
+    },
+    "rightcar.govt.nz|Rightcar Safety Simulator": {
+      "name": "Rightcar",
+      "notable": false
+    },
+    "rivian.com|Rivian Automotive": {
+      "name": "Rivian",
+      "notable": false
+    },
+    "robotoentertainment.com|Roboto Entertainment": {
+      "name": "Roboto Entertainment",
+      "notable": false
+    },
+    "rokumaruichi.tokyo|601 Inc.": {
+      "name": "601 Inc.",
+      "notable": false
+    },
+    "rollingstone.com|The DJ & the War Crimes": {
+      "name": "Rolling Stone",
+      "notable": false
+    },
+    "root-food.com|Root Food": {
+      "name": "Root Food",
+      "notable": false
+    },
+    "rosagroup.es|Rosa Group": {
+      "name": "Rosa Group",
+      "notable": false
+    },
+    "rossinavi.it|SeaCat": {
+      "name": "Rossinavi",
+      "notable": false
+    },
+    "royalcaribbean.com|Ultimate World Cruise": {
+      "name": "Royal Caribbean",
+      "notable": true
+    },
+    "rre.com|RRE": {
+      "name": "RRE Ventures",
+      "notable": false
+    },
+    "rubel-menasche.com|Rubel & Menasche": {
+      "name": "Rubel & Menasche",
+      "notable": false
+    },
+    "rudolphcare.com|Rudolph Care": {
+      "name": "Rudolph Care",
+      "notable": false
+    },
+    "ruinart.com|Ruinart - Digital fresco": {
+      "name": "Ruinart",
+      "notable": false
+    },
+    "rupert-rothschildvignerons.com|Rupert & Rothschild": {
+      "name": "Rupert & Rothschild Vignerons",
+      "notable": false
+    },
+    "rvlt.net|Revolt": {
+      "name": "Revolt",
+      "notable": false
+    },
+    "salparasuco-22.com|Sal Parasuco": {
+      "name": "Sal Parasuco",
+      "notable": false
+    },
+    "sami.marketing|Sami": {
+      "name": "Sami",
+      "notable": false
+    },
+    "sanctuaryonthemoon.com|Sanctuary On The Moon": {
+      "name": "Sanctuary On The Moon",
+      "notable": false
+    },
+    "sandyshore.ca|Sandy Shore": {
+      "name": "Sandy Shore",
+      "notable": false
+    },
+    "santateresafest.ca|Santa Teresa": {
+      "name": "Santa Teresa Festival",
+      "notable": false
+    },
+    "santionispirits.com|Santioni Spirits": {
+      "name": "Santioni Spirits",
+      "notable": false
+    },
+    "save-whales.com|Save Whales": {
+      "name": "Save Whales",
+      "notable": false
+    },
+    "savor.it|Savor": {
+      "name": "Savor",
+      "notable": false
+    },
+    "schizinfo.com|Schizophrenia": null,
+    "schweppes.ca|Schweppes Canada": {
+      "name": "Schweppes",
+      "notable": true
+    },
+    "scoutmotors.com|Scout Motors": {
+      "name": "Scout Motors",
+      "notable": false
+    },
+    "scrib3.co|SCRIB3": {
+      "name": "Scrib3",
+      "notable": false
+    },
+    "sculpture.co|Sculpture": {
+      "name": "Sculpture",
+      "notable": false
+    },
+    "sealco.ca|Seal + Co": {
+      "name": "Seal + Co",
+      "notable": false
+    },
+    "secrid.com|Secrid": {
+      "name": "Secrid",
+      "notable": false
+    },
+    "seventeenagency.com|Seventeen": {
+      "name": "Seventeen",
+      "notable": false
+    },
+    "shapefarm.net|Shapefarm": {
+      "name": "Shapefarm",
+      "notable": false
+    },
+    "sharplink.com|Sharplink": {
+      "name": "SharpLink",
+      "notable": false
+    },
+    "shildan.com|Shildan Group": {
+      "name": "Shildan Group",
+      "notable": false
+    },
+    "siena.film|Siena Film Foundation": {
+      "name": "Siena Film Foundation",
+      "notable": false
+    },
+    "signs-ai.com|Signs AI": {
+      "name": "Signs AI",
+      "notable": false
+    },
+    "sileent.com|SILEENT": {
+      "name": "Sileent",
+      "notable": false
+    },
+    "silent-house.com|Silent House": {
+      "name": "Silent House",
+      "notable": false
+    },
+    "silver-pinewood.com|Silver Pinewood Residences": {
+      "name": "Silver Pinewood Residences",
+      "notable": false
+    },
+    "simonekatherineinteriors.com|Simone Katherine Interiors": {
+      "name": "Simone Katherine Interiors",
+      "notable": false
+    },
+    "simplychocolate.dk|Simply Chocolate": {
+      "name": "Simply Chocolate",
+      "notable": false
+    },
+    "sixmorevodka.com|SIXMOREVODKA": {
+      "name": "Six More Vodka",
+      "notable": false
+    },
+    "skolkovoforbusiness.ru|Skolkovo Business District": {
+      "name": "Skolkovo",
+      "notable": false
+    },
+    "slantis.com|Slantis": {
+      "name": "Slantis",
+      "notable": false
+    },
+    "sleep-well-creatives.com|Sleep Well Creative": {
+      "name": "Sleep Well Creative",
+      "notable": false
+    },
+    "slush.app|Slush": {
+      "name": "Slush",
+      "notable": false
+    },
+    "smartdevicetec.com|VIITA Watches": {
+      "name": "Viita",
+      "notable": false
+    },
+    "sobha-privy-collection.com|Sobha Privy Collection": {
+      "name": "Sobha",
+      "notable": false
+    },
+    "socialquantum.com|Social Quantum": {
+      "name": "Social Quantum",
+      "notable": false
+    },
+    "solace-store.com|Sol’ace": {
+      "name": "Sol'ace",
+      "notable": false
+    },
+    "somoscuchillo.com|Cuchillo": null,
+    "sonarmusic.com.au|Sonar Music": {
+      "name": "Sonar Music",
+      "notable": false
+    },
+    "sondaven.com|Son Daven": {
+      "name": "Son Daven",
+      "notable": false
+    },
+    "soniapresne.com|Sonia Presne": null,
+    "sonymusic.nl|Sony Music": {
+      "name": "Sony Music",
+      "notable": true
+    },
+    "sophiedallamore.com|Sophie Dallamore": {
+      "name": "Sophie Dallamore",
+      "notable": false
+    },
+    "sorenrose.com|Soren Rose Studio": {
+      "name": "Soren Rose Studio",
+      "notable": false
+    },
+    "soundethics.org|Sound Ethics": {
+      "name": "Sound Ethics",
+      "notable": false
+    },
+    "southernguild.com|Southern Guild": {
+      "name": "Southern Guild",
+      "notable": false
+    },
+    "spaace.io|Spaace": {
+      "name": "Spaace",
+      "notable": false
+    },
+    "spaincollection.com|Spain Collection Travel": {
+      "name": "Spain Collection",
+      "notable": false
+    },
+    "speedy.io|Speedy": {
+      "name": "Speedy",
+      "notable": false
+    },
+    "splight-ai.com|Splight": {
+      "name": "Splight",
+      "notable": false
+    },
+    "springs.estate|Springs": {
+      "name": "Springs",
+      "notable": false
+    },
+    "squarespace.com|Squarespace Foundations": {
+      "name": "Squarespace",
+      "notable": false
+    },
+    "squarespace.com|The Singularity": null,
+    "stanford.edu|Fairer Tomorrow": {
+      "name": "Stanford University",
+      "notable": true
+    },
+    "staratlas.com|Star Atlas": {
+      "name": "Star Atlas",
+      "notable": false
+    },
+    "stellardevelopment.eu|Stellar Development": {
+      "name": "Stellar Development",
+      "notable": false
+    },
+    "stelostories.co|Stelo Stories": {
+      "name": "Stelo Stories",
+      "notable": false
+    },
+    "stenger-bike.de|Stenger Bike": {
+      "name": "Stenger Bike",
+      "notable": false
+    },
+    "stephouse.es|StepHouse": {
+      "name": "StepHouse",
+      "notable": false
+    },
+    "sterling.it|STERLING": {
+      "name": "Sterling",
+      "notable": false
+    },
+    "steventaylor.com|Steven Taylor": null,
+    "stewartpartners.studio|Stewart & Partners": {
+      "name": "Stewart & Partners",
+      "notable": false
+    },
+    "stinegoya.com|Stine Goya": {
+      "name": "Stine Goya",
+      "notable": false
+    },
+    "stockdutchdesign.com|Stock Dutch Design": {
+      "name": "Stock Dutch Design",
+      "notable": false
+    },
+    "stord.com|Stord": {
+      "name": "Stord",
+      "notable": false
+    },
+    "str8fire.io|STR8FIRE": {
+      "name": "STR8FIRE",
+      "notable": false
+    },
+    "studio-job.com|Studio Job": {
+      "name": "Studio Job",
+      "notable": false
+    },
+    "studio-pic.com|Studio-PIC": {
+      "name": "Studio-PIC",
+      "notable": false
+    },
+    "studiobrusco.com|Studio Brusco": {
+      "name": "Studio Brusco",
+      "notable": false
+    },
+    "studiochapeaux.com|Studio Chapeaux": {
+      "name": "Studio Chapeaux",
+      "notable": false
+    },
+    "studiod.nu|Studio D": {
+      "name": "Studio D",
+      "notable": false
+    },
+    "studiomaertens.com|Studio Mærtens": {
+      "name": "Studio Mærtens",
+      "notable": false
+    },
+    "studiosabia.com|Studio Sabia": {
+      "name": "Studio Sabia",
+      "notable": false
+    },
+    "stykka.com|Stykka": {
+      "name": "Stykka",
+      "notable": false
+    },
+    "sui.io|Sui": {
+      "name": "Sui",
+      "notable": false
+    },
+    "sui.io|Sui Overflow 2025": {
+      "name": "Sui",
+      "notable": false
+    },
+    "suitsupply.com|Suitsupply Look Builder": {
+      "name": "Suitsupply",
+      "notable": false
+    },
+    "sustainablehorizons.ai|Sustainable Horizons": {
+      "name": "Sustainable Horizons",
+      "notable": false
+    },
+    "svz.fr|Sekri Valentin Zerrouk": {
+      "name": "Sekri Valentin Zerrouk",
+      "notable": false
+    },
+    "swagapp.com|Swag": {
+      "name": "Swag",
+      "notable": false
+    },
+    "symphonyofvines.com|The Symphony of Vines": {
+      "name": "The Symphony of Vines",
+      "notable": false
+    },
+    "synchrodogs.com|Synchrodogs Portfolio": {
+      "name": "Synchrodogs",
+      "notable": false
+    },
+    "synchronized.studio|Synchronized studio": {
+      "name": "Synchronized Studio",
+      "notable": false
+    },
+    "syndesicollection.com|Syndesi Collection": {
+      "name": "Syndesi Collection",
+      "notable": false
+    },
+    "tagheuer.com|TAG Heuer x Kith": {
+      "name": "TAG Heuer",
+      "notable": true
+    },
+    "takeboost.com|BOOST": {
+      "name": "Boost",
+      "notable": false
+    },
+    "tanyatimal.studio|Tanya Timal Photographer": null,
+    "taprootwizards.com|Spellverse": {
+      "name": "Taproot Wizards",
+      "notable": false
+    },
+    "tascadalmerita.wine|Tasca d'Almerita": {
+      "name": "Tasca d'Almerita",
+      "notable": false
+    },
+    "tbwahakuhodo.co.jp|TBWA\\HAKUHODO Corporate Site": {
+      "name": "TBWA\\HAKUHODO",
+      "notable": false
+    },
+    "telescope.fyi|Telescope": {
+      "name": "Telescope",
+      "notable": false
+    },
+    "tengilemalamala.com|Tengile Malamala Collection": {
+      "name": "Tengile Malamala",
+      "notable": false
+    },
+    "tenity.com|Tenity": {
+      "name": "Tenity",
+      "notable": false
+    },
+    "terminal-industries.com|Terminal Industries": {
+      "name": "Terminal Industries",
+      "notable": false
+    },
+    "terrazabalear.com|Terraza Balear": {
+      "name": "Terraza Balear",
+      "notable": false
+    },
+    "theartofdocumentary.com|Art of Documentary": {
+      "name": "The Art of Documentary",
+      "notable": false
+    },
+    "thebluedesert.com|The Blue Desert": null,
+    "theclimatepledge.com|The Climate Pledge": {
+      "name": "The Climate Pledge",
+      "notable": false
+    },
+    "thecubemadrid.com|The Cube": {
+      "name": "The Cube Madrid",
+      "notable": false
+    },
+    "thedamai.com|The Damai": {
+      "name": "The Damai",
+      "notable": false
+    },
+    "thedrake.ca|The Drake Hotel": {
+      "name": "The Drake Hotel",
+      "notable": false
+    },
+    "theeightclub.com|The Eight": {
+      "name": "The Eight Club",
+      "notable": false
+    },
+    "thefauna.co.uk|Fauna": {
+      "name": "Fauna",
+      "notable": false
+    },
+    "thefemalegaze.art|The Female Gaze": null,
+    "thefieldhyundai.com|The Field From The Ground Up": {
+      "name": "Hyundai",
+      "notable": true
+    },
+    "thefoundation.house|Foundation": {
+      "name": "The Foundation",
+      "notable": false
+    },
+    "thehistoryofweb.design|The History of Web Design": null,
+    "thelaartbox.com|The LA Art Box": {
+      "name": "The LA Art Box",
+      "notable": false
+    },
+    "themagicalpantry.com|Kerrygold - The Magical Pantry": {
+      "name": "Kerrygold",
+      "notable": false
+    },
+    "theo.be|theo": {
+      "name": "Theo",
+      "notable": false
+    },
+    "theperfumeshop.com|Carolina Herrera Virtual Store": {
+      "name": "Carolina Herrera",
+      "notable": false
+    },
+    "therobot.tv|Robot": {
+      "name": "The Robot",
+      "notable": false
+    },
+    "therocketpanda.com|Rocketpanda": {
+      "name": "Rocketpanda",
+      "notable": false
+    },
+    "thescottresort.com|The Scott Resort & Spa": {
+      "name": "The Scott Resort & Spa",
+      "notable": false
+    },
+    "theseawebreathe.com|The Sea We Breathe": null,
+    "theshift.tokyo|The Shift": {
+      "name": "The Shift",
+      "notable": false
+    },
+    "thesmile.tv|Smile": {
+      "name": "The Smile",
+      "notable": false
+    },
+    "theunder.watch|The Underwatch Hotel": null,
+    "theupandupgroup.com|Up&Up": {
+      "name": "The Up&Up Group",
+      "notable": false
+    },
+    "thieb.co|Thieb.co — 2023 Portfolio": null,
+    "thisisdash.com|DASH": {
+      "name": "Dash",
+      "notable": false
+    },
+    "thisisfc88.com|FC88": {
+      "name": "FC88",
+      "notable": false
+    },
+    "thoughtlab.com|THOUGHTLAB": {
+      "name": "ThoughtLab",
+      "notable": false
+    },
+    "tiltongroup.com|Tilton": {
+      "name": "Tilton",
+      "notable": false
+    },
+    "titangatequity.com|TitanGate Equity": {
+      "name": "TitanGate Equity",
+      "notable": false
+    },
+    "titansinkware.com|Titan Sinkware": {
+      "name": "Titan Sinkware",
+      "notable": false
+    },
+    "tobacco.nl|Tobacco": {
+      "name": "Tobacco",
+      "notable": false
+    },
+    "togethxr.com|TOGETHXR": {
+      "name": "TOGETHXR",
+      "notable": false
+    },
+    "tomasthan.com|Tomas Than": null,
+    "topology.vc|Topology": {
+      "name": "Topology",
+      "notable": false
+    },
+    "touch-less.dev|Touch Less": null,
+    "touchemedia.com|Touché!": {
+      "name": "Touché",
+      "notable": false
+    },
+    "traffic.productions|Traffic Productions": {
+      "name": "Traffic Productions",
+      "notable": false
+    },
+    "trawelt.com|Trawelt": {
+      "name": "Trawelt",
+      "notable": false
+    },
+    "treebytree.earth|treebytree": {
+      "name": "Tree by Tree",
+      "notable": false
+    },
+    "tresmarescapital.com|Tresmares Capital": {
+      "name": "Tresmares Capital",
+      "notable": false
+    },
+    "trucknroll.com|Truck’N Roll®": {
+      "name": "Truck'N Roll",
+      "notable": false
+    },
+    "truestaging.co.uk|TRUE": {
+      "name": "TRUE",
+      "notable": false
+    },
+    "truus.co|Truus": {
+      "name": "Truus",
+      "notable": false
+    },
+    "tux.co|Tux Creative House": {
+      "name": "Tux Creative House",
+      "notable": false
+    },
+    "twicemediahouse.com|TWICE": {
+      "name": "Twice Media House",
+      "notable": false
+    },
+    "twks.ch|TWKS": {
+      "name": "TWKS",
+      "notable": false
+    },
+    "ubac-store.com|UBAC STORE": {
+      "name": "Ubac Store",
+      "notable": false
+    },
+    "uflgame.com|UFL GAME": {
+      "name": "UFL",
+      "notable": false
+    },
+    "undothefirewall.com|Undo The Firewall": null,
+    "unesco.org|UNESCO Stolen Objects Museum": {
+      "name": "UNESCO",
+      "notable": true
+    },
+    "unkjd.com|UNKJD": {
+      "name": "UNKJD",
+      "notable": false
+    },
+    "unleashingbest.com|Unleashing Your Best Version": null,
+    "untold.site|Untold": {
+      "name": "Untold",
+      "notable": false
+    },
+    "untruthsandconsequences.com|QUERDENKEN EVERYTHING": null,
+    "uruoiskincare.com|Uruoi Japanese Skincare": {
+      "name": "Uruoi",
+      "notable": false
+    },
+    "valid.com|Valid Trusted Connectivity": {
+      "name": "Valid",
+      "notable": false
+    },
+    "valmont.com|Valmont": {
+      "name": "Valmont",
+      "notable": false
+    },
+    "vanmoof.com|VanMoof: S3 & X3": {
+      "name": "VanMoof",
+      "notable": false
+    },
+    "vareximaging.com|Varex Imaging": {
+      "name": "Varex Imaging",
+      "notable": false
+    },
+    "vault.xyz|Vault.xyz": {
+      "name": "Vault",
+      "notable": false
+    },
+    "vazzi.fun|Vazzi": {
+      "name": "Vazzi",
+      "notable": false
+    },
+    "veiren.uy|Veiren": {
+      "name": "Veiren",
+      "notable": false
+    },
+    "venturi.space|Venturi Space": {
+      "name": "Venturi",
+      "notable": false
+    },
+    "veritran.com|Veritran": {
+      "name": "Veritran",
+      "notable": false
+    },
+    "videoapply.io|VideoApply": {
+      "name": "VideoApply",
+      "notable": false
+    },
+    "villagemontreal.ca|Village Montréal": {
+      "name": "Village Montréal",
+      "notable": false
+    },
+    "villalionview.com|Villa Lion View": {
+      "name": "Villa Lion View",
+      "notable": false
+    },
+    "virgingalactic.com|Virgin Galactic": {
+      "name": "Virgin Galactic",
+      "notable": false
+    },
+    "virginhyperloop.com|Virgin Hyperloop": {
+      "name": "Virgin Hyperloop",
+      "notable": false
+    },
+    "virtualexpodubai.com|Virtual Expo Dubai 2020": {
+      "name": "Expo 2020 Dubai",
+      "notable": false
+    },
+    "virtualwellbeinghub.ca|Virtual Well-being Hub": {
+      "name": "Virtual Well-Being Hub",
+      "notable": false
+    },
+    "vistaenergy.com|Vista Energy": {
+      "name": "Vista Energy",
+      "notable": false
+    },
+    "visualcreatures.com|Visual Creatures Folio": null,
+    "vitra.com|Vitra Gift Finder": {
+      "name": "Vitra",
+      "notable": false
+    },
+    "vividand.co|Vivid+Co": {
+      "name": "Vivid & Co",
+      "notable": false
+    },
+    "vogue.it|Photovogue Festival 2021": {
+      "name": "Vogue",
+      "notable": true
+    },
+    "voku.studio|Voku.Studio™": {
+      "name": "Voku Studio",
+      "notable": false
+    },
+    "volkswagen-sportscars.fr|Volkswagen Sportscars": {
+      "name": "Volkswagen",
+      "notable": true
+    },
+    "vonheilig.de|Von Heilig": {
+      "name": "Von Heilig",
+      "notable": false
+    },
+    "vooban.com|Vooban": {
+      "name": "Vooban",
+      "notable": false
+    },
+    "vos9x.com|VOS9X": {
+      "name": "VOS9X",
+      "notable": false
+    },
+    "vp.moscow|Victory Park Residences": {
+      "name": "Victory Park Residences",
+      "notable": false
+    },
+    "vwlab.io|Report - VWLAB": null,
+    "walbi.com|Walbi": {
+      "name": "Walbi",
+      "notable": false
+    },
+    "walrus.xyz|Walrus": {
+      "name": "Walrus",
+      "notable": false
+    },
+    "watson.la|Columbia 100 Year Anniversary": null,
+    "wearebulletproof.com|We Bulletproof Brands": {
+      "name": "Bulletproof",
+      "notable": false
+    },
+    "weareexample.com|Example": {
+      "name": "Example",
+      "notable": false
+    },
+    "wearegeniusclub.com|The Genius Club": {
+      "name": "The Genius Club",
+      "notable": false
+    },
+    "weareuprising.com|Uprising™": {
+      "name": "Uprising",
+      "notable": false
+    },
+    "web.auto|Web.Auto": {
+      "name": "Web.Auto",
+      "notable": false
+    },
+    "webisoft.com|WEBISOFT®": {
+      "name": "Webisoft",
+      "notable": false
+    },
+    "wedze.com|Wed'ze - Lookbook Winter 2016-2017": {
+      "name": "Wed'ze",
+      "notable": false
+    },
+    "wembi.ai|Wembi": {
+      "name": "Wembi",
+      "notable": false
+    },
+    "wenance.com|Wenance": {
+      "name": "Wenance",
+      "notable": false
+    },
+    "whenwewerekids.fr|WHEN WE WERE KIDS PRODUCTION": {
+      "name": "When We Were Kids Production",
+      "notable": false
+    },
+    "white-desert.com|White Desert": {
+      "name": "White Desert",
+      "notable": false
+    },
+    "whoisguilty.com|WHO IS GUILTY": null,
+    "wisr.com.au|Wisr": {
+      "name": "Wisr",
+      "notable": false
+    },
+    "witchernetflix.com|Welcome To The Continent": {
+      "name": "Netflix",
+      "notable": true
+    },
+    "withgoogle.com|Google - The Web Can Do What!?": {
+      "name": "Google",
+      "notable": true
+    },
+    "wolverineworldwide.com|Wolverine Worldwide": {
+      "name": "Wolverine Worldwide",
+      "notable": false
+    },
+    "wonhundred.com|Won Hundred": {
+      "name": "Won Hundred",
+      "notable": false
+    },
+    "wsjbarrons.com|Iconic Mints": {
+      "name": "The Wall Street Journal",
+      "notable": false
+    },
+    "x-bionic.com|X-BIONIC TerraSkin X00/C": {
+      "name": "X-BIONIC",
+      "notable": false
+    },
+    "xapobank.com|Xapo Bank": {
+      "name": "Xapo Bank",
+      "notable": false
+    },
+    "xbox.com|20 Years of Xbox Museum": {
+      "name": "Xbox",
+      "notable": true
+    },
+    "xyzal.com|Xyzal: Storytime with Nigel": {
+      "name": "Xyzal",
+      "notable": false
+    },
+    "yodezeen.com|YODEZEEN": {
+      "name": "Yodezeen",
+      "notable": false
+    },
+    "youcanbeanything.love|#YOUCANBEANYTHING": null,
+    "youngcapital.nl|YoungCapital Next": {
+      "name": "YoungCapital",
+      "notable": false
+    },
+    "ytech.io|Ytech": {
+      "name": "Ytech",
+      "notable": false
+    },
+    "yuenye.com|Yuen Ye v3": null,
+    "yulia.world|YULIA": null,
+    "yzavoku.com|YZA Voku": {
+      "name": "YZA Voku",
+      "notable": false
+    },
+    "zapiensdesign.com|Zapiens Hybrid Design Agency": {
+      "name": "Zapiens",
+      "notable": false
+    },
+    "zar.app|ZAR": {
+      "name": "ZAR",
+      "notable": false
+    },
+    "zentry.com|Zentry": {
+      "name": "Zentry",
+      "notable": false
+    },
+    "zero.tech|Zero Tech": {
+      "name": "Zero",
+      "notable": false
+    },
+    "zkpass.org|zkPass": {
+      "name": "zkPass",
+      "notable": false
+    },
+    "zorba-group.com|Zorba": {
+      "name": "Zorba Group",
+      "notable": false
+    },
+    "zorge9.estate|Zorge 9": {
+      "name": "Zorge 9",
+      "notable": false
+    }
+  }
+}

@@ -5,7 +5,7 @@
 // lib/directory/constants.ts and app/directory/README.md - this page needs
 // no edit to pick it up.
 
-import ListingPage from "@/components/listing/ListingPage";
+import ListingPage from "@/components/listing-2026/ListingPage";
 import type { ListingItem } from "@/components/listing/ListingGrid";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -18,8 +18,14 @@ export const revalidate = 60;
 
 const HUB_TITLE = "Agency Directory";
 const HUB_HEADING = "Find the agency that fits your project";
+// Deliberately no longer says "award-winning": that was accurate when Web
+// Design was the only category, but the SEO category is ranked on published
+// client reviews, not awards (see DIRECTORY_CATEGORIES in
+// lib/directory/constants.ts). One hub subheading has to cover every
+// category, so it claims only what all of them can back up - that each
+// record is attributable to the source it was collected from.
 const HUB_SUBHEADING =
-  "Browse award-winning agencies by category. Every profile links back to its source so you can verify the work yourself.";
+  "Browse agencies by category, ranked on what their source directory publishes about them. Every profile links back to that source so you can verify the work yourself.";
 const BROWSE_CTA = "Browse agencies";
 const COMING_SOON_LABEL = "Agencies coming soon";
 
@@ -98,7 +104,12 @@ export default function DirectoryHubPage() {
           })),
         }}
       />
+      {/* No testimonials section here. It is social proof about agencies
+          using Superflow, which reads as an endorsement of the listed
+          agencies when it sits under a directory of them - a claim this
+          directory does not make. See `showTestimonials` on ListingPage. */}
       <ListingPage
+        showTestimonials={false}
         config={{
           hero: { heading: HUB_HEADING, subheading: HUB_SUBHEADING },
           grid: { variant: "text-only", items },

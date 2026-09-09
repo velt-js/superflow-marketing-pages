@@ -336,7 +336,7 @@ function AgentCardView({
         <div className={styles.cardTop}>
           <TileIcon palette={card?.palette} />
           <div className={styles.cardText}>
-            <h3 className={styles.cardTitle}>{card?.title}</h3>
+            <p className={styles.cardTitle}>{card?.title}</p>
             <p className={styles.cardDesc}>{card?.description}</p>
           </div>
         </div>

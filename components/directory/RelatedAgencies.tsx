@@ -1,4 +1,5 @@
 import AgencyCard from "./AgencyCard";
+import styles from "./DirectoryGrid.module.css";
 import type { RelatedAgenciesBlock } from "@/lib/directory/agencies";
 
 /**
@@ -6,6 +7,11 @@ import type { RelatedAgenciesBlock } from "@/lib/directory/agencies";
  * every profile is reachable from more than one path (its category
  * listing plus this block) instead of being an orphan the crawler only
  * finds once.
+ *
+ * Shares the category page's grid furniture (`DirectoryGrid.module.css`)
+ * so a related card is pixel-identical to the same card on the listing -
+ * with `sectionSpaced` restoring the top padding the listing's section
+ * drops, since this block follows page content rather than the hero fade.
  *
  * Renders nothing when the block has no agencies - happens for a record
  * with no country-mates and no category-mates, which is expected while
@@ -20,24 +26,22 @@ export default function RelatedAgencies({ block }: { block: RelatedAgenciesBlock
     if (!block?.agencies || block.agencies.length === 0) return null;
 
     return (
-      <section className="bg-white pb-[80px] lg:pb-[120px]">
-        <div className="container-page">
-          <h2
-            className="mb-[24px] text-black"
-            style={{
-              fontFamily: "var(--font-poppins)",
-              fontWeight: 600,
-              fontSize: 24,
-              letterSpacing: "-0.03em",
-            }}
-          >
-            {block.heading}
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section
+        className={`${styles.section} ${styles.sectionSpaced}`}
+        data-section="directory-related-agencies"
+      >
+        <div className={styles.inner}>
+          <h2 className={styles.heading}>{block.heading}</h2>
+          <ul className={styles.grid}>
             {block.agencies.map((agency) => (
-              <AgencyCard key={agency?.slug ?? agency?.profileUrl} agency={agency} />
+              <li
+                key={agency?.slug ?? agency?.profileUrl}
+                className={styles.item}
+              >
+                <AgencyCard agency={agency} />
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     );

@@ -331,7 +331,7 @@ function solutionIcon(slug: string): MenuIconComponent {
  * list dropdown and the mobile accordion so both stay in sync.
  */
 const ASSET_LINKS: readonly NavMenuLink[] = [
-  { label: "Website Review", href: "/website-review", Icon: GlobeIcon },
+  { label: "Website Review", href: "/", Icon: GlobeIcon },
   { label: "Video Review", href: "/video-review", Icon: VideoIcon },
   { label: "Lottie Review", href: "/lottie-files-review", Icon: PlayerPlayIcon },
   { label: "PDF Review", href: "/pdf-review", Icon: FileTextIcon },
@@ -435,7 +435,7 @@ const INTEGRATION_GROUPS: readonly NavMenuGroup[] = [
       { label: "Webhooks", href: INTEGRATIONS_INDEX_HREF, Icon: WebhookIcon },
       {
         label: "REST API",
-        href: `${INTEGRATIONS_INDEX_HREF}/api`,
+        href: "/docs/rest-apis/projects/create-project",
         Icon: CloudIcon,
       },
     ],

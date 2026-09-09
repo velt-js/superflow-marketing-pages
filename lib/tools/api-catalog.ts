@@ -43,12 +43,20 @@ export type ToolInputSchema = {
   additionalProperties: false;
 };
 
-export type ToolInputProperty = {
-  type: "string" | "boolean" | "number";
-  description: string;
-  enum?: string[];
-  default?: string | boolean | number;
-};
+export type ToolInputProperty =
+  | {
+      type: "string" | "boolean" | "number";
+      description: string;
+      enum?: string[];
+      default?: string | boolean | number;
+    }
+  | {
+      type: "array";
+      description: string;
+      items: { type: "string"; maxLength?: number };
+      minItems: number;
+      maxItems: number;
+    };
 
 export type ToolApiEntry = {
   /** Registry slug. Ties the endpoint to its page, its status, its docs. */
@@ -67,7 +75,7 @@ export type ToolApiEntry = {
   path: string;
   inputSchema: ToolInputSchema;
   /** Example arguments, used verbatim in the curl and MCP snippets. */
-  sample: Record<string, string | boolean>;
+  sample: Record<string, string | boolean | number | string[]>;
   /** One line on the response shape, for the docs table. */
   returns: string;
   /** Plain words, e.g. "10 runs per hour per IP". */
@@ -118,7 +126,7 @@ const RUN_SCHEMA: ToolInputSchema = {
     runId: {
       type: "string",
       description:
-        "Collect a run that answered with `{ status: \"pending\", runId }` instead of a result. Send the runId back on its own, with no url, and the same tool returns the finished result once the run is done. Costs no rate-limit slot.",
+        'Collect a run that answered with `{ status: "pending", runId }` instead of a result. Send the runId back on its own, with no url, and the same tool returns the finished result once the run is done. Costs no rate-limit slot.',
     },
   },
   // `url` stays out of `required` here: a call that carries a runId is
@@ -132,6 +140,79 @@ const RUN_SCHEMA: ToolInputSchema = {
 const HEAVY_LIMIT = "10 runs per hour per IP";
 
 export const TOOL_APIS: readonly ToolApiEntry[] = [
+  {
+    slug: "meeting-planner",
+    mcpTool: "find_meeting_times",
+    title: "Time Zone Converter & Meeting Planner",
+    description:
+      "Find overlapping working hours and meeting times across cities or countries. Resolves locations to IANA time zones and applies daylight saving for the requested date. Returns resolved locations, overlap windows, the earliest matching meeting starts with UTC and local times, readable copy text, and a link to open the plan. Ambiguous names or countries with multiple zones return choices: retry with a returned location ID or a more specific city/region/country. The same working schedule is applied in each location's local time; the browser plan supports individual schedules. Does not access calendars, account for holidays, send invitations, or book meetings.",
+    method: "POST",
+    path: "/api/tools/meeting-planner",
+    inputSchema: {
+      type: "object",
+      properties: {
+        locations: {
+          type: "array",
+          items: { type: "string", maxLength: 150 },
+          minItems: 1,
+          maxItems: 8,
+          description:
+            "Cities, single-zone countries, or location IDs returned in choices. Include a region/country to distinguish namesakes, e.g. San Francisco California or London United Kingdom. The first location determines the date being searched.",
+        },
+        date: {
+          type: "string",
+          description:
+            "Meeting date as YYYY-MM-DD (2000–2099), in the first location's time zone. Required: use the actual meeting date so daylight saving is correct.",
+        },
+        durationMinutes: {
+          type: "number",
+          description:
+            "Length of the whole meeting, 15–1440 minutes in 15-minute increments.",
+          default: 30,
+        },
+        workStart: {
+          type: "string",
+          description:
+            "Start of working hours, as local 24-hour HH:mm, in 15-minute increments. Applied to all locations.",
+          default: "09:00",
+        },
+        workEnd: {
+          type: "string",
+          description:
+            "End of working hours, as local 24-hour HH:mm, in 15-minute increments. An earlier end means an overnight shift. Must differ from workStart.",
+          default: "18:00",
+        },
+        workDays: {
+          type: "string",
+          description:
+            "Comma-separated working days: 0=Sunday through 6=Saturday. For overnight shifts, the day the shift starts. Applied to all locations.",
+          default: "1,2,3,4,5",
+        },
+        limit: {
+          type: "number",
+          description:
+            "Maximum suggested meeting starts to return, 1–20. Earliest first, at 15-minute intervals; totalAvailableStarts reports the full count.",
+          default: 10,
+        },
+      },
+      required: ["locations", "date"],
+      additionalProperties: false,
+    },
+    sample: {
+      locations: [
+        "San Francisco California",
+        "New York City",
+        "London United Kingdom",
+      ],
+      date: "2026-09-09",
+      durationMinutes: 30,
+    },
+    returns:
+      "{ ok, date, dateZone, durationMinutes, locations[], overlapMinutes, overlapWindows[], slots[] with UTC/local times and copyText, totalAvailableStarts, hasMore, planUrl, availability }",
+    rateLimit:
+      "No application rate limit. Up to 8 locations, 20 returned starts, and a 16 KB request body; no result storage.",
+    timeoutSeconds: 10,
+  },
   {
     slug: "ai-visibility-checker",
     mcpTool: "check_ai_visibility",
@@ -197,7 +278,7 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     mcpTool: "generate_json_ld",
     title: "JSON-LD Generator",
     description:
-      "Read a page and write a schema.org JSON-LD block for it, then validate that block against the same checks a validator would run. The markup is model-written from the page's own content and should be reviewed before it is published. Returns the block ready to paste into a <script type=\"application/ld+json\"> tag.",
+      'Read a page and write a schema.org JSON-LD block for it, then validate that block against the same checks a validator would run. The markup is model-written from the page\'s own content and should be reviewed before it is published. Returns the block ready to paste into a <script type="application/ld+json"> tag.',
     method: "POST",
     path: "/api/tools/json-ld-generator",
     inputSchema: RUN_SCHEMA,
@@ -314,7 +395,8 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
         },
         source: {
           type: "string",
-          description: "utm_source. Where the traffic comes from, e.g. newsletter.",
+          description:
+            "utm_source. Where the traffic comes from, e.g. newsletter.",
         },
         medium: {
           type: "string",
@@ -326,7 +408,10 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
           description: "utm_campaign. The campaign name, e.g. spring_launch.",
         },
         id: { type: "string", description: "utm_id. Optional campaign ID." },
-        term: { type: "string", description: "utm_term. Optional paid keyword." },
+        term: {
+          type: "string",
+          description: "utm_term. Optional paid keyword.",
+        },
         content: {
           type: "string",
           description: "utm_content. Optional variant, e.g. header_link.",

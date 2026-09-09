@@ -1,0 +1,99 @@
+import type { ToolContent } from "./types";
+
+export const MEETING_PLANNER_CONTENT: ToolContent = {
+  slug: "meeting-planner",
+  title: "Time Zone Converter & Meeting Planner",
+  subhead:
+    "Add your customers’ cities, choose a time, and copy it for everyone.",
+  description:
+    "Free time zone converter and meeting planner by city or country. Find overlapping working hours with this World Time Buddy alternative. No signup.",
+  howItWorks: [
+    {
+      title: "Add cities",
+      body: "Start with your city, then add your customers’ cities or countries. We work out the time differences for you.",
+    },
+    {
+      title: "Pick a time",
+      body: "Click Suggest a time, or click a row for a 30-minute meeting. Drag the selection to move it and its edges to change the length. Each row shows the local meeting time.",
+    },
+    {
+      title: "Copy and send",
+      body: "Click Copy meeting times and paste them into a chat or email. Share plan at the top copies a link to your exact plan. More ways to share includes a calendar download.",
+    },
+  ],
+  faq: [
+    {
+      question: "Is this a free World Time Buddy alternative?",
+      answer:
+        "Yes. Superflow's Time Zone Converter & Meeting Planner helps you compare cities and find a meeting time across time zones. Add up to eight locations without an account, see overlapping working hours, drag to select a meeting, and copy readable local times or share a plan. It is an independent tool from Superflow, not affiliated with World Time Buddy.",
+    },
+    {
+      question: "How do I convert a meeting time between cities?",
+      answer:
+        "Add the cities or countries you want to compare, choose the meeting date, and select a time on the timeline. Each row shows that same moment in the location's local time. Each city row shows its current local clock and labels the selected time range, including when it ends on the next day.",
+    },
+    {
+      question: "Can an AI assistant find overlapping meeting times with MCP?",
+      answer:
+        "Yes. Connect to Superflow's free MCP server at https://usesuperflow.ai/api/mcp and use find_meeting_times with locations and a date. It returns time zones, shared working hours, suggested meeting times, readable copy text, and a plan link. The same calculation is available at POST /api/tools/meeting-planner. No API key is required.",
+    },
+    {
+      question: "Can I search by country instead of time zone?",
+      answer:
+        "Yes. Search by city, country name, or country code. A country with one time zone can be added directly. Countries with multiple time zones show a choice of cities or regions so you can pick the customer’s actual location.",
+    },
+    {
+      question: "How does automatic location detection work?",
+      answer:
+        "Your device supplies its time zone automatically, without a location permission prompt. When available, an approximate city from your network is shown if it matches that time zone. Otherwise the row is labeled Your location. Search for a city to correct it, or use Use my location to return to your local time. Saved custom locations and shared plans are preserved.",
+    },
+    {
+      question: "Does it handle daylight saving time?",
+      answer:
+        "Yes. Each location uses its named time zone and your browser’s time-zone rules for the date you choose. Offsets are recalculated when the date changes, including weeks when countries change clocks on different dates. Keep your browser and operating system up to date for recent rule changes.",
+    },
+    {
+      question: "How is the overlap calculated?",
+      answer:
+        "The planner compares working hours for every location in 15-minute intervals. Green times and the work-hours badge require the entire meeting to fit inside everyone’s hours. Suggest a time can also offer a clearly labeled compromise. The location selected under “Show times in” determines the calendar day and time scale shown. Meetings may end on the following day.",
+    },
+    {
+      question: "What if there is no shared time?",
+      answer:
+        "Click Suggest a time to find a nearby compromise, such as an early morning in San Francisco and early evening in Sweden. It favors smaller adjustments to work hours and avoids sleep hours when possible. Click again for another option. Each compromise names the cities outside working hours; it does not confirm anyone’s availability. The MCP/API returns only meetings fully within configured work hours.",
+    },
+    {
+      question: "Can I change working hours and weekends?",
+      answer:
+        "Yes. Each location starts with 09:00–18:00, Monday through Friday. Edit the hours and working days for each location separately. Overnight shifts are supported; the working day is the day the shift starts. Holidays and personal calendar availability are not included.",
+    },
+    {
+      question: "Is it free, and can I share the result?",
+      answer:
+        "It is free with no account, email, or API key required. Up to eight locations and their working hours are saved in your browser. A shared link includes the date, meeting duration, selected time, and location settings. Copying or downloading an event does not send invitations or book anyone’s calendar.",
+    },
+  ],
+  facts: [
+    { label: "Cost", value: "Free. No signup, email, or API key required." },
+    {
+      label: "Locations",
+      value:
+        "Up to eight cities, countries, or regions. Search uses a bundled GeoNames cities15000 catalog, country names, and time-zone mappings, licensed CC BY 4.0.",
+    },
+    {
+      label: "Calculation",
+      value:
+        "The browser and MCP/API share the same calculation engine, using named IANA time zones through Intl. Quarter-hour precision, including half-hour and quarter-hour offsets, daylight saving, and overnight shifts.",
+    },
+    {
+      label: "Storage",
+      value:
+        "The browser saves locations and settings in localStorage. Share links encode the selected plan in the URL fragment. MCP/API calls send the supplied locations and schedule to the server for calculation; results are not stored by the application.",
+    },
+    {
+      label: "Availability",
+      value:
+        "Configured working hours only. No calendar, holiday, or free/busy integration.",
+    },
+  ],
+};

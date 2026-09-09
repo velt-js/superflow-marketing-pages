@@ -23,6 +23,12 @@ export type ToolPageProps = {
   subhead: string;
   /** Small pill above the H1. */
   eyebrow?: string;
+  /** Wider workspace for tools with a comparison timeline. */
+  wide?: boolean;
+  /** Storage behavior when it differs from the default server cache. */
+  privacyNote?: string;
+  /** Keep developer references below the workspace when the main flow is for everyone. */
+  developerLinksInHero?: boolean;
   /** The interactive tool. Rendered directly under the subhead. */
   children: React.ReactNode;
   /** Exactly three steps, per the page template in the brief. */
@@ -67,6 +73,9 @@ export function ToolPage({
   h1,
   subhead,
   eyebrow,
+  wide = false,
+  privacyNote = "Free, no login, no email. Nothing stored beyond a 24 hour cache.",
+  developerLinksInHero = true,
   children,
   howItWorks,
   whyThisMatters,
@@ -104,8 +113,8 @@ export function ToolPage({
         tight
         footnote={
           <>
-            Free, no login, no email. Nothing stored beyond a 24 hour cache.
-            {markdownPath ? (
+            {privacyNote}
+            {developerLinksInHero && markdownPath ? (
               <>
                 {" "}
                 <a href={markdownPath}>Markdown copy</a>
@@ -113,7 +122,7 @@ export function ToolPage({
             ) : null}
             {/* The separator carries the leading space, so a tool with an API
                 and no Markdown copy does not run the link into the sentence. */}
-            {hasApi ? (
+            {developerLinksInHero && hasApi ? (
               <>
                 {markdownPath ? " · " : " "}
                 <a href="#api">API and MCP</a>
@@ -124,7 +133,7 @@ export function ToolPage({
       />
 
       <section className={styles.toolSlot}>
-        <div className={styles.toolInner}>{children}</div>
+        <div className={`${styles.toolInner} ${wide ? styles.toolInnerWide : ""}`}>{children}</div>
       </section>
 
       <section className={styles.section}>

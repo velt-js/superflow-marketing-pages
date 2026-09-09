@@ -6,7 +6,7 @@ import {
   getAllBlogSlugs,
   getAllBugBookSlugs,
   getAllCaseStudySlugs,
-  getAllChecklistSlugs,
+  getIndexableChecklistSlugs,
   getAllComparisonPreviewsForHub,
   getAllComparisonSlugs,
   getAllFeatureSlugs,
@@ -161,7 +161,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllAlternativeSlugs),
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
-    safeFetch(getAllChecklistSlugs),
+    safeFetch(getIndexableChecklistSlugs),
     safeFetch(getAllFeatureSlugs),
     safeFetchComparisonCatalog(),
     fetchDocsPaths(),
@@ -204,7 +204,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const lastModified = new Date();
-  const allPaths = unique([...STATIC_PATHS, ...dynamicPaths]);
+  // Retired review URL redirects to the homepage; never submit it to crawlers.
+  const allPaths = unique([...STATIC_PATHS, ...dynamicPaths]).filter(
+    (path) => path !== "/website-review",
+  );
 
   return allPaths.map((path) => ({
     url: `${SITE_URL}${path === "/" ? "" : path}`,

@@ -31,6 +31,27 @@ scripts/og-image/.fonts/
 # selector iteration don't re-hit the site. See scripts/directory-import/README.md.
 scripts/directory-import/.cache/
 
+# Cached JSON responses from the Semrush agency importer. Separate directory
+# from the Awwwards cache above (JSON, not HTML, and keyed against a
+# different origin) so the two importers' caches can never collide.
+# See scripts/directory-import/README.md.
+scripts/directory-import/.cache-semrush/
+
+# Motion Design Awards page cache. Kept separate from the two above for the
+# same reason they are separate from each other. This one is by far the
+# largest of the three - the importer walks every project in MDA's sitemap
+# (~1,871 pages) plus a profile page per award-winning studio, which runs to
+# roughly 640 MB of HTML. It is also what makes a re-run cheap: the fetch
+# helpers check this directory before touching the network, so an
+# interrupted crawl resumes rather than restarting.
+scripts/directory-import/.cache-mda/
+
+# Raw JSON batches dropped by the hand-driven browser session that sources
+# the branding category. Unvalidated intermediates - the artefact worth
+# committing is lib/directory/data/branding-agencies.json, which
+# load-branding-json.mjs writes after validating every field.
+scripts/directory-import/inbox/
+
 # Playwright
 /test-results/
 /playwright-report/

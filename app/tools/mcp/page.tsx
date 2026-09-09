@@ -33,7 +33,7 @@ import { toolPath } from "@/lib/tools/registry";
 const PATH = "/tools/mcp";
 const TITLE = "MCP Server and API for the Free Tools";
 const DESCRIPTION =
-  "Superflow's free website tools as an MCP server and a plain HTTP API. Check AI visibility, robots.txt, structured data, social previews, and tech stacks from Claude Code, Cursor, or curl. No account, no API key.";
+  "Free MCP tools and HTTP APIs for time zone meeting planning, AI visibility, structured data, and website checks. No account or API key.";
 
 export const metadata: Metadata = buildPageMetadata({
   title: TITLE,
@@ -109,7 +109,7 @@ const FAQ: ToolFaqItem[] = [
   {
     question: "What are the rate limits?",
     answer:
-      "Ten runs per hour per IP for the tools that fetch, render, or call a model, and sixty per hour for the Tech Stack Detector, which only fetches one page. The UTM builder and the MD5 endpoint have no limit because they do no work beyond string handling. Results are cached for 24 hours per URL, and a cached answer does not spend a slot, so asking about a URL somebody already checked is free.",
+      "Ten runs per hour per IP for the tools that fetch, render, or call a model, and sixty per hour for the Tech Stack Detector, which only fetches one page. The meeting planner, UTM builder, and MD5 endpoint have no application rate limit; they compute locally on the server with bounded inputs and do not store results. Results are cached for 24 hours per URL, and a cached answer does not spend a slot, so asking about a URL somebody already checked is free.",
   },
   {
     question: "How long does a call take?",
@@ -119,7 +119,7 @@ const FAQ: ToolFaqItem[] = [
   {
     question: "What do you store?",
     answer:
-      "The result of a run, cached against the URL for 24 hours, and nothing else. No account, no history, no log of who asked. Screenshots are the one exception: the PNG lives in our bucket behind a link that expires in about a day.",
+      "Website check results are cached against the URL for 24 hours. Meeting planning, UTM building, and MD5 hashing do not store results. No account, no history, no log of who asked. Screenshots are the one exception: the PNG lives in our bucket behind a link that expires in about a day.",
   },
   {
     question: "Can I use this in a product?",
@@ -160,7 +160,7 @@ export default function ToolsMcpPage() {
       <ListingHero
         eyebrow="Free forever"
         heading="MCP server and API for the free tools"
-        subheading="Every free tool is also an MCP tool and an HTTP endpoint. One URL, no account, no API key."
+        subheading="Find meeting times across cities, check websites, and build campaign links from your agent. One URL, no account, no API key."
         hideCta
         footnote={
           <>
@@ -216,8 +216,9 @@ export default function ToolsMcpPage() {
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The tools</h2>
           <p className={styles.sectionLead}>
-            What your agent sees after connecting. Every tool takes a URL,
-            except the two that take text.
+            What your agent sees after connecting. Website checks take a URL;
+            meeting planning takes locations and a date. Each tool lists its
+            arguments below.
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -266,8 +267,8 @@ export default function ToolsMcpPage() {
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The HTTP API</h2>
           <p className={styles.sectionLead}>
-            The same tools without MCP. Every endpoint takes a JSON body with a
-            URL and answers with JSON. Add{" "}
+            The same tools without MCP. Send a JSON body with the tool's
+            arguments and receive JSON. For cached website checks, add{" "}
             <code className={styles.inlineCode}>&quot;refresh&quot;: true</code>{" "}
             to skip the 24 hour cache and run again.
           </p>

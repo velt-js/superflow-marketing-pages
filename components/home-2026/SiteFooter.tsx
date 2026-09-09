@@ -51,7 +51,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Supported Formats",
     links: [
-      { label: "Websites", href: "/website-review" },
+      { label: "Websites", href: "/" },
       { label: "Videos", href: "/video-review" },
       { label: "Images", href: "/image-review" },
       { label: "PDF", href: "/pdf-review" },
@@ -97,7 +97,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Slack", href: `${INTEGRATIONS_PATH}/slack` },
       { label: "Email", href: INTEGRATIONS_PATH },
       { label: "Webhooks", href: INTEGRATIONS_PATH },
-      { label: "REST API", href: `${INTEGRATIONS_PATH}/api` },
+      { label: "REST API", href: "/docs/rest-apis/projects/create-project" },
       { label: "All Integrations", href: INTEGRATIONS_PATH },
     ],
   },

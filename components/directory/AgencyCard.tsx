@@ -3,11 +3,14 @@ import Link from "next/link";
 
 import {
   agencyPath,
+  formatAgencyClientSummary,
   formatAgencyLocation,
+  formatAgencyRating,
   getAwardBreakdown,
   resolveAgencySourceLabel,
 } from "@/lib/directory/agencies";
 import PartnerBadge from "./PartnerBadge";
+import styles from "./AgencyCard.module.css";
 import type { Agency } from "@/lib/directory/types";
 
 /** Maximum number of services listed before collapsing into a "+N". */
@@ -19,9 +22,18 @@ const SERVICES_SEPARATOR = " · ";
 /** Trailing glyph on outbound links, marking them as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
 
+/** Leading label on the card's client line. Phrased as a claim about past
+ *  work ("Worked with"), not a capability ("Clients"), because that is the
+ *  thing a visitor scanning a grid of agencies is actually comparing. */
+const CLIENTS_LINE_LABEL = "Worked with ";
+
 /** Shown as the website link text when a record has a URL but no parsed
  *  domain, so the link never renders with an empty label. */
 const FALLBACK_WEBSITE_LABEL = "Visit site";
+
+/** Joiner between team size and budget in the card footer's left slot,
+ *  when both are present on the record. */
+const FOOTER_META_SEPARATOR = " · ";
 
 /**
  * Resolves the visible label for an agency's own website link. Prefers the
@@ -116,6 +128,28 @@ function pickTopAward(
 }
 
 /**
+ * Builds the footer's left-slot label from team size and budget, joining
+ * whichever of the two are present. Kept as one combined string rather
+ * than two separate elements so the footer's left slot stays the single
+ * `<span/>` it already was when neither is present - see the layout
+ * comment on the footer JSX below.
+ *
+ * @param agency - The agency record to read.
+ * @returns The combined label, or null when neither field is present.
+ */
+function buildFooterMetaLabel(agency: Agency | null | undefined): string | null {
+  try {
+    const parts = [
+      agency?.teamSize ? `Team: ${agency.teamSize}` : null,
+      agency?.budgetLabel ?? null,
+    ].filter((part): part is string => Boolean(part));
+    return parts.length > 0 ? parts.join(FOOTER_META_SEPARATOR) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Card for a single agency in a directory category grid. Leads with the
  * agency name (and partner badge, if applicable) - award record and
  * services are supporting detail, deliberately styled to read quieter
@@ -142,113 +176,94 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
       MAX_VISIBLE_SERVICES,
     );
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
+    const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
     const awardTotal = agency?.awards?.total ?? 0;
+    // Used only as the "is there a meaningful rating" guard - the actual
+    // score/count spans below are built from `agency.rating` directly so
+    // they can render as two separately styled elements, matching the
+    // award line's bold-count/muted-label split just below.
+    const ratingSummary = formatAgencyRating(agency?.rating ?? null);
+    const footerMetaLabel = buildFooterMetaLabel(agency);
     const servicesLine =
       shownServices.length > 0
         ? shownServices.join(SERVICES_SEPARATOR) + (hiddenCount > 0 ? ` +${hiddenCount} more` : "")
         : null;
 
     return (
-      <article
-        className="flex h-full flex-col gap-4 rounded-[var(--radius-card)] border-2 border-[#f7f7f7] bg-[#f7f7f7] p-6 transition-colors hover:border-[#111] hover:bg-white lg:p-7"
-      >
-        <Link
-          href={agencyPath(agency?.slug ?? "")}
-          className="-m-1 flex items-start gap-3 rounded-[12px] p-1 transition-colors hover:bg-black/[0.04]"
-        >
+      <article className={styles.card}>
+        <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
           {agency?.logoUrl && (
-            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[8px] bg-white">
+            <div className={styles.logo}>
               <Image
+                className={styles.logoImage}
                 src={agency.logoUrl}
                 alt=""
                 fill
                 sizes="44px"
-                className="object-contain"
               />
             </div>
           )}
-          <div className="flex min-w-0 flex-col gap-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3
-                className="truncate text-black"
-                style={{
-                  fontFamily: "var(--font-poppins)",
-                  fontWeight: 600,
-                  fontSize: 20,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {agency?.name ?? "Unnamed agency"}
-              </h3>
+          <div className={styles.headerText}>
+            <div className={styles.nameRow}>
+              <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
               <PartnerBadge agency={agency} />
             </div>
-            {locationLabel && (
-              <p
-                className="truncate"
-                style={{
-                  fontFamily: "var(--font-urbanist)",
-                  fontSize: 14,
-                  color: "rgba(10,10,10,0.55)",
-                }}
-              >
-                {locationLabel}
-              </p>
-            )}
+            {locationLabel && <p className={styles.location}>{locationLabel}</p>}
           </div>
         </Link>
 
         {agency?.description && (
-          <p
-            className="line-clamp-2 text-black"
-            style={{ fontFamily: "var(--font-urbanist)", fontSize: 14, lineHeight: 1.5 }}
-          >
-            {agency.description}
+          <p className={styles.description}>{agency.description}</p>
+        )}
+
+        {servicesLine && <p className={styles.services}>{servicesLine}</p>}
+
+        {clientSummary && (
+          <p className={styles.clients}>
+            <span className={styles.clientsLabel}>{CLIENTS_LINE_LABEL}</span>
+            <span className={styles.clientsNames}>{clientSummary}</span>
           </p>
         )}
 
-        {servicesLine && (
-          <p
-            className="line-clamp-1"
-            style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.5)" }}
-          >
-            {servicesLine}
-          </p>
-        )}
-
+        {/* A record carries an award total or a rating, never both (see
+            AgencyRating in lib/directory/types.ts) - written as two
+            independent conditions rather than an if/else so that stays
+            true by the data, not by an assumption baked into the JSX. */}
         {awardTotal > 0 && (
-          <div className="flex items-baseline gap-1.5">
-            <span
-              className="text-black"
-              style={{ fontFamily: "var(--font-poppins)", fontWeight: 700, fontSize: 16 }}
-            >
-              {awardTotal}
-            </span>
-            <span style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, color: "rgba(10,10,10,0.55)" }}>
+          <p className={styles.awards}>
+            <span className={styles.awardCount}>{awardTotal}</span>
+            <span className={styles.awardLabel}>
               award{awardTotal === 1 ? "" : "s"}
-              {topAward ? ` · ${topAward.count}x ${topAward.label}` : ""}
+              {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
             </span>
-          </div>
+          </p>
         )}
 
-        <div className="mt-auto flex items-center justify-between gap-3 border-t border-black/10 pt-4">
-          {agency?.teamSize ? (
-            <span
-              style={{ fontFamily: "var(--font-urbanist)", fontSize: 12, color: "rgba(10,10,10,0.55)" }}
-            >
-              Team: {agency.teamSize}
+        {ratingSummary && agency?.rating && (
+          <p className={styles.rating}>
+            <span className={styles.ratingScore}>
+              {agency.rating.value}/{agency.rating.scale}
             </span>
+            <span className={styles.ratingLabel}>
+              {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
+            </span>
+          </p>
+        )}
+
+        <div className={styles.footer}>
+          {footerMetaLabel ? (
+            <span className={styles.teamSize}>{footerMetaLabel}</span>
           ) : (
             <span />
           )}
-          <div className="flex min-w-0 shrink-0 flex-col items-end gap-1">
+          <div className={styles.links}>
             {agency?.website && (
               <a
                 href={agency.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="max-w-full truncate text-black underline underline-offset-2"
-                style={{ fontFamily: "var(--font-urbanist)", fontSize: 13, fontWeight: 600 }}
+                className={styles.websiteLink}
               >
                 {websiteLabel} {EXTERNAL_LINK_GLYPH}
               </a>
@@ -258,12 +273,7 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
                 href={agency.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="whitespace-nowrap underline underline-offset-2"
-                style={{
-                  fontFamily: "var(--font-urbanist)",
-                  fontSize: 12,
-                  color: "rgba(10,10,10,0.55)",
-                }}
+                className={styles.sourceLink}
               >
                 {sourceLabel} {EXTERNAL_LINK_GLYPH}
               </a>

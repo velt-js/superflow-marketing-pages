@@ -83,6 +83,8 @@
     max-width: none;
 }
 
+.toolInnerWide { max-width: 1180px; }
+
 /* ---- Generic section ---- */
 
 .section {

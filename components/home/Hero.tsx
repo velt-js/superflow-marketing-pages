@@ -1,6 +1,6 @@
 
 const assetPills = [
-  { label: "Websites", icon: "/images/hero/icon-world.svg", href: "/website-review" },
+  { label: "Websites", icon: "/images/hero/icon-world.svg", href: "/" },
   { label: "Video", icon: "/images/hero/icon-youtube.svg", href: "/video-review" },
   { label: "Lottie", icon: "/images/hero/icon-lottie.svg", href: "/lottie-files-review" },
   { label: "PDF", icon: "/images/hero/icon-pdf.svg", href: "/pdf-review" },
@@ -37,7 +37,8 @@ export default function Hero() {
       <div className="container-page relative flex flex-col items-center gap-[40px] lg:gap-[52px]">
         <div className="relative flex flex-col items-center gap-[24px]">
           <div className="relative flex flex-col items-center gap-[0px]">
-            <h1
+            <h1 className="flex flex-col items-center gap-0">
+              <span
               className="text-center text-white font-semibold tracking-[-0.03em]"
               style={{
                 fontFamily: "var(--font-poppins)",
@@ -46,9 +47,8 @@ export default function Hero() {
               }}
             >
               Ship More Creative
-            </h1>
-
-            <h1
+            </span>{" "}
+              <span
               className="text-gradient-superflow text-center font-semibold tracking-[-0.03em]"
               style={{
                 fontFamily: "var(--font-poppins)",
@@ -57,6 +57,7 @@ export default function Hero() {
               }}
             >
               Assets Impossibly Fast
+            </span>
             </h1>
           </div>
 

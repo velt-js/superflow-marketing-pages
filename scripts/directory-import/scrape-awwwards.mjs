@@ -34,6 +34,11 @@ import { fileURLToPath } from "node:url";
 
 const SCRIPT_DIRECTORY = path.dirname(fileURLToPath(import.meta.url));
 const CACHE_DIRECTORY = path.join(SCRIPT_DIRECTORY, ".cache");
+/** Committed memoisation cache for the client-name normalisation pass, and
+ *  the one place to hand-correct a name. See the "Client names" section of
+ *  scripts/directory-import/README.md. */
+const CLIENT_NAMES_FILE_PATH = path.join(SCRIPT_DIRECTORY, "client-names.json");
+
 const OUTPUT_FILE_PATH = path.join(
   SCRIPT_DIRECTORY,
   "..",
@@ -85,6 +90,58 @@ const SELECTOR_CARD_SECTION_VALUE = "div:not(.card-directory__section)";
 const SELECTOR_CARD_AWARD_BOX = ".box-score";
 const SELECTOR_CARD_AWARD_LABEL = ".box-score__top";
 const SELECTOR_CARD_AWARD_COUNT = ".box-score__bottom";
+
+/** Each awarded submission on a profile page is wrapped in this class and
+ *  carries a JSON blob of its own metadata in `data-collectable-model-value`
+ *  (title, slug), with the client's live URL as the one off-site link inside
+ *  it. Everything the client list needs is therefore already in the profile
+ *  HTML we fetch anyway - collecting clients costs zero extra requests. */
+const SELECTOR_PROFILE_SUBMISSION = ".js-collectable";
+const ATTRIBUTE_SUBMISSION_MODEL = "data-collectable-model-value";
+const SUBMISSION_PATH_PREFIX = "/sites/";
+
+/** Model and batching for the client-name normalisation pass. Candidates are
+ *  sent in batches so one HTTP round-trip covers many names; the task is
+ *  straight normalisation, so it runs at low effort. */
+const CLIENT_NAME_MODEL = "claude-opus-5";
+const CLIENT_NAME_MAX_TOKENS = 16000;
+const CLIENT_NAME_BATCH_SIZE = 40;
+
+/** Upper bound on clients stored per agency. The profile page shows roughly
+ *  20-90 recent submissions; past a dozen the list stops informing a reader
+ *  and just inflates the JSON. */
+const MAX_CLIENTS_PER_AGENCY = 12;
+
+/** How many submissions are put forward for normalisation per agency. Higher
+ *  than MAX_CLIENTS_PER_AGENCY on purpose: the normalisation pass rejects
+ *  self-promotional and unattributable work, and if candidates were capped at
+ *  the display limit those rejections would eat display slots - an agency
+ *  whose recent work includes three of its own experiments would show nine
+ *  clients instead of twelve. The headroom absorbs that. */
+const MAX_CLIENT_CANDIDATES = 24;
+
+/** Hosts that tell you who built or served a site, never who commissioned it.
+ *  A live URL on one of these is treated as having no client domain, so the
+ *  name falls back to the project title. Deliberately excludes ambiguous
+ *  cases like squarespace.com - `brand.squarespace.com` really is Squarespace
+ *  the client, while `someone-else.squarespace.com` is not, and no rule can
+ *  tell them apart. The normalisation pass decides those. */
+const GENERIC_HOST_DOMAINS = new Set([
+  "appspot.com",
+  "cloudfront.net",
+  "framer.app",
+  "framer.website",
+  "github.io",
+  "herokuapp.com",
+  "myshopify.com",
+  "netlify.app",
+  "pages.dev",
+  "readymag.com",
+  "vercel.app",
+  "webflow.io",
+  "wixsite.com",
+  "workers.dev",
+]);
 
 const SELECTOR_PROFILE_TITLE = ".head-user-pro__title";
 const SELECTOR_PROFILE_SUBTITLE = ".head-user-pro__subtitle";
@@ -928,10 +985,11 @@ function parseLocationSubtitle(subtitleText) {
 
 /**
  * Parses an agency's own profile page for the fields the listing page
- * doesn't carry: a cleaner display name, city, and description.
+ * doesn't carry: a cleaner display name, city, description, and the awarded
+ * submissions the client list is built from.
  * @param {string} html Profile page HTML.
  * @param {string} profileUrl URL the HTML was fetched from (for warnings).
- * @returns {{titleText: string | null, descriptionText: string | null, location: ReturnType<typeof parseLocationSubtitle>}}
+ * @returns {{titleText: string | null, descriptionText: string | null, location: ReturnType<typeof parseLocationSubtitle>, submissions: ReturnType<typeof parseProfileSubmissions>}}
  *   Parsed profile fields.
  */
 function parseProfilePage(html, profileUrl) {
@@ -945,10 +1003,461 @@ function parseProfilePage(html, profileUrl) {
     const descriptionText = normalizeWhitespace(
       document.querySelector(SELECTOR_PROFILE_DESCRIPTION)?.textContent ?? null,
     );
-    return { titleText, descriptionText, location: parseLocationSubtitle(subtitleText) };
+    return {
+      titleText,
+      descriptionText,
+      location: parseLocationSubtitle(subtitleText),
+      submissions: parseProfileSubmissions(document, profileUrl),
+    };
   } catch (error) {
     console.warn(`parseProfilePage() failed for ${profileUrl}: ${error?.message ?? error}`);
-    return { titleText: null, descriptionText: null, location: null };
+    return { titleText: null, descriptionText: null, location: null, submissions: [] };
+  }
+}
+
+// ---------- Client extraction ----------
+
+/**
+ * Reads the awarded submissions listed on an agency profile page. Each one is
+ * a piece of work the agency shipped for somebody, which is what makes this
+ * the raw material for the client list.
+ * @param {Document} document Parsed profile page document.
+ * @param {string} profileUrl URL the HTML came from (for warnings).
+ * @returns {Array<{title: string, liveUrl: string | null, projectUrl: string | null}>}
+ *   One entry per submission, in the order the page lists them (most recent
+ *   first). Entries with no readable title are skipped.
+ */
+function parseProfileSubmissions(document, profileUrl) {
+  try {
+    const submissions = [];
+    const itemElements = Array.from(document.querySelectorAll(SELECTOR_PROFILE_SUBMISSION));
+    for (const itemElement of itemElements) {
+      let submissionModel = null;
+      try {
+        submissionModel = JSON.parse(itemElement.getAttribute(ATTRIBUTE_SUBMISSION_MODEL) ?? "");
+      } catch {
+        // A card without parseable metadata still has links, but no title we
+        // can trust - skip it rather than inventing one from the markup.
+        continue;
+      }
+
+      const title = normalizeWhitespace(submissionModel?.title ?? null);
+      if (!title) continue;
+
+      const submissionSlug = submissionModel?.slug ?? null;
+      const projectUrl = submissionSlug
+        ? `${AWWWARDS_ORIGIN}${SUBMISSION_PATH_PREFIX}${submissionSlug}`
+        : null;
+
+      // The one off-site link inside a card is the live site the award was
+      // given to - i.e. the client's own URL.
+      const liveHref =
+        Array.from(itemElement.querySelectorAll("a[href]"))
+          .map((linkElement) => linkElement.getAttribute("href"))
+          .find((href) => href?.startsWith("http") && !href.includes("awwwards.com")) ?? null;
+
+      submissions.push({ title, liveUrl: liveHref, projectUrl });
+    }
+    return submissions;
+  } catch (error) {
+    console.warn(`parseProfileSubmissions() failed for ${profileUrl}: ${error?.message ?? error}`);
+    return [];
+  }
+}
+
+/**
+ * Decides whether a live URL's domain belongs to the agency itself rather
+ * than to a client. Agencies routinely host client campaign work on their own
+ * domains, and they also own several - Resn ships from both `resn.co.nz` and
+ * `resn.global` - so an exact match against `Agency.domain` is not enough.
+ * Comparing brand labels catches the sibling domains an exact match misses.
+ * @param {string | null} candidateDomain Registrable domain of the live URL.
+ * @param {string | null} agencyDomain The agency's own registrable domain.
+ * @param {string} agencyName The agency's display name.
+ * @returns {boolean} True when the domain looks like the agency's own.
+ */
+function isAgencyOwnDomain(candidateDomain, agencyDomain, agencyName) {
+  try {
+    if (!candidateDomain) return false;
+    if (agencyDomain && candidateDomain === agencyDomain) return true;
+
+    const candidateLabel = candidateDomain.split(".")[0] ?? "";
+    if (!candidateLabel) return false;
+    if (agencyDomain && candidateLabel === (agencyDomain.split(".")[0] ?? "")) return true;
+
+    // "Active Theory" -> "activetheory", which matches activetheory.dev even
+    // though the agency's listed domain is activetheory.net.
+    const nameLabel = slugify(agencyName).replace(/-/g, "");
+    return nameLabel.length > 2 && candidateLabel.replace(/-/g, "") === nameLabel;
+  } catch (error) {
+    console.warn(`isAgencyOwnDomain() failed for "${candidateDomain}": ${error?.message ?? error}`);
+    return false;
+  }
+}
+
+/**
+ * Registrable domain of the brand a submission was built for, or null when
+ * the live URL doesn't identify one (agency-hosted work, a generic host, or
+ * no live URL at all).
+ * @param {{liveUrl: string | null}} submission One parsed submission.
+ * @param {string | null} agencyDomain The agency's own registrable domain.
+ * @param {string} agencyName The agency's display name.
+ * @returns {string | null} The client's registrable domain, or null.
+ */
+function resolveClientDomain(submission, agencyDomain, agencyName) {
+  try {
+    if (!submission?.liveUrl) return null;
+    const normalizedUrl = normalizeWebsiteUrl(submission.liveUrl);
+    if (!normalizedUrl) return null;
+    const clientDomain = getRegistrableDomain(new URL(normalizedUrl).hostname);
+    if (!clientDomain) return null;
+    if (GENERIC_HOST_DOMAINS.has(clientDomain)) return null;
+    if (isAgencyOwnDomain(clientDomain, agencyDomain, agencyName)) return null;
+    return clientDomain;
+  } catch (error) {
+    console.warn(`resolveClientDomain() failed for "${submission?.liveUrl}": ${error?.message ?? error}`);
+    return null;
+  }
+}
+
+/**
+ * Cache key for one client candidate. Built from the two inputs the
+ * normalisation pass actually reads, so the same brand seen under two
+ * agencies resolves once and identically for both. Human-readable on purpose
+ * - this key is what someone edits when correcting a name by hand.
+ * @param {string | null} clientDomain Client's registrable domain, if any.
+ * @param {string} projectTitle Submission title.
+ * @returns {string} Cache key, e.g. "coca-cola.com|Coca-Cola: Wozzaah".
+ */
+function buildClientNameKey(clientDomain, projectTitle) {
+  try {
+    return `${clientDomain ?? "-"}|${projectTitle}`;
+  } catch (error) {
+    console.warn(`buildClientNameKey() failed for "${projectTitle}": ${error?.message ?? error}`);
+    return `-|${projectTitle}`;
+  }
+}
+
+/**
+ * Deterministic client name used when the normalisation pass has no answer -
+ * no cache entry and no API key. Prefers the domain's brand label, since a
+ * domain names a company while a title names a project, and falls back to the
+ * title's leading segment ("Coca-Cola: Wozzaah" -> "Coca-Cola").
+ * @param {string | null} clientDomain Client's registrable domain, if any.
+ * @param {string} projectTitle Submission title.
+ * @returns {string} A usable, if unpolished, display name.
+ */
+function buildFallbackClientName(clientDomain, projectTitle) {
+  try {
+    if (clientDomain) {
+      const brandLabel = clientDomain.split(".")[0] ?? "";
+      if (brandLabel) {
+        return brandLabel
+          .split("-")
+          .filter(Boolean)
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join("-");
+      }
+    }
+    const leadingSegment = projectTitle.split(/[:×|]/)[0]?.trim();
+    return leadingSegment && leadingSegment.length > 1 ? leadingSegment : projectTitle;
+  } catch (error) {
+    console.warn(`buildFallbackClientName() failed for "${projectTitle}": ${error?.message ?? error}`);
+    return projectTitle;
+  }
+}
+
+/**
+ * Turns an agency's submissions into deduped client candidates, dropping the
+ * agency's own work and keeping the first (most recent) submission per brand.
+ * Dedupes on domain where there is one and on lowercased title otherwise -
+ * never on the display name, which hasn't been resolved yet at this point.
+ * @param {ReturnType<typeof parseProfileSubmissions>} submissions Parsed submissions.
+ * @param {string | null} agencyDomain The agency's own registrable domain.
+ * @param {string} agencyName The agency's display name.
+ * @returns {Array<{key: string, clientDomain: string | null, projectTitle: string, projectUrl: string | null}>}
+ *   Candidates in source order, capped at MAX_CLIENT_CANDIDATES.
+ */
+function buildClientCandidates(submissions, agencyDomain, agencyName) {
+  try {
+    const candidates = [];
+    const seenKeys = new Set();
+
+    for (const submission of submissions ?? []) {
+      const clientDomain = resolveClientDomain(submission, agencyDomain, agencyName);
+      const dedupeKey = clientDomain ?? submission.title.toLowerCase();
+      if (seenKeys.has(dedupeKey)) continue;
+      seenKeys.add(dedupeKey);
+
+      candidates.push({
+        key: buildClientNameKey(clientDomain, submission.title),
+        clientDomain,
+        projectTitle: submission.title,
+        projectUrl: submission.projectUrl,
+      });
+      if (candidates.length >= MAX_CLIENT_CANDIDATES) break;
+    }
+    return candidates;
+  } catch (error) {
+    console.warn(`buildClientCandidates() failed for "${agencyName}": ${error?.message ?? error}`);
+    return [];
+  }
+}
+
+// ---------- Client name normalisation ----------
+
+/**
+ * Loads the committed client-name cache. A missing file is not an error - the
+ * first run of a fresh checkout simply has nothing memoised yet.
+ * @returns {Promise<Record<string, {name: string, notable: boolean} | null>>}
+ *   Key -> resolved name, or null for "this is not a client, drop it".
+ */
+async function loadClientNames() {
+  try {
+    const fileText = await readFile(CLIENT_NAMES_FILE_PATH, "utf8");
+    const parsed = JSON.parse(fileText);
+    return parsed?.names ?? {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Writes the client-name cache back to disk, key-sorted so that adding one
+ * entry produces a one-line diff rather than reshuffling the file.
+ * @param {Record<string, {name: string, notable: boolean} | null>} names Cache contents.
+ * @returns {Promise<void>}
+ */
+async function saveClientNames(names) {
+  try {
+    const sortedNames = {};
+    for (const key of Object.keys(names).sort()) {
+      sortedNames[key] = names[key];
+    }
+    const payload = {
+      source:
+        "Client names resolved from Awwwards submission titles and live URLs. " +
+        "Machine-written by scrape-awwwards.mjs, safe to hand-edit: set a key's " +
+        "value to null to drop that entry from the directory entirely.",
+      names: sortedNames,
+    };
+    await writeFile(CLIENT_NAMES_FILE_PATH, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  } catch (error) {
+    console.warn(`saveClientNames() failed: ${error?.message ?? error}`);
+  }
+}
+
+/** System prompt for the normalisation pass. */
+const CLIENT_NAME_SYSTEM_PROMPT = [
+  "You clean up client names for an agency directory.",
+  "",
+  "Each input is one award-winning web project: the project's title, and the",
+  "registrable domain of the site it lives on when that domain belongs to the",
+  "client rather than to the agency or a hosting platform.",
+  "",
+  "For each input return the name of the ORGANISATION the agency built it for,",
+  "as that organisation is normally written. Examples: 'Coca-Cola: Wozzaah' on",
+  "coca-cola.com is 'Coca-Cola'; '20 Years of Xbox Museum' on museum.xbox.com",
+  "is 'Xbox'; 'Spotify Wrapped Party' with no client domain is still 'Spotify'.",
+  "",
+  "Return null for the name when the input does not identify a real external",
+  "client: the agency's own site or self-promotional work, a personal",
+  "portfolio, a conference talk, an unnamed concept piece, or anything where",
+  "you would be guessing at who commissioned it. Returning null is the correct",
+  "answer more often than inventing a plausible-sounding brand.",
+  "",
+  "Set notable to true only for organisations a general international audience",
+  "would recognise unprompted. A well-known national brand is not notable.",
+].join("\n");
+
+/** JSON Schema constraining the normalisation response. */
+const CLIENT_NAME_RESPONSE_SCHEMA = {
+  type: "object",
+  properties: {
+    results: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          name: { type: ["string", "null"] },
+          notable: { type: "boolean" },
+        },
+        required: ["key", "name", "notable"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ["results"],
+  additionalProperties: false,
+};
+
+/**
+ * Resolves display names for candidates the cache has never seen, by asking
+ * Claude. Returns an empty result (leaving callers on the deterministic
+ * fallback) when the SDK isn't installed or no credentials are configured, so
+ * the scrape stays runnable without an API key.
+ * @param {Array<{key: string, clientDomain: string | null, projectTitle: string}>} candidates
+ *   Cache misses only - already-resolved keys must not be sent.
+ * @returns {Promise<Record<string, {name: string, notable: boolean} | null>>}
+ *   Newly resolved entries, keyed the same way as the cache.
+ */
+async function resolveClientNames(candidates) {
+  try {
+    if (candidates.length === 0) return {};
+
+    let AnthropicSdk;
+    try {
+      ({ default: AnthropicSdk } = await import("@anthropic-ai/sdk"));
+    } catch {
+      console.warn(
+        `@anthropic-ai/sdk is not installed; leaving ${candidates.length} client name(s) ` +
+          "on the deterministic fallback. Run `npm install` and re-run to normalise them.",
+      );
+      return {};
+    }
+
+    if (!process.env.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_AUTH_TOKEN) {
+      console.warn(
+        `No ANTHROPIC_API_KEY set; leaving ${candidates.length} client name(s) on the ` +
+          "deterministic fallback. Names already in client-names.json are unaffected - " +
+          "set the key and re-run to resolve only the ones still missing.",
+      );
+      return {};
+    }
+
+    const client = new AnthropicSdk();
+    const resolved = {};
+
+    for (let index = 0; index < candidates.length; index += CLIENT_NAME_BATCH_SIZE) {
+      const batch = candidates.slice(index, index + CLIENT_NAME_BATCH_SIZE);
+      try {
+        Object.assign(resolved, await resolveClientNameBatch(client, batch));
+        console.log(
+          `Normalised client names ${index + 1}-${index + batch.length} of ${candidates.length}.`,
+        );
+      } catch (error) {
+        // One failed batch must not discard the batches already resolved -
+        // a full run is ~25 requests, and the caller commits whatever came
+        // back so a re-run only retries what is still missing.
+        console.warn(
+          `Client-name batch ${index + 1}-${index + batch.length} failed: ${error?.message ?? error}`,
+        );
+      }
+    }
+
+    return resolved;
+  } catch (error) {
+    console.warn(
+      `resolveClientNames() failed; falling back to deterministic names: ${error?.message ?? error}`,
+    );
+    return {};
+  }
+}
+
+/**
+ * Resolves one batch of client names in a single API call.
+ * @param {import("@anthropic-ai/sdk").default} client Anthropic SDK client.
+ * @param {Array<{key: string, clientDomain: string | null, projectTitle: string}>} batch
+ *   Candidates to resolve.
+ * @returns {Promise<Record<string, {name: string, notable: boolean} | null>>}
+ *   Resolved entries for this batch. Throws so the caller can skip just this
+ *   batch rather than the whole run.
+ */
+async function resolveClientNameBatch(client, batch) {
+  const resolved = {};
+  const batchInput = batch.map((candidate) => ({
+    key: candidate.key,
+    projectTitle: candidate.projectTitle,
+    clientDomain: candidate.clientDomain,
+  }));
+
+  const response = await client.messages.create({
+    model: CLIENT_NAME_MODEL,
+    max_tokens: CLIENT_NAME_MAX_TOKENS,
+    system: CLIENT_NAME_SYSTEM_PROMPT,
+    output_config: {
+      effort: "low",
+      format: { type: "json_schema", schema: CLIENT_NAME_RESPONSE_SCHEMA },
+    },
+    messages: [
+      {
+        role: "user",
+        content: `Resolve every entry. Echo each key back verbatim.\n\n${JSON.stringify(batchInput, null, 2)}`,
+      },
+    ],
+  });
+
+  const responseText = response.content
+    .filter((block) => block.type === "text")
+    .map((block) => block.text)
+    .join("");
+  const parsed = JSON.parse(responseText);
+
+  for (const result of parsed?.results ?? []) {
+    if (!result?.key) continue;
+    const resolvedName = normalizeWhitespace(result.name ?? null);
+    resolved[result.key] = resolvedName
+      ? { name: resolvedName, notable: Boolean(result.notable) }
+      : null;
+  }
+  return resolved;
+}
+
+/**
+ * Materialises an agency's `clients` array from its candidates and the
+ * resolved-name map: entries the normalisation pass rejected are dropped,
+ * repeat appearances of one brand are collapsed, and recognisable brands are
+ * ordered first (stable within each group, so the source page's recency order
+ * survives as the tiebreak).
+ * @param {ReturnType<typeof buildClientCandidates>} candidates Candidates for one agency.
+ * @param {Record<string, {name: string, notable: boolean} | null>} names Resolved names.
+ * @returns {Array<{name: string, domain: string | null, projectTitle: string, projectUrl: string | null, notable: boolean}>}
+ *   `AgencyClient[]`, matching lib/directory/types.ts, capped at
+ *   MAX_CLIENTS_PER_AGENCY.
+ */
+function buildAgencyClients(candidates, names) {
+  try {
+    const clients = [];
+    const seenNames = new Set();
+    for (const candidate of candidates ?? []) {
+      const hasResolution = Object.prototype.hasOwnProperty.call(names, candidate.key);
+      const resolution = hasResolution ? names[candidate.key] : undefined;
+
+      // An explicit null means "not a client" - drop it. An absent key means
+      // nobody has resolved it yet, so fall back rather than lose the entry.
+      if (hasResolution && resolution === null) continue;
+
+      const name = resolution?.name ?? buildFallbackClientName(candidate.clientDomain, candidate.projectTitle);
+      if (!name) continue;
+
+      // Candidates dedupe on domain, which cannot see that two projects are
+      // for the same brand until their names are resolved - Cartier reached
+      // via cartier.com and via a campaign domain is one client, not two.
+      // Deduping here keeps all MAX_CLIENTS_PER_AGENCY slots on distinct
+      // brands instead of spending them on a repeated name.
+      const dedupeKey = name.toLowerCase();
+      if (seenNames.has(dedupeKey)) continue;
+      seenNames.add(dedupeKey);
+
+      clients.push({
+        name,
+        domain: candidate.clientDomain,
+        projectTitle: candidate.projectTitle,
+        projectUrl: candidate.projectUrl,
+        notable: Boolean(resolution?.notable),
+      });
+    }
+
+    // Capped here rather than at candidate collection so that rejected
+    // entries cost a candidate slot, never a display slot.
+    return [
+      ...clients.filter((client) => client.notable),
+      ...clients.filter((client) => !client.notable),
+    ].slice(0, MAX_CLIENTS_PER_AGENCY);
+  } catch (error) {
+    console.warn(`buildAgencyClients() failed: ${error?.message ?? error}`);
+    return [];
   }
 }
 
@@ -1026,14 +1535,14 @@ async function scrapeDirectoryListings(limit, isPathAllowed) {
  * failure, recording the failure rather than dropping the agency.
  * @param {Awaited<ReturnType<typeof scrapeDirectoryListings>>[number]} record Listing-level record.
  * @param {(requestPath: string) => boolean} isPathAllowed robots.txt predicate.
- * @returns {Promise<typeof record & {profileName: string | null, profileDescription: string | null, profileLocation: ReturnType<typeof parseLocationSubtitle>}>}
+ * @returns {Promise<typeof record & {profileName: string | null, profileDescription: string | null, profileLocation: ReturnType<typeof parseLocationSubtitle>, submissions: ReturnType<typeof parseProfileSubmissions>}>}
  *   Record enriched with profile-page fields.
  */
 async function enrichRecordWithProfile(record, isPathAllowed) {
   try {
     if (!isUrlAllowed(record.profileUrl, isPathAllowed)) {
       console.warn(`robots.txt disallows ${record.profileUrl}; using listing data only for "${record.name}".`);
-      return { ...record, profileName: null, profileDescription: null, profileLocation: null };
+      return { ...record, profileName: null, profileDescription: null, profileLocation: null, submissions: [] };
     }
     const html = await fetchUrl(record.profileUrl);
     const parsed = parseProfilePage(html, record.profileUrl);
@@ -1042,11 +1551,12 @@ async function enrichRecordWithProfile(record, isPathAllowed) {
       profileName: parsed.titleText,
       profileDescription: parsed.descriptionText,
       profileLocation: parsed.location,
+      submissions: parsed.submissions,
     };
   } catch (error) {
     console.warn(`Profile fetch failed for ${record.profileUrl}: ${error?.message ?? error}`);
     failures.push({ url: record.profileUrl, reason: error?.message ?? String(error) });
-    return { ...record, profileName: null, profileDescription: null, profileLocation: null };
+    return { ...record, profileName: null, profileDescription: null, profileLocation: null, submissions: [] };
   }
 }
 
@@ -1056,9 +1566,11 @@ async function enrichRecordWithProfile(record, isPathAllowed) {
  * @param {Awaited<ReturnType<typeof enrichRecordWithProfile>>} record Enriched record.
  * @param {Set<string>} usedSlugs Slugs already assigned in this run.
  * @param {string} scrapedAt ISO-8601 timestamp shared by the whole run.
+ * @param {Record<string, {name: string, notable: boolean} | null>} clientNames
+ *   Resolved client-name map covering every candidate seen this run.
  * @returns {object} Agency record ready for JSON output.
  */
-function buildAgencyRecord(record, usedSlugs, scrapedAt) {
+function buildAgencyRecord(record, usedSlugs, scrapedAt, clientNames) {
   try {
     const name = record.profileName ?? record.name;
     const location =
@@ -1082,6 +1594,21 @@ function buildAgencyRecord(record, usedSlugs, scrapedAt) {
       logoUrl: record.logoUrl,
       description: record.profileDescription,
       awards: record.awards,
+      // Awwwards is an awards jury, not a review site or a business
+      // directory: it publishes none of the fields below for any profile.
+      // They are emitted as explicit nulls/empties rather than omitted so
+      // every record in lib/directory/data/ is a complete `Agency` and a
+      // reader never has to know which importer wrote it.
+      rating: null,
+      accolades: [],
+      foundedYear: null,
+      industries: [],
+      budgetLabel: null,
+      budgetFloorUsd: null,
+      clients: buildAgencyClients(
+        buildClientCandidates(record.submissions, record.domain, name),
+        clientNames,
+      ),
       source: AGENCY_SOURCE,
       scrapedAt,
     };
@@ -1139,9 +1666,38 @@ async function main() {
       listingRecords.map((record) => enrichRecordWithProfile(record, isPathAllowed)),
     );
 
+    console.log("Resolving client names…");
+    const clientNames = await loadClientNames();
+    // Candidates are collected across every agency before a single API call is
+    // made, so a brand two agencies both worked for is resolved once and the
+    // batch sizes stay large.
+    const unresolvedCandidates = [];
+    const seenCandidateKeys = new Set();
+    for (const record of enrichedRecords) {
+      const recordName = record.profileName ?? record.name;
+      for (const candidate of buildClientCandidates(record.submissions, record.domain, recordName)) {
+        if (Object.prototype.hasOwnProperty.call(clientNames, candidate.key)) continue;
+        if (seenCandidateKeys.has(candidate.key)) continue;
+        seenCandidateKeys.add(candidate.key);
+        unresolvedCandidates.push(candidate);
+      }
+    }
+    console.log(
+      `${seenCandidateKeys.size} client name(s) not in the cache; ` +
+        `${Object.keys(clientNames).length} already resolved.`,
+    );
+    const newlyResolved = await resolveClientNames(unresolvedCandidates);
+    if (Object.keys(newlyResolved).length > 0) {
+      Object.assign(clientNames, newlyResolved);
+      await saveClientNames(clientNames);
+      console.log(`Cached ${Object.keys(newlyResolved).length} new client name(s).`);
+    }
+
     const scrapedAt = new Date().toISOString();
     const usedSlugs = new Set();
-    const agencies = enrichedRecords.map((record) => buildAgencyRecord(record, usedSlugs, scrapedAt));
+    const agencies = enrichedRecords.map((record) =>
+      buildAgencyRecord(record, usedSlugs, scrapedAt, clientNames),
+    );
 
     await writeFile(OUTPUT_FILE_PATH, `${JSON.stringify(agencies, null, 2)}\n`, "utf8");
     console.log(`Wrote ${agencies.length} agencies to ${OUTPUT_FILE_PATH}`);

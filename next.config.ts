@@ -91,6 +91,46 @@ const nextConfig: NextConfig = {
         hostname: "assets.awwwards.com",
         pathname: "/awards/**",
       },
+      // Same arrangement for the SEO half of the directory, whose logos are
+      // hotlinked from Semrush Agency Partners profiles. Scoped to the
+      // agency-directory upload prefix - that is the only path any record's
+      // `logoUrl` uses, and narrowing it keeps this from becoming a blanket
+      // allowlist for everything Semrush serves off that CDN.
+      {
+        protocol: "https",
+        hostname: "static.semrush.com",
+        pathname: "/agency-directory/**",
+      },
+      // Same arrangement again for the branding category, whose records come
+      // from three source directories rather than one - so two CDNs, not
+      // one. D&AD is the third source and needs no entry: its company pages
+      // publish no logo, so those 23 records carry a null `logoUrl` and
+      // render the initials fallback instead of hotlinking anything.
+      {
+        protocol: "https",
+        hostname: "img.shgstatic.com",
+        pathname: "/clutch-static-prod/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.designrush.com",
+        pathname: "/agencies/**",
+      },
+      // Motion design studio logos, hotlinked from Motion Design Awards
+      // profile avatars. The host is their storage proxy rather than the
+      // site domain (`runtimeConfig.storageProxy` in the page payload), and
+      // every avatar sits under /p/<profileId>/renditions/, so the pattern
+      // is scoped to that prefix.
+      //
+      // A missing entry here is the failure mode that shipped blank logos
+      // across the whole SEO category: next/image answers an un-allowlisted
+      // host with a 400 that surfaces only in the browser console, so the
+      // build stays green and nothing fails until someone looks at the page.
+      {
+        protocol: "https",
+        hostname: "storage-01-mda.keyfram.es",
+        pathname: "/p/**",
+      },
     ],
   },
   async redirects() {
@@ -144,6 +184,11 @@ const nextConfig: NextConfig = {
     // Path-only redirects for the marketing site. Every one of these is
     // scoped away from PROXIED_HOSTS below.
     const pathRedirects: Redirect[] = [
+      {
+        source: "/integrations/api",
+        destination: "/docs/rest-apis/projects/create-project",
+        permanent: true,
+      },
       {
         source: "/trust",
         destination: "/security",

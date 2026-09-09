@@ -327,7 +327,7 @@ export default function HeroWorkflowShowcase({
           <div className={styles.canvasWrap}>
             <header className={styles.windowHeader}>
               <div>
-                <h3 className={styles.windowTitle}>{WORKFLOW_TITLE}</h3>
+                <p className={styles.windowTitle}>{WORKFLOW_TITLE}</p>
                 <p className={styles.windowMeta}>
                   <span className={styles.windowMetaStrong}>Mike</span>
                   {" triggered "}

@@ -368,6 +368,13 @@ export async function getAllChecklistSlugs(): Promise<string[]> {
   );
 }
 
+/** Checklist URLs eligible for search indexing, excluding editorial holds. */
+export async function getIndexableChecklistSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "checklistPage" && defined(slug.current) && hidden != true && lower(coalesce(noIndex, "")) != "noindex"].slug.current`
+  );
+}
+
 export async function getAllChecklistListItems(): Promise<ChecklistListItem[]> {
   return client.fetch(
     `*[_type == "checklistPage" && defined(slug.current) && hidden != true] | order(title asc) {
