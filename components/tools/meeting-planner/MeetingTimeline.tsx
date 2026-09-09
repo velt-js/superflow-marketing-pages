@@ -7,6 +7,7 @@ import {
   useState,
   type PointerEvent,
   type ReactNode,
+  type CSSProperties,
 } from "react";
 import {
   dateLabel,
@@ -19,13 +20,36 @@ import {
   type Participant,
 } from "@/lib/tools/meeting-planner/time";
 import styles from "./MeetingPlanner.module.css";
+import { PeriodIcon, type TimePeriod } from "./PeriodIcon";
 
 // Keep the calculation engine at 15 minutes for quarter-hour zones and existing shared plans.
 export const SELECTION_STEP = 30;
 const STRIDE = SELECTION_STEP / STEP;
 
+// Local clock time controls the shading, including a boundary inside a
+// half-hour cell when cities are offset by a quarter hour.
+function eveningGradient(minute: number) {
+  const start = 17 * 60 + 30;
+  const end = minute + SELECTION_STEP;
+  if (end <= start) return undefined;
+  const shade = (time: number) => {
+    const progress = Math.max(0, Math.min(1, (time - start) / (1440 - start)));
+    return `rgb(${[240, 240, 244].map((value, index) => Math.round(value + ([199, 201, 210][index] - value) * progress)).join(", ")})`;
+  };
+  if (minute < start) {
+    const boundary = ((start - minute) / SELECTION_STEP) * 100;
+    return `linear-gradient(90deg, transparent ${boundary}%, ${shade(start)} ${boundary}%, ${shade(end)} 100%)`;
+  }
+  if (end > 1440) {
+    const boundary = ((1440 - minute) / SELECTION_STEP) * 100;
+    return `linear-gradient(90deg, ${shade(minute)} 0%, ${shade(1440)} ${boundary}%, #f5e1e3 ${boundary}%, #f5e1e3 100%)`;
+  }
+  return `linear-gradient(90deg, ${shade(minute)}, ${shade(end)})`;
+}
+
 type Selection = { selected: number; duration: number };
 type Props = {
+  now: number | null;
   revealSelection: number;
   day: ReturnType<typeof buildDay>;
   people: Participant[];
@@ -37,6 +61,7 @@ type Props = {
 };
 
 export function MeetingTimeline({
+  now,
   revealSelection,
   day,
   people,
@@ -93,12 +118,18 @@ export function MeetingTimeline({
             .slice(i * STRIDE, (i + 1) * STRIDE)
             .every(Boolean);
           const minute = localParts(t, person.zone).minute;
-          const daytime = minute >= 6 * 60 && minute < 18 * 60;
+          const period: TimePeriod =
+            minute < 8 * 60
+              ? "overnight"
+              : minute < 17 * 60 + 30
+                ? "day"
+                : "evening";
           return {
-            daytime,
+            period,
+            eveningGradient: eveningGradient(minute),
             clock: clock(t, person.zone),
             working,
-            title: `${time} · ${daytime ? "Day" : "Night"} · ${working ? "Working hours" : "Off hours"}`,
+            title: `${time} · ${period === "overnight" ? "Sleep hours — avoid meetings" : period === "day" ? "Day" : "Evening"} · ${working ? "Working hours" : "Off hours"}`,
             aria: `${person.name}, ${dateLabel(t, person.zone)} ${time}, ${zoneLabel(t, person.zone)}, ${working ? "working hours" : "off hours"}`,
           };
         }),
@@ -126,7 +157,7 @@ export function MeetingTimeline({
         labelWidth(viewport) -
         (viewport.clientWidth - labelWidth(viewport) - cell.offsetWidth) / 2,
     );
-  }, [day.start, base.zone, revealSelection]);
+  }, [day.start, base.zone, revealSelection, view.width, view.cityWidth]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -155,6 +186,12 @@ export function MeetingTimeline({
   }
 
   function labelWidth(viewport: HTMLElement) {
+    // Phone layouts put city details above the scale, so no column obscures it.
+    if (
+      getComputedStyle(viewport).getPropertyValue("--city-width").trim() ===
+      "0px"
+    )
+      return 0;
     return (
       viewport.querySelector<HTMLElement>(`[data-city-label]`)?.offsetWidth ??
       240
@@ -177,6 +214,13 @@ export function MeetingTimeline({
     delta: number,
   ): Selection {
     if (delta === 0) return before;
+    // Older shared links can be shorter than today's minimum. A contraction
+    // must not expand their range in the opposite direction to the gesture.
+    if (
+      before.duration < SELECTION_STEP &&
+      ((action === "start" && delta > 0) || (action === "end" && delta < 0))
+    )
+      return before;
     const step = SELECTION_STEP * MINUTE;
     if (action === "move") {
       return {
@@ -313,7 +357,12 @@ export function MeetingTimeline({
     >
       <div
         className={styles.timeline}
-        style={{ minWidth: `calc(var(--city-width) + ${slots.length * 36}px)` }}
+        style={
+          {
+            minWidth: `calc(var(--city-width) + ${slots.length} * var(--slot-width))`,
+            "--timeline-viewport": `${view.width}px`,
+          } as CSSProperties
+        }
       >
         {people.map((person, row) => (
           <div className={styles.timelineRow} key={person.id}>
@@ -334,7 +383,14 @@ export function MeetingTimeline({
                 <button
                   key={t}
                   data-index={i}
-                  data-period={labels[row][i].daytime ? "day" : "night"}
+                  data-period={labels[row][i].period}
+                  data-evening={Boolean(labels[row][i].eveningGradient)}
+                  style={
+                    {
+                      "--evening-gradient": labels[row][i].eveningGradient,
+                    } as CSSProperties
+                  }
+                  data-past={now !== null && t + SELECTION_STEP * MINUTE <= now}
                   data-working={labels[row][i].working}
                   data-shared={day.shared
                     .slice(i * STRIDE, (i + 1) * STRIDE)
@@ -343,8 +399,8 @@ export function MeetingTimeline({
                     t >= selected && t < selected + duration * MINUTE
                   }
                   className={styles.cell}
-                  aria-label={labels[row][i].aria}
-                  title={labels[row][i].title}
+                  aria-label={`${labels[row][i].aria}${labels[row][i].period === "overnight" ? ", sleep hours — avoid meetings" : ""}${now !== null && t + SELECTION_STEP * MINUTE <= now ? ", past time" : ""}`}
+                  title={`${labels[row][i].title}${now !== null && t + SELECTION_STEP * MINUTE <= now ? " · Past time" : ""}`}
                   aria-pressed={i === selectedIndex}
                   tabIndex={i === selectedIndex ? 0 : -1}
                   onClick={() => {
@@ -380,6 +436,8 @@ export function MeetingTimeline({
                       e.shiftKey &&
                       ["ArrowLeft", "ArrowRight"].includes(e.key)
                     ) {
+                      if (e.key === "ArrowLeft" && duration < SELECTION_STEP)
+                        return;
                       onSelect({
                         selected,
                         duration: Math.max(
@@ -408,6 +466,7 @@ export function MeetingTimeline({
                 >
                   {i % 2 === 0 && !(t < end && t + 60 * MINUTE > selected) && (
                     <span className={styles.cellTime} aria-hidden="true">
+                      <PeriodIcon period={labels[row][i].period} />
                       {labels[row][i].clock}
                     </span>
                   )}
@@ -468,13 +527,10 @@ export function MeetingTimeline({
                         : undefined,
                     }}
                   >
-                    {localParts(selected, person.zone).date !==
-                      localParts(selected, base.zone).date && (
-                      <small>
-                        {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
-                        ·{" "}
-                      </small>
-                    )}
+                    <small>
+                      {dateLabel(selected, person.zone).replace(/^\w+, /, "")}{" "}
+                      ·{" "}
+                    </small>
                     {clock(selected, person.zone)} – {clock(end, person.zone)}
                     {localParts(selected, person.zone).date !==
                       localParts(end, person.zone).date && (

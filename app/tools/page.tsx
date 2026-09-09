@@ -7,6 +7,7 @@ import ToolsExplorer from "@/components/tools/ToolsExplorer";
 import { CodeBlock } from "@/components/tools/CodeBlock";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
@@ -26,6 +27,7 @@ export const metadata = buildPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: "/tools",
+  ogImage: toolOgImage("index"),
 });
 
 /** Category display order on the index. */

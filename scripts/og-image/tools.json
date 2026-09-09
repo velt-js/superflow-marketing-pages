@@ -1,0 +1,42 @@
+[
+  { "title": "Free Tools for Marketers and Website Teams", "out": "public/og/tools/index.png" },
+  { "title": "AI Visibility Checker", "out": "public/og/tools/ai-visibility-checker.png" },
+  { "title": "robots.txt AI Checker", "out": "public/og/tools/robots-txt-ai-checker.png" },
+  { "title": "llms.txt Generator", "out": "public/og/tools/llms-txt-generator.png" },
+  { "title": "Markdown for Agents", "out": "public/og/tools/markdown-for-agents.png" },
+  { "title": "JSON-LD Generator", "out": "public/og/tools/json-ld-generator.png" },
+  { "title": "JSON-LD Validator", "out": "public/og/tools/json-ld-validator.png" },
+  { "title": "Social Preview Checker", "out": "public/og/tools/social-preview-checker.png" },
+  { "title": "Favicon Checker", "out": "public/og/tools/favicon-checker.png" },
+  { "title": "Tech Stack Detector", "out": "public/og/tools/tech-stack-detector.png" },
+  { "title": "UTM Builder", "out": "public/og/tools/utm-builder.png" },
+  { "title": "Full Page Screenshot", "out": "public/og/tools/full-page-screenshot.png" },
+  { "title": "Alt Text Generator", "out": "public/og/tools/alt-text-generator.png" },
+  { "title": "MD5 Hash Generator", "out": "public/og/tools/md5-generator.png" },
+  { "title": "Markdown Viewer", "out": "public/og/tools/markdown-viewer.png" },
+  { "title": "Lookalike Test", "out": "public/og/tools/lookalike-test.png" },
+  {
+    "title": "Time Zone Converter\nand Meeting Planner",
+    "out": "public/og/tools/meeting-planner.png"
+  },
+  { "title": "Review like Paul Graham", "out": "public/og/tools/review-like-paul-graham.png" },
+  { "title": "Review like Steve Jobs", "out": "public/og/tools/review-like-steve-jobs.png" },
+  { "title": "Review like Peter Thiel", "out": "public/og/tools/review-like-peter-thiel.png" },
+  { "title": "Review like Elon Musk", "out": "public/og/tools/review-like-elon-musk.png" },
+  {
+    "title": "Review like Travis Kalanick",
+    "out": "public/og/tools/review-like-travis-kalanick.png"
+  },
+  { "title": "Review like a YC Partner", "out": "public/og/tools/review-like-yc-partner.png" },
+  { "title": "Review like Aaron Epstein", "out": "public/og/tools/review-like-aaron-epstein.png" },
+  { "title": "Review like Pete Koomen", "out": "public/og/tools/review-like-pete-koomen.png" },
+  {
+    "title": "Review like Gustaf Alströmer",
+    "out": "public/og/tools/review-like-gustaf-alstromer.png"
+  },
+  {
+    "title": "Review like Jared Friedman",
+    "out": "public/og/tools/review-like-jared-friedman.png"
+  },
+  { "title": "MCP Server for the Free Tools", "out": "public/og/tools/mcp.png" }
+]

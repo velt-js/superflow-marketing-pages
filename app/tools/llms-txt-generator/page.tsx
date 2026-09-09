@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { LlmsTxtTool } from "@/components/tools/llms-txt/LlmsTxtTool";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -28,6 +29,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Build llms.txt and llms-full.txt Free`,
   description: DESCRIPTION,
   path: PATH,
+  ogImage: toolOgImage(SLUG),
 });
 
 export default function LlmsTxtGeneratorPage() {

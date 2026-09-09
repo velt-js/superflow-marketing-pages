@@ -69,6 +69,14 @@ export function dayStart(date: string, zone: string) {
   return localParts(lo, zone).date >= date ? lo : hi;
 }
 
+/** Start a fresh half-hour meeting at the next local grid boundary, never in the past. */
+export function currentMeetingSelection(instant: number, zone: string) {
+  const start = dayStart(localParts(instant, zone).date, zone);
+  const step = 30 * MINUTE;
+  const selected = start + Math.ceil((instant - start) / step) * step;
+  return { date: localParts(selected, zone).date, selected };
+}
+
 export function isWorking(instant: number, person: Participant) {
   const { minute, weekday } = localParts(instant, person.zone);
   if (person.start === person.end) return false;
@@ -161,6 +169,19 @@ export function dateLabel(instant: number, zone: string) {
     month: "short",
     day: "numeric",
   }).format(instant);
+}
+/** Display a calendar date without shifting it through the browser's time zone. */
+export function calendarDateLabel(date: string) {
+  const instant = Date.parse(`${date}T12:00:00Z`);
+  const monthDay = labelFormatter("calendar-date", {
+    timeZone: "UTC",
+    month: "short",
+    day: "numeric",
+  }).format(instant);
+  const weekday = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"][
+    new Date(instant).getUTCDay()
+  ];
+  return `${monthDay}, ${weekday}`;
 }
 export function zoneLabel(instant: number, zone: string) {
   try {
@@ -312,8 +333,7 @@ function copyZoneLabel(instant: number, person: Participant, specific = false) {
       .find((part) => part.type === "timeZoneName")?.value;
   const generic = name("shortGeneric");
   // CLDR supplies familiar generic names such as PT/ET without hardcoded offsets.
-  if (!specific && generic && /^[A-Z]{2,5}$/.test(generic))
-    return generic;
+  if (!specific && generic && /^[A-Z]{2,5}$/.test(generic)) return generic;
   const locale = /^[A-Z]{2}$/.test(person.countryCode)
     ? `en-${person.countryCode}`
     : "en-US";

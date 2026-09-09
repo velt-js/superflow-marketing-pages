@@ -6,6 +6,8 @@ import { readFileSync } from "node:fs";
 import {
   buildDay,
   calendarFile,
+  calendarDateLabel,
+  currentMeetingSelection,
   dayStart,
   DEFAULT_PEOPLE,
   isWorking,
@@ -364,4 +366,62 @@ test("compromises avoid sleep hours when morning/evening alternatives exist", ()
       (start) => (start - day.start) % (30 * 60000) === 0,
     ),
   ).toBe(true);
+});
+
+test("fresh meetings start at the next local half hour, including midnight and DST", () => {
+  for (const [now, zone, expected, date] of [
+    [
+      "2026-09-09T21:12:00Z",
+      "America/Los_Angeles",
+      "2026-09-09T21:30:00Z",
+      "2026-09-09",
+    ],
+    [
+      "2026-09-09T21:30:00Z",
+      "America/Los_Angeles",
+      "2026-09-09T21:30:00Z",
+      "2026-09-09",
+    ],
+    [
+      "2026-09-09T21:30:01Z",
+      "America/Los_Angeles",
+      "2026-09-09T22:00:00Z",
+      "2026-09-09",
+    ],
+    [
+      "2026-09-10T06:50:00Z",
+      "America/Los_Angeles",
+      "2026-09-10T07:00:00Z",
+      "2026-09-10",
+    ],
+    [
+      "2026-09-09T09:17:00Z",
+      "Asia/Kathmandu",
+      "2026-09-09T09:45:00Z",
+      "2026-09-09",
+    ],
+    [
+      "2026-03-08T09:50:00Z",
+      "America/Los_Angeles",
+      "2026-03-08T10:00:00Z",
+      "2026-03-08",
+    ],
+    [
+      "2026-11-01T08:50:00Z",
+      "America/Los_Angeles",
+      "2026-11-01T09:00:00Z",
+      "2026-11-01",
+    ],
+  ]) {
+    expect(currentMeetingSelection(utc(now), zone)).toEqual({
+      date,
+      selected: utc(expected),
+    });
+  }
+});
+
+test("calendar labels show the chosen month, day and weekday", () => {
+  expect(calendarDateLabel("2026-09-10")).toBe("Sep 10, Thurs");
+  expect(calendarDateLabel("2026-09-11")).toBe("Sep 11, Fri");
+  expect(calendarDateLabel("2027-01-01")).toBe("Jan 1, Fri");
 });
