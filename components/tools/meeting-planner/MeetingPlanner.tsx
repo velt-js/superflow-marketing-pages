@@ -13,7 +13,6 @@ import {
   calendarFile,
   dateLabel,
   DEFAULT_PEOPLE,
-  DURATIONS,
   hoursLabel,
   hourValue,
   localParts,
@@ -27,6 +26,11 @@ import {
   type Participant,
   type PlannerState,
 } from "@/lib/tools/meeting-planner/time";
+import {
+  deviceLocation,
+  withDetectedCity,
+} from "@/lib/tools/meeting-planner/detection";
+import { MeetingTimeline } from "./MeetingTimeline";
 import styles from "./MeetingPlanner.module.css";
 
 const STORAGE_KEY = "superflow-meeting-planner-v1";
@@ -112,10 +116,14 @@ export function MeetingPlanner() {
   const [copyFallback, setCopyFallback] = useState("");
   const [now, setNow] = useState<number | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
+  const [detected, setDetected] = useState<Participant | null>(null);
+  const detectedRef = useRef<Participant | null>(null);
   const resultRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
+    const device = deviceLocation();
+    detectedRef.current = device;
+    setDetected(device);
     const restore = () => {
       let shared: PlannerState | null = null;
       try {
@@ -132,7 +140,27 @@ export function MeetingPlanner() {
       } catch {
         /* Storage is optional. */
       }
-      const people = saved?.people ?? DEFAULT_PEOPLE;
+      const local = detectedRef.current;
+      const originalSample =
+        JSON.stringify(saved?.people) === JSON.stringify(DEFAULT_PEOPLE);
+      const people =
+        local && (!saved || originalSample)
+          ? [
+              {
+                ...local,
+                ...(originalSample
+                  ? {
+                      start: saved!.people[0].start,
+                      end: saved!.people[0].end,
+                      days: saved!.people[0].days,
+                    }
+                  : {}),
+              },
+              ...DEFAULT_PEOPLE.filter(
+                (person) => person.zone !== local.zone,
+              ).slice(0, 2),
+            ]
+          : (saved?.people ?? DEFAULT_PEOPLE);
       setState(
         shared ?? {
           version: 1,
@@ -149,10 +177,46 @@ export function MeetingPlanner() {
         );
     };
     restore();
+    const controller = new AbortController();
+    if (device) {
+      fetch("/api/tools/meeting-planner/location", {
+        signal: controller.signal,
+        cache: "no-store",
+      })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((value) => {
+          const location = withDetectedCity(device, value);
+          detectedRef.current = location;
+          setDetected(location);
+          // Enrich only a row created by auto-detection, never a shared plan or a city the user chose.
+          if (window.location.hash.startsWith("#plan=")) return;
+          setState((current) =>
+            current
+              ? {
+                  ...current,
+                  people: current.people.map((person) =>
+                    person.id === device.id
+                      ? {
+                          ...person,
+                          name: location.name,
+                          country: location.country,
+                          countryCode: location.countryCode,
+                        }
+                      : person,
+                  ),
+                }
+              : current,
+          );
+        })
+        .catch(() => {
+          /* Device time still works if city detection is unavailable. */
+        });
+    }
     setNow(Date.now());
     const interval = window.setInterval(() => setNow(Date.now()), 60_000);
     window.addEventListener("hashchange", restore);
     return () => {
+      controller.abort();
       clearInterval(interval);
       window.removeEventListener("hashchange", restore);
     };
@@ -160,11 +224,20 @@ export function MeetingPlanner() {
 
   useEffect(() => {
     if (!state) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      /* The planner still works without persistence. */
-    }
+    // Keep synchronous storage writes off the pointer-drag path.
+    const save = () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {
+        /* The planner still works without persistence. */
+      }
+    };
+    const timeout = window.setTimeout(save, 150);
+    window.addEventListener("pagehide", save);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("pagehide", save);
+    };
   }, [state]);
 
   useEffect(() => {
@@ -188,24 +261,16 @@ export function MeetingPlanner() {
   );
   const results = useMemo(() => search?.(query) ?? [], [search, query]);
   const day = useMemo(
-    () => (state ? buildDay(state.date, state.people, state.duration) : null),
-    [state?.date, state?.people, state?.duration],
+    () => (state ? buildDay(state.date, state.people, 1440) : null),
+    [state?.date, state?.people],
   );
-  useEffect(() => {
-    const viewport = timelineRef.current;
-    const cell = viewport?.querySelector<HTMLElement>('[aria-pressed="true"]');
-    if (!viewport || !cell) return;
-    const offset =
-      cell.getBoundingClientRect().left -
-      viewport.getBoundingClientRect().left +
-      viewport.scrollLeft;
-    // Keep the selected time visible beside the sticky city labels on mobile,
-    // without moving the visitor vertically down the page.
-    viewport.scrollLeft = Math.max(
-      0,
-      offset - 180 - (viewport.clientWidth - 180) / 2,
+  const fits = useMemo(() => {
+    if (!day || !state) return [];
+    const count = state.duration / STEP;
+    return day.instants.map((_, i) =>
+      day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
     );
-  }, [state?.selected, day]);
+  }, [day, state?.duration]);
   if (!state || !day)
     return (
       <div className={styles.loading} role="status">
@@ -214,7 +279,7 @@ export function MeetingPlanner() {
     );
 
   const base = state.people[0];
-  const firstFit = day.fits.findIndex(Boolean);
+  const firstFit = fits.findIndex(Boolean);
   const defaultIndex =
     firstFit >= 0
       ? firstFit
@@ -227,9 +292,9 @@ export function MeetingPlanner() {
       ? defaultIndex
       : Math.max(0, day.instants.indexOf(state.selected));
   const selected = day.instants[selectedIndex];
-  const selectedFits = day.fits[selectedIndex] ?? false;
+  const selectedFits = fits[selectedIndex] ?? false;
   const suggestions = day.instants
-    .filter((_, i) => day.fits[i] && (i === firstFit || i % 4 === 0))
+    .filter((_, i) => fits[i] && (i === firstFit || i % 4 === 0))
     .slice(0, 5);
   const patch = (value: Partial<PlannerState>) =>
     setState((current) => (current ? { ...current, ...value } : current));
@@ -452,14 +517,43 @@ export function MeetingPlanner() {
             </div>
           )}
         </div>
-        <p className={styles.searchHint}>
+        <div className={styles.searchHint}>
           <Icon name="clock" />
-          <span>
-            Pick the places.
-            <br />
-            <strong>We’ll work out the time zones.</strong>
-          </span>
-        </p>
+          <div>
+            {detected ? (
+              <>
+                <strong>Your time zone is detected.</strong>
+                <button
+                  className={styles.locationButton}
+                  onClick={() => {
+                    const existing = state.people.find(
+                      (p) => p.id === detected.id,
+                    );
+                    if (!existing && state.people.length >= 8) {
+                      setNotice(
+                        "Remove a location before adding your location.",
+                      );
+                      return;
+                    }
+                    const person = existing ?? detected;
+                    patch({
+                      people: [
+                        person,
+                        ...state.people.filter((p) => p.id !== person.id),
+                      ],
+                      selected: null,
+                    });
+                    setNotice("The timeline now shows your local time.");
+                  }}
+                >
+                  Use my location
+                </button>
+              </>
+            ) : (
+              <strong>Add your city to set your local time.</strong>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className={styles.controls}>
@@ -502,22 +596,6 @@ export function MeetingPlanner() {
           </button>
         </div>
         <div className={styles.preferences}>
-          <label>
-            Duration{" "}
-            <select
-              aria-label="Meeting duration"
-              value={state.duration}
-              onChange={(e) =>
-                patch({ duration: Number(e.target.value), selected: null })
-              }
-            >
-              {DURATIONS.map((n) => (
-                <option key={n} value={n}>
-                  {n} min
-                </option>
-              ))}
-            </select>
-          </label>
           <div className={styles.segmented} aria-label="Time display">
             <button
               aria-pressed={state.hour12}
@@ -549,32 +627,19 @@ export function MeetingPlanner() {
                 <small>
                   {person.country} ·{" "}
                   {zoneLabel(selected ?? Date.now(), person.zone)}
+                  {person.id.startsWith("device:") && (
+                    <span className={styles.detectedLabel}>
+                      {person.name === "Your location"
+                        ? "Auto-detected time zone"
+                        : "Approximate location"}
+                    </span>
+                  )}
                 </small>
               </div>
               <div className={styles.liveTime}>
                 <strong>{currentTime(person)}</strong>
                 <small>local time now</small>
               </div>
-              <button
-                className={`${styles.referenceButton} ${index === 0 ? styles.isReference : ""}`}
-                aria-label={
-                  index === 0
-                    ? `${person.name} is the reference city`
-                    : `Use ${person.name} as reference`
-                }
-                disabled={index === 0}
-                onClick={() =>
-                  patch({
-                    people: [
-                      person,
-                      ...state.people.filter((p) => p.id !== person.id),
-                    ],
-                    selected: null,
-                  })
-                }
-              >
-                {index === 0 ? "Reference" : "Set reference"}
-              </button>
               <button
                 className={styles.hoursButton}
                 aria-expanded={editing === person.id}
@@ -678,7 +743,7 @@ export function MeetingPlanner() {
           </strong>
           <p>
             {firstFit >= 0
-              ? `Green is working time for everyone. Times below follow ${base.name}.`
+              ? `Green is working time for everyone. The time scale follows ${base.name}.`
               : "Try a shorter call, a different date, or adjust someone’s working hours."}
           </p>
         </div>
@@ -687,10 +752,33 @@ export function MeetingPlanner() {
       <div className={styles.timelineHeader}>
         <div>
           <h3>Find your overlap</h3>
-          <p>
-            {base.name} is the reference for this day. Select any time to
-            compare.
-          </p>
+          <p>Click a time, or drag across the tiles to select a time range.</p>
+          <label className={styles.timeScale}>
+            Show times in
+            <select
+              value={base.id}
+              onChange={(e) => {
+                const person = state.people.find(
+                  (p) => p.id === e.target.value,
+                );
+                if (!person) return;
+                patch({
+                  people: [
+                    person,
+                    ...state.people.filter((p) => p.id !== person.id),
+                  ],
+                  date: localParts(selected ?? Date.now(), person.zone).date,
+                  selected: selected ?? null,
+                });
+              }}
+            >
+              {state.people.map((person) => (
+                <option key={person.id} value={person.id}>
+                  {person.name}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
         <div className={styles.legend}>
           <span>
@@ -707,129 +795,18 @@ export function MeetingPlanner() {
           </span>
         </div>
       </div>
-      <div
-        ref={timelineRef}
-        className={styles.timelineScroll}
-        tabIndex={0}
-        role="region"
-        aria-label="Time comparison. Scroll horizontally to see the full day."
-      >
-        <div
-          className={styles.timeline}
-          style={{ minWidth: `${180 + day.instants.length * 10}px` }}
-        >
-          <div className={styles.axis}>
-            <span>LOCAL TIMES</span>
-            <div className={styles.axisTicks}>
-              {day.instants
-                .filter((_, i) => i % 4 === 0)
-                .map((t, i) => (
-                  <span
-                    key={t}
-                    style={{ flex: Math.min(4, day.instants.length - i * 4) }}
-                  >
-                    {timeLabel(t, base.zone, state.hour12).replace(":00", "")}
-                  </span>
-                ))}
-            </div>
-          </div>
-          {state.people.map((person, row) => (
-            <div className={styles.timelineRow} key={person.id}>
-              <div className={styles.rowLabel}>
-                <strong>{person.name}</strong>
-                <span>
-                  {selected !== undefined
-                    ? dateLabel(selected, person.zone)
-                    : state.date}
-                </span>
-              </div>
-              <div
-                className={styles.cells}
-                role="group"
-                aria-label={`${person.name} timeline`}
-              >
-                {day.instants.map((t, i) => {
-                  const working = day.availability[row][i];
-                  const inSelection =
-                    t >= selected && t < selected + state.duration * MINUTE;
-                  return (
-                    <button
-                      key={t}
-                      data-working={working}
-                      data-shared={day.shared[i]}
-                      data-selected={inSelection}
-                      className={styles.cell}
-                      aria-label={`${person.name}, ${dateLabel(t, person.zone)} ${timeLabel(t, person.zone, state.hour12)}, ${zoneLabel(t, person.zone)}, ${working ? "working hours" : "off hours"}`}
-                      aria-pressed={i === selectedIndex}
-                      tabIndex={i === selectedIndex ? 0 : -1}
-                      title={`${timeLabel(t, person.zone, state.hour12)} · ${working ? "Working hours" : "Off hours"}`}
-                      onClick={() => patch({ selected: t })}
-                      onKeyDown={(e) => {
-                        if (
-                          ["ArrowLeft", "ArrowRight", "Home", "End"].includes(
-                            e.key,
-                          )
-                        ) {
-                          e.preventDefault();
-                          const next =
-                            e.key === "Home"
-                              ? 0
-                              : e.key === "End"
-                                ? day.instants.length - 1
-                                : Math.max(
-                                    0,
-                                    Math.min(
-                                      day.instants.length - 1,
-                                      i + (e.key === "ArrowRight" ? 1 : -1),
-                                    ),
-                                  );
-                          patch({ selected: day.instants[next] });
-                          const buttons =
-                            e.currentTarget.parentElement?.querySelectorAll(
-                              "button",
-                            );
-                          buttons?.[next]?.focus();
-                        }
-                      }}
-                    >
-                      {i % 4 === 0 ? (
-                        <span>
-                          {timeLabel(t, person.zone, state.hour12)
-                            .replace(":00", "")
-                            .replace(" AM", "a")
-                            .replace(" PM", "p")}
-                        </span>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-          <div className={styles.timelineRow}>
-            <div className={styles.rowLabel}>
-              <strong className={styles.sharedLabel}>Everyone available</strong>
-              <span>{state.duration}-minute call fits</span>
-            </div>
-            <div className={styles.cells}>
-              {day.instants.map((t, i) => (
-                <button
-                  key={t}
-                  className={styles.overlapCell}
-                  data-fits={day.fits[i]}
-                  disabled={!day.fits[i]}
-                  tabIndex={-1}
-                  aria-label={`Select ${timeLabel(t, base.zone, state.hour12)} for everyone`}
-                  onClick={() => patch({ selected: t })}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      <MeetingTimeline
+        day={day}
+        people={state.people}
+        selected={selected}
+        duration={state.duration}
+        hour12={state.hour12}
+        fits={fits}
+        onSelect={patch}
+      />
       <p className={styles.timelineNote}>
-        Arrow keys move by 15 minutes. Daylight saving is included; a day can
-        have 23 or 25 hours.
+        Arrow keys move by 15 minutes. Shift + arrow keys adjust the range. On
+        mobile, swipe the time scale to scroll. Daylight saving is included.
       </p>
 
       {suggestions.length > 0 && state.people.length > 1 && (
@@ -961,8 +938,8 @@ export function MeetingPlanner() {
         </section>
       ) : (
         <p className={styles.noDate}>
-          This date does not exist in the reference location. Please choose
-          another date.
+          This date does not exist in the location selected under “Show times
+          in”. Please choose another date.
         </p>
       )}
       <div className={styles.notice} role="status" aria-live="polite">

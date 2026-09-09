@@ -67,9 +67,8 @@ export default function MeetingPlannerPage() {
             <p>
               Daylight-saving changes do not happen everywhere at once. Pick the
               date you intend to meet so the local times and overlap reflect
-              that day’s rules. The timeline uses the first location as its
-              reference; change it whenever you want to plan from a customer’s
-              perspective.
+              that day’s rules. Use “Show times in” to view the day and time
+              scale in your location or a customer’s location.
             </p>
             <p>
               This tool compares the working hours you configure. Confirm the

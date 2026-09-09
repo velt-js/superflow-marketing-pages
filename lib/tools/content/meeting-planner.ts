@@ -10,11 +10,11 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
   howItWorks: [
     {
       title: "Add your locations",
-      body: "Search a city or country for you and your customers. For countries with multiple time zones, choose the right city or region.",
+      body: "Your local time zone is detected automatically. Search a city or country to add your customers. For countries with multiple time zones, choose the right city or region.",
     },
     {
       title: "Find the shared hours",
-      body: "Pick a date and meeting length. Adjust each location’s working hours and days. Green shows when everyone is working.",
+      body: "Pick a date, then click and drag across the timeline to select a time range. Adjust each location’s working hours and days. Green shows when everyone is working.",
     },
     {
       title: "Share a good time",
@@ -28,6 +28,11 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
         "Yes. Search by city, country name, or country code. A country with one time zone can be added directly. Countries with multiple time zones show a choice of cities or regions so you can pick the customer’s actual location.",
     },
     {
+      question: "How does automatic location detection work?",
+      answer:
+        "Your device supplies its time zone automatically, without a location permission prompt. When available, an approximate city from your network is shown if it matches that time zone. Otherwise the row is labeled Your location. Search for a city to correct it, or use Use my location to return to your local time. Saved custom locations and shared plans are preserved.",
+    },
+    {
       question: "Does it handle daylight saving time?",
       answer:
         "Yes. Each location uses its named time zone and your browser’s time-zone rules for the date you choose. Offsets are recalculated when the date changes, including weeks when countries change clocks on different dates. Keep your browser and operating system up to date for recent rule changes.",
@@ -35,7 +40,7 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     {
       question: "How is the overlap calculated?",
       answer:
-        "The planner compares working hours for every location in 15-minute intervals. A suggested meeting fits only if the entire duration falls inside everyone’s working hours. The reference location determines the calendar day shown. Meetings may end on the following day.",
+        "The planner compares working hours for every location in 15-minute intervals. A suggested meeting fits only if the entire duration falls inside everyone’s working hours. The location selected under “Show times in” determines the calendar day and time scale shown. Meetings may end on the following day.",
     },
     {
       question: "What if there is no shared time?",

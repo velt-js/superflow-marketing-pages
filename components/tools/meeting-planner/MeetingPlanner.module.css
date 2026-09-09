@@ -271,14 +271,14 @@
 .preferences {
   gap: 20px;
 }
-.preferences label {
+.timeScale {
   display: flex;
   align-items: center;
   gap: 8px;
   color: var(--muted);
   font-size: 12px;
 }
-.preferences select,
+.timeScale select,
 .hoursFields select {
   color: var(--ink);
   padding: 8px 24px 8px 10px;
@@ -367,21 +367,6 @@
 .liveTime small {
   font-size: 10px;
   color: var(--muted);
-}
-.referenceButton {
-  font-size: 10px !important;
-  padding: 5px 8px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: white;
-  color: var(--muted);
-  min-width: 81px;
-}
-.planner .referenceButton.isReference {
-  opacity: 1;
-  background: #eeedff;
-  border-color: #eeedff;
-  color: var(--purple);
 }
 .hoursButton {
   display: inline-flex;
@@ -588,12 +573,15 @@
   font-size: 10px;
 }
 .cells {
+  touch-action: pan-y;
+  user-select: none;
   flex: 1;
   display: flex;
   padding: 11px 0;
   background: #fafafe;
 }
 .cell {
+  cursor: crosshair !important;
   position: relative;
   flex: 1;
   min-width: 0;
@@ -603,16 +591,6 @@
   background: #f0eff5;
   color: #777486;
   border-radius: 0;
-}
-.cell span {
-  position: absolute;
-  top: 15px;
-  left: 2px;
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
-  z-index: 1;
-  white-space: nowrap;
-  pointer-events: none;
 }
 .cell[data-working="true"] {
   background: #e4e1fa;
@@ -830,8 +808,17 @@
   border: 0;
 }
 @media (max-width: 950px) {
+  .searchSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
   .searchHint {
-    display: none;
+    margin: 0;
+  }
+  .searchHint > svg {
+    width: 20px;
+    height: 20px;
   }
   .searchWrap {
     max-width: none;
@@ -923,11 +910,6 @@
     grid-row: 1;
     width: 27px;
   }
-  .referenceButton {
-    grid-column: 2;
-    justify-self: start;
-    min-width: 0;
-  }
   .hoursButton {
     grid-column: 3 / 5;
     font-size: 10px !important;
@@ -986,4 +968,30 @@
     flex-direction: column;
     gap: 5px;
   }
+}
+
+.timeline {
+  position: relative;
+}
+.timeScale {
+  margin-top: 12px;
+}
+.timeScale select {
+  max-width: 220px;
+  font-size: 12px;
+}
+.detectedLabel {
+  display: block;
+  color: var(--purple);
+  margin-top: 3px;
+}
+.locationButton {
+  display: block;
+  padding: 4px 0 0;
+  border: 0;
+  background: none;
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 12px !important;
 }

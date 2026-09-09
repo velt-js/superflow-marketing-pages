@@ -1,7 +1,6 @@
 /** All comparisons use instants, never fixed UTC offsets or the host time zone. */
 export const MINUTE = 60_000;
 export const STEP = 15;
-export const DURATIONS = [15, 30, 45, 60, 90, 120] as const;
 
 export type Place = {
   id: string;
@@ -134,8 +133,17 @@ export function buildDay(
   };
 }
 
+function labelFormatter(key: string, options: Intl.DateTimeFormatOptions) {
+  let formatter = formatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-US", options);
+    formatters.set(key, formatter);
+  }
+  return formatter;
+}
+
 export function timeLabel(instant: number, zone: string, hour12 = true) {
-  return new Intl.DateTimeFormat("en-US", {
+  return labelFormatter(`time:${zone}:${hour12}`, {
     timeZone: zone,
     hour: "numeric",
     minute: "2-digit",
@@ -143,7 +151,7 @@ export function timeLabel(instant: number, zone: string, hour12 = true) {
   }).format(instant);
 }
 export function dateLabel(instant: number, zone: string) {
-  return new Intl.DateTimeFormat("en-US", {
+  return labelFormatter(`date:${zone}`, {
     timeZone: zone,
     weekday: "short",
     month: "short",
@@ -152,7 +160,7 @@ export function dateLabel(instant: number, zone: string) {
 }
 export function zoneLabel(instant: number, zone: string) {
   try {
-    const f = new Intl.DateTimeFormat("en-US", {
+    const f = labelFormatter(`offset:${zone}`, {
       timeZone: zone,
       timeZoneName: "shortOffset",
     });
@@ -232,7 +240,10 @@ export function parseState(raw: string): PlannerState | null {
     )
       return null;
     if (
-      !DURATIONS.includes(value.duration) ||
+      !Number.isInteger(value.duration) ||
+      value.duration < STEP ||
+      value.duration > 1440 ||
+      value.duration % STEP !== 0 ||
       typeof value.hour12 !== "boolean"
     )
       return null;

@@ -1,3 +1,5 @@
+import { withDetectedCity } from "../../../lib/tools/meeting-planner/detection";
+import { GET } from "../../../app/api/tools/meeting-planner/location/route";
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import {
@@ -121,11 +123,19 @@ test("shared plans reject malformed data and invalid selections", () => {
     hour12: true,
   };
   expect(parseState(JSON.stringify(state))).toEqual(state);
+  expect(
+    parseState(JSON.stringify({ ...state, duration: 105 }))?.duration,
+  ).toBe(105);
+  expect(
+    parseState(JSON.stringify({ ...state, duration: 1440 }))?.duration,
+  ).toBe(1440);
   for (const value of [
     { ...state, date: "2026-02-31" },
     { ...state, people: [] },
     { ...state, people: [...DEFAULT_PEOPLE, DEFAULT_PEOPLE[0]] },
     { ...state, duration: -1 },
+    { ...state, duration: 1441 },
+    { ...state, duration: 17 },
     { ...state, people: [person("Not/AZone")] },
     { ...state, people: [person("UTC", { start: 17 })] },
   ])
@@ -177,4 +187,48 @@ test("country searches offer all regions and city aliases find actual places", (
   expect(search("Bangalore")[0].countryCode).toBe("IN");
   expect(search("Kathmandu")[0].zone).toBe("Asia/Kathmandu");
   expect(search("zzzznonexistent")).toEqual([]);
+});
+
+test("IP city enrichment requires agreement with the device time zone", async () => {
+  const local = person("Asia/Kolkata", { name: "Your location" });
+  expect(
+    withDetectedCity(local, {
+      city: "Mumbai",
+      countryCode: "IN",
+      zone: "Asia/Calcutta",
+    }),
+  ).toMatchObject({ name: "Mumbai", countryCode: "IN", zone: "Asia/Kolkata" });
+  expect(
+    withDetectedCity(local, {
+      city: "London",
+      countryCode: "GB",
+      zone: "Europe/London",
+    }),
+  ).toEqual(local);
+  expect(withDetectedCity(local, null)).toEqual(local);
+  expect(
+    withDetectedCity(local, {
+      city: "Mumbai",
+      countryCode: "invalid",
+      zone: "Asia/Kolkata",
+    }),
+  ).toEqual(local);
+});
+
+test("location responses are private, decoded, and optional outside Vercel", async () => {
+  const response = GET(
+    new Request("http://localhost/api/tools/meeting-planner/location", {
+      headers: {
+        "x-vercel-ip-city": "S%C3%A3o%20Paulo",
+        "x-vercel-ip-country": "BR",
+        "x-vercel-ip-timezone": "America/Sao_Paulo",
+      },
+    }),
+  );
+  expect(response.headers.get("cache-control")).toBe("private, no-store");
+  expect(await response.json()).toMatchObject({
+    city: "São Paulo",
+    zone: "America/Sao_Paulo",
+  });
+  expect(await GET(new Request("http://localhost")).json()).toBeNull();
 });
