@@ -14,11 +14,11 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     },
     {
       title: "Pick a time",
-      body: "Click Suggest a time, or drag across a row to choose your own. Green times fit everyone’s workday. Each row shows the meeting time in that city.",
+      body: "Click Suggest a time, or click a row for a 30-minute meeting. Drag the selection to move it and its edges to change the length. Each row shows the local meeting time.",
     },
     {
       title: "Copy and send",
-      body: "Click Copy meeting times and paste the result into your chat or email. More ways to share includes a plan link and a calendar download.",
+      body: "Click Copy meeting times and paste them into a chat or email. Share plan at the top copies a link to your exact plan. More ways to share includes a calendar download.",
     },
   ],
   faq: [
@@ -55,12 +55,12 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     {
       question: "How is the overlap calculated?",
       answer:
-        "The planner compares working hours for every location in 15-minute intervals. A suggested meeting fits only if the entire duration falls inside everyone’s working hours. The location selected under “Show times in” determines the calendar day and time scale shown. Meetings may end on the following day.",
+        "The planner compares working hours for every location in 15-minute intervals. Green times and the work-hours badge require the entire meeting to fit inside everyone’s hours. Suggest a time can also offer a clearly labeled compromise. The location selected under “Show times in” determines the calendar day and time scale shown. Meetings may end on the following day.",
     },
     {
       question: "What if there is no shared time?",
       answer:
-        "The planner says so instead of labeling an unsuitable time as available. Try another date, shorten the meeting, or edit the working hours. You can still select an off-hours time and see exactly whose schedule it falls outside.",
+        "Click Suggest a time to find a nearby compromise, such as an early morning in San Francisco and early evening in Sweden. It favors smaller adjustments to work hours and avoids sleep hours when possible. Click again for another option. Each compromise names the cities outside working hours; it does not confirm anyone’s availability. The MCP/API returns only meetings fully within configured work hours.",
     },
     {
       question: "Can I change working hours and weekends?",

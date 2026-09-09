@@ -1,3 +1,4 @@
+import { suggestMeetingTimes } from "../../../lib/tools/meeting-planner/suggestions";
 import { withDetectedCity } from "../../../lib/tools/meeting-planner/detection";
 import { GET } from "../../../app/api/tools/meeting-planner/location/route";
 import { test, expect } from "@playwright/test";
@@ -275,4 +276,92 @@ test("location responses are private, decoded, and optional outside Vercel", asy
     zone: "America/Sao_Paulo",
   });
   expect(await GET(new Request("http://localhost")).json()).toBeNull();
+});
+
+test("compromises find nearby morning/evening options for San Francisco and Sweden", () => {
+  const people = [
+    person("America/Los_Angeles"),
+    person("Europe/Stockholm", { id: "sweden" }),
+  ];
+  const day = buildDay("2026-09-09", people, 30);
+  expect(day.overlapMinutes).toBe(0);
+  const suggestions = suggestMeetingTimes(day, people);
+  expect(
+    suggestions.map((start) => timeLabel(start, people[0].zone, false)),
+  ).toEqual(["08:30", "09:00", "08:00"]);
+  expect(
+    suggestions.map((start) => timeLabel(start, people[1].zone, false)),
+  ).toEqual(["17:30", "18:00", "17:00"]);
+  expect(
+    suggestions.every((start) =>
+      people.some((p) => !meetingFits(start, 30, p)),
+    ),
+  ).toBe(true);
+  // Ranking does not favor whichever city was added first.
+  expect(
+    suggestMeetingTimes(
+      buildDay("2026-09-09", [...people].reverse(), 30),
+      [...people].reverse(),
+    ),
+  ).toEqual(suggestions);
+});
+
+test("suggestions prefer full fits and honor overnight work, weekends and skipped dates", () => {
+  const day = buildDay("2026-09-09", DEFAULT_PEOPLE, 30);
+  const suggestions = suggestMeetingTimes(day, DEFAULT_PEOPLE);
+  expect(
+    suggestions
+      .slice(0, 2)
+      .every((start) => DEFAULT_PEOPLE.every((p) => meetingFits(start, 30, p))),
+  ).toBe(true);
+  const overnight = [person("UTC", { start: 1320, end: 360, days: [5] })];
+  expect(
+    suggestMeetingTimes(buildDay("2026-09-12", overnight, 30), overnight).every(
+      (start) => meetingFits(start, 30, overnight[0]),
+    ),
+  ).toBe(true);
+  const weekend = suggestMeetingTimes(
+    buildDay("2026-09-12", DEFAULT_PEOPLE, 30),
+    DEFAULT_PEOPLE,
+  );
+  expect(weekend).toHaveLength(3);
+  expect(
+    weekend.every((start) =>
+      DEFAULT_PEOPLE.some((p) => !meetingFits(start, 30, p)),
+    ),
+  ).toBe(true);
+  const apia = [person("Pacific/Apia")];
+  expect(suggestMeetingTimes(buildDay("2011-12-30", apia, 30), apia)).toEqual(
+    [],
+  );
+});
+
+test("compromises avoid sleep hours when morning/evening alternatives exist", () => {
+  const people = [
+    person("America/Los_Angeles"),
+    person("Asia/Kolkata", { id: "india" }),
+  ];
+  const suggestions = suggestMeetingTimes(
+    buildDay("2026-09-09", people, 30),
+    people,
+  );
+  expect(
+    suggestions.every((start) =>
+      people.every((p) => {
+        const first = localParts(start, p.zone).minute;
+        const last = localParts(start + 30 * 60000, p.zone).minute;
+        return first >= 7 * 60 && last <= 22 * 60;
+      }),
+    ),
+  ).toBe(true);
+  const kathmandu = [
+    person("Asia/Kathmandu"),
+    person("America/Los_Angeles", { id: "sf" }),
+  ];
+  const day = buildDay("2026-11-01", kathmandu, 30);
+  expect(
+    suggestMeetingTimes(day, kathmandu).every(
+      (start) => (start - day.start) % (30 * 60000) === 0,
+    ),
+  ).toBe(true);
 });

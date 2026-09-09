@@ -45,18 +45,16 @@ test("city/country search, working hours, date changes, and no overlap", async (
     page.getByRole("button", { name: "Remove India", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText(
-      "No work hours in common. Try another day or edit work hours.",
-      { exact: true },
-    ),
+    page.getByText("No shared work hours. Try a suggested compromise.", {
+      exact: true,
+    }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Remove India", exact: true }).click();
   await page.getByLabel("Meeting date", { exact: true }).fill("2026-09-12");
   await expect(
-    page.getByText(
-      "No work hours in common. Try another day or edit work hours.",
-      { exact: true },
-    ),
+    page.getByText("No shared work hours. Try a suggested compromise.", {
+      exact: true,
+    }),
   ).toBeVisible();
   await page.getByLabel("Meeting date", { exact: true }).fill("2026-09-09");
   await search.fill("United States");
@@ -226,7 +224,7 @@ test("half-hour dragging stays smooth and labels the local range on every city r
     name: "San Francisco timeline",
     exact: true,
   });
-  await expect(row.getByRole("button")).toHaveCount(48);
+  await expect(row.locator("button[data-index]")).toHaveCount(48);
   await expect(row.locator('[data-index="16"]')).toHaveText("08:00");
   await expect(
     page
@@ -249,6 +247,7 @@ test("half-hour dragging stays smooth and labels the local range on every city r
   expect(overlapBox!.y).toBeLessThan(dateBox!.y);
   const viewport = page.getByRole("region", { name: /Time comparison/ });
   await row.scrollIntoViewIfNeeded();
+  await row.locator('[data-index="16"]').click();
   const from = await row.locator('[data-index="18"]').boundingBox();
   const to = await row.locator('[data-index="20"]').boundingBox();
   expect(from).not.toBeNull();
@@ -305,6 +304,10 @@ test("half-hour dragging stays smooth and labels the local range on every city r
     page.getByRole("heading", { name: "09:00 – 10:30" }),
   ).toBeVisible();
   expect(await viewport.evaluate((el) => el.scrollLeft)).toBeCloseTo(scroll, 0);
+  await expect(row.getByRole("button", { pressed: true })).toHaveCSS(
+    "outline-style",
+    "none",
+  );
   await page
     .locator("[data-meeting-planner]")
     .screenshot({ path: testInfo.outputPath("desktop-planner.png") });
@@ -394,7 +397,7 @@ test("half-hour rows retain DST day lengths, quarter-hour zones, and existing sh
     await expect(
       page
         .getByRole("group", { name: "San Francisco timeline", exact: true })
-        .getByRole("button"),
+        .locator("button[data-index]"),
     ).toHaveCount(count);
   }
   const kathmandu = {
@@ -426,6 +429,14 @@ test("half-hour rows retain DST day lengths, quarter-hour zones, and existing sh
     name: "San Francisco timeline",
     exact: true,
   });
+  await row.getByRole("button", { pressed: true }).press("Shift+ArrowRight");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 10:15");
+  await row.getByRole("button", { pressed: true }).press("Shift+ArrowLeft");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 09:45");
   await row.getByRole("button", { pressed: true }).press("ArrowRight");
   await expect(
     page.getByLabel("Selected time in San Francisco", { exact: true }),
@@ -474,4 +485,248 @@ test("a simple suggestion leads straight to readable copy with advanced controls
   expect(
     await page.locator("[data-meeting-planner]").innerText(),
   ).not.toContain("UTC");
+});
+
+test("clicks stay put, new slots select 30 minutes, and dragging or handles change the range", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 900 });
+  const longPlan = {
+    ...state,
+    selected: Date.parse("2026-09-09T16:00:00Z"),
+    duration: 90,
+    hour12: false,
+  };
+  await page.goto(
+    `${path}#plan=${encodeURIComponent(JSON.stringify(longPlan))}`,
+  );
+  const row = page.getByRole("group", {
+    name: "San Francisco timeline",
+    exact: true,
+  });
+  const label = page.getByLabel("Selected time in San Francisco", {
+    exact: true,
+  });
+  const mover = row.getByRole("button", {
+    name: "Move meeting in San Francisco",
+    exact: true,
+  });
+  const start = row.getByRole("button", {
+    name: "Resize start in San Francisco",
+    exact: true,
+  });
+  const end = row.getByRole("button", {
+    name: "Resize end in San Francisco",
+    exact: true,
+  });
+  await expect(label).toHaveText("09:00 – 10:30");
+  await mover.click();
+  await label.click();
+  await start.click();
+  await end.click();
+  await expect(label).toHaveText("09:00 – 10:30");
+  const box = await mover.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box!.x + box!.width / 2 + 3, box!.y + box!.height / 2);
+  await page.mouse.up();
+  await expect(label).toHaveText("09:00 – 10:30");
+  const cellWidth = (await row.locator('[data-index="18"]').boundingBox())!
+    .width;
+  async function dragControl(control: typeof mover, steps: number) {
+    const rect = (await control.boundingBox())!;
+    await page.mouse.move(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      rect.x + rect.width / 2 + steps * cellWidth,
+      rect.y + rect.height / 2,
+      { steps: 8 },
+    );
+    await page.mouse.up();
+  }
+  await dragControl(mover, 1);
+  await expect(label).toHaveText("09:30 – 11:00");
+  await dragControl(end, 1);
+  await expect(label).toHaveText("09:30 – 11:30");
+  await dragControl(start, -1);
+  await expect(label).toHaveText("09:00 – 11:30");
+  await row.locator('[data-index="16"]').click();
+  await expect(label).toHaveText("08:00 – 08:30");
+  await start.press("ArrowRight");
+  await end.press("ArrowLeft");
+  await expect(label).toHaveText("08:00 – 08:30");
+
+  // Remember cities and view preferences, but a fresh plan starts at 30 minutes.
+  await end.press("ArrowRight");
+  await expect(label).toHaveText("08:00 – 09:00");
+  await page.goto(path, { waitUntil: "domcontentloaded" });
+  await expect(
+    page
+      .getByText("30 minutes", { exact: false })
+      .filter({ hasText: /minutes$/ })
+      .first(),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem("superflow-meeting-planner-v1")!)
+            .duration,
+      ),
+    )
+    .toBe(30);
+});
+
+test("Share plan is prominent above search and day/night colors follow each city", async ({
+  page,
+}) => {
+  await page.goto(url);
+  const share = page.getByRole("button", { name: "Share plan", exact: true });
+  await expect(share).toHaveCount(1);
+  await expect(share).toBeVisible();
+  const shareBox = (await share.boundingBox())!;
+  const searchBox = (await page
+    .getByRole("combobox", { name: "Add a city or country" })
+    .boundingBox())!;
+  expect(shareBox.y + shareBox.height).toBeLessThan(searchBox.y);
+  const sf = page.getByRole("group", {
+    name: "San Francisco timeline",
+    exact: true,
+  });
+  const london = page.getByRole("group", {
+    name: "London timeline",
+    exact: true,
+  });
+  const sfMidnight = sf.locator('[data-index="0"]');
+  const londonMorning = london.locator('[data-index="0"]');
+  await expect(sfMidnight).toHaveAttribute("data-period", "night");
+  await expect(londonMorning).toHaveAttribute("data-period", "day");
+  await expect(sfMidnight).toHaveCSS("background-color", "rgb(231, 232, 237)");
+  await expect(londonMorning).toHaveCSS(
+    "background-color",
+    "rgb(231, 241, 255)",
+  );
+  await expect(sf.locator('[data-index="12"]')).toHaveAttribute(
+    "data-period",
+    "day",
+  );
+  await expect(sf.locator('[data-index="36"]')).toHaveAttribute(
+    "data-period",
+    "night",
+  );
+});
+
+test.describe("touch timeline", () => {
+  test.use({
+    hasTouch: true,
+    isMobile: true,
+    viewport: { width: 390, height: 844 },
+  });
+  test("swiping pans the day and tapping selects a half hour", async ({
+    page,
+    context,
+  }) => {
+    await page.goto(url);
+    const viewport = page.getByRole("region", { name: /Time comparison/ });
+    await viewport.scrollIntoViewIfNeeded();
+    const row = page.getByRole("group", {
+      name: "San Francisco timeline",
+      exact: true,
+    });
+    const label = page.getByLabel("Selected time in San Francisco", {
+      exact: true,
+    });
+    const before = await viewport.evaluate((el) => el.scrollLeft);
+    const city = (await page
+      .locator("[data-city-label]")
+      .first()
+      .boundingBox())!;
+    const rowBox = (await row.boundingBox())!;
+    const viewportBox = (await viewport.boundingBox())!;
+    const x = viewportBox.x + viewportBox.width - 15;
+    const y = rowBox.y + rowBox.height - 24;
+    const distance = x - (city.x + city.width + 10);
+    const cdp = await context.newCDPSession(page);
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x, y }],
+    });
+    for (let i = 1; i <= 8; i++) {
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: x - (distance * i) / 8, y }],
+      });
+    }
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    await expect
+      .poll(() => viewport.evaluate((el) => el.scrollLeft))
+      .toBeGreaterThan(before + 30);
+    await expect(label).toHaveText("9am – 9:30am");
+    // Stop native momentum, then tap a visible unselected slot.
+    await viewport.evaluate((el) => {
+      el.scrollLeft = 0;
+    });
+    await row.locator('[data-index="2"]').tap();
+    await expect(label).toHaveText("1am – 1:30am");
+    await cdp.detach();
+  });
+});
+
+test("Suggest a time stays available without overlap and cycles through clear compromises", async ({
+  page,
+}) => {
+  const plan = {
+    ...state,
+    people: [
+      DEFAULT_PEOPLE[0],
+      {
+        ...DEFAULT_PEOPLE[2],
+        id: "sweden",
+        name: "Sweden",
+        zone: "Europe/Stockholm",
+        country: "Sweden",
+        countryCode: "SE",
+      },
+    ],
+  };
+  await page.goto(`${path}#plan=${encodeURIComponent(JSON.stringify(plan))}`);
+  await expect(
+    page.getByText("No shared work hours. Try a suggested compromise.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  const suggest = page.getByRole("button", {
+    name: "Suggest a time",
+    exact: true,
+  });
+  await expect(suggest).toBeEnabled();
+  await suggest.click();
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("8:30am – 9am");
+  await expect(
+    page.getByLabel("Selected time in Sweden", { exact: true }),
+  ).toHaveText("5:30pm – 6pm");
+  await expect(
+    page.getByText(
+      /Closest compromise: San Francisco would meet outside work hours/,
+    ),
+  ).toBeVisible();
+  await suggest.click();
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("9am – 9:30am");
+  await expect(
+    page.getByLabel("Selected time in Sweden", { exact: true }),
+  ).toHaveText("6pm – 6:30pm");
+  await expect(
+    page.getByText(/Closest compromise: Sweden would meet outside work hours/),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Remove Sweden", exact: true })
+    .click();
+  await expect(suggest).toBeEnabled();
 });

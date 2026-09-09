@@ -28,6 +28,7 @@ import {
   deviceLocation,
   withDetectedCity,
 } from "@/lib/tools/meeting-planner/detection";
+import { suggestMeetingTimes } from "@/lib/tools/meeting-planner/suggestions";
 import { MeetingTimeline, SELECTION_STEP } from "./MeetingTimeline";
 import styles from "./MeetingPlanner.module.css";
 
@@ -111,6 +112,8 @@ export function MeetingPlanner() {
   const [activeResult, setActiveResult] = useState(0);
   const [editing, setEditing] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
+  const [suggestion, setSuggestion] = useState<number | null>(null);
+  const [revealSelection, setRevealSelection] = useState(0);
   const [copyFallback, setCopyFallback] = useState("");
   const [now, setNow] = useState<number | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -164,7 +167,7 @@ export function MeetingPlanner() {
           version: 1,
           people,
           date: localParts(Date.now(), people[0].zone).date,
-          duration: saved?.duration ?? 30,
+          duration: 30,
           selected: null,
           hour12: saved?.hour12 ?? true,
         },
@@ -269,6 +272,11 @@ export function MeetingPlanner() {
       day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
     );
   }, [day, state?.duration]);
+  const suggestions = useMemo(
+    () => (day && state ? suggestMeetingTimes(day, state.people) : []),
+    [day],
+  );
+  useEffect(() => setSuggestion(null), [day]);
   if (!state || !day)
     return (
       <div className={styles.loading} role="status">
@@ -293,13 +301,6 @@ export function MeetingPlanner() {
       : Math.max(0, day.instants.indexOf(state.selected));
   const selected = day.instants[selectedIndex];
   const selectedFits = fits[selectedIndex] ?? false;
-  const suggestionIndex = day.instants.findIndex(
-    (_, i) =>
-      i % (SELECTION_STEP / STEP) === 0 &&
-      day.availability.every((row) =>
-        row.slice(i, i + SELECTION_STEP / STEP).every(Boolean),
-      ),
-  );
   const outside =
     selected === undefined
       ? []
@@ -382,6 +383,11 @@ export function MeetingPlanner() {
 
   return (
     <div className={styles.planner} data-meeting-planner>
+      <div className={styles.quickActions}>
+        <button className={styles.primaryButton} onClick={share}>
+          <Icon name="link" /> Share plan
+        </button>
+      </div>
       <div className={styles.searchSection}>
         <div
           className={styles.searchWrap}
@@ -573,20 +579,32 @@ export function MeetingPlanner() {
               ? "Add another city to compare times"
               : day.overlapMinutes > 0
                 ? `${overlapText} within everyone’s work hours`
-                : "No work hours in common. Try another day or edit work hours."}
+                : "No shared work hours. Try a suggested compromise."}
           </strong>
         </div>
-        {state.people.length > 1 && suggestionIndex >= 0 && (
-          <button
-            className={styles.suggestButton}
-            onClick={() =>
-              patch({ selected: day.instants[suggestionIndex], duration: 30 })
-            }
-          >
-            Suggest a time
-          </button>
-        )}
+        <button
+          className={styles.suggestButton}
+          disabled={!suggestions.length}
+          onClick={() => {
+            const index =
+              suggestion === selected ? suggestions.indexOf(selected) : -1;
+            const next = suggestions[(index + 1) % suggestions.length];
+            patch({ selected: next, duration: 30 });
+            setSuggestion(next);
+            setRevealSelection((value) => value + 1);
+          }}
+        >
+          Suggest a time
+        </button>
       </div>
+
+      {suggestion === selected && !selectedFits && (
+        <p className={styles.compromiseNote} role="status">
+          Closest compromise: {outside.map((person) => person.name).join(", ")}{" "}
+          would meet outside work hours. Click “Suggest a time” again for
+          another option.
+        </p>
+      )}
 
       <div className={styles.controls}>
         <div className={styles.dateControls}>
@@ -674,10 +692,28 @@ export function MeetingPlanner() {
         </details>
       </div>
 
-      <p className={styles.simpleHint}>
-        Drag to choose a time. <span>Green times fit everyone’s workday.</span>
-      </p>
+      <div className={styles.simpleHint}>
+        <p>
+          Click for 30 minutes. Drag the selection to move it, or pull its edges
+          to change its length.
+        </p>
+        <div className={styles.periodLegend}>
+          <span title="6am–6pm in each city">
+            <i className={styles.daySwatch} />
+            Day
+          </span>
+          <span title="6pm–6am in each city">
+            <i className={styles.nightSwatch} />
+            Night
+          </span>
+          <span>
+            <i className={styles.sharedSwatch} />
+            Everyone’s work hours
+          </span>
+        </div>
+      </div>
       <MeetingTimeline
+        revealSelection={revealSelection}
         day={day}
         people={state.people}
         selected={selected}
@@ -802,7 +838,7 @@ export function MeetingPlanner() {
             </div>
           </section>
         ))}
-      <p className={styles.srOnly}>
+      <p className={styles.srOnly} id="meeting-selection-help">
         Arrow keys move by 30 minutes. Shift + arrow keys adjust the range. On
         mobile, swipe the time scale to scroll. Daylight saving is included.
       </p>
@@ -855,9 +891,6 @@ export function MeetingPlanner() {
             <details className={styles.shareOptions}>
               <summary>More ways to share</summary>
               <div>
-                <button className={styles.button} onClick={share}>
-                  <Icon name="link" /> Share plan
-                </button>
                 <button
                   className={styles.button}
                   onClick={() => {
