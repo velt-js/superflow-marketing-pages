@@ -43,6 +43,7 @@ const CITY_ALIASES: Record<string, string> = {
 const POPULAR_TECH_HUB_IDS = [
   "5391959", // San Francisco, United States
   "5128581", // New York City, United States
+  "5368361", // Los Angeles, United States
   "2643743", // London, United Kingdom
   "1277333", // Bengaluru, India
   "1880252", // Singapore
