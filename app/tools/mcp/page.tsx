@@ -20,6 +20,7 @@ import styles from "@/components/tools/Tools.module.css";
 import { CodeBlock } from "@/components/tools/CodeBlock";
 import { ToolFaq, type ToolFaqItem } from "@/components/tools/ToolFaq";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -39,6 +40,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
+  ogImage: toolOgImage("mcp"),
 });
 
 const ENDPOINT = `${SITE_URL}${MCP_PATH}`;

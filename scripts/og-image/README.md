@@ -113,6 +113,27 @@ Adding a card for a new static route means three edits: an entry in
 `pages.json`, a key in `app/_seo/og-images.ts`, and `ogImage:` at the page's
 `buildPageMetadata` call.
 
+## The free-tools card set
+
+Every free tool has its own card, so a shared tool link unfurls to that tool
+instead of the site-wide image. Headlines live in `tools.json`, the PNGs in
+`public/og/tools/`, and the paths in `TOOL_OG_IMAGES` in
+`app/_seo/og-images.ts`. To change a headline, edit `tools.json` and re-run:
+
+```bash
+npm run og:tools
+```
+
+Covered: the `/tools` index (`index.png`), `/tools/mcp`, and every tool marked
+`status: "live"` in `lib/tools/registry.ts`. File names match the tool slug, so
+a new tool needs three edits, same as a static page: an entry in `tools.json`,
+a key in `TOOL_OG_IMAGES`, and `ogImage: toolOgImage(SLUG)` at the page's
+`buildPageMetadata` call.
+
+Tools still marked `planned` have no route, so they get no card. The AI
+Visibility Checker keeps its dynamic `/api/tools/share-card` image for a
+result URL carrying `?url=`; the static card covers the bare landing page.
+
 ## Wiring a card into a page
 
 `app/_seo/page-metadata.ts` already threads a per-page image through

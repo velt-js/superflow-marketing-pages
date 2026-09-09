@@ -1,6 +1,7 @@
 import { ToolPage } from "@/components/tools/ToolPage";
 import { MeetingPlanner } from "@/components/tools/meeting-planner/MeetingPlanner";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -12,6 +13,7 @@ export const metadata = buildPageMetadata({
   title: "Free Time Zone Converter & Meeting Planner",
   description: content.description,
   path,
+  ogImage: toolOgImage("meeting-planner"),
 });
 
 export default function MeetingPlannerPage() {

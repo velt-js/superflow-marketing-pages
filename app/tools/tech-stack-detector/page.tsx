@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
 import { TechStackTool } from "@/components/tools/tech-stack/TechStackTool";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -28,6 +29,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: What Is That Site Built With?`,
   description: DESCRIPTION,
   path: PATH,
+  ogImage: toolOgImage(SLUG),
 });
 
 export default function TechStackDetectorPage() {

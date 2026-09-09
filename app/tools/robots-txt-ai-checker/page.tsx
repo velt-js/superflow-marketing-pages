@@ -11,6 +11,7 @@ import { ToolPage } from "@/components/tools/ToolPage";
 import { VisibilityTool } from "@/components/tools/ai-visibility/VisibilityTool";
 import { readCachedReport } from "@/lib/tools/ai-visibility/cached";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -94,6 +95,7 @@ export async function generateMetadata({
         title: TITLE,
         description: DESCRIPTION,
         path: PATH,
+        ogImage: toolOgImage(SLUG),
       });
     }
 
@@ -110,6 +112,7 @@ export async function generateMetadata({
             : `${cached.report.hostname} allows AI crawlers`,
         description: `robots.txt and firewall test results for ${cached.report.hostname}.`,
         path: PATH,
+        ogImage: toolOgImage(SLUG),
         noindex: true,
       }),
       alternates: { canonical: PATH },
@@ -119,6 +122,7 @@ export async function generateMetadata({
       title: TITLE,
       description: DESCRIPTION,
       path: PATH,
+      ogImage: toolOgImage(SLUG),
     });
   }
 }
