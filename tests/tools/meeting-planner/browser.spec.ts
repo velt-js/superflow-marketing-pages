@@ -184,7 +184,8 @@ test("mobile fits the viewport and location search works with the keyboard", asy
     .getByLabel("Selected time in San Francisco", { exact: true })
     .boundingBox();
   const cityBox = await page.locator("[data-city-label]").first().boundingBox();
-  expect(selectionBox!.x).toBeGreaterThanOrEqual(cityBox!.x + cityBox!.width);
+  expect(selectionBox!.y).toBeGreaterThanOrEqual(cityBox!.y + cityBox!.height);
+  expect(selectionBox!.x).toBeGreaterThanOrEqual(cityBox!.x);
   expect(selectionBox!.x + selectionBox!.width).toBeLessThanOrEqual(390);
   await page
     .locator("[data-meeting-planner]")
@@ -621,7 +622,14 @@ test("Share plan is prominent and sleep hours have a distinct local color", asyn
   const londonMorning = london.locator('[data-index="0"]');
   await expect(sfMidnight).toHaveAttribute("data-period", "overnight");
   await expect(londonMorning).toHaveAttribute("data-period", "day");
-  await expect(sfMidnight).toHaveCSS("background-color", "rgb(187, 196, 216)");
+  await expect(sfMidnight).toHaveCSS("background-color", "rgb(245, 225, 227)");
+  await expect(
+    sfMidnight.locator('[data-period-icon="overnight"]'),
+  ).toHaveAttribute("aria-hidden", "true");
+  await expect(londonMorning.locator('[data-period-icon="day"]')).toHaveCSS(
+    "opacity",
+    "0.55",
+  );
   await expect(londonMorning).toHaveCSS(
     "background-color",
     "rgb(231, 241, 255)",
@@ -642,6 +650,26 @@ test("Share plan is prominent and sleep hours have a distinct local color", asyn
     "background-color",
     "rgb(231, 232, 237)",
   );
+  await expect(sf.locator('[data-index="34"]')).toHaveAttribute(
+    "data-evening",
+    "false",
+  );
+  await expect(sf.locator('[data-index="35"]')).toHaveAttribute(
+    "data-period",
+    "evening",
+  );
+  await expect(sf.locator('[data-index="35"]')).toHaveCSS(
+    "background-image",
+    /rgb\(240, 240, 244\)/,
+  );
+  await expect(sf.locator('[data-index="47"]')).toHaveCSS(
+    "background-image",
+    /rgb\(199, 201, 210\)/,
+  );
+  await expect(london.locator('[data-index="19"]')).toHaveCSS(
+    "background-image",
+    /rgb\(240, 240, 244\)/,
+  );
   // The same UTC instant is midnight in London and afternoon in San Francisco.
   await expect(london.locator('[data-index="32"]')).toHaveAttribute(
     "data-period",
@@ -650,6 +678,40 @@ test("Share plan is prominent and sleep hours have a distinct local color", asyn
   await expect(sf.locator('[data-index="32"]')).toHaveAttribute(
     "data-period",
     "day",
+  );
+  const quarterPlan = {
+    ...state,
+    people: [
+      DEFAULT_PEOPLE[0],
+      {
+        ...DEFAULT_PEOPLE[1],
+        id: "1283240",
+        name: "Kathmandu",
+        country: "Nepal",
+        countryCode: "NP",
+        region: "Bagmati",
+        zone: "Asia/Kathmandu",
+      },
+    ],
+  };
+  await page.goto(
+    `${path}#plan=${encodeURIComponent(JSON.stringify(quarterPlan))}`,
+  );
+  const kathmandu = page.getByRole("group", {
+    name: "Kathmandu timeline",
+    exact: true,
+  });
+  await expect(kathmandu.locator('[data-index="9"]')).toHaveCSS(
+    "background-image",
+    /rgba\(0, 0, 0, 0\) 50%, rgb\(240, 240, 244\) 50%/,
+  );
+  await expect(kathmandu.locator('[data-index="22"]')).toHaveCSS(
+    "background-image",
+    /rgb\(199, 201, 210\) 50%, rgb\(245, 225, 227\) 50%/,
+  );
+  await expect(kathmandu.locator('[data-index="23"]')).toHaveAttribute(
+    "data-evening",
+    "false",
   );
 });
 
@@ -729,7 +791,9 @@ test.describe("touch timeline", () => {
     const viewportBox = (await viewport.boundingBox())!;
     const x = viewportBox.x + viewportBox.width - 15;
     const y = rowBox.y + rowBox.height - 24;
-    const distance = x - (city.x + city.width + 10);
+    expect(city.width).toBeCloseTo(viewportBox.width - 2, 0);
+    expect(rowBox.y).toBeGreaterThanOrEqual(city.y + city.height);
+    const distance = x - (viewportBox.x + 10);
     const cdp = await context.newCDPSession(page);
     await cdp.send("Input.dispatchTouchEvent", {
       type: "touchStart",
@@ -770,6 +834,30 @@ test.describe("touch timeline", () => {
     await expect.poll(() => viewport.evaluate((el) => el.scrollLeft)).toBe(0);
     await row.locator('[data-index="2"]').tap();
     await expect(label).toContainText("1am – 1:30am");
+    async function dragTouch(name: string, delta: number) {
+      const box = (await page
+        .getByRole("button", { name, exact: true })
+        .boundingBox())!;
+      const start = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchStart",
+        touchPoints: [start],
+      });
+      for (let i = 1; i <= 6; i++)
+        await cdp.send("Input.dispatchTouchEvent", {
+          type: "touchMove",
+          touchPoints: [{ x: start.x + (delta * i) / 6, y: start.y }],
+        });
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchEnd",
+        touchPoints: [],
+      });
+    }
+    const step = (await row.locator('[data-index="2"]').boundingBox())!.width;
+    await dragTouch("Resize end in San Francisco", step);
+    await expect(label).toContainText("1am – 2am");
+    await dragTouch("Move meeting in San Francisco", -step);
+    await expect(label).toContainText("12:30am – 1:30am");
     await cdp.detach();
   });
 });
@@ -984,7 +1072,7 @@ test("every city selection includes its local date", async ({ page }) => {
   ).toHaveText("Sep 10 · 12am – 12:30am");
 });
 
-for (const width of [390, 1200]) {
+for (const width of [320, 390, 1200]) {
   test(`date navigation stays fixed without overlapping controls at ${width}px`, async ({
     page,
   }) => {
@@ -1014,11 +1102,20 @@ for (const width of [390, 1200]) {
       expect(todayBox.width).toBeCloseTo(initialToday.width, 0);
       expect(dateBox.width).toBeCloseTo(initialDate.width, 0);
       expect(dateBox.x + dateBox.width).toBeLessThan(nextBox.x);
-      expect(nextBox.x + nextBox.width + 3).toBeLessThan(todayBox.x);
-      expect(nextBox.y).toBeCloseTo(
-        todayBox.y + (todayBox.height - nextBox.height) / 2,
-        0,
-      );
+      if (width > 680) {
+        expect(nextBox.x + nextBox.width + 3).toBeLessThan(todayBox.x);
+        expect(nextBox.y).toBeCloseTo(
+          todayBox.y + (todayBox.height - nextBox.height) / 2,
+          0,
+        );
+      } else {
+        expect(todayBox.y).toBeGreaterThanOrEqual(
+          nextBox.y + nextBox.height + 8,
+        );
+        expect(nextBox.width).toBeGreaterThanOrEqual(44);
+        expect(nextBox.height).toBeGreaterThanOrEqual(44);
+        expect(todayBox.height).toBeGreaterThanOrEqual(44);
+      }
     }
     await previous.click();
     await expect(page.locator("[data-selected-date]")).toHaveText(
@@ -1027,5 +1124,103 @@ for (const width of [390, 1200]) {
     await today.click();
     await expect(page.locator("[data-selected-date]")).toHaveText("Sep 9, Wed");
     expect((await next.boundingBox())!.x).toBeCloseTo(initialNext.x, 0);
+  });
+}
+
+for (const width of [320, 390]) {
+  test(`phone layout keeps full-width timelines and usable controls at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(url);
+    const input = page.getByRole("combobox", { name: "Add a city or country" });
+    await expect(input).toHaveCSS("font-size", "16px");
+    await expect(page.getByLabel("Meeting date", { exact: true })).toHaveCSS(
+      "font-size",
+      "16px",
+    );
+    await page.getByText("View options", { exact: true }).click();
+    await expect(
+      page.getByRole("combobox", { name: "Show times in" }),
+    ).toHaveCSS("font-size", "16px");
+    await page.getByText("View options", { exact: true }).click();
+    for (const name of [
+      "Share plan",
+      "Suggest a time",
+      "Copy meeting times",
+      "Remove San Francisco",
+    ]) {
+      const box = (await page
+        .getByRole("button", { name, exact: true })
+        .boundingBox())!;
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.width).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+    }
+    const region = page.getByRole("region", { name: /Time comparison/ });
+    const regionBox = (await region.boundingBox())!;
+    const city = (await page
+      .locator("[data-city-label]")
+      .first()
+      .boundingBox())!;
+    expect(city.width).toBeCloseTo(regionBox.width - 2, 0);
+    expect(city.width).toBeGreaterThan(width - 60);
+    await region.scrollIntoViewIfNeeded();
+    const selectedLabel = page.getByLabel("Selected time in San Francisco", {
+      exact: true,
+    });
+    const selectedText = await selectedLabel.textContent();
+    // Changing orientation crosses the stacked/column breakpoint without moving the meeting.
+    await page.setViewportSize({ width: 900, height: 900 });
+    await expect
+      .poll(
+        async () =>
+          (await page.locator("[data-city-label]").first().boundingBox())!
+            .width,
+      )
+      .toBe(240);
+    await page.setViewportSize({ width, height: 900 });
+    await expect
+      .poll(
+        async () =>
+          (await page.locator("[data-city-label]").first().boundingBox())!
+            .width,
+      )
+      .toBeCloseTo(regionBox.width - 2, 0);
+    await expect(selectedLabel).toHaveText(selectedText!);
+    await expect(
+      page.getByRole("button", {
+        name: "Move meeting in San Francisco",
+        exact: true,
+      }),
+    ).toBeInViewport();
+    await page
+      .getByRole("button", { name: /San Francisco:.*Edit hours/ })
+      .click();
+    await page
+      .getByLabel("San Francisco work start", { exact: true })
+      .selectOption("480");
+    await page
+      .getByRole("button", { name: "San Francisco works Sat", exact: true })
+      .click();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await input.fill("Tokyo");
+    const option = page.getByRole("option").first();
+    await expect(option).toContainText("Tokyo");
+    await option.click();
+    await expect(
+      page.getByRole("button", { name: "Remove Tokyo", exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Remove Tokyo", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Remove Tokyo", exact: true }),
+    ).toHaveCount(0);
   });
 }

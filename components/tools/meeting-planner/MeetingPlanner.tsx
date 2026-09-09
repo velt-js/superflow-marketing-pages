@@ -32,6 +32,7 @@ import {
 import { suggestMeetingTimes } from "@/lib/tools/meeting-planner/suggestions";
 import { MeetingTimeline, SELECTION_STEP } from "./MeetingTimeline";
 import styles from "./MeetingPlanner.module.css";
+import { PeriodIcon } from "./PeriodIcon";
 
 const STORAGE_KEY = "superflow-meeting-planner-v1";
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -720,16 +721,22 @@ export function MeetingPlanner() {
           to change its length.
         </p>
         <div className={styles.periodLegend}>
-          <span title="8am–6pm in each city">
-            <i className={styles.daySwatch} />
+          <span title="8am–5:30pm in each city">
+            <i className={styles.daySwatch}>
+              <PeriodIcon period="day" />
+            </i>
             Day
           </span>
-          <span title="6pm–midnight in each city">
-            <i className={styles.eveningSwatch} />
+          <span title="5:30pm–midnight in each city — darker gray means later">
+            <i className={styles.eveningSwatch}>
+              <PeriodIcon period="evening" />
+            </i>
             Evening
           </span>
           <span title="Midnight–8am in each city — avoid meetings">
-            <i className={styles.sleepSwatch} />
+            <i className={styles.sleepSwatch}>
+              <PeriodIcon period="overnight" />
+            </i>
             Sleep hours
           </span>
           <span>
