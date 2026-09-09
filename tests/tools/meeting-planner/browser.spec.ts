@@ -429,6 +429,22 @@ test("half-hour rows retain DST day lengths, quarter-hour zones, and existing sh
     name: "San Francisco timeline",
     exact: true,
   });
+  await row
+    .getByRole("button", { name: "Resize start in San Francisco", exact: true })
+    .press("ArrowRight");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 09:30");
+  await row
+    .getByRole("button", { name: "Resize end in San Francisco", exact: true })
+    .press("ArrowLeft");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 09:30");
+  await row.getByRole("button", { pressed: true }).press("Shift+ArrowLeft");
+  await expect(
+    page.getByLabel("Selected time in San Francisco", { exact: true }),
+  ).toHaveText("09:15 – 09:30");
   await row.getByRole("button", { pressed: true }).press("Shift+ArrowRight");
   await expect(
     page.getByLabel("Selected time in San Francisco", { exact: true }),
@@ -665,10 +681,25 @@ test.describe("touch timeline", () => {
       .poll(() => viewport.evaluate((el) => el.scrollLeft))
       .toBeGreaterThan(before + 30);
     await expect(label).toHaveText("9am – 9:30am");
-    // Stop native momentum, then tap a visible unselected slot.
+    // Let native swipe momentum settle before positioning a particular slot.
+    // Resetting scrollLeft during inertia can slide it behind the sticky city.
+    let lastLeft = -1;
+    let stableSince = Date.now();
+    await expect
+      .poll(async () => {
+        const left = await viewport.evaluate((el) => el.scrollLeft);
+        if (left !== lastLeft) {
+          lastLeft = left;
+          stableSince = Date.now();
+        }
+        return Date.now() - stableSince;
+      })
+      .toBeGreaterThan(200);
     await viewport.evaluate((el) => {
       el.scrollLeft = 0;
+      el.scrollIntoView({ block: "center" });
     });
+    await expect.poll(() => viewport.evaluate((el) => el.scrollLeft)).toBe(0);
     await row.locator('[data-index="2"]').tap();
     await expect(label).toHaveText("1am – 1:30am");
     await cdp.detach();
