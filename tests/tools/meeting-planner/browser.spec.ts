@@ -77,8 +77,13 @@ test("full meeting selection, clipboard, calendar export and exact shared-link r
     .getByRole("button", { name: "Copy meeting times", exact: true })
     .click();
   const summary = await page.evaluate(() => navigator.clipboard.readText());
-  expect(summary).toContain("San Francisco: Wed, Sep 9, 09:15");
-  expect(summary).toContain("London: Wed, Sep 9, 17:15");
+  expect(summary).toBe(
+    [
+      "San Francisco: Sep 9 9:15a - 9:45a pt",
+      "New York City: Sep 9 12:15p - 12:45p et",
+      "London: Sep 9 5:15p - 5:45p bst",
+    ].join("\n"),
+  );
   const download = page.waitForEvent("download");
   await page
     .getByRole("button", { name: "Download calendar event", exact: true })
