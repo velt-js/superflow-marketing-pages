@@ -32,7 +32,11 @@ export async function POST(request: Request): Promise<Response> {
     const reader = request.body?.getReader();
     if (!reader)
       return json(
-        { ok: false, message: "Send a JSON body with locations and date." },
+        {
+          ok: false,
+          code: "bad-request",
+          message: "Send a JSON body with locations and date.",
+        },
         400,
       );
     const chunks: Uint8Array[] = [];
@@ -45,7 +49,11 @@ export async function POST(request: Request): Promise<Response> {
         if (size > MAX_BYTES) {
           await reader.cancel();
           return json(
-            { ok: false, message: "Request body must be 16 KB or smaller." },
+            {
+              ok: false,
+              code: "payload-too-large",
+              message: "Request body must be 16 KB or smaller.",
+            },
             413,
           );
         }
@@ -59,17 +67,33 @@ export async function POST(request: Request): Promise<Response> {
       input = JSON.parse(Buffer.concat(chunks).toString("utf8"));
     } catch {
       return json(
-        { ok: false, message: "Send valid JSON with locations and date." },
+        {
+          ok: false,
+          code: "bad-request",
+          message: "Send valid JSON with locations and date.",
+        },
         400,
       );
     }
     return json(findMeetingTimes(input, SITE_URL));
   } catch (error) {
     if (error instanceof PlannerInputError)
-      return json({ ok: false, message: error.message, ...error.details }, 400);
+      return json(
+        {
+          ...error.details,
+          ok: false,
+          code:
+            typeof error.details.code === "string"
+              ? error.details.code
+              : "invalid-input",
+          message: error.message,
+        },
+        400,
+      );
     return json(
       {
         ok: false,
+        code: "internal",
         message: "Could not calculate meeting times. Please try again.",
       },
       500,
