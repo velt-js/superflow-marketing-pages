@@ -14,6 +14,7 @@ import { ReviewTool } from "@/components/tools/review/ReviewTool";
 // another persona's review, which for the public-record lenses is exactly the
 // claim they exist to prevent.
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
@@ -33,6 +34,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: `${TITLE}: Free Landing Page Review`,
   description: DESCRIPTION,
   path: PATH,
+  ogImage: toolOgImage(SLUG),
 });
 
 export default function PaulGrahamReviewPage() {

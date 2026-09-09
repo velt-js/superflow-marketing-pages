@@ -17,6 +17,7 @@ import { ToolApiDocs } from "@/components/tools/ToolApiDocs";
 import { RelatedTools } from "@/components/tools/RelatedTools";
 import styles from "@/components/tools/Tools.module.css";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
+import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
@@ -39,6 +40,7 @@ export const metadata = buildPageMetadata({
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   path: "/tools/md5-generator",
+  ogImage: toolOgImage("md5-generator"),
 });
 
 export default function Md5GeneratorPage() {
