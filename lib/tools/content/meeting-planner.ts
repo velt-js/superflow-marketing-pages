@@ -14,7 +14,7 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     },
     {
       title: "Find the shared hours",
-      body: "Pick a date, then click and drag across the timeline to select a time range. Adjust each location’s working hours and days. Green shows when everyone is working.",
+      body: "Pick a date, then click and drag across the timeline in 30-minute steps to select a time range. Adjust each location’s working hours and days. Green shows when everyone is working.",
     },
     {
       title: "Share a good time",
@@ -30,7 +30,7 @@ export const MEETING_PLANNER_CONTENT: ToolContent = {
     {
       question: "How do I convert a meeting time between cities?",
       answer:
-        "Add the cities or countries you want to compare, choose the meeting date, and select a time on the timeline. Each row shows that same moment in the location's local time. The selected meeting summary includes each city's date and time, including when the meeting falls on the next or previous day.",
+        "Add the cities or countries you want to compare, choose the meeting date, and select a time on the timeline. Each row shows that same moment in the location's local time. Each city row shows its current local clock and labels the selected time range, including when it ends on the next day.",
     },
     {
       question: "Can an AI assistant find overlapping meeting times with MCP?",

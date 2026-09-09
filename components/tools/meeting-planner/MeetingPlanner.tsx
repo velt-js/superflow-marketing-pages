@@ -16,7 +16,6 @@ import {
   hoursLabel,
   hourValue,
   localParts,
-  meetingFits,
   meetingCopyText,
   MINUTE,
   parseState,
@@ -30,7 +29,7 @@ import {
   deviceLocation,
   withDetectedCity,
 } from "@/lib/tools/meeting-planner/detection";
-import { MeetingTimeline } from "./MeetingTimeline";
+import { MeetingTimeline, SELECTION_STEP } from "./MeetingTimeline";
 import styles from "./MeetingPlanner.module.css";
 
 const STORAGE_KEY = "superflow-meeting-planner-v1";
@@ -271,6 +270,15 @@ export function MeetingPlanner() {
       day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
     );
   }, [day, state?.duration]);
+  const selectionFits = useMemo(() => {
+    if (!day || !state) return [];
+    if (state.duration % SELECTION_STEP === 0) return fits;
+    const count =
+      (Math.ceil(state.duration / SELECTION_STEP) * SELECTION_STEP) / STEP;
+    return day.instants.map((_, i) =>
+      day.availability.every((row) => row.slice(i, i + count).every(Boolean)),
+    );
+  }, [day, fits, state?.duration]);
   if (!state || !day)
     return (
       <div className={styles.loading} role="status">
@@ -280,9 +288,12 @@ export function MeetingPlanner() {
 
   const base = state.people[0];
   const firstFit = fits.findIndex(Boolean);
+  const firstSelectableFit = selectionFits.findIndex(
+    (fit, i) => fit && i % (SELECTION_STEP / STEP) === 0,
+  );
   const defaultIndex =
-    firstFit >= 0
-      ? firstFit
+    firstSelectableFit >= 0
+      ? firstSelectableFit
       : Math.max(
           0,
           day.instants.findIndex((t) => localParts(t, base.zone).minute >= 540),
@@ -294,7 +305,12 @@ export function MeetingPlanner() {
   const selected = day.instants[selectedIndex];
   const selectedFits = fits[selectedIndex] ?? false;
   const suggestions = day.instants
-    .filter((_, i) => fits[i] && (i === firstFit || i % 4 === 0))
+    .filter(
+      (_, i) =>
+        selectionFits[i] &&
+        i % (SELECTION_STEP / STEP) === 0 &&
+        (i === firstSelectableFit || i % 4 === 0),
+    )
     .slice(0, 5);
   const patch = (value: Partial<PlannerState>) =>
     setState((current) => (current ? { ...current, ...value } : current));
@@ -556,6 +572,26 @@ export function MeetingPlanner() {
         </div>
       </div>
 
+      <div
+        className={`${styles.overlapBanner} ${firstFit < 0 ? styles.noOverlap : ""}`}
+        role="status"
+      >
+        <span className={styles.overlapIcon}>
+          <Icon name={firstFit >= 0 ? "check" : "clock"} />
+        </span>
+        <div>
+          <strong>
+            {state.people.length === 1
+              ? "Add a customer’s location to compare"
+              : firstFit >= 0
+                ? `${hoursLabel(day.overlapMinutes)} of shared working hours`
+                : day.overlapMinutes > 0
+                  ? `Shared hours are too short for a ${state.duration}-minute call`
+                  : "No shared working hours on this date"}
+          </strong>
+        </div>
+      </div>
+
       <div className={styles.controls}>
         <div className={styles.dateControls}>
           <button
@@ -596,163 +632,6 @@ export function MeetingPlanner() {
           </button>
         </div>
         <div className={styles.preferences}>
-          <div className={styles.segmented} aria-label="Time display">
-            <button
-              aria-pressed={state.hour12}
-              onClick={() => patch({ hour12: true })}
-            >
-              12h
-            </button>
-            <button
-              aria-pressed={!state.hour12}
-              onClick={() => patch({ hour12: false })}
-            >
-              24h
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.locationList}>
-        {state.people.map((person, index) => (
-          <div key={person.id} className={styles.locationCard}>
-            <div className={styles.locationMain}>
-              <span
-                className={`${styles.countryBadge} ${index === 0 ? styles.baseBadge : ""}`}
-              >
-                {person.countryCode || "◎"}
-              </span>
-              <div className={styles.placeName}>
-                <strong>{person.name}</strong>
-                <small>
-                  {person.country} ·{" "}
-                  {zoneLabel(selected ?? Date.now(), person.zone)}
-                  {person.id.startsWith("device:") && (
-                    <span className={styles.detectedLabel}>
-                      {person.name === "Your location"
-                        ? "Auto-detected time zone"
-                        : "Approximate location"}
-                    </span>
-                  )}
-                </small>
-              </div>
-              <div className={styles.liveTime}>
-                <strong>{currentTime(person)}</strong>
-                <small>local time now</small>
-              </div>
-              <button
-                className={styles.hoursButton}
-                aria-expanded={editing === person.id}
-                onClick={() =>
-                  setEditing(editing === person.id ? null : person.id)
-                }
-              >
-                <Icon name="clock" />
-                {hourValue(person.start)}–{hourValue(person.end)}
-                <span className={styles.editLabel}>Edit hours</span>
-              </button>
-              <button
-                className={styles.iconButton}
-                disabled={state.people.length === 1}
-                aria-label={`Remove ${person.name}`}
-                onClick={() => {
-                  patch({
-                    people: state.people.filter((p) => p.id !== person.id),
-                    selected: null,
-                  });
-                  if (editing === person.id) setEditing(null);
-                }}
-              >
-                <Icon name="close" />
-              </button>
-            </div>
-            {editing === person.id && (
-              <div className={styles.hoursEditor}>
-                <div className={styles.hoursFields}>
-                  {(["start", "end"] as const).map((key) => (
-                    <label key={key}>
-                      {key === "start" ? "Work starts" : "Work ends"}
-                      <select
-                        aria-label={`${person.name} work ${key}`}
-                        value={person[key]}
-                        onChange={(e) =>
-                          patchPerson(person.id, {
-                            [key]: Number(e.target.value),
-                          })
-                        }
-                      >
-                        {HOURS.map((n) => (
-                          <option value={n} key={n}>
-                            {hourValue(n)}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  ))}
-                </div>
-                <div>
-                  <p>Working days</p>
-                  <div className={styles.dayButtons}>
-                    {[1, 2, 3, 4, 5, 6, 0].map((n) => (
-                      <button
-                        key={n}
-                        aria-label={`${person.name} works ${DAYS[n]}`}
-                        aria-pressed={person.days.includes(n)}
-                        onClick={() =>
-                          patchPerson(person.id, {
-                            days: person.days.includes(n)
-                              ? person.days.filter((d) => d !== n)
-                              : [...person.days, n],
-                          })
-                        }
-                      >
-                        {DAYS[n]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {person.start >= person.end && (
-                  <p className={styles.editorHint}>
-                    {person.start === person.end
-                      ? "Start and end match, so no working hours are available."
-                      : "Overnight shift: working days refer to the day the shift starts."}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div
-        className={`${styles.overlapBanner} ${firstFit < 0 ? styles.noOverlap : ""}`}
-        role="status"
-      >
-        <span className={styles.overlapIcon}>
-          <Icon name={firstFit >= 0 ? "check" : "clock"} />
-        </span>
-        <div>
-          <strong>
-            {state.people.length === 1
-              ? "Add a customer’s location to compare"
-              : firstFit >= 0
-                ? `${hoursLabel(day.overlapMinutes)} of shared working hours`
-                : day.overlapMinutes > 0
-                  ? `Shared hours are too short for a ${state.duration}-minute call`
-                  : "No shared working hours on this date"}
-          </strong>
-          <p>
-            {firstFit >= 0
-              ? `Green is working time for everyone. The time scale follows ${base.name}.`
-              : "Try a shorter call, a different date, or adjust someone’s working hours."}
-          </p>
-        </div>
-      </div>
-
-      <div className={styles.timelineHeader}>
-        <div>
-          <h3>Find your overlap</h3>
-          <p>Click a time, or drag across the tiles to select a time range.</p>
           <label className={styles.timeScale}>
             Show times in
             <select
@@ -779,6 +658,30 @@ export function MeetingPlanner() {
               ))}
             </select>
           </label>
+          <div className={styles.segmented} aria-label="Time display">
+            <button
+              aria-pressed={state.hour12}
+              onClick={() => patch({ hour12: true })}
+            >
+              12h
+            </button>
+            <button
+              aria-pressed={!state.hour12}
+              onClick={() => patch({ hour12: false })}
+            >
+              24h
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.timelineHeader}>
+        <div>
+          <h3>Find your overlap</h3>
+          <p>
+            Drag to select a range in 30-minute steps. Each row shows local
+            time.
+          </p>
         </div>
         <div className={styles.legend}>
           <span>
@@ -801,11 +704,139 @@ export function MeetingPlanner() {
         selected={selected}
         duration={state.duration}
         hour12={state.hour12}
-        fits={fits}
+        fits={selectionFits}
         onSelect={patch}
+        renderLocation={(person) => (
+          <>
+            <div className={styles.cityTop}>
+              <strong title={person.name}>{person.name}</strong>
+              <button
+                className={styles.iconButton}
+                disabled={state.people.length === 1}
+                aria-label={`Remove ${person.name}`}
+                onClick={() => {
+                  patch({
+                    people: state.people.filter((p) => p.id !== person.id),
+                    selected: null,
+                  });
+                  if (editing === person.id) setEditing(null);
+                }}
+              >
+                <Icon name="close" />
+              </button>
+            </div>
+            <div
+              className={styles.cityNow}
+              aria-label={`Current time in ${person.name}`}
+            >
+              <strong>{currentTime(person)}</strong>
+              <span>
+                now · {now === null ? "" : zoneLabel(now, person.zone)}
+              </span>
+            </div>
+            <div className={styles.cityDetails}>
+              <span title={person.country}>
+                {selected === undefined
+                  ? person.countryCode
+                  : dateLabel(selected, person.zone)}
+              </span>
+              <button
+                className={styles.hoursButton}
+                aria-label={`${person.name}: ${hourValue(person.start)}–${hourValue(person.end)} Edit hours`}
+                aria-expanded={editing === person.id}
+                aria-controls="working-hours-editor"
+                onClick={() =>
+                  setEditing(editing === person.id ? null : person.id)
+                }
+              >
+                <Icon name="clock" /> Edit hours
+              </button>
+            </div>
+            {person.id.startsWith("device:") && (
+              <span className={styles.detectedLabel}>
+                {person.name === "Your location"
+                  ? "Auto-detected time zone"
+                  : "Approximate location"}
+              </span>
+            )}
+          </>
+        )}
       />
+      {state.people
+        .filter((person) => person.id === editing)
+        .map((person) => (
+          <section
+            id="working-hours-editor"
+            key={person.id}
+            className={styles.editorPanel}
+            aria-label={`Working hours for ${person.name}`}
+          >
+            <div className={styles.editorHeading}>
+              <strong>Working hours for {person.name}</strong>
+              <button
+                className={styles.textButton}
+                onClick={() => setEditing(null)}
+              >
+                Done
+              </button>
+            </div>
+
+            <div className={styles.hoursEditor}>
+              <div className={styles.hoursFields}>
+                {(["start", "end"] as const).map((key) => (
+                  <label key={key}>
+                    {key === "start" ? "Work starts" : "Work ends"}
+                    <select
+                      aria-label={`${person.name} work ${key}`}
+                      value={person[key]}
+                      onChange={(e) =>
+                        patchPerson(person.id, {
+                          [key]: Number(e.target.value),
+                        })
+                      }
+                    >
+                      {HOURS.map((n) => (
+                        <option value={n} key={n}>
+                          {hourValue(n)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ))}
+              </div>
+              <div>
+                <p>Working days</p>
+                <div className={styles.dayButtons}>
+                  {[1, 2, 3, 4, 5, 6, 0].map((n) => (
+                    <button
+                      key={n}
+                      aria-label={`${person.name} works ${DAYS[n]}`}
+                      aria-pressed={person.days.includes(n)}
+                      onClick={() =>
+                        patchPerson(person.id, {
+                          days: person.days.includes(n)
+                            ? person.days.filter((d) => d !== n)
+                            : [...person.days, n],
+                        })
+                      }
+                    >
+                      {DAYS[n]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {person.start >= person.end && (
+                <p className={styles.editorHint}>
+                  {person.start === person.end
+                    ? "Start and end match, so no working hours are available."
+                    : "Overnight shift: working days refer to the day the shift starts."}
+                </p>
+              )}
+            </div>
+          </section>
+        ))}
       <p className={styles.timelineNote}>
-        Arrow keys move by 15 minutes. Shift + arrow keys adjust the range. On
+        Arrow keys move by 30 minutes. Shift + arrow keys adjust the range. On
         mobile, swipe the time scale to scroll. Daylight saving is included.
       </p>
 
@@ -816,7 +847,13 @@ export function MeetingPlanner() {
             <button
               key={t}
               aria-pressed={t === selected}
-              onClick={() => patch({ selected: t })}
+              onClick={() =>
+                patch({
+                  selected: t,
+                  duration:
+                    Math.ceil(state.duration / SELECTION_STEP) * SELECTION_STEP,
+                })
+              }
             >
               {timeLabel(t, base.zone, state.hour12)}
             </button>
@@ -851,41 +888,6 @@ export function MeetingPlanner() {
               <Icon name={selectedFits ? "check" : "clock"} />
               {selectedFits ? "Works for everyone" : "Outside working hours"}
             </span>
-          </div>
-          <div className={styles.meetingPeople}>
-            {state.people.map((person) => (
-              <div key={person.id}>
-                <span>{person.name}</span>
-                <strong>
-                  {timeLabel(selected, person.zone, state.hour12)} –{" "}
-                  {timeLabel(
-                    selected + state.duration * MINUTE,
-                    person.zone,
-                    state.hour12,
-                  )}
-                </strong>
-                <small>
-                  {dateLabel(selected, person.zone)}
-                  {localParts(selected, person.zone).date !==
-                  localParts(selected + state.duration * MINUTE, person.zone)
-                    .date
-                    ? ` → ${dateLabel(selected + state.duration * MINUTE, person.zone)}`
-                    : ""}{" "}
-                  · {zoneLabel(selected, person.zone)}
-                </small>
-                <span
-                  className={
-                    meetingFits(selected, state.duration, person)
-                      ? styles.available
-                      : styles.unavailable
-                  }
-                >
-                  {meetingFits(selected, state.duration, person)
-                    ? "Within working hours"
-                    : "Outside working hours"}
-                </span>
-              </div>
-            ))}
           </div>
           <div className={styles.actions}>
             <button
