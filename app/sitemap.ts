@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 
-import { useCaseDetails } from "@/lib/detail-data";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import {
   getAllAlternativeSlugs,
@@ -13,11 +12,11 @@ import {
   getAllFeatureSlugs,
   getAllIntegrationPreviewSlugs,
   getAllReviewSlugs,
-  getAllUseCaseSlugs,
-  getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import { resolveSolutionSlugs } from "@/lib/solutions/resolve";
+import { SOLUTIONS_BASE_PATH, solutionPath } from "@/lib/solutions/seed";
 import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
 import { agencyPath, getIndexableAgencySlugs } from "@/lib/directory/agencies";
 
@@ -107,6 +106,9 @@ const STATIC_PATHS = [
   "/pricing",
   "/privacy",
   "/security",
+  // The solutions index. Its child pages come from resolveSolutionSlugs()
+  // below. The retired /use-case and /user-persona hubs now 301 here.
+  SOLUTIONS_BASE_PATH,
   // Survey landing page only. The /report child stays out (and noindex)
   // until real results replace the sample data - see
   // app/state-of-agency-tools/README.md.
@@ -116,8 +118,6 @@ const STATIC_PATHS = [
   // The MCP and API reference for the tools. Not in the tool registry (it is
   // documentation, not a tool), so it is listed explicitly.
   "/tools/mcp",
-  "/use-case",
-  "/user-persona",
   // Free tools. Only the ones that are actually built are listed: the
   // registry marks the rest `planned`, and a sitemap entry for a route that
   // does not exist is a crawl error, not a roadmap.
@@ -141,9 +141,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     blogSlugs,
     bugBookSlugs,
     integrationSlugsCms,
-    useCaseSlugsCms,
+    solutionSlugs,
     caseStudySlugsCms,
-    userPersonaSlugsCms,
     alternativeSlugsCms,
     comparisonSlugsCms,
     reviewSlugs,
@@ -155,9 +154,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllBugBookSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
-    safeFetch(getAllUseCaseSlugs),
+    // CMS slugs merged with the seed, so a seeded page is listed before its
+    // Sanity document exists and the list survives a CMS outage.
+    safeFetch(resolveSolutionSlugs),
     safeFetch(getAllCaseStudySlugs),
-    safeFetch(getAllUserPersonaSlugs),
     safeFetch(getAllAlternativeSlugs),
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
@@ -180,10 +180,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...unique(integrationSlugsCms)
       .filter((slug) => !isHeldIntegrationSlug(slug))
       .map((slug) => `/integrations/${slug}`),
-    ...unique([...Object.keys(useCaseDetails), ...useCaseSlugsCms]).map(
-      (slug) => `/use-case/${slug}`,
-    ),
-    ...unique(userPersonaSlugsCms).map((slug) => `/user-persona/${slug}`),
+    ...unique(solutionSlugs).map((slug) => solutionPath(slug)),
     ...unique([...alternativeSlugsCms, ...catalogAlternativeSlugs]).map(
       (slug) => `/alternative/${slug}`,
     ),

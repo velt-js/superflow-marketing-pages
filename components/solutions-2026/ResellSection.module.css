@@ -1,0 +1,163 @@
+/* S3b, "Resell it.": one wide card, copy on the left and the CTA on the
+   right. Renders only on pages whose data carries a resell section. */
+
+.section {
+  --rs-ink: #1e1e1f;
+  --rs-bg: #feffff;
+
+  background: var(--rs-bg);
+  color: var(--rs-ink);
+  padding: 0 24px 100px;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 40px;
+  padding: 48px;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f4 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1.08px;
+  color: var(--rs-ink);
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.lineIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: rgba(67, 61, 243, 0.1);
+  color: #3b36c9;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Body copy inherits the global Poppins face. */
+.lineText {
+  padding-top: 3px;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--rs-ink);
+}
+
+.action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 28px;
+  border: 1.5px solid var(--rs-ink);
+  border-radius: 32px;
+  background: var(--rs-ink);
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.18px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.cta:hover {
+  background: #000000;
+  border-color: #000000;
+}
+
+.cta:focus-visible {
+  outline: 2px solid #433df3;
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: 32px;
+  }
+
+  .action {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 0 20px 72px;
+  }
+
+  .heading {
+    font-size: 30px;
+    letter-spacing: -0.8px;
+  }
+}
+
+@media (max-width: 460px) {
+  .section {
+    padding: 0 16px 56px;
+  }
+
+  .card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .lineText {
+    font-size: 16px;
+  }
+
+  .cta {
+    width: 100%;
+  }
+}

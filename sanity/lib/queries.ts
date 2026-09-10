@@ -496,7 +496,7 @@ export async function getReviewPageBySlug(slug: string) {
   );
 }
 
-// Feature page queries (/preview/features/<slug>) — new 2026 template that
+// Feature page queries (/preview/features/<slug>): new 2026 template that
 // reuses the home-2026 sections. Separate from reviewPage; legacy pages are
 // left untouched.
 export async function getAllFeatureSlugs(): Promise<string[]> {
@@ -757,7 +757,7 @@ export async function getIntegrationPreviewHub() {
 }
 
 // ---------------------------------------------------------------------------
-// comparisonPreview* — the /preview/comparison pages (three new 2026 classes).
+// comparisonPreview*: the /preview/comparison pages (three new 2026 classes).
 // Isolated from the legacy comparisonPage/alternativePage queries above.
 // ---------------------------------------------------------------------------
 
@@ -941,7 +941,7 @@ export async function getAllBugBookSlugs(): Promise<string[]> {
 
 /**
  * One live entry with the full thread/finding payload. Bench entries
- * intentionally return null — the route redirects misses to /bug-book.
+ * intentionally return null. The route redirects misses to /bug-book.
  */
 export async function getBugBookEntryBySlug(
   slug: string
@@ -983,4 +983,97 @@ export async function getBugBookSamples(): Promise<BugBookSample[]> {
       note
     }
   `);
+}
+
+// ---------------------------------------------------------------------------
+// solutionPage: the /solutions/<slug> pages (one template, per-page data).
+// The projection mirrors `SolutionPage` in lib/solutions/types.ts exactly, so
+// the CMS document and the local seed fallback (lib/solutions/seed.ts) are
+// interchangeable. Hidden documents never surface anywhere.
+// ---------------------------------------------------------------------------
+
+const SOLUTION_PAGE_PROJECTION = `
+  "slug": slug.current,
+  kind,
+  navLabel,
+  navDescriptor,
+  order,
+  seo { title, description, ogTitle },
+  hero { h1, sub, clientLine },
+  pack {
+    name,
+    slug,
+    intro,
+    agents[] { name, checks, finding, category },
+    buildYourOwn { input, agentName, finding }
+  },
+  human { agentsCheck, youDecide },
+  resell { heading, lines, ctaLabel, ctaHref },
+  platformsFirst,
+  proof,
+  cost,
+  faq[] { q, a },
+  related,
+  "ogImage": ogImage.asset->url
+`;
+
+/**
+ * The document must be visible and complete enough to render. This mirrors
+ * `isRenderable` in lib/solutions/resolve.ts, so a half-authored document
+ * (written through the API, past the Studio's required-field checks) is never
+ * listed in the sitemap, llms.txt or the /solutions index while its own route
+ * falls back to the seed or 404s.
+ */
+const SOLUTION_PAGE_FILTER = `
+  _type == "solutionPage"
+  && defined(slug.current)
+  && hidden != true
+  && defined(hero.h1)
+  && defined(pack.name)
+  && count(pack.agents) > 0
+  && defined(human.agentsCheck)
+  && defined(human.youDecide)
+`;
+
+/** Slugs of every visible, renderable solution page. */
+export async function getAllSolutionSlugs(): Promise<string[]> {
+  return client.fetch(`*[${SOLUTION_PAGE_FILTER}].slug.current`);
+}
+
+/** One visible, renderable solution page by slug, or null. */
+export async function getSolutionPageBySlug(slug: string) {
+  return client.fetch(
+    `*[${SOLUTION_PAGE_FILTER} && slug.current == $slug][0] {
+      ${SOLUTION_PAGE_PROJECTION}
+    }`,
+    { slug }
+  );
+}
+
+/** Lightweight entries for the /solutions index, ordered by kind then order. */
+export async function getAllSolutionsForIndex() {
+  return client.fetch(
+    `*[${SOLUTION_PAGE_FILTER}]
+      | order(kind asc, order asc, navLabel asc) {
+      "slug": slug.current,
+      kind,
+      navLabel,
+      navDescriptor,
+      order,
+      "packName": pack.name,
+      "agentNames": pack.agents[0..2].name
+    }`
+  );
+}
+
+/**
+ * Slugs of every solution page an editor has hidden. The resolvers in
+ * lib/solutions/resolve.ts use this to tell a hidden document apart from a
+ * missing one: a hidden page is never served from the seed, listed, or
+ * linked, while a slug with no document at all still falls back to the seed.
+ */
+export async function getHiddenSolutionSlugs(): Promise<string[]> {
+  return client.fetch(
+    `*[_type == "solutionPage" && hidden == true && defined(slug.current)].slug.current`
+  );
 }

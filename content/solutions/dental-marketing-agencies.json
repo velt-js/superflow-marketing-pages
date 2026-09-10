@@ -1,0 +1,107 @@
+{
+  "slug": "dental-marketing-agencies",
+  "kind": "agency",
+  "navLabel": "Dental",
+  "navDescriptor": "Every location page, every offer, every claim.",
+  "order": 1,
+  "seo": {
+    "title": "QA agents for dental marketing agencies | Superflow",
+    "description": "Agents check every dental client site for broken booking links, expired specials, mismatched phone numbers, and claims the board flags. Your team and the practice sign off."
+  },
+  "hero": {
+    "h1": "Forty dental sites. One person checking them.",
+    "sub": "Superflow builds agents from your QA checklist. They check every location page, offer, and claim on every client site, on desktop and phone. Findings land as comments. You decide what ships.",
+    "clientLine": "The practice owner taps Approve from their phone between patients."
+  },
+  "pack": {
+    "name": "Dental Launch Pack",
+    "slug": "dental-launch",
+    "intro": "Eight agents built for dental sites. They run on every page the moment it changes.",
+    "agents": [
+      {
+        "name": "Booking Link Check",
+        "checks": "Checks every 'Book now' and 'Schedule' button resolves to the practice's scheduler.",
+        "finding": "'Book online' on the Implants page opens the old NexHealth link. It returns 404.",
+        "category": "links"
+      },
+      {
+        "name": "Location Consistency",
+        "checks": "Checks name, address, phone, and hours match across every location page and the footer.",
+        "finding": "Plano location page lists Saturday hours. Footer and Google listing say closed Saturday.",
+        "category": "copy"
+      },
+      {
+        "name": "Offer Expiry",
+        "checks": "Finds new-patient specials and promos with a past date.",
+        "finding": "Homepage banner: '$99 new patient special, ends Aug 31.' Today is Sept 3.",
+        "category": "copy"
+      },
+      {
+        "name": "Claims Check",
+        "checks": "Flags wording dental boards act on: guarantees, 'painless', 'best', specialty claims without board certification.",
+        "finding": "Services page says 'painless root canals.' Most state boards treat that as a misleading claim. Suggest 'comfortable'.",
+        "category": "compliance"
+      },
+      {
+        "name": "Consent Notes",
+        "checks": "Checks before-and-after galleries carry a consent statement.",
+        "finding": "Smile gallery shows 12 patient photos with no consent statement on the page.",
+        "category": "compliance"
+      },
+      {
+        "name": "Secure Forms",
+        "checks": "Flags forms collecting health details that aren't on a HIPAA-covered form provider.",
+        "finding": "The 'Tell us about your pain' form posts to a standard Webflow form. It asks for health details.",
+        "category": "compliance"
+      },
+      {
+        "name": "Noindex Check",
+        "checks": "Finds pages still blocked from search after launch.",
+        "finding": "noindex is still set on all 4 location pages.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Mobile Overflow",
+        "checks": "Checks nothing wraps, clips or pushes the CTA down on phone.",
+        "finding": "The insurance list overflows the screen on iPhone. Five plans are cut off.",
+        "category": "layout-devices"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Every page must show 'Now accepting new patients' in the header.",
+      "agentName": "New Patient Banner",
+      "finding": "The Sedation page header is missing 'Now accepting new patients'."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Booking links work on every page.",
+      "Phone and hours match everywhere.",
+      "Specials haven't expired.",
+      "Claims stay inside board rules."
+    ],
+    "youDecide": [
+      "Whether the hero photo feels like this practice.",
+      "Whether the tone fits the town.",
+      "Which service gets the top spot.",
+      "When it's good enough to ship."
+    ]
+  },
+  "platformsFirst": ["wordpress", "webflow", "wix", "squarespace"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "Can the agents know each practice's rules?",
+      "a": "Yes. Paste the practice's brand guide, banned words, and offer calendar. Agents check against them on that client's sites only. Memory carries it to the next project."
+    },
+    {
+      "q": "Will the agents flag too much?",
+      "a": "They post fewer, precise findings. Low-confidence findings are hidden by default. You can turn any agent off per client."
+    },
+    {
+      "q": "Does the practice owner need to learn a tool?",
+      "a": "No. They open a link, tap the spot, and type. Approve is one button."
+    }
+  ],
+  "related": ["healthcare-marketing", "site-care"]
+}

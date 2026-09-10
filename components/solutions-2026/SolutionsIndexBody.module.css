@@ -1,0 +1,194 @@
+/* /solutions index: two labelled card groups under the compact listing hero.
+   Cards are whole-card links; three across on desktop, two on tablet, one on
+   phone. */
+
+.section {
+  --si-ink: #1e1e1f;
+  --si-bg: #feffff;
+  --si-muted: #6b7079;
+  --si-accent: #433df3;
+
+  background: var(--si-bg);
+  color: var(--si-ink);
+  padding: 16px 24px 100px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.groupHeading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1.08px;
+  color: var(--si-ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  padding: 28px;
+  border: 1px solid #ececf1;
+  border-radius: 24px;
+  background: #fbfbfd;
+  color: var(--si-ink);
+  text-decoration: none;
+  box-sizing: border-box;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.card:hover {
+  border-color: rgba(67, 61, 243, 0.35);
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--si-accent);
+  outline-offset: 3px;
+}
+
+.cardTop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+  color: var(--si-ink);
+}
+
+/* Body copy inherits the global Poppins face. */
+.cardDesc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--si-ink);
+  opacity: 0.78;
+}
+
+.pack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.packLabel {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--si-muted);
+}
+
+.packName {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--si-ink);
+}
+
+.agents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.agent {
+  padding: 5px 10px;
+  border-radius: 9999px;
+  background: rgba(67, 61, 243, 0.08);
+  color: #3b36c9;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 8px 20px 72px;
+  }
+
+  .inner {
+    gap: 48px;
+  }
+
+  .groupHeading {
+    font-size: 30px;
+    letter-spacing: -0.8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 460px) {
+  .section {
+    padding: 0 16px 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}

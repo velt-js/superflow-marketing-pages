@@ -33,6 +33,13 @@ export const AnalyticsEvents = {
   SHARE_CLICK: "shareClick",
   DOWNLOAD: "download",
   CTA_CLICK: "ctaClick",
+
+  // Solutions pages (/solutions/*) and the "What your agents catch" section.
+  // Names follow the solutions spec (section 8) verbatim.
+  SOLUTIONS_PAGE_VIEWED: "solutions_page_viewed",
+  PACK_CTA_CLICKED: "pack_cta_clicked",
+  AGENT_CARD_EXPANDED: "agent_card_expanded",
+  HOME_AGENT_TAB_CLICKED: "home_agent_tab_clicked",
 } as const;
 
 /** Where in the UI an event originated, attached as an event property. */

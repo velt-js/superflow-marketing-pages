@@ -141,6 +141,12 @@ export interface GetStartedProps {
    * no svg icon) instead of the homepage media cards.
    */
   steps?: readonly GetStartedNumberedStep[];
+  /**
+   * Platform ids (see `PLATFORMS`) to show first in the logo strip, in the
+   * given order; the rest follow in their existing order. Unknown ids are
+   * ignored. Omit to keep the default order.
+   */
+  platformsFirst?: readonly string[];
 }
 
 /**
@@ -151,6 +157,43 @@ export interface GetStartedProps {
  */
 function formatStepBadge(index: number): string {
   return String(index + 1).padStart(STEP_BADGE_PAD_LENGTH, STEP_BADGE_PAD_CHAR);
+}
+
+/**
+ * Reorder the platform strip so the listed ids come first, in the given
+ * order, followed by the rest in their existing order. Unknown ids are
+ * ignored and repeats are collapsed, so the strip never loses or duplicates
+ * a pill.
+ *
+ * @param platforms - The full platform list in its default order.
+ * @param first - Platform ids to move to the front.
+ * @returns The reordered list (the input itself when `first` is empty).
+ */
+function orderPlatforms(
+  platforms: readonly PlatformLogo[],
+  first?: readonly string[],
+): readonly PlatformLogo[] {
+  try {
+    if (!first || first.length === 0) {
+      return platforms;
+    }
+    const seen = new Set<string>();
+    const head: PlatformLogo[] = [];
+    for (const id of first) {
+      const platform = platforms.find((entry) => entry.id === id);
+      if (platform && !seen.has(platform.id)) {
+        seen.add(platform.id);
+        head.push(platform);
+      }
+    }
+    if (head.length === 0) {
+      return platforms;
+    }
+    const tail = platforms.filter((entry) => !seen.has(entry.id));
+    return [...head, ...tail];
+  } catch {
+    return platforms;
+  }
 }
 
 /**
@@ -165,11 +208,13 @@ export default function GetStarted({
   heading,
   subheading,
   steps,
+  platformsFirst,
 }: GetStartedProps = {}) {
   const headingText = heading ?? SECTION_HEADING;
   const subheadingText = subheading ?? SECTION_SUBHEADING;
   const numberedSteps = steps ?? [];
   const isNumbered = numberedSteps.length > 0;
+  const platforms = orderPlatforms(PLATFORMS, platformsFirst);
 
   return (
     <section
@@ -333,7 +378,7 @@ export default function GetStarted({
           </p>
 
           <ul className={styles.platforms} aria-label="Website platforms Superflow supports">
-            {PLATFORMS.map((platform) => {
+            {platforms.map((platform) => {
               const logo = (
                 <Image
                   className={styles.platformLogo}

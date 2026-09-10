@@ -1,0 +1,117 @@
+{
+  "slug": "site-care",
+  "kind": "job",
+  "navLabel": "Site care",
+  "navDescriptor": "A monthly scan of every client site, a report you resell.",
+  "order": 2,
+  "seo": {
+    "title": "Site care agents for agencies | Superflow",
+    "description": "Agents scan every client site on a schedule for broken links, expired offers, drifted brand, and dead forms. A report goes to you. Resell it under your own name."
+  },
+  "hero": {
+    "h1": "Every client site, scanned monthly, before the client notices.",
+    "sub": "Agents scan every page on a schedule. Broken links, expired offers, drifted brand, dead forms. Findings post as comments and a report goes to you. Resell it under your own name.",
+    "clientLine": "The client gets the monthly report under your name and taps Approve on the fixes from their phone."
+  },
+  "pack": {
+    "name": "Site Care Pack",
+    "slug": "site-care",
+    "intro": "Eight agents for the monthly scan. They run on every page of every client site on the schedule you set.",
+    "agents": [
+      {
+        "name": "Broken Links",
+        "checks": "Follows every link on every page and flags the ones that fail.",
+        "finding": "Footer 'Careers' link returns 404.",
+        "category": "links"
+      },
+      {
+        "name": "Stale Dates",
+        "checks": "Finds years, dates and copyright lines that are out of date.",
+        "finding": "Footer says © 2024.",
+        "category": "copy"
+      },
+      {
+        "name": "Offer Expiry",
+        "checks": "Finds any special, promo, or discount with a past end date.",
+        "finding": "Homepage banner: 'Spring sale, ends May 31.' Today is Sept 3.",
+        "category": "copy"
+      },
+      {
+        "name": "Form Health",
+        "checks": "Checks each form submits and reaches a thank-you state.",
+        "finding": "Contact form on /about submits but never reaches the thank-you page.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Tracking Check",
+        "checks": "Confirms analytics and tag manager fire on every page.",
+        "finding": "GA4 fires on every page except the thank-you page. Conversions won't count.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Palette Guard",
+        "checks": "Checks every color on the page against the brand guide.",
+        "finding": "Primary button uses #2F80ED. The brand guide allows #1E5BB8.",
+        "category": "brand"
+      },
+      {
+        "name": "Meta Titles",
+        "checks": "Checks every page has a unique, specific title.",
+        "finding": "Six pages share the title 'Home'.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Contrast",
+        "checks": "Checks text contrast meets WCAG AA.",
+        "finding": "Body text is 3.1:1 against the background. AA needs 4.5:1.",
+        "category": "accessibility"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any page that hasn't changed in 12 months.",
+      "agentName": "Stale Pages",
+      "finding": "9 blog posts haven't changed since 2024. Consider refreshing or removing."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "No link on any site is broken.",
+      "No offer or date is out of date.",
+      "Colors and fonts still match the guide.",
+      "Every form still reaches its thank-you page."
+    ],
+    "youDecide": [
+      "Which findings go in the client report.",
+      "What to charge for the care plan.",
+      "When a site needs a refresh, not a fix.",
+      "Which fixes to ship this month."
+    ]
+  },
+  "resell": {
+    "heading": "Resell it.",
+    "lines": [
+      "You set the retail price for the care plan.",
+      "The report and the review toolbar carry your logo, not ours.",
+      "Superflow bills you per scan. Your client never sees an invoice from us."
+    ],
+    "ctaLabel": "Book demo",
+    "ctaHref": "/book-demo"
+  },
+  "platformsFirst": ["wordpress", "webflow", "shopify"],
+  "proof": "harvey",
+  "faq": [
+    {
+      "q": "How often can the scan run?",
+      "a": "Weekly or monthly, per site. You can also run one by hand before a client call."
+    },
+    {
+      "q": "What does a rescan cost?",
+      "a": "A rescan checks only the pages that changed, so it costs a fraction of a full scan at any site size. The pricing page has the numbers."
+    },
+    {
+      "q": "Can the report carry our branding?",
+      "a": "Yes. Upload your logo once. The monthly report, the review toolbar, and the admin portal your client sees all carry it."
+    }
+  ],
+  "related": ["pre-launch-qa", "home-services-marketing"]
+}

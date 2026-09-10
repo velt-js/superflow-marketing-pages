@@ -1,0 +1,313 @@
+/* "What your agents catch." Shared by the home page and the agents page.
+   Chrome matches the sibling sections (SolutionsSection, TrustSection):
+   Adamina heading, Poppins body, Urbanist labels, 100px / 24px padding, a
+   1200px inner column. The tab strip is a segmented control that scrolls
+   sideways inside its own container on narrow screens, so the page itself
+   never scrolls sideways; the four agent cards under it go 4 -> 2 -> 1 wide. */
+
+.section {
+    --ac-ink: #1e1e1f;
+    --ac-muted: #525252;
+    --ac-bg: #feffff;
+    --ac-strip: #f2f2f4;
+    --ac-border: rgba(0, 0, 0, 0.08);
+    --ac-active: #1e1e1f;
+    --ac-on-active: #ffffff;
+    --ac-focus: #433df3;
+    --ac-hover: #f4f4f4;
+
+    background: var(--ac-bg);
+    color: var(--ac-ink);
+    padding: 100px 24px;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---- Header (centered) ---- */
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--font-adamina), Georgia, serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.2;
+    letter-spacing: -1.56px;
+    color: var(--ac-ink);
+}
+
+/* Supporting line: inherits the global body face (Poppins). */
+.subhead {
+    margin: 16px 0 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ac-ink);
+    opacity: 0.78;
+    max-width: 600px;
+}
+
+/* ---- Tab strip ---- */
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+    min-width: 0;
+}
+
+/* The only element allowed to scroll sideways. It owns the overflow so the
+   page never does; the scrollbar is hidden because the strip reads as a
+   control, and a 4px inset keeps focus rings from being clipped. */
+.tabsScroller {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    padding: 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tabsScroller::-webkit-scrollbar {
+    display: none;
+}
+
+/* Segmented control. Auto side margins center it when it fits and fall back
+   to zero when it overflows, so a scrolled strip starts at its first tab. */
+.tablist {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 4px;
+    margin-inline: auto;
+    padding: 4px;
+    border-radius: 9999px;
+    border: 1px solid var(--ac-border);
+    background: var(--ac-strip);
+}
+
+/* Buttons do not inherit the body font, so the label face is set here. */
+.tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--ac-ink);
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.1px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.tab:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.tab:focus-visible {
+    outline: 2px solid var(--ac-focus);
+    outline-offset: 2px;
+}
+
+.tabActive,
+.tabActive:hover {
+    background: var(--ac-active);
+    color: var(--ac-on-active);
+}
+
+/* ---- Panels ---- */
+
+.panel {
+    width: 100%;
+    min-width: 0;
+    animation: agents-catch-fade 0.25s ease both;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cardCell {
+    display: flex;
+    min-width: 0;
+}
+
+/* Stretch each card to the tallest in its line so the findings line up. */
+.card {
+    width: 100%;
+}
+
+/* ---- "See the pack for your work" ---- */
+
+.packs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 20px;
+    width: 100%;
+}
+
+.packsLabel {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ac-ink);
+}
+
+.packList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Outline pills, matching the TrustSection secondary button. */
+.packLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 32px;
+    border: 1px solid #000000;
+    background: transparent;
+    color: var(--ac-ink);
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.15px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.packLink:hover {
+    background: var(--ac-hover);
+}
+
+.packLink:focus-visible {
+    outline: 2px solid var(--ac-focus);
+    outline-offset: 2px;
+}
+
+@keyframes agents-catch-fade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---- Responsive: 4 -> 2 -> 1 cards; heading steps down ---- */
+
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .heading {
+        font-size: 44px;
+        letter-spacing: -1.2px;
+    }
+}
+
+@media (max-width: 720px) {
+    .section {
+        padding: 72px 20px;
+    }
+
+    .inner {
+        gap: 32px;
+    }
+
+    .tabs {
+        gap: 20px;
+    }
+
+    .heading {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .subhead {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 460px) {
+    .section {
+        padding: 56px 16px;
+    }
+
+    .heading {
+        font-size: 30px;
+        letter-spacing: -0.6px;
+    }
+
+    .tab {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .packs {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel {
+        animation: none;
+    }
+
+    .tab,
+    .packLink {
+        transition: none;
+    }
+}

@@ -1,0 +1,107 @@
+{
+  "slug": "pre-launch-qa",
+  "kind": "job",
+  "navLabel": "Pre-launch QA",
+  "navDescriptor": "The launch checklist, run by agents.",
+  "order": 1,
+  "seo": {
+    "title": "Pre-launch QA agents for websites | Superflow",
+    "description": "Paste your launch checklist. Agents check every page for noindex, staging links, missing tracking, and placeholders before the site goes live. You sign off."
+  },
+  "hero": {
+    "h1": "Launch day. Nothing left on noindex.",
+    "sub": "Paste your launch checklist. Superflow builds agents from it. They check every page on desktop and phone the moment it's ready. You approve. Your client approves. Then it ships.",
+    "clientLine": "Your client taps Approve from the staging link the night before launch."
+  },
+  "pack": {
+    "name": "Launch Pack",
+    "slug": "launch",
+    "intro": "Eight agents for launch day. They run on every page of the staging site the moment it's ready.",
+    "agents": [
+      {
+        "name": "Noindex Check",
+        "checks": "Finds pages still blocked from search after launch.",
+        "finding": "noindex is still set on 14 pages. Google can't see the site.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Staging Links",
+        "checks": "Finds links pointing at staging or preview URLs.",
+        "finding": "The header 'Book now' button links to staging.northwind.com.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Tracking Check",
+        "checks": "Confirms analytics and tag manager fire on every page.",
+        "finding": "GA4 fires on every page except the thank-you page. Conversions won't count.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Broken Links",
+        "checks": "Follows every link on every page and flags the ones that fail.",
+        "finding": "Footer 'Careers' link returns 404.",
+        "category": "links"
+      },
+      {
+        "name": "Lorem Ipsum",
+        "checks": "Finds placeholder text left in the copy.",
+        "finding": "About page paragraph 2 is still Lorem ipsum.",
+        "category": "copy"
+      },
+      {
+        "name": "Placeholder Images",
+        "checks": "Finds stock placeholders and empty image slots.",
+        "finding": "Team page shows the theme's default headshot in 3 of 6 cards.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "OG Image",
+        "checks": "Checks every page has a share image that renders.",
+        "finding": "Share preview for /services shows a blank image.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Mobile Overflow",
+        "checks": "Checks nothing wraps, clips or pushes the CTA down on phone.",
+        "finding": "Hero headline wraps to five lines on iPhone and pushes the CTA below the fold.",
+        "category": "layout-devices"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "The favicon must be the client's, not the platform default.",
+      "agentName": "Favicon Check",
+      "finding": "Site still shows the Webflow default favicon."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Nothing is left on noindex.",
+      "No link points at staging.",
+      "Tracking fires on every page.",
+      "No placeholder text or images remain."
+    ],
+    "youDecide": [
+      "Whether the site is ready to show.",
+      "Which findings block launch and which can wait.",
+      "Whether the copy sounds like the client.",
+      "When to flip the DNS."
+    ]
+  },
+  "platformsFirst": ["webflow", "framer", "wordpress", "shopify"],
+  "proof": "headway",
+  "faq": [
+    {
+      "q": "Can the agents run on staging before we switch DNS?",
+      "a": "Yes. Point them at the staging URL. Agents check it the same way they check a live site, and findings pin to the same elements after launch."
+    },
+    {
+      "q": "Should we run it again after launch?",
+      "a": "Yes. Run a rescan on the live domain. Only the pages that changed get checked, so a rescan costs a fraction of the first scan. The pricing page has the numbers."
+    },
+    {
+      "q": "Can a deploy trigger the check?",
+      "a": "Yes. Add the Superflow webhook to your deploy step. Every publish runs the Launch Pack and posts findings before anyone has to remember to look."
+    }
+  ],
+  "related": ["website-migration-qa", "site-care"]
+}

@@ -1,0 +1,107 @@
+{
+  "slug": "home-services-marketing",
+  "kind": "agency",
+  "navLabel": "Home services",
+  "navDescriptor": "Hundreds of city pages. Zero wrong city names.",
+  "order": 3,
+  "seo": {
+    "title": "QA agents for home services marketing | Superflow",
+    "description": "Agents check every city page, license number, tracking number, and offer on every home services client site. Your team and the owner sign off."
+  },
+  "hero": {
+    "h1": "Two hundred city pages. Which one says the wrong city?",
+    "sub": "Superflow builds agents from your QA checklist. They check every service area page, license, phone, and offer on every client site, on desktop and phone. Findings land as comments. You decide what ships.",
+    "clientLine": "The owner taps Approve from the truck between jobs."
+  },
+  "pack": {
+    "name": "Local Service Pack",
+    "slug": "local-service",
+    "intro": "Eight agents built for local service sites. They run on every page the moment it changes.",
+    "agents": [
+      {
+        "name": "City Page Consistency",
+        "checks": "Checks each city page's body, title, and meta name the same city.",
+        "finding": "The 'Plumber in Frisco' page says 'serving Allen' in paragraph 2.",
+        "category": "copy"
+      },
+      {
+        "name": "License Display",
+        "checks": "Checks the license number appears where the state requires it.",
+        "finding": "License number appears on the homepage but not on the 3 HVAC service pages. Texas requires it on each.",
+        "category": "compliance"
+      },
+      {
+        "name": "Tracking Number Match",
+        "checks": "Checks call-tracking numbers per page match the assigned map.",
+        "finding": "The Roofing page shows the Google Ads tracking number. It should show the organic one.",
+        "category": "copy"
+      },
+      {
+        "name": "Emergency CTA",
+        "checks": "Checks every emergency button on phone dials the number.",
+        "finding": "The '24/7 emergency' button on mobile has no tel: link.",
+        "category": "links"
+      },
+      {
+        "name": "Review Count Freshness",
+        "checks": "Checks review counts on the site match the live Google listing.",
+        "finding": "Hero says '412 five-star reviews.' Google shows 388.",
+        "category": "copy"
+      },
+      {
+        "name": "Financing Disclosure",
+        "checks": "Checks every financing offer links to its terms.",
+        "finding": "'0% financing' appears on 6 pages with no terms link.",
+        "category": "compliance"
+      },
+      {
+        "name": "Broken Links",
+        "checks": "Follows every link on every page and flags the ones that fail.",
+        "finding": "Footer 'Careers' link returns 404.",
+        "category": "links"
+      },
+      {
+        "name": "Tap Targets",
+        "checks": "Checks tap targets on phone are big enough.",
+        "finding": "Mobile nav links are 28px tall. Minimum is 44px.",
+        "category": "accessibility"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Every service page must have a 'Get a free estimate' button above the fold on mobile.",
+      "agentName": "Estimate CTA",
+      "finding": "Water Heater page: first CTA is 1,400px down on iPhone."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Every city page names the right city.",
+      "License numbers sit where the state wants them.",
+      "Tracking numbers match the assigned map.",
+      "Financing offers link to their terms."
+    ],
+    "youDecide": [
+      "Whether the crew photo sells the company.",
+      "Which services get a page of their own.",
+      "How the estimate offer is worded.",
+      "When it's good enough to ship."
+    ]
+  },
+  "platformsFirst": ["wordpress", "elementor", "wix"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "We manage 80 sites. How does that get billed?",
+      "a": "Each site is its own scan, priced by page count. A rescan after fixes costs the same small amount at any size, and seats are free. See the pricing page for the current numbers."
+    },
+    {
+      "q": "Can the scan run every month on its own?",
+      "a": "Yes. Set a schedule per site, weekly or monthly, or fire a scan from a deploy webhook. Findings post as comments and a report lands in your inbox."
+    },
+    {
+      "q": "Our pages show more than one phone number. Will that get flagged?",
+      "a": "Not if you tell the agents which number belongs where. Upload the tracking number map per page and the agent checks against it instead of flagging every difference."
+    }
+  ],
+  "related": ["site-care", "dental-marketing-agencies"]
+}

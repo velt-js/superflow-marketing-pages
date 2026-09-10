@@ -114,6 +114,14 @@ import {
   comparisonPreviewHub,
 } from "./comparisonPreviewPage";
 import {
+  solutionPage,
+  solutionPack,
+  solutionAgent,
+  solutionBuildYourOwn,
+  solutionFaqItem,
+  solutionResell,
+} from "./solutionPage";
+import {
   integrationPreviewHeroTab,
   integrationPreviewHero,
   integrationPreviewSolution,
@@ -142,6 +150,7 @@ export const schemaTypes = [
   reviewPage,
   checklistPage,
   featurePage,
+  solutionPage,
   integrationPreviewPage,
   integrationPreviewHub,
   comparisonPreviewVsPage,
@@ -244,6 +253,13 @@ export const schemaTypes = [
   featureRelatedCapabilities,
   featureFaqItem,
   featureFaq,
+
+  // solutionPage sub-types
+  solutionPack,
+  solutionAgent,
+  solutionBuildYourOwn,
+  solutionFaqItem,
+  solutionResell,
 
   // integrationPreviewPage + integrationPreviewHub sub-types
   integrationPreviewHeroTab,

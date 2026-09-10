@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SolutionsFooterLinks } from "@/components/solutions-2026/SolutionsChrome";
 
 type LinkItem = { label: string; href: string; dollar?: boolean };
-type Column = { title: string; links: LinkItem[] };
+/** A column of static links, or the Solutions column (links resolved at render). */
+type Column = { title: string; links: LinkItem[]; solutions?: boolean };
 
 const SIGNUP_URL = "https://app.usesuperflow.com/signup";
 
@@ -72,28 +74,12 @@ const COLUMNS: Column[] = [
     ],
   },
   {
-    title: "Use Case",
-    links: [
-      { label: "UAT & QA testing", href: "/use-case/uat-qa-testing" },
-      { label: "Client feedback", href: "/use-case/client-feedback" },
-      { label: "Conversion optimization", href: "/use-case/conversion-optimization" },
-      { label: "Reporting bug", href: "/use-case/reporting-bugs" },
-      { label: "UX/UI Optimization", href: "/use-case/ux-ui-optimization" },
-    ],
-  },
-  {
-    title: "User Persona",
-    links: [
-      { label: "QA team", href: "/user-persona/qa-teams" },
-      { label: "Project Managers", href: "/user-persona/project-managers" },
-      { label: "Founder", href: "/user-persona/founders" },
-      { label: "Developer", href: "/user-persona/developers" },
-      { label: "product company", href: "/user-persona/product-companies" },
-      { label: "marketing agency", href: "/user-persona/marketing-agencies" },
-      { label: "Designer", href: "/user-persona/designers" },
-      { label: "Product Manager", href: "/user-persona/product-managers" },
-      { label: "Marketer", href: "/user-persona/marketers" },
-    ],
+    // The old Use Case and User Persona pages are retired; their URLs 301 to
+    // the solutions pages (see next.config.ts), so this column mirrors the
+    // Solutions column in components/home-2026/SiteFooter.tsx.
+    title: "Solutions",
+    links: [],
+    solutions: true,
   },
   {
     title: "Legal",
@@ -133,6 +119,12 @@ function ColumnBlock({ col }: { col: Column }) {
         {col.title}
       </h4>
       <ul className="flex flex-col gap-[16px]">
+        {col.solutions ? (
+          <SolutionsFooterLinks
+            linkClassName="flex items-center text-[16px] leading-[20px] hover:text-white transition-colors"
+            linkStyle={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-urbanist)" }}
+          />
+        ) : null}
         {col.links.map((l) => (
           <li key={l.label}>
             <Link

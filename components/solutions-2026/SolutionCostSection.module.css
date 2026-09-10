@@ -1,0 +1,133 @@
+/* S7, what it costs: heading, three plain lines in a divided card, and the
+   pricing link. Same chrome as the other 2026 sections. */
+
+.section {
+  --cs-ink: #1e1e1f;
+  --cs-bg: #feffff;
+  --cs-border: rgba(0, 0, 0, 0.12);
+
+  background: var(--cs-bg);
+  color: var(--cs-ink);
+  padding: 100px 24px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  text-align: center;
+  color: var(--cs-ink);
+}
+
+.lines {
+  width: 100%;
+  margin: 0;
+  padding: 8px 32px;
+  border: 1px solid var(--cs-border);
+  border-radius: 32px;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+/* Body copy inherits the global Poppins face. */
+.line {
+  padding: 24px 0;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--cs-ink);
+}
+
+.line + .line {
+  border-top: 1px solid var(--cs-border);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1.5px solid var(--cs-ink);
+  border-radius: 32px;
+  background: transparent;
+  color: var(--cs-ink);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.17px;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.link:hover {
+  background: var(--cs-ink);
+  color: #ffffff;
+}
+
+.link:focus-visible {
+  outline: 2px solid #433df3;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1000px) {
+  .heading {
+    font-size: 44px;
+    letter-spacing: -1.2px;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 72px 20px;
+  }
+
+  .heading {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .lines {
+    padding: 4px 24px;
+    border-radius: 24px;
+  }
+
+  .line {
+    padding: 20px 0;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 460px) {
+  .section {
+    padding: 56px 16px;
+  }
+
+  .heading {
+    font-size: 30px;
+    letter-spacing: -0.6px;
+  }
+
+  .line {
+    font-size: 16px;
+  }
+
+  .link {
+    width: 100%;
+  }
+}

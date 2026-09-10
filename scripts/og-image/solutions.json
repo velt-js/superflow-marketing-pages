@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "dental-marketing-agencies",
+    "title": "Forty dental sites. One person checking them.",
+    "out": "public/og/solutions/dental-marketing-agencies.png"
+  },
+  {
+    "slug": "healthcare-marketing",
+    "title": "Every claim on every page, checked before legal sees it.",
+    "out": "public/og/solutions/healthcare-marketing.png"
+  },
+  {
+    "slug": "home-services-marketing",
+    "title": "Two hundred city pages. Which one says the wrong city?",
+    "out": "public/og/solutions/home-services-marketing.png"
+  },
+  {
+    "slug": "pre-launch-qa",
+    "title": "Launch day. Nothing left on noindex.",
+    "out": "public/og/solutions/pre-launch-qa.png"
+  },
+  {
+    "slug": "site-care",
+    "title": "Every client site, scanned monthly, before the client notices.",
+    "out": "public/og/solutions/site-care.png"
+  },
+  {
+    "slug": "website-migration-qa",
+    "title": "You moved 600 pages. Which 40 didn't make it?",
+    "out": "public/og/solutions/website-migration-qa.png"
+  },
+  {
+    "slug": "index",
+    "title": "Built for the work you already ship.",
+    "out": "public/og/solutions/index.png"
+  }
+]

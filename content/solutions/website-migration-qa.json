@@ -1,0 +1,107 @@
+{
+  "slug": "website-migration-qa",
+  "kind": "job",
+  "navLabel": "Website migration QA",
+  "navDescriptor": "Old URLs, new site. Nothing lost.",
+  "order": 3,
+  "seo": {
+    "title": "Website migration QA agents | Superflow",
+    "description": "Upload the old URL list. Agents check every redirect, missing page, lost image, and dropped meta tag on the new site. You fix what matters and sign off."
+  },
+  "hero": {
+    "h1": "You moved 600 pages. Which 40 didn't make it?",
+    "sub": "Upload the old URL list. Agents check every redirect, every missing page, every lost image and meta tag, on the new site. Findings post as comments. You fix what matters and sign off.",
+    "clientLine": "Your client taps Approve from the link once the last redirect is fixed."
+  },
+  "pack": {
+    "name": "Migration Pack",
+    "slug": "migration",
+    "intro": "Eight agents for the move. Upload the old URL list and they check every page on the new site.",
+    "agents": [
+      {
+        "name": "Redirect Map",
+        "checks": "Checks each old URL 301s to its mapped new URL.",
+        "finding": "42 of 600 old URLs return 404. List attached.",
+        "category": "links"
+      },
+      {
+        "name": "Redirect Chains",
+        "checks": "Finds URLs that hop through more than one redirect.",
+        "finding": "/services redirects three times before landing. Cut it to one.",
+        "category": "links"
+      },
+      {
+        "name": "Missing Pages",
+        "checks": "Finds old pages with no equivalent on the new site.",
+        "finding": "The old /resources/pricing-guide has no equivalent on the new site.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Meta Preserved",
+        "checks": "Compares titles and descriptions on the new site with the old ones.",
+        "finding": "Titles changed on 118 pages. 31 lost their target keyword.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Alt Text",
+        "checks": "Finds images with no alt text.",
+        "finding": "Alt text was dropped on 210 migrated images.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Internal Links to Old Domain",
+        "checks": "Finds internal links that still point at the old domain.",
+        "finding": "64 internal links still point to the old domain.",
+        "category": "links"
+      },
+      {
+        "name": "Canonical Check",
+        "checks": "Checks every canonical tag points at the new domain.",
+        "finding": "Canonical on /blog/* still points to the old domain.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Heading Order",
+        "checks": "Checks each page has one H1 and headings nest in order.",
+        "finding": "Two H1s on this page. The second should be an H2.",
+        "category": "seo-social"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Every old blog post must exist at the same slug under /blog/.",
+      "agentName": "Slug Match",
+      "finding": "/blog/seo-basics moved to /articles/seo-basics. Add a redirect or restore the slug."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Every old URL lands on the right new page.",
+      "No page, image, or meta tag was lost.",
+      "No internal link points at the old domain.",
+      "Canonicals point at the new site."
+    ],
+    "youDecide": [
+      "Which old pages deserve a new home and which can go.",
+      "Whether a changed title is an improvement.",
+      "What the redirect for a retired page should be.",
+      "When to cut over."
+    ]
+  },
+  "platformsFirst": ["webflow", "wordpress", "framer", "shopify"],
+  "proof": "metrics-only",
+  "faq": [
+    {
+      "q": "How do I give the agents the old URL list?",
+      "a": "Upload a CSV of old URLs, with the new URL beside each one where you have it. Export it from your old sitemap, Search Console, or your analytics tool."
+    },
+    {
+      "q": "Can it run on staging before the cutover?",
+      "a": "Yes. Point the agents at the staging site and the old URL list. Fix the misses, then run a rescan on the live domain after DNS switches."
+    },
+    {
+      "q": "Which migrations does it handle?",
+      "a": "Any platform to any platform. Webflow to Webflow and WordPress to Webflow are the most common. The agents read the sites, not the CMS."
+    }
+  ],
+  "related": ["pre-launch-qa", "site-care"]
+}

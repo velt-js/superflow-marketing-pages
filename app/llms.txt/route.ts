@@ -11,13 +11,17 @@ import {
   getAllFeatureSlugs,
   getAllIntegrationPreviewSlugs,
   getAllReviewSlugs,
-  getAllUseCaseSlugs,
-  getAllUserPersonaSlugs,
 } from "@/sanity/lib/queries";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
+import { resolveSolutionSummaries } from "@/lib/solutions/resolve";
+import { SOLUTIONS_BASE_PATH, solutionPath } from "@/lib/solutions/seed";
+import type { SolutionSummary } from "@/lib/solutions/types";
+
+/** Title of the /solutions index row (matches the nav and footer link). */
+const SOLUTIONS_INDEX_TITLE = "All solutions";
 
 export const revalidate = 3600;
 
@@ -45,6 +49,19 @@ async function safeFetchComparisonCatalog(): Promise<ComparisonCatalogItem[]> {
   }
 }
 
+/**
+ * The solutions pages (CMS summaries merged over the seed), empty on failure.
+ * The resolver already falls back to the seed on a CMS error; this guard
+ * keeps the whole index rendering if that ever changes.
+ */
+async function safeFetchSolutionSummaries(): Promise<SolutionSummary[]> {
+  try {
+    return await resolveSolutionSummaries();
+  } catch {
+    return [];
+  }
+}
+
 function toTitle(slug: string): string {
   return slug
     .split("-")
@@ -63,9 +80,8 @@ export async function GET() {
     blogSlugs,
     bugBookSlugs,
     integrationSlugsCms,
-    useCaseSlugsCms,
+    solutionSummaries,
     caseStudySlugsCms,
-    userPersonaSlugsCms,
     alternativeSlugsCms,
     comparisonSlugsCms,
     reviewSlugs,
@@ -76,9 +92,8 @@ export async function GET() {
     safeFetch(getAllBlogSlugs),
     safeFetch(getAllBugBookSlugs),
     safeFetch(getAllIntegrationPreviewSlugs),
-    safeFetch(getAllUseCaseSlugs),
+    safeFetchSolutionSummaries(),
     safeFetch(getAllCaseStudySlugs),
-    safeFetch(getAllUserPersonaSlugs),
     safeFetch(getAllAlternativeSlugs),
     safeFetch(getAllComparisonSlugs),
     safeFetch(getAllReviewSlugs),
@@ -117,15 +132,17 @@ export async function GET() {
       title: `${toTitle(slug)} integration`,
     }));
 
-  const useCases = unique(useCaseSlugsCms).map((slug) => ({
-    path: `/use-case/${slug}`,
-    title: toTitle(slug),
-  }));
-
-  const personas = unique(userPersonaSlugsCms).map((slug) => ({
-    path: `/user-persona/${slug}`,
-    title: toTitle(slug),
-  }));
+  // The /solutions index first, then every page under it by its nav label
+  // (the seed and CMS both carry one, so no slug-to-title guessing here).
+  const solutions = [
+    { path: SOLUTIONS_BASE_PATH, title: SOLUTIONS_INDEX_TITLE },
+    ...solutionSummaries
+      .filter((summary) => summary?.slug)
+      .map((summary) => ({
+        path: solutionPath(summary.slug),
+        title: summary.navLabel || toTitle(summary.slug),
+      })),
+  ];
 
   const alternatives = unique([
     ...alternativeSlugsCms,
@@ -197,8 +214,7 @@ export async function GET() {
     section("Features", features),
     section("Review surfaces", reviews),
     section("Integrations", integrations),
-    section("Use cases", useCases),
-    section("Personas", personas),
+    section("Solutions", solutions),
     section("Alternatives", alternatives),
     section("Comparisons", comparisons),
     section("Case studies", caseStudies),

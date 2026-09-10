@@ -8,6 +8,7 @@
 import Hero from "@/components/home-2026/Hero";
 import type { HeroCmsTab } from "@/components/home-2026/HeroWorkflowShowcase";
 import SolutionSection from "@/components/home-2026/SolutionSection";
+import AgentsCatchSection from "@/components/home-2026/AgentsCatchSection";
 import FeatureSet from "@/components/home-2026/FeatureSet";
 import type {
   FeatureSetBlockData,
@@ -158,6 +159,27 @@ const SCREENSHOTS_PAGE_SLUG = "screenshots";
 const RECORDINGS_PAGE_SLUG = "recordings";
 /** Slug of the Website Monitoring page that gets its own tab mock mapping. */
 const WEBSITE_MONITORING_PAGE_SLUG = "website-monitoring";
+/**
+ * Slug of the AI review agents page. Its "Build team of QA Agents" and "Run it
+ * Manually or with Webhooks" feature blocks (the old Spell Check / Grammar
+ * Check / Lorem Ipsum example cards) give way to the shared "What your agents
+ * catch" section, rendered right after the Solution section (spec section 5).
+ * The remaining "Decide on Agent findings & Validate Fixes" block stays in the
+ * Feature Set.
+ */
+const REVIEW_AGENTS_PAGE_SLUG = "ai-review-agents";
+/**
+ * Feature blocks dropped from the agents page, matched by trimmed, lower-cased
+ * title (the CMS document titles) or by CMS block key.
+ */
+const REVIEW_AGENTS_REPLACED_BLOCK_TITLES: readonly string[] = [
+  "build team of qa agents",
+  "run it manually or with webhooks",
+];
+const REVIEW_AGENTS_REPLACED_BLOCK_IDS: readonly string[] = [
+  "block-agents",
+  "block-run",
+];
 /**
  * "Get Started" heading for feature pages. The shared homepage default is
  * "Get Started in a minute"; the feature-page Figma frame uses this variant.
@@ -815,6 +837,28 @@ function getWebsiteMonitoringTabMock(
 }
 
 /**
+ * Whether a feature block on the agents page is one of the two replaced by the
+ * "What your agents catch" section. Matches the CMS title (case-insensitive,
+ * trimmed) or the CMS block key, so a retitled block still drops as long as
+ * its key is unchanged, and vice versa.
+ *
+ * @param block - The CMS block.
+ * @returns True when the block should not render on the agents page.
+ */
+function isReplacedReviewAgentsBlock(block: FeaturePageBlock): boolean {
+  try {
+    const title = block?.title?.trim().toLowerCase() ?? "";
+    const id = block?.id?.trim().toLowerCase() ?? "";
+    return (
+      REVIEW_AGENTS_REPLACED_BLOCK_TITLES.includes(title) ||
+      REVIEW_AGENTS_REPLACED_BLOCK_IDS.includes(id)
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Convert a `#rrggbb` (or `#rgb`) hex colour into an `rgba(r, g, b, alpha)`
  * string for the block's light background wash. Falls back to the accent as
  * given when it isn't a parseable hex value.
@@ -1104,8 +1148,12 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
                           : (doc?.solution?.variant ?? undefined);
   const solutionIcon = doc?.solution?.icon ?? undefined;
 
+  // The agents page swaps its two example-card blocks for the shared "What
+  // your agents catch" section; every other page keeps its blocks as authored.
+  const isReviewAgentsPage = doc?.slug === REVIEW_AGENTS_PAGE_SLUG;
   const featureBlocks = (doc?.featureSet?.blocks ?? [])
     .filter((block) => Boolean(block?.title))
+    .filter((block) => !(isReviewAgentsPage && isReplacedReviewAgentsBlock(block)))
     .map((block, index) => toFeatureSetBlock(block, index, doc?.slug));
 
   const getStartedHeading = doc?.getStarted?.heading ?? GET_STARTED_HEADING;
@@ -1161,6 +1209,9 @@ export default function FeaturePageBody({ doc }: FeaturePageBodyProps) {
         variant={solutionVariant}
         icon={solutionIcon}
       />
+      {isReviewAgentsPage ? (
+        <AgentsCatchSection page={REVIEW_AGENTS_PAGE_SLUG} />
+      ) : null}
       <FeatureSet
         headerTitle={doc?.featureSet?.headerTitle ?? undefined}
         journeyStart={doc?.featureSet?.journeyStart ?? undefined}

@@ -1,27 +1,25 @@
 "use client";
 
 import { useId, useState } from "react";
+import { HOME_HERO_AGENTS } from "@/lib/solutions/agent-library";
 import styles from "./Hero.module.css";
 import { CheckIcon, ChevronDownIcon } from "./HeroIcons";
 
 /**
- * The four fixed QA agents shown in the hero. All are always on and not
- * togglable — the list is purely informative.
+ * The fixed QA agents shown in the hero, sourced from the shared agent
+ * library so the list, the hero findings and the section cards stay in one
+ * place. All are always on and not togglable; the list is purely informative.
  */
-const AGENT_LABELS: readonly string[] = [
-  "Accessibility",
-  "Broken Links",
-  "Spell Check",
-  "OG Image Checker",
-];
+const AGENT_LABELS: readonly string[] = HOME_HERO_AGENTS;
 
 const TITLE_TAIL = " Agents will run";
 
 /**
  * Expandable "agents" card shown beside the hero URL input.
  *
- * Purely presentational: the header only shows/hides the fixed list of four
- * agents. The agents themselves are always selected and cannot be toggled.
+ * Purely presentational: the header only shows/hides the fixed list of
+ * agents. The count in the header follows the list length. The agents
+ * themselves are always selected and cannot be toggled.
  */
 export default function HeroChecksDropdown() {
   const [isOpen, setIsOpen] = useState<boolean>(true);

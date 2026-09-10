@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
+import { findLibraryAgent } from "@/lib/solutions/agent-library";
 import BrowserChrome from "../feature-artifacts/BrowserChrome";
 import CommentPin from "../feature-artifacts/CommentPin";
 import styles from "./AgentsAtWorkArtifact.module.css";
@@ -10,8 +11,10 @@ import styles from "./AgentsAtWorkArtifact.module.css";
  * A browser window showing a live website wireframe that QA agents are
  * reviewing in real time. Three labelled agent cursors (Superflow-style
  * multiplayer pointers) fly in one after another, "select" a target element
- * (a headline typo, a broken nav link, an image missing alt text) and drop a
- * comment pinned to it — exactly the way a human reviewer would with Superflow.
+ * (a headline word, a nav link, the hero image) and drop a comment pinned to
+ * it, exactly the way a human reviewer would with Superflow. The default
+ * findings are the home hero set from the shared agent library: Noindex
+ * Check, Palette Guard and Mobile Overflow.
  *
  * Each agent's cursor, selection sweep and comment are anchored to their target
  * element in normal document flow, so the whole scene tracks the real (fluid)
@@ -28,29 +31,58 @@ const NAV_PRICING = "Pricing";
 const NAV_DOCS = "Docs";
 const CTA_LABEL = "Get started";
 
-/** Hero copy. The headline carries a deliberate typo for the Spell Check agent. */
+/** Hero copy. The last headline word is the anchor for the first finding slot. */
 const EYEBROW = "SHIP FASTER";
 const HEADLINE_LEAD = "Design, review and";
 const HEADLINE_TAIL = "ship sites ";
-const HEADLINE_TYPO = "effortlesly";
+const HEADLINE_TARGET_WORD = "effortlessly";
 const SUBHEAD = "The collaborative platform for modern web teams.";
 const HERO_PRIMARY = "Get a demo";
 const HERO_SECONDARY = "Watch video";
 
-/** Agent identities (label shown on the cursor + as the comment author). */
-const SPELL_AGENT = "Spell Check";
-const LINKS_AGENT = "Broken Links";
-const ALT_AGENT = "Alt Text";
+/**
+ * Default agent identities, one per slot (label shown on the cursor + as the
+ * comment author). These are the home hero agents from spec section 5; the
+ * finding text is read from the shared library so it lives in one place.
+ * Slot order follows the anchors: the headline word carries the finding about
+ * the headline (Mobile Overflow), the nav link the colour finding (Palette
+ * Guard) and the hero media the page-level one (Noindex Check).
+ */
+const HEADLINE_SLOT_AGENT = "Mobile Overflow";
+const NAV_SLOT_AGENT = "Palette Guard";
+const MEDIA_SLOT_AGENT = "Noindex Check";
 
-/** Agent findings (the dropped comment body). */
-const SPELL_FINDING = "Typo - \u201Ceffortlessly\u201D";
-const LINKS_FINDING = "Broken link · returns 404";
-const ALT_FINDING = "Image is missing alt text";
+/**
+ * Fallback findings (the dropped comment body), used only if the library
+ * lookup misses. They mirror the library text for the three agents above.
+ */
+const HEADLINE_SLOT_FALLBACK_FINDING =
+  "Hero headline wraps to five lines on iPhone and pushes the CTA below the fold.";
+const NAV_SLOT_FALLBACK_FINDING =
+  "Primary button uses #2F80ED. The brand guide allows #1E5BB8.";
+const MEDIA_SLOT_FALLBACK_FINDING =
+  "noindex is still set on 14 pages. Google can't see the site.";
 
-/** Agent tones (mirror the hero check palette + brand purple). */
-const SPELL_TONE = "#3555dd";
-const LINKS_TONE = "#038e31";
-const ALT_TONE = "#625df5";
+/** Per-slot tones (mirror the hero check palette + brand purple). */
+const HEADLINE_SLOT_TONE = "#3555dd";
+const NAV_SLOT_TONE = "#038e31";
+const MEDIA_SLOT_TONE = "#625df5";
+
+/**
+ * Resolve an agent's sample finding from the shared library, falling back to
+ * the local copy when the name is not in the library.
+ *
+ * @param agentName - The library agent name, e.g. "Noindex Check".
+ * @param fallback - The finding to use when the lookup misses.
+ * @returns The finding text.
+ */
+function libraryFinding(agentName: string, fallback: string): string {
+  try {
+    return findLibraryAgent(agentName)?.finding ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 const NOW_LABEL = "now";
 
@@ -89,22 +121,36 @@ export interface AgentsAtWorkArtifactProps {
   /**
    * Overrides for the up-to-three positioned agent findings, in target order
    * (headline word, nav link, hero media). Provide fewer entries to render
-   * fewer findings — the remaining target slots simply show no cursor or
+   * fewer findings: the remaining target slots simply show no cursor or
    * comment while the site chrome stays intact. Omit entirely to keep the
-   * default spell-check / broken-link / alt-text findings.
+   * default Noindex Check / Palette Guard / Mobile Overflow findings. The
+   * artifact has exactly three slots, so a fourth finding has nowhere to land.
    */
   comments?: ReadonlyArray<AgentReviewComment>;
 }
 
 /**
- * Default findings, in slot order. These reproduce the artifact's original
- * hard-coded content exactly so every consumer that renders it without a
- * `comments` prop is unchanged.
+ * Default findings, in slot order (headline word, nav link, hero media). The
+ * home hero set from spec section 5, with the finding text pulled from the
+ * shared agent library. Every consumer that renders the artifact without a
+ * `comments` prop gets these.
  */
 const DEFAULT_COMMENTS: ReadonlyArray<AgentReviewComment> = [
-  { agentName: SPELL_AGENT, text: SPELL_FINDING, tone: SPELL_TONE },
-  { agentName: LINKS_AGENT, text: LINKS_FINDING, tone: LINKS_TONE },
-  { agentName: ALT_AGENT, text: ALT_FINDING, tone: ALT_TONE },
+  {
+    agentName: HEADLINE_SLOT_AGENT,
+    text: libraryFinding(HEADLINE_SLOT_AGENT, HEADLINE_SLOT_FALLBACK_FINDING),
+    tone: HEADLINE_SLOT_TONE,
+  },
+  {
+    agentName: NAV_SLOT_AGENT,
+    text: libraryFinding(NAV_SLOT_AGENT, NAV_SLOT_FALLBACK_FINDING),
+    tone: NAV_SLOT_TONE,
+  },
+  {
+    agentName: MEDIA_SLOT_AGENT,
+    text: libraryFinding(MEDIA_SLOT_AGENT, MEDIA_SLOT_FALLBACK_FINDING),
+    tone: MEDIA_SLOT_TONE,
+  },
 ];
 
 /** Props for the reusable Superflow-style agent cursor. */
@@ -213,10 +259,11 @@ function AgentComment({
  * Render the "Agents at Work" hero artifact.
  *
  * The three positioned agent findings (headline word, nav link, hero media)
- * default to the built-in spell-check / broken-link / alt-text copy, but a
- * caller can pass {@link AgentsAtWorkArtifactProps.comments} to relabel them
- * (e.g. memory-grounded findings) or render fewer of them. The reviewed-site
- * chrome is always drawn regardless of how many findings are shown.
+ * default to the library's Noindex Check / Palette Guard / Mobile Overflow
+ * copy, but a caller can pass {@link AgentsAtWorkArtifactProps.comments} to
+ * relabel them (e.g. a solutions page's own pack findings) or render fewer of
+ * them. The reviewed-site chrome is always drawn regardless of how many
+ * findings are shown.
  *
  * @param props - Optional per-slot finding overrides.
  * @returns The reviewed-website window contents.
@@ -262,7 +309,7 @@ export default function AgentsAtWorkArtifact({
                         className={styles.commentLink}
                       />
                       <AgentCursor
-                        tone={linksComment.tone ?? LINKS_TONE}
+                        tone={linksComment.tone ?? NAV_SLOT_TONE}
                         label={linksComment.agentName}
                         className={styles.cursorLink}
                       />
@@ -289,7 +336,7 @@ export default function AgentsAtWorkArtifact({
                   {HEADLINE_TAIL}
                   {/* Headline-word agent target (slot 0) */}
                   <span className={styles.wordTarget}>
-                    <span className={styles.targetText}>{HEADLINE_TYPO}</span>
+                    <span className={styles.targetText}>{HEADLINE_TARGET_WORD}</span>
                     {spellComment ? (
                       <>
                         <span className={`${styles.sel} ${styles.selWord}`} aria-hidden="true" />
@@ -300,7 +347,7 @@ export default function AgentsAtWorkArtifact({
                           className={styles.commentSpell}
                         />
                         <AgentCursor
-                          tone={spellComment.tone ?? SPELL_TONE}
+                          tone={spellComment.tone ?? HEADLINE_SLOT_TONE}
                           label={spellComment.agentName}
                           className={styles.cursorSpell}
                         />
@@ -346,7 +393,7 @@ export default function AgentsAtWorkArtifact({
                       className={styles.commentAlt}
                     />
                     <AgentCursor
-                      tone={altComment.tone ?? ALT_TONE}
+                      tone={altComment.tone ?? MEDIA_SLOT_TONE}
                       label={altComment.agentName}
                       className={styles.cursorAlt}
                     />
