@@ -717,8 +717,13 @@ export function MeetingPlanner() {
 
       <div className={styles.simpleHint}>
         <p>
-          Click for 30 minutes. Drag the selection to move it, or pull its edges
-          to change its length.
+          <span className={styles.desktopHint}>
+            Click for 30 minutes. Drag the selection to move it, or pull its
+            edges to change its length.
+          </span>
+          <span className={styles.mobileHint}>
+            Tap to select. Drag to move or resize.
+          </span>
         </p>
         <div className={styles.periodLegend}>
           <span title="8am–5:30pm in each city">

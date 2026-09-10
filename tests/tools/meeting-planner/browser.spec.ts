@@ -1200,6 +1200,7 @@ for (const width of [320, 390]) {
       "Suggest a time",
       "Copy meeting times",
       "Remove San Francisco",
+      "San Francisco: 09:00–18:00 Edit hours",
     ]) {
       const box = (await page
         .getByRole("button", { name, exact: true })
@@ -1217,6 +1218,16 @@ for (const width of [320, 390]) {
       .boundingBox())!;
     expect(city.width).toBeCloseTo(regionBox.width - 2, 0);
     expect(city.width).toBeGreaterThan(width - 60);
+    expect(city.height).toBeLessThanOrEqual(76);
+    const firstCity = page.locator("[data-city-label]").first();
+    const country = (await firstCity
+      .getByText("United States", { exact: true })
+      .boundingBox())!;
+    const edit = (await firstCity
+      .getByRole("button", { name: /Edit hours/ })
+      .boundingBox())!;
+    expect(country.x + country.width).toBeLessThanOrEqual(edit.x);
+    expect(edit.y + edit.height).toBeLessThanOrEqual(city.y + city.height);
     await region.scrollIntoViewIfNeeded();
     const selectedLabel = page.getByLabel("Selected time in San Francisco", {
       exact: true,
