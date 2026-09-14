@@ -1,0 +1,1566 @@
+{
+  "source": "Written by scripts/directory-import/fetch-agency-logos.mjs. Each entry is an image fetched from the agency's own site (og:image, apple-touch-icon, or declared icon), stored under public/agency-logos/ at whatever size it was served. Dimensions are read from the file header, never from the declaring tag. Re-run the script to refresh; it overwrites this file wholesale unless --only-missing is passed.",
+  "updatedAt": "2026-09-14",
+  "logos": {
+    "20nine": {
+      "file": "20nine.png",
+      "width": 576,
+      "height": 576,
+      "from": "icon"
+    },
+    "321webmarketing": {
+      "file": "321webmarketing.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "60fps": {
+      "file": "60fps.png",
+      "width": 251,
+      "height": 251,
+      "from": "icon"
+    },
+    "ace-agency": {
+      "file": "ace-agency.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "activetheory": {
+      "file": "activetheory.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "acuteseo": {
+      "file": "acuteseo.png",
+      "width": 1024,
+      "height": 1024,
+      "from": "og-image"
+    },
+    "adcetera": {
+      "file": "adcetera.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "admindagency": {
+      "file": "admindagency.webp",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "adoratorio": {
+      "file": "adoratorio.png",
+      "width": 310,
+      "height": 310,
+      "from": "icon"
+    },
+    "adoraweb": {
+      "file": "adoraweb.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "aixsponza": {
+      "file": "aixsponza.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "akaru": {
+      "file": "akaru.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "akufen": {
+      "file": "akufen.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "already-been-chewed": {
+      "file": "already-been-chewed.png",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "anchour": {
+      "file": "anchour.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "aquest": {
+      "file": "aquest.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "armeanustudio": {
+      "file": "armeanustudio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "atticsalt": {
+      "file": "atticsalt.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "authenticdigital": {
+      "file": "authenticdigital.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "balance": {
+      "file": "balance.png",
+      "width": 500,
+      "height": 500,
+      "from": "og-image"
+    },
+    "basicagency": {
+      "file": "basicagency.ico",
+      "width": 48,
+      "height": 48,
+      "from": "icon"
+    },
+    "batesmeron": {
+      "file": "batesmeron.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "beyondjo": {
+      "file": "beyondjo.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "bien": {
+      "file": "bien.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "bizar": {
+      "file": "bizar.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "bizopia": {
+      "file": "bizopia.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "blublu-studios": {
+      "file": "blublu-studios.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "bobsyouruncle": {
+      "file": "bobsyouruncle.ico",
+      "width": 1000,
+      "height": 1000,
+      "from": "favicon"
+    },
+    "bonfire": {
+      "file": "bonfire.ico",
+      "width": 1080,
+      "height": 1080,
+      "from": "icon"
+    },
+    "bonhommeparis": {
+      "file": "bonhommeparis.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "brandculture": {
+      "file": "brandculture.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "brandextract": {
+      "file": "brandextract.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "brandintheblack": {
+      "file": "brandintheblack.ico",
+      "width": 64,
+      "height": 64,
+      "from": "icon"
+    },
+    "brandium": {
+      "file": "brandium.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "brandlucent": {
+      "file": "brandlucent.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "brandsoul": {
+      "file": "brandsoul.jpg",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "brandtuitive": {
+      "file": "brandtuitive.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "brandvm": {
+      "file": "brandvm.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "brandwellagency": {
+      "file": "brandwellagency.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "bridgephx": {
+      "file": "bridgephx.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "brigadebranding": {
+      "file": "brigadebranding.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "buff": {
+      "file": "buff.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "buildinamsterdam": {
+      "file": "buildinamsterdam.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "burocratik": {
+      "file": "burocratik.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "byandstudio": {
+      "file": "byandstudio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "c42d": {
+      "file": "c42d.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "carbon": {
+      "file": "carbon.png",
+      "width": 152,
+      "height": 152,
+      "from": "apple-touch-icon"
+    },
+    "catchwordbranding": {
+      "file": "catchwordbranding.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "chello": {
+      "file": "chello.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "cicormarketing": {
+      "file": "cicormarketing.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "clearwateragency": {
+      "file": "clearwateragency.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "clim-studio": {
+      "file": "clim-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "concrete": {
+      "file": "concrete.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "conjureinc": {
+      "file": "conjureinc.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "connectivewebdesign": {
+      "file": "connectivewebdesign.png",
+      "width": 51,
+      "height": 51,
+      "from": "apple-touch-icon"
+    },
+    "constructive": {
+      "file": "constructive.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "consultwebs": {
+      "file": "consultwebs.png",
+      "width": 300,
+      "height": 300,
+      "from": "icon"
+    },
+    "contrastandco": {
+      "file": "contrastandco.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "coseagency": {
+      "file": "coseagency.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "creativemules": {
+      "file": "creativemules.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "crinimo-tv": {
+      "file": "crinimo-tv.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "cultivatebrands": {
+      "file": "cultivatebrands.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "dashdigital": {
+      "file": "dashdigital.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "dd": {
+      "file": "dd.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "deltavdigital": {
+      "file": "deltavdigital.webp",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "dennissnellenberg": {
+      "file": "dennissnellenberg.ico",
+      "width": 540,
+      "height": 540,
+      "from": "favicon"
+    },
+    "desantisbreindel": {
+      "file": "desantisbreindel.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "designbridge": {
+      "file": "designbridge.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "deuxhuithuit": {
+      "file": "deuxhuithuit.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "dgrees": {
+      "file": "dgrees.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "digitalsurgeons": {
+      "file": "digitalsurgeons.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "dnco": {
+      "file": "dnco.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "dogstudio": {
+      "file": "dogstudio.png",
+      "width": 64,
+      "height": 64,
+      "from": "icon"
+    },
+    "dot4": {
+      "file": "dot4.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "drasik-studio": {
+      "file": "drasik-studio.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "dusted": {
+      "file": "dusted.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "e-t": {
+      "file": "e-t.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "echo-studio": {
+      "file": "echo-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "engineroom": {
+      "file": "engineroom.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "exoape": {
+      "file": "exoape.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "feelystudio": {
+      "file": "feelystudio.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "fishfinger": {
+      "file": "fishfinger.png",
+      "width": 152,
+      "height": 152,
+      "from": "apple-touch-icon"
+    },
+    "forgemedia": {
+      "file": "forgemedia.png",
+      "width": 152,
+      "height": 152,
+      "from": "icon"
+    },
+    "foundry": {
+      "file": "foundry.png",
+      "width": 512,
+      "height": 512,
+      "from": "icon"
+    },
+    "frostcollective": {
+      "file": "frostcollective.png",
+      "width": 152,
+      "height": 141,
+      "from": "apple-touch-icon"
+    },
+    "fullmetal-design": {
+      "file": "fullmetal-design.png",
+      "width": 178,
+      "height": 178,
+      "from": "apple-touch-icon"
+    },
+    "fullsix": {
+      "file": "fullsix.png",
+      "width": 1080,
+      "height": 1080,
+      "from": "og-image"
+    },
+    "garden-eight": {
+      "file": "garden-eight.png",
+      "width": 192,
+      "height": 192,
+      "from": "apple-touch-icon"
+    },
+    "gladeye": {
+      "file": "gladeye.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "glid-studio": {
+      "file": "glid-studio.webp",
+      "width": 792,
+      "height": 792,
+      "from": "og-image"
+    },
+    "greyboxcreative": {
+      "file": "greyboxcreative.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "growthroom": {
+      "file": "growthroom.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "hamak": {
+      "file": "hamak.webp",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "haymaker": {
+      "file": "haymaker.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "heartbeat": {
+      "file": "heartbeat.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "hechtinsgefecht": {
+      "file": "hechtinsgefecht.png",
+      "width": 1266,
+      "height": 1215,
+      "from": "og-image"
+    },
+    "heirloomagency": {
+      "file": "heirloomagency.webp",
+      "width": 100,
+      "height": 100,
+      "from": "favicon"
+    },
+    "hersickwebster": {
+      "file": "hersickwebster.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "heycusp": {
+      "file": "heycusp.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "holographik": {
+      "file": "holographik.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "hostinato": {
+      "file": "hostinato.ico",
+      "width": 256,
+      "height": 256,
+      "from": "icon"
+    },
+    "hotdogmarketing": {
+      "file": "hotdogmarketing.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "hound-studio": {
+      "file": "hound-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "hula-hoop": {
+      "file": "hula-hoop.png",
+      "width": 80,
+      "height": 80,
+      "from": "favicon"
+    },
+    "ikm": {
+      "file": "ikm.jpg",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "iljavaneck": {
+      "file": "iljavaneck.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "illo": {
+      "file": "illo.png",
+      "width": 152,
+      "height": 152,
+      "from": "apple-touch-icon"
+    },
+    "immersive-g": {
+      "file": "immersive-g.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "innerlights-studio": {
+      "file": "innerlights-studio.ico",
+      "width": 48,
+      "height": 48,
+      "from": "icon"
+    },
+    "inoveo": {
+      "file": "inoveo.ico",
+      "width": 64,
+      "height": 64,
+      "from": "favicon"
+    },
+    "interbrand": {
+      "file": "interbrand.ico",
+      "width": 48,
+      "height": 48,
+      "from": "icon"
+    },
+    "jadesignstudio": {
+      "file": "jadesignstudio.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "jamesbranding": {
+      "file": "jamesbranding.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "jesperlandberg": {
+      "file": "jesperlandberg.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "jkrglobal": {
+      "file": "jkrglobal.ico",
+      "width": 256,
+      "height": 256,
+      "from": "icon"
+    },
+    "kaips-marketing": {
+      "file": "kaips-marketing.jpg",
+      "width": 2560,
+      "height": 2560,
+      "from": "apple-touch-icon"
+    },
+    "kimhyunjong": {
+      "file": "kimhyunjong.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "konamade": {
+      "file": "konamade.webp",
+      "width": 1500,
+      "height": 1489,
+      "from": "og-image"
+    },
+    "konstructdigital": {
+      "file": "konstructdigital.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "koto": {
+      "file": "koto.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "kova": {
+      "file": "kova.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "kutuko-studio": {
+      "file": "kutuko-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "lakota-motion-design": {
+      "file": "lakota-motion-design.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "lamalama": {
+      "file": "lamalama.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "landor": {
+      "file": "landor.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "lavisual": {
+      "file": "lavisual.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "le-truc": {
+      "file": "le-truc.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "leviecreative": {
+      "file": "leviecreative.png",
+      "width": 100,
+      "height": 100,
+      "from": "favicon"
+    },
+    "lobster-studio": {
+      "file": "lobster-studio.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "locomotive": {
+      "file": "locomotive.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "louispaquet": {
+      "file": "louispaquet.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "loungelizard": {
+      "file": "loungelizard.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "lusion": {
+      "file": "lusion.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "madethought": {
+      "file": "madethought.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "makemepulse": {
+      "file": "makemepulse.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "malvah": {
+      "file": "malvah.png",
+      "width": 512,
+      "height": 512,
+      "from": "icon"
+    },
+    "manifestoagency": {
+      "file": "manifestoagency.png",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "matchstic": {
+      "file": "matchstic.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "maticdigital": {
+      "file": "maticdigital.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "mblm": {
+      "file": "mblm.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "measuremarketing": {
+      "file": "measuremarketing.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "media-monks": {
+      "file": "media-monks.png",
+      "width": 180,
+      "height": 181,
+      "from": "apple-touch-icon"
+    },
+    "mediaonemarketing": {
+      "file": "mediaonemarketing.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "meetliminal": {
+      "file": "meetliminal.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "melleka": {
+      "file": "melleka.png",
+      "width": 400,
+      "height": 400,
+      "from": "icon"
+    },
+    "mellow-studio": {
+      "file": "mellow-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "merci-michel": {
+      "file": "merci-michel.png",
+      "width": 152,
+      "height": 152,
+      "from": "apple-touch-icon"
+    },
+    "mezzolab": {
+      "file": "mezzolab.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "momentumm": {
+      "file": "momentumm.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "mondlicht-studios": {
+      "file": "mondlicht-studios.ico",
+      "width": 64,
+      "height": 64,
+      "from": "icon"
+    },
+    "monks": {
+      "file": "monks.png",
+      "width": 180,
+      "height": 181,
+      "from": "apple-touch-icon"
+    },
+    "monogrid": {
+      "file": "monogrid.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "moststudios": {
+      "file": "moststudios.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "motifbrands": {
+      "file": "motifbrands.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "mrcraleigh": {
+      "file": "mrcraleigh.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "naive": {
+      "file": "naive.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "nextbrand": {
+      "file": "nextbrand.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "niccolomiranda": {
+      "file": "niccolomiranda.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "noodle": {
+      "file": "noodle.png",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "northboundbrand": {
+      "file": "northboundbrand.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "northstreetcreative": {
+      "file": "northstreetcreative.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "nua-motion": {
+      "file": "nua-motion.png",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "nvish": {
+      "file": "nvish.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "obys": {
+      "file": "obys.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "ocular-lab": {
+      "file": "ocular-lab.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "oscar-referencement": {
+      "file": "oscar-referencement.png",
+      "width": 80,
+      "height": 80,
+      "from": "favicon"
+    },
+    "ouiwill": {
+      "file": "ouiwill.png",
+      "width": 48,
+      "height": 48,
+      "from": "icon"
+    },
+    "panic-studio": {
+      "file": "panic-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "papaton-studio": {
+      "file": "papaton-studio.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "parachutedesign": {
+      "file": "parachutedesign.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "penandmug": {
+      "file": "penandmug.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "pentagram": {
+      "file": "pentagram.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "percept": {
+      "file": "percept.png",
+      "width": 354,
+      "height": 354,
+      "from": "og-image"
+    },
+    "pes-motion-studio": {
+      "file": "pes-motion-studio.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "pilotpmr": {
+      "file": "pilotpmr.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "pixite": {
+      "file": "pixite.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "plenty": {
+      "file": "plenty.webp",
+      "width": 100,
+      "height": 100,
+      "from": "icon"
+    },
+    "pndfutura": {
+      "file": "pndfutura.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "polar": {
+      "file": "polar.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "pollittandpartners": {
+      "file": "pollittandpartners.jpg",
+      "width": 200,
+      "height": 200,
+      "from": "apple-touch-icon"
+    },
+    "portorocha": {
+      "file": "portorocha.ico",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "prand": {
+      "file": "prand.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "proportiondesign": {
+      "file": "proportiondesign.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "rablab": {
+      "file": "rablab.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "racoon-studio": {
+      "file": "racoon-studio.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "raggededge": {
+      "file": "raggededge.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "raincross": {
+      "file": "raincross.png",
+      "width": 512,
+      "height": 512,
+      "from": "icon"
+    },
+    "rayvn": {
+      "file": "rayvn.png",
+      "width": 192,
+      "height": 192,
+      "from": "favicon"
+    },
+    "redcollar": {
+      "file": "redcollar.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "ref": {
+      "file": "ref.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "rejouice": {
+      "file": "rejouice.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "resight-studio": {
+      "file": "resight-studio.ico",
+      "width": 64,
+      "height": 64,
+      "from": "favicon"
+    },
+    "riverandwolf": {
+      "file": "riverandwolf.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "rocketpanda": {
+      "file": "rocketpanda.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "rule29": {
+      "file": "rule29.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "ruya": {
+      "file": "ruya.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "savagemke": {
+      "file": "savagemke.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "shiftbrain": {
+      "file": "shiftbrain.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "simplr": {
+      "file": "simplr.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "sixcinquieme": {
+      "file": "sixcinquieme.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "skriptor": {
+      "file": "skriptor.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "skyne": {
+      "file": "skyne.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "smldesign": {
+      "file": "smldesign.png",
+      "width": 192,
+      "height": 192,
+      "from": "icon"
+    },
+    "somefolk": {
+      "file": "somefolk.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "somewhere-else": {
+      "file": "somewhere-else.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "spatzek": {
+      "file": "spatzek.png",
+      "width": 144,
+      "height": 144,
+      "from": "apple-touch-icon"
+    },
+    "spireagency": {
+      "file": "spireagency.jpg",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "springsummer": {
+      "file": "springsummer.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "starfishco": {
+      "file": "starfishco.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "studio-river": {
+      "file": "studio-river.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "studio-sentempo": {
+      "file": "studio-sentempo.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "studiodumbar": {
+      "file": "studiodumbar.svg",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "studiogusto": {
+      "file": "studiogusto.png",
+      "width": 128,
+      "height": 128,
+      "from": "icon"
+    },
+    "superbrand": {
+      "file": "superbrand.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "synchronized": {
+      "file": "synchronized.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "taillight": {
+      "file": "taillight.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "taismo": {
+      "file": "taismo.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "takt": {
+      "file": "takt.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "tandemthinking": {
+      "file": "tandemthinking.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "tanj": {
+      "file": "tanj.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "teapot": {
+      "file": "teapot.ico",
+      "width": 48,
+      "height": 48,
+      "from": "favicon"
+    },
+    "temple": {
+      "file": "temple.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "tenetpartners": {
+      "file": "tenetpartners.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "the-heist": {
+      "file": "the-heist.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "thebranx": {
+      "file": "thebranx.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "thefirstthelast": {
+      "file": "thefirstthelast.ico",
+      "width": 256,
+      "height": 256,
+      "from": "favicon"
+    },
+    "theflightmode": {
+      "file": "theflightmode.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "theinfluenceagency": {
+      "file": "theinfluenceagency.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "thestart": {
+      "file": "thestart.png",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "thiel": {
+      "file": "thiel.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "thirteen05": {
+      "file": "thirteen05.jpg",
+      "width": 300,
+      "height": 300,
+      "from": "apple-touch-icon"
+    },
+    "thriveweb": {
+      "file": "thriveweb.ico",
+      "width": 159,
+      "height": 159,
+      "from": "icon"
+    },
+    "tonic-dna": {
+      "file": "tonic-dna.jpg",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "toyfight": {
+      "file": "toyfight.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "trajectorywebdesign": {
+      "file": "trajectorywebdesign.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "trulydeeply": {
+      "file": "trulydeeply.png",
+      "width": 144,
+      "height": 144,
+      "from": "apple-touch-icon"
+    },
+    "tungstenbranding": {
+      "file": "tungstenbranding.jpg",
+      "width": 77,
+      "height": 77,
+      "from": "icon"
+    },
+    "turnerduckworth": {
+      "file": "turnerduckworth.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "uniform": {
+      "file": "uniform.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "unseen": {
+      "file": "unseen.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "vendredi-society": {
+      "file": "vendredi-society.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "victor": {
+      "file": "victor.ico",
+      "width": 256,
+      "height": 256,
+      "from": "favicon"
+    },
+    "videinfra": {
+      "file": "videinfra.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "viens-la": {
+      "file": "viens-la.ico",
+      "width": 48,
+      "height": 48,
+      "from": "icon"
+    },
+    "villainbranding": {
+      "file": "villainbranding.webp",
+      "width": 1500,
+      "height": 1500,
+      "from": "og-image"
+    },
+    "wantbranding": {
+      "file": "wantbranding.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "watsoncreative": {
+      "file": "watsoncreative.png",
+      "width": 288,
+      "height": 288,
+      "from": "icon"
+    },
+    "wearebulletproof": {
+      "file": "wearebulletproof.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "wearecollins": {
+      "file": "wearecollins.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "wearedesignstudio": {
+      "file": "wearedesignstudio.jpg",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "wearetraina": {
+      "file": "wearetraina.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "wearevaliant": {
+      "file": "wearevaliant.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "werner-brandl": {
+      "file": "werner-brandl.png",
+      "width": 114,
+      "height": 114,
+      "from": "apple-touch-icon"
+    },
+    "wonsupona": {
+      "file": "wonsupona.png",
+      "width": 174,
+      "height": 153,
+      "from": "apple-touch-icon"
+    },
+    "wow-how-studio": {
+      "file": "wow-how-studio.svg",
+      "width": 128,
+      "height": 128,
+      "from": "apple-touch-icon"
+    },
+    "xhilarate": {
+      "file": "xhilarate.png",
+      "width": 96,
+      "height": 96,
+      "from": "apple-touch-icon"
+    },
+    "yangrutherford": {
+      "file": "yangrutherford.png",
+      "width": 180,
+      "height": 180,
+      "from": "apple-touch-icon"
+    },
+    "yf": {
+      "file": "yf.png",
+      "width": 256,
+      "height": 256,
+      "from": "apple-touch-icon"
+    },
+    "zhenyary": {
+      "file": "zhenyary.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    },
+    "zupo": {
+      "file": "zupo.png",
+      "width": 512,
+      "height": 512,
+      "from": "apple-touch-icon"
+    }
+  }
+}

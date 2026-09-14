@@ -16,6 +16,10 @@
 //      putting the boundary one component too high ships the whole scrape to
 //      every visitor.
 //
+// RANKING NOTE: partner status is no longer a default sort key. See the
+// two ranking tests at the bottom of the first describe block for what
+// replaced it and why.
+//
 // PRECONDITION: partners.json ships empty, so the badge renders on nobody
 // unless the build set NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1. The flag is
 // read at BUILD time (it is a NEXT_PUBLIC_* inline), so setting it only for
@@ -165,16 +169,51 @@ test.describe("partner badge", () => {
     await expect(tooltip).toBeVisible();
   });
 
-  test("sorts partners ahead of higher-award non-partners", async ({ page }) => {
-    // Partner status is the primary sort key, so a partner is near the top
-    // without a visitor knowing to look for the badge. Assert the first N
-    // cards are the partners rather than trusting the badge alone.
-    const headings = page.locator("article h3");
-    const leading = await headings.allTextContents();
-    const expected = new Set(PARTNER_AGENCIES.map((agency) => agency.name));
+  test("does NOT privilege partners in the default order", async ({ page }) => {
+    // This asserts the OPPOSITE of what it used to. Partner status was the
+    // directory's primary sort key: a Superflow customer led every listing
+    // whether or not a visitor knew to look for the badge.
+    //
+    // It is not any more, and the reversal is deliberate. The default order
+    // is now the claim score (lib/directory/scoring.ts), which rewards an
+    // agency for stating a budget, a timeline and a reply time - things a
+    // founder can act on - and has no term for whether the agency pays us.
+    // On a page that now introduces itself as "verified studios with real
+    // budgets", floating our own customers to the top by default would be
+    // undisclosed self-dealing dressed as a ranking.
+    //
+    // Partners are still badged, and "Superflow partners first" is still an
+    // option in the sort dropdown. What changed is that a visitor has to
+    // ASK for that order rather than be given it silently.
+    const leading = await page.locator("article h3").allTextContents();
+    const partnerNames = new Set(PARTNER_AGENCIES.map((agency) => agency.name));
+
+    // The preview partner list is a handful of mid-ranked studios, so if
+    // partners were still being floated they would occupy the whole head of
+    // the list. Assert they do not.
+    const head = leading.slice(0, PARTNER_AGENCIES.length);
+    const headIsAllPartners =
+      head.length > 0 && head.every((name) => partnerNames.has(name));
+    expect(
+      headIsAllPartners,
+      "partners occupy the head of the default listing, which means partner status is being used as a sort key again",
+    ).toBe(false);
+  });
+
+  test("offers partners-first as an explicit sort option", async ({ page }) => {
+    // The counterpart to the test above: the order is still reachable, it
+    // just has to be chosen. The option is only rendered when the listing
+    // actually contains partners, which is why this lives behind the same
+    // preview-flag precondition as everything else in this file.
+    const sort = page.locator("#directory-sort");
+    await expect(sort.locator('option[value="partners-first"]')).toHaveCount(1);
+
+    await sort.selectOption("partners-first");
+    const leading = await page.locator("article h3").allTextContents();
+    const partnerNames = new Set(PARTNER_AGENCIES.map((agency) => agency.name));
 
     for (const name of leading.slice(0, PARTNER_AGENCIES.length)) {
-      expect(expected, `"${name}" sorted above a partner`).toContain(name);
+      expect(partnerNames, `"${name}" sorted above a partner under partners-first`).toContain(name);
     }
   });
 });

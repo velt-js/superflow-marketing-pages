@@ -16,6 +16,7 @@
     --ad-body: var(--font-poppins), system-ui, sans-serif;
     --ad-ink: #16171a;
     --ad-muted: #6b7079;
+    --ad-quiet: #a2a7b0;
     --ad-accent: #433df3;
 
     position: relative;
@@ -61,6 +62,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
     width: 100%;
+    /* Each card sizes to its own content instead of stretching to match
+       the tallest in its row. Without this, an award card with four rows
+       sitting beside a forty-name client list rendered as a mostly empty
+       box - the same height as its neighbour, with a third of it used. */
+    align-items: start;
 }
 
 /* A single card spans the full width when it is the only one — a profile
@@ -250,5 +256,177 @@
 
     .card {
         padding: 24px;
+    }
+}
+
+
+/* ---- Hero additions -------------------------------------------------- *
+
+   NOTE ON SCOPE: these three classes are rendered inside the gradient
+   hero, which is `DirectoryHero.module.css`'s element, NOT inside
+   `.section` above. Custom properties inherit from the element that
+   declares them, so `--ad-display` and friends are out of scope here and
+   the font stacks are written out in full. Using the variables would
+   silently resolve to nothing and fall back to the UA font. */
+
+/* Location and the accepting/closed pill share a line under the name.
+   The pill only renders on a CLAIMED listing: "Accepting projects" on a
+   record where nobody ever said so would be us answering for the agency,
+   which is exactly the habit this rework exists to break. */
+.heroMetaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.statusPill {
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+.statusPillClosed {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(12, 14, 28, 0.22);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+/* "Request intro" is the page's primary action, so it takes the solid
+   treatment and the hero's own `.cta` (Visit website) drops to the
+   secondary role it now plays. */
+.introCta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Metrics match `.cta` in DirectoryHero.module.css, which sits beside
+       this in the same row - the two have to share a baseline. */
+    margin-top: 4px;
+    padding: 14px 28px;
+    border-radius: 32px;
+    background: #ffffff;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: #16171a;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.introCta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(12, 14, 28, 0.18);
+}
+
+.introCta:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* ---- Body additions -------------------------------------------------- */
+
+/* The YC offer gets its own line and its own colour because it is the
+   one thing on the page a founder may have filtered the whole directory
+   down to. Buried inside the blurb it would be invisible. */
+.ycOffer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 16px 20px;
+    border: 1px solid #f4d3b4;
+    border-radius: 16px;
+    background: #fff6ec;
+    text-align: left;
+}
+
+.ycOfferLabel {
+    flex: 0 0 auto;
+    font-family: var(--ad-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9a5b1b;
+}
+
+.ycOfferText {
+    font-family: var(--ad-display);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #16171a;
+    text-wrap: pretty;
+}
+
+/* A caption inside a card, for a figure that is not a list row - the
+   client rating above the award breakdown. */
+.cardNote {
+    margin: 0;
+    font-family: var(--ad-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ad-muted);
+}
+
+/* "What they say no to". Full width rather than a fourth card in the
+   grid: it is prose, not a list, and it is the block most likely to save
+   a founder a wasted email - which is worth a row of its own. */
+.declines {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    padding: 28px 32px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #ffffff;
+    text-align: left;
+}
+
+.declinesTitle {
+    margin: 0;
+    font-family: var(--ad-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ad-ink);
+}
+
+.declinesBody {
+    margin: 0;
+    font-family: var(--ad-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ad-ink);
+    text-wrap: pretty;
+}
+
+.declinesNote {
+    margin: 0;
+    font-family: var(--ad-body);
+    font-size: 12px;
+    color: var(--ad-quiet);
+}
+
+@media (max-width: 720px) {
+    .declines {
+        padding: 22px 20px;
     }
 }

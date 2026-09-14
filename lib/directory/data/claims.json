@@ -1,0 +1,31 @@
+{
+  "source": "Hand-maintained editorial overlay plus an export of claims completed through /directory/claim. See lib/directory/claims.ts for how this file and the KV store combine, and app/directory/README.md for when to move a KV claim in here.",
+  "updatedAt": "2026-09-14",
+  "claims": [
+    {
+      "slug": "merci-michel",
+      "secondaryCategories": ["motion-design"],
+      "sourceNote": "Category audit, 2026-09-14. Files itself as a gamification studio on its own Awwwards profile and its work is interactive/motion-led, so it is listed in motion design alongside web design rather than only in web design. Primary left as scraped; the studio can move it on claiming."
+    },
+    {
+      "slug": "lusion",
+      "city": "Bristol",
+      "sourceNote": "City backfilled 2026-09-14 from the postal address in the footer of lusion.co: 'Suite 2, 9 Marsh Street, Bristol, BS1 4AA'."
+    },
+    {
+      "slug": "dnco",
+      "city": "London",
+      "sourceNote": "City backfilled 2026-09-14 from the postal address in the footer of dnco.com: '77 Weston Street, London SE1 3RS'. Also lists a New York office; London is the address given first and the one the source country matches."
+    },
+    {
+      "slug": "jkrglobal",
+      "city": "London",
+      "sourceNote": "City backfilled 2026-09-14 from the schema.org addressLocality published by jkrglobal.com."
+    },
+    {
+      "slug": "madethought",
+      "city": "London",
+      "sourceNote": "City backfilled 2026-09-14 from the postal address on madethought.com: '1 St John's Ln, London'. Also lists a New York office; London is the address given first and the one the source country matches."
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 # Agency directory (`/directory`)
 
 A programmatic directory of agencies, browsable by category, with a full
-detail page per agency.
+detail page per agency — and two flows on top of it: an agency claims and
+enriches its own listing, and a founder describes a project and reaches
+three agencies.
 
-| Category | Route | Source | Data file | Ranked on | Filtered to |
+| Category | Route | Source | Data file | Admitted on | Filtered to |
 | --- | --- | --- | --- | --- | --- |
 | Web Design | `/directory/web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
 | SEO | `/directory/seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
@@ -12,6 +14,14 @@ detail page per agency.
 
 Counts at time of writing: 60 web design, 60 SEO, 143 branding, 60 motion
 design.
+
+**That "Admitted on" column is about which agencies each importer
+collects, not about how the pages order them.** The listing order is the
+claim score — see "Ranking" below. The column used to be headed "Ranked
+on" and the two were the same thing; they are not any more, and the change
+is the point of this version of the directory. An award tally answers "who
+impressed a jury"; the score answers "who can a founder actually hire this
+month".
 
 **One data file per writer, merged at read time.** Each script under
 `scripts/directory-import/` overwrites its own file wholesale on every run,
@@ -115,8 +125,10 @@ optional copy: a visitor comparing this against the full source listing
 should be told why the cheaper agencies are missing, rather than being
 left to assume the directory is incomplete.
 
-**Categories are ranked on different, non-interchangeable signals**,
-because their sources publish different things. Awwwards is an awards jury
+**Categories are ADMITTED on different, non-interchangeable signals**,
+because their sources publish different things. (Those signals used to
+drive the default sort too; the claim score does that now. Review score
+survives as the "Client rating" sort option and as a tiebreaker.) Awwwards is an awards jury
 and publishes no reviews; Semrush is a business directory and publishes no
 award tallies. So `Agency.awards` is all-zeros for every Semrush record and
 `Agency.rating` is null for every Awwwards record — both are correct, not
@@ -129,11 +141,17 @@ why the two are kept structurally apart.
 ## Routes
 
 - `app/directory/page.tsx` — hub page. Lists every category in
-  `DIRECTORY_CATEGORIES`, each with a count of indexed agencies (or a
-  "coming soon" label while that category's data is still empty). Built on
-  the shared `ListingPage` / `ListingGrid` components (the 2026 set in
-  `components/listing-2026/`, same as `/use-case` and `/user-persona`), so
-  adding a category needs **no edit here**.
+  `DIRECTORY_CATEGORIES`, each with a count of indexed agencies and of
+  claimed ones (or a "coming soon" label while that category's data is
+  still empty), then the "For YC founders" strip
+  (`components/directory/YcFoundersStrip.tsx`) and the Superflow trial
+  block. Adding a category needs **no edit here**.
+
+  It used to render through the shared `ListingPage` shell. It does not
+  any more: the hub needs two hero CTAs (primary "Get matched", secondary
+  "Browse by category"), a strip between the grid and the footer, and the
+  trial block demoted to the bottom of the page. It still uses the shared
+  `components/listing-2026/ListingGrid` for the category cards themselves.
 - `app/directory/[category]/page.tsx` — category detail page. Statically
   generated for every slug in `DIRECTORY_CATEGORIES` via
   `generateStaticParams`; any other slug 404s via `notFound()`. Header is
@@ -141,12 +159,13 @@ why the two are kept structurally apart.
   hero, closing on a white card carrying the live stat row. Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
   each carrying a one-line "Worked with X, Y, Z +N more" summary),
-  sorted in the directory's default order: Superflow partners first, then
-  total award count descending, then review score descending, then name.
-  The two credibility keys are disjoint per category (see the top of this
-  file), so in practice web-design sorts on awards and SEO on reviews. Each card links through to that
-  agency's detail page. See "Category page controls" below for the
-  search/filter/sort layer on top of this grid.
+  sorted in the directory's default order: the **claim score** descending,
+  then total award count, then name. See "Ranking" below. Each card links
+  through to that agency's detail page. See "Category page controls" for
+  the search/filter/sort layer on top of this grid.
+
+  The page reads `getCategoryAgencies` (`lib/directory/listing.ts`), which
+  is **async** so the render sees claims submitted since the last deploy.
 - `app/directory/agency/[slug]/page.tsx` — agency detail page. **Flat**
   route, deliberately not nested under a category — `Agency.categories` is
   an array, so a nested scheme would mint two URLs for an agency in two
@@ -156,16 +175,35 @@ why the two are kept structurally apart.
   Statically generated for every agency slug in the dataset via
   `generateStaticParams` — dropping N records into `agencies.json`
   produces N pages automatically, no code change. Unknown slug → `notFound()`.
-  Renders full content (`components/directory/AgencyDetail.tsx`): a gradient
-  hero carrying the breadcrumb, logo, name, location, the prominent outbound
-  "Visit website" CTA, the source attribution link and a white facts card
-  (clients on record / total awards / category), then white cards below it
-  for the description, the "Worked with" client list, services and the
-  complete award breakdown, plus a
+  Renders full content (`components/directory/AgencyDetail.tsx`), in this
+  order: a gradient hero carrying the breadcrumb, logo, name, location, the
+  Verified badge, the accepting/closed pill, the primary "Request intro"
+  CTA, the outbound "Visit website" link and the source attribution; then
+  the **fast-facts row** (`AgencyFastFacts.tsx`: minimum budget, typical
+  timeline, platforms, replies within); then the YC offer line; then the
+  description; then the "Worked with" / services / award cards; then "What
+  they say no to"; plus a
   data-derived "more agencies" block (`components/directory/RelatedAgencies.tsx`,
   capped at 6 — same country *and* category first, then category alone,
   then country alone) so pages interlink instead of being orphaned behind
   the category listing.
+- `app/directory/claim/page.tsx` — step one of the claim flow: one email
+  field. `?agency=<slug>` is the `{{claim_url}}` merge field in the
+  outbound campaign, so that form of the URL must keep working verbatim.
+- `app/directory/claim/[token]/page.tsx` — step two: the enrich form,
+  behind a magic-link token. `force-dynamic`, because the token is checked
+  against KV on every request.
+- `app/directory/edit/page.tsx` — requests a fresh link for a listing that
+  is already claimed. Same component and same flow as `claim`; there is no
+  session to resume, so "edit" and "claim" differ only in copy.
+- `app/directory/match/page.tsx` — the founder form. `?category=<slug>`
+  prefills; `?agency=<slug>` additionally **pins** that agency as one of
+  the three (this is where "Request intro" on a profile goes).
+- `app/api/directory/claim/start`, `.../claim/submit`, `.../match` — the
+  three route handlers behind those pages. Each file's header documents
+  its own order of operations; the one worth knowing without reading them
+  is that `claim/submit` writes the claim BEFORE it marks the token used,
+  so a failed write leaves the agency's link still working.
 
 ## Design system
 
@@ -182,7 +220,19 @@ pieces live in four CSS modules under `components/directory/`:
   control bar, and both empty states. Shared by `AgencyGrid`, `AgencyExplorer`
   and `RelatedAgencies` so the halves of one visual section can't drift.
 - `AgencyCard.module.css` — the category-grid card.
-- `AgencyDetail.module.css` — the profile's content cards.
+- `AgencyDetail.module.css` — the profile's content cards, the fast-facts
+  row's neighbours, the YC offer line and the "what they say no to" block.
+  Three classes in it (`heroMetaRow`, `statusPill`, `introCta`) render
+  inside the *hero*, not inside `.section`, so they spell their font
+  stacks out rather than reading the `--ad-*` custom properties, which are
+  not in scope there.
+- `AgencyFastFacts.module.css` — the four-fact row under the profile hero.
+- `AgencyLogo.module.css` — the logo slot, shared by all three things that
+  can appear in it (cached logo, hotlinked source avatar, monogram tile).
+- `DirectoryForm.module.css` — shared furniture for the claim and match
+  forms.
+- `VerifiedBadge.module.css`, `YcFoundersStrip.module.css`,
+  `DirectoryTrialCta.module.css` — the three new blocks.
 
 **Hover on cards and buttons is gated behind
 `@media (hover: hover) and (pointer: fine)`, and must stay that way.** Touch
@@ -612,12 +662,14 @@ component): the pre-rendered `<AgencyCard/>` elements (keyed by
 serializable `AgencyListItem[]` (see `buildAgencyListItems`) for the
 filtering/sorting logic itself.
 
-**Why this split matters for SEO:** `AgencyExplorer`'s `useState` defaults
-(empty search, "all" countries, "Top ranked" sort) reproduce exactly what
-the server already rendered, so the first-paint HTML — what a crawler or
-`curl` sees — always contains every agency card and its link, regardless
-of client JS. Filtering/reordering only happens after a visitor actually
-interacts with a control. Verify this holds after any change here with:
+**Why this split matters for SEO:** `AgencyExplorer`'s `useState` default
+is `defaultFilterState()` — empty search, "all" countries, "any" budget,
+no platforms, no toggles, "Recommended" sort — which reproduces exactly
+what the server already rendered. So the first-paint HTML, what a crawler
+or `curl` sees, always contains every agency card and its link regardless
+of client JS. Filtering and reordering only happen after a visitor
+interacts with a control, or after the mount effect applies a filtered
+URL. Verify this holds after any change here with:
 
 ```
 curl -s http://localhost:3000/directory/web-design \
@@ -625,55 +677,369 @@ curl -s http://localhost:3000/directory/web-design \
 ```
 
 That count should equal the category's total agency count.
+`tests/directory/filters.spec.ts` asserts it on every run.
 
-**Why `AgencyListItem` instead of passing full `Agency` records:**
-`AgencyExplorer` only imports `AgencyListItem` as a `import type` (erased
-at compile time, zero runtime cost). If a client component instead
-imported anything real from `lib/directory/agencies.ts`, the module's
-top-level `agencies.json`/`partners.json` imports would very likely ride
-along into the client bundle too (JSON module imports aren't reliably
-tree-shaken), doubling the dataset's footprint on top of what is already
-server-rendered as HTML. Keep new client-side directory code following
-this pattern: type-only imports from `lib/directory/agencies.ts`, plain
-data passed in as props from a server component.
+**Filters are read from the URL in an EFFECT, never during render.** This
+is the one place in the explorer that trips the repo's
+`react-hooks/set-state-in-effect` warning, and it is load-bearing rather
+than sloppy. Reading `window.location.search` during render would
+mismatch hydration; reading it with `useSearchParams` would opt the whole
+subtree out of static rendering and take the card grid out of the server
+HTML with it — the exact thing the paragraph above forbids. So the
+initial state is the defaults on both sides of hydration, and the URL is
+applied immediately afterwards.
 
-The control set: search (name + description + location + client names +
-services + industries, via `AgencyListItem.searchText` — so searching a category page for "nike"
-surfaces the agencies that built for Nike, not just agencies named that),
-a country filter whose options are derived
-from the data (`buildCountryOptions`, never a hardcoded list), and four
-sort modes — "Top ranked" (the default, and the only mode that reproduces
-the SSR order), "Client rating" (shrinkage-weighted review score with no
-partner boost, see "Review ranking" above), "Name A-Z" (literal
-alphabetical, no partner boost), and "Partners first" (partners first,
-then name).
+**Why `AgencyListItem` instead of passing full records:**
+`AgencyExplorer` imports it as an `import type` (erased at compile time,
+zero runtime cost). If a client component instead imported anything real
+from `lib/directory/agencies.ts` or `lib/directory/listing.ts`, those
+modules' top-level JSON imports would very likely ride along into the
+client bundle (JSON module imports are not reliably tree-shaken),
+doubling the dataset's footprint on top of what is already server-rendered
+as HTML. Keep new client-side directory code following this pattern:
+type-only imports from those modules, plain data passed in as props from
+a server component. `tests/directory/partner-badge.spec.ts` has a bundle
+assertion that catches a regression here.
 
-**"Top ranked" (`compareByDirectoryRanking`) must stay a key-for-key
-mirror of `compareAgenciesDefaultOrder` in `lib/directory/agencies.ts`.**
-The server sorts the list with that comparator; the explorer sorts the
-same list again on the client, so a key in one and not the other makes
-the page reorder itself on hydration — and leaves the visible order
-disagreeing with the `ItemList` JSON-LD, which is built from the server's
-order.
+The control set:
 
-This mode used to be "Award total" and ranked on awards alone, which was
-a faithful mirror while Awwwards was the only source. The SEO category
-broke it: every record there scores 0 on awards, so the mode fell through
-to its name tiebreaker and rendered the whole category **alphabetically**,
-under a heading promising agencies "ranked on their published client
-reviews". Adding the review score as a third key fixed it — one comparator
-that ranks web design by awards and SEO by reviews, because the two keys
-never compete inside a single category.
+- **Search** — name, description, location, client names, services,
+  industries, platforms and startup clients, via
+  `AgencyListItem.searchText`. Searching "nike" surfaces the agencies that
+  built for Nike, not just agencies named that.
+- **Minimum budget** — "Any", "Under $10k", "Under $25k", "Under $50k",
+  reading `minBudgetUsd`. **An agency that never stated a budget appears
+  only under "Any".** That is the point of the filter, not an oversight: a
+  founder asking to see studios under $25k is asking a question a listing
+  with no price cannot answer, and quietly including it pushes the work of
+  finding out back onto them.
+- **Country** — options derived from the data (`buildCountryOptions`),
+  never a hardcoded list.
+- **Platform** — a multi-select of the `AgencyPlatform` enum. Selecting
+  two matches **either**, not both: a founder ticking Webflow and Framer
+  is saying "either is fine".
+- **Startup friendly / YC offer / Verified only** — three toggles.
+- **Sort** — "Recommended" (the default, and the only mode that reproduces
+  the SSR order), "Most awarded", "Lowest minimum budget", "Fastest
+  reply", plus "Client rating" and "Superflow partners first", which are
+  hidden when the current list has no ratings or no partners respectively.
+  A sort that cannot reorder anything is a dead control, not a choice.
 
-"Client rating" is hidden when nothing in the current list has a rating,
-so it never appears on a pure web-design category. There is no
-"Award total" option to hide symmetrically — "Top ranked" already *is*
-award ranking on a web-design category. A live `aria-live="polite"` result
-count and a
-"no matches" empty state with a reset action round it out. All controls
-are native `<input>`/`<select>`/`<button>` elements with paired
-`<label htmlFor>`s, so keyboard access and screen readers work without
-extra plumbing.
+Under "Lowest minimum budget" and "Fastest reply", agencies that stated
+**nothing sort last, not first.** A naive null-as-zero puts every listing
+with no price at the top of the cheapest-first list — the most confident
+possible way of not answering the question.
+
+**The server sort and the client sort are the same function, not mirrors
+of each other.** `compareByRecommended` lives in
+`lib/directory/scoring.ts`, a module that imports nothing, and both sides
+call it. The previous design kept hand-written copies on both sides with a
+comment warning that they must stay identical; they did not, and the SEO
+category rendered alphabetically under a heading promising it was ranked
+on reviews. A shared module cannot drift. Keep `scoring.ts` import-free so
+it stays safe on both sides of the client boundary.
+
+Filters live in the query string (`lib/directory/filters.ts` owns the
+param names), so a filtered view is a shareable link and the "For YC
+founders" strip on `/directory` can link straight to `?yc_offer=1`. Only
+non-default values are written, and the URL is updated with
+`history.replaceState` rather than a router navigation: filtering is a
+different view of the same page, and a history entry per keystroke makes
+Back useless.
+
+A live `aria-live="polite"` result count and a "no matches" empty state
+with a reset action round it out. All controls are native
+`<input>`/`<select>`/`<button>` elements with paired `<label htmlFor>`s or
+`aria-pressed`, so keyboard access and screen readers work without extra
+plumbing.
+
+## Ranking
+
+The default order is a **score**, not an award count. An award tally
+answers "who impressed a jury"; the score answers "who can a founder
+actually hire this month", which is the question the directory is now
+organised around. Award count survives as an explicit sort option, so
+nothing is hidden — it is just no longer the default lens.
+
+`computeAgencyScore` in `lib/directory/scoring.ts`:
+
+| Term | Points |
+| --- | --- |
+| Listing claimed **and** domain-verified | 40 |
+| Accepting projects | 15 |
+| Has a YC offer | 10 |
+| States a minimum budget | 10 |
+| Names at least one startup client | 10 |
+| States a reply time of 2 business days or fewer | 5 |
+| Award record | `min(10, awards_total / 20)` |
+
+Three properties of that table are deliberate and worth not "fixing":
+
+- **The award term is capped at 10, against 40 for a verified claim.** A
+  227-award studio that never answered an email ranks below a claimed
+  listing. That is the entire point of the change.
+- **Stating a minimum scores, whatever the number is.** A studio that says
+  "we start at $80k" has told a founder something useful. Ranking it below
+  a cheaper studio that said nothing would teach agencies to stay quiet.
+- **`acceptingProjects` defaults true, so every unclaimed listing earns
+  its 15 points.** It is a constant offset across the unclaimed half of
+  the directory rather than a differentiator within it, and it only
+  separates agencies once one of them says no. "We are full" should cost a
+  listing its place; "we never said" should not be read as "we are full".
+
+**Superflow partner status is not a term.** It used to be the primary sort
+key — a partner led every listing whether or not a visitor knew to look
+for the badge. On a page that now introduces itself as "verified studios
+with real budgets", floating our own customers to the top by default is
+undisclosed self-dealing dressed as a ranking. Partners are still badged,
+and "Superflow partners first" is still in the sort dropdown; a visitor
+now has to ask for that order. `tests/directory/partner-badge.spec.ts`
+asserts both halves of this.
+
+The score is **never rendered**, and it is deliberately absent from the
+Markdown copies. Printing a number we invented next to figures a named
+source published is how a directory starts laundering its own opinions as
+facts.
+
+## Claiming a listing
+
+Two flows sit on top of the directory: an agency claims and enriches its
+own listing, and a founder describes a project and reaches three
+agencies. Both are documented in their own files' headers; this is the map.
+
+**The claim record is not on `Agency`.** For the same reason the partner
+list is not: the importers overwrite their data files wholesale on every
+run, so a field stored there would be wiped by the next scrape. Claims
+live in two layers, joined onto agencies by slug at read time
+(`lib/directory/claims.ts`):
+
+1. **Committed** — `lib/directory/data/claims.json`, imported at build
+   time. Survives a wiped Redis, a moved host, a lost env var. This is
+   where a claim belongs once it has settled, and the only layer a
+   hand-entered campaign reply ever touches.
+2. **Live** — the KV store, written the moment an agency submits, so the
+   profile changes inside the route's revalidate window rather than
+   waiting for a deploy. Wins over the committed layer for the same slug,
+   **per slug rather than per field**: a claim is one agency's answers
+   submitted together, and merging field by field would produce a record
+   that is half last month's answers and half this week's.
+
+The live layer is a **cache of record**, not a database. Periodically
+export it into `claims.json` (`exportLiveClaims`) and paste the result in.
+Losing it loses at most the claims taken since the last export, which is
+why the confirmation email carries the values the agency submitted.
+
+**A record in `claims.json` with `claimed: false` is an editorial
+overlay**, not a claim: a budget answered in a reply to the campaign, a
+miscategorisation corrected, a city looked up. It fills in a fact; the
+agency did not claim the listing, and the profile must not badge it as if
+it had. `normalizeClaim` refuses to default either `claimed` or `verified`
+to true off a sparse record for exactly this reason.
+
+### The magic-link flow
+
+1. `/directory/claim?agency=<slug>` takes a work email.
+   `checkClaimEmail` requires the address to be at the agency's own
+   registrable domain, or a subdomain of it. Public mailboxes are refused
+   by name, with different copy, because "use an email at studio.com" is
+   the right message for someone typing their personal Gmail and nonsense
+   if the agency's own domain genuinely were a free host.
+2. A token is minted (256 bits, 24-hour TTL, single use — see
+   `lib/directory/claim-tokens.ts`) and mailed. **The endpoint refuses
+   before writing anything** if KV or the mail provider is unconfigured:
+   an agency told "check your inbox" over a failed send does not come
+   back, and a claim it cannot store is worse than an honest refusal.
+3. `/directory/claim/<token>` renders the enrich form. `force-dynamic`,
+   because the token is checked on every request.
+4. Submitting writes the claim, **then** marks the token used, **then**
+   sends the confirmation. A failure at the write leaves the link live so
+   the agency can simply submit again; burning the token first would make
+   them fill the form in for nothing.
+
+**The agency slug is read off the TOKEN, never out of the request body.**
+A body-supplied slug would let anyone holding a valid token for their own
+listing rewrite somebody else's.
+
+**The Verified badge attests to exactly one checkable thing:** somebody
+who receives mail at the agency's own domain filled this form in. Not that
+they were authorised internally, not that we vetted the agency, not that
+anything they typed is true. `VERIFIED_BADGE_DESCRIPTION` in
+`constants.ts` is the only place that claim is stated in words, so it
+matters more than the badge, not less.
+
+The domain rule is strict, so it needs a human path around it — agencies
+with several domains, an agency of record, a rebrand mid-flight. Every
+refusal carries a prefilled `mailto:` escape hatch. A strict rule without
+one just loses the listings it cannot classify.
+
+### ISR and the claim read
+
+`getClaimMap` (the page-render read) talks to Upstash **directly**, with
+Next's own cache semantics, rather than going through `kvGet`. This is not
+duplication for its own sake:
+
+`kvGet` issues its fetch with `cache: "no-store"`, which is right for a
+rate limiter and fatal here. A `no-store` fetch inside a statically
+rendered route opts that route into dynamic rendering, and Next then
+refuses to complete an ISR regeneration for a page that changed from
+static to dynamic at runtime — it logs *"Page changed from static to
+dynamic at runtime"* and goes on serving the build-time HTML **forever**.
+The symptom is the worst possible one: an agency claims its listing, the
+write succeeds, and the profile never changes. It would also cost the
+directory its static rendering, which the listing's SEO contract depends
+on.
+
+So the read is tagged (`CLAIMS_CACHE_TAG`) and revalidated on the same
+clock as the pages, and `app/api/directory/claim/submit` calls
+`revalidateTag(tag, "max")` plus `revalidatePath` for the profile, the hub
+and every resolved category the moment a claim lands. Writes still go
+through `kvSet`, where `no-store` is correct and nothing is being
+prerendered.
+
+**If you add another live read to a directory page, use `getClaimMap`'s
+pattern, not `kvGet`.**
+
+## Matching founders to agencies
+
+`lib/directory/matching.ts` picks three agencies for a brief. Four gates,
+then a ranking:
+
+1. Listed in the category the founder picked.
+2. Has not said it is full.
+3. Its stated minimum is within the founder's budget. An agency that
+   stated **no** minimum passes — we have no basis to exclude it — but
+   ranks below those that did.
+4. Works on the platform the founder named, **if** it told us what it
+   works on. Silence is not disqualifying: two thirds of the directory has
+   not claimed yet, and a strict reading would route almost nothing.
+
+Survivors are ordered claimed-first, then budget-stated, then
+platform-matched, then by the ordinary score — so the picks line up with
+what the founder would have seen browsing.
+
+**The budget gate reads the founder's CEILING, not their floor.** The spec
+this was built from says "at or below the founder's budget floor"; read
+literally, a founder in the "$10k to $25k" band would never be shown a
+studio with a $20k minimum — it hides exactly the agencies they can
+afford. `MatchRequest.budgetUsd` therefore stores the top of the band and
+`budgetBucket` keeps the band they chose. There is a unit test pinning
+this.
+
+Everything else about the flow: the request is saved **before** any email
+goes out (a request that was routed but not recorded is a request that did
+not happen as far as the metrics can tell), the founder's address goes to
+the agencies so they can reply directly, unclaimed agencies get a claim
+nudge appended to their copy — that is the loop that pulls agencies in —
+and the founder is told plainly when their three included unclaimed
+listings. Three requests per founder email per day, because the thing
+being protected is agency inboxes.
+
+## Data quality
+
+Four repairs, all applied at **read time** rather than to the stored JSON.
+The data files are what a named source actually published, and every
+figure on a profile is attributable back to it; editing the stored blurb
+would make that attribution a half-truth. A bad rule here is one deploy
+from being reverted rather than one re-scrape.
+
+- **Logos** (`lib/directory/logos.ts`,
+  `scripts/directory-import/fetch-agency-logos.mjs`). Source avatars
+  rendered as grey squares at 44px. The script fetches a real mark from
+  each agency's own site and caches it under `public/agency-logos/`;
+  260 of 323 resolved one. Candidates are ranked on **squareness first**,
+  which is why og:image is last rather than first: every og:image sampled
+  came back 1200×630, and a social card in a square logo slot is worse
+  than the grey square it replaces. Agencies with no square mark anywhere
+  get a monogram tile — initials on a hue derived from the slug, stable
+  across pages and deploys, so a studio without a logo still looks like
+  itself in a grid.
+- **Contact strings in blurbs** (`stripContactDetails`). Source profiles
+  end with "Inquiries: hello@studio.com"; here that is a scraped address
+  published on a page the agency never wrote, next to a "Request intro"
+  button that does the job properly. Five of 323 blurbs change. The
+  function returns its input **byte-identical** when it finds nothing to
+  remove — a third of these blurbs are French, where "Une agence : au
+  service de" is correctly spaced and normalising it silently rewrites
+  copy nobody asked us to touch.
+- **Country-only locations** (`formatAgencyPlace`). A header reading
+  "Italy" under a studio's name is the shape of an address with the
+  address missing, so the display line is omitted until somebody fills the
+  city in. `formatAgencyLocation` still renders country-alone and still
+  backs the country filter, the search blob and the Markdown copies, where
+  it is a usable fact. `scripts/directory-import/backfill-cities.mjs`
+  looks cities up and **prints** them rather than writing them: a city
+  scraped out of a footer is right most of the time and confidently wrong
+  the rest, and its first run proved it — matches included a client name
+  ("San Francisco Symphony"), a service-area list ("Webdesign Hamburg")
+  and a project title ("AI Modernism of Kharkiv"). Four of twelve were
+  backed by a real street address or schema.org record and are in
+  `claims.json`; the rest are still blank.
+- **Card truncation** (`truncateAtSentence`). Cuts at the last complete
+  sentence that fits, falling back to a word boundary with an ellipsis
+  when the first sentence is longer than the budget. Knows about
+  abbreviations, so "We build for Inc. 5000 companies" does not truncate
+  after "Inc".
+
+**Secondary categories.** `AgencyClaim.secondaryCategories` lets one
+studio appear in two listings without duplicating its record, and
+`primaryCategory` corrects where a listing leads. Several records are
+filed under the category of the awards jury that published them rather
+than the one the studio would choose: Merci Michel calls itself a
+gamification studio and is in `claims.json` as web design **and** motion
+design. A claim naming a category we do not publish is ignored rather
+than allowed to route an agency into a 404.
+
+## Analytics
+
+Events are defined in `lib/analytics/events.ts` and fired from
+`components/directory/DirectoryAnalytics.tsx` (a client component that
+renders nothing, so the pages around it stay server components and stay
+static) and from the forms themselves:
+
+`directory_viewed`, `directory_filter_applied`, `profile_viewed`,
+`claim_started`, `claim_email_sent`, `claim_completed`, `match_started`,
+`match_submitted`, `match_routed`, `request_intro_clicked`.
+
+These are snake_case where the rest of that file is camelCase. That is
+deliberate, not an oversight — they are new names created by this work and
+specified in that form. Do not "fix" one in isolation: a renamed event is
+a broken chart, and half a convention is worse than either whole one.
+
+`match_routed` carries the routed slugs rather than only a count, because
+one of the three numbers this is measured on is the share of match
+requests landing on at least two claimed agencies.
+
+## Environment
+
+Both flows degrade honestly rather than silently when unconfigured.
+
+| Variable | Used for | Without it |
+| --- | --- | --- |
+| `UPSTASH_REDIS_REST_URL` / `_TOKEN` | Claims, tokens, match requests, rate limits | Claiming refuses with an honest message (`claimsArePersistent`), pages fall back to the committed claim layer |
+| `RESEND_API_KEY` | Every transactional email | Claim start refuses before minting a token; match emails fail and are logged, the request is still stored and routed |
+| `DIRECTORY_MAIL_FROM` | Sender | Defaults to Emma on `mail.usesuperflow.ai` |
+| `DIRECTORY_MAIL_REPLY_TO` | Reply-to | Defaults to Emma's real mailbox |
+| `DIRECTORY_SLACK_WEBHOOK_URL` | Match notifications | Logged and skipped; the request is already stored and emailed |
+
+Transactional mail goes out on a **subdomain**, separate from the mailbox
+running the outbound campaign. A magic link landing in spam is a claim
+that never happens, and a burst of transactional mail out of a warming
+mailbox is what gets the campaign filtered.
+
+## Campaign hook
+
+The Clay campaign already asks each agency for its minimum budget and what
+it declines. To close the loop:
+
+1. Add a `claim_url` column to the People table:
+   `https://usesuperflow.ai/directory/claim?agency=<slug>`, and reference
+   it in email 3 — "You can also update the listing yourself here:
+   {{claim_url}}". The `?agency=` form of that URL is load-bearing; see
+   `app/directory/claim/page.tsx`.
+2. A reply carrying a budget or a declines answer goes into
+   `claims.json` as an editorial overlay (`claimed: false`, with a
+   `sourceNote` naming the reply and its date), and the reply gets the
+   claim link back so the agency can take the listing over itself.
 
 ## Adding a category
 

@@ -123,6 +123,102 @@
     cursor: pointer;
 }
 
+/* ---- Filter rows ----------------------------------------------------- *
+   The control bar grew from three inputs to nine controls across two
+   rows plus a count line. Rows rather than one wrapping flex line: the
+   selects and the pill groups have very different natural widths, and
+   letting them share a wrap context put a lone pill on its own line at
+   several viewport widths. */
+
+.controlsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.pillGroup {
+    display: flex;
+    min-width: 0;
+    flex: 1 1 260px;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Buttons with `aria-pressed`, not checkboxes. These are filters that
+   reorder a list, not fields in a form being submitted, and a row of
+   native checkboxes at this density reads as a settings panel. */
+.pill {
+    padding: 6px 12px;
+    border: 1px solid #e4e5ec;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--dg-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--dg-muted);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.pill:hover {
+    border-color: #c9ccd4;
+    color: var(--dg-ink);
+}
+
+.pill:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
+.pillActive {
+    border-color: var(--dg-accent);
+    background: var(--dg-accent);
+    color: #ffffff;
+}
+
+.pillActive:hover {
+    border-color: var(--dg-accent);
+    color: #ffffff;
+}
+
+.countRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Only rendered when something is actually filtered - see
+   `hasActiveFilters`. A reset that is always visible trains people to
+   ignore it. */
+.resetLink {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--dg-body);
+    font-size: 13px;
+    color: var(--dg-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+.resetLink:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
 .count {
     margin: 0;
     font-family: var(--dg-body);

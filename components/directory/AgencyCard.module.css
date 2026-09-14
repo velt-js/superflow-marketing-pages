@@ -61,21 +61,10 @@
     outline-offset: 2px;
 }
 
-/* Brand marks are already colourful, so no tile or disc behind them —
-   the 2026 icon rule the case-study grid follows. */
-.logo {
-    position: relative;
-    flex: 0 0 auto;
-    width: 44px;
-    height: 44px;
-    overflow: hidden;
-    border-radius: 10px;
-    background: #ffffff;
-}
-
-.logoImage {
-    object-fit: contain;
-}
+/* The logo slot's own styling lives in AgencyLogo.module.css, which owns
+   all three things that can appear there - a cached logo, a hotlinked
+   source avatar, and a monogram tile - so they cannot drift to different
+   sizes and shuffle a grid row. */
 
 .headerText {
     display: flex;
@@ -129,17 +118,99 @@
     color: var(--ac-muted);
 }
 
-.services {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    overflow: hidden;
+/* The facts a founder filters on: minimum budget, typical timeline, reply
+   time. Only the ones the agency actually stated - an unclaimed listing
+   renders no row at all rather than three shrugs. */
+.signals {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
     margin: 0;
-    font-family: var(--ac-body);
+    font-family: var(--ac-display);
     font-size: 13px;
-    line-height: 1.45;
+    font-weight: 600;
+    color: var(--ac-ink);
+}
+
+.signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.signalDot {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #c9ccd4;
+}
+
+/* Platforms, as chips. Chips rather than the comma-separated line the
+   services list used, because these are the values in the platform
+   filter and a founder scanning for "Webflow" should find the same shape
+   on the card that they clicked in the filter bar. */
+.platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.platform {
+    padding: 3px 9px;
+    border: 1px solid #e4e5ec;
+    border-radius: 999px;
+    background: #f7f7fb;
+    font-family: var(--ac-body);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ac-muted);
+}
+
+.platformMore {
     color: var(--ac-quiet);
+}
+
+/* Qualifying tags: a YC offer, startup friendliness, or a closed door.
+   Above the blurb because each one is a filter a founder may have just
+   applied, and a filter whose result is invisible reads as broken. */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    padding: 3px 9px;
+    border: 1px solid #e4e5ec;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--ac-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    color: var(--ac-muted);
+}
+
+/* The YC offer is the one tag a founder came here looking for, so it is
+   the one that gets colour. */
+.tagYc {
+    border-color: #f4d3b4;
+    background: #fff6ec;
+    color: #9a5b1b;
+}
+
+/* "Not taking projects" is information, not a warning - the agency told
+   us, which is more than most listings did. Grey, not red. */
+.tagClosed {
+    border-color: #e0e1e7;
+    background: #f2f2f5;
+    color: #777c86;
 }
 
 /* "Worked with Nike, Spotify and 4 more" — the brands the agency has
@@ -168,52 +239,29 @@
     color: var(--ac-ink);
 }
 
-/* Award record — the card's one real credential, so it gets the accent
-   colour that every other 2026 card spends on its CTA line. */
+/* The source's own credential - an award tally or a review score,
+   never both (see AgencyRating in lib/directory/types.ts). It moved from
+   the card's body into the footer when the claim facts arrived above:
+   it is what the agency did, and the rows above are what a founder can
+   act on. Still in the accent colour, still the only number on the card
+   painted in it. */
 .awards {
     display: flex;
     align-items: baseline;
     gap: 6px;
-    font-family: var(--ac-display);
+    font-family: var(--ac-body);
+    font-size: 12px;
+    color: var(--ac-quiet);
 }
 
 .awardCount {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ac-accent);
-}
-
-.awardLabel {
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--ac-muted);
-}
-
-/* Client rating — the Semrush counterpart to .awards above. A record
-   carries one or the other, never both, so this is styled identically
-   rather than as a visually distinct "second credential". */
-.rating {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
     font-family: var(--ac-display);
-}
-
-.ratingScore {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.2px;
     color: var(--ac-accent);
 }
 
-.ratingLabel {
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--ac-muted);
-}
 
 .footer {
     display: flex;
@@ -223,12 +271,6 @@
     margin-top: auto;
     padding-top: 16px;
     border-top: 1px solid #ececf1;
-}
-
-.teamSize {
-    font-family: var(--ac-body);
-    font-size: 12px;
-    color: var(--ac-quiet);
 }
 
 .links {

@@ -1,49 +1,46 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import {
   agencyPath,
   formatAgencyClientSummary,
-  formatAgencyLocation,
-  formatAgencyRating,
-  getAwardBreakdown,
+  formatAgencyPlace,
   resolveAgencySourceLabel,
 } from "@/lib/directory/agencies";
+import { platformLabel } from "@/lib/directory/claim-fields";
+import type { EnrichedAgency } from "@/lib/directory/enrich";
+import { truncateAtSentence } from "@/lib/directory/text";
+import AgencyLogo from "./AgencyLogo";
 import PartnerBadge from "./PartnerBadge";
+import VerifiedBadge from "./VerifiedBadge";
 import styles from "./AgencyCard.module.css";
-import type { Agency } from "@/lib/directory/types";
 
-/** Maximum number of services listed before collapsing into a "+N". */
-const MAX_VISIBLE_SERVICES = 4;
-
-/** Separator between service names in the card's single-line summary. */
-const SERVICES_SEPARATOR = " · ";
+/** Maximum platforms shown before collapsing into a "+N". */
+const MAX_VISIBLE_PLATFORMS = 3;
 
 /** Trailing glyph on outbound links, marking them as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
 
 /** Leading label on the card's client line. Phrased as a claim about past
- *  work ("Worked with"), not a capability ("Clients"), because that is the
- *  thing a visitor scanning a grid of agencies is actually comparing. */
+ *  work, not a capability, because that is what a visitor scanning a grid
+ *  is comparing. */
 const CLIENTS_LINE_LABEL = "Worked with ";
 
 /** Shown as the website link text when a record has a URL but no parsed
  *  domain, so the link never renders with an empty label. */
 const FALLBACK_WEBSITE_LABEL = "Visit site";
 
-/** Joiner between team size and budget in the card footer's left slot,
- *  when both are present on the record. */
-const FOOTER_META_SEPARATOR = " · ";
+/** Edge of the logo tile on a card. */
+const LOGO_SIZE = 44;
 
 /**
- * Resolves the visible label for an agency's own website link. Prefers the
- * bare domain over the full URL: it is shorter, and it tells the visitor
- * where the link goes before they click it.
+ * Resolves the visible label for an agency's own website link. Prefers
+ * the bare domain over the full URL: it is shorter, and it tells the
+ * visitor where the link goes before they click it.
  *
  * @param agency - The agency record to label.
  * @returns The domain, or a generic fallback when none was parsed.
  */
-function resolveWebsiteLabel(agency: Agency | null | undefined): string {
+function resolveWebsiteLabel(agency: EnrichedAgency | null | undefined): string {
   try {
     const domain = agency?.domain?.trim();
     return domain && domain.length > 0 ? domain : FALLBACK_WEBSITE_LABEL;
@@ -53,171 +50,120 @@ function resolveWebsiteLabel(agency: Agency | null | undefined): string {
 }
 
 /**
- * Splits a service list into the chips to render and an overflow count,
- * so the card stays a predictable height regardless of how many services
- * a source profile lists.
+ * Builds the card's one-line signal row: budget, timeline, reply time.
  *
- * @param services - Free-text services as listed on the source profile.
- * @param limit - Maximum chips to show before collapsing the rest.
- * @returns The visible services and how many more were hidden.
+ * Only facts the agency actually stated. Unlike the profile's fast-facts
+ * row, a card does NOT print "Not stated" four times - a grid of sixty
+ * cards each saying nothing four ways is unreadable, and the profile is
+ * where the absence is worth naming.
+ *
+ * @param agency - The enriched agency.
+ * @returns The parts to join, possibly empty.
  */
-function visibleServices(
-  services: string[] | null | undefined,
-  limit: number,
-): { shown: string[]; hiddenCount: number } {
+function buildSignalParts(agency: EnrichedAgency): string[] {
   try {
-    const all = services?.filter((service) => Boolean(service?.trim())) ?? [];
-    return {
-      shown: all.slice(0, limit),
-      hiddenCount: Math.max(0, all.length - limit),
-    };
-  } catch {
-    return { shown: [], hiddenCount: 0 };
-  }
-}
-
-/**
- * Award labels in the order they make the best one-line card headline.
- *
- * Two rejected orderings, recorded so this isn't "fixed" back to either:
- *
- * - By count: Honorable Mentions dominate every breakdown, so this
- *   surfaced "131x Honorable Mention" for a studio that had also won Site
- *   of the Year - leading with its weakest credential.
- * - By prestige (Site of the Year first): technically correct but every
- *   top studio holds one, so every card read "1x Site of the Year" and
- *   the stat stopped distinguishing anyone.
- *
- * Site of the Day leads instead: it is Awwwards' flagship award, the most
- * recognisable to a visitor, and its count varies widely across studios,
- * so it adds information the adjacent total doesn't already convey.
- */
-const AWARD_LABELS_BY_HEADLINE_PRIORITY: readonly string[] = [
-  "Site of the Day",
-  "Site of the Year",
-  "Site of the Month",
-  "Developer Award",
-  "Honorable Mention",
-  "Nominee",
-];
-
-/**
- * Picks the award that best headlines this agency, for the card's
- * one-line summary. See AWARD_LABELS_BY_HEADLINE_PRIORITY.
- *
- * Falls back to the highest-count entry if no label matches the priority
- * list, so a future source introducing an unknown award type still renders
- * something sensible rather than nothing.
- *
- * @param breakdown - Non-zero award-type entries for one agency.
- * @returns The highest-priority entry, or null for an empty breakdown.
- */
-function pickTopAward(
-  breakdown: Array<{ label: string; count: number }>,
-): { label: string; count: number } | null {
-  try {
-    if (!breakdown || breakdown.length === 0) return null;
-    for (const label of AWARD_LABELS_BY_HEADLINE_PRIORITY) {
-      const match = breakdown.find((entry) => entry?.label === label);
-      if (match) return match;
+    const parts: string[] = [];
+    if (typeof agency.minBudgetUsd === "number") {
+      parts.push(`From $${agency.minBudgetUsd.toLocaleString("en-US")}`);
     }
-    return breakdown.reduce((best, entry) => (entry.count > best.count ? entry : best));
+    if (agency.typicalTimelineWeeks) {
+      parts.push(`~${agency.typicalTimelineWeeks} wk`);
+    }
+    if (agency.responseSlaDays) {
+      parts.push(`Replies in ${agency.responseSlaDays}d`);
+    }
+    return parts;
   } catch {
-    return null;
+    return [];
   }
 }
 
 /**
- * Builds the footer's left-slot label from team size and budget, joining
- * whichever of the two are present. Kept as one combined string rather
- * than two separate elements so the footer's left slot stays the single
- * `<span/>` it already was when neither is present - see the layout
- * comment on the footer JSX below.
+ * Card for a single agency in a directory category grid.
  *
- * @param agency - The agency record to read.
- * @returns The combined label, or null when neither field is present.
- */
-function buildFooterMetaLabel(agency: Agency | null | undefined): string | null {
-  try {
-    const parts = [
-      agency?.teamSize ? `Team: ${agency.teamSize}` : null,
-      agency?.budgetLabel ?? null,
-    ].filter((part): part is string => Boolean(part));
-    return parts.length > 0 ? parts.join(FOOTER_META_SEPARATOR) : null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Card for a single agency in a directory category grid. Leads with the
- * agency name (and partner badge, if applicable) - award record and
- * services are supporting detail, deliberately styled to read quieter
- * than the name rather than compete with it.
+ * Leads with the agency name and the two badges that qualify it
+ * (Verified, Superflow partner), then the facts a founder filters on.
+ * Award record and services moved below those: they are supporting
+ * detail on a page whose visitor is choosing who to email this week.
  *
- * The name/logo header links to the agency's own directory detail page
- * (/directory/agency/<slug>), which holds the full profile - full award
- * breakdown and service list included, this card only summarizes both.
- * The footer carries the two outbound links separately: the agency's own
- * website and an attribution link back to the source profile the record
- * was collected from - both keep working independently of the internal
- * link above.
+ * The name/logo header links to the agency's own profile page. The
+ * footer carries the two outbound links separately - the agency's own
+ * site, and the attribution link back to the source the record came
+ * from - both working independently of the internal link above.
  *
  * @param props - Component props.
- * @param props.agency - The agency record to render.
+ * @param props.agency - The enriched agency record to render.
  */
-export default function AgencyCard({ agency }: { agency: Agency }) {
+export default function AgencyCard({ agency }: { agency: EnrichedAgency }) {
   try {
-    const locationLabel = formatAgencyLocation(agency?.location ?? null);
-    const awardBreakdown = getAwardBreakdown(agency?.awards);
-    const topAward = pickTopAward(awardBreakdown);
-    const { shown: shownServices, hiddenCount } = visibleServices(
-      agency?.services,
-      MAX_VISIBLE_SERVICES,
-    );
+    const placeLabel = formatAgencyPlace(agency?.location ?? null, agency?.city);
     const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
-    const awardTotal = agency?.awards?.total ?? 0;
-    // Used only as the "is there a meaningful rating" guard - the actual
-    // score/count spans below are built from `agency.rating` directly so
-    // they can render as two separately styled elements, matching the
-    // award line's bold-count/muted-label split just below.
-    const ratingSummary = formatAgencyRating(agency?.rating ?? null);
-    const footerMetaLabel = buildFooterMetaLabel(agency);
-    const servicesLine =
-      shownServices.length > 0
-        ? shownServices.join(SERVICES_SEPARATOR) + (hiddenCount > 0 ? ` +${hiddenCount} more` : "")
-        : null;
+    const awardTotal = agency?.awardTotal ?? 0;
+    const description = truncateAtSentence(agency?.description);
+    const signals = buildSignalParts(agency);
+    const platforms = (agency?.platforms ?? []).slice(0, MAX_VISIBLE_PLATFORMS);
+    const hiddenPlatforms = Math.max(0, (agency?.platforms ?? []).length - platforms.length);
 
     return (
-      <article className={styles.card}>
+      <article className={styles.card} data-claimed={agency?.claimed ? "true" : "false"}>
         <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
-          {agency?.logoUrl && (
-            <div className={styles.logo}>
-              <Image
-                className={styles.logoImage}
-                src={agency.logoUrl}
-                alt=""
-                fill
-                sizes="44px"
-              />
-            </div>
-          )}
+          <AgencyLogo
+            slug={agency?.slug ?? ""}
+            name={agency?.name ?? ""}
+            sourceLogoUrl={agency?.logoUrl}
+            claimLogoUrl={agency?.claim?.logoUrl}
+            size={LOGO_SIZE}
+          />
           <div className={styles.headerText}>
             <div className={styles.nameRow}>
               <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
+              {agency?.verified && <VerifiedBadge />}
               <PartnerBadge agency={agency} />
             </div>
-            {locationLabel && <p className={styles.location}>{locationLabel}</p>}
+            {placeLabel && <p className={styles.location}>{placeLabel}</p>}
           </div>
         </Link>
 
-        {agency?.description && (
-          <p className={styles.description}>{agency.description}</p>
+        {/* Badges that qualify the listing rather than the agency. Both
+            are claims a founder is filtering on, so they sit above the
+            blurb rather than in the footer. */}
+        {(agency?.ycOffer || agency?.startupFriendly || agency?.acceptingProjects === false) && (
+          <div className={styles.tags}>
+            {agency.ycOffer && <span className={`${styles.tag} ${styles.tagYc}`}>YC offer</span>}
+            {agency.startupFriendly && <span className={styles.tag}>Startup friendly</span>}
+            {agency.acceptingProjects === false && (
+              <span className={`${styles.tag} ${styles.tagClosed}`}>Not taking projects</span>
+            )}
+          </div>
         )}
 
-        {servicesLine && <p className={styles.services}>{servicesLine}</p>}
+        {description && <p className={styles.description}>{description}</p>}
+
+        {signals.length > 0 && (
+          <p className={styles.signals}>
+            {signals.map((signal, index) => (
+              <span key={signal} className={styles.signal}>
+                {index > 0 && <span className={styles.signalDot} aria-hidden="true" />}
+                {signal}
+              </span>
+            ))}
+          </p>
+        )}
+
+        {platforms.length > 0 && (
+          <ul className={styles.platforms}>
+            {platforms.map((platform) => (
+              <li key={platform} className={styles.platform}>
+                {platformLabel(platform)}
+              </li>
+            ))}
+            {hiddenPlatforms > 0 && (
+              <li className={`${styles.platform} ${styles.platformMore}`}>+{hiddenPlatforms}</li>
+            )}
+          </ul>
+        )}
 
         {clientSummary && (
           <p className={styles.clients}>
@@ -226,34 +172,19 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
           </p>
         )}
 
-        {/* A record carries an award total or a rating, never both (see
-            AgencyRating in lib/directory/types.ts) - written as two
-            independent conditions rather than an if/else so that stays
-            true by the data, not by an assumption baked into the JSX. */}
-        {awardTotal > 0 && (
-          <p className={styles.awards}>
-            <span className={styles.awardCount}>{awardTotal}</span>
-            <span className={styles.awardLabel}>
-              award{awardTotal === 1 ? "" : "s"}
-              {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
-            </span>
-          </p>
-        )}
-
-        {ratingSummary && agency?.rating && (
-          <p className={styles.rating}>
-            <span className={styles.ratingScore}>
-              {agency.rating.value}/{agency.rating.scale}
-            </span>
-            <span className={styles.ratingLabel}>
-              {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
-            </span>
-          </p>
-        )}
-
         <div className={styles.footer}>
-          {footerMetaLabel ? (
-            <span className={styles.teamSize}>{footerMetaLabel}</span>
+          {awardTotal > 0 ? (
+            <span className={styles.awards}>
+              <span className={styles.awardCount}>{awardTotal}</span> award
+              {awardTotal === 1 ? "" : "s"}
+            </span>
+          ) : agency?.rating && agency.rating.reviewCount > 0 ? (
+            <span className={styles.awards}>
+              <span className={styles.awardCount}>
+                {agency.rating.value}/{agency.rating.scale}
+              </span>{" "}
+              · {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
+            </span>
           ) : (
             <span />
           )}

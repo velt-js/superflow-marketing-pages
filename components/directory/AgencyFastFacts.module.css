@@ -1,0 +1,111 @@
+/* The four facts a founder is actually scanning for, directly under the
+   profile hero.
+
+   Sits on the white body section rather than inside the gradient hero:
+   the hero's white meta card already carries the agency's identity, and
+   stacking a second card inside it produced two competing white boxes.
+   This one reads as the first row of the page's content. */
+
+.wrapper {
+    --ff-display: var(--font-urbanist), system-ui, sans-serif;
+    --ff-body: var(--font-poppins), system-ui, sans-serif;
+    --ff-ink: #16171a;
+    --ff-muted: #6b7079;
+    --ff-quiet: #a2a7b0;
+    --ff-accent: #433df3;
+
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.wrapper *,
+.wrapper *::before,
+.wrapper *::after {
+    box-sizing: border-box;
+}
+
+.row {
+    display: grid;
+    /* Four across on desktop, two on tablet, one on phone. Not `auto-fit`:
+       a three-across row leaves one fact orphaned on the second line, and
+       these read as a set. */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    /* The 1px grid gap over a grey ground draws the dividers, so the
+       cells need no borders of their own to line up. */
+    background: #ececf1;
+}
+
+.fact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 24px;
+    background: #ffffff;
+}
+
+.label {
+    font-family: var(--ff-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ff-muted);
+}
+
+.value {
+    margin: 0;
+    font-family: var(--ff-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ff-ink);
+    text-wrap: pretty;
+}
+
+/* "Not stated" is deliberately quiet but not hidden. It is a real answer
+   about the listing, and greying it to invisibility would let a profile
+   that answered nothing look the same as one that answered everything. */
+.valueMissing {
+    font-weight: 500;
+    color: var(--ff-quiet);
+}
+
+.claimPrompt {
+    margin: 12px 0 0;
+    font-family: var(--ff-body);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ff-muted);
+}
+
+.claimLink {
+    color: var(--ff-accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.claimLink:hover {
+    text-decoration-thickness: 2px;
+}
+
+@media (max-width: 900px) {
+    .row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fact {
+        padding: 16px 20px;
+    }
+}

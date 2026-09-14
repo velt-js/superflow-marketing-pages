@@ -1,217 +1,164 @@
 "use client";
 
-// Client-side search/country/sort controls over an already server-rendered
+// Client-side search/filter/sort controls over an already server-rendered
 // agency list. This file owns ALL interactive state for the directory
-// listing page; every other piece (Nav, hero, the cards themselves) stays
+// listing page; every other piece (nav, hero, the cards themselves) stays
 // a server component.
 //
-// SEO contract this file must not break: the initial render (before any
-// user interaction) must show every agency, in the same order the server
-// computed. Since useState's initial values are what the server renders,
-// as long as the defaults here reproduce "no filters, default sort" that
-// contract holds automatically - see the DEFAULT_* constants below and
-// components/directory/AgencyGrid.tsx, which builds `cardsBySlug` from
-// server-rendered <AgencyCard/> elements and passes them in, so nothing
-// here re-renders a card's own content client-side.
+// TWO CONTRACTS THIS FILE MUST NOT BREAK
+//
+// 1. SEO. The initial render - before any effect runs - must show every
+//    agency in the order the server computed. `useState` initialisers are
+//    what the server renders, so as long as they are
+//    `defaultFilterState()`, that holds automatically. It is also why the
+//    URL is read in an EFFECT rather than during render: reading it
+//    during render would either mismatch hydration or, with
+//    `useSearchParams`, opt this whole subtree out of static rendering
+//    and take the card grid out of the server HTML with it.
+//
+// 2. SORT PARITY. The server sorted with `compareByRecommended` from
+//    lib/directory/scoring.ts. So does this file - the same function, not
+//    a mirror of it. The previous version kept hand-written copies on
+//    both sides with a comment warning they must stay identical; they did
+//    not, and the SEO category rendered alphabetically under a heading
+//    promising it was ranked on reviews. A shared module cannot drift.
+//
+// Filters live in the query string so a filtered view can be shared as a
+// link. See lib/directory/filters.ts for that contract.
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+
+import { useAnalytics } from "@/lib/analytics/use-analytics";
+import { AnalyticsEvents } from "@/lib/analytics/events";
+import {
+  BUDGET_FILTER_OPTIONS,
+  PLATFORM_OPTIONS,
+} from "@/lib/directory/claim-fields";
+import {
+  ALL_COUNTRIES_VALUE,
+  defaultFilterState,
+  hasActiveFilters,
+  matchesFilters,
+  readFilterState,
+  writeFilterState,
+  type FilterState,
+  type SortMode,
+} from "@/lib/directory/filters";
+import {
+  compareByAwards,
+  compareByFastestReply,
+  compareByLowestBudget,
+  compareByRecommended,
+  type AgencyRankingSignals,
+} from "@/lib/directory/scoring";
+import type { AgencyPlatform } from "@/lib/directory/types";
+// Type-only import: pulling a VALUE out of lib/directory/listing.ts would
+// drag the whole scraped dataset into this bundle. See `AgencyListItem`'s
+// doc comment there.
+import type { AgencyListItem } from "@/lib/directory/listing";
 import styles from "./DirectoryGrid.module.css";
-import type { AgencyListItem } from "@/lib/directory/agencies";
-// Value import from ./constants, never from ./agencies - that module imports
-// the agency JSON datasets, and pulling a value out of it here would ship
-// the whole directory into the client bundle. See `AgencyListItem`'s doc
-// comment in lib/directory/agencies.ts.
-import { isAccoladeRankedCategory } from "@/lib/directory/constants";
 
-/** Sentinel value for "no country filter applied". Not a real country
- *  name, so it can never collide with a value derived from the data. */
-const ALL_COUNTRIES_VALUE = "all";
 const ALL_COUNTRIES_LABEL = "All countries";
 
-type SortMode = "top-ranked" | "rating" | "name-az" | "partners-first";
-
-/**
- * SSR/default mode. Its comparator must stay a mirror of
- * `compareAgenciesDefaultOrder` in lib/directory/agencies.ts, which is what
- * the server sorted by before handing these items over - if the two drift,
- * the client's initial sort silently reorders the page away from the order
- * the server rendered and the category's own ItemList JSON-LD claims.
- *
- * It was previously "award-total", ranking on awards alone. That was a
- * mirror while every record came from Awwwards, but the SEO category's
- * records all score 0 on awards, so the mode fell through to its name
- * tiebreaker and rendered that whole category alphabetically - under a
- * heading promising agencies "ranked on their published client reviews".
- */
-const DEFAULT_SORT_MODE: SortMode = "top-ranked";
-
-/** Label for the rating sort option, shared between `SORT_OPTIONS` and the
- *  option-visibility check in `AgencyExplorer`. */
-const RATING_SORT_LABEL = "Client rating";
-
-const SORT_OPTIONS: Array<{ value: SortMode; label: string }> = [
-  { value: "top-ranked", label: "Top ranked" },
-  { value: "rating", label: RATING_SORT_LABEL },
-  { value: "name-az", label: "Name A-Z" },
-  { value: "partners-first", label: "Partners first" },
-];
-
 const SEARCH_LABEL = "Search agencies";
-/** Names the fields `AgencyListItem.searchText` actually covers - see
- *  `buildAgencyListItem` in lib/directory/agencies.ts, which folds service
- *  and industry names into the blob alongside name, description, location
- *  and client names. A visitor searching "link building" or "ecommerce"
- *  should find a match, not just one searching by agency or client name. */
-const SEARCH_PLACEHOLDER = "Search by name, service, client, or location";
+const SEARCH_PLACEHOLDER = "Search by name, service, client, or platform";
 const COUNTRY_LABEL = "Country";
 const SORT_LABEL = "Sort by";
+const BUDGET_LABEL = "Minimum budget";
+const PLATFORM_LABEL = "Platform";
 const RESET_LABEL = "Reset filters";
 const FILTER_EMPTY_HEADING = "No agencies match your filters";
-const FILTER_EMPTY_BODY = "Try a different search term or country, or reset your filters.";
+const FILTER_EMPTY_BODY =
+  "Try a wider budget, or clear a filter. Agencies that have not stated a budget only appear under “Any budget”.";
+
+/** Toggle filters, as label + state key. Rendered as a row of pills. */
+const TOGGLE_FILTERS: Array<{
+  key: "startupFriendly" | "ycOffer" | "verified";
+  label: string;
+  hint: string;
+}> = [
+  {
+    key: "startupFriendly",
+    label: "Startup friendly",
+    hint: "Has named a startup client, or takes projects under $25k",
+  },
+  { key: "ycOffer", label: "YC offer", hint: "Has a standing offer for YC companies" },
+  { key: "verified", label: "Verified only", hint: "The agency claimed this listing itself" },
+];
 
 /**
- * Compares two list items for the "Top ranked" sort (also the SSR default
- * order, so selecting it in the dropdown always reproduces the page's
- * initial state): Superflow partners first, then award total descending,
- * then review score descending, then name.
+ * Sort options.
  *
- * **This is a mirror of `compareAgenciesDefaultOrder` in
- * lib/directory/agencies.ts and must be kept identical to it.** The server
- * sorts with that one; this sorts the same list again on the client. Any
- * key present in one and missing from the other makes the page reorder
- * itself on hydration.
- *
- * The two credibility keys never compete inside one category - an Awwwards
- * record has no rating and a Semrush record has no awards - so in practice
- * this ranks web design by awards and SEO by reviews, off one comparator.
- *
- * @param itemOne - First agency item being compared.
- * @param itemTwo - Second agency item being compared.
- * @returns Standard comparator sign (see `Array.prototype.sort`).
+ * "Recommended" is the SSR default, so selecting it always reproduces the
+ * page's initial state. The two review/partner modes only appear when the
+ * listing actually has that data - a sort that cannot reorder anything is
+ * a dead control, not a choice. "Recommended" never gets that treatment
+ * even when it is degenerate: it is the selected value, and a `<select>`
+ * whose selection has no matching `<option>` renders as a blank.
  */
-function compareByDirectoryRanking(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
+const SORT_OPTIONS: Array<{ value: SortMode; label: string; needs?: "rating" | "partners" }> = [
+  { value: "recommended", label: "Recommended" },
+  { value: "most-awarded", label: "Most awarded" },
+  { value: "lowest-budget", label: "Lowest minimum budget" },
+  { value: "fastest-reply", label: "Fastest reply" },
+  { value: "rating", label: "Client rating", needs: "rating" },
+  { value: "partners-first", label: "Superflow partners first", needs: "partners" },
+];
+
+/**
+ * Highest client rating first, then the default order.
+ *
+ * No partner privileging and no score: a visitor who explicitly asks to
+ * rank by review score wants that score.
+ *
+ * @param one - First item.
+ * @param two - Second item.
+ * @returns Standard comparator sign.
+ */
+function compareByRating(one: AgencyListItem, two: AgencyListItem): number {
   try {
-    const partnerOne = itemOne.isPartner ? 1 : 0;
-    const partnerTwo = itemTwo.isPartner ? 1 : 0;
+    if (two.ratingScore !== one.ratingScore) return two.ratingScore - one.ratingScore;
+    return compareByRecommended(one, two);
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Superflow partners first, then the default order.
+ *
+ * @param one - First item.
+ * @param two - Second item.
+ * @returns Standard comparator sign.
+ */
+function compareByPartners(one: AgencyListItem, two: AgencyListItem): number {
+  try {
+    const partnerOne = one.isPartner ? 1 : 0;
+    const partnerTwo = two.isPartner ? 1 : 0;
     if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
-    if (itemTwo.awardTotal !== itemOne.awardTotal) return itemTwo.awardTotal - itemOne.awardTotal;
-    if (itemTwo.ratingScore !== itemOne.ratingScore) {
-      return itemTwo.ratingScore - itemOne.ratingScore;
-    }
-    return itemOne.name.localeCompare(itemTwo.name);
+    return compareByRecommended(one, two);
   } catch {
     return 0;
   }
 }
 
-/**
- * Compares two list items alphabetically by name, with no partner
- * privileging - a visitor who explicitly asks for "Name A-Z" wants literal
- * alphabetical order.
- *
- * @param itemOne - First agency item being compared.
- * @param itemTwo - Second agency item being compared.
- * @returns Standard comparator sign (see `Array.prototype.sort`).
- */
-function compareByNameAscending(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
-  try {
-    return itemOne.name.localeCompare(itemTwo.name);
-  } catch {
-    return 0;
-  }
-}
-
-/**
- * Compares two list items with partner status as the sole meaningful
- * key (name as a stable tiebreaker only). Distinct from the "Award total"
- * comparator, which also privileges partners but ranks by award count
- * within each group - this mode is for browsing partners specifically,
- * not for ranking by prestige.
- *
- * @param itemOne - First agency item being compared.
- * @param itemTwo - Second agency item being compared.
- * @returns Standard comparator sign (see `Array.prototype.sort`).
- */
-function compareByPartnersFirst(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
-  try {
-    const partnerOne = itemOne.isPartner ? 1 : 0;
-    const partnerTwo = itemTwo.isPartner ? 1 : 0;
-    if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
-    return itemOne.name.localeCompare(itemTwo.name);
-  } catch {
-    return 0;
-  }
-}
-
-/**
- * Compares two list items for the "Client rating" sort: highest
- * `ratingScore` first (see `getAgencyRatingScore` in
- * lib/directory/agencies.ts), name as a stable tiebreaker. No partner
- * privileging, matching "Name A-Z" - a visitor who explicitly asks to
- * rank by review score wants that score, not partners nudged ahead of it.
- *
- * An Awwwards record's `ratingScore` is always 0 (it has no rating at
- * all), so within a mixed-source list those records simply sink to the
- * bottom rather than being excluded from the sort.
- *
- * @param itemOne - First agency item being compared.
- * @param itemTwo - Second agency item being compared.
- * @returns Standard comparator sign (see `Array.prototype.sort`).
- */
-function compareByRatingDescending(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
-  try {
-    if (itemTwo.ratingScore !== itemOne.ratingScore) {
-      return itemTwo.ratingScore - itemOne.ratingScore;
-    }
-    return itemOne.name.localeCompare(itemTwo.name);
-  } catch {
-    return 0;
-  }
-}
-
-/**
- * Compares two list items for the "Top ranked" sort in categories ranked on
- * accolades rather than on an award tally - see
- * `ACCOLADE_RANKED_CATEGORIES` in lib/directory/constants.ts.
- *
- * **This is a mirror of `compareAgenciesByAccolades` in
- * lib/directory/agencies.ts and must be kept identical to it**, for the
- * same reason `compareByDirectoryRanking` mirrors the default one: the
- * server sorts with that, this re-sorts the same list on the client, and
- * any drift makes the page reorder itself on hydration.
- *
- * @param itemOne - First agency item being compared.
- * @param itemTwo - Second agency item being compared.
- * @returns Standard comparator sign (see `Array.prototype.sort`).
- */
-function compareByAccoladeRanking(itemOne: AgencyListItem, itemTwo: AgencyListItem): number {
-  try {
-    const partnerOne = itemOne.isPartner ? 1 : 0;
-    const partnerTwo = itemTwo.isPartner ? 1 : 0;
-    if (partnerTwo !== partnerOne) return partnerTwo - partnerOne;
-    if (itemTwo.accoladeCount !== itemOne.accoladeCount) {
-      return itemTwo.accoladeCount - itemOne.accoladeCount;
-    }
-    if (itemTwo.ratingScore !== itemOne.ratingScore) {
-      return itemTwo.ratingScore - itemOne.ratingScore;
-    }
-    return itemOne.name.localeCompare(itemTwo.name);
-  } catch {
-    return 0;
-  }
-}
-
-const COMPARATORS: Record<SortMode, (itemOne: AgencyListItem, itemTwo: AgencyListItem) => number> = {
-  "top-ranked": compareByDirectoryRanking,
-  rating: compareByRatingDescending,
-  "name-az": compareByNameAscending,
-  "partners-first": compareByPartnersFirst,
+/** Every comparator, keyed by sort mode. The first four come straight
+ *  from the shared scoring module the server sorted with. */
+const COMPARATORS: Record<
+  SortMode,
+  (one: AgencyListItem, two: AgencyListItem) => number
+> = {
+  recommended: compareByRecommended as (one: AgencyRankingSignals, two: AgencyRankingSignals) => number,
+  "most-awarded": compareByAwards,
+  "lowest-budget": compareByLowestBudget,
+  "fastest-reply": compareByFastestReply,
+  rating: compareByRating,
+  "partners-first": compareByPartners,
 };
 
 /**
- * Derives the country filter's option list from the data itself - never
- * a hardcoded country list, so a new country in the dataset shows up here
- * automatically.
+ * Derives the country filter's options from the data itself, never a
+ * hardcoded list, so a new country in the dataset appears automatically.
  *
  * @param items - The full agency list for this page.
  * @returns Distinct country names, alphabetically sorted.
@@ -223,16 +170,14 @@ function buildCountryOptions(items: AgencyListItem[]): string[] {
         .map((item) => item?.country)
         .filter((country): country is string => Boolean(country)),
     );
-    return Array.from(countries).sort((countryOne, countryTwo) => countryOne.localeCompare(countryTwo));
+    return Array.from(countries).sort((one, two) => one.localeCompare(two));
   } catch {
     return [];
   }
 }
 
-/** Empty state shown when the current search/country combination matches
- *  nothing - distinct from AgencyGrid's empty state, which covers "no
- *  agencies scraped for this category yet" rather than "filters too
- *  narrow". Includes a reset action per the control-set requirement. */
+/** Empty state for "filters too narrow" - distinct from AgencyGrid's,
+ *  which covers "nothing scraped for this category yet". */
 function FilterEmptyState({ onReset }: { onReset: () => void }) {
   try {
     return (
@@ -249,87 +194,161 @@ function FilterEmptyState({ onReset }: { onReset: () => void }) {
   }
 }
 
-/** Search input, country select, sort select, and a live result count. */
+/** The search / country / budget / sort row and the toggle pills. */
 function ControlsBar({
-  searchQuery,
-  onSearchChange,
-  countryFilter,
-  onCountryChange,
+  state,
+  onChange,
   countryOptions,
-  sortMode,
-  onSortChange,
   sortOptions,
   visibleCount,
   totalCount,
+  onReset,
 }: {
-  searchQuery: string;
-  onSearchChange: (value: string) => void;
-  countryFilter: string;
-  onCountryChange: (value: string) => void;
+  state: FilterState;
+  onChange: (next: Partial<FilterState>, changedKey: string, changedValue: unknown) => void;
   countryOptions: string[];
-  sortMode: SortMode;
-  onSortChange: (value: SortMode) => void;
-  sortOptions: Array<{ value: SortMode; label: string }>;
+  sortOptions: typeof SORT_OPTIONS;
   visibleCount: number;
   totalCount: number;
+  onReset: () => void;
 }) {
   try {
+    /** Adds or removes one platform from the multi-select. */
+    function togglePlatform(platform: AgencyPlatform) {
+      const next = state.platforms.includes(platform)
+        ? state.platforms.filter((entry) => entry !== platform)
+        : [...state.platforms, platform];
+      onChange({ platforms: next }, "platform", next.join(",") || "none");
+    }
+
     return (
       <div className={styles.controls}>
-        <div className={`${styles.field} ${styles.fieldSearch}`}>
-          <label htmlFor="directory-search" className={styles.label}>
-            {SEARCH_LABEL}
-          </label>
-          <input
-            id="directory-search"
-            type="search"
-            value={searchQuery}
-            onChange={(event) => onSearchChange(event.target.value)}
-            placeholder={SEARCH_PLACEHOLDER}
-            className={styles.control}
-          />
+        <div className={styles.controlsRow}>
+          <div className={`${styles.field} ${styles.fieldSearch}`}>
+            <label htmlFor="directory-search" className={styles.label}>
+              {SEARCH_LABEL}
+            </label>
+            <input
+              id="directory-search"
+              type="search"
+              value={state.search}
+              onChange={(event) => onChange({ search: event.target.value }, "search", event.target.value)}
+              placeholder={SEARCH_PLACEHOLDER}
+              className={styles.control}
+            />
+          </div>
+
+          <div className={`${styles.field} ${styles.fieldSelect}`}>
+            <label htmlFor="directory-budget" className={styles.label}>
+              {BUDGET_LABEL}
+            </label>
+            <select
+              id="directory-budget"
+              value={state.budget}
+              onChange={(event) => onChange({ budget: event.target.value }, "budget", event.target.value)}
+              className={`${styles.control} ${styles.select}`}
+            >
+              {BUDGET_FILTER_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={`${styles.field} ${styles.fieldSelect}`}>
+            <label htmlFor="directory-country" className={styles.label}>
+              {COUNTRY_LABEL}
+            </label>
+            <select
+              id="directory-country"
+              value={state.country}
+              onChange={(event) => onChange({ country: event.target.value }, "country", event.target.value)}
+              className={`${styles.control} ${styles.select}`}
+            >
+              <option value={ALL_COUNTRIES_VALUE}>{ALL_COUNTRIES_LABEL}</option>
+              {countryOptions.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={`${styles.field} ${styles.fieldSelect}`}>
+            <label htmlFor="directory-sort" className={styles.label}>
+              {SORT_LABEL}
+            </label>
+            <select
+              id="directory-sort"
+              value={state.sort}
+              onChange={(event) =>
+                onChange({ sort: event.target.value as SortMode }, "sort", event.target.value)
+              }
+              className={`${styles.control} ${styles.select}`}
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className={`${styles.field} ${styles.fieldSelect}`}>
-          <label htmlFor="directory-country" className={styles.label}>
-            {COUNTRY_LABEL}
-          </label>
-          <select
-            id="directory-country"
-            value={countryFilter}
-            onChange={(event) => onCountryChange(event.target.value)}
-            className={`${styles.control} ${styles.select}`}
-          >
-            <option value={ALL_COUNTRIES_VALUE}>{ALL_COUNTRIES_LABEL}</option>
-            {countryOptions.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
+        <div className={styles.controlsRow}>
+          <fieldset className={styles.pillGroup}>
+            <legend className={styles.label}>{PLATFORM_LABEL}</legend>
+            <div className={styles.pills}>
+              {PLATFORM_OPTIONS.map((option) => {
+                const active = state.platforms.includes(option.value);
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
+                    aria-pressed={active}
+                    onClick={() => togglePlatform(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+
+          <fieldset className={styles.pillGroup}>
+            <legend className={styles.label}>Filters</legend>
+            <div className={styles.pills}>
+              {TOGGLE_FILTERS.map((toggle) => {
+                const active = state[toggle.key];
+                return (
+                  <button
+                    key={toggle.key}
+                    type="button"
+                    className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
+                    aria-pressed={active}
+                    title={toggle.hint}
+                    onClick={() => onChange({ [toggle.key]: !active }, toggle.key, !active)}
+                  >
+                    {toggle.label}
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
         </div>
 
-        <div className={`${styles.field} ${styles.fieldSelect}`}>
-          <label htmlFor="directory-sort" className={styles.label}>
-            {SORT_LABEL}
-          </label>
-          <select
-            id="directory-sort"
-            value={sortMode}
-            onChange={(event) => onSortChange(event.target.value as SortMode)}
-            className={`${styles.control} ${styles.select}`}
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        <div className={styles.countRow}>
+          <p aria-live="polite" className={styles.count}>
+            Showing {visibleCount} of {totalCount} agenc{totalCount === 1 ? "y" : "ies"}
+          </p>
+          {hasActiveFilters(state) && (
+            <button type="button" className={styles.resetLink} onClick={onReset}>
+              {RESET_LABEL}
+            </button>
+          )}
         </div>
-
-        <p aria-live="polite" className={styles.count}>
-          Showing {visibleCount} of {totalCount} agenc{totalCount === 1 ? "y" : "ies"}
-        </p>
       </div>
     );
   } catch {
@@ -338,30 +357,21 @@ function ControlsBar({
 }
 
 /**
- * Interactive shell around an already server-rendered agency list: search,
- * country filter, and sort, plus a live result count and a proper empty
- * state when filters match nothing.
+ * Interactive shell around an already server-rendered agency list.
  *
  * `cardsBySlug` holds `<AgencyCard/>` elements built and rendered by the
- * server (see components/directory/AgencyGrid.tsx) - this component only
+ * server (components/directory/AgencyGrid.tsx). This component only
  * decides which of those already-built elements to show and in what
- * order. It never re-renders a card's own content, and on first paint
- * (before any interaction) it shows every agency in the default order,
- * which is what keeps this safe for crawlers and internal linking: the
- * server HTML for that first paint already contains every card.
+ * order; it never re-renders a card's content. That is what keeps the
+ * full set of agency links present in the server HTML regardless of
+ * filter state.
  *
  * @param props - Component props.
- * @param props.items - Slim per-agency metadata for filtering/sorting,
- *                       already in the directory's default order
- *                       (partners, then awards, then review score, then
- *                       name) - see `compareByDirectoryRanking`.
- * @param props.cardsBySlug - Pre-rendered card elements, keyed by
- *                             `Agency.slug` so lookups never depend on
- *                             array position.
- * @param props.categorySlug - The category being rendered. Selects the
- *                             "Top ranked" comparator so the client
- *                             reproduces the server's order exactly - see
- *                             `compareByAccoladeRanking`.
+ * @param props.items - Slim per-agency metadata, already in the server's
+ *                       order.
+ * @param props.cardsBySlug - Pre-rendered card elements, keyed by slug so
+ *                             lookups never depend on array position.
+ * @param props.categorySlug - The category being rendered, for analytics.
  */
 export default function AgencyExplorer({
   items,
@@ -372,32 +382,45 @@ export default function AgencyExplorer({
   cardsBySlug: Record<string, ReactNode>;
   categorySlug: string;
 }) {
-  // Every hook runs BEFORE the try, not inside it. A throw between two hook
-  // calls would leave React having recorded fewer hooks for this render than
-  // the last, and the catch returning null hides that until the next render
-  // crashes with "rendered fewer hooks than expected". The try still guards
-  // the JSX below, which is what it was there for.
-  const [searchQuery, setSearchQuery] = useState("");
-  const [countryFilter, setCountryFilter] = useState(ALL_COUNTRIES_VALUE);
-  const [sortMode, setSortMode] = useState<SortMode>(DEFAULT_SORT_MODE);
+  // Every hook runs BEFORE the try, never inside it. A throw between two
+  // hook calls would leave React having recorded fewer hooks than the
+  // previous render, and the catch returning null hides that until the
+  // NEXT render crashes with "rendered fewer hooks than expected".
+  const [state, setState] = useState<FilterState>(defaultFilterState);
+  const { trackEvent } = useAnalytics();
+  const hydratedFromUrl = useRef(false);
+
+  // Restore filters from the URL on mount, and only on mount.
+  //
+  // This sets state from an effect, which `react-hooks/set-state-in-effect`
+  // warns about. It is load-bearing here rather than sloppy: the server
+  // has to render the UNFILTERED list (see this file's header), so the
+  // initial state must be the defaults on both sides of hydration, and
+  // the URL can only be applied afterwards. Reading it during render
+  // would either mismatch hydration or force the whole subtree dynamic.
+  useEffect(() => {
+    try {
+      if (hydratedFromUrl.current) return;
+      hydratedFromUrl.current = true;
+      const fromUrl = readFilterState(window.location.search);
+      if (writeFilterState(fromUrl).length > 0) setState(fromUrl);
+    } catch {
+      // A malformed URL just leaves the defaults in place.
+    }
+  }, []);
 
   const safeItems = items ?? [];
   const countryOptions = useMemo(() => buildCountryOptions(safeItems), [safeItems]);
-  // The "Client rating" option is hidden when nobody in this list has a
-  // rating at all (every agency in a pure web-design category, for
-  // instance) - a sort mode that can never reorder anything is a dead
-  // control, not a real choice. "Award total" never gets the same
-  // treatment even though the symmetric case exists (a pure SEO
-  // category, where every award total is 0): it is the SSR/default
-  // mode, and a <select> whose selected value has no matching <option>
-  // renders as an unlabelled blank, which is worse than an option that
-  // does nothing.
+
   const sortOptions = useMemo(() => {
     try {
-      const hasAnyRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
-      return hasAnyRating
-        ? SORT_OPTIONS
-        : SORT_OPTIONS.filter((option) => option.value !== "rating");
+      const hasRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
+      const hasPartners = safeItems.some((item) => item?.isPartner);
+      return SORT_OPTIONS.filter((option) => {
+        if (option.needs === "rating") return hasRating;
+        if (option.needs === "partners") return hasPartners;
+        return true;
+      });
     } catch {
       return SORT_OPTIONS;
     }
@@ -405,59 +428,74 @@ export default function AgencyExplorer({
 
   const visibleItems = useMemo(() => {
     try {
-      const query = searchQuery.trim().toLowerCase();
-      const filtered = safeItems.filter((item) => {
-        const matchesQuery = query.length === 0 || item?.searchText?.includes(query);
-        const matchesCountry =
-          countryFilter === ALL_COUNTRIES_VALUE || item?.country === countryFilter;
-        return matchesQuery && matchesCountry;
-      });
-      // "Top ranked" means a different thing per category - see
-      // `compareByAccoladeRanking`. Every other sort mode is
-      // category-independent and comes straight from COMPARATORS.
-      const topRankedComparator = isAccoladeRankedCategory(categorySlug)
-        ? compareByAccoladeRanking
-        : compareByDirectoryRanking;
-      const comparator =
-        sortMode === "top-ranked"
-          ? topRankedComparator
-          : (COMPARATORS[sortMode] ?? topRankedComparator);
+      const filtered = safeItems.filter((item) => matchesFilters(item, state));
+      const comparator = COMPARATORS[state.sort] ?? compareByRecommended;
       return filtered.slice().sort(comparator);
     } catch {
       return [];
     }
-  }, [safeItems, searchQuery, countryFilter, sortMode, categorySlug]);
+  }, [safeItems, state]);
 
   try {
-
     /**
-     * Clears search, country, and sort back to their SSR-matching
-     * defaults. Wrapped in try/catch per repo convention even though
-     * useState setters cannot themselves throw.
+     * Applies a change, writes it to the URL, and reports it.
+     *
+     * The URL is updated with `history.replaceState` rather than a router
+     * navigation: this is the same page with a different view of the same
+     * data, so it should not create a history entry per keystroke, and it
+     * must not trigger a re-fetch of a route whose payload has not
+     * changed.
      */
+    function applyChange(
+      partial: Partial<FilterState>,
+      changedKey: string,
+      changedValue: unknown,
+    ) {
+      try {
+        const next = { ...state, ...partial };
+        setState(next);
+
+        const query = writeFilterState(next);
+        const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+        window.history.replaceState(null, "", url);
+
+        trackEvent(AnalyticsEvents.DIRECTORY_FILTER_APPLIED, {
+          category: categorySlug,
+          filter: changedKey,
+          value: changedValue,
+        });
+      } catch {
+        // A failure to write the URL or report the change must not stop
+        // the filter itself from applying.
+        setState({ ...state, ...partial });
+      }
+    }
+
+    /** Clears every filter back to the SSR defaults, sort included. */
     function resetFilters() {
       try {
-        setSearchQuery("");
-        setCountryFilter(ALL_COUNTRIES_VALUE);
-        setSortMode(DEFAULT_SORT_MODE);
+        setState(defaultFilterState());
+        window.history.replaceState(null, "", window.location.pathname);
+        trackEvent(AnalyticsEvents.DIRECTORY_FILTER_APPLIED, {
+          category: categorySlug,
+          filter: "reset",
+          value: "all",
+        });
       } catch {
-        // No-op: state setters never throw.
+        setState(defaultFilterState());
       }
     }
 
     return (
       <div className={styles.stack}>
         <ControlsBar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          countryFilter={countryFilter}
-          onCountryChange={setCountryFilter}
+          state={state}
+          onChange={applyChange}
           countryOptions={countryOptions}
-          sortMode={sortMode}
-          onSortChange={setSortMode}
           sortOptions={sortOptions}
           visibleCount={visibleItems.length}
           totalCount={safeItems.length}
+          onReset={resetFilters}
         />
 
         {visibleItems.length === 0 ? (

@@ -1057,131 +1057,60 @@ export function buildAgencyOrganizationJsonLd(
   }
 }
 
-/** Slim, client-safe projection of an `Agency` for the interactive
- *  search/filter/sort controls (components/directory/AgencyExplorer.tsx).
- *  Deliberately NOT the full `Agency` shape: a "use client" file that
- *  imports anything from this module would pull the whole agencies.json
- *  dataset into the client bundle (JS module evaluation isn't reliably
- *  tree-shaken across a JSON import), on top of the same data already
- *  present as server-rendered HTML. Build these server-side via
- *  `buildAgencyListItems` and pass only this slim array across the
- *  client boundary - AgencyExplorer imports this as a type-only import,
- *  which costs nothing at runtime. */
-export interface AgencyListItem {
-  slug: string;
-  name: string;
-  /** Lowercased "name + description + location + client names + service
-   *  names + industry names" blob for substring search. */
-  searchText: string;
-  country: string | null;
-  isPartner: boolean;
-  awardTotal: number;
-  /** Ranking signal for review-based sources - see `getAgencyRatingScore`.
-   *  0 for a record with no rating (every Awwwards record today), so it
-   *  can be sorted on directly without a null-guard at the call site. */
-  ratingScore: number;
-  /** Number of `Agency.accolades`, the ranking signal for categories in
-   *  ACCOLADE_RANKED_CATEGORIES. Carried on every item rather than only
-   *  those categories' items so the client comparator never has to
-   *  null-guard it. */
-  accoladeCount: number;
-}
+// The slim client-safe projection of an agency (`AgencyListItem`) and the
+// category stat helper used to live here. Both moved to ./listing.ts when
+// the directory started ranking on the claim score rather than on award
+// count: they now need the RESOLVED record (claim applied) rather than the
+// scraped one, and ./listing.ts is where that resolution happens. Nothing
+// about the client-bundle constraint changed - see `buildAgencyListItems`
+// there for the full explanation of why that projection exists at all.
 
 /**
- * Projects a single agency into the slim `AgencyListItem` shape used by
- * the client-side directory controls.
+ * The whole merged dataset, in source-priority order.
  *
- * @param agency - The agency to project.
- * @returns An `AgencyListItem`, or null when the agency has no slug (the
- *          join key `components/directory/AgencyGrid.tsx` uses to line
- *          this up with its pre-rendered card for the same agency).
- */
-export function buildAgencyListItem(agency: Agency | null | undefined): AgencyListItem | null {
-  try {
-    if (!agency?.slug) return null;
-    const location = formatAgencyLocation(agency.location ?? null) ?? "";
-    // Client names are in the search blob so a visitor can find agencies by
-    // who they have worked for ("nike") rather than only by agency name -
-    // the query a directory is actually asked.
-    const clientNames = getAgencyClients(agency)
-      .map((client) => client.name)
-      .join(" ");
-    // Service and industry names go in too - a visitor searching "link
-    // building" or "ecommerce" should find a match, not just a visitor
-    // searching by agency or client name.
-    const serviceNames = (agency.services ?? []).join(" ");
-    const industryNames = (agency.industries ?? []).join(" ");
-    const searchText = [
-      agency.name ?? "",
-      agency.description ?? "",
-      location,
-      clientNames,
-      serviceNames,
-      industryNames,
-    ]
-      .join(" ")
-      .toLowerCase();
-    return {
-      slug: agency.slug,
-      name: agency.name ?? "",
-      searchText,
-      country: agency.location?.country?.trim() || null,
-      isPartner: isSuperflowPartner(agency),
-      awardTotal: agency.awards?.total ?? 0,
-      ratingScore: getAgencyRatingScore(agency),
-      accoladeCount: agency.accolades?.length ?? 0,
-    };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Projects a list of agencies into `AgencyListItem`s. Agencies without a
- * slug are dropped (see `buildAgencyListItem`) - callers that need to
- * pair these with pre-rendered cards should key off `slug`, not array
- * index, so a dropped entry can never desynchronize the two lists.
+ * Exported so lib/directory/listing.ts can enrich and re-rank it without
+ * importing the JSON files a second time (a second import would evaluate
+ * the same few megabytes again and produce records that fail identity
+ * comparisons against these). Callers that want a category, a slug or a
+ * sorted list should use the helpers above and in ./listing.ts rather
+ * than filtering this by hand.
  *
- * @param agencies - Agencies to project.
- * @returns One `AgencyListItem` per agency with a slug.
+ * @returns Every agency record. Treat as read-only.
  */
-export function buildAgencyListItems(agencies: Agency[] | null | undefined): AgencyListItem[] {
+export function getAllAgencies(): Agency[] {
   try {
-    return (agencies ?? [])
-      .map((agency) => buildAgencyListItem(agency))
-      .filter((item): item is AgencyListItem => item !== null);
+    return AGENCIES;
   } catch {
     return [];
   }
 }
 
-/** Aggregate counts shown in the category page header - see
- *  components/directory/CategoryHero.tsx. */
-export interface AgencyListStats {
-  agencyCount: number;
-  countryCount: number;
-  partnerCount: number;
-}
-
 /**
- * Summarizes a list of agencies for the category header's stat row:
- * how many agencies, how many distinct countries, how many are Superflow
- * partners. All derived from the data - never a hardcoded count.
+ * Formats an agency's location for the card and profile header, where a
+ * country on its own is not shown.
  *
- * @param agencies - Agencies to summarize.
- * @returns Agency count, distinct country count, and partner count.
+ * Different from `formatAgencyLocation`, which renders whatever it has:
+ * that one still backs the country filter, the search blob and the
+ * Markdown copies, where "Italy" is a usable fact. On the page, a header
+ * reading "Italy" under a studio's name answers none of the questions a
+ * visitor is there with - it is the shape of an address with the address
+ * missing - so the line is omitted until somebody fills the city in
+ * (through a claim, or through scripts/directory-import/backfill-cities.mjs).
+ *
+ * @param location - The agency's location record, possibly null.
+ * @param cityOverride - City resolved from the claim overlay, if any.
+ * @returns "Rotterdam, Netherlands", or null when no city is known.
  */
-export function buildAgencyListStats(agencies: Agency[] | null | undefined): AgencyListStats {
+export function formatAgencyPlace(
+  location: AgencyLocation | null | undefined,
+  cityOverride?: string | null,
+): string | null {
   try {
-    const list = agencies ?? [];
-    const countries = new Set(
-      list
-        .map((agency) => agency?.location?.country?.trim())
-        .filter((country): country is string => Boolean(country)),
-    );
-    const partnerCount = list.filter((agency) => isSuperflowPartner(agency)).length;
-    return { agencyCount: list.length, countryCount: countries.size, partnerCount };
+    const city = cityOverride?.trim() || location?.city?.trim();
+    if (!city) return null;
+    const country = location?.country?.trim();
+    return country ? `${city}, ${country}` : city;
   } catch {
-    return { agencyCount: 0, countryCount: 0, partnerCount: 0 };
+    return null;
   }
 }

@@ -1,0 +1,420 @@
+/* Shared furniture for the three directory forms: claim start, claim
+   enrich, and founder match.
+
+   One stylesheet rather than three because they are the same form in
+   three lengths, and a magic-link box that looked different from the
+   enrich form it leads to would read as two different products. */
+
+.section {
+    --df-display: var(--font-urbanist), system-ui, sans-serif;
+    --df-body: var(--font-poppins), system-ui, sans-serif;
+    --df-ink: #16171a;
+    --df-muted: #6b7079;
+    --df-quiet: #8b909a;
+    --df-accent: #433df3;
+    --df-danger: #b42318;
+    --df-ok: #17703a;
+
+    box-sizing: border-box;
+    width: 100%;
+    /* No top padding: this always follows a gradient hero whose white
+       fade already lands on the page. */
+    padding: 8px 24px 96px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Pulled up into the hero's fade, the same move every 2026 tool page
+   makes with its input card. */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 32px;
+    border: 1px solid #ececf1;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 18px 44px rgba(12, 14, 28, 0.08);
+}
+
+.cardWide {
+    max-width: 880px;
+}
+
+.intro {
+    margin: 0;
+    font-family: var(--df-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--df-muted);
+    text-wrap: pretty;
+}
+
+/* ---- Fields ---------------------------------------------------------- */
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-family: var(--df-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--df-ink);
+}
+
+/* The optional marker is on the LABEL rather than a required marker on
+   the others: all but four of these fields are optional, so marking the
+   majority would be noise. */
+.optional {
+    font-weight: 400;
+    color: var(--df-quiet);
+}
+
+.hint {
+    font-family: var(--df-body);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--df-quiet);
+    text-wrap: pretty;
+}
+
+.control {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #e0e1e7;
+    border-radius: 12px;
+    background: #ffffff;
+    font-family: var(--df-body);
+    font-size: 15px;
+    color: var(--df-ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.textarea {
+    height: auto;
+    min-height: 120px;
+    padding: 12px 14px;
+    line-height: 1.55;
+    resize: vertical;
+}
+
+.control::placeholder {
+    color: #b3b7bf;
+}
+
+.control:hover {
+    border-color: #c9ccd4;
+}
+
+.control:focus {
+    outline: none;
+    border-color: var(--df-accent);
+    box-shadow: 0 0 0 3px rgba(67, 61, 243, 0.14);
+}
+
+.select {
+    appearance: none;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%236b7079' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.counter {
+    align-self: flex-end;
+    font-family: var(--df-body);
+    font-size: 11px;
+    color: var(--df-quiet);
+    font-variant-numeric: tabular-nums;
+}
+
+.counterOver {
+    color: var(--df-danger);
+    font-weight: 600;
+}
+
+/* ---- Pills (platform multi-select, toggles) -------------------------- */
+
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pill {
+    padding: 8px 14px;
+    border: 1px solid #e0e1e7;
+    border-radius: 999px;
+    background: #ffffff;
+    font-family: var(--df-body);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--df-muted);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.pill:hover {
+    border-color: #c9ccd4;
+    color: var(--df-ink);
+}
+
+.pill:focus-visible {
+    outline: 2px solid var(--df-accent);
+    outline-offset: 2px;
+}
+
+.pillActive {
+    border-color: var(--df-accent);
+    background: var(--df-accent);
+    color: #ffffff;
+}
+
+.pillActive:hover {
+    border-color: var(--df-accent);
+    color: #ffffff;
+}
+
+/* ---- Tag input ------------------------------------------------------- */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px 6px 12px;
+    border: 1px solid #e0e1e7;
+    border-radius: 999px;
+    background: #f7f7fb;
+    font-family: var(--df-body);
+    font-size: 13px;
+    color: var(--df-ink);
+}
+
+.tagRemove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #e4e5ec;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--df-muted);
+    cursor: pointer;
+}
+
+.tagRemove:hover {
+    background: #d5d7e0;
+    color: var(--df-ink);
+}
+
+.tagRemove:focus-visible {
+    outline: 2px solid var(--df-accent);
+    outline-offset: 2px;
+}
+
+/* ---- Actions and messages ------------------------------------------- */
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+}
+
+.submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border: 0;
+    border-radius: 32px;
+    background: var(--df-accent);
+    font-family: var(--df-display);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .submit:hover:not(:disabled) {
+        background: #3630d6;
+        transform: translateY(-1px);
+    }
+}
+
+.submit:disabled {
+    background: #b8b6f5;
+    cursor: not-allowed;
+}
+
+.submit:focus-visible {
+    outline: 2px solid var(--df-accent);
+    outline-offset: 3px;
+}
+
+.secondaryAction {
+    font-family: var(--df-body);
+    font-size: 14px;
+    color: var(--df-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.error {
+    margin: 0;
+    padding: 14px 16px;
+    border: 1px solid #f3c7c2;
+    border-radius: 12px;
+    background: #fdf3f2;
+    font-family: var(--df-body);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--df-danger);
+    text-wrap: pretty;
+}
+
+.errorAction {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--df-danger);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.success {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px;
+    border: 1px solid #b7e2c4;
+    border-radius: 16px;
+    background: #f4fbf6;
+}
+
+.successHeading {
+    margin: 0;
+    font-family: var(--df-display);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--df-ok);
+}
+
+.successBody {
+    margin: 0;
+    font-family: var(--df-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--df-ink);
+    text-wrap: pretty;
+}
+
+.successList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.successListItem {
+    font-family: var(--df-body);
+    font-size: 15px;
+    color: var(--df-ink);
+}
+
+.successLink {
+    color: var(--df-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.legend {
+    padding: 0;
+    font-family: var(--df-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--df-ink);
+}
+
+/* A section break inside the long enrich form, so nine fields do not
+   arrive as one undifferentiated column. */
+.divider {
+    height: 1px;
+    margin: 4px 0;
+    border: 0;
+    background: #ececf1;
+}
+
+.sectionLabel {
+    margin: 0;
+    font-family: var(--df-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--df-quiet);
+}
+
+@media (max-width: 640px) {
+    .card {
+        padding: 24px 20px;
+    }
+
+    .row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
