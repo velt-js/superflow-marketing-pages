@@ -11,6 +11,19 @@ import Script from "next/script";
 
 const GTM_ID = "GTM-M6Q8QPG";
 const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
+// Google Ads account 467-956-1854. Configured on the SAME gtag.js loader as
+// GA4 above (one library, two destinations) so an ad click anywhere on this
+// site writes the `_gcl_aw` / `_gcl_au` linker cookies.
+//
+// Those cookies are written on the registrable domain (`usesuperflow.com`),
+// which is what carries the click through to app.usesuperflow.com — the
+// product app reads them back when it fires the signup / install-success
+// conversions (see `GoogleAdsService` in superflow_portal_v2). Nothing here
+// fires a conversion: this site has no signup, every CTA hands off to the app.
+//
+// DO NOT also add a Google Ads tag for this ID inside the GTM container
+// (GTM-M6Q8QPG) — gtag.js already owns it, and both would double-count.
+const GOOGLE_ADS_ID = "AW-11181152032";
 const REWARDFUL_KEY = "626baf";
 const MIXPANEL_TOKEN = "15f22bfd89315cb10f7cd65937b149cb";
 const INTERCOM_APP_ID = "gkjq60px";
@@ -33,7 +46,7 @@ export function ThirdPartyScripts() {
         strategy="afterInteractive"
       />
 
-      {/* Google Analytics (gtag.js) */}
+      {/* Google tag (gtag.js) — GA4 + Google Ads on one loader */}
       <Script
         id="ga-gtag"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -43,7 +56,8 @@ export function ThirdPartyScripts() {
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');`}
+gtag('config', '${GA_MEASUREMENT_ID}');
+gtag('config', '${GOOGLE_ADS_ID}');`}
       </Script>
 
       {/* Google Tag Manager — head snippet */}
