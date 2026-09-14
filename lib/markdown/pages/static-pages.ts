@@ -329,6 +329,75 @@ function toolsHubDoc(): AgentDoc {
   };
 }
 
+/** /state-of-agency-tools - the survey, and the report it produces. */
+function surveyDoc(): AgentDoc {
+  return {
+    title: "State of Agency Tools 2026",
+    summary:
+      "A survey of what tools agencies actually run, across creative work, operations, CRM, outreach, client support, review and AI. The report is free and publishes in November 2026.",
+    path: "/state-of-agency-tools",
+    kind: "Survey",
+    facts: [
+      { label: "Cost", value: "Free" },
+      { label: "Contact details", value: "Optional" },
+      { label: "Report published", value: "November 2026" },
+      { label: "Report", value: `${SITE_URL}/state-of-agency-tools/report` },
+    ],
+    sections: [
+      {
+        heading: "What it covers",
+        bullets: [
+          "**Creative and marketing.** Websites, design, video, SEO, social, email.",
+          "**Projects and operations.** PM, time tracking, profit, finance, payroll.",
+          "**Sales tools.** CRM, prospecting, proposals, e-signatures.",
+          "**Client support.** Help desks, shared inboxes, client portals.",
+          "**AI tools.** Assistants, notetakers, production, and who pays for them.",
+          "**Review and tool value.** Feedback, revisions, checklists, bottlenecks.",
+        ],
+      },
+      {
+        heading: "The report",
+        body: [
+          `Findings are published at ${SITE_URL}/state-of-agency-tools/report, with question-specific denominators rather than one headline sample size, so a figure can be read against the number of people who actually answered that question.`,
+        ],
+      },
+    ],
+  };
+}
+
+/** /state-of-agency-tools/report. */
+function surveyReportDoc(): AgentDoc {
+  return {
+    title: "State of Agency Tools 2026 report",
+    summary:
+      "Agency tool adoption across creative work, operations, CRM, outreach, client support, review and AI, plus whole-stack satisfaction and tool value.",
+    path: "/state-of-agency-tools/report",
+    kind: "Research report",
+    facts: [
+      { label: "Publisher", value: "Superflow" },
+      { label: "Cost", value: "Free, no email gate" },
+      {
+        label: "Denominators",
+        value: "Per question, not one headline sample size",
+      },
+    ],
+    sections: [
+      {
+        heading: "Reading the figures",
+        body: [
+          "Each figure carries the number of respondents who answered that specific question, because not every respondent answers every question and a single headline N would overstate the ones with the fewest answers. Read a percentage against its own denominator.",
+        ],
+      },
+      {
+        heading: "Note for automated readers",
+        body: [
+          `The findings are charted rather than tabulated, and are updated as responses arrive. Fetch ${SITE_URL}/state-of-agency-tools/report for the current numbers rather than quoting a figure from this summary.`,
+        ],
+      },
+    ],
+  };
+}
+
 /** Every non-CMS route, keyed by path. */
 export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/": homeDoc,
@@ -341,4 +410,6 @@ export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/privacy": () => legalDoc("/privacy"),
   "/terms": () => legalDoc("/terms"),
   "/tools": toolsHubDoc,
+  "/state-of-agency-tools": surveyDoc,
+  "/state-of-agency-tools/report": surveyReportDoc,
 };

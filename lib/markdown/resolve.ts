@@ -22,7 +22,20 @@ import {
   reviewToAgentDoc,
   useCaseToAgentDoc,
 } from "./pages/sanity-pages";
+import {
+  agencyToAgentDoc,
+  directoryCategoryToAgentDoc,
+  directoryHubToAgentDoc,
+} from "./pages/directory-pages";
 import { type Doc, arr, rec, str } from "./pages/read";
+import {
+  getAgencyBySlug,
+  shouldIndexAgency,
+} from "@/lib/directory/agencies";
+import {
+  DIRECTORY_BASE_PATH,
+  DIRECTORY_CATEGORIES,
+} from "@/lib/directory/constants";
 import { clean, titleFromSlug } from "./text";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import {
@@ -33,6 +46,8 @@ import {
   getAllChecklistListItems,
   getAllComparisonPreviewsForHub,
   getAllIntegrationPreviewsForHub,
+  getAllUseCaseListItems,
+  getAllUserPersonaPages,
   getBlogPostBySlug,
   getBugBookEntryBySlug,
   getCaseStudyPageBySlug,
@@ -236,6 +251,44 @@ async function comparisonHub(basePath: "/alternative" | "/comparisons"): Promise
   });
 }
 
+/** /use-case */
+async function useCaseHub(): Promise<AgentDoc> {
+  const items = arr(await safe(getAllUseCaseListItems));
+  return hubDoc({
+    title: "Superflow use cases",
+    summary: "The jobs teams bring Superflow in to do, one page each.",
+    path: "/use-case",
+    kind: "Use case index",
+    itemLabel: "Use cases",
+    items: items
+      .map((item) => ({
+        title: clean(str(item, "title")),
+        path: `/use-case/${str(item, "slug")}`,
+        note: clean(str(item, "description")),
+      }))
+      .filter((item) => item.title),
+  });
+}
+
+/** /user-persona */
+async function personaHub(): Promise<AgentDoc> {
+  const items = arr(await safe(getAllUserPersonaPages));
+  return hubDoc({
+    title: "Superflow by role",
+    summary:
+      "What Superflow does for each role on a web team: designers, developers, founders, QA, and the people who run the review.",
+    path: "/user-persona",
+    kind: "Persona index",
+    itemLabel: "Roles",
+    items: items
+      .map((item) => ({
+        title: clean(str(item, "title")),
+        path: `/user-persona/${str(item, "slug")}`,
+      }))
+      .filter((item) => item.title),
+  });
+}
+
 /** Hub paths that are generated rather than hand-authored. */
 const HUBS: Record<string, () => Promise<AgentDoc>> = {
   "/blog": blogHub,
@@ -245,6 +298,8 @@ const HUBS: Record<string, () => Promise<AgentDoc>> = {
   "/checklist": checklistHub,
   "/alternative": () => comparisonHub("/alternative"),
   "/comparisons": () => comparisonHub("/comparisons"),
+  "/use-case": useCaseHub,
+  "/user-persona": personaHub,
 };
 
 /** Resolves a two-segment path like /blog/<slug>. */
@@ -308,6 +363,40 @@ async function resolveNested(base: string, slug: string): Promise<AgentDoc | nul
   }
 }
 
+/**
+ * Resolves the directory routes, which are file-backed rather than CMS-backed:
+ * /directory, /directory/<category>, and /directory/agency/<slug>.
+ *
+ * `shouldIndexAgency` gates the profiles, exactly as the HTML route does - a
+ * record thin enough to be excluded from the sitemap has no business acquiring
+ * a second published URL here.
+ */
+function resolveDirectory(path: string): AgentDoc | null {
+  try {
+    if (path !== DIRECTORY_BASE_PATH && !path.startsWith(`${DIRECTORY_BASE_PATH}/`)) {
+      return null;
+    }
+    if (path === DIRECTORY_BASE_PATH) return directoryHubToAgentDoc();
+
+    const rest = path.slice(DIRECTORY_BASE_PATH.length + 1).split("/");
+
+    if (rest.length === 2 && rest[0] === "agency") {
+      const agency = getAgencyBySlug(rest[1]);
+      if (!agency || !shouldIndexAgency(agency)) return null;
+      return agencyToAgentDoc(agency);
+    }
+
+    if (rest.length === 1) {
+      const category = DIRECTORY_CATEGORIES.find((entry) => entry.slug === rest[0]);
+      return category ? directoryCategoryToAgentDoc(category) : null;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 /** Resolves a root-level slug: review, then checklist, then feature. */
 async function resolveRootSlug(slug: string): Promise<AgentDoc | null> {
   const review = await safe(() => getReviewPageBySlug(slug));
@@ -338,6 +427,9 @@ export async function resolveAgentDoc(rawPath: string): Promise<AgentDoc | null>
 
     const hub = HUBS[path];
     if (hub) return await hub();
+
+    const directory = resolveDirectory(path);
+    if (directory) return directory;
 
     const segments = path.split("/").filter(Boolean);
     if (segments.length === 1) return await resolveRootSlug(segments[0]);

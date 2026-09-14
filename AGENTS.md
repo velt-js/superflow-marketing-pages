@@ -30,9 +30,14 @@ HTML page's own URL when the request sends `Accept: text/markdown`.
   which publish their own copies - see the comments in that file before
   widening its matcher.
 - `lib/markdown/` builds the documents: one builder per Sanity document type
-  in `pages/sanity-pages.ts`, hand-authored copy for the non-CMS routes in
-  `pages/static-pages.ts`, and `render.ts` turning both into Markdown.
-  A copy is a rewrite for a machine, not a transcription of the page.
+  in `pages/sanity-pages.ts`, the agency directory in `pages/directory-pages.ts`,
+  hand-authored copy for the non-CMS routes in `pages/static-pages.ts`, and
+  `render.ts` turning all of them into Markdown. A copy is a rewrite for a
+  machine, not a transcription of the page.
+- The free tools are the exception: their copies are hand-authored in
+  `lib/tools/content/`, read by both the page and its `.md`. A new tool needs a
+  module there and an entry in that directory's `index.ts`, or it ships with no
+  Markdown copy.
 - Numbers that also appear on a page (prices, credit costs) are read from the
   same data module the page renders, so the two cannot drift.
 - Discovery lives in `app/.well-known/` (agent card, MCP server card, RFC 9727

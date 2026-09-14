@@ -29,6 +29,8 @@ import { REVIEW_LIKE_AARON_EPSTEIN_CONTENT } from "./review-like-aaron-epstein";
 import { REVIEW_LIKE_PETE_KOOMEN_CONTENT } from "./review-like-pete-koomen";
 import { REVIEW_LIKE_GUSTAF_ALSTROMER_CONTENT } from "./review-like-gustaf-alstromer";
 import { REVIEW_LIKE_JARED_FRIEDMAN_CONTENT } from "./review-like-jared-friedman";
+import { AI_VISIBILITY_CHECKER_CONTENT } from "./ai-visibility-checker";
+import { ROBOTS_TXT_AI_CHECKER_CONTENT } from "./robots-txt-ai-checker";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -57,6 +59,8 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   REVIEW_LIKE_PETE_KOOMEN_CONTENT,
   REVIEW_LIKE_GUSTAF_ALSTROMER_CONTENT,
   REVIEW_LIKE_JARED_FRIEDMAN_CONTENT,
+  AI_VISIBILITY_CHECKER_CONTENT,
+  ROBOTS_TXT_AI_CHECKER_CONTENT,
 ];
 
 /**

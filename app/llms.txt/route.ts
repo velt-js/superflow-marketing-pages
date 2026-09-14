@@ -17,6 +17,7 @@ import {
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import { findToolContent } from "@/lib/tools/content";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
 
 export const revalidate = 3600;
@@ -63,14 +64,19 @@ function toTitle(slug: string): string {
  */
 function section(
   heading: string,
-  links: { path: string; title: string }[],
+  links: { path: string; title: string; markdown?: boolean }[],
 ): string {
   if (!links.length) return "";
   const body = links
     .map((l) => {
+      const url = `${SITE_URL}${l.path === "/" ? "" : l.path}`;
+      // A link to a document is a promise the document exists, so entries
+      // that opt out (`markdown: false`) get the page URL only. The two tool
+      // pages with no hand-authored copy are the current case.
+      if (l.markdown === false) return `- [${l.title}](${url})`;
       // The homepage has no slug to suffix, so its copy is at /index.md.
       const md = l.path === "/" ? "/index.md" : `${l.path}.md`;
-      return `- [${l.title}](${SITE_URL}${l.path === "/" ? "" : l.path}): ${SITE_URL}${md}`;
+      return `- [${l.title}](${url}): ${SITE_URL}${md}`;
     })
     .join("\n");
   return `## ${heading}\n${body}\n`;
@@ -196,6 +202,8 @@ export async function GET() {
   const tools = liveTools().map((tool) => ({
     path: toolPath(tool.slug),
     title: tool.name,
+    // Two live tools ship no hand-authored copy yet (see lib/tools/content).
+    markdown: Boolean(findToolContent(tool.slug)),
   }));
 
   const body = [

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ToolPage } from "@/components/tools/ToolPage";
+import { AI_VISIBILITY_CHECKER_CONTENT } from "@/lib/tools/content/ai-visibility-checker";
 import { VisibilityTool } from "@/components/tools/ai-visibility/VisibilityTool";
 import { readCachedReport } from "@/lib/tools/ai-visibility/cached";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
@@ -7,65 +8,20 @@ import { toolOgImage } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL, buildFaqPageSchema } from "@/app/_seo/schema";
-import type { ToolFaqItem } from "@/components/tools/ToolFaq";
+
+// Copy lives in lib/tools/content so the page and the Markdown copy served at
+// /tools/ai-visibility-checker.md read the same words. The FAQ is also the
+// source for this page's FAQPage schema below, so all three stay in step.
+const {
+  title: TITLE,
+  subhead: SUBHEAD,
+  description: DESCRIPTION,
+  faq: FAQ,
+  howItWorks: HOW_IT_WORKS,
+} = AI_VISIBILITY_CHECKER_CONTENT;
 
 const SLUG = "ai-visibility-checker";
 const PATH = `/tools/${SLUG}`;
-
-const TITLE = "AI Visibility Checker";
-const SUBHEAD =
-  "Paste a URL. See whether ChatGPT, Claude, Perplexity, and Google AI can actually reach and read your site, and exactly what to fix.";
-const DESCRIPTION =
-  "Free AI visibility checker. Test whether ChatGPT, Claude, Perplexity, and Google AI can crawl and read your site. 12 checks, a 0 to 100 score, and platform-specific fixes. No login.";
-
-/** Shared with the FAQPage schema so the copy can never drift. */
-const FAQ: ToolFaqItem[] = [
-  {
-    question: "What is an AI visibility score?",
-    answer:
-      "It is a 0 to 100 measure of how easily AI answer engines can reach, read, understand, and attribute your page. We run 12 checks across four groups: Access (can they reach you), Readability (can they read it), Structure (can they understand it), and Identity (will they cite you correctly). A pass earns full points, a warning earns half.",
-  },
-  {
-    question: "Is this the same as an SEO audit?",
-    answer:
-      "No. Classic SEO assumes a crawler that renders JavaScript and ranks a list of links. AI answer engines mostly do not run JavaScript, and they quote a passage instead of ranking a page. So this tool checks things an SEO audit skips, like whether your CDN silently blocks GPTBot and how much of your copy disappears without JavaScript.",
-  },
-  {
-    question: "Why does blocking GPTBot matter if I still allow Googlebot?",
-    answer:
-      "Because they feed different systems. Googlebot feeds Google Search and the AI Overviews built on it. OAI-SearchBot and ChatGPT-User are the only reason ChatGPT can find and cite you. Blocking one does not cover the other. Our results table lists each crawler, who runs it, and exactly what you lose by blocking it.",
-  },
-  {
-    question: "Should I block AI crawlers to protect my content?",
-    answer:
-      "That is a real choice, and it is why we split the list in two. Training crawlers like CCBot, Google-Extended, and Applebot-Extended only collect data for model training, and blocking them costs you nothing in AI answers. Blocking answer crawlers removes you from the answers themselves. The tool never scores a training-crawler block as a failure.",
-  },
-  {
-    question: "How many H1 tags should a page have?",
-    answer:
-      "Exactly one. The H1 is the strongest single signal of what a page is about, and more than one means there is no single answer to that question. We also check that heading levels do not skip, because an outline that jumps from H2 to H4 reads as ambiguous structure to anything parsing it as a hierarchy.",
-  },
-  {
-    question: "Do you store the URLs I check?",
-    answer:
-      "We cache the result for 24 hours so a shared link loads instantly and a re-check is a deliberate click. We do not store your submitted URLs beyond that cache window, we do not require an email, and there is no signup wall on any result.",
-  },
-];
-
-const HOW_IT_WORKS = [
-  {
-    title: "Paste any URL",
-    body: "No login and no email. We check that page plus your robots.txt, llms.txt, and sitemap.",
-  },
-  {
-    title: "We check it as an AI crawler would",
-    body: "We fetch your page twice, once as a browser and once as GPTBot, then render it to measure how much content needs JavaScript.",
-  },
-  {
-    title: "Get a score and the fixes",
-    body: "A 0 to 100 score, four category scores, and a fix for every failure with steps for your platform.",
-  },
-];
 
 /**
  * Metadata is different for the landing page and for a shared result.

@@ -203,10 +203,54 @@ test.describe("Advertising the surface", () => {
 
     const entries = body.split("\n").filter((line) => line.startsWith("- ["));
     expect(entries.length).toBeGreaterThan(20);
-    // Every listed page is a promise that its copy exists.
-    for (const entry of entries) {
-      expect(entry, `entry names a .md copy: ${entry}`).toMatch(/\.md$/);
+
+    // A link to a document is a promise the document exists. Assert the
+    // promise rather than the suffix: llms.txt deliberately omits the copy
+    // for the handful of pages that do not have one, and a suffix check
+    // would let it start naming 404s instead.
+    const named = entries
+      .map((entry) => /(https:\/\/\S+\.md)\s*$/.exec(entry)?.[1])
+      .filter((url): url is string => Boolean(url))
+      .map((url) => new URL(url).pathname);
+
+    expect(named.length).toBeGreaterThan(20);
+
+    // Sample rather than fetch all ~550: enough to catch a whole section
+    // wired up wrong, fast enough to stay in the suite.
+    const sample = named.filter((_, index) => index % 17 === 0).slice(0, 25);
+    for (const path of sample) {
+      const response = await get(request, path);
+      expect(response.status(), `llms.txt names ${path}, which must exist`).toBe(200);
     }
+  });
+
+  test("every page type in the sitemap has a Markdown copy", async ({ request }) => {
+    // The coverage check. A new route added without a builder shows up here
+    // and nowhere else: it renders fine, and only its .md 404s.
+    const sitemap = await (await get(request, "/sitemap.xml")).text();
+    const paths = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g))
+      .map((match) => match[1].replace(/^https?:\/\/[^/]+/, "") || "/")
+      // The docs are Mintlify's, and publish their own copies.
+      .filter((path) => !path.startsWith("/docs"));
+
+    expect(paths.length).toBeGreaterThan(100);
+
+    // One representative per route shape, so the assertion stays fast while
+    // still covering every template the sitemap knows about.
+    const byShape = new Map<string, string>();
+    for (const path of paths) {
+      const shape = path === "/" ? "/" : path.split("/").slice(0, 3).join("/");
+      if (!byShape.has(shape)) byShape.set(shape, path);
+    }
+
+    const missing: string[] = [];
+    for (const path of byShape.values()) {
+      const url = path === "/" ? "/index.md" : `${path}.md`;
+      const response = await get(request, url);
+      if (response.status() !== 200) missing.push(`${url} -> ${response.status()}`);
+    }
+
+    expect(missing, `sitemap URLs with no Markdown copy:\n${missing.join("\n")}`).toEqual([]);
   });
 
   test("robots.txt welcomes the crawlers that matter and names the endpoints", async ({
