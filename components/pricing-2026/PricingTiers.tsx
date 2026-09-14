@@ -344,9 +344,14 @@ function PricingTiersToggle({
  * so both stay in sync).
  */
 export default function PricingTiers() {
-  try {
-    const { billing, setBilling } = useBilling();
+  // Hooks run BEFORE the try, not inside it. A throw between two hook calls
+  // would leave React having recorded fewer hooks than the previous render,
+  // and the catch returning null hides that until the next render crashes
+  // with "rendered fewer hooks than expected". The try still guards the JSX,
+  // which is what it was there for.
+  const { billing, setBilling } = useBilling();
 
+  try {
     return (
       <section className={styles.section} data-section="pricing-tiers">
         <div className={styles.inner}>

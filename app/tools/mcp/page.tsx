@@ -269,7 +269,7 @@ export default function ToolsMcpPage() {
         <div className={styles.sectionInner}>
           <h2 className={styles.h2}>The HTTP API</h2>
           <p className={styles.sectionLead}>
-            The same tools without MCP. Send a JSON body with the tool's
+            The same tools without MCP. Send a JSON body with the tool&apos;s
             arguments and receive JSON. For cached website checks, add{" "}
             <code className={styles.inlineCode}>&quot;refresh&quot;: true</code>{" "}
             to skip the 24 hour cache and run again.

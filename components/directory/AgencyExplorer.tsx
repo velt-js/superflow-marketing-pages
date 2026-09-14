@@ -372,57 +372,63 @@ export default function AgencyExplorer({
   cardsBySlug: Record<string, ReactNode>;
   categorySlug: string;
 }) {
+  // Every hook runs BEFORE the try, not inside it. A throw between two hook
+  // calls would leave React having recorded fewer hooks for this render than
+  // the last, and the catch returning null hides that until the next render
+  // crashes with "rendered fewer hooks than expected". The try still guards
+  // the JSX below, which is what it was there for.
+  const [searchQuery, setSearchQuery] = useState("");
+  const [countryFilter, setCountryFilter] = useState(ALL_COUNTRIES_VALUE);
+  const [sortMode, setSortMode] = useState<SortMode>(DEFAULT_SORT_MODE);
+
+  const safeItems = items ?? [];
+  const countryOptions = useMemo(() => buildCountryOptions(safeItems), [safeItems]);
+  // The "Client rating" option is hidden when nobody in this list has a
+  // rating at all (every agency in a pure web-design category, for
+  // instance) - a sort mode that can never reorder anything is a dead
+  // control, not a real choice. "Award total" never gets the same
+  // treatment even though the symmetric case exists (a pure SEO
+  // category, where every award total is 0): it is the SSR/default
+  // mode, and a <select> whose selected value has no matching <option>
+  // renders as an unlabelled blank, which is worse than an option that
+  // does nothing.
+  const sortOptions = useMemo(() => {
+    try {
+      const hasAnyRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
+      return hasAnyRating
+        ? SORT_OPTIONS
+        : SORT_OPTIONS.filter((option) => option.value !== "rating");
+    } catch {
+      return SORT_OPTIONS;
+    }
+  }, [safeItems]);
+
+  const visibleItems = useMemo(() => {
+    try {
+      const query = searchQuery.trim().toLowerCase();
+      const filtered = safeItems.filter((item) => {
+        const matchesQuery = query.length === 0 || item?.searchText?.includes(query);
+        const matchesCountry =
+          countryFilter === ALL_COUNTRIES_VALUE || item?.country === countryFilter;
+        return matchesQuery && matchesCountry;
+      });
+      // "Top ranked" means a different thing per category - see
+      // `compareByAccoladeRanking`. Every other sort mode is
+      // category-independent and comes straight from COMPARATORS.
+      const topRankedComparator = isAccoladeRankedCategory(categorySlug)
+        ? compareByAccoladeRanking
+        : compareByDirectoryRanking;
+      const comparator =
+        sortMode === "top-ranked"
+          ? topRankedComparator
+          : (COMPARATORS[sortMode] ?? topRankedComparator);
+      return filtered.slice().sort(comparator);
+    } catch {
+      return [];
+    }
+  }, [safeItems, searchQuery, countryFilter, sortMode, categorySlug]);
+
   try {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [countryFilter, setCountryFilter] = useState(ALL_COUNTRIES_VALUE);
-    const [sortMode, setSortMode] = useState<SortMode>(DEFAULT_SORT_MODE);
-
-    const safeItems = items ?? [];
-    const countryOptions = useMemo(() => buildCountryOptions(safeItems), [safeItems]);
-    // The "Client rating" option is hidden when nobody in this list has a
-    // rating at all (every agency in a pure web-design category, for
-    // instance) - a sort mode that can never reorder anything is a dead
-    // control, not a real choice. "Award total" never gets the same
-    // treatment even though the symmetric case exists (a pure SEO
-    // category, where every award total is 0): it is the SSR/default
-    // mode, and a <select> whose selected value has no matching <option>
-    // renders as an unlabelled blank, which is worse than an option that
-    // does nothing.
-    const sortOptions = useMemo(() => {
-      try {
-        const hasAnyRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
-        return hasAnyRating
-          ? SORT_OPTIONS
-          : SORT_OPTIONS.filter((option) => option.value !== "rating");
-      } catch {
-        return SORT_OPTIONS;
-      }
-    }, [safeItems]);
-
-    const visibleItems = useMemo(() => {
-      try {
-        const query = searchQuery.trim().toLowerCase();
-        const filtered = safeItems.filter((item) => {
-          const matchesQuery = query.length === 0 || item?.searchText?.includes(query);
-          const matchesCountry =
-            countryFilter === ALL_COUNTRIES_VALUE || item?.country === countryFilter;
-          return matchesQuery && matchesCountry;
-        });
-        // "Top ranked" means a different thing per category - see
-        // `compareByAccoladeRanking`. Every other sort mode is
-        // category-independent and comes straight from COMPARATORS.
-        const topRankedComparator = isAccoladeRankedCategory(categorySlug)
-          ? compareByAccoladeRanking
-          : compareByDirectoryRanking;
-        const comparator =
-          sortMode === "top-ranked"
-            ? topRankedComparator
-            : (COMPARATORS[sortMode] ?? topRankedComparator);
-        return filtered.slice().sort(comparator);
-      } catch {
-        return [];
-      }
-    }, [safeItems, searchQuery, countryFilter, sortMode, categorySlug]);
 
     /**
      * Clears search, country, and sort back to their SSR-matching

@@ -255,22 +255,26 @@ export function SolutionInsightsFlow({
   specs,
   insightLabel = DEFAULT_INSIGHT_LABEL,
 }: SolutionInsightsFlowProps): ReactNode {
+  // Hooks run BEFORE the try, not inside it: a throw between two hook calls
+  // would change how many hooks React recorded for this render, and the catch
+  // returning null hides that until the next render crashes. The try still
+  // guards the JSX below, which is what it was there for.
+  const prefersReduced = usePrefersReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const specCount = specs?.length ?? 0;
+
+  useEffect(() => {
+    if (prefersReduced || specCount <= 1) {
+      setActiveIndex(0);
+      return undefined;
+    }
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % specCount);
+    }, CYCLE_MS);
+    return () => window.clearInterval(timer);
+  }, [prefersReduced, specCount]);
+
   try {
-    const prefersReduced = usePrefersReducedMotion();
-    const [activeIndex, setActiveIndex] = useState(0);
-    const specCount = specs?.length ?? 0;
-
-    useEffect(() => {
-      if (prefersReduced || specCount <= 1) {
-        setActiveIndex(0);
-        return undefined;
-      }
-      const timer = window.setInterval(() => {
-        setActiveIndex((current) => (current + 1) % specCount);
-      }, CYCLE_MS);
-      return () => window.clearInterval(timer);
-    }, [prefersReduced, specCount]);
-
     const activeSpec = specs?.[activeIndex] ?? specs?.[0];
     if (!activeSpec) {
       return null;

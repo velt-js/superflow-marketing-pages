@@ -20,7 +20,7 @@ import {
   legacyIntegrationToAgentDoc,
   personaToAgentDoc,
   reviewToAgentDoc,
-  useCaseToAgentDoc,
+  toUseCaseAgentDoc,
 } from "./pages/sanity-pages";
 import {
   agencyToAgentDoc,
@@ -321,7 +321,7 @@ async function resolveNested(base: string, slug: string): Promise<AgentDoc | nul
 
     case "use-case": {
       const doc = await safe(() => getUseCasePageBySlug(slug));
-      return found(doc) ? useCaseToAgentDoc(doc) : null;
+      return found(doc) ? toUseCaseAgentDoc(doc) : null;
     }
 
     case "case-study": {

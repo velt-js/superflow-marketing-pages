@@ -46,50 +46,57 @@ function StatusGlyph({ status }: { status: Finding["status"] }) {
   );
 }
 
+/**
+ * One tier's rows, with a heading row above them.
+ *
+ * Defined at module scope, not inside BotTable. A component created during
+ * another component's render is a brand-new type on every render, so React
+ * unmounts and remounts the whole subtree each time the parent re-renders,
+ * throwing away its DOM state.
+ */
+function Section({
+  heading,
+  rows,
+}: {
+  heading: string;
+  rows: SerializableBotVerdict[];
+}) {
+  if (rows.length === 0) return null;
+  return (
+    <>
+      <tr className={styles.tierHeading}>
+        <td colSpan={4}>{heading}</td>
+      </tr>
+      {rows.map((verdict) => (
+        <tr key={verdict.token}>
+          <td className={styles.botToken}>{verdict.token}</td>
+          <td>{verdict.owner}</td>
+          <td>
+            <span
+              className={`${styles.pill} ${
+                verdict.allowed ? styles.pillAllowed : styles.pillBlocked
+              }`}
+            >
+              {verdict.allowed ? "Allowed" : "Blocked"}
+            </span>
+            {verdict.matchedRule ? (
+              <div style={{ marginTop: 4, fontSize: 12, color: "#8a8a90" }}>
+                <code>{verdict.matchedRule}</code>
+              </div>
+            ) : null}
+          </td>
+          <td>{verdict.allowed ? verdict.feeds : verdict.consequence}</td>
+        </tr>
+      ))}
+    </>
+  );
+}
+
 /** The bot allow/block table rendered under check A1. */
 function BotTable({ verdicts }: { verdicts: SerializableBotVerdict[] }) {
   const answer = verdicts.filter((verdict) => verdict.tier === "answer");
   const training = verdicts.filter((verdict) => verdict.tier === "training");
   const notes = verdicts.filter((verdict) => verdict.note);
-
-  /** One tier's rows, with a heading row above them. */
-  function Section({
-    heading,
-    rows,
-  }: {
-    heading: string;
-    rows: SerializableBotVerdict[];
-  }) {
-    if (rows.length === 0) return null;
-    return (
-      <>
-        <tr className={styles.tierHeading}>
-          <td colSpan={4}>{heading}</td>
-        </tr>
-        {rows.map((verdict) => (
-          <tr key={verdict.token}>
-            <td className={styles.botToken}>{verdict.token}</td>
-            <td>{verdict.owner}</td>
-            <td>
-              <span
-                className={`${styles.pill} ${
-                  verdict.allowed ? styles.pillAllowed : styles.pillBlocked
-                }`}
-              >
-                {verdict.allowed ? "Allowed" : "Blocked"}
-              </span>
-              {verdict.matchedRule ? (
-                <div style={{ marginTop: 4, fontSize: 12, color: "#8a8a90" }}>
-                  <code>{verdict.matchedRule}</code>
-                </div>
-              ) : null}
-            </td>
-            <td>{verdict.allowed ? verdict.feeds : verdict.consequence}</td>
-          </tr>
-        ))}
-      </>
-    );
-  }
 
   return (
     <>

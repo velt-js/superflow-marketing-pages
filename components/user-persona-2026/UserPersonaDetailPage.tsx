@@ -12,6 +12,7 @@ import PersonaProblemSection from "./PersonaProblemSection";
 import PersonaShowcaseSection from "./PersonaShowcaseSection";
 import PersonaFeatureRows from "./PersonaFeatureRows";
 import RelatedPersonas from "./RelatedPersonas";
+import Link from "next/link";
 
 /** Props for {@link UserPersonaDetailPage}. */
 export interface UserPersonaDetailPageProps {
@@ -48,9 +49,9 @@ export default function UserPersonaDetailPage({
             <h2 className="text-2xl font-semibold">Choosing a project management tool?</h2>
             <p className="mt-3">
               Compare workflows and collaboration options in our guide to{" "}
-              <a className="underline" href="/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies">
+              <Link className="underline" href="/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies">
                 13 Asana alternatives for startups and agencies
-              </a>.
+              </Link>.
             </p>
           </section>
         )}

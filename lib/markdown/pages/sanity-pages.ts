@@ -438,8 +438,15 @@ export function integrationToAgentDoc(doc: Doc): AgentDoc {
 // useCasePage - /use-case/<slug>
 // ---------------------------------------------------------------------------
 
-/** A use-case page is a problem/solution pair. Both halves are kept. */
-export function useCaseToAgentDoc(doc: Doc): AgentDoc {
+/**
+ * A use-case page is a problem/solution pair. Both halves are kept.
+ *
+ * Named against the `<thing>ToAgentDoc` pattern the rest of this file follows:
+ * `useCaseToAgentDoc` reads as a React hook to eslint-plugin-react-hooks,
+ * which keys purely on the `use` prefix, and this is a plain data mapper in a
+ * module with no React in it.
+ */
+export function toUseCaseAgentDoc(doc: Doc): AgentDoc {
   const slug = str(doc, "slug");
   const problem = rec(doc.problemSection);
   const solution = rec(doc.solutionSection);

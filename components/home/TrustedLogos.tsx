@@ -10,6 +10,7 @@
 // "Migration Guide").
 
 import { useState } from "react";
+import Link from "next/link";
 
 type Tile =
   | { kind: "logo"; src: string; alt: string; w: number; h: number; opacity?: number }
@@ -293,7 +294,7 @@ function CompetitorsGrid() {
 
       {/* Row 3 — Compare Velt CTA */}
       <div className="flex" style={{ width: 1280 }}>
-        <a
+        <Link
           href="/comparisons"
           className="group flex items-center justify-center gap-2 font-urbanist whitespace-nowrap"
           style={{
@@ -312,7 +313,7 @@ function CompetitorsGrid() {
               <path d="M5 3l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );

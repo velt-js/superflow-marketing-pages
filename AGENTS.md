@@ -18,6 +18,11 @@ Mirror the patterns established in `velt-marketing-pages`:
   delete the matching HTML directory.
 - Use `scripts/transform-framer-jsx.mjs` to convert Framer HTML → JSX.
 - All Sanity env config flows through `sanity/env.ts`.
+- `npm run lint` must pass. `eslint.config.mjs` documents the two rules that
+  are not plain defaults: `react-hooks/error-boundaries` is off because it
+  contradicts this repo's `try { return <JSX/> } catch { return null }`
+  convention, and `react-hooks/set-state-in-effect` is a warning because its
+  28 hits are a real backlog rather than a style choice.
 
 ## Machine-readable surface
 

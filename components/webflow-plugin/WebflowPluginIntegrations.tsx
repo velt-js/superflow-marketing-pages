@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const STATS = [
   { value: "300%", label: "Task Completion", sub: "3k+ Installs" },
   { value: "2x", label: "Communication Speed", sub: "10X Fewer Messages" },
@@ -44,7 +46,7 @@ export default function WebflowPluginIntegrations() {
               all your workflows
             </span>
           </h2>
-          <a
+          <Link
             href="/integrations"
             className="inline-flex items-center gap-[8px] text-[#625DF5]"
             style={{
@@ -55,7 +57,7 @@ export default function WebflowPluginIntegrations() {
           >
             View All Superflow Integrations
             <ArrowIcon />
-          </a>
+          </Link>
         </div>
 
         <div className="grid w-full max-w-[1080px] grid-cols-2 gap-[20px] lg:grid-cols-4">

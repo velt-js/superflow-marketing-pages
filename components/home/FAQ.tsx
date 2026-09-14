@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 
 export interface FAQItemProps {
   q: string;
@@ -52,9 +53,9 @@ export default function FAQ({ items }: { items?: FAQItemProps[] }) {
             Contact Us
           </a>{" "}
           or{" "}
-          <a href="/book-demo" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
+          <Link href="/book-demo" className="underline" style={{ color: "rgba(174,171,255,0.9)" }}>
             Book a Demo
-          </a>
+          </Link>
         </p>
       </div>
 
