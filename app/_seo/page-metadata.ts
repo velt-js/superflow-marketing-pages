@@ -97,6 +97,14 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
       description,
       alternates: {
         canonical: path,
+        // Every page publishes a Markdown copy at its own path plus `.md`
+        // (the homepage at /index.md, which has no slug to suffix). Advertising
+        // it here is what lets an agent find the copy without guessing the
+        // convention - the same job the `Link` response header does for a
+        // client that only reads headers. Served by proxy.ts -> app/api/md.
+        types: {
+          "text/markdown": path === "/" ? "/index.md" : `${path}.md`,
+        },
       },
       openGraph: {
         type: "website",

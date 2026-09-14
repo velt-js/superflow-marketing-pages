@@ -52,9 +52,27 @@ function toTitle(slug: string): string {
     .join(" ");
 }
 
-function section(heading: string, links: { path: string; title: string }[]): string {
+/**
+ * One section of the index.
+ *
+ * Each line carries the HTML page AND its Markdown copy. An agent reading this
+ * file is about to fetch every URL in it, and the Markdown copy is the cheaper,
+ * cleaner fetch - but it will only use it if it is told the copy exists, which
+ * is what the trailing `.md` link does. The HTML stays first because it is the
+ * canonical document.
+ */
+function section(
+  heading: string,
+  links: { path: string; title: string }[],
+): string {
   if (!links.length) return "";
-  const body = links.map((l) => `- [${l.title}](${SITE_URL}${l.path})`).join("\n");
+  const body = links
+    .map((l) => {
+      // The homepage has no slug to suffix, so its copy is at /index.md.
+      const md = l.path === "/" ? "/index.md" : `${l.path}.md`;
+      return `- [${l.title}](${SITE_URL}${l.path === "/" ? "" : l.path}): ${SITE_URL}${md}`;
+    })
+    .join("\n");
   return `## ${heading}\n${body}\n`;
 }
 
@@ -187,6 +205,15 @@ export async function GET() {
     "Superflow supports review on live websites, staging environments, PDFs, images, videos, and Lottie animations. Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
     "",
     `Full page content is available in one fetch at ${SITE_URL}/llms-full.txt`,
+    "",
+    "## How to read this site as Markdown",
+    "",
+    "Every page below publishes a Markdown copy written for machines rather than a transcription of the page: what it is, the facts that distinguish it, how to start, and the questions it answers. Two ways to ask for one:",
+    "",
+    "- Append `.md` to the page path. The homepage is at " + `${SITE_URL}/index.md`,
+    "- Or request the page itself with the header `Accept: text/markdown`",
+    "",
+    `Machine-readable discovery: ${SITE_URL}/.well-known/agent-card.json, ${SITE_URL}/.well-known/mcp/server-card.json, ${SITE_URL}/.well-known/api-catalog`,
     "",
     `Free tools, with a Markdown copy of each tool page for agents: ${SITE_URL}/tools.md`,
     "",

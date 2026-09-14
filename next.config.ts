@@ -107,6 +107,45 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Machine-discovery headers.
+  //
+  // An agent that fetches a page and only reads its headers (a crawler, a
+  // link-preview service, anything that HEADs before it GETs) has no other way
+  // to learn that this site publishes an llms.txt, an MCP server, and a
+  // Markdown copy of every page. These advertise all of it in one hop, the
+  // same way the Mintlify-hosted docs at /docs already do.
+  //
+  // `/api` and the reverse-proxied paths are excluded: the Markdown route sets
+  // its own `Link` (carrying the canonical of the page it copies) and a
+  // config-level header of the same name would replace it.
+  async headers() {
+    const discovery = [
+      {
+        key: "Link",
+        value: [
+          '</llms.txt>; rel="llms-txt"',
+          '</llms-full.txt>; rel="llms-full-txt"',
+          '</.well-known/agent-card.json>; rel="agent-card"',
+          '</.well-known/mcp/server-card.json>; rel="mcp-server-card"',
+          '</.well-known/api-catalog>; rel="api-catalog"',
+        ].join(", "),
+      },
+      { key: "X-Llms-Txt", value: "/llms.txt" },
+    ];
+
+    return [
+      {
+        // `.md` paths are excluded: every Markdown route emits its own `Link`
+        // carrying `rel="canonical"` back to the HTML page it copies, and a
+        // config-level header of the same name REPLACES it rather than adding
+        // to it. Dropping the canonical would leave an agent that crawls both
+        // treating the copy and the page as competing documents.
+        source:
+          "/((?!api/|_next/|_mintlify/|mintlify-assets/|docs).*(?<!\\.md))",
+        headers: discovery,
+      },
+    ];
+  },
   async redirects() {
     const hostRedirects: Redirect[] = [
       // Docs migration: docs.usesuperflow.{com,ai} → usesuperflow.ai/docs.
