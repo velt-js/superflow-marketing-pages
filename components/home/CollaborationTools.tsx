@@ -4,7 +4,7 @@ import { toInternalHref } from "@/lib/links";
 
 const IMG = "/images/sections/collaboration";
 const SIGNUP_URL =
-  "https://app.usesuperflow.com/signup?returnUrl=%2Fhome%3F_gl%3D1*16r2jus*_gcl_au*MzgzMzk1NDk4LjE3NzkxMjUzNjU.";
+  "https://app.usesuperflow.com/signup?returnUrl=%2Fhome";
 
 type Card = {
   icon: string;
