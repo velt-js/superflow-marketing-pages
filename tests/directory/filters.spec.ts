@@ -74,6 +74,29 @@ async function dismissCookieBanner(page: Page): Promise<void> {
   }
 }
 
+test.describe("the YC founders strip", () => {
+  test("is not rendered while no agency has an offer", async ({ request }) => {
+    const response = await request.get("/directory");
+    expect(response.status()).toBe(200);
+    const html = await response.text();
+
+    // Its heading is a factual claim - "Agencies on this list offer YC
+    // companies a deal" - and with an empty claim layer that is false.
+    // It shipped briefly with a softer fallback line instead, which kept
+    // a promotional panel on the page whose whole content was an
+    // admission that the promotion did not exist yet.
+    const hasOffers = getCategoryAgenciesSync(CATEGORY.slug).some((agency) =>
+      Boolean(agency.ycOffer),
+    );
+    if (hasOffers) {
+      expect(html).toContain("directory-yc-strip");
+      return;
+    }
+    expect(html).not.toContain("directory-yc-strip");
+    expect(html).not.toContain("For YC founders");
+  });
+});
+
 test.describe("category filters", () => {
   test("the server HTML carries every card, before any JavaScript runs", async ({ request }) => {
     const response = await request.get(CATEGORY_PATH);
@@ -192,6 +215,77 @@ test.describe("category filters", () => {
     await page.getByRole("button", { name: "Reset filters" }).first().click();
     await expect(page.getByText("No agencies match your filters")).toHaveCount(0);
     await expect(page).toHaveURL((url) => url.search === "");
+  });
+
+  test("the control bar fills its row and never overflows", async ({ page }) => {
+    // The bar carries between three and nine controls. It laid out
+    // scattered for a while because a leftover `@media (min-width: 640px)`
+    // rule from the original three-field design flipped `.controls` to
+    // `flex-direction: row`, so the control row, the pill row and the
+    // count line were laid side by side on one wrapping line instead of
+    // stacking. Nothing about that was visible in a screenshot of the
+    // markup - only in the geometry.
+    for (const width of [1440, 1024, 768, 390]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(CATEGORY_PATH);
+      await dismissCookieBanner(page);
+
+      const search = (await page.locator("#directory-search").boundingBox())!;
+      const sort = (await page.locator("#directory-sort").boundingBox())!;
+      const count = (await page.locator("p[aria-live='polite']").boundingBox())!;
+
+      // The count is always on its own line, below the controls.
+      expect(count.y, `count shares a line with the controls at ${width}px`).toBeGreaterThan(
+        sort.y,
+      );
+
+      // Above phone width the fields share one line, search widest.
+      if (width >= 1024) {
+        expect(sort.y, `controls wrapped at ${width}px`).toBe(search.y);
+        expect(search.width).toBeGreaterThan(sort.width);
+      }
+
+      // And nothing ever pushes the page sideways.
+      const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      expect(scrollWidth, `horizontal overflow at ${width}px`).toBeLessThanOrEqual(width + 1);
+    }
+  });
+
+  test("clicking anywhere on a card opens that agency's profile", async ({ page }) => {
+    await page.goto(CATEGORY_PATH);
+    await dismissCookieBanner(page);
+
+    const card = page.locator("article").first();
+    const slug = await card.locator("a[href^='/directory/agency/']").getAttribute("href");
+    const box = (await card.boundingBox())!;
+
+    // Mid-card, well away from the name and off the website link: this is
+    // the stretched-link overlay, not the anchor text.
+    //
+    // The locator's own click, NOT `page.mouse.click` at those absolute
+    // coordinates. The grid sits below a tall hero, so at the default
+    // viewport height the first card is off-screen and a raw mouse click
+    // at its page coordinates lands on nothing at all. This scrolls the
+    // card into view first and clicks relative to its own box.
+    await card.click({ position: { x: box.width * 0.5, y: box.height * 0.55 } });
+    await page.waitForURL(/\/directory\/agency\//, { timeout: 10_000 });
+    expect(new URL(page.url()).pathname).toBe(slug);
+  });
+
+  test("a card carries no source attribution link", async ({ page }) => {
+    await page.goto(CATEGORY_PATH);
+    await dismissCookieBanner(page);
+
+    // Provenance lives on the profile page, where there is room to label
+    // it. On a card it competed with the agency's own website link for the
+    // same corner and sent visitors off-site before they compared
+    // anything. The profile keeps it - asserted below.
+    const card = page.locator("article").first();
+    await expect(card.locator("a[href*='awwwards.com']")).toHaveCount(0);
+
+    const profile = await card.locator("a[href^='/directory/agency/']").getAttribute("href");
+    await page.goto(profile!);
+    await expect(page.locator("a[href*='awwwards.com']").first()).toBeVisible();
   });
 
   test("the result count tracks the filtered set", async ({ page }) => {

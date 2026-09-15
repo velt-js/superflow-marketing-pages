@@ -371,7 +371,7 @@ function ControlsBar({
         </div>
 
         {(shows.platforms || visibleToggles.length > 0) && (
-          <div className={styles.controlsRow}>
+          <div className={styles.controlsPills}>
             {shows.platforms && (
               <fieldset className={styles.pillGroup}>
                 <legend className={styles.label}>{PLATFORM_LABEL}</legend>

@@ -6,12 +6,20 @@
    components/listing-2026/ListingGrid.module.css, so a directory card is
    visibly the same object as a case-study or use-case card.
 
-   Unlike those two, this card is NOT a single card-wide <Link>: it carries
-   three independent destinations (the agency's own detail page, the
-   agency's website, and the source attribution link). The header stays the
-   internal link and the footer links stay separate — see AgencyCard.tsx.
-   That structure is also what the partner-badge browser tests drive, so
-   restyling must not collapse it into one link. */
+   The WHOLE CARD opens the agency's profile, and it does so through a
+   stretched link rather than by wrapping the card in an <a>. The anchor is
+   the agency name; `.nameLink::after` covers the card. Two reasons it is
+   built this way and must stay that way:
+
+     1. The card still holds other interactive things — the outbound
+        website link and the partner badge — and nesting those inside an
+        anchor is invalid HTML and unusable with a keyboard.
+     2. The link's accessible name stays "Locomotive" instead of the card's
+        entire contents read out as one label.
+
+   Anything that must stay clickable sits above the overlay on z-index 1.
+   The partner-badge browser tests drive exactly that, so restyling must
+   not drop those z-indexes. */
 
 .card {
     --ac-display: var(--font-urbanist), system-ui, sans-serif;
@@ -44,19 +52,37 @@
     box-sizing: border-box;
 }
 
-/* The card's internal link: the logo + name + location block. Sized to its
-   own content so the outbound footer links stay independently clickable. */
+/* The logo + name + location block. A plain container now: the link moved
+   onto the name itself so it can stretch over the whole card. */
 .header {
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    margin: -6px;
-    padding: 6px;
-    border-radius: 14px;
-    text-decoration: none;
 }
 
-.header:focus-visible {
+/* The card's one internal link, stretched to the card's full area.
+ *
+ * `inset: 0` against `.card`'s `position: relative`, so a click anywhere
+ * on the card that is not on another interactive element opens the
+ * profile. The overlay is transparent and sits at the default z-index, so
+ * the badges and the website link clear it with `z-index: 1`. */
+.nameLink {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+
+.nameLink::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+}
+
+/* Focus paints on the CARD, not on the name, because the hit area is the
+   card. A ring around three words in the corner of a large clickable
+   surface tells a keyboard user the wrong thing about what Enter does. */
+.nameLink:focus-visible::after {
     outline: 2px solid var(--ac-accent);
     outline-offset: 2px;
 }
@@ -78,6 +104,14 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+}
+
+/* The badges are siblings of the stretched link and have to paint above
+   it, or the partner badge's tooltip can never be opened - the overlay
+   would take the tap and navigate instead. */
+.nameRow > *:not(h3) {
+    position: relative;
+    z-index: 1;
 }
 
 .name {
@@ -273,17 +307,12 @@
     border-top: 1px solid #ececf1;
 }
 
-.links {
-    display: flex;
-    min-width: 0;
-    flex-shrink: 0;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
 .websiteLink {
-    max-width: 100%;
+    /* Above the stretched link, so "visit their site" still leaves the
+       site instead of opening our profile page. */
+    position: relative;
+    z-index: 1;
+    max-width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -295,17 +324,11 @@
     transition: color 140ms ease;
 }
 
-.sourceLink {
-    white-space: nowrap;
-    font-family: var(--ac-body);
-    font-size: 12px;
-    color: var(--ac-quiet);
-    text-decoration: none;
-    transition: color 140ms ease;
-}
+/* `.sourceLink` and `.links` were removed with the source attribution
+   link, which now lives only on the profile page - see AgencyCard.tsx for
+   why a grid card is the wrong place for it. */
 
-.websiteLink:focus-visible,
-.sourceLink:focus-visible {
+.websiteLink:focus-visible {
     outline: 2px solid var(--ac-accent);
     outline-offset: 2px;
     border-radius: 4px;
@@ -334,18 +357,15 @@
         transform: translateY(-2px);
     }
 
-    .header:hover .name {
+    /* Hovering anywhere on the card tints the name, because the whole
+       card is the link now - lighting up only the name when the cursor is
+       over the footer would understate the hit area. */
+    .card:hover .name {
         color: var(--ac-accent);
     }
 
     .websiteLink:hover {
         color: var(--ac-accent);
-        text-decoration: underline;
-        text-underline-offset: 2px;
-    }
-
-    .sourceLink:hover {
-        color: var(--ac-muted);
         text-decoration: underline;
         text-underline-offset: 2px;
     }

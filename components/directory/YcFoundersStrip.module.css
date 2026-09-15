@@ -10,7 +10,6 @@
     --yc-display: var(--font-urbanist), system-ui, sans-serif;
     --yc-body: var(--font-poppins), system-ui, sans-serif;
     --yc-ink: #16171a;
-    --yc-muted: #6b7079;
     --yc-accent: #9a5b1b;
 
     box-sizing: border-box;
@@ -110,14 +109,6 @@
     font-size: 12px;
     font-weight: 600;
     color: var(--yc-accent);
-}
-
-.pending {
-    margin: 0;
-    font-family: var(--yc-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--yc-muted);
 }
 
 @media (max-width: 720px) {

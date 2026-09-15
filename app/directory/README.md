@@ -144,8 +144,10 @@ why the two are kept structurally apart.
   `DIRECTORY_CATEGORIES`, each with a count of indexed agencies and of
   claimed ones (or a "coming soon" label while that category's data is
   still empty), then the "For YC founders" strip
-  (`components/directory/YcFoundersStrip.tsx`) and the Superflow trial
-  block. Adding a category needs **no edit here**.
+  (`components/directory/YcFoundersStrip.tsx`, which renders NOTHING until
+  at least one agency actually has an offer — its heading is a factual
+  claim, and with an empty claim layer that claim is false) and the
+  Superflow trial block. Adding a category needs **no edit here**.
 
   It used to render through the shared `ListingPage` shell. It does not
   any more: the hub needs two hero CTAs (primary "Get matched", secondary
@@ -158,7 +160,11 @@ why the two are kept structurally apart.
   `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
   hero, closing on a white card carrying the live stat row. Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
-  each carrying a one-line "Worked with X, Y, Z +N more" summary),
+  each carrying a one-line "Worked with X, Y, Z +N more" summary; the
+  WHOLE CARD opens the profile, via a stretched link on the agency name
+  rather than an `<a>` wrapped around the card, so the other interactive
+  elements inside it stay valid and the link's accessible name stays the
+  agency name),
   sorted in the directory's default order: the **claim score** descending,
   then total award count, then name. See "Ranking" below. Each card links
   through to that agency's detail page. See "Category page controls" for
@@ -701,6 +707,16 @@ type-only imports from those modules, plain data passed in as props from
 a server component. `tests/directory/partner-badge.spec.ts` has a bundle
 assertion that catches a regression here.
 
+**The bar is a COLUMN of rows** — the input row, the pill row, the count
+line. It stopped being one for a while: a leftover
+`@media (min-width: 640px)` rule from the original three-field design
+flipped `.controls` to `flex-direction: row`, which was right when those
+fields were its direct children and became wrong the moment they were
+wrapped in rows. The result was the three rows laid side by side on one
+wrapping line, and a bar that looked scattered for reasons invisible in
+the markup. `tests/directory/filters.spec.ts` now measures the geometry at
+four widths rather than trusting it.
+
 **A control with no data behind it is not rendered.** Every claim-backed
 filter — budget, platform, startup-friendly, YC offer, verified-only, and
 the "Lowest minimum budget" and "Fastest reply" sorts — appears only when
@@ -725,6 +741,14 @@ same guard keeps the selected sort option in the dropdown: a `<select>`
 whose value has no matching `<option>` renders as an unlabelled blank.
 
 The control set, when the data supports it:
+
+The card carries ONE outbound link, to the agency's own website. The
+source attribution link moved to the profile page, which is where a
+record's provenance belongs and where there is room to label it; on a card
+it competed with the website link for the same corner, and a grid of sixty
+cards each carrying two outbound links sent visitors off-site before they
+had compared anything. Every profile still links back to its source, which
+is the claim the directory actually makes.
 
 - **Search** — name, description, location, client names, services,
   industries, platforms and startup clients, via

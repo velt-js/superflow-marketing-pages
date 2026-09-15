@@ -66,14 +66,30 @@
     gap: 6px;
 }
 
+/* Every field GROWS, search at twice the rate of a select.
+ *
+ * The selects used to be `flex-grow: 0`. That was fine when the bar
+ * always held five controls and was full anyway, and it fell apart the
+ * moment claim-backed filters started hiding themselves: with three
+ * controls left, the fixed-width selects kept their 190px and the
+ * leftover width collected in one dead gap on the right.
+ *
+ * Letting all of them grow means the row fills exactly, whether it is
+ * carrying three controls or five, with search always the widest. */
 .fieldSearch {
-    flex: 1 1 260px;
-    min-width: 220px;
+    flex: 2 1 240px;
+    min-width: 200px;
+    /* Capped so a field that wraps onto a line of its own reads as a
+       wrapped control rather than a stretched one. Without this, four
+       fields at tablet width broke 3 + 1 and the lone select grew to the
+       full 678px of the bar, which looked like a mistake. */
+    max-width: 560px;
 }
 
 .fieldSelect {
-    flex: 0 1 190px;
-    min-width: 160px;
+    flex: 1 1 170px;
+    min-width: 150px;
+    max-width: 340px;
 }
 
 .label {
@@ -124,17 +140,31 @@
 }
 
 /* ---- Filter rows ----------------------------------------------------- *
-   The control bar grew from three inputs to nine controls across two
-   rows plus a count line. Rows rather than one wrapping flex line: the
-   selects and the pill groups have very different natural widths, and
-   letting them share a wrap context put a lone pill on its own line at
-   several viewport widths. */
+   The bar carries between three and nine controls depending on how much
+   claim-backed data the listing has (see `ControlAvailability` in
+   AgencyExplorer), so both rows have to look deliberate at either end of
+   that range.
+
+   Two row classes rather than one: the inputs and the pill groups have
+   very different natural widths, and letting them share a wrap context
+   put a lone pill on its own line at several viewport widths. */
 
 .controlsRow {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     align-items: flex-end;
+}
+
+/* The pill groups. Kept apart from `.controlsRow` so a platform group of
+   seven pills never has to share a flex line with a 170px select. */
+.controlsPills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: flex-start;
+    padding-top: 4px;
+    border-top: 1px solid #ececf1;
 }
 
 .pillGroup {
@@ -191,12 +221,22 @@
     color: #ffffff;
 }
 
+/* The count sits on its own line under the controls, separated by a
+   hairline so the bar reads as "controls, then result" rather than as
+   one undifferentiated block. The reset is pushed to the far end rather
+   than relying on `space-between`, which collapses to a left-aligned
+   count on its own when no filter is active and the reset is absent. */
 .countRow {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #ececf1;
+}
+
+.countRow .resetLink {
+    margin-left: auto;
 }
 
 /* Only rendered when something is actually filtered - see
@@ -318,19 +358,17 @@
     outline-offset: 2px;
 }
 
-@media (min-width: 640px) {
-    .controls {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-end;
-        gap: 16px;
-    }
+/* There used to be a `@media (min-width: 640px)` block here that flipped
+   `.controls` to `flex-direction: row` and pushed `.count` over with
+   `margin-left: auto`. That was correct when `.controls` held the three
+   original fields plus the count as DIRECT children, and it silently
+   became wrong when the bar grew row wrappers: it laid `.controlsRow`,
+   `.controlsPills` and `.countRow` out side by side on one wrapping line,
+   which is what made the bar look scattered - fields bunched at the left,
+   the count stranded mid-row, and the sort wrapping under them.
 
-    .count {
-        margin-left: auto;
-        padding-bottom: 12px;
-    }
-}
+   `.controls` is a COLUMN of rows at every width now. Each row owns its
+   own wrapping, so there is nothing width-dependent left to express here. */
 
 @media (max-width: 900px) {
     .grid {

@@ -4,7 +4,6 @@ import {
   agencyPath,
   formatAgencyClientSummary,
   formatAgencyPlace,
-  resolveAgencySourceLabel,
 } from "@/lib/directory/agencies";
 import { platformLabel } from "@/lib/directory/claim-fields";
 import type { EnrichedAgency } from "@/lib/directory/enrich";
@@ -17,7 +16,7 @@ import styles from "./AgencyCard.module.css";
 /** Maximum platforms shown before collapsing into a "+N". */
 const MAX_VISIBLE_PLATFORMS = 3;
 
-/** Trailing glyph on outbound links, marking them as leaving the site. */
+/** Trailing glyph on the outbound link, marking it as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
 
 /** Leading label on the card's client line. Phrased as a claim about past
@@ -83,13 +82,24 @@ function buildSignalParts(agency: EnrichedAgency): string[] {
  *
  * Leads with the agency name and the two badges that qualify it
  * (Verified, Superflow partner), then the facts a founder filters on.
- * Award record and services moved below those: they are supporting
- * detail on a page whose visitor is choosing who to email this week.
+ * Award record moved below those: it is supporting detail on a page
+ * whose visitor is choosing who to email this week.
  *
- * The name/logo header links to the agency's own profile page. The
- * footer carries the two outbound links separately - the agency's own
- * site, and the attribution link back to the source the record came
- * from - both working independently of the internal link above.
+ * THE WHOLE CARD OPENS THE PROFILE, via a stretched link rather than by
+ * wrapping the card in an `<a>`. The anchor is the agency name, and
+ * `.nameLink::after` in the stylesheet covers the card's full area - so
+ * the link's accessible name is exactly "Locomotive" rather than the
+ * card's entire contents read aloud, and the card still contains other
+ * interactive elements, which nesting them inside an anchor would make
+ * invalid HTML. Anything that has to stay clickable (the website link,
+ * the partner badge) sits above that overlay on `z-index: 1`.
+ *
+ * THE SOURCE ATTRIBUTION LINK IS DELIBERATELY NOT HERE. It lives on the
+ * profile page instead (see `AgencyDetail`), which is where the record's
+ * provenance belongs and where there is room to label it. On a card it
+ * competed with the agency's own website link for the same corner, and
+ * a grid of sixty cards each carrying two outbound links sent visitors
+ * off-site before they had compared anything.
  *
  * @param props - Component props.
  * @param props.agency - The enriched agency record to render.
@@ -97,7 +107,6 @@ function buildSignalParts(agency: EnrichedAgency): string[] {
 export default function AgencyCard({ agency }: { agency: EnrichedAgency }) {
   try {
     const placeLabel = formatAgencyPlace(agency?.location ?? null, agency?.city);
-    const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
     const awardTotal = agency?.awardTotal ?? 0;
@@ -108,7 +117,7 @@ export default function AgencyCard({ agency }: { agency: EnrichedAgency }) {
 
     return (
       <article className={styles.card} data-claimed={agency?.claimed ? "true" : "false"}>
-        <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
+        <div className={styles.header}>
           <AgencyLogo
             slug={agency?.slug ?? ""}
             name={agency?.name ?? ""}
@@ -118,13 +127,21 @@ export default function AgencyCard({ agency }: { agency: EnrichedAgency }) {
           />
           <div className={styles.headerText}>
             <div className={styles.nameRow}>
-              <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
+              <h3 className={styles.name}>
+                <Link href={agencyPath(agency?.slug ?? "")} className={styles.nameLink}>
+                  {agency?.name ?? "Unnamed agency"}
+                </Link>
+              </h3>
+              {/* Siblings of the link, not children of it: the badges
+                  make their own claims and belong outside the link's
+                  accessible name. They carry `z-index` so the stretched
+                  overlay does not swallow the partner badge's tap. */}
               {agency?.verified && <VerifiedBadge />}
               <PartnerBadge agency={agency} />
             </div>
             {placeLabel && <p className={styles.location}>{placeLabel}</p>}
           </div>
-        </Link>
+        </div>
 
         {/* Badges that qualify the listing rather than the agency. Both
             are claims a founder is filtering on, so they sit above the
@@ -188,28 +205,16 @@ export default function AgencyCard({ agency }: { agency: EnrichedAgency }) {
           ) : (
             <span />
           )}
-          <div className={styles.links}>
-            {agency?.website && (
-              <a
-                href={agency.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.websiteLink}
-              >
-                {websiteLabel} {EXTERNAL_LINK_GLYPH}
-              </a>
-            )}
-            {agency?.profileUrl && (
-              <a
-                href={agency.profileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.sourceLink}
-              >
-                {sourceLabel} {EXTERNAL_LINK_GLYPH}
-              </a>
-            )}
-          </div>
+          {agency?.website && (
+            <a
+              href={agency.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.websiteLink}
+            >
+              {websiteLabel} {EXTERNAL_LINK_GLYPH}
+            </a>
+          )}
         </div>
       </article>
     );
