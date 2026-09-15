@@ -59,6 +59,11 @@ import {
   bugBookSite,
   bugBookCaptured,
 } from "./bugBookEntry";
+import {
+  agencyListing,
+  agencyListingClient,
+  agencyListingLocation,
+} from "./agencyListing";
 import { alternativePage } from "./alternativePage";
 import { comparisonPage } from "./comparisonPage";
 import { linkAnnotation } from "./shared/linkAnnotation";
@@ -150,9 +155,14 @@ export const schemaTypes = [
   comparisonPreviewHub,
   bugBookEntry,
   bugBookSample,
+  agencyListing,
 
   // Inline annotations
   linkAnnotation,
+
+  // agencyListing sub-types
+  agencyListingClient,
+  agencyListingLocation,
 
   // bugBookEntry sub-types
   bugBookThreadComment,

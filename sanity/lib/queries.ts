@@ -1,4 +1,5 @@
 import { client } from "../client";
+import type { AgencyListingOverride } from "@/lib/directory/overrides";
 import type {
   BugBookEntryDetail,
   BugBookListEntry,
@@ -981,6 +982,51 @@ export async function getBugBookSamples(): Promise<BugBookSample[]> {
       finding{ title, description, suggestion, issueType, confidence },
       whyItMatters,
       note
+    }
+  `);
+}
+
+// Agency directory listings — corrections layered over the scraped agency
+// dataset. See lib/directory/overrides.ts for how they are merged and
+// sanity/schemas/agencyListing.ts for why the CMS overlays the scrape
+// rather than replacing it.
+
+/**
+ * Every agency listing correction, as one fetch.
+ *
+ * Fetched whole rather than per slug because the directory reads the
+ * dataset as a whole too (category listings, the sitemap, related-agency
+ * blocks), and the document count here tracks the number of agencies that
+ * have written in — tens, not the hundreds the dataset itself holds.
+ *
+ * `verifiedBy` and `verificationSource` are deliberately NOT selected.
+ * They exist so an editor can see where a correction came from, which
+ * usually means a named person at the agency; the site has no use for
+ * either, and a field that is never fetched cannot be published by
+ * accident.
+ */
+export async function getAgencyListingOverrides(): Promise<AgencyListingOverride[]> {
+  return client.fetch(`
+    *[_type == "agencyListing" && defined(agencySlug)] {
+      agencySlug,
+      name,
+      website,
+      description,
+      "logoUrl": logo.asset->url,
+      location{ city, country, countryCode },
+      services,
+      industries,
+      teamSize,
+      foundedYear,
+      accolades,
+      awardsNote,
+      clients[]{ name, projectTitle, projectUrl, domain },
+      clientsMode,
+      budgetLabel,
+      budgetFloorUsd,
+      exclusions,
+      engagementNote,
+      verifiedAt
     }
   `);
 }

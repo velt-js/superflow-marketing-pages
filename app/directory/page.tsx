@@ -43,9 +43,9 @@ export const metadata = buildPageMetadata({
  * @param categorySlug - The category slug to count agencies for.
  * @returns Human-readable subtitle text for the category's ListingItem.
  */
-function buildCategorySubtitle(categorySlug: string): string {
+async function buildCategorySubtitle(categorySlug: string): Promise<string> {
   try {
-    const count = getAgencyCountByCategory(categorySlug);
+    const count = await getAgencyCountByCategory(categorySlug);
     if (count <= 0) return COMING_SOON_LABEL;
     const noun = count === 1 ? "agency" : "agencies";
     return `${count} ${noun} indexed`;
@@ -60,14 +60,19 @@ function buildCategorySubtitle(categorySlug: string): string {
  *
  * @returns One `ListingItem` per entry in `DIRECTORY_CATEGORIES`.
  */
-function buildCategoryItems(): ListingItem[] {
+async function buildCategoryItems(): Promise<ListingItem[]> {
   try {
-    return DIRECTORY_CATEGORIES.map((category) => ({
-      title: category.title,
-      subtitle: buildCategorySubtitle(category.slug),
-      href: `${DIRECTORY_BASE_PATH}/${category.slug}`,
-      cta: BROWSE_CTA,
-    }));
+    // One subtitle per category, resolved together: each awaits the same
+    // memoized dataset, so this is one read rather than four sequential
+    // ones.
+    return await Promise.all(
+      DIRECTORY_CATEGORIES.map(async (category) => ({
+        title: category.title,
+        subtitle: await buildCategorySubtitle(category.slug),
+        href: `${DIRECTORY_BASE_PATH}/${category.slug}`,
+        cta: BROWSE_CTA,
+      })),
+    );
   } catch {
     return [];
   }
@@ -77,8 +82,8 @@ function buildCategoryItems(): ListingItem[] {
  * Renders the directory hub page: hero, JSON-LD, and a category grid
  * driven entirely off `DIRECTORY_CATEGORIES`.
  */
-export default function DirectoryHubPage() {
-  const items = buildCategoryItems();
+export default async function DirectoryHubPage() {
+  const items = await buildCategoryItems();
 
   return (
     <>

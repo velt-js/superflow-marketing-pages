@@ -1,0 +1,102 @@
+{
+  "note": "Seed content for the `agencyListing` documents in Sanity - the corrections agencies have sent about their own directory entries. This file is a SEED, not a source of truth: once a listing exists in Sanity, the Studio owns it, and seed-agency-listings.mjs will not overwrite it without --replace. See that script's header and app/directory/README.md.",
+  "listings": [
+    {
+      "agencySlug": "dgrees",
+      "agencyName": "Dgrees",
+      "clientsMode": "replace",
+      "clients": [
+        { "name": "NTT DATA" },
+        {
+          "name": "BBVA",
+          "projectTitle": "BBVA Open Innovation",
+          "projectUrl": "https://www.awwwards.com/sites/bbva-open-innovation"
+        },
+        { "name": "PwC" },
+        {
+          "name": "Tres Mares Capital (Banco Santander)",
+          "domain": "tresmarescapital.com",
+          "projectTitle": "Tresmares Capital",
+          "projectUrl": "https://www.awwwards.com/sites/tresmares-capital"
+        },
+        { "name": "Barceló Hotels" },
+        { "name": "Grupo Azora" },
+        {
+          "name": "Gunni & Trentino",
+          "domain": "terrazabalear.com",
+          "projectTitle": "Terraza Balear",
+          "projectUrl": "https://www.awwwards.com/sites/terraza-balear"
+        },
+        { "name": "Royal Hideaway" },
+        { "name": "Grupo Aramón" },
+        { "name": "Grupo MásMóvil" },
+        { "name": "Grupo Restalia" },
+        { "name": "Casa Batlló" },
+        { "name": "Cadena SER" },
+        { "name": "Autonomy Capital" },
+        { "name": "Cooperación Internacional" },
+        { "name": "Lumisa Energías" },
+        { "name": "Caledonian" },
+        {
+          "name": "Tenity",
+          "domain": "tenity.com",
+          "projectTitle": "Tenity",
+          "projectUrl": "https://www.awwwards.com/sites/tenity"
+        },
+        { "name": "Grupo Atitlan" },
+        {
+          "name": "Valid",
+          "domain": "valid.com",
+          "projectTitle": "Valid Trusted Connectivity",
+          "projectUrl": "https://www.awwwards.com/sites/valid-trusted-connectivity"
+        },
+        {
+          "name": "Spain Collection",
+          "domain": "spaincollection.com",
+          "projectTitle": "Spain Collection Travel",
+          "projectUrl": "https://www.awwwards.com/sites/spain-collection-travel"
+        },
+        {
+          "name": "Rosa Group",
+          "domain": "rosagroup.es",
+          "projectTitle": "Rosa Group",
+          "projectUrl": "https://www.awwwards.com/sites/rosa-group"
+        },
+        { "name": "Rosa Hotels" },
+        { "name": "Ortiz León" }
+      ],
+      "awardsNote": "Dgrees reports more than 80 international awards in total, across Awwwards, FWA, Laus, Behance and CSS Design Awards. The counts here are Awwwards' alone.",
+      "budgetLabel": "Projects from €15,000, typically €25,000–€60,000",
+      "budgetFloorUsd": null,
+      "exclusions": [
+        "Template-based work",
+        "Site builders — Wix, Squarespace, Elementor and similar",
+        "Building third-party designs that don't meet the studio's art direction standards"
+      ],
+      "engagementNote": "Available for design only, development only, or the full project including strategy — always to the same standard.",
+      "verifiedAt": "2026-09-15",
+      "verifiedBy": "Rubén",
+      "verificationSource": "Reply to directory outreach, 15 September 2026. Replaced the Awwwards-derived client list with the studio's own, which matches the one published on dgrees.studio. Blit Studio was excluded at the studio's request. Budget is quoted in euros, so the USD floor is left blank on purpose rather than converted at a rate the studio never gave - the label carries the real figure."
+    },
+    {
+      "agencySlug": "malvah",
+      "agencyName": "Malvah",
+      "clientsMode": "add",
+      "clients": [
+        { "name": "The Up&Up Group", "domain": "theupandupgroup.com" },
+        { "name": "M+C Saatchi Abel", "domain": "mcsaatchiabel.co.za" },
+        { "name": "Razor PR", "domain": "razorpr.co.za" },
+        { "name": "Estrela", "domain": "estrela.studio" },
+        { "name": "Bitter Creek", "domain": "bittercreek.studio" },
+        { "name": "First/Light", "domain": "firstlight.healthcare" },
+        { "name": "Oxygen at Work", "domain": "oxygenatwork.com" }
+      ],
+      "budgetLabel": "Websites from $24,000; branding from $12,000",
+      "budgetFloorUsd": 12000,
+      "exclusions": [],
+      "engagementNote": "No blanket exclusions — whether they can take a project comes down to timing and budget.",
+      "verifiedAt": "2026-09-15",
+      "verificationSource": "Reply to directory outreach, 15 September 2026. Confirmed the existing client list and sent seven more by URL; three of those (The Up&Up Group, Estrela, Bitter Creek) were already on the record and dedupe on the way in."
+    }
+  ]
+}

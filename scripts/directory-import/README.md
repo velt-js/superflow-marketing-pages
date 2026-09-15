@@ -19,6 +19,15 @@ and its own on-disk cache directory.
 | `load-branding-json.mjs` | Clutch / DesignRush / D&AD, via a hand-driven browser session (no network access of its own) | `lib/directory/data/branding-agencies.json` | `branding` |
 | `import-motion-design-awards.mjs` | [Motion Design Awards](https://www.motiondesignawards.com) | `lib/directory/data/motion-design-agencies.json` | `motion-design` |
 
+**These scripts are not where a correction goes.** Every one of them
+overwrites its own file wholesale on each run, so a fix typed into
+`lib/directory/data/*.json` — an agency writing in to say its client list or
+its minimum budget is wrong — survives until the next run and no further.
+Those live in Sanity as `agencyListing` documents and are merged over the
+scrape at read time; see "Corrections from the agency (the CMS layer)" in
+`app/directory/README.md`, and `scripts/agency-listing-import/` for the seed
+script. Nothing here should ever read or write them.
+
 ## Awwwards directory scraper
 
 Scrapes agency/studio profiles from the [Awwwards directory](https://www.awwwards.com/directory/)

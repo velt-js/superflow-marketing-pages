@@ -371,24 +371,24 @@ async function resolveNested(base: string, slug: string): Promise<AgentDoc | nul
  * record thin enough to be excluded from the sitemap has no business acquiring
  * a second published URL here.
  */
-function resolveDirectory(path: string): AgentDoc | null {
+async function resolveDirectory(path: string): Promise<AgentDoc | null> {
   try {
     if (path !== DIRECTORY_BASE_PATH && !path.startsWith(`${DIRECTORY_BASE_PATH}/`)) {
       return null;
     }
-    if (path === DIRECTORY_BASE_PATH) return directoryHubToAgentDoc();
+    if (path === DIRECTORY_BASE_PATH) return await directoryHubToAgentDoc();
 
     const rest = path.slice(DIRECTORY_BASE_PATH.length + 1).split("/");
 
     if (rest.length === 2 && rest[0] === "agency") {
-      const agency = getAgencyBySlug(rest[1]);
+      const agency = await getAgencyBySlug(rest[1]);
       if (!agency || !shouldIndexAgency(agency)) return null;
-      return agencyToAgentDoc(agency);
+      return await agencyToAgentDoc(agency);
     }
 
     if (rest.length === 1) {
       const category = DIRECTORY_CATEGORIES.find((entry) => entry.slug === rest[0]);
-      return category ? directoryCategoryToAgentDoc(category) : null;
+      return category ? await directoryCategoryToAgentDoc(category) : null;
     }
 
     return null;
@@ -428,7 +428,7 @@ export async function resolveAgentDoc(rawPath: string): Promise<AgentDoc | null>
     const hub = HUBS[path];
     if (hub) return await hub();
 
-    const directory = resolveDirectory(path);
+    const directory = await resolveDirectory(path);
     if (directory) return directory;
 
     const segments = path.split("/").filter(Boolean);

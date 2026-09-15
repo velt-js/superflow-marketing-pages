@@ -8,6 +8,7 @@ import {
   formatAgencyRating,
   getAwardBreakdown,
   resolveAgencySourceLabel,
+  resolveAwardTallyLabel,
 } from "@/lib/directory/agencies";
 import PartnerBadge from "./PartnerBadge";
 import styles from "./AgencyCard.module.css";
@@ -234,7 +235,11 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
           <p className={styles.awards}>
             <span className={styles.awardCount}>{awardTotal}</span>
             <span className={styles.awardLabel}>
-              award{awardTotal === 1 ? "" : "s"}
+              {/* Names the jury rather than saying "awards" flat - the
+                  tally is one scheme's, and a studio with wins across
+                  several juries is entitled not to see this read as its
+                  whole record. See `resolveAwardTallyLabel`. */}
+              {resolveAwardTallyLabel(agency?.source, awardTotal)}
               {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
             </span>
           </p>

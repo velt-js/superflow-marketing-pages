@@ -7,12 +7,14 @@
 // this route follows.
 //
 // generateStaticParams and the sitemap both derive their slugs from
-// lib/directory/data/agencies.json via lib/directory/agencies.ts, so
-// dropping new records into that file produces new pages here with no
-// code change. Records that fail `shouldIndexAgency` (thin content - no
-// real description, or zero recorded awards) still render a full page,
-// they just carry `robots: { index: false, follow: true }` and are left
-// out of the sitemap. See app/directory/README.md.
+// lib/directory/data/*.json via lib/directory/agencies.ts, so dropping new
+// records into those files produces new pages here with no code change.
+// The CMS cannot mint a route: an `agencyListing` document corrects a
+// scraped record, it does not add one (see sanity/schemas/agencyListing.ts).
+// Records that fail `shouldIndexAgency` (thin content - no real
+// description, or zero recorded awards) still render a full page, they
+// just carry `robots: { index: false, follow: true }` and are left out of
+// the sitemap. See app/directory/README.md.
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -39,11 +41,9 @@ import {
   shouldIndexAgency,
 } from "@/lib/directory/agencies";
 
-// Agencies are read from a bundled JSON file (lib/directory/data/agencies.json),
-// refreshed only when the scraper's output is redeployed, not from a live
-// fetch at request time. `revalidate` is set to match sibling listing
-// routes (e.g. app/checklist/page.tsx, app/directory/[category]/page.tsx)
-// for consistency - see the longer note on those routes.
+// The scraped record with the CMS corrections merged over it - see the
+// note on app/directory/[category]/page.tsx for what `revalidate` is
+// actually doing here now that part of the data is a live fetch.
 export const revalidate = 60;
 
 interface AgencyDetailPageProps {
@@ -60,7 +60,7 @@ interface AgencyDetailPageProps {
  */
 export async function generateStaticParams() {
   try {
-    return getAllAgencySlugs().map((slug) => ({ slug }));
+    return (await getAllAgencySlugs()).map((slug) => ({ slug }));
   } catch {
     return [];
   }
@@ -81,7 +81,7 @@ export async function generateMetadata({
 }: AgencyDetailPageProps): Promise<Metadata> {
   try {
     const { slug } = await params;
-    const agency = getAgencyBySlug(slug);
+    const agency = await getAgencyBySlug(slug);
     if (!agency) return {};
     return buildPageMetadata({
       title: buildAgencyMetaTitle(agency),
@@ -103,13 +103,13 @@ export async function generateMetadata({
  */
 export default async function AgencyDetailPage({ params }: AgencyDetailPageProps) {
   const { slug } = await params;
-  const agency = getAgencyBySlug(slug);
+  const agency = await getAgencyBySlug(slug);
   if (!agency) notFound();
 
   const path = agencyPath(agency.slug);
   const primaryCategorySlug = agency.categories?.[0];
   const primaryCategory = primaryCategorySlug ? getDirectoryCategory(primaryCategorySlug) : undefined;
-  const relatedBlock = getRelatedAgencies(agency);
+  const relatedBlock = await getRelatedAgencies(agency);
   const organizationSchema = buildAgencyOrganizationJsonLd(agency);
   const description = buildAgencyMetaDescription(agency);
 
