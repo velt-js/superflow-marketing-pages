@@ -5,6 +5,9 @@ the agency directory. Three are scrapers, each fetching a different public
 source; the fourth is a loader that validates a hand-collected dataset rather
 than fetching anything. All four write records conforming exactly to the
 `Agency` interface in `lib/directory/types.ts`.
+
+Two more scripts fix up what those four collect. They are not importers:
+neither writes an `Agency` record, and one of them writes nothing at all.
 Categories and shared string constants live in `lib/directory/constants.ts`;
 each script mirrors the ones it needs (see the comment near the top of each
 script) rather than importing them, since neither has a TypeScript build
@@ -18,6 +21,88 @@ and its own on-disk cache directory.
 | `import-semrush.mjs` | [Semrush Agency Partners](https://agencies.semrush.com) | `lib/directory/data/seo-agencies.json` | `seo` |
 | `load-branding-json.mjs` | Clutch / DesignRush / D&AD, via a hand-driven browser session (no network access of its own) | `lib/directory/data/branding-agencies.json` | `branding` |
 | `import-motion-design-awards.mjs` | [Motion Design Awards](https://www.motiondesignawards.com) | `lib/directory/data/motion-design-agencies.json` | `motion-design` |
+
+| Fix-up script | What it does | Output |
+| --- | --- | --- |
+| `fetch-agency-logos.mjs` | Fetches a real square logo from each agency's own site | `public/agency-logos/*` + `lib/directory/data/logos.json` |
+| `backfill-cities.mjs` | Looks up the city for records that have a country only | **Prints** candidates for `lib/directory/data/claims.json` |
+
+## Agency logo fetcher
+
+```bash
+node scripts/directory-import/fetch-agency-logos.mjs
+node scripts/directory-import/fetch-agency-logos.mjs --limit 20
+node scripts/directory-import/fetch-agency-logos.mjs --slug locomotive
+node scripts/directory-import/fetch-agency-logos.mjs --only-missing
+```
+
+Every scraped record's `logoUrl` points at the **source directory's**
+avatar, not at the agency: an Awwwards profile picture, a Semrush crop, or
+nothing at all for D&AD. At 44px in a card grid those render as grey
+squares. This script goes to the agency's own homepage and takes the mark
+the agency itself publishes.
+
+**Candidates are ranked on squareness first, and og:image is ranked
+last.** That is not the obvious order — og:image is the best-looking image
+on most sites and the first thing you reach for. It is also a *social
+card*: every one sampled in this dataset came back 1200×630, and dropped
+into a square logo slot it is either squashed or cropped to a corner of a
+background photograph, which is worse than the grey square the script
+exists to replace. A wide image is refused outright; an agency with no
+square mark anywhere gets the monogram tile instead, which at least looks
+deliberate. A site that happens to serve a *square* og:image still gets it.
+
+Both size gates read the **bytes**, never the declaring tag.
+`sizes="180x180"` over a 57px file is the single most common defect in
+this area, and a script that trusted the attribute would cache the 57px
+file and record it as 180.
+
+Nothing is resized or re-encoded — there is no image toolchain here and
+adding one for a few hundred logos is not worth the dependency. The script
+picks the best candidate at or above 128px and stores it as served,
+recording the real dimensions; `next/image` resizes at render time.
+
+Overwrites `logos.json` wholesale like the importers do, except under
+`--only-missing`, which merges — for topping up after a run that hit
+timeouts.
+
+## City backfill
+
+```bash
+node scripts/directory-import/backfill-cities.mjs
+node scripts/directory-import/backfill-cities.mjs --slug lusion
+node scripts/directory-import/backfill-cities.mjs --json
+```
+
+**This one prints rather than writes, and that is the whole design.**
+Twenty-two records carry a country with no city, and the profile pages
+hide a country-only location rather than render "Italy" under a studio's
+name. This script looks the city up from schema.org `addressLocality`,
+geo/OpenGraph meta tags, or the footer text matched against that country's
+cities.
+
+It is also the only script here whose output is a **guess**, and its first
+run proved why a person has to read it. Twelve matches included:
+
+- a client name — `wearecollins → San Francisco`, from "San Francisco
+  Symphony" in a project list;
+- a service-area list — `kaips-marketing → Hamburg`, from "Webdesign
+  Hamburg" in a footer of towns served;
+- a project title — `obys → Kharkiv`, from "AI Modernism of Kharkiv";
+- a contradiction — `videinfra → London` against a source country of
+  United Arab Emirates;
+- two multi-office studios where the match picked whichever office
+  appeared last in the nav.
+
+Four were backed by a real street address or a schema.org record and are
+now in `claims.json` with a `sourceNote` naming the evidence. The rest are
+still blank, which is the correct state: the pages hide a location they do
+not have rather than assert one they cannot back.
+
+It does not write `claims.json` because that file is hand-edited, holds
+records this script knows nothing about (budgets from campaign replies,
+category corrections) and is the durable half of the claim store. A script
+that rewrote it would delete all of that on its first run.
 
 ## Awwwards directory scraper
 

@@ -23,15 +23,13 @@ import {
   toUseCaseAgentDoc,
 } from "./pages/sanity-pages";
 import {
-  agencyToAgentDoc,
+  agencyToAgentDocWithRelated,
   directoryCategoryToAgentDoc,
   directoryHubToAgentDoc,
 } from "./pages/directory-pages";
 import { type Doc, arr, rec, str } from "./pages/read";
-import {
-  getAgencyBySlug,
-  shouldIndexAgency,
-} from "@/lib/directory/agencies";
+import { shouldIndexAgency } from "@/lib/directory/agencies";
+import { getEnrichedAgency } from "@/lib/directory/listing";
 import {
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
@@ -371,7 +369,7 @@ async function resolveNested(base: string, slug: string): Promise<AgentDoc | nul
  * record thin enough to be excluded from the sitemap has no business acquiring
  * a second published URL here.
  */
-function resolveDirectory(path: string): AgentDoc | null {
+async function resolveDirectory(path: string): Promise<AgentDoc | null> {
   try {
     if (path !== DIRECTORY_BASE_PATH && !path.startsWith(`${DIRECTORY_BASE_PATH}/`)) {
       return null;
@@ -381,9 +379,12 @@ function resolveDirectory(path: string): AgentDoc | null {
     const rest = path.slice(DIRECTORY_BASE_PATH.length + 1).split("/");
 
     if (rest.length === 2 && rest[0] === "agency") {
-      const agency = getAgencyBySlug(rest[1]);
+      // The ENRICHED record, so the Markdown copy carries the same
+      // budget, timeline and platforms the HTML page does. Async only for
+      // the related-agency block, which reads the live claim layer.
+      const agency = await getEnrichedAgency(rest[1]);
       if (!agency || !shouldIndexAgency(agency)) return null;
-      return agencyToAgentDoc(agency);
+      return await agencyToAgentDocWithRelated(agency);
     }
 
     if (rest.length === 1) {
@@ -428,7 +429,7 @@ export async function resolveAgentDoc(rawPath: string): Promise<AgentDoc | null>
     const hub = HUBS[path];
     if (hub) return await hub();
 
-    const directory = resolveDirectory(path);
+    const directory = await resolveDirectory(path);
     if (directory) return directory;
 
     const segments = path.split("/").filter(Boolean);

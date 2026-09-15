@@ -38,7 +38,9 @@ HTML page's own URL when the request sends `Accept: text/markdown`.
   in `pages/sanity-pages.ts`, the agency directory in `pages/directory-pages.ts`,
   hand-authored copy for the non-CMS routes in `pages/static-pages.ts`, and
   `render.ts` turning all of them into Markdown. A copy is a rewrite for a
-  machine, not a transcription of the page.
+  machine, not a transcription of the page. The directory's builders read the
+  ENRICHED agency record, so a claim shows up in the Markdown copy and the
+  HTML page together; `resolveAgentDoc` is async for that reason.
 - The free tools are the exception: their copies are hand-authored in
   `lib/tools/content/`, read by both the page and its `.md`. A new tool needs a
   module there and an entry in that directory's `index.ts`, or it ships with no

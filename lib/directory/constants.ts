@@ -182,17 +182,31 @@ export const PARTNER_BADGE_LABEL = "Superflow partner";
 export const PARTNER_BADGE_DESCRIPTION =
   "This agency uses Superflow to collect client feedback and review work.";
 
-/** Categories exposed at /directory/<slug>. Adding an entry here is all
- *  that is needed for the route, sitemap, and hub grid to pick it up. */
+/**
+ * Categories exposed at /directory/<slug>. Adding an entry here is all
+ * that is needed for the route, sitemap, and hub grid to pick it up.
+ *
+ * NOTE ON THE SUBHEADINGS. Each one used to lead with the ranking basis
+ * ("ranked by the work they have shipped", "ranked on their published
+ * client reviews"). That was accurate and it answered the wrong question:
+ * a founder choosing an agency is not asking how we sorted the page. They
+ * now lead with what each LISTING will tell them - budget, timeline,
+ * platform - and say that verified listings come first, which is both the
+ * ranking rule and the reason an agency should claim one.
+ *
+ * What has NOT changed: no subheading promises a field its category
+ * cannot back. Motion design carries no budgets or services from its
+ * source at all, so its copy still claims neither.
+ */
 export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
   {
     slug: CATEGORY_WEB_DESIGN,
     title: "Web Design",
     heading: "Web design agencies",
     subheading:
-      "Award-winning web design studios, ranked by the work they have shipped. Every profile links back to its source.",
+      "Web design studios with stated budgets, timelines, and platforms. Verified listings first.",
     metaDescription:
-      "A directory of award-winning web design agencies and studios, with location, services, team size and award record for each.",
+      "A directory of web design agencies and studios with stated minimum budgets, typical timelines, platforms and reply times. Filter by budget, platform and startup friendliness.",
   },
   {
     slug: CATEGORY_SEO,
@@ -203,9 +217,9 @@ export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
     // against a directory of 1,400 should know why the smaller shops are
     // absent, rather than assuming the list is simply incomplete.
     subheading:
-      "SEO and search agencies that take projects from $5,000 up, ranked on their published client reviews. Every profile links back to its source.",
+      "SEO and search agencies taking projects from $5,000 up, with stated budgets, timelines, and reply times. Verified listings first.",
     metaDescription:
-      "A directory of SEO agencies taking projects from $5,000, with location, services, team size, client review score and named clients for each.",
+      "A directory of SEO agencies taking projects from $5,000, with stated minimum budgets, typical timelines, reply times, client review scores and named clients.",
   },
   {
     slug: CATEGORY_BRANDING,
@@ -216,9 +230,9 @@ export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
     // visitor should be able to tell why a studio with no published rate
     // card sits alongside one with a stated minimum.
     subheading:
-      "Brand identity and logo design studios that take projects from $10,000 up, or that hold awards for their branding work. Every profile links back to its source.",
+      "Brand identity and logo design studios taking projects from $10,000 up, or holding awards for their branding work, with stated budgets and timelines. Verified listings first.",
     metaDescription:
-      "A directory of branding and logo design agencies taking projects from $10,000, with location, services, team size, awards and named clients for each.",
+      "A directory of branding and logo design agencies taking projects from $10,000, with stated minimum budgets, typical timelines, awards and named clients.",
   },
   {
     slug: CATEGORY_MOTION_DESIGN,
@@ -231,9 +245,9 @@ export const DIRECTORY_CATEGORIES: DirectoryCategory[] = [
     // this source publishes none of the three, and a subheading promising
     // them would be selling a page we cannot render.
     subheading:
-      "Motion design and animation studios, ranked by their Motion Design Awards record. Every profile links back to its source.",
+      "Motion design and animation studios with a Motion Design Awards record. Verified listings, and the budgets and timelines they have stated, come first.",
     metaDescription:
-      "A directory of award-winning motion design and animation studios, with location, award record and a link to each studio's own site.",
+      "A directory of award-winning motion design and animation studios, with award record, and stated budgets, timelines and reply times where the studio has given them.",
   },
 ];
 
@@ -321,3 +335,27 @@ function assertNoReservedCategorySlug(): void {
 }
 
 assertNoReservedCategorySlug();
+
+/**
+ * Name of the verified badge on a claimed listing.
+ *
+ * "Verified" is a strong word and this one is deliberately narrow. It
+ * attests to exactly one checkable thing: somebody who receives mail at
+ * the agency's own domain opened a magic link and filled the form in. It
+ * is NOT a statement that we vetted the agency, that the person was
+ * authorised internally, or that anything they typed is true.
+ *
+ * That distinction is why this is a separate badge from
+ * PARTNER_BADGE_LABEL rather than a second meaning bolted onto it: the
+ * partner badge says the agency uses Superflow, this one says the agency
+ * wrote this listing, and an agency can be either, both or neither.
+ *
+ * The description below is the only place the claim is spelled out in
+ * words, so it matters more than the badge, not less.
+ */
+export const VERIFIED_BADGE_LABEL = "Verified";
+
+/** Tooltip/aria text for the verified badge, stating exactly what was
+ *  checked and - just as importantly - what was not. */
+export const VERIFIED_BADGE_DESCRIPTION =
+  "This agency claimed its own listing from an email address at its own domain. We have not vetted the agency itself.";

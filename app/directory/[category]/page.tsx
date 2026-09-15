@@ -26,17 +26,16 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import IntercomButton from "@/components/home/IntercomButton";
 import CategoryHero from "@/components/directory/CategoryHero";
 import AgencyGrid from "@/components/directory/AgencyGrid";
+import DirectoryAnalytics from "@/components/directory/DirectoryAnalytics";
+import DirectoryTrialCta from "@/components/directory/DirectoryTrialCta";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
-import {
-  agencyPath,
-  buildAgencyListStats,
-  getAgenciesByCategory,
-  getDirectoryCategory,
-} from "@/lib/directory/agencies";
+import { agencyPath, getDirectoryCategory } from "@/lib/directory/agencies";
+import { buildCategoryStats, getCategoryAgencies } from "@/lib/directory/listing";
+import { AnalyticsEvents } from "@/lib/analytics/events";
 
 // Agencies are read from a bundled JSON file (lib/directory/data/agencies.json),
 // refreshed only when the scraper's output is redeployed, not from a live
@@ -101,8 +100,13 @@ export default async function DirectoryCategoryPage({
   const category = getDirectoryCategory(categorySlug);
   if (!category) notFound();
 
-  const agencies = getAgenciesByCategory(category.slug);
-  const stats = buildAgencyListStats(agencies);
+  // Awaited rather than read synchronously: this pulls in claims taken
+  // through /directory/claim since the last deploy, so an agency that
+  // filled its budget in this morning is ranked and filterable on this
+  // page within the route's 60-second revalidate window. See
+  // lib/directory/listing.ts for the sync/async split.
+  const agencies = await getCategoryAgencies(category.slug);
+  const stats = buildCategoryStats(agencies);
   const path = `${DIRECTORY_BASE_PATH}/${category.slug}`;
 
   return (
@@ -145,13 +149,20 @@ export default async function DirectoryCategoryPage({
         />
       )}
 
+      <DirectoryAnalytics
+        event={AnalyticsEvents.DIRECTORY_VIEWED}
+        properties={{ category: category.slug, agencyCount: agencies.length }}
+      />
+
       <SiteNav />
       <CategoryHero category={category} stats={stats} />
       <AgencyGrid agencies={agencies} categorySlug={category.slug} />
-      {/* No testimonials section. It is social proof about agencies using
-          Superflow, which reads as an endorsement of the agencies listed
-          here when it sits directly beneath them - a claim the directory
-          does not make and cannot support. */}
+      {/* The Superflow trial block, at the bottom rather than in the hero -
+          see DirectoryTrialCta's own doc comment. Still no testimonials
+          section: that is social proof about agencies using Superflow,
+          which reads as an endorsement of the agencies listed above it,
+          a claim this directory does not make and cannot support. */}
+      <DirectoryTrialCta />
       <SiteFooter />
       <IntercomButton />
     </main>

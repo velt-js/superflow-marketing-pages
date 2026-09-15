@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 90 90">
+  <!-- Generator: Adobe Illustrator 29.0.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 192)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#Nepojmenovaný_přechod_34);
+      }
+
+      .st1 {
+        fill: #fff;
+      }
+    </style>
+    <linearGradient id="Nepojmenovaný_přechod_34" data-name="Nepojmenovaný přechod 34" x1="69.98" y1="74.72" x2="24.07" y2="20.1" gradientUnits="userSpaceOnUse">
+      <stop offset=".22" stop-color="#ff5831"/>
+      <stop offset=".37" stop-color="#ff5e31"/>
+      <stop offset=".57" stop-color="#ff6f31"/>
+      <stop offset=".8" stop-color="#ff8b31"/>
+      <stop offset="1" stop-color="#ffa931"/>
+    </linearGradient>
+  </defs>
+  <rect class="st0" x="5.27" y="5.27" width="79.45" height="79.45" rx="15.23" ry="15.23"/>
+  <g>
+    <path class="st1" d="M38.89,59.03c-7.74,0-14.03-6.3-14.03-14.03s6.3-14.03,14.03-14.03c5.12,0,9.59,2.76,12.04,6.87l9.12-5.27c-4.27-7.25-12.16-12.13-21.17-12.13-13.54,0-24.56,11.02-24.56,24.56s11.02,24.56,24.56,24.56,23.53-10.02,24.48-22.7c0,0-9.7,6.05-14.4,9.04-3.14,1.99-6.73,3.14-10.08,3.14Z"/>
+    <polygon class="st1" points="65.14 20.44 65.14 35.35 75.67 29.27 75.67 20.44 65.14 20.44"/>
+    <polygon class="st1" points="65.14 69.56 75.67 69.56 75.67 39.55 65.14 45.62 65.14 69.56"/>
+  </g>
+</svg>

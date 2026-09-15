@@ -1,0 +1,43 @@
+/* The agency logo slot, shared by the category card and the profile hero.
+
+   One component paints three different things - a logo we cached, a logo
+   hotlinked from a source directory, and a monogram tile - and they have
+   to occupy identical space, or a grid row shifts depending on which
+   agencies happen to have logos. Hence a fixed box with `object-fit`
+   rather than intrinsic sizing. */
+
+.tile {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #ffffff;
+    /* Source avatars are frequently white-on-white; without a hairline
+       they dissolve into the card. */
+    box-shadow: inset 0 0 0 1px rgba(22, 23, 26, 0.08);
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    /* `contain`, not `cover`: these are marks, and cropping a wordmark to
+       fill a square cuts the word in half. Letterboxing a wide logo is
+       the lesser problem, and `resolveAgencyLogo` already refuses images
+       wide enough for that to matter. */
+    object-fit: contain;
+    object-position: center;
+}
+
+.monogram {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    user-select: none;
+    /* The hue, both colours and the type size are set inline: they are
+       derived per agency from the slug, so they cannot be expressed as a
+       fixed class here. */
+}

@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import AgencyCard from "./AgencyCard";
 import AgencyExplorer from "./AgencyExplorer";
 import styles from "./DirectoryGrid.module.css";
-import { buildAgencyListItems } from "@/lib/directory/agencies";
-import type { Agency } from "@/lib/directory/types";
+import { buildAgencyListItems } from "@/lib/directory/listing";
+import type { EnrichedAgency } from "@/lib/directory/enrich";
 
 /** Copy shown while a category's dataset is still empty (pre-scrape, or a
  *  category with zero matching records). Kept as constants since the
@@ -12,7 +12,7 @@ import type { Agency } from "@/lib/directory/types";
  *  need tweaking together. */
 const EMPTY_STATE_HEADING = "No agencies indexed yet";
 const EMPTY_STATE_BODY =
-  "We're compiling award-winning studios for this category. Check back soon.";
+  "We are compiling studios for this category. Check back soon.";
 
 /**
  * Empty-state block rendered in place of the grid when a category has no
@@ -42,7 +42,7 @@ function EmptyState() {
  * @param agencies - Agencies to render as cards.
  * @returns A map from `Agency.slug` to that agency's rendered card.
  */
-function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
+function buildCardsBySlug(agencies: EnrichedAgency[]): Record<string, ReactNode> {
   try {
     const cardsBySlug: Record<string, ReactNode> = {};
     for (const agency of agencies) {
@@ -70,7 +70,8 @@ function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
  * matches yet).
  *
  * @param props - Component props.
- * @param props.agencies - Agencies to render, already sorted by the caller.
+ * @param props.agencies - Enriched agencies to render, already sorted by
+ *                           the caller (see lib/directory/listing.ts).
  * @param props.categorySlug - The category being rendered. Forwarded to
  *                             AgencyExplorer so its client-side "Top
  *                             ranked" sort reproduces the server order for
@@ -80,7 +81,7 @@ export default function AgencyGrid({
   agencies,
   categorySlug,
 }: {
-  agencies: Agency[];
+  agencies: EnrichedAgency[];
   categorySlug: string;
 }) {
   try {

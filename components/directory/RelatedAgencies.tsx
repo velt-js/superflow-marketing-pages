@@ -1,6 +1,6 @@
 import AgencyCard from "./AgencyCard";
 import styles from "./DirectoryGrid.module.css";
-import type { RelatedAgenciesBlock } from "@/lib/directory/agencies";
+import type { EnrichedRelatedBlock } from "@/lib/directory/listing";
 
 /**
  * Internal-link block shown at the bottom of an agency detail page, so
@@ -18,10 +18,10 @@ import type { RelatedAgenciesBlock } from "@/lib/directory/agencies";
  * the dataset is small.
  *
  * @param props - Component props.
- * @param props.block - The heading + agencies computed by
- *                       `getRelatedAgencies`.
+ * @param props.block - The heading + enriched agencies computed by
+ *                       `getEnrichedRelatedAgencies`.
  */
-export default function RelatedAgencies({ block }: { block: RelatedAgenciesBlock }) {
+export default function RelatedAgencies({ block }: { block: EnrichedRelatedBlock }) {
   try {
     if (!block?.agencies || block.agencies.length === 0) return null;
 

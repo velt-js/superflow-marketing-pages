@@ -22,6 +22,8 @@ import SiteFooter from "@/components/home-2026/SiteFooter";
 import IntercomButton from "@/components/home/IntercomButton";
 import AgencyDetail from "@/components/directory/AgencyDetail";
 import RelatedAgencies from "@/components/directory/RelatedAgencies";
+import DirectoryAnalytics from "@/components/directory/DirectoryAnalytics";
+import DirectoryTrialCta from "@/components/directory/DirectoryTrialCta";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
@@ -35,9 +37,10 @@ import {
   getAgencyBySlug,
   getAllAgencySlugs,
   getDirectoryCategory,
-  getRelatedAgencies,
   shouldIndexAgency,
 } from "@/lib/directory/agencies";
+import { getEnrichedAgency, getEnrichedRelatedAgencies } from "@/lib/directory/listing";
+import { AnalyticsEvents } from "@/lib/analytics/events";
 
 // Agencies are read from a bundled JSON file (lib/directory/data/agencies.json),
 // refreshed only when the scraper's output is redeployed, not from a live
@@ -103,13 +106,18 @@ export async function generateMetadata({
  */
 export default async function AgencyDetailPage({ params }: AgencyDetailPageProps) {
   const { slug } = await params;
-  const agency = getAgencyBySlug(slug);
+  // Awaited so a claim submitted since the last deploy is on the page
+  // inside the route's revalidate window - see lib/directory/listing.ts.
+  const agency = await getEnrichedAgency(slug);
   if (!agency) notFound();
 
   const path = agencyPath(agency.slug);
-  const primaryCategorySlug = agency.categories?.[0];
+  // The RESOLVED primary category, so a listing an agency re-filed on
+  // claiming breadcrumbs to where it now lives rather than to where it
+  // was scraped into.
+  const primaryCategorySlug = agency.primaryCategorySlug ?? undefined;
   const primaryCategory = primaryCategorySlug ? getDirectoryCategory(primaryCategorySlug) : undefined;
-  const relatedBlock = getRelatedAgencies(agency);
+  const relatedBlock = await getEnrichedRelatedAgencies(agency);
   const organizationSchema = buildAgencyOrganizationJsonLd(agency);
   const description = buildAgencyMetaDescription(agency);
 
@@ -138,13 +146,22 @@ export default async function AgencyDetailPage({ params }: AgencyDetailPageProps
         <JsonLd id={`ld-agency-organization-${agency.slug}`} data={organizationSchema} />
       )}
 
+      <DirectoryAnalytics
+        event={AnalyticsEvents.PROFILE_VIEWED}
+        properties={{
+          slug: agency.slug,
+          claimed: agency.claimed,
+          verified: agency.verified,
+          category: primaryCategorySlug ?? null,
+        }}
+      />
+
       <SiteNav />
       <AgencyDetail agency={agency} category={primaryCategory} />
       <RelatedAgencies block={relatedBlock} />
-      {/* No testimonials section. It is social proof about agencies using
-          Superflow, which reads as an endorsement of the agencies listed
-          here when it sits directly beneath them - a claim the directory
-          does not make and cannot support. */}
+      {/* Trial block at the bottom, no testimonials section - see
+          DirectoryTrialCta and the same note on the category page. */}
+      <DirectoryTrialCta />
       <SiteFooter />
       <IntercomButton />
     </main>

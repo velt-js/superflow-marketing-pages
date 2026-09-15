@@ -1,0 +1,31 @@
+/* The "Verified" chip on a claimed listing.
+
+   Green rather than the directory's indigo accent: indigo is the colour
+   of every link and button on these pages, and a chip in it reads as
+   something to click. This one is a state, not an action. */
+
+.badge {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 4px;
+    align-items: center;
+    padding: 2px 8px 2px 6px;
+    border: 1px solid #b7e2c4;
+    border-radius: 999px;
+    background: #eefaf1;
+    color: #17703a;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    white-space: nowrap;
+    /* Sits inside the card's header link, which underlines on hover.
+       Without this the chip picks up the underline too. */
+    text-decoration: none;
+}
+
+.mark {
+    flex: 0 0 auto;
+    display: block;
+}

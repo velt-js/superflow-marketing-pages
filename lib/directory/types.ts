@@ -235,3 +235,202 @@ export interface DirectoryCategory {
   /** Meta description for the category page. */
   metaDescription: string;
 }
+
+/* ------------------------------------------------------------------ *
+ * Claim / enrichment layer
+ *
+ * Everything below describes what an AGENCY tells us about itself, or
+ * what we correct by hand, as opposed to what a source directory
+ * published about it. The two are kept in different files for the same
+ * reason `SuperflowPartnerList` is: the importers under
+ * scripts/directory-import/ overwrite their own data files wholesale on
+ * every run, so a field stored on `Agency` would be wiped the next time
+ * a scrape ran. Claims live in `lib/directory/data/claims.json` (the
+ * committed layer) and in the KV store (the live layer) and are joined
+ * onto agencies at read time by slug - see lib/directory/claims.ts.
+ * ------------------------------------------------------------------ */
+
+/** Build platforms an agency can say it works on. Closed set, because it
+ *  is a filter: free text here would give every studio its own spelling
+ *  of "Webflow" and the filter would match none of them. */
+export type AgencyPlatform =
+  | "webflow"
+  | "framer"
+  | "shopify"
+  | "wordpress"
+  | "nextjs"
+  | "custom"
+  | "other";
+
+/**
+ * What an agency (or we, on its behalf) says about how it takes work.
+ *
+ * Every field is nullable or empty-by-default, which is the whole design:
+ * the directory ships ~320 unclaimed listings and each one has to keep
+ * rendering while it carries none of this. A null is always "did not
+ * say", never "zero" or "no" - the distinction matters most on
+ * `minBudgetUsd`, where a zero would mean "takes work at any budget" and
+ * a null means we cannot filter on it at all.
+ *
+ * Two kinds of record share this shape, distinguished by `claimed`:
+ *
+ * 1. A CLAIM, written by the agency through /directory/claim after a
+ *    magic-link round trip. `claimed` is true, and `verified` is true
+ *    when the claiming email's domain matched the agency's own.
+ * 2. An EDITORIAL OVERLAY, written by us into claims.json - a budget
+ *    answered in a reply to the outbound campaign, a miscategorisation
+ *    corrected, a city looked up. `claimed` stays false: we filled in a
+ *    fact, the agency did not claim the listing, and the profile must
+ *    not badge it as if it had.
+ */
+export interface AgencyClaim {
+  /** `Agency.slug` this record attaches to. The join key. */
+  slug: string;
+  /** True only when the agency itself completed the claim form. Drives
+   *  the "Verified" badge's precondition and 40 points of ranking score,
+   *  so an editorial overlay must never set it. */
+  claimed: boolean;
+  /** ISO-8601 timestamp of the completed claim, or null. */
+  claimedAt: string | null;
+  /** Email that completed the claim. Not rendered; kept so a later edit
+   *  request can be matched against who claimed it. */
+  claimedByEmail: string | null;
+  /** True when `claimedByEmail`'s domain matched the agency's website
+   *  domain at claim time. This is what the "Verified" badge attests to
+   *  and the only claim it makes: somebody with an address at the
+   *  agency's own domain filled the form in. Not a quality judgement. */
+  verified: boolean;
+
+  /** Agency-written blurb, replacing the scraped `Agency.description`
+   *  when present. Capped at DESCRIPTION_MAX_CHARS. */
+  description: string | null;
+  /** Smallest project the agency will take, in whole USD. Null is "not
+   *  stated" and is filtered differently from a number - see
+   *  `matchesBudgetFilter` in lib/directory/filters.ts. */
+  minBudgetUsd: number | null;
+  /** Bottom of the range a typical project lands in, in whole USD. */
+  typicalBudgetMin: number | null;
+  /** Top of that range, in whole USD. */
+  typicalBudgetMax: number | null;
+  /** How long a typical project runs, in weeks. */
+  typicalTimelineWeeks: number | null;
+  /** Platforms the agency builds on. */
+  platforms: AgencyPlatform[];
+  /** Agency-written service tags, replacing the scraped `Agency.services`
+   *  when non-empty. Capped at SERVICES_MAX. */
+  services: string[];
+  /** "What kind of work do you say no to." The most useful sentence on
+   *  most profiles and the one no source directory publishes. */
+  declines: string | null;
+  /** Named startup clients, up to STARTUP_CLIENTS_MAX. */
+  startupClients: string[];
+  /** A standing offer for YC companies, e.g. "15% off the first
+   *  project". Free text so an agency can offer whatever it likes. */
+  ycOffer: string | null;
+
+  /** Where match requests are routed. NEVER rendered on a public page -
+   *  publishing it would turn the directory into a scrape-ready lead
+   *  list and the agencies would stop answering. */
+  contactEmail: string | null;
+  /** Who those requests should be addressed to. Safe to render. */
+  contactName: string | null;
+  /** "We reply within N business days", as stated by the agency. */
+  responseSlaDays: number | null;
+  /** False when the agency has told us it is full. Defaults true, which
+   *  is why an unclaimed listing is still routed match requests. */
+  acceptingProjects: boolean;
+  /** ISO-8601 timestamp of the last edit made through the claim form. */
+  updatedByAgencyAt: string | null;
+
+  /* -- Editorial overlay fields -------------------------------------- *
+   * Corrections to scraped data. These are ours, not the agency's, and
+   * apply whether or not the listing is claimed.                       */
+
+  /** City, when the source recorded a country only and we looked it up.
+   *  See `formatAgencyPlace` in lib/directory/agencies.ts for why a
+   *  country on its own is not rendered. */
+  city: string | null;
+  /** A better logo than the source's, e.g. one fetched from the agency's
+   *  own site at 128px. See lib/directory/logos.ts. */
+  logoUrl: string | null;
+  /** Corrects the category a listing leads with. Several records are
+   *  filed under the category of the awards jury that published them
+   *  rather than the one the studio would choose for itself. */
+  primaryCategory: string | null;
+  /** Additional categories the agency also belongs in, so one studio can
+   *  appear in two listings without duplicating its record. */
+  secondaryCategories: string[];
+  /** Free-text note on where this record came from - "reply to campaign
+   *  email 2, 2026-09-03", "claimed via /directory/claim". Provenance,
+   *  for whoever reads claims.json next. */
+  sourceNote: string | null;
+}
+
+/**
+ * A founder's project brief, routed to three agencies.
+ *
+ * Stored (KV) rather than emailed and forgotten, because the count of
+ * these and the share landing on claimed agencies are two of the three
+ * numbers the directory is measured on.
+ */
+export interface MatchRequest {
+  /** Opaque id, also the KV key suffix. */
+  id: string;
+  createdAt: string;
+  founderName: string;
+  founderEmail: string;
+  company: string;
+  companyUrl: string | null;
+  /** e.g. "W22". Optional, and never verified against YC. */
+  ycBatch: string | null;
+  /** `DirectoryCategory.slug` the request is for. */
+  category: string;
+  /**
+   * What the founder can spend, in whole USD - the TOP of the bucket
+   * they picked, not the bottom.
+   *
+   * The spec this was built from says to route on budgets "at or below
+   * the founder's budget floor", but read literally that excludes
+   * agencies the founder can plainly afford: a founder in the "$10k to
+   * $25k" band would never be shown a studio with a $20k minimum. So
+   * the stored figure is the ceiling and the rule is
+   * `agency.minBudgetUsd <= request.budgetUsd`. `budgetBucket` keeps the
+   * band the founder actually chose, for reporting.
+   */
+  budgetUsd: number;
+  /** The band the founder picked, e.g. "10k-25k". */
+  budgetBucket: string;
+  /** Weeks the founder has, as the top of the band they picked. 0 means
+   *  "flexible" - no deadline stated. */
+  timelineWeeks: number;
+  /** The band the founder picked, e.g. "4-8". */
+  timelineBucket: string;
+  platformPref: AgencyPlatform | null;
+  brief: string;
+  status: "new" | "routed" | "closed";
+  /** The three (or fewer) agencies this was sent to. */
+  routedAgencySlugs: string[];
+  /** utm_source when present, else "directory". */
+  source: string;
+}
+
+/**
+ * One-shot credential proving control of an agency's email domain.
+ *
+ * Single use and short lived: the token IS the authentication for the
+ * enrich form, so a leaked link that stayed valid would let anyone
+ * rewrite a listing. `usedAt` is set the moment a claim is submitted and
+ * checked before the form renders.
+ */
+export interface ClaimToken {
+  token: string;
+  agencySlug: string;
+  email: string;
+  expiresAt: string;
+  usedAt: string | null;
+  /** True when the email domain matched the agency's website domain.
+   *  Carried on the token so the submit handler does not have to
+   *  re-derive it (and cannot disagree with what the start step
+   *  decided). */
+  verified: boolean;
+}
