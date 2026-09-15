@@ -12,6 +12,8 @@ import {
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
 import { AmplitudePageView } from "@/components/scripts/AmplitudePageView";
+import { SolutionsChromeProvider } from "@/components/solutions-2026/SolutionsChrome";
+import { resolveSolutionSummaries } from "@/lib/solutions/resolve";
 import { PageviewTracker } from "@/components/scripts/PageviewTracker";
 import {
   GtmNoScript,
@@ -127,7 +129,23 @@ export const metadata: Metadata = {
 const ORGANIZATION_SCHEMA = buildOrganizationSchema();
 const WEBSITE_SCHEMA = buildWebSiteSchema();
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+/**
+ * The solution pages the nav and footers link to, resolved once per request
+ * (CMS merged over the seed, hidden documents removed). On any failure the
+ * chrome keeps the seed summaries, so a CMS outage never blanks the menus.
+ *
+ * @returns The summaries, or null to keep the seed.
+ */
+async function loadSolutionsForChrome() {
+  try {
+    return await resolveSolutionSummaries();
+  } catch {
+    return null;
+  }
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const solutions = await loadSolutionsForChrome();
   return (
     <html
       lang="en"
@@ -142,7 +160,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageviewTracker />
           <AmplitudePageView />
         </Suspense>
-        {children}
+        <SolutionsChromeProvider solutions={solutions}>
+          {children}
+        </SolutionsChromeProvider>
       </body>
     </html>
   );

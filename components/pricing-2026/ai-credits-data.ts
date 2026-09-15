@@ -33,6 +33,8 @@ export type ScanScope = {
   label: string;
   /** Muted second line: the page range or the rescan rule. */
   sublabel?: string;
+  /** Upper page count of a site-scan band, for copy that quotes the band. */
+  maxPages?: number;
   credits: number;
 };
 
@@ -47,9 +49,9 @@ export const SCAN_RATE_CARD: ScanScope[] = [
     sublabel: "One URL, PDF, image, video or Lottie file",
     credits: 1,
   },
-  { id: "small", label: "Small site scan", sublabel: "Up to 30 pages", credits: 5 },
-  { id: "medium", label: "Medium site scan", sublabel: "31 to 100 pages", credits: 10 },
-  { id: "large", label: "Large site scan", sublabel: "100 to 250 pages", credits: 15 },
+  { id: "small", label: "Small site scan", sublabel: "Up to 30 pages", maxPages: 30, credits: 5 },
+  { id: "medium", label: "Medium site scan", sublabel: "31 to 100 pages", maxPages: 100, credits: 10 },
+  { id: "large", label: "Large site scan", sublabel: "100 to 250 pages", maxPages: 250, credits: 15 },
   { id: "xl", label: "XL site scan", sublabel: "250+ pages", credits: 30 },
   {
     id: "rescan",

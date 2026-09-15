@@ -27,6 +27,7 @@ import {
   resolveHeroTabIcon,
 } from "./HeroIcons";
 import { HERO_ARTIFACTS, SCOPED_HERO_ARTIFACTS } from "./hero-artifacts";
+import AgentsAtWorkArtifact from "./hero-artifacts/AgentsAtWorkArtifact";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
@@ -46,6 +47,17 @@ export type HeroCmsTab = {
   id: string;
   label: string;
   icon: string;
+};
+
+/**
+ * One page-specific agent finding for the "Agents at work" artifact: the
+ * agent name and the finding text, plus an optional cursor tone. Matches the
+ * artifact's `comments` entry shape so it can be passed straight through.
+ */
+export type HeroAgentFinding = {
+  agentName: string;
+  text: string;
+  tone?: string;
 };
 
 /** A right-hand workflow check node inside the product canvas. */
@@ -175,6 +187,13 @@ export interface HeroWorkflowShowcaseProps {
    */
   tabs?: readonly HeroCmsTab[] | null;
   /**
+   * Optional page-specific findings for the `qa-workflow` ("Agents at work")
+   * tab. When present and non-empty, that tab renders the Agents at Work
+   * artifact with these findings in its three slots instead of the registry
+   * default; every other tab is unchanged.
+   */
+  agentFindings?: readonly HeroAgentFinding[] | null;
+  /**
    * Optional page scope selecting a per-page hero-artifact override map from
    * {@link SCOPED_HERO_ARTIFACTS}. When set, the scope's map is consulted before
    * the global {@link HERO_ARTIFACTS}, so a page can bind its own artifact to a
@@ -197,12 +216,20 @@ export interface HeroWorkflowShowcaseProps {
 export default function HeroWorkflowShowcase({
   variant = "home",
   tabs: cmsTabs,
+  agentFindings,
   heroArtifactScope,
 }: HeroWorkflowShowcaseProps = {}) {
   const tabs = toShowcaseTabs(cmsTabs) ?? resolveTabs(variant);
   const firstTabId = tabs[0]?.id ?? QA_WORKFLOW_ID;
   const [activeTabId, setActiveTabId] = useState<string>(firstTabId);
   const isFirstTabActive = activeTabId === firstTabId;
+  // Page-specific findings only apply to the "Agents at work" tab; when that
+  // tab is active and the page supplied findings, they replace the registry
+  // artifact for the tab so the hero shows the page's own agents.
+  const pageFindings =
+    agentFindings && agentFindings.length > 0 && activeTabId === QA_WORKFLOW_ID
+      ? agentFindings
+      : null;
   // When the active tab has a dedicated artifact (homepage tabs), render it
   // inside the shared window frame; otherwise fall back to the generic
   // workflow window below (feature-page / CMS tab presets). A page scope's
@@ -261,7 +288,11 @@ export default function HeroWorkflowShowcase({
       </div>
 
       <div className={`${styles.window} ${isFirstTabActive ? styles.windowMerged : ""}`}>
-        {ActiveArtifact ? (
+        {pageFindings ? (
+          <div className={styles.artifactFrame}>
+            <AgentsAtWorkArtifact comments={pageFindings} />
+          </div>
+        ) : ActiveArtifact ? (
           <div className={styles.artifactFrame}>
             <ActiveArtifact />
           </div>

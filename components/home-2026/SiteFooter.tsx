@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./SiteFooter.module.css";
 import { liveTools, toolPath } from "@/lib/tools/registry";
+import { SolutionsFooterLinks } from "@/components/solutions-2026/SolutionsChrome";
 
 /** Assets exported from Figma node 582:6645. */
 const BRAND_MARK_SRC = "/images/home-2026/footer/superflow-mark.png";
@@ -14,8 +15,6 @@ const FEATURE_PATH = "/";
 const INTEGRATIONS_PATH = "/integrations";
 const ALTERNATIVES_PATH = "/alternative";
 const COMPARISONS_PATH = "/comparisons";
-const USE_CASES_PATH = "/use-case";
-const PERSONAS_PATH = "/user-persona";
 const BRAND_NAME = "Superflow";
 const BRAND_TAGLINE =
   "The AI QA reviewer for agencies. AI reviews first, your team and your client sign off.";
@@ -28,7 +27,16 @@ const COPYRIGHT = "© 2026 Superflow. All rights reserved.";
 import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 
 type FooterLink = { label: string; href: string; paid?: boolean };
-type FooterColumn = { title: string; links: FooterLink[] };
+/**
+ * A footer column: static links, or the Solutions column, whose links come
+ * from the resolved solution summaries (see SolutionsFooterLinks).
+ */
+type FooterColumn = {
+  title: string;
+  links: FooterLink[];
+  /** Render the resolved solution pages instead of `links`. */
+  solutions?: boolean;
+};
 
 /** Navigation columns rendered on the blue footer band. Data-driven so copy/links stay in one place. */
 const FOOTER_COLUMNS: FooterColumn[] = [
@@ -176,28 +184,14 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: "Use Cases",
-    links: [
-      { label: "UAT & QA testing", href: `${USE_CASES_PATH}/uat-qa-testing` },
-      { label: "Client feedback", href: `${USE_CASES_PATH}/client-feedback` },
-      { label: "Conversion optimization", href: `${USE_CASES_PATH}/conversion-optimization` },
-      { label: "Reporting bug", href: `${USE_CASES_PATH}/bug-reporting` },
-      { label: "UX/UI Optimization", href: `${USE_CASES_PATH}/ux-ui-optimization` },
-    ],
-  },
-  {
-    title: "User Persona",
-    links: [
-      { label: "QA team", href: `${PERSONAS_PATH}/qa-teams` },
-      { label: "Project Managers", href: `${PERSONAS_PATH}/project-managers` },
-      { label: "Founder", href: `${PERSONAS_PATH}/founders` },
-      { label: "Developer", href: `${PERSONAS_PATH}/developers` },
-      { label: "Product company", href: `${PERSONAS_PATH}/product-companies` },
-      { label: "Marketing agency", href: `${PERSONAS_PATH}/marketing-agencies` },
-      { label: "Designer", href: `${PERSONAS_PATH}/designers` },
-      { label: "Product Manager", href: `${PERSONAS_PATH}/product-managers` },
-      { label: "Marketer", href: `${PERSONAS_PATH}/marketers` },
-    ],
+    // The solutions pages (agency pages first, then job pages), read from the
+    // summaries the root layout resolves so a page added or hidden in Sanity
+    // shows up or disappears here with no code change. Replaces the retired
+    // Use Cases and User Persona columns, whose URLs now redirect here (see
+    // next.config.ts).
+    title: "Solutions",
+    links: [],
+    solutions: true,
   },
 ];
 
@@ -304,6 +298,9 @@ function FooterLinkColumn({ column }: { column: FooterColumn }) {
     <div className={styles.column}>
       <h3 className={styles.columnTitle}>{column.title}</h3>
       <ul className={styles.columnLinks}>
+        {column.solutions ? (
+          <SolutionsFooterLinks linkClassName={styles.footerLink} />
+        ) : null}
         {column.links?.map((link) => (
           <li key={link.label}>
             <Link href={link.href} className={styles.footerLink}>

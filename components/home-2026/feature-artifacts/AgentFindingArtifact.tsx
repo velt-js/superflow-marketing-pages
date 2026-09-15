@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { findLibraryAgent } from "@/lib/solutions/agent-library";
 import PinnedCommentScene from "./PinnedCommentScene";
 import type { CommentsFeatureArtifactProps } from "./CommentsFeatureArtifacts";
 
@@ -18,12 +19,17 @@ import type { CommentsFeatureArtifactProps } from "./CommentsFeatureArtifacts";
  * @returns The agent-finding window contents, filling its container.
  */
 
-/** Agent identity + finding copy shown on the card. */
-const AGENT_NAME = "Grammar Check";
+/**
+ * Agent identity + finding copy shown on the card: the Palette Guard finding
+ * from the shared agent library, so the example matches the findings the
+ * home hero and the "What your agents catch" section show.
+ */
+const AGENT_NAME = "Palette Guard";
 const AGENT_TIME = "3h";
-const FINDING_TITLE = "Typo in the hero headline";
+const FINDING_TITLE = "Primary button is off the brand palette";
 const FINDING_DESCRIPTION =
-  "\u201Ceffortlesly\u201D is misspelled \u2014 it should read \u201Ceffortlessly.\u201D";
+  findLibraryAgent(AGENT_NAME)?.finding ??
+  "Primary button uses #2F80ED. The brand guide allows #1E5BB8.";
 
 export default function AgentFindingArtifact({
   hero = false,
@@ -39,6 +45,8 @@ export default function AgentFindingArtifact({
           title: FINDING_TITLE,
           description: FINDING_DESCRIPTION,
           avatarVariant: "agentDots",
+          // Illustrative: the approve/reject marks are not live controls.
+          interactive: false,
         }}
       />
     );

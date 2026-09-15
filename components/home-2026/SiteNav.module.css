@@ -439,6 +439,47 @@
   outline-offset: 2px;
 }
 
+/* --- Solutions mega-menu (desktop) ------------------------------------ */
+
+/* Two-column variant of the Product sheet (By agency / By job), narrower so
+   two columns do not stretch across the full 720px card. */
+.megaMenuTwoCol {
+  width: min(600px, calc(100vw - 40px));
+}
+
+.megaInnerTwoCol {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Label stacked over its one-line descriptor. */
+.megaLinkText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+/* Muted descriptor under a mega-menu label. */
+.megaLinkDesc {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #6a6a72;
+}
+
+/* Full-width footer row under both columns, in the .groupAllLink idiom. */
+.megaAllLink {
+  grid-column: 1 / -1;
+  margin-top: 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(17, 20, 45, 0.08);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16161a;
+}
+
 /* --- Assets list dropdown (desktop) ----------------------------------- */
 
 /* Compact white card anchored under the "Assets" trigger (left-aligned, unlike

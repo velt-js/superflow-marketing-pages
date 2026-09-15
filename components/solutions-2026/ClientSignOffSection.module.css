@@ -1,0 +1,24 @@
+/* S4, how the client signs off. The section and block chrome come from
+   FeatureSet.module.css so the block looks like the home page one; only the
+   intro line under the heading is styled here. */
+
+.header {
+  gap: 12px;
+}
+
+/* Body copy inherits the global Poppins face. Colour is explicit because the
+   global body colour is white. */
+.intro {
+  margin: 0;
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #1e1e1f;
+  opacity: 0.78;
+}
+
+@media (max-width: 460px) {
+  .intro {
+    font-size: 16px;
+  }
+}
