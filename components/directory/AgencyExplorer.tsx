@@ -87,20 +87,85 @@ const TOGGLE_FILTERS: Array<{
 ];
 
 /**
+ * Which controls this listing has anything to filter on.
+ *
+ * Every field here is claim-backed, and the directory ships with the
+ * claim layer empty: until agencies start claiming, NO listing states a
+ * budget, a platform, a reply time or a YC offer. A "Webflow" pill on a
+ * page where no agency has said what it builds on is not a filter, it is
+ * a trap - it returns an empty grid and reads as a broken feature rather
+ * than as missing data.
+ *
+ * So each control is rendered only when the current list can actually
+ * answer it. This is the same rule the sort dropdown already applied to
+ * "Client rating" and "Superflow partners first", extended to the
+ * filters, and it is self-healing: the controls come back on their own as
+ * claims arrive, with no flag to remember to flip.
+ */
+interface ControlAvailability {
+  budget: boolean;
+  platforms: boolean;
+  responseSla: boolean;
+  startupFriendly: boolean;
+  ycOffer: boolean;
+  verified: boolean;
+}
+
+/**
+ * Works out which controls have data behind them.
+ *
+ * @param items - The full agency list for this page.
+ * @returns One flag per data-backed control.
+ */
+function buildAvailability(items: AgencyListItem[]): ControlAvailability {
+  try {
+    return {
+      budget: items.some((item) => typeof item?.minBudgetUsd === "number"),
+      platforms: items.some((item) => (item?.platforms?.length ?? 0) > 0),
+      responseSla: items.some((item) => typeof item?.responseSlaDays === "number"),
+      startupFriendly: items.some((item) => item?.startupFriendly),
+      ycOffer: items.some((item) => item?.hasYcOffer),
+      verified: items.some((item) => item?.verified),
+    };
+  } catch {
+    // Showing everything is the safe failure: a visitor gets a filter that
+    // may match nothing, rather than losing filters that would have worked.
+    return {
+      budget: true,
+      platforms: true,
+      responseSla: true,
+      startupFriendly: true,
+      ycOffer: true,
+      verified: true,
+    };
+  }
+}
+
+/**
  * Sort options.
  *
  * "Recommended" is the SSR default, so selecting it always reproduces the
- * page's initial state. The two review/partner modes only appear when the
- * listing actually has that data - a sort that cannot reorder anything is
- * a dead control, not a choice. "Recommended" never gets that treatment
- * even when it is degenerate: it is the selected value, and a `<select>`
- * whose selection has no matching `<option>` renders as a blank.
+ * page's initial state. Every other mode appears only when the listing
+ * actually has the data it sorts on - a sort that cannot reorder anything
+ * is a dead control, not a choice. "Lowest minimum budget" and "Fastest
+ * reply" are in that set for the same reason the budget and platform
+ * filters are: with no claims, every value they read is null, they all
+ * fall through to the default comparator, and picking one visibly does
+ * nothing.
+ *
+ * "Recommended" never gets that treatment even when it is degenerate: it
+ * is the selected value, and a `<select>` whose selection has no matching
+ * `<option>` renders as an unlabelled blank.
  */
-const SORT_OPTIONS: Array<{ value: SortMode; label: string; needs?: "rating" | "partners" }> = [
+const SORT_OPTIONS: Array<{
+  value: SortMode;
+  label: string;
+  needs?: keyof ControlAvailability | "rating" | "partners";
+}> = [
   { value: "recommended", label: "Recommended" },
   { value: "most-awarded", label: "Most awarded" },
-  { value: "lowest-budget", label: "Lowest minimum budget" },
-  { value: "fastest-reply", label: "Fastest reply" },
+  { value: "lowest-budget", label: "Lowest minimum budget", needs: "budget" },
+  { value: "fastest-reply", label: "Fastest reply", needs: "responseSla" },
   { value: "rating", label: "Client rating", needs: "rating" },
   { value: "partners-first", label: "Superflow partners first", needs: "partners" },
 ];
@@ -200,6 +265,7 @@ function ControlsBar({
   onChange,
   countryOptions,
   sortOptions,
+  shows,
   visibleCount,
   totalCount,
   onReset,
@@ -208,11 +274,15 @@ function ControlsBar({
   onChange: (next: Partial<FilterState>, changedKey: string, changedValue: unknown) => void;
   countryOptions: string[];
   sortOptions: typeof SORT_OPTIONS;
+  /** Which data-backed controls to render - see `ControlAvailability`. */
+  shows: ControlAvailability;
   visibleCount: number;
   totalCount: number;
   onReset: () => void;
 }) {
   try {
+    const visibleToggles = TOGGLE_FILTERS.filter((toggle) => shows[toggle.key]);
+
     /** Adds or removes one platform from the multi-select. */
     function togglePlatform(platform: AgencyPlatform) {
       const next = state.platforms.includes(platform)
@@ -238,23 +308,27 @@ function ControlsBar({
             />
           </div>
 
-          <div className={`${styles.field} ${styles.fieldSelect}`}>
-            <label htmlFor="directory-budget" className={styles.label}>
-              {BUDGET_LABEL}
-            </label>
-            <select
-              id="directory-budget"
-              value={state.budget}
-              onChange={(event) => onChange({ budget: event.target.value }, "budget", event.target.value)}
-              className={`${styles.control} ${styles.select}`}
-            >
-              {BUDGET_FILTER_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          {shows.budget && (
+            <div className={`${styles.field} ${styles.fieldSelect}`}>
+              <label htmlFor="directory-budget" className={styles.label}>
+                {BUDGET_LABEL}
+              </label>
+              <select
+                id="directory-budget"
+                value={state.budget}
+                onChange={(event) =>
+                  onChange({ budget: event.target.value }, "budget", event.target.value)
+                }
+                className={`${styles.control} ${styles.select}`}
+              >
+                {BUDGET_FILTER_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className={`${styles.field} ${styles.fieldSelect}`}>
             <label htmlFor="directory-country" className={styles.label}>
@@ -296,48 +370,54 @@ function ControlsBar({
           </div>
         </div>
 
-        <div className={styles.controlsRow}>
-          <fieldset className={styles.pillGroup}>
-            <legend className={styles.label}>{PLATFORM_LABEL}</legend>
-            <div className={styles.pills}>
-              {PLATFORM_OPTIONS.map((option) => {
-                const active = state.platforms.includes(option.value);
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
-                    aria-pressed={active}
-                    onClick={() => togglePlatform(option.value)}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
+        {(shows.platforms || visibleToggles.length > 0) && (
+          <div className={styles.controlsRow}>
+            {shows.platforms && (
+              <fieldset className={styles.pillGroup}>
+                <legend className={styles.label}>{PLATFORM_LABEL}</legend>
+                <div className={styles.pills}>
+                  {PLATFORM_OPTIONS.map((option) => {
+                    const active = state.platforms.includes(option.value);
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
+                        aria-pressed={active}
+                        onClick={() => togglePlatform(option.value)}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            )}
 
-          <fieldset className={styles.pillGroup}>
-            <legend className={styles.label}>Filters</legend>
-            <div className={styles.pills}>
-              {TOGGLE_FILTERS.map((toggle) => {
-                const active = state[toggle.key];
-                return (
-                  <button
-                    key={toggle.key}
-                    type="button"
-                    className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
-                    aria-pressed={active}
-                    title={toggle.hint}
-                    onClick={() => onChange({ [toggle.key]: !active }, toggle.key, !active)}
-                  >
-                    {toggle.label}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
-        </div>
+            {visibleToggles.length > 0 && (
+              <fieldset className={styles.pillGroup}>
+                <legend className={styles.label}>Filters</legend>
+                <div className={styles.pills}>
+                  {visibleToggles.map((toggle) => {
+                    const active = state[toggle.key];
+                    return (
+                      <button
+                        key={toggle.key}
+                        type="button"
+                        className={`${styles.pill}${active ? ` ${styles.pillActive}` : ""}`}
+                        aria-pressed={active}
+                        title={toggle.hint}
+                        onClick={() => onChange({ [toggle.key]: !active }, toggle.key, !active)}
+                      >
+                        {toggle.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            )}
+          </div>
+        )}
 
         <div className={styles.countRow}>
           <p aria-live="polite" className={styles.count}>
@@ -409,22 +489,62 @@ export default function AgencyExplorer({
     }
   }, []);
 
-  const safeItems = items ?? [];
+  // Memoized rather than `items ?? []` inline: the fallback allocates a
+  // new array on every render, which changes the identity every memo
+  // below depends on and quietly turns all four of them into no-ops.
+  const safeItems = useMemo(() => items ?? [], [items]);
+
   const countryOptions = useMemo(() => buildCountryOptions(safeItems), [safeItems]);
+
+  /**
+   * Which controls to render.
+   *
+   * A control is shown when the data can answer it OR when the current
+   * state already has it set. That second half matters: filters live in
+   * the URL, so somebody can open a shared link for a filter this listing
+   * no longer has data for - a claim was withdrawn, or the link came from
+   * a different category. Hiding its control would leave them staring at
+   * an empty grid with no visible cause and nothing to click. Rendering
+   * it, switched on, makes the filter legible and clearable.
+   */
+  const shows = useMemo<ControlAvailability>(() => {
+    try {
+      const available = buildAvailability(safeItems);
+      return {
+        budget: available.budget || state.budget !== defaultFilterState().budget,
+        platforms: available.platforms || state.platforms.length > 0,
+        responseSla: available.responseSla,
+        startupFriendly: available.startupFriendly || state.startupFriendly,
+        ycOffer: available.ycOffer || state.ycOffer,
+        verified: available.verified || state.verified,
+      };
+    } catch {
+      return buildAvailability(safeItems);
+    }
+  }, [safeItems, state]);
 
   const sortOptions = useMemo(() => {
     try {
       const hasRating = safeItems.some((item) => (item?.ratingScore ?? 0) > 0);
       const hasPartners = safeItems.some((item) => item?.isPartner);
       return SORT_OPTIONS.filter((option) => {
+        // Never hide the option that is currently selected. A `<select>`
+        // whose value has no matching `<option>` renders as an
+        // unlabelled blank, and the sort mode arrives from the URL, so a
+        // shared link can select a mode this listing has no data for.
+        if (option.value === state.sort) return true;
+        if (!option.needs) return true;
         if (option.needs === "rating") return hasRating;
         if (option.needs === "partners") return hasPartners;
-        return true;
+        // Everything else names a key on the availability record, so a
+        // sort mode and the filter over the same field can never
+        // disagree about whether that field has any data.
+        return shows[option.needs];
       });
     } catch {
       return SORT_OPTIONS;
     }
-  }, [safeItems]);
+  }, [safeItems, shows, state.sort]);
 
   const visibleItems = useMemo(() => {
     try {
@@ -493,6 +613,7 @@ export default function AgencyExplorer({
           onChange={applyChange}
           countryOptions={countryOptions}
           sortOptions={sortOptions}
+          shows={shows}
           visibleCount={visibleItems.length}
           totalCount={safeItems.length}
           onReset={resetFilters}

@@ -701,12 +701,36 @@ type-only imports from those modules, plain data passed in as props from
 a server component. `tests/directory/partner-badge.spec.ts` has a bundle
 assertion that catches a regression here.
 
-The control set:
+**A control with no data behind it is not rendered.** Every claim-backed
+filter — budget, platform, startup-friendly, YC offer, verified-only, and
+the "Lowest minimum budget" and "Fastest reply" sorts — appears only when
+some agency in the current list can actually answer it. The claim layer
+ships empty, so on a fresh build none of them render and the bar is
+search, country and sort.
+
+This is not a launch flag to remember to flip. A "Webflow" pill on a page
+where no agency has said what it builds on is not a filter, it is a trap:
+it returns an empty grid and reads as a broken feature rather than as
+missing data. `buildAvailability` derives the flags from the list on every
+render, so each control comes back on its own as claims arrive. It is the
+same rule the sort dropdown already applied to "Client rating" and
+"Superflow partners first", extended to the filters.
+
+**The exception is a filter the current state already has set.** Filters
+live in the URL, so a shared link can name a filter this listing has no
+data for — a claim withdrawn, or a link from another category. Hiding its
+control would leave a visitor with an empty grid, no visible cause and
+nothing to click, so it renders anyway, switched on and clearable. The
+same guard keeps the selected sort option in the dropdown: a `<select>`
+whose value has no matching `<option>` renders as an unlabelled blank.
+
+The control set, when the data supports it:
 
 - **Search** — name, description, location, client names, services,
   industries, platforms and startup clients, via
   `AgencyListItem.searchText`. Searching "nike" surfaces the agencies that
-  built for Nike, not just agencies named that.
+  built for Nike, not just agencies named that. The one control that is
+  always shown, because it reads scraped copy rather than claim fields.
 - **Minimum budget** — "Any", "Under $10k", "Under $25k", "Under $50k",
   reading `minBudgetUsd`. **An agency that never stated a budget appears
   only under "Any".** That is the point of the filter, not an oversight: a
@@ -720,10 +744,10 @@ The control set:
   is saying "either is fine".
 - **Startup friendly / YC offer / Verified only** — three toggles.
 - **Sort** — "Recommended" (the default, and the only mode that reproduces
-  the SSR order), "Most awarded", "Lowest minimum budget", "Fastest
-  reply", plus "Client rating" and "Superflow partners first", which are
-  hidden when the current list has no ratings or no partners respectively.
-  A sort that cannot reorder anything is a dead control, not a choice.
+  the SSR order) and "Most awarded" always; "Lowest minimum budget",
+  "Fastest reply", "Client rating" and "Superflow partners first" only
+  when the list holds the data each reads. A sort that cannot reorder
+  anything is a dead control, not a choice.
 
 Under "Lowest minimum budget" and "Fastest reply", agencies that stated
 **nothing sort last, not first.** A naive null-as-zero puts every listing
