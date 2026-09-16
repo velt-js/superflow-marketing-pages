@@ -27,7 +27,8 @@
 // TOOLS_BASE_URL — but note the badge only appears there if that build had
 // the flag or partners.json is genuinely populated.
 
-import { test, expect, devices, type Page } from "@playwright/test";
+import { test, expect, devices } from "@playwright/test";
+import { dismissConsentBanner } from "./consent-banner";
 import agenciesData from "../../lib/directory/data/agencies.json";
 import partnersData from "../../lib/directory/data/partners.json";
 import previewPartnersData from "../../lib/directory/data/partners.preview.json";
@@ -74,27 +75,11 @@ function assertPreconditions(): void {
   ).toBeGreaterThan(0);
 }
 
-/**
- * Dismisses the cookie banner, which otherwise covers the lower half of the
- * card grid and intercepts taps aimed at cards behind it.
- *
- * @param page - The page to dismiss the banner on.
- */
-async function dismissCookieBanner(page: Page): Promise<void> {
-  for (const label of ["Accept", "Decline"]) {
-    const button = page.getByRole("button", { name: label, exact: true });
-    if (await button.count()) {
-      await button.first().click({ timeout: 5_000 }).catch(() => {});
-      return;
-    }
-  }
-}
-
 test.describe("partner badge", () => {
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
     await page.goto(LIST_PATH);
-    await dismissCookieBanner(page);
+    await dismissConsentBanner(page);
   });
 
   test("renders on exactly the partner agencies, and on no one else", async ({ page }) => {
@@ -192,7 +177,7 @@ test.describe("partner badge on touch", () => {
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
     await page.goto(LIST_PATH);
-    await dismissCookieBanner(page);
+    await dismissConsentBanner(page);
   });
 
   test("opens on tap without navigating away", async ({ page }) => {

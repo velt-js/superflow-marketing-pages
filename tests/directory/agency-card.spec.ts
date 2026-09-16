@@ -17,6 +17,7 @@
 //      that click, every link on the grid quietly goes to the same place.
 
 import { test, expect } from "@playwright/test";
+import { dismissConsentBanner } from "./consent-banner";
 import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 
 /** The one page that lists agencies. The four category routes it replaced
@@ -24,9 +25,14 @@ import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 const LIST_PATH = DIRECTORY_BASE_PATH;
 
 test.describe("agency card", () => {
-  test("clicking the card body opens the agency's detail page", async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto(LIST_PATH);
+    // The consent banner covers the first row of cards on CI. See
+    // ./consent-banner.ts - this test shipped broken without it.
+    await dismissConsentBanner(page);
+  });
 
+  test("clicking the card body opens the agency's detail page", async ({ page }) => {
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     await expect(card).toBeVisible();
 
@@ -44,6 +50,26 @@ test.describe("agency card", () => {
     // what a visitor does, and the browser routes it to whatever is
     // actually on top: the overlay on a working build, the inert <p> on a
     // broken one, which leaves the URL where it was and fails below.
+    //
+    // Checked before clicking, because "the URL did not change" is a
+    // terrible description of "something is covering the card". This names
+    // whatever is actually on top.
+    const onTop = await body.evaluate((node) => {
+      const rect = node.getBoundingClientRect();
+      const hit = document.elementFromPoint(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+      );
+      return {
+        opensProfile: Boolean(hit?.closest("a[href^='/directory/agency/']")),
+        describe: hit ? `${hit.tagName.toLowerCase()}.${hit.className}`.slice(0, 120) : "nothing",
+      };
+    });
+    expect(
+      onTop.opensProfile,
+      `the card's stretched link should be on top of its description, but ${onTop.describe} is`,
+    ).toBe(true);
+
     const box = await body.boundingBox();
     expect(box, "the description should have a layout box to click").not.toBeNull();
     await page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
@@ -54,8 +80,6 @@ test.describe("agency card", () => {
   });
 
   test("the agency's own website link still wins its own click", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     const websiteLink = page
       .locator("article a[target='_blank'][rel*='noopener']")
       .first();
@@ -71,8 +95,6 @@ test.describe("agency card", () => {
   });
 
   test("the card carries no link back to the source directory", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     // Attribution lives on the detail page this card opens, one click away.
     // The figures on the card still name their source in the label itself
@@ -82,8 +104,6 @@ test.describe("agency card", () => {
   });
 
   test("no anchor is nested inside another anchor", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     // The whole reason the card uses an overlay instead of wrapping itself
     // in a link. Browsers recover from nested anchors in incompatible ways,
     // so this must never regress into "just wrap the card".
