@@ -22,8 +22,7 @@
 //      path; appended to the whole URL it lands on `?category=seo.md`,
 //      which is the HTML page again under a category that does not exist.
 
-import { test, expect } from "@playwright/test";
-import { dismissConsentBanner } from "./consent-banner";
+import { test, expect } from "./fixtures";
 import {
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
@@ -87,7 +86,6 @@ test.describe("directory list", () => {
 
   test("the category select narrows the list", async ({ page }) => {
     await page.goto(LIST_PATH);
-    await dismissConsentBanner(page);
 
     /** The "of N" in the count line: how many agencies match right now. */
     const matchCount = async () => {
@@ -209,8 +207,6 @@ test.describe("directory list", () => {
 
   test("a page link shows a different page of agencies", async ({ page }) => {
     await page.goto(LIST_PATH);
-    // The pager is below the fold, which is where the consent banner sits.
-    await dismissConsentBanner(page);
 
     const firstName = await page.locator("article h3").first().innerText();
     await page.getByRole("link", { name: "Page 2", exact: true }).click();

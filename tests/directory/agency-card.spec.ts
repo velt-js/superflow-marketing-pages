@@ -16,20 +16,43 @@
 //      one outbound link the card still carries, and if the overlay wins
 //      that click, every link on the grid quietly goes to the same place.
 
-import { test, expect } from "@playwright/test";
-import { dismissConsentBanner } from "./consent-banner";
+import { test, expect } from "./fixtures";
 import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 
 /** The one page that lists agencies. The four category routes it replaced
  *  now 308 here - see the redirect test in directory-list.spec.ts. */
 const LIST_PATH = DIRECTORY_BASE_PATH;
 
+test("the consent banner's script is refused, not merely absent", async ({ page }) => {
+  // The block in ./fixtures.ts matches one host. If Termly ever moves,
+  // the banner comes back and covers the cards again - and the only
+  // symptom would be this suite failing on CI and passing everywhere
+  // else, which is the exact trap it was written to close. So assert the
+  // request was actually intercepted rather than trusting silence: an
+  // abort raises `requestfailed`, before the network, so this is the same
+  // answer on a runner with the CDN reachable and in a sandbox without
+  // it. If <Script id="termly"> is ever removed from
+  // components/scripts/ThirdPartyScripts.tsx, delete this test and the
+  // block with it.
+  const refused: string[] = [];
+  page.on("requestfailed", (request) => {
+    if (request.url().includes("termly.io")) refused.push(request.url());
+  });
+
+  await page.goto(LIST_PATH);
+  await expect
+    .poll(() => refused.length, {
+      message: "the consent banner script was never requested - has its host changed?",
+    })
+    .toBeGreaterThan(0);
+});
+
 test.describe("agency card", () => {
   test.beforeEach(async ({ page }) => {
+    // The consent banner would cover the first row of cards on CI; the
+    // `test` imported above blocks it. See ./fixtures.ts - this test
+    // shipped broken without that.
     await page.goto(LIST_PATH);
-    // The consent banner covers the first row of cards on CI. See
-    // ./consent-banner.ts - this test shipped broken without it.
-    await dismissConsentBanner(page);
   });
 
   test("clicking the card body opens the agency's detail page", async ({ page }) => {

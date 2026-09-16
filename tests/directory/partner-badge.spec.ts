@@ -27,8 +27,8 @@
 // TOOLS_BASE_URL — but note the badge only appears there if that build had
 // the flag or partners.json is genuinely populated.
 
-import { test, expect, devices } from "@playwright/test";
-import { dismissConsentBanner } from "./consent-banner";
+import { devices } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import agenciesData from "../../lib/directory/data/agencies.json";
 import partnersData from "../../lib/directory/data/partners.json";
 import previewPartnersData from "../../lib/directory/data/partners.preview.json";
@@ -79,7 +79,6 @@ test.describe("partner badge", () => {
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
     await page.goto(LIST_PATH);
-    await dismissConsentBanner(page);
   });
 
   test("renders on exactly the partner agencies, and on no one else", async ({ page }) => {
@@ -177,7 +176,6 @@ test.describe("partner badge on touch", () => {
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
     await page.goto(LIST_PATH);
-    await dismissConsentBanner(page);
   });
 
   test("opens on tap without navigating away", async ({ page }) => {
