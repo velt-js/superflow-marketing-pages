@@ -1,6 +1,14 @@
 import path from "node:path";
 import type { NextConfig } from "next";
 
+// The directory's category registry. Imported rather than hand-listed so a
+// category added or renamed there cannot leave a retired route 404ing.
+import {
+  DIRECTORY_BASE_PATH,
+  DIRECTORY_CATEGORIES,
+  DIRECTORY_CATEGORY_PARAM,
+} from "./lib/directory/constants";
+
 // Superflow subdomains served by reverse-proxying a velt.dev provider page,
 // so the Superflow hostname stays in the address bar. See `rewrites` below.
 const PROXIED_HOSTS = {
@@ -298,6 +306,19 @@ const nextConfig: NextConfig = {
         destination: "/alternative/:slug",
         permanent: true,
       },
+      // Retired directory category pages. Categories are a filter on the
+      // one /directory list now, not four destinations (see
+      // app/directory/page.tsx), so each old route folds onto that list
+      // pre-filtered to itself. `permanent` (308) rather than a 302: these
+      // four URLs are indexed and linked, and the point of the redirect is
+      // to hand their standing to the page that replaced them.
+      ...DIRECTORY_CATEGORIES.map(
+        (category): Redirect => ({
+          source: `${DIRECTORY_BASE_PATH}/${category.slug}`,
+          destination: `${DIRECTORY_BASE_PATH}?${DIRECTORY_CATEGORY_PARAM}=${category.slug}`,
+          permanent: true,
+        }),
+      ),
     ];
 
     return [

@@ -24,7 +24,6 @@ import {
 } from "./pages/sanity-pages";
 import {
   agencyToAgentDoc,
-  directoryCategoryToAgentDoc,
   directoryHubToAgentDoc,
 } from "./pages/directory-pages";
 import { type Doc, arr, rec, str } from "./pages/read";
@@ -32,10 +31,7 @@ import {
   getAgencyBySlug,
   shouldIndexAgency,
 } from "@/lib/directory/agencies";
-import {
-  DIRECTORY_BASE_PATH,
-  DIRECTORY_CATEGORIES,
-} from "@/lib/directory/constants";
+import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 import { clean, titleFromSlug } from "./text";
 import { isHeldIntegrationSlug } from "@/lib/integration-holds";
 import {
@@ -386,11 +382,10 @@ async function resolveDirectory(path: string): Promise<AgentDoc | null> {
       return await agencyToAgentDoc(agency);
     }
 
-    if (rest.length === 1) {
-      const category = DIRECTORY_CATEGORIES.find((entry) => entry.slug === rest[0]);
-      return category ? await directoryCategoryToAgentDoc(category) : null;
-    }
-
+    // /directory/<category> is gone: categories are a filter on the one
+    // list page now, and its own copy covers all four (see
+    // `directoryHubToAgentDoc`). The HTML routes 308 onto that list; there
+    // is nothing here for a Markdown copy of them to describe.
     return null;
   } catch {
     return null;

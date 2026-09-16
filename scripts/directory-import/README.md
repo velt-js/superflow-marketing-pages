@@ -1,7 +1,8 @@
 # Directory importers
 
 Four standalone Node ESM scripts populate `lib/directory/data/*.json` for
-the agency directory. Three are scrapers, each fetching a different public
+the agency directory, and a fifth pushes what they collect into Sanity,
+which is what the site actually renders (see "Syncing into Sanity" below). Three are scrapers, each fetching a different public
 source; the fourth is a loader that validates a hand-collected dataset rather
 than fetching anything. All four write records conforming exactly to the
 `Agency` interface in `lib/directory/types.ts`.
@@ -19,14 +20,37 @@ and its own on-disk cache directory.
 | `load-branding-json.mjs` | Clutch / DesignRush / D&AD, via a hand-driven browser session (no network access of its own) | `lib/directory/data/branding-agencies.json` | `branding` |
 | `import-motion-design-awards.mjs` | [Motion Design Awards](https://www.motiondesignawards.com) | `lib/directory/data/motion-design-agencies.json` | `motion-design` |
 
-**These scripts are not where a correction goes.** Every one of them
-overwrites its own file wholesale on each run, so a fix typed into
-`lib/directory/data/*.json` — an agency writing in to say its client list or
-its minimum budget is wrong — survives until the next run and no further.
-Those live in Sanity as `agencyListing` documents and are merged over the
-scrape at read time; see "Corrections from the agency (the CMS layer)" in
-`app/directory/README.md`, and `scripts/agency-listing-import/` for the seed
-script. Nothing here should ever read or write them.
+**These scripts are not where a correction goes, and their output is not
+what the site renders.** Every one of them overwrites its own file wholesale
+on each run, so a fix typed into `lib/directory/data/*.json` — an agency
+writing in to say its client list or its minimum budget is wrong — survives
+until the next run and no further. Corrections belong in the agency's own
+Sanity document; see "Where the records live" in `app/directory/README.md`.
+
+## Syncing into Sanity
+
+`sync-agencies-to-sanity.mjs` is the bridge from these files to the `agency`
+documents the site reads. Run it after an importer run:
+
+```bash
+DRY_RUN=1 node scripts/directory-import/sync-agencies-to-sanity.mjs
+SANITY_API_TOKEN=<token> node scripts/directory-import/sync-agencies-to-sanity.mjs
+```
+
+It merges the four files exactly as `mergeAgencySources` does at read time
+(dedupe by registrable domain, then by slug, earliest file winning) and
+writes one document per agency with `createIfNotExists`. **A record that
+already exists is left alone**, so a re-scrape can never overwrite what an
+editor typed — that is the whole reason the records moved into the CMS.
+`--replace=<slugs>` or `--replace=all` forces the scrape to win for the
+records you name, discarding their edits. There is no stale-delete pass.
+
+On its first run it also folds in any `agencyListing` corrections, which is
+how the two we had been sent survived the move, and prints which ones it
+folded so they can be deleted afterwards.
+
+A dry run needs no token: it reads as the public does and prints what it
+would write.
 
 ## Awwwards directory scraper
 

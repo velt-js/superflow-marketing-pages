@@ -18,7 +18,8 @@
 // records at runtime, so every helper here must handle an empty dataset
 // without throwing.
 
-import { getAgencyListingOverrides } from "@/sanity/lib/queries";
+import { getAgencyListingOverrides, getDirectoryAgencyDocuments } from "@/sanity/lib/queries";
+import { toAgencies } from "./cms";
 import { applyAgencyListings } from "./overrides";
 import agenciesData from "./data/agencies.json";
 import seoAgenciesData from "./data/seo-agencies.json";
@@ -35,6 +36,7 @@ import {
   SOURCE_LABEL_CLUTCH,
   SOURCE_LABEL_DANDAD,
   SOURCE_LABEL_DESIGNRUSH,
+  SOURCE_LABEL_EDITORIAL,
   SOURCE_LABEL_MOTION_DESIGN_AWARDS,
   SOURCE_LABEL_SEMRUSH,
 } from "./constants";
@@ -139,18 +141,46 @@ const DATASET_TTL_MS = 60_000;
 let datasetCache: { startedAt: number; dataset: Promise<Agency[]> } | null = null;
 
 /**
- * Fetches the CMS corrections and merges them onto the scrape.
+ * Resolves the dataset the pages render: the `agency` documents in Sanity,
+ * falling back to the bundled scrape.
  *
- * Resolves to the scraped dataset unchanged when Sanity cannot be reached.
- * That is the deliberate failure mode: the directory's substance is the
- * scrape, so an outage costs the corrections layered on top of it and
- * nothing else - every page still renders, with everything its named
- * source published. Failing the build instead would take ~320 working
- * pages off the site to protect a correction on a handful of them.
+ * **Sanity is the source of truth** (see sanity/schemas/agency.ts). The
+ * JSON files under ./data are what the importers write and what this falls
+ * back to, in two cases that look identical from here and are both
+ * expected:
+ *
+ * 1. **Sanity is unreachable.** An outage then costs the edits made since
+ *    the last deploy and nothing else - every page still renders, with
+ *    everything its named source published. Failing instead would take
+ *    ~320 working pages off the site.
+ * 2. **Sanity holds no agencies yet**, because the sync in
+ *    scripts/directory-import/sync-agencies-to-sanity.mjs has not been run
+ *    against this dataset. This is what makes the migration safe to deploy
+ *    ahead of running it: the site keeps rendering exactly what it rendered
+ *    before, and starts reading the CMS the moment the documents exist.
+ *
+ * The `agencyListing` corrections are applied to the FALLBACK ONLY. On the
+ * CMS path they are not a layer over anything - the sync folds them into
+ * the agency documents, which is where an editor now edits them. Applying
+ * both would mean a stale listing silently overwriting an edit made in the
+ * document itself.
+ *
+ * A non-empty CMS response wins outright; there is no "merge what's
+ * missing" pass. Half a dataset from a bad query is a problem to fix at
+ * the source, not to paper over by refilling it from a file that may be
+ * months behind.
  *
  * @returns The resolved dataset.
  */
 async function resolveDataset(): Promise<Agency[]> {
+  try {
+    const documents = await getDirectoryAgencyDocuments();
+    const agencies = toAgencies(documents);
+    if (agencies.length > 0) return agencies;
+  } catch {
+    // Falls through to the scrape below - deliberately not rethrown.
+  }
+
   try {
     const overrides = await getAgencyListingOverrides();
     return applyAgencyListings(SCRAPED_AGENCIES, overrides);
@@ -160,8 +190,8 @@ async function resolveDataset(): Promise<Agency[]> {
 }
 
 /**
- * The dataset every helper below reads: the scraped records with the
- * `agencyListing` documents in Sanity merged over them.
+ * The dataset every helper below reads - the `agency` documents in Sanity,
+ * or the bundled scrape when those cannot be reached or do not exist yet.
  *
  * Memoized for `DATASET_TTL_MS`. The resolved promise is cached rather
  * than the array, so concurrent renders during a cold window share one
@@ -283,6 +313,7 @@ const SOURCE_LABELS: Record<AgencySource, string> = {
   designrush: SOURCE_LABEL_DESIGNRUSH,
   dandad: SOURCE_LABEL_DANDAD,
   "motion-design-awards": SOURCE_LABEL_MOTION_DESIGN_AWARDS,
+  editorial: SOURCE_LABEL_EDITORIAL,
 };
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
@@ -296,6 +327,16 @@ const AWARD_TALLY_LABEL_AWWWARDS = "Awwwards awards";
 const AWARD_TALLY_LABEL_AWWWARDS_ONE = "Awwwards award";
 const AWARD_TALLY_LABEL_GENERIC = "Awards recorded";
 const AWARD_TALLY_LABEL_GENERIC_ONE = "Award recorded";
+
+/** Noun in the card's credential pill ("227 awards"). Deliberately NOT
+ *  the jury's name: the pill is a figure, and the line beneath it is what
+ *  attributes that figure - see `getAgencyCredential`. */
+const AWARD_PILL_NOUN_PLURAL = "awards";
+const AWARD_PILL_NOUN_SINGULAR = "award";
+
+/** Joiner between the source label and the figure it published, in the
+ *  card footer's attribution line. */
+const CREDENTIAL_SEPARATOR = " \u00b7 ";
 
 /**
  * Reports whether an agency is a Superflow partner/customer, joining
@@ -409,6 +450,12 @@ function compareAgenciesByAccolades(agencyOne: Agency, agencyTwo: Agency): numbe
  * that category's ranking order (Superflow partners first, then its
  * credibility signal descending, then review score, then name).
  *
+ * The per-category read behind `getDirectoryAgencyList`'s interleave, and
+ * the one place a caller that wants a single category in its published
+ * order should go - the list page itself asks for the whole directory and
+ * narrows it client-side, since a category is a filter rather than a route
+ * (see app/directory/README.md).
+ *
  * @param categorySlug - The `DirectoryCategory.slug` to filter by.
  * @returns Matching agencies, sorted. Empty array for an unknown slug or
  *          while the dataset is still empty - callers render an empty
@@ -431,19 +478,74 @@ export async function getAgenciesByCategory(categorySlug: string): Promise<Agenc
 }
 
 /**
- * Counts agencies in a category without sorting. Used by the hub page so
- * each category card can show how many agencies it links to.
+ * Returns every agency in the directory as one ranked list - what
+ * `/directory` renders now that categories are a filter rather than four
+ * separate listings.
  *
- * @param categorySlug - The `DirectoryCategory.slug` to count.
- * @returns The number of agencies in that category, 0 on any failure.
+ * **The order is a round-robin over the per-category rankings, not one
+ * global comparator, and that is the whole point.** The categories rank on
+ * signals that cannot be compared with each other: 227 Awwwards awards, a
+ * 5/5 review score over 108 reviews and 34 D&AD Pencils are three different
+ * kinds of claim (see `AgencyRating` in ./types.ts and "Accolades vs
+ * awards" in app/directory/README.md). Any arithmetic that put them on one
+ * axis would be inventing a ranking the sources never published - the
+ * obvious `rating x 1000 + reviews` formulation, for instance, scores every
+ * reviewed SEO agency above every award-winning studio in the directory.
+ *
+ * So each category is ranked by its own comparator (the same one
+ * `getAgenciesByCategory` uses, so filtering this list to one category
+ * reproduces that category's ranking exactly), and the lists are then
+ * interleaved: every category's best, then every category's second, and so
+ * on. Partners lead the whole list, as they lead every other listing here.
+ *
+ * @returns Every agency, deduped by slug, in the list page's default order.
  */
-export async function getAgencyCountByCategory(categorySlug: string): Promise<number> {
+export async function getDirectoryAgencyList(): Promise<Agency[]> {
   try {
-    if (!categorySlug) return 0;
     const agencies = await getDirectoryAgencies();
-    return agencies.filter((agency) => agency?.categories?.includes(categorySlug)).length;
+
+    const queues = DIRECTORY_CATEGORIES.map((category) => {
+      const comparator = isAccoladeRankedCategory(category.slug)
+        ? compareAgenciesByAccolades
+        : compareAgenciesDefaultOrder;
+      return agencies
+        .filter((agency) => agency?.categories?.includes(category.slug))
+        .slice()
+        .sort(comparator);
+    });
+
+    const seenSlugs = new Set<string>();
+    const interleaved: Agency[] = [];
+    const deepest = queues.reduce((longest, queue) => Math.max(longest, queue.length), 0);
+    for (let position = 0; position < deepest; position += 1) {
+      for (const queue of queues) {
+        const agency = queue[position];
+        // An agency listed in two categories surfaces in two queues; it
+        // takes the earlier slot and is skipped in the later one.
+        if (!agency || (agency.slug && seenSlugs.has(agency.slug))) continue;
+        if (agency.slug) seenSlugs.add(agency.slug);
+        interleaved.push(agency);
+      }
+    }
+
+    // A record whose `categories` names nothing in the registry would
+    // otherwise vanish from the only page that lists agencies. It sorts
+    // last, but it is on the page.
+    const uncategorized = agencies
+      .filter((agency) => agency && (!agency.slug || !seenSlugs.has(agency.slug)))
+      .slice()
+      .sort(compareAgenciesDefaultOrder);
+
+    const ordered = [...interleaved, ...uncategorized];
+    // Partners first, relative order otherwise preserved (Array.prototype
+    // .filter is stable), matching `compareAgenciesDefaultOrder`'s primary
+    // key without re-sorting the interleave away.
+    return [
+      ...ordered.filter((agency) => isSuperflowPartner(agency)),
+      ...ordered.filter((agency) => !isSuperflowPartner(agency)),
+    ];
   } catch {
-    return 0;
+    return [];
   }
 }
 
@@ -623,6 +725,171 @@ export function getAgencyRatingScore(agency: Agency | null | undefined): number 
     return value * (reviewCount / (reviewCount + RATING_PRIOR_REVIEWS));
   } catch {
     return 0;
+  }
+}
+
+/**
+ * Award labels in the order they make the best one-line headline.
+ *
+ * Two rejected orderings, recorded so this isn't "fixed" back to either:
+ *
+ * - By count: Honorable Mentions dominate every breakdown, so this
+ *   surfaced "131x Honorable Mention" for a studio that had also won Site
+ *   of the Year - leading with its weakest credential.
+ * - By prestige (Site of the Year first): technically correct but every
+ *   top studio holds one, so every card read "1x Site of the Year" and
+ *   the stat stopped distinguishing anyone.
+ *
+ * Site of the Day leads instead: it is Awwwards' flagship award, the most
+ * recognisable to a visitor, and its count varies widely across studios,
+ * so it adds information the adjacent total doesn't already convey.
+ */
+const AWARD_LABELS_BY_HEADLINE_PRIORITY: readonly string[] = [
+  "Site of the Day",
+  "Site of the Year",
+  "Site of the Month",
+  "Developer Award",
+  "Honorable Mention",
+  "Nominee",
+];
+
+/**
+ * Picks the award that best headlines an agency, for a one-line summary.
+ * See AWARD_LABELS_BY_HEADLINE_PRIORITY.
+ *
+ * Falls back to the highest-count entry if no label matches the priority
+ * list, so a future source introducing an unknown award type still renders
+ * something sensible rather than nothing.
+ *
+ * @param agency - The agency whose award record is being summarized.
+ * @returns The highest-priority entry, or null when nothing is recorded.
+ */
+export function getHeadlineAward(
+  agency: Agency | null | undefined,
+): { label: string; count: number } | null {
+  try {
+    const breakdown = getAwardBreakdown(agency?.awards);
+    if (breakdown.length === 0) return null;
+    for (const label of AWARD_LABELS_BY_HEADLINE_PRIORITY) {
+      const match = breakdown.find((entry) => entry?.label === label);
+      if (match) return match;
+    }
+    return breakdown.reduce((best, entry) => (entry.count > best.count ? entry : best));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Sources whose `accolades` entries are a jury's verdict, one entry per
+ * win, and can therefore be counted as an award record.
+ *
+ * Scoped to a named list for the same reason ACCOLADE_RANKED_CATEGORIES is
+ * (see ./constants.ts): the field means different things by source. D&AD
+ * entries are Pencils and Motion Design Awards entries are single wins, so
+ * the array length IS the award count. Half the Semrush records carry
+ * self-reported badges in the same field ("Top Advertising Company", an
+ * ISO certification), and counting those as awards would print a
+ * credential the source never claimed.
+ */
+const JURY_ACCOLADE_SOURCES: readonly AgencySource[] = ["dandad", "motion-design-awards"];
+
+/**
+ * Reports whether a source's `accolades` are a jury's published record
+ * rather than the agency's own claims about itself - see
+ * JURY_ACCOLADE_SOURCES.
+ *
+ * The UI needs this because the two cases cannot share a caption: a D&AD
+ * Pencil list captioned "self-reported, not independently verified" is
+ * wrong about the jury, and a wall of vendor certifications captioned "as
+ * published by the jury" is wrong about the agency.
+ *
+ * @param source - The record's source.
+ * @returns True when each accolade is one counted win from a named jury.
+ */
+export function isJuryAccoladeSource(source: AgencySource | null | undefined): boolean {
+  try {
+    if (!source) return false;
+    return JURY_ACCOLADE_SOURCES.includes(source);
+  } catch {
+    return false;
+  }
+}
+
+/** The one credential a listing card leads with, plus the line naming who
+ *  published it - see `getAgencyCredential`. */
+export interface AgencyCredential {
+  /** Headline figure for the card's pill ("227 awards", "5/5"), or null
+   *  when the record carries no countable credential at all. */
+  pill: string | null;
+  /** Attribution line for the card footer. Always names the source
+   *  directory, so no figure on a card is an unattributed claim. */
+  meta: string;
+}
+
+/**
+ * Resolves the single credential a card shows for an agency, and the line
+ * that attributes it.
+ *
+ * **Every branch names the source.** A card carries no link back to the
+ * source profile (that lives on the detail page, one click away), so the
+ * label is the only thing on it standing behind the figure - see
+ * app/directory/README.md. "5/5" on its own is an assertion; "5/5" beside
+ * "Semrush Agency Partners - 108 reviews" is a citation.
+ *
+ * The branches are ordered by how strong the claim is, and only one ever
+ * renders: a record carries a review score or an award tally or a jury's
+ * accolades, essentially never two (see "Categories are ranked on
+ * different, non-interchangeable signals" in app/directory/README.md).
+ *
+ * @param agency - The agency being summarized.
+ * @returns The pill text (or null) and the attribution line.
+ */
+export function getAgencyCredential(agency: Agency | null | undefined): AgencyCredential {
+  try {
+    const sourceLabel = resolveAgencySourceLabel(agency?.source);
+    // GENERIC_SOURCE_LABEL is CTA copy ("View source profile"), which reads
+    // as a broken link when printed as an attribution line.
+    const source = sourceLabel === GENERIC_SOURCE_LABEL ? "" : sourceLabel;
+    const withSource = (detail: string) =>
+      [source, detail].filter(Boolean).join(CREDENTIAL_SEPARATOR);
+
+    const rating = agency?.rating ?? null;
+    if (rating) {
+      const reviewNoun =
+        rating.reviewCount === 1 ? RATING_REVIEW_NOUN_SINGULAR : RATING_REVIEW_NOUN_PLURAL;
+      return {
+        pill: `${rating.value}/${rating.scale}`,
+        meta: withSource(
+          rating.reviewCount > 0 ? `${rating.reviewCount} ${reviewNoun}` : "",
+        ),
+      };
+    }
+
+    const awardTotal = agency?.awards?.total ?? 0;
+    if (awardTotal > 0) {
+      const headline = getHeadlineAward(agency);
+      return {
+        pill: `${awardTotal} ${awardTotal === 1 ? AWARD_PILL_NOUN_SINGULAR : AWARD_PILL_NOUN_PLURAL}`,
+        meta: withSource(headline ? `${headline.count}x ${headline.label}` : ""),
+      };
+    }
+
+    const accoladeCount = agency?.accolades?.length ?? 0;
+    const juryCounted =
+      accoladeCount > 0 &&
+      Boolean(agency?.source) &&
+      JURY_ACCOLADE_SOURCES.includes(agency?.source as AgencySource);
+    if (juryCounted) {
+      return {
+        pill: `${accoladeCount} ${accoladeCount === 1 ? AWARD_PILL_NOUN_SINGULAR : AWARD_PILL_NOUN_PLURAL}`,
+        meta: withSource(""),
+      };
+    }
+
+    return { pill: null, meta: withSource("") };
+  } catch {
+    return { pill: null, meta: "" };
   }
 }
 
@@ -1163,7 +1430,13 @@ export function buildAgencyOrganizationJsonLd(
       "@context": "https://schema.org",
       "@type": "Organization",
       name: agency.name,
-      url: agency.website ?? agency.profileUrl,
+      // Falls back to the source profile when the agency's own site is
+      // unknown, and omits `url` entirely when neither exists - an
+      // Organization node with no URL is still a valid, useful node, and
+      // inventing one would not be.
+      ...(agency.website || agency.profileUrl
+        ? { url: agency.website ?? agency.profileUrl }
+        : {}),
     };
     if (agency.description) node.description = agency.description;
     if (agency.logoUrl) node.logo = agency.logoUrl;
@@ -1178,79 +1451,139 @@ export function buildAgencyOrganizationJsonLd(
   }
 }
 
-/** Slim, client-safe projection of an `Agency` for the interactive
- *  search/filter/sort controls (components/directory/AgencyExplorer.tsx).
- *  Deliberately NOT the full `Agency` shape: a "use client" file that
- *  imports anything from this module would pull the whole agencies.json
- *  dataset into the client bundle (JS module evaluation isn't reliably
- *  tree-shaken across a JSON import), on top of the same data already
- *  present as server-rendered HTML. Build these server-side via
- *  `buildAgencyListItems` and pass only this slim array across the
- *  client boundary - AgencyExplorer imports this as a type-only import,
- *  which costs nothing at runtime. */
+/** How many client names a list card prints before the rest collapse into
+ *  a "+N" chip. */
+const CARD_CLIENT_LIMIT = 3;
+
+/**
+ * Everything the directory list needs about one agency: the fields its card
+ * paints, plus the fields its controls filter and sort on.
+ *
+ * **This is the whole of what crosses the client boundary**, and it is
+ * deliberately not the `Agency` record. Two separate reasons, both load-
+ * bearing:
+ *
+ * - A `"use client"` file that imports anything real from this module pulls
+ *   the whole of `agencies.json` (and the Sanity client behind
+ *   `getDirectoryAgencies`) into the browser bundle, because JSON module
+ *   imports are not reliably tree-shaken. So the client gets plain data as
+ *   props and imports only this *type*, which is erased at compile time.
+ * - The list runs to a few hundred cards. Passing pre-rendered
+ *   `<AgencyCard/>` elements across the boundary instead - which is what
+ *   this page used to do - serializes every one of those element trees into
+ *   the RSC payload on top of the same markup already in the HTML. On 323
+ *   cards that was 983 KB of duplicate payload, 57% of the document. This
+ *   projection is roughly a fifth of that and carries no field a card does
+ *   not paint.
+ *
+ * Build these server-side with `buildAgencyListItems`.
+ */
 export interface AgencyListItem {
   slug: string;
   name: string;
+  /** Path to the agency's detail page. Assembled here because `agencyPath`
+   *  is a value in this module and a client card cannot import one. */
+  href: string;
+  /** Source-hosted logo, or null for the records with none on file. */
+  logoUrl: string | null;
+  /** "Berlin, Germany", already formatted. */
+  locationLabel: string | null;
+  description: string | null;
+  /** Up to `CARD_CLIENT_LIMIT` client names, with the rest counted in
+   *  `clientOverflow`. */
+  clientNames: string[];
+  clientOverflow: number;
+  /** The one credential the card leads with, and the line attributing it -
+   *  see `getAgencyCredential`. */
+  credentialPill: string | null;
+  credentialMeta: string;
+  website: string | null;
+  domain: string | null;
   /** Lowercased "name + description + location + client names + service
-   *  names + industry names" blob for substring search. */
+   *  names + industry names + category titles" blob for substring search. */
   searchText: string;
   country: string | null;
+  /** Primary category slug, backing the list page's category filter. Null
+   *  for a record whose `categories` names nothing in the registry. */
+  categorySlug: string | null;
   isPartner: boolean;
-  awardTotal: number;
+  /** Position in the server's default order, 0-based. The client's "Top
+   *  ranked" mode sorts on this rather than re-deriving the ranking, so
+   *  selecting it always reproduces exactly what the server rendered -
+   *  see `buildAgencyListItems`. */
+  rank: number;
   /** Ranking signal for review-based sources - see `getAgencyRatingScore`.
    *  0 for a record with no rating (every Awwwards record today), so it
    *  can be sorted on directly without a null-guard at the call site. */
   ratingScore: number;
-  /** Number of `Agency.accolades`, the ranking signal for categories in
-   *  ACCOLADE_RANKED_CATEGORIES. Carried on every item rather than only
-   *  those categories' items so the client comparator never has to
-   *  null-guard it. */
-  accoladeCount: number;
 }
 
 /**
- * Projects a single agency into the slim `AgencyListItem` shape used by
- * the client-side directory controls.
+ * Projects a single agency into the `AgencyListItem` the list page renders
+ * and filters on.
  *
  * @param agency - The agency to project.
- * @returns An `AgencyListItem`, or null when the agency has no slug (the
- *          join key `components/directory/AgencyGrid.tsx` uses to line
- *          this up with its pre-rendered card for the same agency).
+ * @param rank - The agency's position in the server's default order.
+ * @returns An `AgencyListItem`, or null when the agency has no slug - the
+ *          key the list renders and filters by.
  */
-export function buildAgencyListItem(agency: Agency | null | undefined): AgencyListItem | null {
+export function buildAgencyListItem(
+  agency: Agency | null | undefined,
+  rank: number = 0,
+): AgencyListItem | null {
   try {
     if (!agency?.slug) return null;
-    const location = formatAgencyLocation(agency.location ?? null) ?? "";
+    const location = formatAgencyLocation(agency.location ?? null);
     // Client names are in the search blob so a visitor can find agencies by
     // who they have worked for ("nike") rather than only by agency name -
     // the query a directory is actually asked.
-    const clientNames = getAgencyClients(agency)
-      .map((client) => client.name)
-      .join(" ");
+    const clients = getAgencyClients(agency).map((client) => client.name).filter(Boolean);
     // Service and industry names go in too - a visitor searching "link
     // building" or "ecommerce" should find a match, not just a visitor
     // searching by agency or client name.
     const serviceNames = (agency.services ?? []).join(" ");
     const industryNames = (agency.industries ?? []).join(" ");
+    // The category title rides the blob as well, so "motion design" finds
+    // the motion studios even before a visitor reaches for the category
+    // select - the categories are a filter now, not four separate pages a
+    // search engine sent them to.
+    const categoryTitles = (agency.categories ?? [])
+      .map((slug) => getDirectoryCategory(slug)?.title ?? slug)
+      .join(" ");
     const searchText = [
       agency.name ?? "",
       agency.description ?? "",
-      location,
-      clientNames,
+      location ?? "",
+      clients.join(" "),
       serviceNames,
       industryNames,
+      categoryTitles,
     ]
       .join(" ")
       .toLowerCase();
+    const primaryCategory = (agency.categories ?? []).find((slug) =>
+      Boolean(getDirectoryCategory(slug)),
+    );
+    const credential = getAgencyCredential(agency);
     return {
       slug: agency.slug,
       name: agency.name ?? "",
+      href: agencyPath(agency.slug),
+      logoUrl: agency.logoUrl ?? null,
+      locationLabel: location,
+      description: agency.description ?? null,
+      clientNames: clients.slice(0, CARD_CLIENT_LIMIT),
+      clientOverflow: Math.max(0, clients.length - CARD_CLIENT_LIMIT),
+      credentialPill: credential.pill,
+      credentialMeta: credential.meta,
+      website: agency.website ?? null,
+      domain: agency.domain ?? null,
       searchText,
       country: agency.location?.country?.trim() || null,
+      categorySlug: primaryCategory ?? null,
       isPartner: isSuperflowPartner(agency),
-      awardTotal: agency.awards?.total ?? 0,
+      rank,
       ratingScore: getAgencyRatingScore(agency),
-      accoladeCount: agency.accolades?.length ?? 0,
     };
   } catch {
     return null;
@@ -1258,26 +1591,37 @@ export function buildAgencyListItem(agency: Agency | null | undefined): AgencyLi
 }
 
 /**
- * Projects a list of agencies into `AgencyListItem`s. Agencies without a
- * slug are dropped (see `buildAgencyListItem`) - callers that need to
- * pair these with pre-rendered cards should key off `slug`, not array
- * index, so a dropped entry can never desynchronize the two lists.
+ * Projects a list of agencies into `AgencyListItem`s, stamping each with
+ * its position in the list it was given.
  *
- * @param agencies - Agencies to project.
+ * **The caller must pass the list in the order the server rendered it**
+ * (`getDirectoryAgencyList`, or `getAgenciesByCategory` for a single
+ * category). That order becomes `AgencyListItem.rank`, which is the whole
+ * of the client's "Top ranked" sort - the client no longer keeps its own
+ * copy of the ranking rules, so the two cannot drift and the page cannot
+ * reorder itself on hydration. That drift was a live hazard while the
+ * comparator was mirrored on both sides: a key added to one and not the
+ * other silently reordered the page away from the order its own ItemList
+ * JSON-LD claimed.
+ *
+ * Agencies without a slug are dropped (see `buildAgencyListItem`).
+ *
+ * @param agencies - Agencies to project, in the server's display order.
  * @returns One `AgencyListItem` per agency with a slug.
  */
 export function buildAgencyListItems(agencies: Agency[] | null | undefined): AgencyListItem[] {
   try {
     return (agencies ?? [])
-      .map((agency) => buildAgencyListItem(agency))
+      .map((agency, index) => buildAgencyListItem(agency, index))
       .filter((item): item is AgencyListItem => item !== null);
   } catch {
     return [];
   }
 }
 
-/** Aggregate counts shown in the category page header - see
- *  components/directory/CategoryHero.tsx. */
+/** Aggregate counts behind the list page's hero subheading ("323 studios
+ *  and agencies across 42 countries"), so the size of the directory is
+ *  never a number typed into copy and left to rot. */
 export interface AgencyListStats {
   agencyCount: number;
   countryCount: number;

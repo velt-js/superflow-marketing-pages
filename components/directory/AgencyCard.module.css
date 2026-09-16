@@ -1,17 +1,19 @@
-/* Agency card — 2026 restyle of the directory's category-grid card.
+/* Agency card — the directory list page's grid card.
 
-   Reuses the canonical 2026 card idiom (light #fbfbfd fill, #ececf1
-   hairline, 20px radius, accent hover border/shadow/lift) shared by
+   Reuses the 2026 card idiom shared by
    components/case-study-2026/CaseStudyGrid.module.css and
-   components/listing-2026/ListingGrid.module.css, so a directory card is
-   visibly the same object as a case-study or use-case card.
+   components/listing-2026/ListingGrid.module.css (1px #ececf1 hairline,
+   20px radius, accent hover border/shadow/lift), on a white fill rather
+   than the #fbfbfd one: the list page puts several hundred of these on a
+   white ground, and the lighter card reads as a surface rather than as a
+   panel at that density.
 
    Unlike those two, this card is NOT a single card-wide <Link>: it carries
-   three independent destinations (the agency's own detail page, the
-   agency's website, and the source attribution link). The header stays the
-   internal link and the footer links stay separate — see AgencyCard.tsx.
-   That structure is also what the partner-badge browser tests drive, so
-   restyling must not collapse it into one link. */
+   two independent destinations (the agency's detail page and the agency's
+   own website). The header stays the internal link, stretched over the
+   card by `.header::after`, and `.websiteLink` lifts itself back above the
+   overlay — see AgencyCard.tsx and tests/directory/agency-card.spec.ts.
+   Restyling must not collapse it into one link. */
 
 .card {
     --ac-display: var(--font-urbanist), system-ui, sans-serif;
@@ -24,18 +26,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
     width: 100%;
     height: 100%;
-    padding: 28px;
+    padding: 26px;
     border: 1px solid #ececf1;
     border-radius: 20px;
-    background: #fbfbfd;
+    background: #ffffff;
     transition:
         border-color 160ms ease,
         box-shadow 160ms ease,
-        transform 160ms ease,
-        background 160ms ease;
+        transform 160ms ease;
 }
 
 .card *,
@@ -44,24 +45,20 @@
     box-sizing: border-box;
 }
 
-/* The card's internal link: the logo + name + location block, which also
-   carries the click target for the whole card via the ::after overlay
-   below. The visible box stays sized to its own content so the hover and
-   focus treatments still land on the name rather than on the whole card. */
+/* The card's internal link: logo + name + location + credential pill,
+   which also carries the click target for the whole card via the ::after
+   overlay below. */
 .header {
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    margin: -6px;
-    padding: 6px;
-    border-radius: 14px;
     text-decoration: none;
 }
 
 /* Stretched link: the entire card opens the agency's detail page, without
    wrapping the card in an <a>. The footer still holds the agency's own
    outbound website link, and an anchor nested inside an anchor is invalid
-   HTML that browsers recover from in their own incompatible ways - the
+   HTML that browsers recover from in their own incompatible ways — the
    overlay avoids the nesting entirely. `.websiteLink` lifts itself above
    this to stay clickable. */
 .header::after {
@@ -74,30 +71,46 @@
 
 .header:focus-visible {
     outline: 2px solid var(--ac-accent);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: 14px;
 }
 
-/* Brand marks are already colourful, so no tile or disc behind them —
-   the 2026 icon rule the case-study grid follows. */
 .logo {
     position: relative;
     flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 44px;
     height: 44px;
     overflow: hidden;
-    border-radius: 10px;
-    background: #ffffff;
+    border-radius: 12px;
+    background: #f6f6fa;
 }
 
 .logoImage {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+/* Fallback for the 22 records with no logo on file — D&AD publishes none
+   at all. A letter tile keeps the card's left rail aligned with its
+   neighbours instead of leaving a hole where a mark would be. */
+.logoInitial {
+    font-family: var(--ac-display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ac-accent);
 }
 
 .headerText {
     display: flex;
+    flex: 1 1 auto;
     min-width: 0;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .nameRow {
@@ -107,29 +120,51 @@
     gap: 8px;
 }
 
+/* Two lines, then ellipsis. Agency names run from "illo" to "M16
+   Marketing - Atlanta Web Design and SEO Company"; one line truncates the
+   long ones past the point of recognition, and unbounded wrapping let a
+   three-line name push the whole row taller. */
 .name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     font-family: var(--ac-display);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.25;
     letter-spacing: -0.3px;
     color: var(--ac-ink);
     transition: color 140ms ease;
 }
 
 .location {
-    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: var(--ac-body);
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.4;
-    color: var(--ac-muted);
+    color: var(--ac-quiet);
+}
+
+/* The one credential the source published — an award tally, a review
+   score, a jury's pencil count. The line that attributes it is in the
+   footer; see `getAgencyCredential` in lib/directory/agencies.ts. */
+.pill {
+    flex: 0 0 auto;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(67, 61, 243, 0.08);
+    font-family: var(--ac-display);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ac-accent);
+    white-space: nowrap;
 }
 
 .description {
@@ -140,95 +175,41 @@
     overflow: hidden;
     margin: 0;
     font-family: var(--ac-body);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.6;
     color: var(--ac-muted);
 }
 
-.services {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    overflow: hidden;
-    margin: 0;
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--ac-quiet);
-}
-
-/* "Worked with Nike, Spotify and 4 more" — the brands the agency has
-   shipped awarded work for. Sits directly above the award count because who
-   a studio has built for separates two studios that a shared award tally
-   does not. Clamped to one line; the full list is on the detail page. */
+/* The brands the agency has shipped work for. Who a studio has built for
+   separates two studios that a shared award tally does not, so it sits on
+   the card rather than only on the profile. */
 .clients {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
     margin: 0;
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.45;
+    padding: 0;
+    list-style: none;
 }
 
-.clientsLabel {
+.client {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border: 1px solid #ececf1;
+    border-radius: 8px;
+    font-family: var(--ac-body);
+    font-size: 12.5px;
+    line-height: 1.3;
+    color: var(--ac-muted);
+}
+
+.clientOverflow {
     color: var(--ac-quiet);
-}
-
-.clientsNames {
-    font-family: var(--ac-display);
-    font-weight: 600;
-    color: var(--ac-ink);
-}
-
-/* Award record — the card's one real credential, so it gets the accent
-   colour that every other 2026 card spends on its CTA line. */
-.awards {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    font-family: var(--ac-display);
-}
-
-.awardCount {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ac-accent);
-}
-
-.awardLabel {
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--ac-muted);
-}
-
-/* Client rating — the Semrush counterpart to .awards above. A record
-   carries one or the other, never both, so this is styled identically
-   rather than as a visually distinct "second credential". */
-.rating {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    font-family: var(--ac-display);
-}
-
-.ratingScore {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ac-accent);
-}
-
-.ratingLabel {
-    font-family: var(--ac-body);
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--ac-muted);
 }
 
 .footer {
@@ -238,31 +219,29 @@
     gap: 12px;
     margin-top: auto;
     padding-top: 16px;
-    border-top: 1px solid #ececf1;
+    border-top: 1px solid #f1f1f6;
 }
 
-.teamSize {
+/* Attribution line. Allowed to wrap rather than ellipsize: a truncated
+   source label ("Semrush Agency Part…") is a worse outcome than a
+   two-line footer, because the label is the whole of the card's citation
+   for the figure in its pill. */
+.meta {
+    min-width: 0;
     font-family: var(--ac-body);
-    font-size: 12px;
+    font-size: 12.5px;
+    line-height: 1.45;
     color: var(--ac-quiet);
 }
 
-.links {
-    display: flex;
-    min-width: 0;
-    flex-shrink: 0;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
 /* Sits above the stretched-link overlay so the agency's own site stays
-   reachable - without the z-index the overlay swallows this click and
-   every card link goes to the detail page. */
+   reachable — without the z-index the overlay swallows this click and
+   every link on the grid quietly goes to the same place. */
 .websiteLink {
     position: relative;
     z-index: 2;
-    max-width: 100%;
+    flex: 0 0 auto;
+    max-width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -297,8 +276,7 @@
  * hover treatment, not just the transform, stays behind this query. */
 @media (hover: hover) and (pointer: fine) {
     .card:hover {
-        border-color: rgba(67, 61, 243, 0.35);
-        background: #ffffff;
+        border-color: rgba(67, 61, 243, 0.3);
         box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
         transform: translateY(-2px);
     }
@@ -316,7 +294,8 @@
 
 @media (max-width: 600px) {
     .card {
-        padding: 24px;
+        padding: 22px;
+        gap: 16px;
     }
 }
 

@@ -1,4 +1,4 @@
-/* Agency profile body — the white sections under the shared directory
+/* Agency profile body — the white section under the shared directory
    gradient hero (components/directory/DirectoryHero.module.css).
 
    Card idiom is the 2026 one used by
@@ -6,23 +6,24 @@
    fill, #ececf1 hairline, 20px radius, 32px padding, serif-free Urbanist
    headings over Poppins body copy.
 
-   The facts that used to sit in a right-hand sidebar (team size, award
-   total, category) now ride the hero's white meta card, and the outbound
-   website CTA is the hero's own button — so this file only styles the
-   agency's own words and its two data blocks. */
+   The agency's blurb, its outbound CTA, the source link and the figures a
+   visitor compares agencies on all ride the hero now, so this file styles
+   only the evidence underneath: who they have worked for, what they have
+   won, what they do and what they cost. */
 
 .section {
     --ad-display: var(--font-urbanist), system-ui, sans-serif;
     --ad-body: var(--font-poppins), system-ui, sans-serif;
     --ad-ink: #16171a;
     --ad-muted: #6b7079;
+    --ad-quiet: #8b909a;
     --ad-accent: #433df3;
 
     position: relative;
     box-sizing: border-box;
     width: 100%;
     /* No top padding: the hero's fade already lands white on the page. */
-    padding: 8px 24px 96px;
+    padding: 16px 24px 80px;
     background: #ffffff;
 }
 
@@ -35,28 +36,13 @@
 .inner {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 48px;
+    gap: 20px;
     width: 100%;
     max-width: 1040px;
     margin: 0 auto;
 }
 
-/* The agency's own blurb, as the section's lead paragraph. Centred and
-   measure-capped like every other 2026 intro. */
-.lead {
-    margin: 0;
-    max-width: 68ch;
-    font-family: var(--ad-body);
-    font-size: 17px;
-    line-height: 1.7;
-    letter-spacing: -0.2px;
-    color: var(--ad-ink);
-    text-align: center;
-    text-wrap: pretty;
-}
-
-/* Provenance line under the lead: this page's details were confirmed by
+/* Provenance line above the cards: this page's details were confirmed by
    the agency itself, rather than only scraped from its source profile.
    Quiet by design - it is a note about where the content came from, not a
    badge, and it must not read as an endorsement of the agency. */
@@ -70,28 +56,35 @@
     text-align: center;
 }
 
+/* One column, full measure, every profile - see the note in
+   AgencyDetail.tsx for why there is no side rail. The cards inside are
+   what adapt: the client list is its own responsive grid, and the chip
+   lists wrap, so a wide card is filled rather than stretched. */
 .cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
     width: 100%;
-}
-
-/* A single card spans the full width when it is the only one — a profile
-   with services but no awards should not render a half-empty row. */
-.cardsSingle {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 720px;
 }
 
 .card {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
     padding: 32px;
     border: 1px solid #ececf1;
     border-radius: 20px;
     background: #fbfbfd;
+}
+
+/* Title and its provenance caption on one line where they fit, since the
+   caption is about the list below rather than a second heading. */
+.cardHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .cardTitle {
@@ -127,20 +120,40 @@
     color: var(--ad-ink);
 }
 
-/* Caption inside a card, in the places where the content above or below
-   it needs its provenance stated: the accolades list (self-reported, not
-   a counted tally) and the award record when an agency has added its own
-   note about a wider award history than one jury counts. */
+/* Caption inside a card, wherever the content above or below it needs its
+   provenance stated: where a client list came from, whether an accolade
+   list is a jury's or the agency's own. */
 .cardNote {
-    margin: -8px 0 0;
+    margin: 0;
     font-family: var(--ad-body);
-    font-size: 13px;
+    font-size: 12.5px;
     line-height: 1.5;
-    color: var(--ad-muted);
+    color: var(--ad-quiet);
 }
 
-/* Services render as chips — the same pill vocabulary the nav and hero
-   eyebrows use, on a white ground so they read as tags, not buttons. */
+/* Closing caption under the award bars, carrying the total and the link to
+   the profile that tallied it. */
+.cardCaption {
+    margin: 0;
+    font-family: var(--ad-body);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ad-quiet);
+}
+
+.cardCaptionLink {
+    color: var(--ad-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.cardCaptionLink:hover {
+    color: var(--ad-accent);
+}
+
+/* Services, industries, accolades and exclusions all render as chips — the
+   same pill vocabulary the nav and hero eyebrows use, on a white ground so
+   they read as tags, not buttons. */
 .chips {
     display: flex;
     flex-wrap: wrap;
@@ -163,14 +176,18 @@
     color: var(--ad-muted);
 }
 
-/* Client list: brand left, the awarded project it was derived from right.
-   The project title is what makes the claim checkable rather than asserted,
+/* Client list: brand left, the project it was derived from right. The
+   project title is what makes the claim checkable rather than asserted,
    and it is the detail a visitor comparing two studios actually reads. The
-   names are deliberately not links - one attribution link in the hero covers
-   sourcing without leaking a dozen outbound links from every profile. */
+   names are deliberately not links - one attribution link in the hero
+   covers sourcing without leaking a dozen outbound links per profile.
+
+   Two columns where there is room: a dozen single-file rows make the card
+   twice the height of everything beside it for no extra information. */
 .clientList {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0 32px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -180,18 +197,9 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 16px;
-    padding: 12px 0;
+    gap: 12px;
+    padding: 11px 0;
     border-bottom: 1px solid #ececf1;
-}
-
-.clientRow:first-child {
-    padding-top: 0;
-}
-
-.clientRow:last-child {
-    padding-bottom: 0;
-    border-bottom: none;
 }
 
 .clientName {
@@ -210,14 +218,72 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: var(--ad-body);
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.4;
     text-align: right;
     color: var(--ad-muted);
 }
 
-/* Award breakdown: label left, count right, hairline between rows. */
-.awardList {
+/* ---- Award record ---------------------------------------------------- */
+
+.awardBars {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.awardBarRow {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.awardBarHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.awardBarLabel {
+    font-family: var(--ad-body);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ad-muted);
+}
+
+.awardBarCount {
+    font-family: var(--ad-display);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ad-accent);
+}
+
+.awardBarTrack {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #ececf1;
+}
+
+.awardBarFill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--ad-accent);
+}
+
+/* Everything below the agency's biggest award type paints tinted, so the
+   card says at a glance which award this studio's record is really made
+   of rather than showing five bars of equal weight. */
+.awardBarFillQuiet {
+    background: rgba(67, 61, 243, 0.45);
+}
+
+/* ---- Label/value rows ------------------------------------------------- */
+
+/* The stated project floors: what kind of work, and what it starts at. */
+.factList {
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -225,29 +291,25 @@
     list-style: none;
 }
 
-.awardRow {
+.factRow {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    padding: 12px 0;
+    padding: 11px 0;
     border-bottom: 1px solid #ececf1;
     font-family: var(--ad-body);
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.4;
     color: var(--ad-muted);
 }
 
-.awardRow:first-child {
-    padding-top: 0;
-}
-
-.awardRow:last-child {
-    padding-bottom: 0;
+.factRow:last-child {
     border-bottom: none;
+    padding-bottom: 0;
 }
 
-.awardCount {
+.factValue {
     flex: 0 0 auto;
     font-family: var(--ad-display);
     font-size: 16px;
@@ -256,27 +318,16 @@
     color: var(--ad-accent);
 }
 
-@media (max-width: 800px) {
-    .cards {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
 @media (max-width: 600px) {
     .section {
-        padding: 8px 20px 64px;
-    }
-
-    .inner {
-        gap: 36px;
-    }
-
-    .lead {
-        font-size: 16px;
-        text-align: left;
+        padding: 16px 20px 64px;
     }
 
     .card {
         padding: 24px;
+    }
+
+    .clientProject {
+        display: none;
     }
 }

@@ -1,23 +1,18 @@
-import type { ReactNode } from "react";
-
-import AgencyCard from "./AgencyCard";
 import AgencyExplorer from "./AgencyExplorer";
 import styles from "./DirectoryGrid.module.css";
-import { buildAgencyListItems } from "@/lib/directory/agencies";
-import type { Agency } from "@/lib/directory/types";
+import { DIRECTORY_ALL_CATEGORIES, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
+import type { AgencyListItem } from "@/lib/directory/agencies";
 
-/** Copy shown while a category's dataset is still empty (pre-scrape, or a
- *  category with zero matching records). Kept as constants since the
- *  empty state and the section wrapper are the two things most likely to
- *  need tweaking together. */
+/** Copy shown while the dataset is empty - pre-scrape, or when every
+ *  source file has been emptied. */
 const EMPTY_STATE_HEADING = "No agencies indexed yet";
 const EMPTY_STATE_BODY =
-  "We're compiling award-winning studios for this category. Check back soon.";
+  "We're compiling studios and agencies for this directory. Check back soon.";
 
 /**
- * Empty-state block rendered in place of the grid when a category has no
- * matching agencies yet - keeps the page from rendering a bare, broken-
- * looking section while the scraper is still populating the dataset.
+ * Empty-state block rendered in place of the grid when the directory has
+ * no records at all - keeps the page from rendering a bare, broken-looking
+ * section while the importers are still populating the dataset.
  */
 function EmptyState() {
   try {
@@ -33,60 +28,43 @@ function EmptyState() {
 }
 
 /**
- * Builds a slug-keyed map of pre-rendered `<AgencyCard/>` elements. Keyed
- * by slug rather than array index so it can never desynchronize from the
- * parallel `AgencyListItem[]` built by `buildAgencyListItems` (which
- * drops any agency without a slug) - the client-side AgencyExplorer joins
- * the two by slug, never by position.
+ * The directory list section: the whole list as `AgencyListItem`s, handed
+ * to the controls that filter, sort and page it.
  *
- * @param agencies - Agencies to render as cards.
- * @returns A map from `Agency.slug` to that agency's rendered card.
- */
-function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
-  try {
-    const cardsBySlug: Record<string, ReactNode> = {};
-    for (const agency of agencies) {
-      if (agency?.slug) {
-        cardsBySlug[agency.slug] = <AgencyCard agency={agency} />;
-      }
-    }
-    return cardsBySlug;
-  } catch {
-    return {};
-  }
-}
-
-/**
- * Server-rendered agency list for a directory category page. Every
- * agency's card is rendered here, server-side, in the directory's default
- * order - the search/country/sort controls (AgencyExplorer, a small
- * client component) only decide which of those already-rendered cards to
- * show and in what order, so the full set of agency links is always
- * present in the server HTML regardless of client-side filter state.
+ * Every card on the requested page is rendered on the server -
+ * AgencyExplorer is a client component, and a client component
+ * server-renders - so the page's agency links are in the HTML regardless
+ * of client-side filter state, and the pager's links carry a crawler to
+ * the rest.
  *
- * Renders a graceful empty state instead of the controls + grid when
- * `agencies` is empty, which is the expected state until the scraper
- * populates lib/directory/data/agencies.json (or for a category with no
- * matches yet).
+ * What crosses the client boundary is the projection for the *whole* list
+ * rather than rendered cards: the client needs every item to search
+ * across, and only the current page's worth of markup. See
+ * `AgencyListItem` in lib/directory/agencies.ts for what that is worth in
+ * payload, and "Page weight" in app/directory/README.md.
  *
  * @param props - Component props.
- * @param props.agencies - Agencies to render, already sorted by the caller.
- * @param props.categorySlug - The category being rendered. Forwarded to
- *                             AgencyExplorer so its client-side "Top
- *                             ranked" sort reproduces the server order for
- *                             this category rather than a different one.
+ * @param props.items - Every agency, projected and already in the
+ *                       directory's default order.
+ * @param props.initialCategory - The category the caller filtered to, from
+ *                                 `?category=`. Forwarded so the client's
+ *                                 initial state matches the server's HTML.
+ * @param props.initialPage - The page the caller is rendering, from
+ *                             `?page=`. Same contract.
  */
 export default function AgencyGrid({
-  agencies,
-  categorySlug,
+  items,
+  initialCategory = DIRECTORY_ALL_CATEGORIES,
+  initialPage = 1,
 }: {
-  agencies: Agency[];
-  categorySlug: string;
+  items: AgencyListItem[];
+  initialCategory?: string;
+  initialPage?: number;
 }) {
   try {
-    const safeAgencies = agencies ?? [];
+    const safeItems = items ?? [];
 
-    if (safeAgencies.length === 0) {
+    if (safeItems.length === 0) {
       return (
         <section className={styles.section} data-section="directory-agency-grid">
           <div className={styles.inner}>
@@ -96,13 +74,22 @@ export default function AgencyGrid({
       );
     }
 
-    const items = buildAgencyListItems(safeAgencies);
-    const cardsBySlug = buildCardsBySlug(safeAgencies);
+    // Only the slug and title cross the client boundary, never the
+    // registry object itself - see AgencyExplorer's import note.
+    const categories = DIRECTORY_CATEGORIES.map((category) => ({
+      slug: category.slug,
+      title: category.title,
+    }));
 
     return (
       <section className={styles.section} data-section="directory-agency-grid">
         <div className={styles.inner}>
-          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} categorySlug={categorySlug} />
+          <AgencyExplorer
+            items={safeItems}
+            categories={categories}
+            initialCategory={initialCategory}
+            initialPage={initialPage}
+          />
         </div>
       </section>
     );

@@ -31,7 +31,7 @@ import { test, expect, devices, type Page } from "@playwright/test";
 import agenciesData from "../../lib/directory/data/agencies.json";
 import partnersData from "../../lib/directory/data/partners.json";
 import previewPartnersData from "../../lib/directory/data/partners.preview.json";
-import { DIRECTORY_CATEGORIES, PARTNER_BADGE_DESCRIPTION, PARTNER_BADGE_LABEL } from "../../lib/directory/constants";
+import { DIRECTORY_BASE_PATH, PARTNER_BADGE_DESCRIPTION, PARTNER_BADGE_LABEL } from "../../lib/directory/constants";
 
 /**
  * Mirrors `USE_PREVIEW_PARTNERS` in lib/directory/agencies.ts so the
@@ -56,8 +56,7 @@ const NON_PARTNER_AGENCY = agenciesData.find(
   (agency) => !PARTNER_DOMAINS.has(agency.domain?.trim().toLowerCase() ?? ""),
 );
 
-const CATEGORY = DIRECTORY_CATEGORIES[0];
-const CATEGORY_PATH = `/directory/${CATEGORY.slug}`;
+const LIST_PATH = DIRECTORY_BASE_PATH;
 
 /** Matches the mark by its accessible name, the way a screen reader finds it. */
 const BADGE_SELECTOR = `[aria-label^="${PARTNER_BADGE_LABEL}"]`;
@@ -94,7 +93,7 @@ async function dismissCookieBanner(page: Page): Promise<void> {
 test.describe("partner badge", () => {
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
     await dismissCookieBanner(page);
   });
 
@@ -192,7 +191,7 @@ test.describe("partner badge on touch", () => {
 
   test.beforeEach(async ({ page }) => {
     assertPreconditions();
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
     await dismissCookieBanner(page);
   });
 
@@ -230,7 +229,7 @@ test.describe("partner badge on touch", () => {
       "tapping the badge navigated to the agency page instead of explaining the badge — " +
         "PartnerBadgeMark must preventDefault/stopPropagation inside the card's <Link>",
     ).toEqual([]);
-    await expect(page).toHaveURL(new RegExp(`${CATEGORY_PATH}/?$`));
+    await expect(page).toHaveURL(new RegExp(`${LIST_PATH}/?$`));
   });
 
   test("dismisses on a tap elsewhere", async ({ page }) => {
@@ -278,7 +277,7 @@ test.describe("client bundle", () => {
       }
     });
 
-    await page.goto(CATEGORY_PATH, { waitUntil: "networkidle" });
+    await page.goto(LIST_PATH, { waitUntil: "networkidle" });
 
     expect(
       leaks,

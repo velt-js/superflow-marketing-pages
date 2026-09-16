@@ -1,285 +1,167 @@
+"use client";
+
+// The directory list's grid card.
+//
+// A client component, unusually for a card that paints nothing interactive
+// of its own. The list is one client-controlled surface: search, category,
+// country and sort all decide which cards exist, and a server-rendered card
+// handed across that boundary is serialized into the RSC payload on top of
+// the markup already in the HTML - 983 KB of duplicate payload on a
+// 323-card page. Taking a plain `AgencyListItem` instead costs a fifth of
+// that, and the server still renders every card into the HTML, because a
+// client component server-renders too. See `AgencyListItem` in
+// lib/directory/agencies.ts.
+//
+// It therefore imports NOTHING at runtime from lib/directory/agencies.ts -
+// that module's scope imports the agency JSON datasets and the Sanity
+// client, and either would ride into the browser bundle with it. Every
+// value a card paints arrives as a prop; the only import from there is a
+// type, erased at compile time.
+
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  agencyPath,
-  formatAgencyClientSummary,
-  formatAgencyLocation,
-  formatAgencyRating,
-  getAwardBreakdown,
-  resolveAwardTallyLabel,
-} from "@/lib/directory/agencies";
-import PartnerBadge from "./PartnerBadge";
+import { PARTNER_BADGE_DESCRIPTION, PARTNER_BADGE_LABEL } from "@/lib/directory/constants";
+import PartnerBadgeMark from "./PartnerBadgeMark";
 import styles from "./AgencyCard.module.css";
-import type { Agency } from "@/lib/directory/types";
-
-/** Maximum number of services listed before collapsing into a "+N". */
-const MAX_VISIBLE_SERVICES = 4;
-
-/** Separator between service names in the card's single-line summary. */
-const SERVICES_SEPARATOR = " · ";
+import type { AgencyListItem } from "@/lib/directory/agencies";
 
 /** Trailing glyph on outbound links, marking them as leaving the site. */
 const EXTERNAL_LINK_GLYPH = "↗";
-
-/** Leading label on the card's client line. Phrased as a claim about past
- *  work ("Worked with"), not a capability ("Clients"), because that is the
- *  thing a visitor scanning a grid of agencies is actually comparing. */
-const CLIENTS_LINE_LABEL = "Worked with ";
 
 /** Shown as the website link text when a record has a URL but no parsed
  *  domain, so the link never renders with an empty label. */
 const FALLBACK_WEBSITE_LABEL = "Visit site";
 
-/** Joiner between team size and budget in the card footer's left slot,
- *  when both are present on the record. */
-const FOOTER_META_SEPARATOR = " · ";
+/** Rendered in the logo tile when a record carries no logo - 22 of the 323
+ *  records don't, D&AD's whole slice among them. */
+const FALLBACK_INITIAL = "•";
+
+/** Pixel size the logo tile renders at. */
+const LOGO_SIZE = 44;
 
 /**
- * Resolves the visible label for an agency's own website link. Prefers the
- * bare domain over the full URL: it is shorter, and it tells the visitor
- * where the link goes before they click it.
+ * First letter of an agency's name, for the logo tile's fallback.
  *
- * @param agency - The agency record to label.
- * @returns The domain, or a generic fallback when none was parsed.
+ * Leading punctuation is skipped so "/nk.studio" reads as "N" rather than
+ * as a slash - several studios brand themselves with one.
+ *
+ * @param name - The agency's display name.
+ * @returns A single uppercase character, or a bullet when there is none.
  */
-function resolveWebsiteLabel(agency: Agency | null | undefined): string {
+function resolveInitial(name: string | null | undefined): string {
   try {
-    const domain = agency?.domain?.trim();
-    return domain && domain.length > 0 ? domain : FALLBACK_WEBSITE_LABEL;
+    const stripped = (name ?? "").replace(/^[^\p{L}\p{N}]+/u, "");
+    return stripped.charAt(0).toUpperCase() || FALLBACK_INITIAL;
   } catch {
-    return FALLBACK_WEBSITE_LABEL;
+    return FALLBACK_INITIAL;
   }
 }
 
 /**
- * Splits a service list into the chips to render and an overflow count,
- * so the card stays a predictable height regardless of how many services
- * a source profile lists.
+ * Card for a single agency on the directory list page. Leads with the
+ * agency name, its location and the one credential its source published -
+ * the description and client chips are supporting detail, deliberately
+ * quieter than the name rather than competing with it.
  *
- * @param services - Free-text services as listed on the source profile.
- * @param limit - Maximum chips to show before collapsing the rest.
- * @returns The visible services and how many more were hidden.
- */
-function visibleServices(
-  services: string[] | null | undefined,
-  limit: number,
-): { shown: string[]; hiddenCount: number } {
-  try {
-    const all = services?.filter((service) => Boolean(service?.trim())) ?? [];
-    return {
-      shown: all.slice(0, limit),
-      hiddenCount: Math.max(0, all.length - limit),
-    };
-  } catch {
-    return { shown: [], hiddenCount: 0 };
-  }
-}
-
-/**
- * Award labels in the order they make the best one-line card headline.
+ * The whole card is one click target for the agency's detail page
+ * (/directory/agency/<slug>). That is done with a stretched link rather
+ * than by wrapping the card in an <a>: the footer still carries the
+ * agency's own outbound website link, and an anchor inside an anchor is
+ * invalid HTML that browsers recover from unpredictably. `.header::after`
+ * in the CSS module covers the card, and `.websiteLink` sits above it.
+ * Both halves are covered by tests/directory/agency-card.spec.ts.
  *
- * Two rejected orderings, recorded so this isn't "fixed" back to either:
- *
- * - By count: Honorable Mentions dominate every breakdown, so this
- *   surfaced "131x Honorable Mention" for a studio that had also won Site
- *   of the Year - leading with its weakest credential.
- * - By prestige (Site of the Year first): technically correct but every
- *   top studio holds one, so every card read "1x Site of the Year" and
- *   the stat stopped distinguishing anyone.
- *
- * Site of the Day leads instead: it is Awwwards' flagship award, the most
- * recognisable to a visitor, and its count varies widely across studios,
- * so it adds information the adjacent total doesn't already convey.
- */
-const AWARD_LABELS_BY_HEADLINE_PRIORITY: readonly string[] = [
-  "Site of the Day",
-  "Site of the Year",
-  "Site of the Month",
-  "Developer Award",
-  "Honorable Mention",
-  "Nominee",
-];
-
-/**
- * Picks the award that best headlines this agency, for the card's
- * one-line summary. See AWARD_LABELS_BY_HEADLINE_PRIORITY.
- *
- * Falls back to the highest-count entry if no label matches the priority
- * list, so a future source introducing an unknown award type still renders
- * something sensible rather than nothing.
- *
- * @param breakdown - Non-zero award-type entries for one agency.
- * @returns The highest-priority entry, or null for an empty breakdown.
- */
-function pickTopAward(
-  breakdown: Array<{ label: string; count: number }>,
-): { label: string; count: number } | null {
-  try {
-    if (!breakdown || breakdown.length === 0) return null;
-    for (const label of AWARD_LABELS_BY_HEADLINE_PRIORITY) {
-      const match = breakdown.find((entry) => entry?.label === label);
-      if (match) return match;
-    }
-    return breakdown.reduce((best, entry) => (entry.count > best.count ? entry : best));
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Builds the footer's left-slot label from team size and budget, joining
- * whichever of the two are present. Kept as one combined string rather
- * than two separate elements so the footer's left slot stays the single
- * `<span/>` it already was when neither is present - see the layout
- * comment on the footer JSX below.
- *
- * @param agency - The agency record to read.
- * @returns The combined label, or null when neither field is present.
- */
-function buildFooterMetaLabel(agency: Agency | null | undefined): string | null {
-  try {
-    const parts = [
-      agency?.teamSize ? `Team: ${agency.teamSize}` : null,
-      agency?.budgetLabel ?? null,
-    ].filter((part): part is string => Boolean(part));
-    return parts.length > 0 ? parts.join(FOOTER_META_SEPARATOR) : null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Card for a single agency in a directory category grid. Leads with the
- * agency name (and partner badge, if applicable) - award record and
- * services are supporting detail, deliberately styled to read quieter
- * than the name rather than compete with it.
- *
- * The whole card is one click target for the agency's own directory
- * detail page (/directory/agency/<slug>), which holds the full profile -
- * full award breakdown and service list included, this card only
- * summarizes both. That is done with a stretched link rather than by
- * wrapping the card in an <a>: the footer still carries the agency's own
- * outbound website link, and an anchor inside an anchor is invalid HTML
- * that browsers recover from unpredictably. `.header::after` in the CSS
- * module covers the card, and `.websiteLink` sits above it.
- *
- * The card does NOT link back to the source profile. That link lives on
- * the detail page this card opens, one click away, and the figures here
- * still name their source in the label itself ("48 Awwwards awards" - see
- * `resolveAwardTallyLabel`), so nothing on the card is an unattributed
- * claim. Adding it back would also put a second competing link inside a
- * card whose whole surface is now a link to somewhere else.
+ * The card does NOT link back to the source profile - that link lives on
+ * the detail page this card opens, one click away - but it always NAMES
+ * the source in the footer, so no figure on it is an unattributed claim.
+ * See `getAgencyCredential` in lib/directory/agencies.ts.
  *
  * @param props - Component props.
- * @param props.agency - The agency record to render.
+ * @param props.item - The agency's list projection.
  */
-export default function AgencyCard({ agency }: { agency: Agency }) {
+export default function AgencyCard({ item }: { item: AgencyListItem }) {
   try {
-    const locationLabel = formatAgencyLocation(agency?.location ?? null);
-    const awardBreakdown = getAwardBreakdown(agency?.awards);
-    const topAward = pickTopAward(awardBreakdown);
-    const { shown: shownServices, hiddenCount } = visibleServices(
-      agency?.services,
-      MAX_VISIBLE_SERVICES,
-    );
-    const clientSummary = formatAgencyClientSummary(agency);
-    const websiteLabel = resolveWebsiteLabel(agency);
-    const awardTotal = agency?.awards?.total ?? 0;
-    // Used only as the "is there a meaningful rating" guard - the actual
-    // score/count spans below are built from `agency.rating` directly so
-    // they can render as two separately styled elements, matching the
-    // award line's bold-count/muted-label split just below.
-    const ratingSummary = formatAgencyRating(agency?.rating ?? null);
-    const footerMetaLabel = buildFooterMetaLabel(agency);
-    const servicesLine =
-      shownServices.length > 0
-        ? shownServices.join(SERVICES_SEPARATOR) + (hiddenCount > 0 ? ` +${hiddenCount} more` : "")
-        : null;
+    const websiteLabel = item?.domain?.trim() || FALLBACK_WEBSITE_LABEL;
 
     return (
       <article className={styles.card}>
-        <Link href={agencyPath(agency?.slug ?? "")} className={styles.header}>
-          {agency?.logoUrl && (
-            <div className={styles.logo}>
+        <Link href={item?.href ?? "#"} className={styles.header}>
+          <span className={styles.logo}>
+            {item?.logoUrl ? (
               <Image
                 className={styles.logoImage}
-                src={agency.logoUrl}
+                src={item.logoUrl}
                 alt=""
-                fill
-                sizes="44px"
+                width={LOGO_SIZE}
+                height={LOGO_SIZE}
               />
-            </div>
-          )}
-          <div className={styles.headerText}>
-            <div className={styles.nameRow}>
-              <h3 className={styles.name}>{agency?.name ?? "Unnamed agency"}</h3>
-              <PartnerBadge agency={agency} />
-            </div>
-            {locationLabel && <p className={styles.location}>{locationLabel}</p>}
-          </div>
+            ) : (
+              <span className={styles.logoInitial} aria-hidden="true">
+                {resolveInitial(item?.name)}
+              </span>
+            )}
+          </span>
+
+          <span className={styles.headerText}>
+            <span className={styles.nameRow}>
+              <h3 className={styles.name}>{item?.name || "Unnamed agency"}</h3>
+              {/* The mark itself, not the server `PartnerBadge` wrapper:
+                  that wrapper decides partner status by calling into
+                  lib/directory/agencies.ts, which this file must not
+                  import. The decision is already made - `isPartner` is a
+                  field on the projection the server built. */}
+              {item?.isPartner && (
+                <PartnerBadgeMark
+                  label={PARTNER_BADGE_LABEL}
+                  description={PARTNER_BADGE_DESCRIPTION}
+                />
+              )}
+            </span>
+            {item?.locationLabel && (
+              <span className={styles.location}>{item.locationLabel}</span>
+            )}
+          </span>
+
+          {item?.credentialPill && <span className={styles.pill}>{item.credentialPill}</span>}
         </Link>
 
-        {agency?.description && (
-          <p className={styles.description}>{agency.description}</p>
-        )}
+        {item?.description && <p className={styles.description}>{item.description}</p>}
 
-        {servicesLine && <p className={styles.services}>{servicesLine}</p>}
-
-        {clientSummary && (
-          <p className={styles.clients}>
-            <span className={styles.clientsLabel}>{CLIENTS_LINE_LABEL}</span>
-            <span className={styles.clientsNames}>{clientSummary}</span>
-          </p>
-        )}
-
-        {/* A record carries an award total or a rating, never both (see
-            AgencyRating in lib/directory/types.ts) - written as two
-            independent conditions rather than an if/else so that stays
-            true by the data, not by an assumption baked into the JSX. */}
-        {awardTotal > 0 && (
-          <p className={styles.awards}>
-            <span className={styles.awardCount}>{awardTotal}</span>
-            <span className={styles.awardLabel}>
-              {/* Names the jury rather than saying "awards" flat - the
-                  tally is one scheme's, and a studio with wins across
-                  several juries is entitled not to see this read as its
-                  whole record. See `resolveAwardTallyLabel`. */}
-              {resolveAwardTallyLabel(agency?.source, awardTotal)}
-              {topAward ? ` \u00b7 ${topAward.count}x ${topAward.label}` : ""}
-            </span>
-          </p>
-        )}
-
-        {ratingSummary && agency?.rating && (
-          <p className={styles.rating}>
-            <span className={styles.ratingScore}>
-              {agency.rating.value}/{agency.rating.scale}
-            </span>
-            <span className={styles.ratingLabel}>
-              {agency.rating.reviewCount} review{agency.rating.reviewCount === 1 ? "" : "s"}
-            </span>
-          </p>
+        {item?.clientNames?.length > 0 && (
+          <ul className={styles.clients} aria-label="Clients on record">
+            {item.clientNames.map((client) => (
+              <li key={client} className={styles.client}>
+                {client}
+              </li>
+            ))}
+            {item.clientOverflow > 0 && (
+              <li className={`${styles.client} ${styles.clientOverflow}`}>
+                +{item.clientOverflow}
+              </li>
+            )}
+          </ul>
         )}
 
         <div className={styles.footer}>
-          {footerMetaLabel ? (
-            <span className={styles.teamSize}>{footerMetaLabel}</span>
+          {/* Names the source directory that published the figure in the
+              pill above. The card carries no link back to it, so this line
+              is the whole of the attribution. */}
+          {item?.credentialMeta ? (
+            <span className={styles.meta}>{item.credentialMeta}</span>
           ) : (
             <span />
           )}
-          <div className={styles.links}>
-            {agency?.website && (
-              <a
-                href={agency.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.websiteLink}
-              >
-                {websiteLabel} {EXTERNAL_LINK_GLYPH}
-              </a>
-            )}
-          </div>
+          {item?.website && (
+            <a
+              href={item.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.websiteLink}
+            >
+              {websiteLabel} {EXTERNAL_LINK_GLYPH}
+            </a>
+          )}
         </div>
       </article>
     );

@@ -1,18 +1,16 @@
-/* Shared 2026 hero for the directory's two inner pages — the category
-   listing (components/directory/CategoryHero.tsx) and an agency profile
+/* Shared 2026 hero for the directory's two pages — the list
+   (components/directory/DirectoryListHero.tsx) and an agency profile
    (components/directory/AgencyDetail.tsx).
 
    Same blue gradient bitmap + white Adamina serif headline idiom as
    components/case-study-2026/CaseStudyHero.module.css, so /directory reads
-   as the same site as /integrations, /case-study and the homepage rather
-   than the flat white header it used to ship. Both pages close the hero
-   with the white meta card riding the fade into the page below: the
-   category page fills it with the live stat row, an agency page with that
-   agency's facts.
-
-   One file rather than one per page on purpose — the two heroes differ only
-   in which slots they fill, and a second copy of the gradient/crop/fade
-   maths is exactly the thing that drifts. */
+   as the same site as /integrations, /case-study and the homepage. The two
+   pages differ in what they put on the gradient — the list carries a
+   headline and nothing else, a profile carries a breadcrumb, a logo plate,
+   an identity block, two calls to action and a stat strip riding the fade
+   into the white page below — so the variants are `.heroList` /
+   `.heroProfile` modifiers rather than two files, which is how the
+   gradient/crop/fade maths stays in one place. */
 
 .hero {
     --dh-card: #feffff;
@@ -35,9 +33,6 @@
     background-image: url("/images/home-2026/hero/hero-gradient.png");
     background-repeat: no-repeat;
     background-position: top center;
-    /* Tall enough that the blue stays saturated behind the headline AND the
-       subhead — the breadcrumb/logo chip push an agency page's subhead deep
-       into the bitmap. The ::after fade dissolves wherever the crop lands. */
     background-size: 100% 1020px;
 }
 
@@ -47,15 +42,38 @@
     box-sizing: border-box;
 }
 
-/* Soft white fade over the hero's lower edge — the meta card sits on this
-   transition so the section hands off seamlessly to the white page. */
+/* Soft white fade over the hero's lower edge — a profile's stat strip sits
+   on this transition so the section hands off seamlessly to the white page. */
 .hero::after {
     content: "";
     position: absolute;
     inset: auto 0 0 0;
-    height: 240px;
+    height: 220px;
     background: linear-gradient(180deg, rgba(254, 255, 255, 0) 0%, var(--dh-card) 92%);
     pointer-events: none;
+}
+
+/* The list hero carries only a kicker and a headline, so the bitmap is
+   cropped shorter and the fade is shallower — otherwise the gradient runs
+   most of the way to the filter toolbar with nothing on it. */
+.heroList {
+    background-size: 100% 900px;
+}
+
+.heroList::after {
+    height: 180px;
+}
+
+/* A profile stacks more on the gradient than the list does - breadcrumb,
+   plate, name, blurb, two actions - so it keeps the taller crop and the
+   deeper fade the stat strip rides on. Declared rather than left implicit
+   so the two variants read as a pair in one place. */
+.heroProfile {
+    background-size: 100% 1020px;
+}
+
+.heroProfile::after {
+    height: 220px;
 }
 
 .inner {
@@ -64,12 +82,16 @@
     width: 100%;
     max-width: 1080px;
     margin: 0 auto;
-    padding: calc(var(--site-nav-height) + 64px) 24px 56px;
+    padding: calc(var(--site-nav-height) + 60px) 24px 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
     text-align: center;
+}
+
+.innerList {
+    padding-bottom: 104px;
 }
 
 /* Breadcrumb on the gradient. White-on-blue rather than the page's grey,
@@ -119,21 +141,80 @@
     color: #ffffff;
 }
 
-/* White chip parking the agency's brand mark on the gradient — same
+/* ---- Profile identity block ------------------------------------------ */
+
+/* Logo plate + name + location, as one object. The plate and the type sit
+   on a baseline-free centre line so a square mark and a two-line name still
+   read as one unit. */
+.identity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 8px;
+    text-align: left;
+}
+
+/* White plate parking the agency's brand mark on the gradient — same
    treatment the case-study hero gives a customer logo. */
-.logoChip {
+.logoPlate {
     display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
+    overflow: hidden;
     border-radius: 20px;
     background: #ffffff;
     box-shadow: 0 10px 26px rgba(10, 10, 30, 0.18);
 }
 
 .logoImage {
+    border-radius: 10px;
     object-fit: contain;
+}
+
+/* Fallback letter for the 22 records with no logo on file — see the same
+   treatment on the list card (AgencyCard.module.css). */
+.logoInitial {
+    font-family: var(--dh-display);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    color: #433df3;
+}
+
+.identityText {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.identityNameRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+/* "Madrid, Spain · Web Design" — where they are and what they do, which is
+   the pair a visitor checks first on a profile. */
+.identityMeta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-family: var(--dh-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.identityMetaIcon {
+    flex: 0 0 auto;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .kicker {
@@ -147,25 +228,27 @@
     color: rgba(255, 255, 255, 0.82);
 }
 
-/* Headline row — the name plus, for a partner, its badge chip. */
-.headlineRow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-}
-
 .headline {
     margin: 0;
-    max-width: 980px;
+    max-width: 900px;
     font-family: var(--dh-serif);
     font-weight: 400;
-    font-size: clamp(36px, 4.8vw, 56px);
+    font-size: clamp(36px, 4.8vw, 54px);
     line-height: 1.16;
     letter-spacing: -1.4px;
     color: #ffffff;
     text-wrap: balance;
+}
+
+/* A profile's H1 is a proper noun sitting beside a logo plate rather than
+   a sentence spanning the column, so it runs a size smaller and does not
+   balance — balancing a one-word name just moves it. */
+.headlineProfile {
+    max-width: none;
+    font-size: clamp(34px, 4.4vw, 50px);
+    line-height: 1.1;
+    letter-spacing: -1.2px;
+    text-wrap: initial;
 }
 
 /* White disc behind the partner mark. The mark itself paints in Superflow
@@ -187,22 +270,32 @@
     margin: 0;
     max-width: 62ch;
     font-family: var(--dh-body);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1.6;
-    letter-spacing: -0.34px;
-    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.65;
+    letter-spacing: -0.2px;
+    color: rgba(255, 255, 255, 0.85);
     text-wrap: balance;
 }
 
-/* Primary outbound action on an agency profile. White pill on the gradient,
+/* ---- Profile actions -------------------------------------------------- */
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
+}
+
+/* Primary outbound action on a profile. White pill on the gradient,
    matching the homepage/listing hero CTA. */
 .cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 4px;
     padding: 14px 28px;
     border-radius: 32px;
     background: #ffffff;
@@ -231,13 +324,13 @@
     outline-offset: 3px;
 }
 
-/* Quiet secondary link under the CTA — the source attribution, which has to
-   be present but must not compete with the agency's own site. */
+/* Quiet secondary link beside the CTA — the source attribution, which has
+   to be present but must not compete with the agency's own site. */
 .sourceLink {
     font-family: var(--dh-display);
     font-size: 13px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.78);
     text-decoration: underline;
     text-underline-offset: 3px;
     transition: color 140ms ease;
@@ -247,57 +340,76 @@
     color: #ffffff;
 }
 
-/* White meta card riding the fade into the page — the stat row on a category
-   page, the facts panel on an agency page. */
+.sourceLink:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ---- Profile stat strip ---------------------------------------------- */
+
+/* White card riding the fade into the page, carrying the figures a visitor
+   compares two agencies on. */
 .metaCard {
     display: flex;
     align-items: stretch;
-    justify-content: space-between;
-    gap: 24px;
+    flex-wrap: wrap;
     width: 100%;
-    max-width: 860px;
-    margin-top: 36px;
-    padding: 28px 32px;
+    max-width: 880px;
+    margin-top: 34px;
+    padding: 26px 12px;
     border: 1px solid #ececf1;
     border-radius: 20px;
     background: #ffffff;
     box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
 }
 
+/* A record with one or two figures on file - a Motion Design Awards studio
+   has exactly one - leaves an 880px card mostly empty, which reads as a
+   layout that lost its other cells rather than as a short record. */
+.metaCardCompact {
+    max-width: 480px;
+}
+
 .metaItem {
     display: flex;
-    flex: 1 1 0;
+    flex: 1 1 140px;
     min-width: 0;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-}
-
-.metaLabel {
-    font-family: var(--dh-mono);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    color: var(--dh-muted);
+    gap: 7px;
+    padding: 4px 12px;
 }
 
 .metaValue {
     font-family: var(--dh-display);
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.35;
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
     color: var(--dh-ink);
     text-align: center;
 }
 
-/* The category page's stat row leads with a number, so it gets the larger
-   serif-adjacent treatment the homepage uses for figures. */
-.metaValueStat {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
+/* A value that is a phrase rather than a figure ("Starting from $5,000",
+   "1,000+") cannot hold the 27px setting without wrapping into the cell
+   below it. */
+.metaValueText {
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    padding-top: 5px;
+}
+
+.metaLabel {
+    font-family: var(--dh-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: var(--dh-muted);
+    text-align: center;
 }
 
 .metaDivider {
@@ -311,9 +423,31 @@
         background-size: 100% 1160px;
     }
 
+    .heroList {
+        background-size: 100% 1000px;
+    }
+
     .inner {
-        padding: calc(var(--site-nav-height) + 44px) 20px 44px;
+        padding: calc(var(--site-nav-height) + 44px) 20px 40px;
         gap: 16px;
+    }
+
+    .innerList {
+        padding-bottom: 72px;
+    }
+
+    .identity {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+    }
+
+    .identityText {
+        align-items: center;
+    }
+
+    .identityNameRow {
+        justify-content: center;
     }
 
     .metaCard {

@@ -18,7 +18,7 @@ import {
 } from "@/sanity/lib/queries";
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
-import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
+import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 import { agencyPath, getIndexableAgencySlugs } from "@/lib/directory/agencies";
 
 // Regenerate hourly so CMS-only changes (new docs seeded without a
@@ -101,8 +101,10 @@ const STATIC_PATHS = [
   "/checklist",
   "/comparisons",
   "/demo",
+  // The directory is one list page now; its four category routes 308 onto
+  // it (see `redirects` in next.config.ts) and a redirect has no business
+  // in a sitemap. Agency profiles are added below, from the data.
   DIRECTORY_BASE_PATH,
-  ...DIRECTORY_CATEGORIES.map((category) => `${DIRECTORY_BASE_PATH}/${category.slug}`),
   "/integrations",
   "/pricing",
   "/privacy",

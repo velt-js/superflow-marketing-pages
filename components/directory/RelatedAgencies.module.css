@@ -1,0 +1,239 @@
+/* "More agencies" block at the bottom of an agency profile —
+   components/directory/RelatedAgencies.tsx.
+
+   Rows rather than the list page's card grid: this block follows a page of
+   content, and repeating the grid made the bottom of every profile read as
+   a second listing page. Same card vocabulary (#fbfbfd fill, #ececf1
+   hairline, 20px radius, accent hover) laid out on one line. */
+
+.section {
+    --ra-display: var(--font-urbanist), system-ui, sans-serif;
+    --ra-body: var(--font-poppins), system-ui, sans-serif;
+    --ra-ink: #16171a;
+    --ra-muted: #6b7079;
+    --ra-quiet: #8b909a;
+    --ra-accent: #433df3;
+
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 24px 96px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--ra-display);
+    font-size: clamp(22px, 2.4vw, 27px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    color: var(--ra-ink);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    width: 100%;
+    padding: 24px 26px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    text-decoration: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease,
+        background 160ms ease;
+}
+
+.row:focus-visible {
+    outline: 2px solid var(--ra-accent);
+    outline-offset: 2px;
+}
+
+.logo {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    border: 1px solid #ececf1;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.logoInitial {
+    font-family: var(--ra-display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ra-accent);
+}
+
+.identity {
+    display: flex;
+    flex: 1 1 200px;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--ra-display);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.3;
+    color: var(--ra-ink);
+    transition: color 140ms ease;
+}
+
+.location {
+    font-family: var(--ra-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ra-quiet);
+}
+
+.description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    flex: 2 1 280px;
+    min-width: 0;
+    font-family: var(--ra-body);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ra-muted);
+}
+
+/* Right rail: the figure, and the line naming who published it — the same
+   pairing the list card makes, so a row reads as the same object. */
+.credential {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    margin-left: auto;
+    text-align: right;
+}
+
+.credentialValue {
+    font-family: var(--ra-display);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ra-accent);
+}
+
+.credentialMeta {
+    font-family: var(--ra-body);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--ra-quiet);
+}
+
+.back {
+    margin: 0;
+}
+
+.backLink {
+    font-family: var(--ra-display);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ra-accent);
+    text-decoration: none;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Gated to real pointers — see the note in AgencyCard.module.css. */
+@media (hover: hover) and (pointer: fine) {
+    .row:hover {
+        border-color: rgba(67, 61, 243, 0.35);
+        background: #ffffff;
+        box-shadow: 0 14px 34px rgba(20, 20, 43, 0.08);
+        transform: translateY(-2px);
+    }
+
+    .row:hover .name {
+        color: var(--ra-accent);
+    }
+}
+
+@media (max-width: 700px) {
+    .section {
+        padding: 8px 20px 64px;
+    }
+
+    .row {
+        padding: 20px 22px;
+        gap: 14px;
+    }
+
+    /* The blurb is the first thing to go: at this width it pushes the
+       figure onto a fourth line for detail the profile itself carries. */
+    .description {
+        display: none;
+    }
+
+    .credential {
+        align-items: flex-start;
+        margin-left: 0;
+        text-align: left;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .row {
+        transition: none;
+    }
+
+    .row:hover {
+        transform: none;
+    }
+}

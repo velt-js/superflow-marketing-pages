@@ -1,14 +1,13 @@
-/* Directory grid furniture — the white section that holds a category's
-   agency cards, the search/country/sort control bar above them, and the two
-   empty states.
+/* Directory list furniture — the white section that holds the agency
+   cards, the filter toolbar above them, and the two empty states.
 
    Shared by components/directory/AgencyGrid.tsx (the server-rendered
-   section + the "nothing scraped yet" empty state) and
-   components/directory/AgencyExplorer.tsx (the client control bar, the grid
+   section + the "nothing indexed yet" empty state) and
+   components/directory/AgencyExplorer.tsx (the client toolbar, the grid
    itself, and the "filters match nothing" empty state), so the two halves
    of one visual section can't drift apart.
 
-   Section metrics (white ground, 1200px inner, 96px/64px padding) match
+   Section metrics (white ground, 1120px inner) match
    components/case-study-2026/CaseStudyGrid.module.css and
    components/listing-2026/ListingGrid.module.css. */
 
@@ -25,8 +24,8 @@
     width: 100%;
     /* No top padding: this section always follows the gradient hero, whose
        white fade already lands on the page. Adding the usual 96px on top of
-       that fade opened a dead band between the stat card and the controls. */
-    padding: 8px 24px 96px;
+       that fade opened a dead band between the headline and the toolbar. */
+    padding: 0 24px 96px;
     background: #ffffff;
 }
 
@@ -38,120 +37,209 @@
 
 .inner {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1120px;
     margin: 0 auto;
 }
 
 .stack {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
+    /* Turning a page scrolls this container back into view; without the
+       margin the fixed SiteNav lands on top of the toolbar. */
+    scroll-margin-top: 86px;
 }
 
-/* ---- Control bar ---------------------------------------------------- */
+/* Screen-reader-only label. The toolbar is icon-and-placeholder by design
+   (one compact row, the way a search bar reads), which is exactly the case
+   where a visible label is dropped and an invisible one has to take over —
+   never no label at all. */
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
+/* ---- Filter toolbar -------------------------------------------------- */
+
+/* One row: search on the left, the three selects on the right, wrapping
+   as a group on narrow screens. */
 .controls {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 8px;
     border: 1px solid #ececf1;
-    border-radius: 20px;
-    background: #fbfbfd;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.fieldSearch {
-    flex: 1 1 260px;
-    min-width: 220px;
-}
-
-.fieldSelect {
-    flex: 0 1 190px;
-    min-width: 160px;
-}
-
-.label {
-    font-family: var(--dg-display);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    color: var(--dg-muted);
-}
-
-.control {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1px solid #e2e2ea;
-    border-radius: 12px;
+    border-radius: 16px;
     background: #ffffff;
-    font-family: var(--dg-body);
-    font-size: 14px;
-    line-height: 1.3;
-    color: var(--dg-ink);
-    outline: none;
-    transition: border-color 140ms ease, box-shadow 140ms ease;
+    box-shadow: 0 2px 10px rgba(20, 20, 43, 0.04);
 }
 
-.control::placeholder {
+.searchCell {
+    display: flex;
+    flex: 1 1 260px;
+    min-width: 0;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+}
+
+.searchIcon {
+    flex: 0 0 auto;
     color: var(--dg-quiet);
 }
 
-.control:hover {
-    border-color: #d5d5e0;
+.searchInput {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    font-family: var(--dg-body);
+    font-size: 14.5px;
+    line-height: 1.4;
+    color: var(--dg-ink);
+    outline: none;
 }
 
-.control:focus {
-    border-color: rgba(67, 61, 243, 0.5);
+.searchInput::placeholder {
+    color: var(--dg-quiet);
+}
+
+/* The browser's own search-field clear button, suppressed in favour of the
+   styled one — two clear affordances in one field read as a bug. */
+.searchInput::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.searchInput:focus-visible {
+    outline: none;
+}
+
+/* The focus ring goes on the cell rather than the borderless input, so a
+   keyboard user sees the whole search field light up. */
+.searchCell:focus-within {
+    border-radius: 12px;
     box-shadow: 0 0 0 3px rgba(67, 61, 243, 0.12);
 }
 
-/* Native selects ignore most box styling on some platforms; the custom
-   chevron keeps the two select fields looking like the search input. */
+.searchClear {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: #f1f1f6;
+    font-family: var(--dg-body);
+    font-size: 13px;
+    line-height: 1;
+    color: var(--dg-muted);
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+}
+
+.searchClear:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
+.controlsDivider {
+    align-self: stretch;
+    width: 1px;
+    margin: 2px 6px;
+    background: #ececf1;
+}
+
+.selects {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Native selects ignore most box styling on some platforms; the inline
+   chevron keeps the three of them looking like one control set. */
 .select {
     appearance: none;
     -webkit-appearance: none;
-    padding-right: 38px;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7079' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    max-width: 100%;
+    padding: 11px 34px 11px 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f6f6fa;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7079' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 13px center;
+    background-position: right 12px center;
+    font-family: var(--dg-display);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--dg-ink);
     cursor: pointer;
+    transition: background-color 140ms ease;
+}
+
+.select:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
+/* ---- Result count ---------------------------------------------------- */
+
+.countRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: -4px;
 }
 
 .count {
     margin: 0;
     font-family: var(--dg-body);
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.4;
-    color: var(--dg-muted);
+    color: var(--dg-quiet);
 }
 
-/* Sections that do NOT follow the hero (the related-agencies block at the
-   bottom of a profile) need the full 2026 section rhythm back on top. */
-.sectionSpaced {
-    padding-top: 88px;
-}
-
-.heading {
-    margin: 0 0 24px;
+.clearFilters {
+    padding: 0;
+    border: none;
+    background: none;
     font-family: var(--dg-display);
-    font-size: clamp(24px, 2.6vw, 30px);
+    font-size: 13.5px;
     font-weight: 600;
-    letter-spacing: -0.5px;
-    line-height: 1.25;
-    color: var(--dg-ink);
+    color: var(--dg-accent);
+    cursor: pointer;
 }
 
-/* ---- Card grid ------------------------------------------------------ */
+.clearFilters:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
 
+/* ---- Card grid ------------------------------------------------------- */
+
+/* auto-fill rather than a fixed column count: the card has a real minimum
+   it reads well at, and the grid takes as many as fit. No breakpoint owns
+   the column count, so none of them can disagree with the others. */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
     margin: 0;
@@ -163,7 +251,77 @@
     display: flex;
 }
 
-/* ---- Empty states --------------------------------------------------- */
+/* ---- Pager ----------------------------------------------------------- */
+
+/* Real links, not buttons: these hrefs are how a crawler reaches the
+   agencies that are not on page one, and how a visitor middle-clicks one.
+   See the note on `Pager` in AgencyExplorer.tsx. */
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.pagerPages {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.pagerPage,
+.pagerStep {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: transparent;
+    font-family: var(--dg-display);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--dg-ink);
+    text-decoration: none;
+    transition: background-color 140ms ease, color 140ms ease;
+}
+
+.pagerStep {
+    color: var(--dg-muted);
+}
+
+/* The end of the run. A greyed-out span rather than a link to nowhere -
+   there is no page to point at, and a disabled anchor is still an anchor
+   to a keyboard. */
+.pagerStepMuted {
+    color: #c3c5cd;
+    cursor: default;
+}
+
+.pagerPageCurrent {
+    background: var(--dg-accent);
+    color: #ffffff;
+}
+
+.pagerGap {
+    padding: 0 4px;
+    font-family: var(--dg-body);
+    font-size: 14px;
+    color: var(--dg-quiet);
+}
+
+.pagerPage:focus-visible,
+.pagerStep:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
+/* ---- Empty states ---------------------------------------------------- */
 
 .empty {
     display: flex;
@@ -209,46 +367,67 @@
     transition: background 140ms ease, transform 140ms ease;
 }
 
+.emptyAction:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
 /* Gated to real pointers — see the note in AgencyCard.module.css. */
 @media (hover: hover) and (pointer: fine) {
+    .pagerPage:hover,
+    .pagerStep:hover {
+        background: #f1f1f6;
+    }
+
+    .pagerPageCurrent:hover {
+        background: #372fd8;
+        color: #ffffff;
+    }
+
+    .pagerStepMuted:hover {
+        background: transparent;
+    }
+
+    .searchClear:hover {
+        background: #e5e5ee;
+        color: var(--dg-ink);
+    }
+
+    .select:hover {
+        background-color: #eeeef5;
+    }
+
+    .clearFilters:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
     .emptyAction:hover {
         background: #372fd8;
         transform: translateY(-1px);
     }
 }
 
-.emptyAction:focus-visible {
-    outline: 2px solid var(--dg-accent);
-    outline-offset: 2px;
-}
-
-@media (min-width: 640px) {
-    .controls {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-end;
-        gap: 16px;
+@media (max-width: 720px) {
+    /* The divider reads as a rule between two rows once the selects wrap
+       under the search field, which is not what it is marking. */
+    .controlsDivider {
+        display: none;
     }
 
-    .count {
-        margin-left: auto;
-        padding-bottom: 12px;
+    .selects {
+        width: 100%;
+        padding: 0 6px 4px;
     }
-}
 
-@media (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .select {
+        flex: 1 1 auto;
     }
 }
 
 @media (max-width: 600px) {
     .section {
-        padding: 8px 20px 64px;
-    }
-
-    .sectionSpaced {
-        padding-top: 56px;
+        padding: 0 20px 64px;
     }
 
     .grid {
@@ -258,7 +437,10 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    .control,
+    .select,
+    .searchClear,
+    .pagerPage,
+    .pagerStep,
     .emptyAction {
         transition: none;
     }

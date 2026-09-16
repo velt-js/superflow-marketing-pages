@@ -1,18 +1,18 @@
 import type { StructureResolver } from "sanity/structure";
 
-// Custom desk structure. Pins the two entries an editor reaches for most —
-// the 2026 /preview/features/<slug> template and the agency directory's
-// listing overrides — at the top, then falls back to the default
-// document-type list for every other schema type, so nothing that used to
-// appear in the flat list disappears.
+// Custom desk structure. Pins the entries an editor reaches for most — the
+// 2026 /preview/features/<slug> template and the agency directory — at the
+// top, then falls back to the default document-type list for every other
+// schema type, so nothing that used to appear in the flat list disappears.
 
 const FEATURE_PAGE_TYPE = "featurePage";
+const AGENCY_TYPE = "agency";
 const AGENCY_LISTING_TYPE = "agencyListing";
 
 /** Types with their own pinned entry above the divider. Listed once so the
  *  filter below cannot drift from the items above it and print a type
  *  twice. */
-const PINNED_TYPES = [FEATURE_PAGE_TYPE, AGENCY_LISTING_TYPE];
+const PINNED_TYPES = [FEATURE_PAGE_TYPE, AGENCY_TYPE, AGENCY_LISTING_TYPE];
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -21,14 +21,27 @@ export const structure: StructureResolver = (S) =>
       S.listItem()
         .title("Feature Pages")
         .child(S.documentTypeList(FEATURE_PAGE_TYPE).title("Feature Pages")),
-      // Corrections layered over the scraped agency directory. Sorted by
-      // slug rather than by creation date: an editor arrives here holding
-      // one agency's name, not a sense of when its listing was made.
+      // The directory's records. Sorted by name rather than by creation
+      // date: an editor arrives here holding one agency's name, not a
+      // sense of when its record was made.
       S.listItem()
-        .title("Agency Listings")
+        .title("Agencies")
+        .child(
+          S.documentTypeList(AGENCY_TYPE)
+            .title("Agencies")
+            .defaultOrdering([{ field: "name", direction: "asc" }]),
+        ),
+      // Corrections layered over the SCRAPED dataset, which the site reads
+      // only when Sanity is unreachable or holds no agencies yet. Kept
+      // visible rather than deleted because the documents still exist and
+      // still carry what an agency told us - see the deprecation note at
+      // the top of sanity/schemas/agencyListing.ts. Edit the agency above
+      // instead; a listing here changes nothing while agencies load.
+      S.listItem()
+        .title("Agency Listings (deprecated)")
         .child(
           S.documentTypeList(AGENCY_LISTING_TYPE)
-            .title("Agency Listings")
+            .title("Agency Listings (deprecated)")
             .defaultOrdering([{ field: "agencySlug", direction: "asc" }]),
         ),
       S.divider(),

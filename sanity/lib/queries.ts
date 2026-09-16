@@ -1,5 +1,6 @@
 import { client } from "../client";
 import type { AgencyListingOverride } from "@/lib/directory/overrides";
+import type { CmsAgencyDocument } from "@/lib/directory/cms";
 import type {
   BugBookEntryDetail,
   BugBookListEntry,
@@ -1012,6 +1013,63 @@ export async function getBugBookSamples(): Promise<BugBookSample[]> {
  * either, and a field that is never fetched cannot be published by
  * accident.
  */
+/**
+ * Every agency in the directory, as stored in Sanity.
+ *
+ * The site's primary source for `/directory` and every agency profile -
+ * see `resolveDataset` in lib/directory/agencies.ts, which falls back to
+ * the bundled scrape only when this returns nothing.
+ *
+ * `logoUrl` coalesces an uploaded asset over the hotlinked source URL, so
+ * an editor can fix a rotted logo without touching what the importer
+ * wrote. `listing` is assembled here rather than left as loose fields
+ * because that is the shape `Agency` already has for the things an agency
+ * told us directly, and the rest of the codebase reads it that way.
+ *
+ * @returns One raw document per agency, ordered by name.
+ */
+export async function getDirectoryAgencyDocuments(): Promise<CmsAgencyDocument[]> {
+  return client.fetch(`
+    *[_type == "agency" && defined(slug) && defined(name)] | order(name asc) {
+      slug,
+      name,
+      website,
+      domain,
+      profileUrl,
+      location{ city, country, countryCode },
+      categories,
+      services,
+      industries,
+      teamSize,
+      "logoUrl": coalesce(logo.asset->url, logoUrl),
+      description,
+      awards{
+        siteOfTheDay,
+        siteOfTheMonth,
+        siteOfTheYear,
+        developerAward,
+        honorableMentions,
+        nominees
+      },
+      rating{ value, scale, reviewCount },
+      accolades,
+      foundedYear,
+      budgetLabel,
+      budgetFloorUsd,
+      clients[]{ name, projectTitle, projectUrl, domain, notable },
+      source,
+      scrapedAt,
+      "listing": {
+        "verifiedAt": verifiedAt,
+        "awardsNote": awardsNote,
+        "engagementNote": engagementNote,
+        "exclusions": exclusions,
+        "budgetMinimums": budgetMinimums[]{ scope, amount, currency }
+      }
+    }
+  `);
+}
+
 export async function getAgencyListingOverrides(): Promise<AgencyListingOverride[]> {
   return client.fetch(`
     *[_type == "agencyListing" && defined(agencySlug)] | order(_updatedAt desc) {

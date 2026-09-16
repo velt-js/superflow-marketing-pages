@@ -158,6 +158,17 @@ export const SOURCE_LABEL_DESIGNRUSH = "DesignRush";
  *  under the one institution. */
 export const SOURCE_LABEL_DANDAD = "D&AD";
 
+/**
+ * Attribution label for a record added by hand in Sanity rather than
+ * collected from a directory - see `AgencySource` in ./types.ts.
+ *
+ * "Listed by Superflow" rather than "Superflow", because this label is
+ * printed as the citation under a figure ("... - 12 awards"). Naming us
+ * the way the other labels name a jury would read as if we awarded them.
+ * This phrasing says the only true thing: we are who put this record here.
+ */
+export const SOURCE_LABEL_EDITORIAL = "Listed by Superflow";
+
 /** Attribution label for records collected from Motion Design Awards.
  *  Written in full rather than as "MDA": the abbreviation collides with
  *  motionawards.com, a separate organisation run by Motionographer, and a
@@ -321,3 +332,131 @@ function assertNoReservedCategorySlug(): void {
 }
 
 assertNoReservedCategorySlug();
+
+/**
+ * Query parameter the directory list page reads its category filter from:
+ * `/directory?category=seo`.
+ *
+ * Categories used to be routes (`/directory/seo`). They are a filter now,
+ * not a destination - one list of every agency, narrowed in place - so the
+ * old routes 308 to this parameter (see `redirects` in next.config.ts) and
+ * nothing in the app mints a `/directory/<slug>` URL any more.
+ */
+export const DIRECTORY_CATEGORY_PARAM = "category";
+
+/** Sentinel value for "every category", used as the category select's
+ *  default. Not a real slug, so it can never collide with one. */
+export const DIRECTORY_ALL_CATEGORIES = "all";
+
+/**
+ * Query parameter the list page reads its page number from:
+ * `/directory?page=3`. One-based, because it is a URL a person can read.
+ */
+export const DIRECTORY_PAGE_PARAM = "page";
+
+/**
+ * How many agency cards one page of the list renders.
+ *
+ * The list carries every agency in the directory - 323 today - and the
+ * card is not a cheap object: rendering all of them put the document at
+ * 1.26 MB. 60 is the size the category pages ran at before they folded
+ * into this one, which is the size this codebase already knows renders
+ * comfortably (see MOTION_DESIGN_PUBLISHED_LIMIT's note on page weight).
+ *
+ * Six pages of 60 also keeps the pager to six numbered links, so every
+ * agency profile stays one click and one crawl hop from the list - see
+ * "Page weight" in app/directory/README.md for why that mattered enough
+ * to rule out infinite scroll.
+ */
+export const DIRECTORY_PAGE_SIZE = 60;
+
+/**
+ * Resolves a raw `?page=` value to a 1-based page number.
+ *
+ * Anything unparseable, zero or negative resolves to page 1 rather than
+ * 404ing, for the same reason an unknown category does: these are view
+ * parameters on one list, not routes.
+ *
+ * @param rawValue - The query parameter as received.
+ * @returns A page number, 1 or greater.
+ */
+export function resolveDirectoryPageParam(
+  rawValue: string | string[] | null | undefined,
+): number {
+  try {
+    const value = Array.isArray(rawValue) ? rawValue[0] : rawValue;
+    const parsed = Number.parseInt((value ?? "").trim(), 10);
+    return Number.isFinite(parsed) && parsed > 1 ? parsed : 1;
+  } catch {
+    return 1;
+  }
+}
+
+/**
+ * Builds the URL for one view of the list: a category filter, a page
+ * number, or both. The single place those URLs are assembled, so the
+ * redirect, the breadcrumb, the pager and the client-side filter cannot
+ * disagree about their shape.
+ *
+ * Defaults are omitted rather than spelled out, so the unfiltered first
+ * page is `/directory` and never `/directory?category=all&page=1` - one
+ * view, one URL.
+ *
+ * @param categorySlug - The category to filter to, or the "all" sentinel.
+ * @param page - The 1-based page number.
+ * @returns The list-page URL.
+ */
+export function directoryListPath(
+  categorySlug?: string | null,
+  page: number = 1,
+): string {
+  try {
+    const params = new URLSearchParams();
+    const slug = categorySlug?.trim();
+    if (slug && slug !== DIRECTORY_ALL_CATEGORIES) {
+      const known = DIRECTORY_CATEGORIES.some((category) => category.slug === slug);
+      if (known) params.set(DIRECTORY_CATEGORY_PARAM, slug);
+    }
+    if (Number.isFinite(page) && page > 1) params.set(DIRECTORY_PAGE_PARAM, String(page));
+    const query = params.toString();
+    return query ? `${DIRECTORY_BASE_PATH}?${query}` : DIRECTORY_BASE_PATH;
+  } catch {
+    return DIRECTORY_BASE_PATH;
+  }
+}
+
+/**
+ * Builds the URL for the directory list filtered to one category, on its
+ * first page. A named shorthand for the common `directoryListPath` call,
+ * kept because breadcrumbs and redirects read better for it.
+ *
+ * @param categorySlug - The category to filter to, or the "all" sentinel.
+ * @returns The list-page URL, unfiltered for "all" or an unknown slug.
+ */
+export function directoryCategoryPath(categorySlug: string | null | undefined): string {
+  return directoryListPath(categorySlug, 1);
+}
+
+/**
+ * Resolves a raw `?category=` value to a known category slug.
+ *
+ * Anything unrecognised resolves to the "all" sentinel rather than 404ing:
+ * a filter is not a route, and a stale or hand-typed value should show the
+ * unfiltered list, not an error page.
+ *
+ * @param rawValue - The query parameter as received.
+ * @returns A known category slug, or `DIRECTORY_ALL_CATEGORIES`.
+ */
+export function resolveDirectoryCategoryParam(
+  rawValue: string | string[] | null | undefined,
+): string {
+  try {
+    const value = Array.isArray(rawValue) ? rawValue[0] : rawValue;
+    const slug = value?.trim().toLowerCase();
+    if (!slug) return DIRECTORY_ALL_CATEGORIES;
+    const known = DIRECTORY_CATEGORIES.some((category) => category.slug === slug);
+    return known ? slug : DIRECTORY_ALL_CATEGORIES;
+  } catch {
+    return DIRECTORY_ALL_CATEGORIES;
+  }
+}

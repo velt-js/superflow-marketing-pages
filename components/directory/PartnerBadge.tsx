@@ -4,11 +4,16 @@ import type { Agency } from "@/lib/directory/types";
 import PartnerBadgeMark from "./PartnerBadgeMark";
 
 /**
- * Superflow partner mark, shown on both the category card and the detail
- * page for any agency present in lib/directory/data/partners.json (joined
- * by domain - see `isSuperflowPartner`). Renders nothing for a non-partner,
- * so call sites can render it unconditionally without an
- * `isSuperflowPartner(agency) &&` guard at every use.
+ * Superflow partner mark, shown on an agency profile for any agency present
+ * in lib/directory/data/partners.json (joined by domain - see
+ * `isSuperflowPartner`). Renders nothing for a non-partner, so the call
+ * site can render it unconditionally without an
+ * `isSuperflowPartner(agency) &&` guard.
+ *
+ * The list card does NOT use this wrapper. It is a client component (see
+ * AgencyCard.tsx) and cannot import `isSuperflowPartner` without pulling
+ * the dataset into the browser bundle, so it renders `PartnerBadgeMark`
+ * itself off the `isPartner` flag its `AgencyListItem` already carries.
  *
  * This half stays a **server** component on purpose: it is the only half
  * that touches `lib/directory/agencies.ts`, whose module scope imports
