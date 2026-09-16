@@ -178,9 +178,18 @@
 
 /* Client list: brand left, the project it was derived from right. The
    project title is what makes the claim checkable rather than asserted,
-   and it is the detail a visitor comparing two studios actually reads. The
-   names are deliberately not links - one attribution link in the hero
-   covers sourcing without leaking a dozen outbound links per profile.
+   and it is the detail a visitor comparing two studios actually reads.
+
+   The names DO link now, which reverses an earlier call here. That call
+   was to keep sourcing to the hero's one attribution link rather than
+   leak a dozen outbound links per profile - but the links these rows
+   carry are not attribution. They are the live sites these studios built,
+   sent to us by the studios themselves, and a founder choosing between
+   two of them wants to open the work, not read a list of brand names. An
+   editorial link to a real client's real site is the kind a search engine
+   asks for, so they are followed rather than nofollowed; see
+   `getAgencyClientLink` in lib/directory/agencies.ts for which of a row's
+   two addresses wins.
 
    Two columns where there is room: a dozen single-file rows make the card
    twice the height of everything beside it for no extra information. */
@@ -209,6 +218,26 @@
     letter-spacing: -0.2px;
     line-height: 1.4;
     color: var(--ad-ink);
+}
+
+/* A client name that links to the work. Underlined at rest, like
+   `.cardCaptionLink` above — a link a visitor has to hover to discover is
+   one most will not — but in a tint of the accent rather than a grey. Grey
+   is what the row's own bottom border is, and an underline the same colour
+   as the rule beneath it reads as part of the table rather than as a link. */
+.clientLink {
+    color: var(--ad-ink);
+    text-decoration: underline;
+    /* --ad-accent at 35% over white. */
+    text-decoration-color: #bdbbfb;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.clientLink:hover,
+.clientLink:focus-visible {
+    color: var(--ad-accent);
+    text-decoration-color: currentColor;
 }
 
 .clientProject {
