@@ -65,6 +65,7 @@ import {
   agencyListingClient,
   agencyListingLocation,
 } from "./agencyListing";
+import { agency, agencyAwards, agencyRating } from "./agency";
 import { alternativePage } from "./alternativePage";
 import { comparisonPage } from "./comparisonPage";
 import { linkAnnotation } from "./shared/linkAnnotation";
@@ -156,12 +157,19 @@ export const schemaTypes = [
   comparisonPreviewHub,
   bugBookEntry,
   bugBookSample,
+  agency,
   agencyListing,
 
   // Inline annotations
   linkAnnotation,
 
-  // agencyListing sub-types
+  // agency sub-types
+  agencyAwards,
+  agencyRating,
+
+  // agencyListing sub-types, shared with `agency` - one definition of a
+  // client row, a stated budget floor and a location, so the two types
+  // cannot disagree about their shape.
   agencyListingBudgetMinimum,
   agencyListingClient,
   agencyListingLocation,

@@ -18,7 +18,8 @@
 // records at runtime, so every helper here must handle an empty dataset
 // without throwing.
 
-import { getAgencyListingOverrides } from "@/sanity/lib/queries";
+import { getAgencyListingOverrides, getDirectoryAgencyDocuments } from "@/sanity/lib/queries";
+import { toAgencies } from "./cms";
 import { applyAgencyListings } from "./overrides";
 import agenciesData from "./data/agencies.json";
 import seoAgenciesData from "./data/seo-agencies.json";
@@ -35,6 +36,7 @@ import {
   SOURCE_LABEL_CLUTCH,
   SOURCE_LABEL_DANDAD,
   SOURCE_LABEL_DESIGNRUSH,
+  SOURCE_LABEL_EDITORIAL,
   SOURCE_LABEL_MOTION_DESIGN_AWARDS,
   SOURCE_LABEL_SEMRUSH,
 } from "./constants";
@@ -139,18 +141,46 @@ const DATASET_TTL_MS = 60_000;
 let datasetCache: { startedAt: number; dataset: Promise<Agency[]> } | null = null;
 
 /**
- * Fetches the CMS corrections and merges them onto the scrape.
+ * Resolves the dataset the pages render: the `agency` documents in Sanity,
+ * falling back to the bundled scrape.
  *
- * Resolves to the scraped dataset unchanged when Sanity cannot be reached.
- * That is the deliberate failure mode: the directory's substance is the
- * scrape, so an outage costs the corrections layered on top of it and
- * nothing else - every page still renders, with everything its named
- * source published. Failing the build instead would take ~320 working
- * pages off the site to protect a correction on a handful of them.
+ * **Sanity is the source of truth** (see sanity/schemas/agency.ts). The
+ * JSON files under ./data are what the importers write and what this falls
+ * back to, in two cases that look identical from here and are both
+ * expected:
+ *
+ * 1. **Sanity is unreachable.** An outage then costs the edits made since
+ *    the last deploy and nothing else - every page still renders, with
+ *    everything its named source published. Failing instead would take
+ *    ~320 working pages off the site.
+ * 2. **Sanity holds no agencies yet**, because the sync in
+ *    scripts/directory-import/sync-agencies-to-sanity.mjs has not been run
+ *    against this dataset. This is what makes the migration safe to deploy
+ *    ahead of running it: the site keeps rendering exactly what it rendered
+ *    before, and starts reading the CMS the moment the documents exist.
+ *
+ * The `agencyListing` corrections are applied to the FALLBACK ONLY. On the
+ * CMS path they are not a layer over anything - the sync folds them into
+ * the agency documents, which is where an editor now edits them. Applying
+ * both would mean a stale listing silently overwriting an edit made in the
+ * document itself.
+ *
+ * A non-empty CMS response wins outright; there is no "merge what's
+ * missing" pass. Half a dataset from a bad query is a problem to fix at
+ * the source, not to paper over by refilling it from a file that may be
+ * months behind.
  *
  * @returns The resolved dataset.
  */
 async function resolveDataset(): Promise<Agency[]> {
+  try {
+    const documents = await getDirectoryAgencyDocuments();
+    const agencies = toAgencies(documents);
+    if (agencies.length > 0) return agencies;
+  } catch {
+    // Falls through to the scrape below - deliberately not rethrown.
+  }
+
   try {
     const overrides = await getAgencyListingOverrides();
     return applyAgencyListings(SCRAPED_AGENCIES, overrides);
@@ -160,8 +190,8 @@ async function resolveDataset(): Promise<Agency[]> {
 }
 
 /**
- * The dataset every helper below reads: the scraped records with the
- * `agencyListing` documents in Sanity merged over them.
+ * The dataset every helper below reads - the `agency` documents in Sanity,
+ * or the bundled scrape when those cannot be reached or do not exist yet.
  *
  * Memoized for `DATASET_TTL_MS`. The resolved promise is cached rather
  * than the array, so concurrent renders during a cold window share one
@@ -283,6 +313,7 @@ const SOURCE_LABELS: Record<AgencySource, string> = {
   designrush: SOURCE_LABEL_DESIGNRUSH,
   dandad: SOURCE_LABEL_DANDAD,
   "motion-design-awards": SOURCE_LABEL_MOTION_DESIGN_AWARDS,
+  editorial: SOURCE_LABEL_EDITORIAL,
 };
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
@@ -1399,7 +1430,13 @@ export function buildAgencyOrganizationJsonLd(
       "@context": "https://schema.org",
       "@type": "Organization",
       name: agency.name,
-      url: agency.website ?? agency.profileUrl,
+      // Falls back to the source profile when the agency's own site is
+      // unknown, and omits `url` entirely when neither exists - an
+      // Organization node with no URL is still a valid, useful node, and
+      // inventing one would not be.
+      ...(agency.website || agency.profileUrl
+        ? { url: agency.website ?? agency.profileUrl }
+        : {}),
     };
     if (agency.description) node.description = agency.description;
     if (agency.logoUrl) node.logo = agency.logoUrl;

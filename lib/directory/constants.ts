@@ -158,6 +158,17 @@ export const SOURCE_LABEL_DESIGNRUSH = "DesignRush";
  *  under the one institution. */
 export const SOURCE_LABEL_DANDAD = "D&AD";
 
+/**
+ * Attribution label for a record added by hand in Sanity rather than
+ * collected from a directory - see `AgencySource` in ./types.ts.
+ *
+ * "Listed by Superflow" rather than "Superflow", because this label is
+ * printed as the citation under a figure ("... - 12 awards"). Naming us
+ * the way the other labels name a jury would read as if we awarded them.
+ * This phrasing says the only true thing: we are who put this record here.
+ */
+export const SOURCE_LABEL_EDITORIAL = "Listed by Superflow";
+
 /** Attribution label for records collected from Motion Design Awards.
  *  Written in full rather than as "MDA": the abbreviation collides with
  *  motionawards.com, a separate organisation run by Motionographer, and a

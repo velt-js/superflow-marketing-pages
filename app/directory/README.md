@@ -49,10 +49,12 @@ Note the rule is one file per **writer**, not one per source directory: the
 branding file holds records from three directories because one loader writes
 all three.
 
-**Corrections an agency sends us do not go in those files.** The importers
-would overwrite them on the next run, so they live in Sanity as
-`agencyListing` documents and are merged over the scrape at read time — see
-"Corrections from the agency (the CMS layer)" below.
+**Those files are no longer what the site renders.** Agencies are Sanity
+documents now; the files are what the importers write and what the site
+falls back to when the CMS is unreachable or empty. `sync-agencies-to-sanity.mjs`
+seeds the CMS from them and never overwrites an editor afterwards — see
+"Where the records live" below, and read it before changing anything in
+`lib/directory/data/` expecting a page to move.
 
 **The branding category is sourced differently from the other two, and
 deliberately so.** It has no scraper. Clutch, DesignRush, Sortlist, The
@@ -255,6 +257,10 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
 
 ## Where the data comes from
 
+The site reads its records from Sanity and falls back to these files - see
+"Where the records live" below, which is the section to read first if you
+are wondering why editing a JSON file did not change a page.
+
 - `lib/directory/types.ts` — the shared `Agency` / `DirectoryCategory`
   contract. Treat it as an interface: both the scraper and these pages
   import from it, so a field change means changing both sides together.
@@ -298,9 +304,14 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   read **only** when `NEXT_PUBLIC_DIRECTORY_PREVIEW_PARTNERS=1` (see
   "Previewing the badge" below). Not real customers; never merge it into
   `partners.json`.
-- `lib/directory/agencies.ts` — the only module that reads the JSON files
-  directly. Pages should go through these helpers rather than importing
-  the JSON files themselves. Notable exports: `getDirectoryAgencyList` (the
+- `lib/directory/cms.ts` — maps the `agency` documents in Sanity onto
+  `Agency`. Defensive by design: a CMS document is whatever an editor last
+  saved, so every field is normalised and a document that cannot produce a
+  usable record is dropped rather than rendered. Covered by
+  `tests/directory/cms-agencies.spec.ts`.
+- `lib/directory/agencies.ts` — the only module that reads the CMS and the
+  JSON files directly. Pages should go through these helpers rather than
+  importing either themselves. Notable exports: `getDirectoryAgencyList` (the
   whole directory in the list page's order - see its own note on why the
   categories are interleaved rather than ranked against each other),
   `getAgenciesByCategory`, `getDirectoryCategory`, `getAgencyBySlug`,
@@ -431,34 +442,97 @@ exactly that category's own ranking — see `getDirectoryAgencyList`.
 *value* from it in a `"use client"` file would ship the whole directory into
 the browser bundle.
 
-## Corrections from the agency (the CMS layer)
+## Where the records live: Sanity, with the scrape as a fallback
 
-Agencies write in. They say the client list is the one Awwwards happens to
-have awarded rather than the one they would choose, that the award total
-counts one jury out of five, that their minimum project is €15,000, that
-they don't take template work. Those corrections have nowhere to live in
-the files above: **every importer overwrites its own data file wholesale on
-every run**, so a correction typed into `agencies.json` survives until the
-next scrape and no further.
+**Agencies are Sanity documents.** `sanity/schemas/agency.ts` holds the full
+record - identity, profile, award tally, rating, clients, terms and
+provenance - and an editor creates and edits them in Studio under
+"Agencies". That is what `/directory` and every profile render.
 
-So they live in Sanity, as `agencyListing` documents, and are merged onto
-the scraped record on the way to the page:
+The JSON files under `lib/directory/data/` are still written by the
+importers and are still in the repo, but they are now the **fallback**, not
+the source. `resolveDataset` in `lib/directory/agencies.ts` reads the CMS
+first and falls back to them in two cases that look identical from the site
+and are both expected:
+
+1. **Sanity is unreachable.** The outage costs the edits made since the last
+   deploy and nothing else: every page still renders everything its named
+   source published. Failing instead would take ~320 working pages off the
+   site.
+2. **Sanity holds no agencies yet** - the sync below has not been run
+   against that dataset. This is what makes the change safe to deploy ahead
+   of the migration: the site keeps rendering exactly what it rendered
+   before and starts reading the CMS the moment the documents exist.
+
+A non-empty CMS response wins outright. There is no "fill in what's
+missing" pass: half a dataset from a bad query is a problem to fix at the
+source, not to paper over from a file that may be months behind.
 
 | Piece | Where |
 | --- | --- |
-| Schema | `sanity/schemas/agencyListing.ts` |
-| Query | `getAgencyListingOverrides` in `sanity/lib/queries.ts` |
-| Merge | `lib/directory/overrides.ts` |
+| Schema | `sanity/schemas/agency.ts` |
+| Query | `getDirectoryAgencyDocuments` in `sanity/lib/queries.ts` |
+| Mapping onto `Agency` | `lib/directory/cms.ts` (+ `tests/directory/cms-agencies.spec.ts`) |
 | Resolved dataset | `getDirectoryAgencies` in `lib/directory/agencies.ts` |
-| Seed script | `scripts/agency-listing-import/seed-agency-listings.mjs` |
+| Sync from the scrape | `scripts/directory-import/sync-agencies-to-sanity.mjs` |
 
-This is the same reasoning that already keeps the Superflow partner list in
-its own file: anything that must outlive a re-scrape cannot be stored in
-what the scrape overwrites.
+### The sync seeds; it does not sync back
+
+The scrapers still write their own JSON file, wholesale, on every run. The
+sync script is the bridge: `createIfNotExists` per record, so it seeds an
+agency the first time it sees it and **never overwrites an editor's work
+afterwards**. `--replace=<slugs>` or `--replace=all` forces the scrape to
+win for the records you name, which discards whatever was typed in Studio
+for them. There is no stale-delete pass - a record dropped from a source's
+file is not this script's to remove from the directory, because an editor
+may be keeping it deliberately.
+
+```
+DRY_RUN=1 node scripts/directory-import/sync-agencies-to-sanity.mjs
+SANITY_API_TOKEN=<token> node scripts/directory-import/sync-agencies-to-sanity.mjs
+```
+
+A dry run needs no token: it reads as the public does, prints what it would
+write, and names every correction it would fold in (below).
+
+### Editing a record does not make its figures ours
+
+Every figure the directory renders is printed beside the name of whoever
+published it - that is the promise these pages make, and it is why `source`
+and `profileUrl` are fields on the document rather than ours to invent.
+Editing an award tally in Studio does not turn it into a Superflow number;
+it publishes a number under someone else's name.
+
+A record with no source directory behind it - one added by hand - must use
+the `editorial` source, which prints "Listed by Superflow" and renders no
+attribution link. That is the one honest label for a figure nobody else
+published, and the schema requires a `profileUrl` for every other source.
+
+### The `agencyListing` overlay is deprecated
+
+Corrections agencies sent us used to live in their own document type,
+layered over the scrape at read time, for one reason: the JSON files get
+overwritten on every run, so a correction typed into one survived until the
+next scrape and no further. Sanity has no such problem, so a correction now
+belongs in the record itself.
+
+- The sync **folds every listing into its agency document** and prints which
+  ones it folded, so nothing an agency told us was lost in the move.
+- The site applies listings **only to the fallback scrape**. While agencies
+  load from the CMS, editing a listing changes nothing - which is why the
+  Studio pane is labelled "(deprecated)" and why the type should not be used
+  for anything new.
+- The documents and the type are kept rather than deleted, because they
+  still carry what an agency told us and the fallback still reads them.
+  Delete them once the fallback is retired.
+
+The rules that shaped that overlay still hold for the fallback path, and
+three of them are the reason `tests/directory/agency-listing-overrides.spec.ts`
+exists:
 
 **An empty field is not a correction.** A listing created to fix one wrong
 budget leaves the other twenty fields alone. That is what makes it safe to
-create one for a single figure without re-entering a whole profile — and it
+create one for a single figure without re-entering a whole profile - and it
 is why every field in the schema is optional and why nothing in the merge
 ever blanks a value.
 
@@ -472,14 +546,12 @@ listings we were sent.
 `scrapedAt`, `awards` and `rating` are what the named directory published,
 and an `agencyListing` document is not that directory. An agency that
 disputes its award tally gets an `awardsNote` printed beside it, not a
-rewrite of it — see "Accolades vs awards" below for why the two kinds of
-claim stay apart. This is also why the CMS cannot **add** an agency: a
-record with no source profile to link has nothing to attribute, and the
-merge drops a listing whose slug matches nothing.
+rewrite of it - see "Accolades vs awards" below for why the two kinds of
+claim stay apart.
 
 **Budget minimums are the one field where the CMS carries more structure
 than the scrape.** `budgetMinimums` holds a row per floor an agency stated,
-in the currency it quoted, and is never converted between currencies — a
+in the currency it quoted, and is never converted between currencies - a
 rate the agency did not give is a figure the agency did not state. That is
 also why `budgetFloorUsd` is left null for an agency that quoted in euros:
 the rows carry the real number, and the null reads correctly as "no US
@@ -488,29 +560,15 @@ label vs floor vs stated minimums" below.
 
 **`verifiedAt` is the only thing that puts "Confirmed by the agency" on the
 page.** It is the one line on an agency page that is not attributable to a
-linked source profile — it says the agency looked at this page and stood
-behind it — so it is set only for a correction that came from the agency
-itself, never for an in-house edit. `verifiedBy` and `verificationSource`
-sit next to it for the editor's benefit and are deliberately **not** in the
-GROQ query: they usually name a person at the agency, the site has no use
-for them, and a field that is never fetched cannot be published by
-accident.
+linked source profile - it says the agency looked at this page and stood
+behind it - so it is set only for a correction that came from the agency
+itself, never for an in-house edit. `verifiedBy` sits next to it for the
+editor's benefit and is deliberately **not** published: it usually names a
+person at the agency, and a field the site never renders cannot be
+published by accident.
 
-**Sanity being unreachable costs the corrections and nothing else.**
-`getDirectoryAgencies` resolves to the scraped dataset on any failure, so
-every page still renders everything its named source published. Failing the
-build instead would take ~320 working pages off the site to protect a
-correction on a handful of them. The resolved dataset is memoized for 60s,
-matching the `revalidate` on these routes, so a build renders hundreds of
-pages off one fetch.
-
-**The seed script seeds; it does not sync.** `agency-listings.json` is
-where a correction is first written down, but once the document exists,
-Studio owns it: the script runs `createIfNotExists` and only overwrites the
-slugs named in `--replace`. There is no stale-delete pass — a document this
-script did not create is not this script's to remove. This is the opposite
-of `scripts/bug-book-import/`, where the JSON is the source of truth and a
-rerun is meant to win.
+The resolved dataset is memoized for 60s, matching the `revalidate` on
+these routes, so a build renders hundreds of pages off one fetch.
 
 ## Budget: label vs floor vs stated minimums
 

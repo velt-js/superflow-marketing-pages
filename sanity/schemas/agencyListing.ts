@@ -1,5 +1,33 @@
 import { defineType, defineField } from "sanity";
 
+// Agency directory listings — DEPRECATED.
+//
+// SUPERSEDED BY `agency` (./agency.ts). This type existed because the
+// directory's records lived in JSON files that every importer overwrites
+// wholesale on every run, so the only safe place for a correction was a
+// separate document layered over the scrape at read time. The records live
+// in Sanity now, where nothing overwrites them, so a correction belongs in
+// the record itself.
+//
+// What that means in practice:
+//
+//   - `scripts/directory-import/sync-agencies-to-sanity.mjs` folds every
+//     listing into its `agency` document when it seeds the dataset, so
+//     nothing an agency told us was lost in the move.
+//   - The site applies these documents ONLY to the fallback scrape - the
+//     copy it renders when Sanity is unreachable or holds no agencies yet
+//     (see `resolveDataset` in lib/directory/agencies.ts). While agencies
+//     load from the CMS, editing a listing changes nothing.
+//   - Nothing new should be created here. Edit the agency instead.
+//
+// The type and its documents are kept rather than deleted because they
+// still carry what an agency told us and the fallback still reads them.
+// Delete them once the fallback is retired.
+//
+// The original design note follows, because it is the reason this shape
+// exists at all and the reason the `agency` type inherits its client,
+// budget-floor and location objects.
+//
 // Agency directory listings — the CMS layer over the scraped agency
 // dataset rendered at /directory/agency/<slug>.
 //

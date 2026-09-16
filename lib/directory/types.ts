@@ -33,7 +33,19 @@ export type AgencySource =
   | "clutch"
   | "designrush"
   | "dandad"
-  | "motion-design-awards";
+  | "motion-design-awards"
+  | "editorial";
+
+/**
+ * `editorial` is the one source no importer writes: an agency added by
+ * hand in Sanity, which is possible now that the directory reads its
+ * records from there (see sanity/schemas/agency.ts). It is deliberately
+ * NOT a fake directory name. Every figure on these pages is rendered
+ * beside the name of whoever published it, and a hand-added record has
+ * nobody to name but us - so it carries our label, a null `profileUrl`,
+ * and no attribution link. An editor entering an award tally under this
+ * source is making a Superflow claim, not citing a jury.
+ */
 
 /** Where an agency is based. Fields are independently nullable because
  *  source profiles frequently list a country with no city. */
@@ -204,9 +216,14 @@ export interface Agency {
   /** Registrable domain (eTLD+1), lowercased, no `www.`. This is the
    *  dedupe key across sources — never dedupe on `name`. */
   domain: string | null;
-  /** Absolute URL of the source profile this record came from. Required:
-   *  it is the attribution link rendered on the page. */
-  profileUrl: string;
+  /** Absolute URL of the source profile this record came from - the
+   *  attribution link the profile page renders.
+   *
+   *  Every importer writes it, and for a scraped record it is effectively
+   *  required: it is what makes the figures on the page checkable rather
+   *  than asserted. Null only for an `editorial` record, which has no
+   *  source profile to point at because there is no source but us. */
+  profileUrl: string | null;
   location: AgencyLocation | null;
   /** Directory category slugs this agency belongs to, e.g. ["web-design"].
    *  Must match `DirectoryCategory.slug` values. */

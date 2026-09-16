@@ -98,7 +98,7 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
       // reported by this source, and an agent repeating one should be able
       // to say where it came from.
       { label: "Source", value: source },
-      { label: "Source profile", value: agency.profileUrl },
+      { label: "Source profile", value: agency.profileUrl ?? "" },
     ],
     sections: sections(
       { heading: "About", body: [clean(agency.description)] },
