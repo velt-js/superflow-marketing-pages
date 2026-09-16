@@ -13,6 +13,7 @@
 import { NextResponse } from "next/server";
 
 import { renderAgentDoc, absoluteUrl } from "@/lib/markdown/render";
+import { resolveMarkdownRedirect } from "@/lib/markdown/redirects";
 import { resolveAgentDoc } from "@/lib/markdown/resolve";
 import { SITE_URL } from "@/app/_seo/schema";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
@@ -43,11 +44,12 @@ function markdownHeaders(canonicalPath: string): HeadersInit {
 /**
  * Renders one page's Markdown copy.
  *
- * @param _request - Unused; the document does not vary by request.
+ * @param request - Used only to resolve a redirect against this origin; the
+ *                   document itself does not vary by request.
  * @param context - Route params. `params` is a promise in Next 15 and later.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ path?: string[] }> },
 ): Promise<NextResponse> {
   let canonicalPath = "/";
@@ -55,6 +57,14 @@ export async function GET(
     const { path } = await context.params;
     const segments = (path ?? []).filter(Boolean);
     canonicalPath = segments.length === 0 ? "/" : `/${segments.join("/")}`;
+
+    // A retired page's copy follows its HTML twin rather than 404ing - the
+    // `redirects` in next.config.ts cannot see this URL, because proxy.ts
+    // rewrote it before they ran. See lib/markdown/redirects.ts.
+    const redirectTo = resolveMarkdownRedirect(canonicalPath);
+    if (redirectTo) {
+      return NextResponse.redirect(new URL(`${redirectTo}.md`, request.url), 308);
+    }
 
     const doc = await resolveAgentDoc(canonicalPath);
     if (!doc) {

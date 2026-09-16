@@ -57,6 +57,26 @@ test.describe("directory list", () => {
     await expect(select).toHaveValue(category.slug);
   });
 
+  test("a retired category URL's Markdown copy redirects too", async ({ request }) => {
+    // The `.md` half of a retired page is the one `redirects` in
+    // next.config.ts cannot reach - proxy.ts rewrites it into the API route
+    // before those run - so it 404s unless something else handles it. An
+    // agent holding the old URL should land where its HTML twin does.
+    const category = DIRECTORY_CATEGORIES[0];
+    const response = await request.get(`${LIST_PATH}/${category.slug}.md`, {
+      maxRedirects: 0,
+    });
+    expect(response.status()).toBe(308);
+    expect(response.headers().location).toContain(`${LIST_PATH}.md`);
+
+    // And the copy it lands on covers every category, so nothing the old
+    // document said is missing from the new one.
+    const body = await (await request.get(`${LIST_PATH}.md`)).text();
+    for (const entry of DIRECTORY_CATEGORIES) {
+      expect(body).toContain(entry.title);
+    }
+  });
+
   test("the category select narrows the list", async ({ page }) => {
     await page.goto(LIST_PATH);
 
