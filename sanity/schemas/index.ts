@@ -65,7 +65,7 @@ import {
   agencyListingClient,
   agencyListingLocation,
 } from "./agencyListing";
-import { agency, agencyAwards, agencyRating } from "./agency";
+import { agency, agencyAwards, agencyClient, agencyRating } from "./agency";
 import { alternativePage } from "./alternativePage";
 import { comparisonPage } from "./comparisonPage";
 import { linkAnnotation } from "./shared/linkAnnotation";
@@ -165,11 +165,13 @@ export const schemaTypes = [
 
   // agency sub-types
   agencyAwards,
+  agencyClient,
   agencyRating,
 
-  // agencyListing sub-types, shared with `agency` - one definition of a
-  // client row, a stated budget floor and a location, so the two types
-  // cannot disagree about their shape.
+  // agencyListing sub-types. The budget-floor and location objects are
+  // shared with `agency`, so the two types cannot disagree about their
+  // shape; the client row is not, because only `agency` carries the
+  // importer-set `notable` flag - see agencyClient.
   agencyListingBudgetMinimum,
   agencyListingClient,
   agencyListingLocation,

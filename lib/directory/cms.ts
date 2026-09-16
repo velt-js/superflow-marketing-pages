@@ -83,6 +83,7 @@ export interface CmsAgencyDocument {
     projectTitle?: string | null;
     projectUrl?: string | null;
     domain?: string | null;
+    notable?: boolean | null;
   }> | null;
   source?: string | null;
   scrapedAt?: string | null;
@@ -243,10 +244,11 @@ function toLocation(location: CmsAgencyDocument["location"]): AgencyLocation | n
 /**
  * Builds the client list, dropping rows with no name.
  *
- * `notable` is always false: it means "not asserted to be notable", and a
- * hand-entered row asserts nothing about recognisability. A uniformly
- * false list keeps the editor's own ordering, which is the right default
- * (see `AgencyClient.notable`).
+ * `notable` is carried through rather than recomputed: an importer sets
+ * it from a normalisation pass over the source's own ordering, and nothing
+ * at render time can infer it. Absent means false, which reads as "not
+ * asserted to be notable" rather than "asserted not to be" - so a
+ * hand-typed row simply keeps its place in the list.
  *
  * @param clients - The document's client rows.
  * @returns The clients to render.
@@ -266,7 +268,7 @@ function toClients(clients: CmsAgencyDocument["clients"]): AgencyClient[] {
           // twice (see `titleAddsDetail`).
           projectTitle: text(client?.projectTitle) ?? name,
           projectUrl: text(client?.projectUrl),
-          notable: false,
+          notable: client?.notable === true,
         };
       })
       .filter((client): client is AgencyClient => client !== null);

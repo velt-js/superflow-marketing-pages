@@ -268,6 +268,25 @@ function applyListing(agency, listing) {
   };
 }
 
+/**
+ * Deterministic document id for an agency.
+ *
+ * **Hyphen, never a dot.** Sanity reads an `_id` containing a `.` as a
+ * namespaced document - `drafts.foo`, `versions.<release>.foo` - and those
+ * are invisible to unauthenticated reads. The site fetches with no token
+ * (see sanity/client.ts), so `agency.<slug>` writes 323 documents that
+ * query fine with a token, return nothing to the site, and leave it
+ * falling back to the scrape forever while every check says the migration
+ * succeeded. `scripts/agency-listing-import/seed-agency-listings.mjs` uses
+ * the same hyphenated shape for the same reason.
+ *
+ * @param {string} slug - The agency's slug.
+ * @returns {string} The document id.
+ */
+function documentId(slug) {
+  return `agency-${slug}`;
+}
+
 /** Deterministic `_key` for an array item, so a rerun does not churn keys
  *  and produce a diff in Studio's history for content that never moved. */
 function keyed(items, prefix) {
@@ -286,7 +305,7 @@ function keyed(items, prefix) {
  */
 function toDocument(agency) {
   const doc = {
-    _id: `agency.${agency.slug}`,
+    _id: documentId(agency.slug),
     _type: "agency",
     slug: agency.slug,
     name: agency.name,
@@ -331,6 +350,9 @@ function toDocument(agency) {
         projectTitle: client.projectTitle ?? undefined,
         projectUrl: client.projectUrl ?? undefined,
         domain: client.domain ?? undefined,
+        // Importer-set, and lost for good if the migration drops it - no
+        // render path can infer which brands a general audience knows.
+        notable: client.notable === true ? true : undefined,
       })),
       `client-${agency.slug}`,
     ),

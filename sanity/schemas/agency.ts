@@ -118,6 +118,61 @@ export const agencyAwards = defineType({
   ],
 });
 
+/**
+ * One client on an agency record.
+ *
+ * Deliberately not the `agencyListingClient` object the deprecated overlay
+ * uses, even though four of the five fields match: this one carries
+ * `notable`, which an importer sets from a normalisation pass over the
+ * source's own ordering and which a hand-typed row cannot assert. Keeping
+ * them apart is what lets that flag be importer-owned here and absent
+ * there, rather than a checkbox whose meaning changes by document type.
+ */
+export const agencyClient = defineType({
+  name: "agencyClient",
+  title: "Client",
+  type: "object",
+  fields: [
+    defineField({
+      name: "name",
+      title: "Client name",
+      type: "string",
+      description: "The brand as the agency writes it - this is what gets rendered.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "projectTitle",
+      title: "Project title",
+      type: "string",
+      description:
+        "The published piece of work this client is on record for. Leave blank when the source simply named the client - the page then shows the name alone rather than repeating it twice.",
+    }),
+    defineField({
+      name: "projectUrl",
+      title: "Project URL",
+      type: "url",
+      description:
+        "Where that work can be seen, e.g. its Awwwards page. Attribution, not promotion - leave blank rather than linking the client's homepage.",
+    }),
+    defineField({
+      name: "domain",
+      title: "Client domain",
+      type: "string",
+      description:
+        "Registrable domain of the client's own site, lowercased, no www. The dedupe key when two sources spell one brand differently.",
+    }),
+    defineField({
+      name: "notable",
+      title: "Recognisable brand",
+      type: "boolean",
+      readOnly: true,
+      description:
+        "Set by the importer's normalisation pass, not by hand. False means \"not asserted to be notable\", never \"asserted not to be\" - which is why a whole list of false is normal and simply keeps the source's own ordering.",
+    }),
+  ],
+  preview: { select: { title: "name", subtitle: "projectTitle" } },
+});
+
 /** Aggregate review score, as published by the source directory. */
 export const agencyRating = defineType({
   name: "agencyRating",
@@ -313,7 +368,7 @@ export const agency = defineType({
       name: "clients",
       title: "Clients",
       type: "array",
-      of: [{ type: "agencyListingClient" }],
+      of: [{ type: "agencyClient" }],
       group: "clients",
       description:
         "Brands this agency has shipped work for, most recognisable first. The list card names the first three.",

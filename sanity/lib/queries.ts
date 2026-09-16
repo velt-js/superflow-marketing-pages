@@ -1056,7 +1056,7 @@ export async function getDirectoryAgencyDocuments(): Promise<CmsAgencyDocument[]
       foundedYear,
       budgetLabel,
       budgetFloorUsd,
-      clients[]{ name, projectTitle, projectUrl, domain },
+      clients[]{ name, projectTitle, projectUrl, domain, notable },
       source,
       scrapedAt,
       "listing": {

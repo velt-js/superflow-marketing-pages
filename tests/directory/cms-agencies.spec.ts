@@ -48,7 +48,7 @@ const FULL: CmsAgencyDocument = {
   budgetLabel: "Starting from $5,000",
   budgetFloorUsd: 5000,
   clients: [
-    { name: "Nike", projectTitle: "Nike Air", domain: "NIKE.COM" },
+    { name: "Nike", projectTitle: "Nike Air", domain: "NIKE.COM", notable: true },
     { name: "  ", projectTitle: "Dropped" },
   ],
   source: "awwwards",
@@ -132,6 +132,12 @@ test.describe("cms agency mapping", () => {
     // A client row with no name has nothing to render.
     expect(agency?.clients).toHaveLength(1);
     expect(agency?.clients[0]?.domain).toBe("nike.com");
+    // Importer-set and carried through, not recomputed - nothing at render
+    // time can infer which brands a general audience recognises.
+    expect(agency?.clients[0]?.notable).toBe(true);
+    expect(toAgency({ ...FULL, clients: [{ name: "Local Co" }] })?.clients[0]?.notable).toBe(
+      false,
+    );
     expect(agency?.location?.countryCode).toBe("DE");
   });
 
