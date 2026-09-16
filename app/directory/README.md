@@ -581,6 +581,31 @@ the stale 4.8 from 30 or given the 33. During a CMS outage the directory
 therefore shows what Semrush publishes, which is the honest thing for a
 file whose whole role is to be the named source's copy.
 
+**Stated floors render as bands, never as quotes.** `formatBudgetBand` in
+`lib/directory/agencies.ts` turns a figure into the count of its digits -
+€50,000 is "5 figures", €100,000 is "6 figures" - and that is what the
+profile's terms card, its stat-strip label and its `.md` copy all print.
+The reason is the agencies': a published exact quote is the number their
+next prospect opens the negotiation at. Bürocratik asked for theirs to
+come off for that reason, and the band is applied to every agency-supplied
+figure rather than just theirs, because a quote shown for one agency
+beside a band for the next tells a visitor the second one is hiding
+something. The currency is not banded: it is not the sensitive half, and
+the Markdown copy keeps it as its own column for agents filtering on cost.
+
+This applies to figures an **agency** sent us. A `budgetLabel` a source
+directory published - Semrush's "Starting from $5,000" - is already public
+under that source's name and is left as it published it;
+`budgetFloorUsd` is likewise untouched, because the category gates are
+written against it.
+
+**Bürocratik's record goes one step further and holds no figures at all.**
+Banding at render is not removal: this dataset is publicly readable, so a
+figure left in it is a figure published. An agency that asks for its
+quotes to come off gets them unset, with the band carried in
+`budgetLabel` instead - see its entry in
+`scripts/agency-corrections/agency-corrections.json`.
+
 **Budgets are recorded in the currency the agency quoted, and never
 converted** - the same rule `budgetFloorUsd` states on the schema. An agency
 that writes "50k" with no symbol is quoting its own currency; record that
