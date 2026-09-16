@@ -546,8 +546,12 @@ SANITY_API_TOKEN=<token> node scripts/agency-corrections/apply-agency-correction
 It patches rather than replaces, so nothing outside the fields the agency
 corrected can be lost, and two rules keep it from trampling Studio work
 inside them: **a field that already holds a different value is reported and
-skipped** (`--force=<slug>` overrides, per agency), and **clients are
-merged, never swapped** - a row matched by domain or name keeps what it has
+skipped** (`--force=<slug>` overrides, per agency; a `replaces` entry
+naming the exact superseded value - or a list of them, for a field this
+file has rewritten more than once - migrates that one field without
+forcing anything else, because a field still holding what this file last
+wrote is this file's to update), and **clients are merged, never
+swapped** - a row matched by domain or name keeps what it has
 and only gains the link the agency supplied. Re-running writes only what is
 genuinely missing, so a partial failure is fixed by running it again.
 
@@ -580,6 +584,33 @@ Bizopia's bundled record was re-read to 5.0 from 27 rather than left at
 the stale 4.8 from 30 or given the 33. During a CMS outage the directory
 therefore shows what Semrush publishes, which is the honest thing for a
 file whose whole role is to be the named source's copy.
+
+**Stated floors render as bands, never as quotes.** `formatBudgetBand` in
+`lib/directory/agencies.ts` turns a figure into the count of its digits -
+€50,000 is "5 figures", €100,000 is "6 figures" - and that is what the
+profile's terms card, its stat-strip label and its `.md` copy all print.
+The reason is the agencies': a published exact quote is the number their
+next prospect opens the negotiation at. Bürocratik asked for theirs to
+come off for that reason, and the band is applied to every agency-supplied
+figure rather than just theirs, because a quote shown for one agency
+beside a band for the next tells a visitor the second one is hiding
+something. The currency is not banded and is printed beside the band
+("5 figures (EUR)"): it is not the sensitive half, it is never converted,
+and without it a euro floor and a dollar floor read identically. The
+Markdown copy keeps it as its own column for agents filtering on cost.
+
+This applies to figures an **agency** sent us. A `budgetLabel` a source
+directory published - Semrush's "Starting from $5,000" - is already public
+under that source's name and is left as it published it;
+`budgetFloorUsd` is likewise untouched, because the category gates are
+written against it.
+
+**Bürocratik's record goes one step further and holds no figures at all.**
+Banding at render is not removal: this dataset is publicly readable, so a
+figure left in it is a figure published. An agency that asks for its
+quotes to come off gets them unset, with the band carried in
+`budgetLabel` instead - see its entry in
+`scripts/agency-corrections/agency-corrections.json`.
 
 **Budgets are recorded in the currency the agency quoted, and never
 converted** - the same rule `budgetFloorUsd` states on the schema. An agency

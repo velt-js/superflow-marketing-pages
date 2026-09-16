@@ -20,7 +20,9 @@
  *
  *   1. A field that already holds a DIFFERENT value is reported and
  *      skipped. Someone put that there; a file is not the place to decide
- *      it was wrong. `--force=<slugs>` overrides, per agency.
+ *      it was wrong. `--force=<slugs>` overrides, per agency, and a
+ *      `replaces` entry naming the exact superseded value migrates that
+ *      one field without forcing anything else.
  *   2. Clients are merged, never swapped. An existing row matched by
  *      domain or name keeps everything it has and only gains the link the
  *      agency supplied; an unmatched one is appended. So a correction
@@ -205,12 +207,36 @@ function buildPatch(correction, document) {
   for (const [field, value] of Object.entries(fields)) {
     const current = document[field];
     if (sameValue(current, value)) continue;
-    if (!isEmpty(current) && !force) {
+
+    // `replaces` names the value this correction supersedes. When the
+    // document still holds exactly that, the write is a migration rather
+    // than an overwrite - the field says what THIS FILE last put there,
+    // and nobody has touched it since - so it goes through without
+    // `--force`. Anything else in the field is still someone's work and
+    // still gets skipped.
+    //
+    // Without this, re-applying the file to a dataset at an older revision
+    // half-lands: a correction that both unsets a field and rewrites
+    // another would drop the first and skip the second, leaving a record
+    // that matches neither revision. The withdrawn-quote case is exactly
+    // that shape.
+    // One value or several: a field this file has rewritten twice has two
+    // older revisions in the wild, and a dataset can be at either.
+    const superseded = correction.replaces?.[field];
+    const supersededValues =
+      superseded === undefined ? [] : Array.isArray(superseded) ? superseded : [superseded];
+    const isMigration = supersededValues.some((old) => sameValue(current, old));
+
+    if (!isEmpty(current) && !force && !isMigration) {
       skipped.push(`${field}: holds ${JSON.stringify(current)}`);
       continue;
     }
     set[field] = value;
-    changes.push(`${field} = ${JSON.stringify(value)}`);
+    changes.push(
+      isMigration
+        ? `${field} = ${JSON.stringify(value)} (migrated from a known older value)`
+        : `${field} = ${JSON.stringify(value)}`,
+    );
   }
 
   // `unset` is for the field a correction makes redundant rather than

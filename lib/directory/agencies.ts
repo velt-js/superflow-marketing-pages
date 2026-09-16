@@ -1043,6 +1043,37 @@ export function getAgencyClientLink(client: AgencyClient | null | undefined): st
   }
 }
 
+/**
+ * A stated project floor as a figure band - "5 figures", "6 figures".
+ *
+ * WHY A BAND RATHER THAN THE FIGURE: these are numbers agencies send us
+ * about their own pricing, and a published exact quote is a number their
+ * next prospect opens the negotiation at. Bürocratik asked for theirs to
+ * come off for that reason, and the request generalises: the band is what
+ * a visitor needs to know whether they are in the right room, and the
+ * quote is the agency's to give on contact.
+ *
+ * The currency is not folded in. It is not the sensitive half, it is
+ * already public wherever a source directory published a budget, and an
+ * agent filtering on cost needs to know which currency a floor is in -
+ * see the Markdown copy, which keeps it as its own column.
+ *
+ * @param amount - The figure the agency stated.
+ * @returns The band, or null when there is no usable figure to band.
+ */
+export function formatBudgetBand(amount: number | null | undefined): string | null {
+  try {
+    if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) return null;
+    // Digits in the whole-number part: 50000 -> 5, 100000 -> 6. Rounded
+    // down, so 99,999 is five figures and 100,000 is six, which is what
+    // the phrase means to the people who use it.
+    const digits = Math.floor(amount).toString().length;
+    return `${digits} figures`;
+  } catch {
+    return null;
+  }
+}
+
 export function getAgencyClients(agency: Agency | null | undefined): AgencyClient[] {
   try {
     const seenNames = new Set<string>();

@@ -6,27 +6,40 @@
       "agencyName": "Bürocratik",
       "verifiedAt": "2026-09-16",
       "verifiedBy": null,
-      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; recorded in euros, the studio's own currency in Coimbra, and the USD floor is left empty rather than converted.",
+      "provenance": "Reply to directory outreach, 16 September 2026, and a follow-up the same day. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; the follow-up confirmed euros and asked for the quotes to come off the page - they send them on contact. So the figures are removed from the record rather than banded at render like every other agency's: this dataset is publicly readable, and a figure left in it is a figure published. The label carries the band instead, which is what they agreed to. The timeline answer renders as the one exclusion chip; an engagement note beside it would only restate it, so the field is cleared.",
       "set": {
-        "budgetLabel": "Branding from €50,000; websites from €100,000",
-        "budgetMinimums": [
-          { "scope": "Branding", "amount": 50000, "currency": "EUR" },
-          { "scope": "Website", "amount": 100000, "currency": "EUR" }
-        ],
-        "exclusions": ["Timelines shorter than three months from start to finish"]
+        "budgetLabel": "Branding from 5 figures; websites from 6 figures, in euros",
+        "exclusions": [
+          "Timelines shorter than three months from start to finish"
+        ]
       },
-      "unset": ["engagementNote"]
+      "unset": [
+        "engagementNote",
+        "budgetMinimums"
+      ],
+      "replaces": {
+        "budgetLabel": [
+          "Branding from €50,000; websites from €100,000",
+          "Branding from 5 figures; websites from 6 figures"
+        ]
+      }
     },
     {
       "agencySlug": "buildinamsterdam",
       "agencyName": "Build in Amsterdam",
       "verifiedAt": "2026-09-16",
       "verifiedBy": "Karla Vincheva",
-      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the page as correct and sent seven more projects by URL, each the brand's own site. Moooi was already on the record from Awwwards and keeps its entry - the reply only adds the brand's domain to it. Budget was quoted in euros, so the USD floor is left empty rather than converted.",
+      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the page as correct and sent seven more projects by URL, each the brand's own site. Moooi was already on the record from Awwwards and keeps its entry - the reply only adds the brand's domain to it. Budget was quoted in euros, so the USD floor is left empty rather than converted. The stated floors render as bands rather than quotes across the directory (see `formatBudgetBand`), so the label beside them says the same thing the same way - an exact figure in the stat strip beside a band in the card would be the quote published anyway.",
       "set": {
         "awardsNote": "Build in Amsterdam has not submitted work to Awwwards for some time, so this tally covers less of the studio's recent output than it may appear to.",
-        "budgetLabel": "Projects from €100,000",
-        "budgetMinimums": [{ "scope": "Any project", "amount": 100000, "currency": "EUR" }],
+        "budgetLabel": "Projects from 6 figures",
+        "budgetMinimums": [
+          {
+            "scope": "Any project",
+            "amount": 100000,
+            "currency": "EUR"
+          }
+        ],
         "exclusions": [
           "Work far from lifestyle brands — mass production, pure utility and similar",
           "Clients that don't make their brand a priority"
@@ -34,14 +47,38 @@
         "engagementNote": "The floor always depends on the brief."
       },
       "clients": [
-        { "name": "Dr Martens", "domain": "drmartens.com" },
-        { "name": "Mammut", "domain": "mammut.com" },
-        { "name": "Alpine", "domain": "alpinehearingprotection.com" },
-        { "name": "PME Legend", "domain": "pme-legend.com" },
-        { "name": "Moooi", "domain": "moooi.com" },
-        { "name": "Akris", "domain": "akris.com" },
-        { "name": "Bloom & Wolf", "domain": "bloomandwolf.com" }
-      ]
+        {
+          "name": "Dr Martens",
+          "domain": "drmartens.com"
+        },
+        {
+          "name": "Mammut",
+          "domain": "mammut.com"
+        },
+        {
+          "name": "Alpine",
+          "domain": "alpinehearingprotection.com"
+        },
+        {
+          "name": "PME Legend",
+          "domain": "pme-legend.com"
+        },
+        {
+          "name": "Moooi",
+          "domain": "moooi.com"
+        },
+        {
+          "name": "Akris",
+          "domain": "akris.com"
+        },
+        {
+          "name": "Bloom & Wolf",
+          "domain": "bloomandwolf.com"
+        }
+      ],
+      "replaces": {
+        "budgetLabel": "Projects from €100,000"
+      }
     },
     {
       "agencySlug": "bizopia",
@@ -50,25 +87,71 @@
       "verifiedBy": null,
       "provenance": "Reply to directory outreach, 16 September 2026. Confirmed everything but the review figures, and asked whether they came from Google - they did not, the record is sourced from Semrush (agencies.semrush.com/bizopia), which published 4.8 from 30 when this record was collected and 5.0 from 27 when it was checked on 16 September 2026. The figure here is the agency's own: 33 reviews at five stars. RECORDED ON INSTRUCTION, over the objection that the profile still cites Semrush for its figures and Semrush does not publish this one. Needs --force, because it overwrites what a named source published.",
       "set": {
-        "rating": { "value": 5, "scale": 5, "reviewCount": 33 }
+        "rating": {
+          "value": 5,
+          "scale": 5,
+          "reviewCount": 33
+        }
       },
-      "unset": ["ratingNote"]
+      "unset": [
+        "ratingNote"
+      ]
+    },
+    {
+      "agencySlug": "dgrees",
+      "agencyName": "Dgrees",
+      "verifiedAt": "2026-09-15",
+      "verifiedBy": "Rubén",
+      "provenance": "Reply to directory outreach, 15 September 2026, folded in during the Sanity migration - the client list, the awards note and the exclusions are already on the record and are not touched here. Only the budget label changes, to match the directory-wide move from quotes to bands (see `formatBudgetBand`). Rubén volunteered \"from EUR 15,000, typically EUR 25,000 to EUR 60,000\" and did not ask for it to come off; the band is applied anyway because a quote shown for one agency beside a band for the next tells a visitor the second one is hiding something. The typical range survives as prose rather than as two more figures.",
+      "set": {
+        "budgetLabel": "Projects from 5 figures, typically the middle of that range"
+      },
+      "replaces": {
+        "budgetLabel": "Projects from €15,000, typically €25,000–€60,000"
+      }
     },
     {
       "agencySlug": "malvah",
       "agencyName": "Malvah",
       "verifiedAt": "2026-09-15",
       "verifiedBy": null,
-      "provenance": "Reply to directory outreach, 15 September 2026 - the same reply that set the budgets already on the record. It sent seven projects by URL and only their names were kept, so this pass attaches the links. Three of the seven (The Up&Up Group, Estrela, Bitter Creek) were already on the record with their domains and are unchanged.",
+      "provenance": "Reply to directory outreach, 15 September 2026 - the same reply that set the budgets already on the record. It sent seven projects by URL and only their names were kept, so this pass attaches the links. Three of the seven (The Up&Up Group, Estrela, Bitter Creek) were already on the record with their domains and are unchanged. The stated floors render as bands rather than quotes across the directory (see `formatBudgetBand`), so the label beside them says the same thing the same way - an exact figure in the stat strip beside a band in the card would be the quote published anyway.",
       "clients": [
-        { "name": "The Up&Up Group", "domain": "theupandupgroup.com" },
-        { "name": "M+C Saatchi Abel", "domain": "mcsaatchiabel.co.za" },
-        { "name": "Razor PR", "domain": "razorpr.co.za" },
-        { "name": "Estrela", "domain": "estrela.studio" },
-        { "name": "Bitter Creek", "domain": "bittercreek.studio" },
-        { "name": "First/Light", "domain": "firstlight.healthcare" },
-        { "name": "Oxygen at Work", "domain": "oxygenatwork.com" }
-      ]
+        {
+          "name": "The Up&Up Group",
+          "domain": "theupandupgroup.com"
+        },
+        {
+          "name": "M+C Saatchi Abel",
+          "domain": "mcsaatchiabel.co.za"
+        },
+        {
+          "name": "Razor PR",
+          "domain": "razorpr.co.za"
+        },
+        {
+          "name": "Estrela",
+          "domain": "estrela.studio"
+        },
+        {
+          "name": "Bitter Creek",
+          "domain": "bittercreek.studio"
+        },
+        {
+          "name": "First/Light",
+          "domain": "firstlight.healthcare"
+        },
+        {
+          "name": "Oxygen at Work",
+          "domain": "oxygenatwork.com"
+        }
+      ],
+      "set": {
+        "budgetLabel": "Websites and branding both start in 5 figures"
+      },
+      "replaces": {
+        "budgetLabel": "Websites from $24,000; branding from $12,000"
+      }
     }
   ]
 }
