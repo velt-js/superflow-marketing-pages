@@ -234,7 +234,7 @@ const { corrections } = JSON.parse(readFileSync(CORRECTIONS_FILE, "utf8"));
 const slugs = corrections.map((correction) => correction.agencySlug);
 
 const documents = await client.fetch(
-  `*[_type == "agency" && slug in $slugs]{ _id, slug, name, clients, verifiedAt, verifiedBy, awardsNote, budgetLabel, budgetFloorUsd, budgetMinimums, engagementNote, exclusions }`,
+  `*[_type == "agency" && slug in $slugs]{ _id, slug, name, clients, verifiedAt, verifiedBy, awardsNote, rating, budgetLabel, budgetFloorUsd, budgetMinimums, engagementNote, exclusions }`,
   { slugs },
 );
 const bySlug = new Map(documents.map((document) => [document.slug, document]));

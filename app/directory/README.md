@@ -555,6 +555,32 @@ A dry run needs no token and prints the exact patch per agency. Do that
 first: it is also the fastest way to see that a correction has already
 landed.
 
+**A rating is normally the source's and not ours to edit** - it is the
+figure a named directory published, and it is what the SEO category is
+ranked on. Two things can be wrong with one. A figure that no longer
+matches what the source publishes is **stale**, and re-reading the source
+is the fix. A figure the agency counts differently is a **different tally**,
+usually because it counts a platform the source does not, and overwriting
+one with the other publishes the agency's number under the source's name
+while the profile still links to that source.
+
+Bizopia is both, and carries its own figure by decision: Semrush published
+4.8 from 30 when the record was collected and 5.0 from 27 when it was
+checked on 16 September 2026, and the page now shows the 33 the agency
+reports. `--force` is what that took, and the flag exists so that an
+overwrite of a sourced figure is never silent - the entry's `provenance`
+says who asked for it and what the source actually says.
+
+**The fallback file cannot carry that decision, and should not.**
+`lib/directory/data/seo-agencies.json` is the importer's, overwritten
+wholesale on every run, so an editorial figure typed into it survives
+until the next scrape and no further. What it can carry is the source's
+current number, which is what a re-scrape would write anyway - so
+Bizopia's bundled record was re-read to 5.0 from 27 rather than left at
+the stale 4.8 from 30 or given the 33. During a CMS outage the directory
+therefore shows what Semrush publishes, which is the honest thing for a
+file whose whole role is to be the named source's copy.
+
 **Budgets are recorded in the currency the agency quoted, and never
 converted** - the same rule `budgetFloorUsd` states on the schema. An agency
 that writes "50k" with no symbol is quoting its own currency; record that
