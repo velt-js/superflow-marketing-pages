@@ -7,7 +7,6 @@ import {
   formatAgencyLocation,
   formatAgencyRating,
   getAwardBreakdown,
-  resolveAgencySourceLabel,
   resolveAwardTallyLabel,
 } from "@/lib/directory/agencies";
 import PartnerBadge from "./PartnerBadge";
@@ -156,13 +155,21 @@ function buildFooterMetaLabel(agency: Agency | null | undefined): string | null 
  * services are supporting detail, deliberately styled to read quieter
  * than the name rather than compete with it.
  *
- * The name/logo header links to the agency's own directory detail page
- * (/directory/agency/<slug>), which holds the full profile - full award
- * breakdown and service list included, this card only summarizes both.
- * The footer carries the two outbound links separately: the agency's own
- * website and an attribution link back to the source profile the record
- * was collected from - both keep working independently of the internal
- * link above.
+ * The whole card is one click target for the agency's own directory
+ * detail page (/directory/agency/<slug>), which holds the full profile -
+ * full award breakdown and service list included, this card only
+ * summarizes both. That is done with a stretched link rather than by
+ * wrapping the card in an <a>: the footer still carries the agency's own
+ * outbound website link, and an anchor inside an anchor is invalid HTML
+ * that browsers recover from unpredictably. `.header::after` in the CSS
+ * module covers the card, and `.websiteLink` sits above it.
+ *
+ * The card does NOT link back to the source profile. That link lives on
+ * the detail page this card opens, one click away, and the figures here
+ * still name their source in the label itself ("48 Awwwards awards" - see
+ * `resolveAwardTallyLabel`), so nothing on the card is an unattributed
+ * claim. Adding it back would also put a second competing link inside a
+ * card whose whole surface is now a link to somewhere else.
  *
  * @param props - Component props.
  * @param props.agency - The agency record to render.
@@ -176,7 +183,6 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
       agency?.services,
       MAX_VISIBLE_SERVICES,
     );
-    const sourceLabel = resolveAgencySourceLabel(agency?.source);
     const clientSummary = formatAgencyClientSummary(agency);
     const websiteLabel = resolveWebsiteLabel(agency);
     const awardTotal = agency?.awards?.total ?? 0;
@@ -271,16 +277,6 @@ export default function AgencyCard({ agency }: { agency: Agency }) {
                 className={styles.websiteLink}
               >
                 {websiteLabel} {EXTERNAL_LINK_GLYPH}
-              </a>
-            )}
-            {agency?.profileUrl && (
-              <a
-                href={agency.profileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.sourceLink}
-              >
-                {sourceLabel} {EXTERNAL_LINK_GLYPH}
               </a>
             )}
           </div>

@@ -61,6 +61,7 @@ import {
 } from "./bugBookEntry";
 import {
   agencyListing,
+  agencyListingBudgetMinimum,
   agencyListingClient,
   agencyListingLocation,
 } from "./agencyListing";
@@ -161,6 +162,7 @@ export const schemaTypes = [
   linkAnnotation,
 
   // agencyListing sub-types
+  agencyListingBudgetMinimum,
   agencyListingClient,
   agencyListingLocation,
 

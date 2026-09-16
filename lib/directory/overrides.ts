@@ -19,7 +19,12 @@
 // `clientsMode`, where an agency that sends the list it wants published
 // means to replace the scraped one, not to append to it.
 
-import type { Agency, AgencyClient, AgencyListing } from "./types";
+import type {
+  Agency,
+  AgencyBudgetMinimum,
+  AgencyClient,
+  AgencyListing,
+} from "./types";
 
 /** `clientsMode` values, matching the options in
  *  sanity/schemas/agencyListing.ts. */
@@ -45,6 +50,12 @@ export interface AgencyListingClientInput {
  * where the CMS is looser (clients above) and where it carries fields
  * `Agency` does not have at all (`exclusions`, `awardsNote`).
  */
+export interface AgencyListingBudgetMinimumInput {
+  scope?: string | null;
+  amount?: number | null;
+  currency?: string | null;
+}
+
 export interface AgencyListingOverride {
   agencySlug?: string | null;
   name?: string | null;
@@ -64,6 +75,7 @@ export interface AgencyListingOverride {
   awardsNote?: string | null;
   clients?: AgencyListingClientInput[] | null;
   clientsMode?: string | null;
+  budgetMinimums?: AgencyListingBudgetMinimumInput[] | null;
   budgetLabel?: string | null;
   budgetFloorUsd?: number | null;
   exclusions?: string[] | null;
@@ -196,6 +208,41 @@ function mergeClients(
 }
 
 /**
+ * Cleans the stated budget floors, dropping any row that does not carry a
+ * real figure.
+ *
+ * A row with a scope and no amount is a half-typed entry, not a floor of
+ * zero: zero would read as "takes work at any budget", which is the
+ * opposite claim. Currency is upper-cased so `Intl` can format it, and
+ * defaults to nothing rather than to dollars - guessing the currency of a
+ * number an agency gave us is exactly the mistake this field exists to
+ * avoid.
+ *
+ * @param inputs - Rows as stored in the CMS.
+ * @returns Usable floors, in the order they were entered.
+ */
+function toBudgetMinimums(
+  inputs: AgencyListingBudgetMinimumInput[] | null | undefined,
+): AgencyBudgetMinimum[] {
+  try {
+    return (inputs ?? [])
+      .map((input) => {
+        const scope = text(input?.scope);
+        const currency = text(input?.currency)?.toUpperCase();
+        const amount = input?.amount;
+        if (!scope || !currency) return null;
+        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+          return null;
+        }
+        return { scope, amount, currency };
+      })
+      .filter((entry): entry is AgencyBudgetMinimum => Boolean(entry));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Builds the `Agency.listing` block - the fields that exist only because
  * an agency told us and that no importer can ever write.
  *
@@ -210,12 +257,14 @@ function buildListingBlock(override: AgencyListingOverride): AgencyListing | nul
       awardsNote: text(override.awardsNote),
       engagementNote: text(override.engagementNote),
       exclusions: list(override.exclusions) ?? [],
+      budgetMinimums: toBudgetMinimums(override.budgetMinimums),
     };
     const isEmpty =
       !listing.verifiedAt &&
       !listing.awardsNote &&
       !listing.engagementNote &&
-      listing.exclusions.length === 0;
+      listing.exclusions.length === 0 &&
+      listing.budgetMinimums.length === 0;
     return isEmpty ? null : listing;
   } catch {
     return null;
@@ -247,6 +296,17 @@ export function applyAgencyListing(
       .map(toAgencyClient)
       .filter((client): client is AgencyClient => Boolean(client));
 
+    // `domain` is not just a dedupe key by the time a record reaches a
+    // page: the card prints it as the label on the website link, and
+    // `isSuperflowPartner` joins the partner list on it. Leaving the
+    // scraped domain behind a corrected website therefore labels the new
+    // site with the old host, and keeps badging (or not badging) the
+    // agency on a domain it has left. Dedupe already ran in
+    // `mergeAgencySources` before any of this, so re-deriving it here
+    // cannot disturb it.
+    const website = text(override.website);
+    const derivedDomain = website ? normalizeDomain(website) : null;
+
     const location = override.location;
     const city = text(location?.city);
     const country = text(location?.country);
@@ -256,15 +316,26 @@ export function applyAgencyListing(
     return {
       ...agency,
       name: text(override.name) ?? agency.name,
-      website: text(override.website) ?? agency.website,
+      website: website ?? agency.website,
+      domain: derivedDomain ?? agency.domain,
       description: text(override.description) ?? agency.description,
       logoUrl: text(override.logoUrl) ?? agency.logoUrl,
-      // A location correction replaces the record's location as a whole
-      // rather than field by field: a studio that has moved city has very
-      // likely moved country too, and half-merging the two would strand a
-      // new city under an old country.
+      // Field by field, like everything else here - an empty field is not
+      // a correction. Replacing the location wholesale reads plausible
+      // (a studio that moved city has likely moved country too) but it
+      // makes the commonest edit destructive: the override document's
+      // location starts empty, so an editor fixing only a wrong
+      // `countryCode` sees two blank boxes, leaves them blank, and wipes
+      // the city and country - which also drops the agency out of the
+      // category page's country filter. A studio that really has moved
+      // fills in both boxes and gets exactly what it asked for.
       location: hasLocation
-        ? { city, country, countryCode: countryCode?.toUpperCase() ?? null }
+        ? {
+            city: city ?? agency.location?.city ?? null,
+            country: country ?? agency.location?.country ?? null,
+            countryCode:
+              (countryCode ?? agency.location?.countryCode)?.toUpperCase() ?? null,
+          }
         : agency.location,
       services: list(override.services) ?? agency.services,
       industries: list(override.industries) ?? agency.industries,
@@ -311,8 +382,13 @@ export function applyAgencyListings(
     for (const override of overrides) {
       const slug = text(override?.agencySlug);
       if (!slug) continue;
-      // First document wins, so a duplicate listing for one agency cannot
-      // make the rendered page depend on document ordering.
+      // First wins - which is only meaningful because the query hands
+      // these over sorted newest-updated first (see
+      // `getAgencyListingOverrides`). Unordered, "first" would be whatever
+      // Sanity happened to return, and a second listing for one agency
+      // would make the rendered page flip between two versions of the
+      // truth. The schema also refuses to save a duplicate slug, so this
+      // is the second line of defence rather than the first.
       if (!bySlug.has(slug)) bySlug.set(slug, override);
     }
     if (bySlug.size === 0) return agencies;

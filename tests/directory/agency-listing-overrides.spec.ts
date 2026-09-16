@@ -117,6 +117,65 @@ test.describe("agency listing overrides", () => {
     expect(client.notable).toBe(false);
   });
 
+  test("a budget floor needs a real figure and a currency to count", () => {
+    const merged = applyAgencyListing(BASE, {
+      agencySlug: BASE.slug,
+      budgetMinimums: [
+        { scope: "Website", amount: 24000, currency: "usd" },
+        // Half-typed rows are dropped rather than rendered as a floor of
+        // zero, which would read as "takes work at any budget" - the
+        // opposite claim.
+        { scope: "No amount", currency: "USD" },
+        { scope: "No currency", amount: 9000 },
+        { amount: 500, currency: "USD" },
+      ],
+    });
+    expect(merged.listing?.budgetMinimums).toEqual([
+      { scope: "Website", amount: 24000, currency: "USD" },
+    ]);
+  });
+
+  test("a corrected website brings its domain with it", () => {
+    const merged = applyAgencyListing(BASE, {
+      agencySlug: BASE.slug,
+      website: "https://www.moved-here.studio/about",
+    });
+    // The card prints `domain` as the label on the website link and the
+    // partner badge joins the CRM list on it, so a stale domain would
+    // label the new site with the old host and badge the agency on a
+    // domain it has left.
+    expect(merged.website).toBe("https://www.moved-here.studio/about");
+    expect(merged.domain).toBe("moved-here.studio");
+
+    // No website correction, no domain change.
+    const untouched = applyAgencyListing(BASE, { agencySlug: BASE.slug, name: "X" });
+    expect(untouched.domain).toBe(BASE.domain);
+  });
+
+  test("a partial location correction keeps the rest of the location", () => {
+    const merged = applyAgencyListing(BASE, {
+      agencySlug: BASE.slug,
+      location: { countryCode: "es" },
+    });
+    // Fixing one field must not wipe the two the editor left blank -
+    // blanking `country` would also drop the agency out of the category
+    // page's country filter.
+    expect(merged.location?.city).toBe(BASE.location?.city);
+    expect(merged.location?.country).toBe(BASE.location?.country);
+    expect(merged.location?.countryCode).toBe("ES");
+
+    // A studio that really has moved fills in every box and gets it.
+    const moved = applyAgencyListing(BASE, {
+      agencySlug: BASE.slug,
+      location: { city: "Lisbon", country: "Portugal", countryCode: "PT" },
+    });
+    expect(moved.location).toEqual({
+      city: "Lisbon",
+      country: "Portugal",
+      countryCode: "PT",
+    });
+  });
+
   test("a listing for an unknown agency is dropped, not appended", () => {
     const merged = applyAgencyListings(SCRAPED, [
       { agencySlug: "not-an-agency", name: "Ghost" },
@@ -169,5 +228,15 @@ test.describe("agency listing overrides", () => {
     // They rule nothing out, which must render as no section rather than an
     // empty one.
     expect(malvah?.listing?.exclusions).toEqual([]);
+
+    // Both stated floors, in the currency each agency quoted. Dgrees' euros
+    // are never converted, and Malvah's two different floors stay two rows.
+    expect(dgrees?.listing?.budgetMinimums).toEqual([
+      { scope: "Any project", amount: 15000, currency: "EUR" },
+    ]);
+    expect(malvah?.listing?.budgetMinimums).toEqual([
+      { scope: "Website", amount: 24000, currency: "USD" },
+      { scope: "Branding", amount: 12000, currency: "USD" },
+    ]);
   });
 });

@@ -50,6 +50,8 @@ const ACCOLADES_HEADING = "Awards & certifications";
 const TERMS_HEADING = "Working with them";
 /** Sub-heading above the exclusions list inside that card. */
 const EXCLUSIONS_HEADING = "Doesn't take on";
+/** Sub-heading above the stated project-size floors inside that card. */
+const BUDGET_MINIMUMS_HEADING = "Minimum project";
 
 /**
  * Whether a project title says anything the client name hasn't already.
@@ -123,6 +125,30 @@ function buildAwardTallyNote(sourceLabel: string): string {
     return `The counts below are the tally ${sourceLabel} publishes.`;
   } catch {
     return "The counts below are the tally the source directory publishes.";
+  }
+}
+
+/**
+ * Formats one stated project-size floor, e.g. "€15,000".
+ *
+ * Formatted in the currency the agency quoted, never converted into one
+ * shared currency: a rate they did not give is a figure they did not
+ * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
+ * still readable and still honest about which currency it is.
+ *
+ * @param amount - The figure, unformatted.
+ * @param currency - Three-letter ISO currency code.
+ * @returns The formatted amount.
+ */
+function formatBudgetAmount(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  } catch {
+    return `${currency} ${amount}`;
   }
 }
 
@@ -335,8 +361,10 @@ export default function AgencyDetail({
     const engagementNote = listing?.engagementNote?.trim() || null;
     const exclusions =
       listing?.exclusions?.filter((exclusion) => Boolean(exclusion?.trim())) ?? [];
+    const budgetMinimums = listing?.budgetMinimums ?? [];
     const verifiedNote = buildVerifiedNote(listing?.verifiedAt);
-    const hasTerms = Boolean(engagementNote) || exclusions.length > 0;
+    const hasTerms =
+      Boolean(engagementNote) || exclusions.length > 0 || budgetMinimums.length > 0;
     // A lone card would otherwise sit in a half-empty two-column row.
     const cardCount =
       (clients.length > 0 ? 1 : 0) +
@@ -524,16 +552,29 @@ export default function AgencyDetail({
                 {hasTerms && (
                   <div className={styles.card}>
                     <h2 className={styles.cardTitle}>{TERMS_HEADING}</h2>
+                    {/* Floors lead the card. "What does it cost to start"
+                        is the question a visitor opens an agency profile
+                        with, and it is the one the source directories
+                        almost never answer. */}
+                    {budgetMinimums.length > 0 && (
+                      <>
+                        <h3 className={styles.cardSubtitle}>{BUDGET_MINIMUMS_HEADING}</h3>
+                        <ul className={styles.awardList}>
+                          {budgetMinimums.map((minimum) => (
+                            <li key={minimum.scope} className={styles.awardRow}>
+                              <span>{minimum.scope}</span>
+                              <span className={styles.awardCount}>
+                                {formatBudgetAmount(minimum.amount, minimum.currency)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                     {engagementNote && <p className={styles.cardBody}>{engagementNote}</p>}
                     {exclusions.length > 0 && (
                       <>
-                        <h3
-                          className={
-                            engagementNote ? styles.cardSubtitle : styles.cardTitle
-                          }
-                        >
-                          {EXCLUSIONS_HEADING}
-                        </h3>
+                        <h3 className={styles.cardSubtitle}>{EXCLUSIONS_HEADING}</h3>
                         <ul className={styles.chips}>
                           {exclusions.map((exclusion) => (
                             <li key={exclusion} className={styles.chip}>

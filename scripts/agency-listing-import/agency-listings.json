@@ -66,6 +66,9 @@
         { "name": "Ortiz León" }
       ],
       "awardsNote": "Dgrees reports more than 80 international awards in total, across Awwwards, FWA, Laus, Behance and CSS Design Awards. The counts here are Awwwards' alone.",
+      "budgetMinimums": [
+        { "scope": "Any project", "amount": 15000, "currency": "EUR" }
+      ],
       "budgetLabel": "Projects from €15,000, typically €25,000–€60,000",
       "budgetFloorUsd": null,
       "exclusions": [
@@ -90,6 +93,10 @@
         { "name": "Bitter Creek", "domain": "bittercreek.studio" },
         { "name": "First/Light", "domain": "firstlight.healthcare" },
         { "name": "Oxygen at Work", "domain": "oxygenatwork.com" }
+      ],
+      "budgetMinimums": [
+        { "scope": "Website", "amount": 24000, "currency": "USD" },
+        { "scope": "Branding", "amount": 12000, "currency": "USD" }
       ],
       "budgetLabel": "Websites from $24,000; branding from $12,000",
       "budgetFloorUsd": 12000,

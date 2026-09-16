@@ -127,6 +127,29 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
       // is also the one kind of answer an agent asked "who would take this
       // brief" actually needs.
       {
+        // The stated floors get their own table rather than a sentence:
+        // an agent filtering "agencies that take £20k projects" needs the
+        // figure and its currency as data, and an agency that quoted two
+        // different floors for two kinds of work said something a single
+        // number cannot carry.
+        heading: "Minimum project size",
+        body: [
+          (listing?.budgetMinimums ?? []).length > 0
+            ? "Stated by the agency, in the currency it quoted. Never converted."
+            : "",
+        ],
+        table: (listing?.budgetMinimums ?? []).length > 0
+          ? {
+              headers: ["Kind of work", "From", "Currency"],
+              rows: (listing?.budgetMinimums ?? []).map((minimum) => [
+                clean(minimum.scope),
+                String(minimum.amount),
+                clean(minimum.currency),
+              ]),
+            }
+          : undefined,
+      },
+      {
         heading: "Working with them",
         body: [
           clean(listing?.engagementNote),

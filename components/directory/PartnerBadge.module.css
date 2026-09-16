@@ -8,6 +8,19 @@
 
 .badge {
   position: relative;
+  /* Above the card's stretched-link overlay (`.header::after` in
+     AgencyCard.module.css, z-index 1) and above `.websiteLink` (2). The
+     badge is inside that overlay's area and is the one thing in there
+     that has its own click to defend: without this the overlay takes the
+     tap and the badge silently opens the agency's profile instead of its
+     own tooltip, which on touch is the only way to find out what the
+     mark means.
+
+     Safe for the tooltip, which needs to escape the card and paint over
+     the neighbouring ones: this makes `.badge` a stacking context, but a
+     positive z-index also paints it above sibling cards, which are
+     `position: relative` with `z-index: auto`. */
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;

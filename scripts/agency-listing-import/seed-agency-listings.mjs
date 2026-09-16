@@ -110,6 +110,7 @@ const ALLOWED_FIELDS = new Set([
   "awardsNote",
   "clients",
   "clientsMode",
+  "budgetMinimums",
   "budgetLabel",
   "budgetFloorUsd",
   "exclusions",
@@ -145,6 +146,7 @@ for (const listing of listings) {
     _type: "agencyListing",
     ...listing,
     clients: keyed(listing.clients, `client-${slug}`),
+    budgetMinimums: keyed(listing.budgetMinimums, `budget-${slug}`),
   };
   // Sanity stores no distinction between "absent" and "null", and the read
   // path treats both as "no correction" - so drop the nulls rather than

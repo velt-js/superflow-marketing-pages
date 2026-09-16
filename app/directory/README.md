@@ -145,7 +145,19 @@ why the two are kept structurally apart.
   `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
   hero, closing on a white card carrying the live stat row. Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
-  each carrying a one-line "Worked with X, Y, Z +N more" summary),
+  each carrying a one-line "Worked with X, Y, Z +N more" summary). **The
+  whole card opens the agency's detail page**, via a stretched link
+  (`.header::after` covers the card) rather than by wrapping the card in an
+  `<a>` — the footer still carries the agency's own outbound website link,
+  and an anchor inside an anchor is invalid HTML that browsers recover from
+  in their own incompatible ways. `.websiteLink` lifts itself above the
+  overlay to keep its own click. Both halves are covered by
+  `tests/directory/agency-card.spec.ts`, because neither failure mode (a
+  dead card body, or an overlay that eats the website link) is visible to
+  `tsc` or `next build`. The card carries **no** link back to the source
+  directory: that attribution lives on the detail page one click away, and
+  the figures on the card name their source in the label itself ("48
+  Awwwards awards"), so nothing on it is an unattributed claim. Cards are
   sorted in the directory's default order: Superflow partners first, then
   total award count descending, then review score descending, then name.
   The two credibility keys are disjoint per category (see the top of this
@@ -411,6 +423,15 @@ claim stay apart. This is also why the CMS cannot **add** an agency: a
 record with no source profile to link has nothing to attribute, and the
 merge drops a listing whose slug matches nothing.
 
+**Budget minimums are the one field where the CMS carries more structure
+than the scrape.** `budgetMinimums` holds a row per floor an agency stated,
+in the currency it quoted, and is never converted between currencies — a
+rate the agency did not give is a figure the agency did not state. That is
+also why `budgetFloorUsd` is left null for an agency that quoted in euros:
+the rows carry the real number, and the null reads correctly as "no US
+dollar floor on record" rather than as a converted guess. See "Budget:
+label vs floor vs stated minimums" below.
+
 **`verifiedAt` is the only thing that puts "Confirmed by the agency" on the
 page.** It is the one line on an agency page that is not attributable to a
 linked source profile — it says the agency looked at this page and stood
@@ -437,14 +458,25 @@ script did not create is not this script's to remove. This is the opposite
 of `scripts/bug-book-import/`, where the JSON is the source of truth and a
 rerun is meant to win.
 
-## Budget: label vs floor
+## Budget: label vs floor vs stated minimums
 
-Two fields, deliberately not one:
+Three representations, deliberately not one:
 
 - `budgetLabel` — the display string ("Starting from $5,000", "Under
   $1,000"). What the card footer and the detail page's facts list render.
 - `budgetFloorUsd` — the same thing as a number (`5000`), which is what the
   SEO category's threshold is applied against.
+- `AgencyListing.budgetMinimums` — what an agency told us directly, as
+  `{ scope, amount, currency }` rows. CMS-only; no source directory
+  publishes this.
+
+The third exists because the first two cannot carry what agencies actually
+say. Malvah quoted **$24,000 for a website and $12,000 for a brand
+identity** — two floors for two kinds of work, and the difference is the
+whole answer to "can I afford them". One number flattens it; one sentence
+makes it unreadable by anything but a human. So the rows stay rows, render
+as rows on the detail page, and go into the Markdown copy as a table an
+agent can filter.
 
 Neither derives cleanly from the other. Re-parsing a number out of the
 label is brittle the moment a source localises its currency formatting, and

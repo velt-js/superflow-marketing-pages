@@ -25,6 +25,51 @@ import { defineType, defineField } from "sanity";
 // half-populated record with no source profile to attribute would break
 // the one promise every page in this directory makes.
 
+/**
+ * Rejects a slug another listing already claims.
+ *
+ * Two listings for one agency is not a merge conflict the site can
+ * resolve - it is two versions of the truth, and the read path can only
+ * pick one. `getAgencyListingOverrides` orders newest-first so that pick
+ * is at least deterministic, but a page that silently ignores the
+ * correction an editor just typed (because an older duplicate exists) is
+ * a worse failure than refusing to save it. So this is the first line of
+ * defence and the ordering is the second.
+ *
+ * A document and its own draft share a slug by definition, so both ids
+ * for the document being edited are excluded - otherwise every listing
+ * would fail validation against itself the moment it was edited.
+ *
+ * @param slug - The value being validated.
+ * @param context - Sanity's validation context, for the document id and a
+ *                   client to query with.
+ * @returns True when the slug is free, or an error message when it is not.
+ */
+async function slugIsUnclaimed(
+  slug: string | undefined,
+  context: { document?: { _id?: string }; getClient: (options: { apiVersion: string }) => { fetch: (query: string, params: Record<string, unknown>) => Promise<number> } },
+): Promise<true | string> {
+  try {
+    if (!slug) return true;
+    const id = context.document?._id ?? "";
+    const publishedId = id.replace(/^drafts\./, "");
+    const count = await context
+      .getClient({ apiVersion: "2024-01-01" })
+      .fetch(
+        `count(*[_type == "agencyListing" && agencySlug == $slug && !(_id in $ids)])`,
+        { slug, ids: [publishedId, `drafts.${publishedId}`] },
+      );
+    return count > 0
+      ? `Another listing already corrects "${slug}". Edit that one instead - two listings for one agency means the site has to guess which correction you meant.`
+      : true;
+  } catch {
+    // A validation rule that cannot reach the dataset must not block an
+    // editor from saving real work. The read path's newest-first ordering
+    // still keeps the rendered page deterministic.
+    return true;
+  }
+}
+
 /** Options for `clientsMode`, kept out of the field so the read-time
  *  merge in lib/directory/overrides.ts can import the same literals
  *  rather than re-spelling them. */
@@ -71,6 +116,57 @@ export const agencyListingClient = defineType({
   },
 });
 
+export const agencyListingBudgetMinimum = defineType({
+  name: "agencyListingBudgetMinimum",
+  title: "Minimum project",
+  type: "object",
+  fields: [
+    defineField({
+      name: "scope",
+      title: "Kind of work",
+      type: "string",
+      description:
+        "What this minimum applies to, in the agency's own terms, e.g. `Website` or `Branding`. Use `Any project` when the agency quoted one floor for everything.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "amount",
+      title: "Amount",
+      type: "number",
+      description: "The figure alone, no symbol and no separators — 15000, not €15,000.",
+      validation: (rule) => rule.required().min(0),
+    }),
+    defineField({
+      name: "currency",
+      title: "Currency",
+      type: "string",
+      description:
+        "Three-letter ISO code for the currency the AGENCY quoted, e.g. EUR. Never convert — a rate they did not give is a figure they did not state.",
+      initialValue: "USD",
+      options: {
+        list: [
+          { title: "USD ($)", value: "USD" },
+          { title: "EUR (€)", value: "EUR" },
+          { title: "GBP (£)", value: "GBP" },
+          { title: "CAD (C$)", value: "CAD" },
+          { title: "AUD (A$)", value: "AUD" },
+          { title: "ZAR (R)", value: "ZAR" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: {
+    select: { title: "scope", amount: "amount", currency: "currency" },
+    prepare({ title, amount, currency }) {
+      return {
+        title: title || "Minimum project",
+        subtitle: amount ? `from ${amount} ${currency ?? ""}`.trim() : "no amount set",
+      };
+    },
+  },
+});
+
 export const agencyListingLocation = defineType({
   name: "agencyListingLocation",
   title: "Location",
@@ -108,8 +204,16 @@ export const agencyListing = defineType({
       type: "string",
       group: "identity",
       description:
-        "The slug in the scraped dataset — the last segment of the agency's URL, e.g. `dgrees` for /directory/agency/dgrees. This is the join key: a slug that matches nothing is ignored.",
-      validation: (rule) => rule.required(),
+        "The slug in the scraped dataset — the last segment of the agency's URL, e.g. `dgrees` for /directory/agency/dgrees. This is the join key: a slug that matches nothing is ignored, and no two listings may claim the same one.",
+      validation: (rule) =>
+        rule
+          .required()
+          .custom((slug, context) =>
+            slugIsUnclaimed(
+              slug as string | undefined,
+              context as unknown as Parameters<typeof slugIsUnclaimed>[1],
+            ),
+          ),
     }),
     defineField({
       name: "agencyName",
@@ -240,6 +344,15 @@ export const agencyListing = defineType({
     }),
 
     defineField({
+      name: "budgetMinimums",
+      title: "Minimum project size",
+      type: "array",
+      of: [{ type: "agencyListingBudgetMinimum" }],
+      group: "terms",
+      description:
+        "One row per floor the agency stated. Two rows where they quoted different minimums for different work (a website against a brand identity, say) — that distinction is the answer to \"can I afford them\", and flattening it into one sentence loses it. This is the structured figure; the label below is the prose around it.",
+    }),
+    defineField({
       name: "budgetLabel",
       title: "Typical budget",
       type: "string",
@@ -253,7 +366,7 @@ export const agencyListing = defineType({
       type: "number",
       group: "terms",
       description:
-        "The same floor as a number, in US dollars, for filtering and comparison. Leave blank when the agency quoted another currency — converting at a rate they never gave would invent precision. The label above still carries the real figure.",
+        "The lowest floor as a number, in US dollars — the field the category importers filter on. Leave blank when the agency quoted another currency; converting at a rate they never gave would invent precision, and the minimums above carry the real figure in the currency they used.",
       validation: (rule) => rule.min(0).integer(),
     }),
     defineField({

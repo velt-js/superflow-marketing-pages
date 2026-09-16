@@ -119,6 +119,31 @@ export interface AgencyClient {
 }
 
 /**
+ * One project-size floor an agency has stated, in the currency the agency
+ * used.
+ *
+ * Separate from `Agency.budgetFloorUsd`, and not a replacement for it.
+ * That field is a single US-dollar number the category importers filter
+ * on; this is what the agency actually said, which is frequently neither
+ * single nor in dollars. Malvah quoted $24,000 for a website and $12,000
+ * for a brand identity - one number cannot carry that, and the difference
+ * is the answer to the only question a budget figure is ever asked.
+ *
+ * Never converted between currencies. A rate the agency did not give is a
+ * figure the agency did not state.
+ */
+export interface AgencyBudgetMinimum {
+  /** What the floor applies to, in the agency's terms - "Website",
+   *  "Branding", or "Any project" when they quoted one floor for
+   *  everything. */
+  scope: string;
+  /** The figure alone, unformatted: 15000. */
+  amount: number;
+  /** Three-letter ISO code for the currency the agency quoted in. */
+  currency: string;
+}
+
+/**
  * The part of a listing that exists only because an agency told us, and
  * that no source directory publishes.
  *
@@ -162,6 +187,9 @@ export interface AgencyListing {
    *  for an agency that rules nothing out - which is a real answer, and
    *  renders as nothing rather than as an empty section. */
   exclusions: string[];
+  /** Every project-size floor the agency stated, in the currency it used.
+   *  Empty when the agency named no figure. */
+  budgetMinimums: AgencyBudgetMinimum[];
 }
 
 /** One agency in the directory. */
