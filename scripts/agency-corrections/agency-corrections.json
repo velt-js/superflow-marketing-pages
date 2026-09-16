@@ -13,9 +13,9 @@
           { "scope": "Branding", "amount": 50000, "currency": "EUR" },
           { "scope": "Website", "amount": 100000, "currency": "EUR" }
         ],
-        "exclusions": ["Timelines shorter than three months from start to finish"],
-        "engagementNote": "Three months from start to finish is the usual minimum; a shorter timeline is rarely feasible."
-      }
+        "exclusions": ["Timelines shorter than three months from start to finish"]
+      },
+      "unset": ["engagementNote"]
     },
     {
       "agencySlug": "buildinamsterdam",

@@ -213,13 +213,21 @@ function buildPatch(correction, document) {
     changes.push(`${field} = ${JSON.stringify(value)}`);
   }
 
+  // `unset` is for the field a correction makes redundant rather than
+  // wrong - an engagement note that only restates the exclusion beside it,
+  // say. Setting it to "" would leave an empty string the profile has to
+  // treat as content; removing the field is the honest shape for "the
+  // agency said nothing here".
+  const unset = (correction.unset ?? []).filter((field) => !isEmpty(document[field]));
+  for (const field of unset) changes.push(`${field} removed`);
+
   const merged = mergeClients(correction.agencySlug, document.clients, correction.clients);
   if (merged.clients) {
     set.clients = merged.clients;
     changes.push(...merged.changes.map((line) => `clients ${line}`));
   }
 
-  return { set, changes, skipped };
+  return { set, unset, changes, skipped };
 }
 
 const { corrections } = JSON.parse(readFileSync(CORRECTIONS_FILE, "utf8"));
@@ -244,7 +252,7 @@ let willWrite = 0;
 
 for (const correction of corrections) {
   const document = bySlug.get(correction.agencySlug);
-  const { set, changes, skipped } = buildPatch(correction, document);
+  const { set, unset, changes, skipped } = buildPatch(correction, document);
 
   console.log(`\n${document.name} (${document.slug})`);
   if (changes.length === 0) {
@@ -253,8 +261,11 @@ for (const correction of corrections) {
   for (const line of changes) console.log(`  ${line}`);
   for (const line of skipped) console.log(`  SKIPPED ${line} - pass --force=${document.slug} to overwrite`);
 
-  if (Object.keys(set).length > 0) {
-    transaction.patch(document._id, (patch) => patch.set(set));
+  if (Object.keys(set).length > 0 || unset.length > 0) {
+    transaction.patch(document._id, (patch) => {
+      const withSet = Object.keys(set).length > 0 ? patch.set(set) : patch;
+      return unset.length > 0 ? withSet.unset(unset) : withSet;
+    });
     willWrite += 1;
   }
 }
