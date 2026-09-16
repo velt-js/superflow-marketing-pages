@@ -44,6 +44,17 @@
       ]
     },
     {
+      "agencySlug": "bizopia",
+      "agencyName": "Bizopia",
+      "verifiedAt": "2026-09-16",
+      "verifiedBy": null,
+      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed everything but the review figures, and asked whether they came from Google - they did not, the record is sourced from Semrush (agencies.semrush.com/bizopia), which published 4.8 from 30 when this record was collected and 5.0 from 27 when it was checked on 16 September 2026. The figure here is the agency's own: 33 reviews at five stars. RECORDED ON INSTRUCTION, over the objection that the profile still cites Semrush for its figures and Semrush does not publish this one. Needs --force, because it overwrites what a named source published.",
+      "set": {
+        "rating": { "value": 5, "scale": 5, "reviewCount": 33 }
+      },
+      "unset": ["ratingNote"]
+    },
+    {
       "agencySlug": "malvah",
       "agencyName": "Malvah",
       "verifiedAt": "2026-09-15",
