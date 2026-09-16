@@ -17,7 +17,7 @@
 // comparator, and any key added to one side and not the other silently
 // reordered the page on hydration.
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import AgencyCard from "./AgencyCard";
 import styles from "./DirectoryGrid.module.css";
 import type { AgencyListItem } from "@/lib/directory/agencies";
@@ -26,9 +26,10 @@ import type { AgencyListItem } from "@/lib/directory/agencies";
 // ship the whole directory into the client bundle. See `AgencyListItem`'s
 // doc comment in lib/directory/agencies.ts.
 import {
+  directoryListPath,
   DIRECTORY_ALL_CATEGORIES,
   DIRECTORY_BASE_PATH,
-  DIRECTORY_CATEGORY_PARAM,
+  DIRECTORY_PAGE_SIZE,
 } from "@/lib/directory/constants";
 
 /** Sentinel value for "no country filter applied". Not a real country
@@ -64,6 +65,21 @@ const CATEGORY_LABEL = "Category";
 const COUNTRY_LABEL = "Country";
 const SORT_LABEL = "Sort by";
 const CLEAR_FILTERS_LABEL = "Clear filters";
+const PAGINATION_LABEL = "Pagination";
+const PREVIOUS_PAGE_LABEL = "Previous";
+const NEXT_PAGE_LABEL = "Next";
+/** Rendered in place of the page numbers a window leaves out. */
+const PAGE_GAP = "\u2026";
+/** Up to this many pages are all listed. Six pages of 60 is where the
+ *  directory sits today, and a crawler that can see every page number
+ *  reaches every agency profile in one hop from the list rather than
+ *  walking "next" five times. */
+const PAGES_LISTED_IN_FULL = 8;
+
+/** Past PAGES_LISTED_IN_FULL, how many numbered links flank the current
+ *  page before the pager elides. Keeps the control one line wide at any
+ *  dataset size. */
+const PAGE_WINDOW = 1;
 const RESET_LABEL = "Reset filters";
 const FILTER_EMPTY_HEADING = "No agencies match your filters";
 const FILTER_EMPTY_BODY = "Try a different search term, category or country, or reset your filters.";
@@ -168,31 +184,67 @@ function buildCountryOptions(items: AgencyListItem[]): string[] {
 }
 
 /**
- * Writes the active category into the address bar without navigating, so a
- * filtered view can be linked, shared and reloaded - and so the 308 from
- * the retired `/directory/<category>` routes lands somewhere that still
- * reads as that category.
+ * Writes the active view - category and page - into the address bar
+ * without navigating, so it can be linked, shared and reloaded, and so the
+ * 308 from a retired `/directory/<category>` route lands somewhere that
+ * still reads as that category.
  *
- * `history.replaceState` rather than a router push: the whole list is
- * already in the DOM, so a real navigation would refetch several hundred
- * cards to show a subset of what is on screen.
+ * `history.replaceState` rather than a router push: the server would
+ * re-render and re-send the whole list to move between two views the
+ * browser already has the data for. The URL it writes is the same one
+ * `directoryListPath` gives the pager's `href`s, so a click and a reload
+ * land on the same view.
  *
  * @param categorySlug - The category now selected, or the "all" sentinel.
+ * @param page - The 1-based page now shown.
  */
-function syncCategoryToUrl(categorySlug: string): void {
+function syncViewToUrl(categorySlug: string, page: number): void {
   try {
     if (typeof window === "undefined") return;
-    const url = new URL(window.location.href);
-    if (categorySlug === DIRECTORY_ALL_CATEGORIES) {
-      url.searchParams.delete(DIRECTORY_CATEGORY_PARAM);
-    } else {
-      url.searchParams.set(DIRECTORY_CATEGORY_PARAM, categorySlug);
-    }
-    const path = `${url.pathname}${url.search}`;
-    window.history.replaceState(null, "", path || DIRECTORY_BASE_PATH);
+    window.history.replaceState(
+      null,
+      "",
+      directoryListPath(categorySlug, page) || DIRECTORY_BASE_PATH,
+    );
   } catch {
     // A blocked or unavailable History API costs the shareable URL and
-    // nothing else - the filter itself is component state.
+    // nothing else - the view itself is component state.
+  }
+}
+
+/**
+ * Builds the page numbers a pager renders. Up to `PAGES_LISTED_IN_FULL`
+ * they are all listed; past that it elides the middle - first, last, the
+ * current page and `PAGE_WINDOW` either side of it - with nulls marking
+ * where numbers were left out.
+ *
+ * @param currentPage - The page being shown.
+ * @param pageCount - How many pages there are in total.
+ * @returns Page numbers in order, with null for each elided run.
+ */
+function buildPageWindow(currentPage: number, pageCount: number): Array<number | null> {
+  try {
+    if (pageCount <= PAGES_LISTED_IN_FULL) {
+      return Array.from({ length: pageCount }, (_unused, index) => index + 1);
+    }
+    const pages = new Set<number>([1, pageCount]);
+    for (let offset = -PAGE_WINDOW; offset <= PAGE_WINDOW; offset += 1) {
+      const page = currentPage + offset;
+      if (page >= 1 && page <= pageCount) pages.add(page);
+    }
+    const ordered = Array.from(pages).sort((one, two) => one - two);
+    const windowed: Array<number | null> = [];
+    let previous = 0;
+    for (const page of ordered) {
+      // A single missing page is printed rather than elided - "1 … 3" is
+      // longer than "1 2 3" and tells the reader less.
+      if (previous && page - previous > 1) windowed.push(null);
+      windowed.push(page);
+      previous = page;
+    }
+    return windowed;
+  } catch {
+    return [1];
   }
 }
 
@@ -334,6 +386,108 @@ function ControlsBar({
 }
 
 /**
+ * Numbered pager under the grid.
+ *
+ * Every page is a real `<a href>` built by `directoryListPath`, not a
+ * button: those hrefs are what a crawler follows to reach the 263 agency
+ * profiles that are not on page one, and what a visitor gets when they
+ * middle-click or copy a link. The click handler intercepts them when JS
+ * is running, because the browser already has every page's data - see
+ * `syncViewToUrl`.
+ *
+ * @param props - Component props.
+ * @param props.page - The page being shown.
+ * @param props.pageCount - How many pages the current filters produce.
+ * @param props.hrefFor - Builds the URL for a given page.
+ * @param props.onSelect - Shows a page without navigating.
+ */
+function Pager({
+  page,
+  pageCount,
+  hrefFor,
+  onSelect,
+}: {
+  page: number;
+  pageCount: number;
+  hrefFor: (page: number) => string;
+  onSelect: (page: number) => void;
+}) {
+  try {
+    if (pageCount <= 1) return null;
+
+    /** Intercepts a pager click, leaving modified clicks to the browser so
+     *  "open in new tab" still opens the page it points at. */
+    const handleClick = (target: number) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+      try {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (event.button !== 0) return;
+        event.preventDefault();
+        onSelect(target);
+      } catch {
+        // Falling through to the href is the correct failure here.
+      }
+    };
+
+    return (
+      <nav className={styles.pager} aria-label={PAGINATION_LABEL}>
+        {page > 1 ? (
+          <a
+            href={hrefFor(page - 1)}
+            onClick={handleClick(page - 1)}
+            className={styles.pagerStep}
+            rel="prev"
+          >
+            {PREVIOUS_PAGE_LABEL}
+          </a>
+        ) : (
+          <span className={`${styles.pagerStep} ${styles.pagerStepMuted}`}>
+            {PREVIOUS_PAGE_LABEL}
+          </span>
+        )}
+
+        <span className={styles.pagerPages}>
+          {buildPageWindow(page, pageCount).map((target, index) =>
+            target === null ? (
+              <span key={`gap-${index}`} className={styles.pagerGap} aria-hidden="true">
+                {PAGE_GAP}
+              </span>
+            ) : (
+              <a
+                key={target}
+                href={hrefFor(target)}
+                onClick={handleClick(target)}
+                aria-current={target === page ? "page" : undefined}
+                aria-label={`Page ${target}`}
+                className={`${styles.pagerPage}${target === page ? ` ${styles.pagerPageCurrent}` : ""}`}
+              >
+                {target}
+              </a>
+            ),
+          )}
+        </span>
+
+        {page < pageCount ? (
+          <a
+            href={hrefFor(page + 1)}
+            onClick={handleClick(page + 1)}
+            className={styles.pagerStep}
+            rel="next"
+          >
+            {NEXT_PAGE_LABEL}
+          </a>
+        ) : (
+          <span className={`${styles.pagerStep} ${styles.pagerStepMuted}`}>
+            {NEXT_PAGE_LABEL}
+          </span>
+        )}
+      </nav>
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Interactive shell around the agency list: search, category, country and
  * sort, plus a live result count and an empty state when the filters match
  * nothing.
@@ -353,15 +507,19 @@ function ControlsBar({
  *                                 from `?category=`. Must be the state's
  *                                 initial value or the first client render
  *                                 disagrees with the server's HTML.
+ * @param props.initialPage - The page the server rendered, from `?page=`.
+ *                             Same contract as `initialCategory`.
  */
 export default function AgencyExplorer({
   items,
   categories,
   initialCategory = DIRECTORY_ALL_CATEGORIES,
+  initialPage = 1,
 }: {
   items: AgencyListItem[];
   categories: Array<{ slug: string; title: string }>;
   initialCategory?: string;
+  initialPage?: number;
 }) {
   // Every hook runs BEFORE the try, not inside it. A throw between two hook
   // calls would leave React having recorded fewer hooks for this render than
@@ -372,6 +530,11 @@ export default function AgencyExplorer({
   const [categoryFilter, setCategoryFilter] = useState(initialCategory);
   const [countryFilter, setCountryFilter] = useState(ALL_COUNTRIES_VALUE);
   const [sortMode, setSortMode] = useState<SortMode>(DEFAULT_SORT_MODE);
+  const [page, setPage] = useState(initialPage);
+  // Scrolled back to when a page changes. Landing halfway down page two
+  // because that is where the click happened is the classic pagination
+  // annoyance.
+  const topRef = useRef<HTMLDivElement>(null);
 
   // Memoized rather than `items ?? []` inline: a fresh array literal every
   // render invalidates every useMemo below it, which on a list this size
@@ -444,6 +607,17 @@ export default function AgencyExplorer({
     }
   }, [categoryItems, searchQuery, countryFilter, sortMode]);
 
+  const pageCount = Math.max(1, Math.ceil(visibleItems.length / DIRECTORY_PAGE_SIZE));
+  // Clamped rather than corrected in state: a filter that shrinks the list
+  // under the current page number must not leave the grid empty, and
+  // fixing it with an effect would mean a render where it is.
+  const currentPage = Math.min(Math.max(1, page), pageCount);
+  const pageOffset = (currentPage - 1) * DIRECTORY_PAGE_SIZE;
+  const pagedItems = useMemo(
+    () => visibleItems.slice(pageOffset, pageOffset + DIRECTORY_PAGE_SIZE),
+    [visibleItems, pageOffset],
+  );
+
   /**
    * Switches category, resets the country filter and writes the choice to
    * the URL. Country is reset because its options are category-scoped: a
@@ -454,7 +628,8 @@ export default function AgencyExplorer({
     try {
       setCategoryFilter(value);
       setCountryFilter(ALL_COUNTRIES_VALUE);
-      syncCategoryToUrl(value);
+      setPage(1);
+      syncViewToUrl(value, 1);
     } catch {
       // State setters never throw; the URL sync swallows its own errors.
     }
@@ -467,11 +642,46 @@ export default function AgencyExplorer({
       setCategoryFilter(DIRECTORY_ALL_CATEGORIES);
       setCountryFilter(ALL_COUNTRIES_VALUE);
       setSortMode(DEFAULT_SORT_MODE);
-      syncCategoryToUrl(DIRECTORY_ALL_CATEGORIES);
+      setPage(1);
+      syncViewToUrl(DIRECTORY_ALL_CATEGORIES, 1);
     } catch {
       // As above.
     }
   }, []);
+
+  /**
+   * Narrowing the list invalidates the page number: page four of a
+   * 323-agency list is nowhere in an eight-agency search result. Every
+   * control that changes what matches therefore goes back to page one.
+   */
+  const changeSearch = useCallback((value: string) => {
+    setSearchQuery(value);
+    setPage(1);
+  }, []);
+
+  const changeCountry = useCallback((value: string) => {
+    setCountryFilter(value);
+    setPage(1);
+  }, []);
+
+  const changeSort = useCallback((value: SortMode) => {
+    setSortMode(value);
+    setPage(1);
+  }, []);
+
+  /** Shows a page and scrolls back to the top of the list. */
+  const changePage = useCallback(
+    (target: number) => {
+      try {
+        setPage(target);
+        syncViewToUrl(categoryFilter, target);
+        topRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
+      } catch {
+        // As above.
+      }
+    },
+    [categoryFilter],
+  );
 
   try {
     const isFiltered =
@@ -480,26 +690,35 @@ export default function AgencyExplorer({
       countryFilter !== ALL_COUNTRIES_VALUE ||
       sortMode !== DEFAULT_SORT_MODE;
 
+    // "Showing 61-120 of 323" while there are pages to move between, and
+    // the plain "Showing 12 of 60" when everything that matches is already
+    // on screen - a range on a single page is noise.
+    const countText =
+      pageCount > 1
+        ? `Showing ${pageOffset + 1}-${pageOffset + pagedItems.length} of ${visibleItems.length} agencies`
+        : `Showing ${visibleItems.length} of ${categoryItems.length} agenc${
+            categoryItems.length === 1 ? "y" : "ies"
+          }`;
+
     return (
-      <div className={styles.stack}>
+      <div className={styles.stack} ref={topRef}>
         <ControlsBar
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          onSearchChange={changeSearch}
           categoryFilter={categoryFilter}
           onCategoryChange={changeCategory}
           categoryOptions={categoryOptions}
           countryFilter={countryFilter}
-          onCountryChange={setCountryFilter}
+          onCountryChange={changeCountry}
           countryOptions={countryOptions}
           sortMode={sortMode}
-          onSortChange={setSortMode}
+          onSortChange={changeSort}
           sortOptions={sortOptions}
         />
 
         <div className={styles.countRow}>
           <p aria-live="polite" className={styles.count}>
-            Showing {visibleItems.length} of {categoryItems.length} agenc
-            {categoryItems.length === 1 ? "y" : "ies"}
+            {countText}
           </p>
           {isFiltered && (
             <button type="button" onClick={resetFilters} className={styles.clearFilters}>
@@ -508,16 +727,24 @@ export default function AgencyExplorer({
           )}
         </div>
 
-        {visibleItems.length === 0 ? (
+        {pagedItems.length === 0 ? (
           <FilterEmptyState onReset={resetFilters} />
         ) : (
-          <ul className={styles.grid}>
-            {visibleItems.map((item) => (
-              <li key={item.slug} className={styles.item}>
-                <AgencyCard item={item} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className={styles.grid}>
+              {pagedItems.map((item) => (
+                <li key={item.slug} className={styles.item}>
+                  <AgencyCard item={item} />
+                </li>
+              ))}
+            </ul>
+            <Pager
+              page={currentPage}
+              pageCount={pageCount}
+              hrefFor={(target) => directoryListPath(categoryFilter, target)}
+              onSelect={changePage}
+            />
+          </>
         )}
       </div>
     );

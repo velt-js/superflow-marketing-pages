@@ -445,6 +445,12 @@ function AwardBar({
  * above the fold, in the order a visitor comparing two agencies asks it.
  * The body below is then only the detail that answer sits on.
  *
+ * The body below is a template with fixed slots, not a layout that
+ * reflows around whatever a record happens to carry: the wide column is
+ * always the agency's record and the rail beside it is always what they
+ * offer and how they work, so two profiles read the same way. See the
+ * comment on `recordCards` below.
+ *
  * Deliberately holds more than `AgencyCard` shows on the list - the detail
  * page needs to justify its own existence with real content, not just
  * repeat the card.
@@ -485,13 +491,6 @@ export default function AgencyDetail({
     const hasTerms =
       Boolean(engagementNote) || exclusions.length > 0 || budgetMinimums.length > 0;
     const identityMeta = [locationLabel, category?.title].filter(Boolean).join(" · ");
-
-    // Each card is paired with a rough measure of how tall it runs, so the
-    // longest one takes the wide column. Without it the wide column held
-    // whatever came first in the source order, which on a D&AD studio meant
-    // 12 client rows on the left and 34 award chips squeezed into the
-    // narrow rail beside them, each wrapping to three lines.
-    const cards: Array<{ node: ReactNode; weight: number }> = [];
 
     const clientsCard = clients.length > 0 && (
       <div className={styles.card} key="clients">
@@ -648,32 +647,33 @@ export default function AgencyDetail({
       </div>
     );
 
-    if (clientsCard) cards.push({ node: clientsCard, weight: clients.length });
-    // A bar is a label, a count and a track, so it runs about twice a list
-    // row's height.
-    if (awardsCard) cards.push({ node: awardsCard, weight: awardBreakdown.length * 2 });
-    if (accoladesCard) cards.push({ node: accoladesCard, weight: accolades.length });
-    // Chips pack two or three to a row, so a service list is shorter than
-    // its item count suggests.
-    if (servicesCard) {
-      cards.push({ node: servicesCard, weight: Math.ceil((services.length + industries.length) / 2) });
-    }
-    if (termsCard) {
-      cards.push({
-        node: termsCard,
-        weight: budgetMinimums.length + exclusions.length + (engagementNote ? 3 : 0),
-      });
-    }
+    // **Every card has a fixed slot.** The wide column is the agency's
+    // record - who they have worked for and what that work has won - and
+    // the rail beside it is what they offer and how they work. Two
+    // profiles with the same fields on file therefore lay out identically,
+    // which is the whole point of a template: a visitor comparing three
+    // agencies should be reading the same page three times, not relearning
+    // where things are.
+    //
+    // An earlier cut sized the columns by content instead, giving the wide
+    // column to whichever card ran longest. It packed better - a D&AD
+    // studio's 34 award chips got the space they need - and it was wrong:
+    // it made two profiles of the same category look like two different
+    // page designs. The packing problem is handled by the degradation rule
+    // below instead, which widens the record column when there is nothing
+    // to put beside it.
+    const recordCards: ReactNode[] = [clientsCard, awardsCard, accoladesCard].filter(
+      Boolean,
+    ) as ReactNode[];
+    const offerCards: ReactNode[] = [servicesCard, termsCard].filter(Boolean) as ReactNode[];
 
-    // Strictly greater, so a tie leaves the earlier card in front - which
-    // keeps the client list, first in this order, leading a profile whose
-    // cards are all the same length.
-    const primaryIndex = cards.reduce(
-      (best, card, index) => (card.weight > cards[best].weight ? index : best),
-      0,
-    );
-    const primaryCard = cards[primaryIndex]?.node ?? null;
-    const asideCards = cards.filter((_, index) => index !== primaryIndex).map((card) => card.node);
+    // A profile with nothing in one column is not a two-column page with a
+    // hole in it. Source directories publish wildly different fields (a
+    // Motion Design Awards record has an award list and literally nothing
+    // else), so the layout collapses rather than rendering an empty rail.
+    const hasRail = recordCards.length > 0 && offerCards.length > 0;
+    const columnCards = recordCards.length > 0 ? recordCards : offerCards;
+    const cardCount = recordCards.length + offerCards.length;
 
     return (
       <>
@@ -787,14 +787,20 @@ export default function AgencyDetail({
           <div className={styles.inner}>
             {verifiedNote && <p className={styles.verified}>{verifiedNote}</p>}
 
-            {cards.length > 0 && (
+            {cardCount > 0 && (
               <div
-                className={`${styles.columns}${cards.length === 1 ? ` ${styles.columnsSingle}` : ""}`}
+                className={[
+                  styles.columns,
+                  hasRail ? "" : styles.columnsStacked,
+                  // One lone card spanning the full measure reads as a
+                  // page that lost the rest of itself.
+                  cardCount === 1 ? styles.columnsSingle : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
               >
-                <div className={styles.primaryColumn}>{primaryCard}</div>
-                {asideCards.length > 0 && (
-                  <div className={styles.asideColumn}>{asideCards}</div>
-                )}
+                <div className={styles.recordColumn}>{columnCards}</div>
+                {hasRail && <div className={styles.offerColumn}>{offerCards}</div>}
               </div>
             )}
           </div>

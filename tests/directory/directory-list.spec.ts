@@ -9,20 +9,27 @@
 //   2. **The category select actually filters.** It is the control that
 //      replaced four pages, and it is client-side: nothing else in the
 //      pipeline proves the cards it hides and shows are the right ones.
-//   3. **Every agency is in the server HTML.** The list is server-rendered
-//      in full and the controls only choose which pre-rendered cards to
-//      show, which is what keeps every profile linked from the one page
-//      that lists them. Rendering the grid client-side instead would look
-//      identical in a browser and leave a crawler with nothing.
+//   3. **The paged list stays crawlable.** One page of cards is in the
+//      server HTML and the pager's links are real `<a href>`s, which is
+//      what keeps all 323 profiles linked from the one page that lists
+//      them. Rendering the grid - or the pager - client-side only would
+//      look identical in a browser and leave a crawler with 60 of 323.
 
 import { test, expect } from "@playwright/test";
 import {
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
   DIRECTORY_CATEGORY_PARAM,
+  DIRECTORY_PAGE_PARAM,
+  DIRECTORY_PAGE_SIZE,
 } from "../../lib/directory/constants";
 
 const LIST_PATH = DIRECTORY_BASE_PATH;
+
+/** The live result count under the toolbar, in either of its two forms:
+ *  "Showing 1-60 of 323 agencies" when the list pages, "Showing 12 of 60
+ *  agencies" when everything matching is already on screen. */
+const COUNT_LINE = "text=/Showing [\\d-]+ of \\d+ agenc/";
 
 /** Every agency link the server HTML carries, deduped. */
 function agencyHrefs(html: string): Set<string> {
@@ -50,18 +57,26 @@ test.describe("directory list", () => {
     await expect(select).toHaveValue(category.slug);
   });
 
-  test("the category select narrows the grid", async ({ page }) => {
+  test("the category select narrows the list", async ({ page }) => {
     await page.goto(LIST_PATH);
 
-    const cards = page.locator("article");
-    const total = await cards.count();
-    expect(total).toBeGreaterThan(0);
+    /** The "of N" in the count line: how many agencies match right now. */
+    const matchCount = async () => {
+      const text = await page.locator(COUNT_LINE).first().innerText();
+      return Number(text.match(/of (\d+) agenc/)?.[1] ?? 0);
+    };
 
+    const before = await matchCount();
+    expect(before).toBeGreaterThan(0);
+
+    // Asserted on the count rather than on how many cards are painted: a
+    // page of a 323-agency list and a whole 60-agency category can both be
+    // 60 cards, so the card count alone would not notice the filter.
     const category = DIRECTORY_CATEGORIES[0];
     await page.getByLabel("Category", { exact: true }).selectOption(category.slug);
 
-    await expect.poll(async () => cards.count()).toBeLessThan(total);
-    await expect(page.locator("text=/Showing \\d+ of \\d+ agenc/")).toBeVisible();
+    await expect.poll(matchCount).toBeLessThan(before);
+    await expect(page.locator("article").first()).toBeVisible();
 
     // The filter is shareable: the URL says what is on screen.
     await expect(page).toHaveURL(
@@ -69,20 +84,56 @@ test.describe("directory list", () => {
     );
   });
 
-  test("every agency card is in the server HTML, not painted by client JS", async ({
+  test("the first page is in the server HTML, and the pager reaches the rest", async ({
     page,
     request,
   }) => {
     const html = await (await request.get(LIST_PATH)).text();
-    const hrefs = agencyHrefs(html);
+    const firstPage = agencyHrefs(html);
 
-    // The dataset runs to a few hundred records; a server render that has
-    // quietly started paging or deferring would land far below this.
-    expect(hrefs.size).toBeGreaterThan(100);
+    // A full page of cards, server-rendered - not a shell for client JS to
+    // fill, and not the whole dataset either.
+    expect(firstPage.size).toBe(DIRECTORY_PAGE_SIZE);
 
-    // And what the browser shows with JS running is the same set, so the
-    // two renderings agree rather than the client re-deriving the list.
+    // Real links to the other pages, in the HTML, without running any JS.
+    const pageLinks = [
+      ...new Set(
+        (html.match(new RegExp(`href="${LIST_PATH}\\?${DIRECTORY_PAGE_PARAM}=(\\d+)"`, "g")) ?? [])
+          .map((match) => Number(match.match(/=(\d+)"$/)?.[1]))
+          .filter((value): value is number => Number.isFinite(value)),
+      ),
+    ];
+    expect(pageLinks.length).toBeGreaterThan(0);
+
+    // Following them reaches every agency in the directory: no profile is
+    // linked from the sitemap alone.
+    const reached = new Set(firstPage);
+    for (const pageNumber of pageLinks) {
+      const pageHtml = await (
+        await request.get(`${LIST_PATH}?${DIRECTORY_PAGE_PARAM}=${pageNumber}`)
+      ).text();
+      for (const href of agencyHrefs(pageHtml)) reached.add(href);
+    }
+    expect(reached.size).toBeGreaterThan(DIRECTORY_PAGE_SIZE);
+    expect(reached.size).toBeGreaterThan(300);
+
+    // And what the browser shows with JS running is the same page of cards,
+    // so the two renderings agree rather than the client re-deriving them.
     await page.goto(LIST_PATH);
-    await expect.poll(async () => page.locator("article").count()).toBe(hrefs.size);
+    await expect.poll(async () => page.locator("article").count()).toBe(firstPage.size);
+  });
+
+  test("a page link shows a different page of agencies", async ({ page }) => {
+    await page.goto(LIST_PATH);
+
+    const firstName = await page.locator("article h3").first().innerText();
+    await page.getByRole("link", { name: "Page 2", exact: true }).click();
+
+    await expect.poll(async () => page.locator("article h3").first().innerText()).not.toBe(
+      firstName,
+    );
+    // The view is linkable: the URL says which page is on screen.
+    await expect(page).toHaveURL(new RegExp(`${DIRECTORY_PAGE_PARAM}=2`));
+    await expect(page.locator("text=/Showing 61-\\d+ of \\d+ agenc/")).toBeVisible();
   });
 });

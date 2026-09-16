@@ -52,7 +52,7 @@ test("the agency explorer still filters as you type", async ({ page }) => {
   const search = page.getByRole("searchbox").first();
   await expect(search).toBeVisible();
 
-  const countLabel = page.locator("text=/Showing \\d+ of/");
+  const countLabel = page.locator("text=/Showing [\\d-]+ of/");
   const before = await countLabel.innerText();
   await search.fill("lusion");
 

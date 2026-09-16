@@ -45,6 +45,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* Turning a page scrolls this container back into view; without the
+       margin the fixed SiteNav lands on top of the toolbar. */
+    scroll-margin-top: 86px;
 }
 
 /* Screen-reader-only label. The toolbar is icon-and-placeholder by design
@@ -248,6 +251,76 @@
     display: flex;
 }
 
+/* ---- Pager ----------------------------------------------------------- */
+
+/* Real links, not buttons: these hrefs are how a crawler reaches the
+   agencies that are not on page one, and how a visitor middle-clicks one.
+   See the note on `Pager` in AgencyExplorer.tsx. */
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.pagerPages {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.pagerPage,
+.pagerStep {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: transparent;
+    font-family: var(--dg-display);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--dg-ink);
+    text-decoration: none;
+    transition: background-color 140ms ease, color 140ms ease;
+}
+
+.pagerStep {
+    color: var(--dg-muted);
+}
+
+/* The end of the run. A greyed-out span rather than a link to nowhere -
+   there is no page to point at, and a disabled anchor is still an anchor
+   to a keyboard. */
+.pagerStepMuted {
+    color: #c3c5cd;
+    cursor: default;
+}
+
+.pagerPageCurrent {
+    background: var(--dg-accent);
+    color: #ffffff;
+}
+
+.pagerGap {
+    padding: 0 4px;
+    font-family: var(--dg-body);
+    font-size: 14px;
+    color: var(--dg-quiet);
+}
+
+.pagerPage:focus-visible,
+.pagerStep:focus-visible {
+    outline: 2px solid var(--dg-accent);
+    outline-offset: 2px;
+}
+
 /* ---- Empty states ---------------------------------------------------- */
 
 .empty {
@@ -301,6 +374,20 @@
 
 /* Gated to real pointers — see the note in AgencyCard.module.css. */
 @media (hover: hover) and (pointer: fine) {
+    .pagerPage:hover,
+    .pagerStep:hover {
+        background: #f1f1f6;
+    }
+
+    .pagerPageCurrent:hover {
+        background: #372fd8;
+        color: #ffffff;
+    }
+
+    .pagerStepMuted:hover {
+        background: transparent;
+    }
+
     .searchClear:hover {
         background: #e5e5ee;
         color: var(--dg-ink);
@@ -352,6 +439,8 @@
 
     .select,
     .searchClear,
+    .pagerPage,
+    .pagerStep,
     .emptyAction {
         transition: none;
     }

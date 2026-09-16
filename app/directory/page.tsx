@@ -5,15 +5,16 @@
 // they used to have 308 to that parameter - see `redirects` in
 // next.config.ts and DIRECTORY_CATEGORY_PARAM in lib/directory/constants.ts.
 //
-// The whole list is rendered server-side, in the directory's default order
-// (see `getDirectoryAgencyList`). The controls on top of it
-// (AgencyGrid -> AgencyExplorer) are the only client-side piece, and they
-// only choose which of the already-rendered cards to show - so the server
-// HTML a crawler or `curl` sees carries every agency's card and link
-// regardless of client JS. Verify that after changing anything here:
+// The list is paged (`?page=`, DIRECTORY_PAGE_SIZE per page) and rendered
+// server-side in the directory's default order - see
+// `getDirectoryAgencyList`. Every card on the requested page is in the
+// server HTML regardless of client JS, and the pager's links are real
+// `<a href>`s, so a crawler reaches the other pages without running any.
+// Verify both after changing anything here:
 //
 //   curl -s http://localhost:3000/directory \
 //     | grep -o 'href="/directory/agency/[a-z0-9-]*"' | sort -u | wc -l
+//   curl -s http://localhost:3000/directory | grep -o 'href="/directory?page=[0-9]*"'
 //
 // Chrome is the 2026 design system, same as / and /integrations.
 
@@ -29,17 +30,22 @@ import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 import {
+  directoryListPath,
   DIRECTORY_ALL_CATEGORIES,
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORY_PARAM,
+  DIRECTORY_PAGE_PARAM,
+  DIRECTORY_PAGE_SIZE,
   resolveDirectoryCategoryParam,
+  resolveDirectoryPageParam,
 } from "@/lib/directory/constants";
 import {
-  agencyPath,
+  buildAgencyListItems,
   buildAgencyListStats,
   getDirectoryAgencyList,
   getDirectoryCategory,
 } from "@/lib/directory/agencies";
+import type { AgencyListItem } from "@/lib/directory/agencies";
 
 // The bundled scrape with the `agencyListing` corrections in Sanity merged
 // over it - see lib/directory/agencies.ts#getDirectoryAgencies. The scrape
@@ -80,14 +86,36 @@ function buildHubSubheading(agencyCount: number, countryCount: number): string {
 }
 
 /**
- * Builds metadata for the list page.
+ * Narrows the projected list to the active category, using the same
+ * primary-category rule the client filters by (`AgencyListItem.
+ * categorySlug`) so the JSON-LD below cannot describe a different set of
+ * agencies from the one the page renders.
  *
- * The canonical is always `/directory`, filtered view or not: `?category=`
- * narrows one list, it does not mint a second page, and pointing every
- * filtered view at the bare path is what keeps the retired category URLs'
- * 308s consolidating onto one document instead of four near-duplicates.
- * The title still names the active category, so a visitor arriving from one
- * of those redirects can see they landed where they meant to.
+ * @param items - Every agency, projected.
+ * @param categorySlug - The active category, or the "all" sentinel.
+ * @returns The items in that category, in order.
+ */
+function selectCategory(items: AgencyListItem[], categorySlug: string): AgencyListItem[] {
+  try {
+    if (categorySlug === DIRECTORY_ALL_CATEGORIES) return items;
+    return items.filter((item) => item?.categorySlug === categorySlug);
+  } catch {
+    return items;
+  }
+}
+
+/**
+ * Builds metadata for one view of the list.
+ *
+ * **Each server-rendered view is its own canonical** - `/directory`,
+ * `/directory?category=seo`, `/directory?page=3`. They are not duplicates
+ * dressed up by a parameter: each renders a different set of agencies, and
+ * two of the three exist precisely to receive something. `?category=` is
+ * where the four retired category routes now land, and folding those into
+ * `/directory` would hand a 308 to a page that does not answer the query
+ * they ranked for; `?page=` is where 263 of the 323 agency profiles are
+ * linked from, and a page whose canonical points elsewhere is a page whose
+ * links may never be followed.
  *
  * @param props - Route props carrying the query string.
  * @returns Next.js Metadata for the requested view.
@@ -98,12 +126,14 @@ export async function generateMetadata({
   try {
     const params = await searchParams;
     const categorySlug = resolveDirectoryCategoryParam(params?.[DIRECTORY_CATEGORY_PARAM]);
+    const page = resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]);
     const category =
       categorySlug === DIRECTORY_ALL_CATEGORIES ? undefined : getDirectoryCategory(categorySlug);
+    const title = category ? category.title : HUB_TITLE;
     return buildPageMetadata({
-      title: category ? category.title : HUB_TITLE,
+      title: page > 1 ? `${title} - Page ${page}` : title,
       description: category ? category.metaDescription : HUB_META_DESCRIPTION,
-      path: DIRECTORY_BASE_PATH,
+      path: directoryListPath(categorySlug, page),
     });
   } catch {
     return buildPageMetadata({
@@ -123,19 +153,29 @@ export async function generateMetadata({
 export default async function DirectoryListPage({ searchParams }: DirectoryPageProps) {
   const params = await searchParams;
   const initialCategory = resolveDirectoryCategoryParam(params?.[DIRECTORY_CATEGORY_PARAM]);
+  const initialPage = resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]);
 
-  // Always the full list, never the filtered slice: the client controls
-  // pick from these pre-rendered cards, so an agency missing here is an
-  // agency the category select can never show.
+  // Always the whole list, never the page's slice: the client filters and
+  // searches across every item and renders the page's worth of cards from
+  // them, so an agency missing here is an agency no filter can reach.
   const agencies = await getDirectoryAgencyList();
+  const items = buildAgencyListItems(agencies);
   const stats = buildAgencyListStats(agencies);
+  const path = directoryListPath(initialCategory, initialPage);
+
+  // The slice this render actually shows, for the ItemList below. Derived
+  // the same way the client derives it - same filter rule, same page size
+  // - so the schema and the page can't disagree about what is on it.
+  const categoryItems = selectCategory(items, initialCategory);
+  const pageOffset = (initialPage - 1) * DIRECTORY_PAGE_SIZE;
+  const pageItems = categoryItems.slice(pageOffset, pageOffset + DIRECTORY_PAGE_SIZE);
 
   return (
     <main>
       <PageJsonLd
         name={`${HUB_TITLE} | Superflow`}
         description={HUB_META_DESCRIPTION}
-        path={DIRECTORY_BASE_PATH}
+        path={path}
         trail={[{ name: "Directory", url: `${SITE_URL}${DIRECTORY_BASE_PATH}` }]}
       />
       <JsonLd
@@ -145,23 +185,26 @@ export default async function DirectoryListPage({ searchParams }: DirectoryPageP
           "@type": "CollectionPage",
           name: HUB_HEADING,
           description: HUB_META_DESCRIPTION,
-          url: `${SITE_URL}${DIRECTORY_BASE_PATH}`,
+          url: `${SITE_URL}${path}`,
         }}
       />
-      {agencies.length > 0 && (
+      {pageItems.length > 0 && (
         <JsonLd
           id="ld-directory-itemlist"
           data={{
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: HUB_TITLE,
-            url: `${SITE_URL}${DIRECTORY_BASE_PATH}`,
-            numberOfItems: agencies.length,
-            itemListElement: agencies.map((agency, index) => ({
+            url: `${SITE_URL}${path}`,
+            // The agencies on THIS page, at their positions in the whole
+            // list - an ItemList naming records the page does not show is
+            // a claim about a different document.
+            numberOfItems: pageItems.length,
+            itemListElement: pageItems.map((item, index) => ({
               "@type": "ListItem",
-              position: index + 1,
-              url: `${SITE_URL}${agencyPath(agency?.slug ?? "")}`,
-              name: agency?.name,
+              position: pageOffset + index + 1,
+              url: `${SITE_URL}${item.href}`,
+              name: item.name,
             })),
           }}
         />
@@ -172,7 +215,11 @@ export default async function DirectoryListPage({ searchParams }: DirectoryPageP
         heading={HUB_HEADING}
         subheading={buildHubSubheading(stats.agencyCount, stats.countryCount)}
       />
-      <AgencyGrid agencies={agencies} initialCategory={initialCategory} />
+      <AgencyGrid
+        items={items}
+        initialCategory={initialCategory}
+        initialPage={initialPage}
+      />
       {/* No testimonials section. It is social proof about agencies using
           Superflow, which reads as an endorsement of the agencies listed
           here when it sits directly beneath them - a claim the directory

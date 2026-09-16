@@ -34,8 +34,8 @@ Two consequences worth knowing before changing any of this:
   their standing; if that trade turns out badly, the way back is a real
   route per category rendering the same list pre-filtered, not an undo of
   the list itself.
-- **One page now carries every agency.** See "Page weight" below - it is
-  the constraint that shapes how this page is built.
+- **One page now lists every agency, 60 at a time.** See "Page weight"
+  below - it is the constraint that shapes how this page is built.
 
 **One data file per writer, merged at read time.** Each script under
 `scripts/directory-import/` overwrites its own file wholesale on every run,
@@ -158,16 +158,26 @@ why the two are kept structurally apart.
 ## Routes
 
 - `app/directory/page.tsx` — **the list page**, and the only route that
-  lists agencies. Renders every agency in the dataset as a card, in the
-  directory's default order (`getDirectoryAgencyList`), under the filter
-  toolbar described in "List page controls" below. Reads `?category=` to
-  decide which category the controls open on, which is what the retired
-  category routes redirect into; an unknown value falls back to "all"
-  rather than 404ing, because a filter is not a route. Header is
+  lists agencies. Renders one page of `DIRECTORY_PAGE_SIZE` agencies, in
+  the directory's default order (`getDirectoryAgencyList`), under the
+  filter toolbar described in "List page controls" below. Reads
+  `?category=` (which category the controls open on - this is what the
+  retired category routes redirect into) and `?page=`; an unknown or
+  unparseable value falls back to the default rather than 404ing, because
+  these are view parameters on one list, not routes. Header is
   `components/directory/DirectoryListHero.tsx` (the shared blue-gradient
   2026 hero). Reading `searchParams` makes this route server-rendered on
   demand rather than static - the dataset behind it is memoized for 60s, so
   that costs a render rather than a fetch.
+
+  **Each view is its own canonical** (`/directory`,
+  `/directory?category=seo`, `/directory?page=3`). They render different
+  sets of agencies, and two of them exist to receive something: the
+  category views are where four indexed routes now land, and folding them
+  into `/directory` would hand a 308 to a page that does not answer the
+  query they ranked for; the page views are where 263 of the 323 profiles
+  are linked from, and a page whose canonical points elsewhere is a page
+  whose links may never be followed.
   Agencies render as a card grid (`components/directory/AgencyGrid.tsx` →
   `AgencyExplorer.tsx` → `AgencyCard.tsx`). **The whole card opens the
   agency's detail page**, via a stretched link (`.header::after` covers the
@@ -779,19 +789,23 @@ owns all four pieces of interactive state — search, category, country, sort
 
 **Why this is safe for SEO:** a client component server-renders too, and
 `AgencyExplorer`'s `useState` defaults are the props the server was given
-(empty search, the `?category=` it resolved, "all" countries, "Top ranked"),
-so the first-paint HTML — what a crawler or `curl` sees — contains every
-agency card and link regardless of client JS. Filtering only happens after a
-visitor touches a control. Verify after any change here:
+(empty search, the `?category=` and `?page=` it resolved, "all" countries,
+"Top ranked"), so the first-paint HTML — what a crawler or `curl` sees —
+contains that page's cards and links regardless of client JS. Filtering
+only happens after a visitor touches a control. Verify after any change
+here:
 
 ```
 curl -s http://localhost:3000/directory \
-  | grep -o 'href="/directory/agency/[a-z0-9-]*"' | sort -u | wc -l
+  | grep -o 'href="/directory/agency/[a-z0-9-]*"' | sort -u | wc -l   # 60
+curl -s http://localhost:3000/directory \
+  | grep -o 'href="/directory?page=[0-9]*"' | sort -u                  # 2..6
 ```
 
-That count should equal the whole dataset (323 today), not the visible
-subset. `tests/directory/directory-list.spec.ts` asserts it, and asserts
-that the browser shows the same number of cards with JS running.
+The first should equal `DIRECTORY_PAGE_SIZE`; the second is how anything
+without JS reaches the other 263 profiles. `tests/directory/directory-list.spec.ts`
+asserts both, and walks the pager to check the pages together cover the
+whole dataset.
 
 **What crosses the client boundary, and what must not.** `AgencyExplorer`
 and `AgencyCard` import `AgencyListItem` as a `import type` only (erased at
@@ -837,6 +851,15 @@ The control set, in one toolbar row:
   server's own order), "Client rating" (shrinkage-weighted review score, see
   "Review ranking" above) and "Name A-Z" (literal alphabetical, no partner
   boost).
+- **Pages**, `DIRECTORY_PAGE_SIZE` cards each. Every page number is a real
+  `<a href>` from `directoryListPath` — that is what a crawler follows and
+  what a middle-click opens — intercepted on a plain left click, since the
+  browser already holds every page's data. Anything that changes what
+  matches (search, category, country, sort) returns to page one: page four
+  of a 323-agency list is nowhere in an eight-agency search result. The
+  page number is also clamped at render rather than corrected in state, so
+  a filter that shrinks the list under the current page can never paint an
+  empty grid.
 
 "Client rating" is hidden when nothing in the current category has a rating,
 so it never appears on a pure web-design list — a sort mode that can never
@@ -849,9 +872,11 @@ already the primary key of "Top ranked", so the two modes differed only in
 how they broke ties, and with `partners.json` shipping empty it reordered
 nothing at all.
 
-A live `aria-live="polite"` count ("Showing 60 of 323 agencies"), a "Clear
-filters" action that appears only when something is filtered, and a "no
-matches" empty state with a reset action round it out. The controls are
+A live `aria-live="polite"` count — "Showing 61-120 of 323 agencies" while
+there are pages to move between, "Showing 12 of 60 agencies" when
+everything matching is already on screen — a "Clear filters" action that
+appears only when something is filtered, and a "no matches" empty state
+with a reset action round it out. The controls are
 native `<input>`/`<select>`/`<button>` elements; the search field's visible
 label is replaced by its icon and placeholder, so it carries a
 visually-hidden `<label>` and the selects carry `aria-label`s — an
@@ -859,24 +884,36 @@ unlabelled control is not an option.
 
 ## Page weight
 
-The list page carries every agency in the directory, and that is the
-constraint behind most of the choices above. Measured on the 323-record
-dataset:
+The list carries every agency in the directory, and that is the constraint
+behind most of the choices above. Two decisions, in the order they were
+made, measured on the 323-record dataset:
 
-| | Document | gzip |
-| --- | --- | --- |
-| Rendered-cards-as-props (the first cut) | 1.73 MB | 389 KB |
-| `AgencyListItem` projection (shipped) | 1.26 MB | 204 KB |
+| | Document | gzip | Cards in HTML |
+| --- | --- | --- | --- |
+| Rendered cards as props, whole list on one page | 1.73 MB | 389 KB | 323 |
+| `AgencyListItem` projection, whole list on one page | 1.26 MB | 204 KB | 323 |
+| Projection + pagination (shipped) | 697 KB | 141 KB | 60 |
 
-Roughly 700 KB of that is the card markup itself, 509 KB the projection in
-the RSC payload, and 41 KB the `ItemList` JSON-LD. Before adding a field to
-`AgencyListItem`, or a row to the card, remember it is paid 323 times.
+**The projection** is what stopped every card being in the document twice
+(see "What crosses the client boundary" above). **Pagination** is what
+stopped one page rendering 323 cards' worth of markup and ~7,000 DOM
+nodes — the same excessive-DOM problem that capped the old category pages
+at 60 records (see `MOTION_DESIGN_PUBLISHED_LIMIT`).
 
-The alternative — paging or lazily loading the list — was rejected because
-the four category pages are gone: this is now the only page that links to an
-agency profile, and a crawler that finds 60 of 323 links leaves 263 profiles
-reachable only from the sitemap and from each other's "more agencies"
-blocks. If the page has to shrink further, shrink the card, not the list.
+What is left is roughly 509 KB of `AgencyListItem` payload (every agency,
+because the client searches across all of them), ~130 KB of card markup for
+the page, and ~8 KB of `ItemList` JSON-LD. Before adding a field to
+`AgencyListItem`, remember it is paid 323 times; before adding a row to the
+card, 60 times per page.
+
+**Pagination had to keep every profile linked.** This is the only page that
+links to an agency profile now that the category pages are gone, so an
+infinite scroll or a "load more" button — both of which leave a crawler
+with the first 60 and nothing else — were not options. Numbered `<a href>`s
+were: all six page numbers render in the pager, so every profile is two
+hops from `/directory` and each page is its own canonical URL. If the list
+grows past `PAGES_LISTED_IN_FULL` pages the pager elides the middle, and
+the elided pages stay reachable one "Next" at a time.
 
 ## Adding a category
 
