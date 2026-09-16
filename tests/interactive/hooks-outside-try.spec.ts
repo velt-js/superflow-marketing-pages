@@ -48,7 +48,7 @@ test("the agency explorer still filters as you type", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(String(error)));
 
-  await page.goto("/directory/web-design");
+  await page.goto("/directory");
   const search = page.getByRole("searchbox").first();
   await expect(search).toBeVisible();
 

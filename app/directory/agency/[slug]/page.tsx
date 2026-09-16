@@ -28,7 +28,7 @@ import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
-import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
+import { DIRECTORY_BASE_PATH, directoryCategoryPath } from "@/lib/directory/constants";
 import {
   agencyPath,
   buildAgencyMetaDescription,
@@ -42,8 +42,8 @@ import {
 } from "@/lib/directory/agencies";
 
 // The scraped record with the CMS corrections merged over it - see the
-// note on app/directory/[category]/page.tsx for what `revalidate` is
-// actually doing here now that part of the data is a live fetch.
+// note on app/directory/page.tsx for what `revalidate` is actually doing
+// here now that part of the data is a live fetch.
 export const revalidate = 60;
 
 interface AgencyDetailPageProps {
@@ -113,13 +113,16 @@ export default async function AgencyDetailPage({ params }: AgencyDetailPageProps
   const organizationSchema = buildAgencyOrganizationJsonLd(agency);
   const description = buildAgencyMetaDescription(agency);
 
+  // The category step points at the list filtered to that category, which
+  // is where its old `/directory/<slug>` route now redirects - a crumb
+  // pointing at a 308 is a crumb pointing at nothing.
   const trail = [
     { name: "Directory", url: `${SITE_URL}${DIRECTORY_BASE_PATH}` },
     ...(primaryCategory
       ? [
           {
             name: primaryCategory.title,
-            url: `${SITE_URL}${DIRECTORY_BASE_PATH}/${primaryCategory.slug}`,
+            url: `${SITE_URL}${directoryCategoryPath(primaryCategory.slug)}`,
           },
         ]
       : []),

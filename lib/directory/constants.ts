@@ -321,3 +321,62 @@ function assertNoReservedCategorySlug(): void {
 }
 
 assertNoReservedCategorySlug();
+
+/**
+ * Query parameter the directory list page reads its category filter from:
+ * `/directory?category=seo`.
+ *
+ * Categories used to be routes (`/directory/seo`). They are a filter now,
+ * not a destination - one list of every agency, narrowed in place - so the
+ * old routes 308 to this parameter (see `redirects` in next.config.ts) and
+ * nothing in the app mints a `/directory/<slug>` URL any more.
+ */
+export const DIRECTORY_CATEGORY_PARAM = "category";
+
+/** Sentinel value for "every category", used as the category select's
+ *  default. Not a real slug, so it can never collide with one. */
+export const DIRECTORY_ALL_CATEGORIES = "all";
+
+/**
+ * Builds the URL for the directory list filtered to one category - the
+ * single place that URL is assembled, so the redirect, the breadcrumb and
+ * the client-side filter can never disagree about its shape.
+ *
+ * @param categorySlug - The category to filter to, or the "all" sentinel.
+ * @returns The list-page URL, unfiltered for "all" or an unknown slug.
+ */
+export function directoryCategoryPath(categorySlug: string | null | undefined): string {
+  try {
+    const slug = categorySlug?.trim();
+    if (!slug || slug === DIRECTORY_ALL_CATEGORIES) return DIRECTORY_BASE_PATH;
+    const known = DIRECTORY_CATEGORIES.some((category) => category.slug === slug);
+    if (!known) return DIRECTORY_BASE_PATH;
+    return `${DIRECTORY_BASE_PATH}?${DIRECTORY_CATEGORY_PARAM}=${encodeURIComponent(slug)}`;
+  } catch {
+    return DIRECTORY_BASE_PATH;
+  }
+}
+
+/**
+ * Resolves a raw `?category=` value to a known category slug.
+ *
+ * Anything unrecognised resolves to the "all" sentinel rather than 404ing:
+ * a filter is not a route, and a stale or hand-typed value should show the
+ * unfiltered list, not an error page.
+ *
+ * @param rawValue - The query parameter as received.
+ * @returns A known category slug, or `DIRECTORY_ALL_CATEGORIES`.
+ */
+export function resolveDirectoryCategoryParam(
+  rawValue: string | string[] | null | undefined,
+): string {
+  try {
+    const value = Array.isArray(rawValue) ? rawValue[0] : rawValue;
+    const slug = value?.trim().toLowerCase();
+    if (!slug) return DIRECTORY_ALL_CATEGORIES;
+    const known = DIRECTORY_CATEGORIES.some((category) => category.slug === slug);
+    return known ? slug : DIRECTORY_ALL_CATEGORIES;
+  } catch {
+    return DIRECTORY_ALL_CATEGORIES;
+  }
+}

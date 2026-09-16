@@ -1,23 +1,19 @@
-import type { ReactNode } from "react";
-
-import AgencyCard from "./AgencyCard";
 import AgencyExplorer from "./AgencyExplorer";
 import styles from "./DirectoryGrid.module.css";
 import { buildAgencyListItems } from "@/lib/directory/agencies";
+import { DIRECTORY_ALL_CATEGORIES, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
 import type { Agency } from "@/lib/directory/types";
 
-/** Copy shown while a category's dataset is still empty (pre-scrape, or a
- *  category with zero matching records). Kept as constants since the
- *  empty state and the section wrapper are the two things most likely to
- *  need tweaking together. */
+/** Copy shown while the dataset is empty - pre-scrape, or when every
+ *  source file has been emptied. */
 const EMPTY_STATE_HEADING = "No agencies indexed yet";
 const EMPTY_STATE_BODY =
-  "We're compiling award-winning studios for this category. Check back soon.";
+  "We're compiling studios and agencies for this directory. Check back soon.";
 
 /**
- * Empty-state block rendered in place of the grid when a category has no
- * matching agencies yet - keeps the page from rendering a bare, broken-
- * looking section while the scraper is still populating the dataset.
+ * Empty-state block rendered in place of the grid when the directory has
+ * no records at all - keeps the page from rendering a bare, broken-looking
+ * section while the importers are still populating the dataset.
  */
 function EmptyState() {
   try {
@@ -33,55 +29,31 @@ function EmptyState() {
 }
 
 /**
- * Builds a slug-keyed map of pre-rendered `<AgencyCard/>` elements. Keyed
- * by slug rather than array index so it can never desynchronize from the
- * parallel `AgencyListItem[]` built by `buildAgencyListItems` (which
- * drops any agency without a slug) - the client-side AgencyExplorer joins
- * the two by slug, never by position.
+ * The directory list section: the whole agency list, projected into the
+ * slim `AgencyListItem` shape and handed to the controls that filter it.
  *
- * @param agencies - Agencies to render as cards.
- * @returns A map from `Agency.slug` to that agency's rendered card.
- */
-function buildCardsBySlug(agencies: Agency[]): Record<string, ReactNode> {
-  try {
-    const cardsBySlug: Record<string, ReactNode> = {};
-    for (const agency of agencies) {
-      if (agency?.slug) {
-        cardsBySlug[agency.slug] = <AgencyCard agency={agency} />;
-      }
-    }
-    return cardsBySlug;
-  } catch {
-    return {};
-  }
-}
-
-/**
- * Server-rendered agency list for a directory category page. Every
- * agency's card is rendered here, server-side, in the directory's default
- * order - the search/country/sort controls (AgencyExplorer, a small
- * client component) only decide which of those already-rendered cards to
- * show and in what order, so the full set of agency links is always
- * present in the server HTML regardless of client-side filter state.
+ * Every card is still rendered on the server - AgencyExplorer is a client
+ * component, and a client component server-renders - so the full set of
+ * agency links is in the HTML regardless of client-side filter state. What
+ * crosses the boundary is the projection rather than rendered cards: see
+ * `AgencyListItem` in lib/directory/agencies.ts for what that is worth in
+ * payload on a list this long.
  *
  * Renders a graceful empty state instead of the controls + grid when
- * `agencies` is empty, which is the expected state until the scraper
- * populates lib/directory/data/agencies.json (or for a category with no
- * matches yet).
+ * `agencies` is empty.
  *
  * @param props - Component props.
  * @param props.agencies - Agencies to render, already sorted by the caller.
- * @param props.categorySlug - The category being rendered. Forwarded to
- *                             AgencyExplorer so its client-side "Top
- *                             ranked" sort reproduces the server order for
- *                             this category rather than a different one.
+ * @param props.initialCategory - The category the caller filtered to, from
+ *                                 `?category=`. Forwarded so the client's
+ *                                 initial state matches the server's HTML.
  */
 export default function AgencyGrid({
   agencies,
-  categorySlug,
+  initialCategory = DIRECTORY_ALL_CATEGORIES,
 }: {
   agencies: Agency[];
-  categorySlug: string;
+  initialCategory?: string;
 }) {
   try {
     const safeAgencies = agencies ?? [];
@@ -97,12 +69,21 @@ export default function AgencyGrid({
     }
 
     const items = buildAgencyListItems(safeAgencies);
-    const cardsBySlug = buildCardsBySlug(safeAgencies);
+    // Only the slug and title cross the client boundary, never the
+    // registry object itself - see AgencyExplorer's import note.
+    const categories = DIRECTORY_CATEGORIES.map((category) => ({
+      slug: category.slug,
+      title: category.title,
+    }));
 
     return (
       <section className={styles.section} data-section="directory-agency-grid">
         <div className={styles.inner}>
-          <AgencyExplorer items={items} cardsBySlug={cardsBySlug} categorySlug={categorySlug} />
+          <AgencyExplorer
+            items={items}
+            categories={categories}
+            initialCategory={initialCategory}
+          />
         </div>
       </section>
     );

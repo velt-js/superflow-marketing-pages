@@ -1,17 +1,41 @@
 # Agency directory (`/directory`)
 
-A programmatic directory of agencies, browsable by category, with a full
-detail page per agency.
+A programmatic directory of agencies: **one list page** at `/directory`,
+filterable by category, country and search, with a full detail page per
+agency.
 
-| Category | Route | Source | Data file | Ranked on | Filtered to |
+| Category | Filter | Source | Data file | Ranked on | Filtered to |
 | --- | --- | --- | --- | --- | --- |
-| Web Design | `/directory/web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
-| SEO | `/directory/seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
-| Branding | `/directory/branding` | Clutch, DesignRush, D&AD | `lib/directory/data/branding-agencies.json` | Accolades, then review score | Projects from $10,000 **or** award provenance |
-| Motion Design | `/directory/motion-design` | Motion Design Awards | `lib/directory/data/motion-design-agencies.json` | Accolades (= award count) | Top 60 by award count |
+| Web Design | `/directory?category=web-design` | Awwwards | `lib/directory/data/agencies.json` | Award total | — |
+| SEO | `/directory?category=seo` | Semrush Agency Partners | `lib/directory/data/seo-agencies.json` | Client review score | Projects from $5,000 |
+| Branding | `/directory?category=branding` | Clutch, DesignRush, D&AD | `lib/directory/data/branding-agencies.json` | Accolades, then review score | Projects from $10,000 **or** award provenance |
+| Motion Design | `/directory?category=motion-design` | Motion Design Awards | `lib/directory/data/motion-design-agencies.json` | Accolades (= award count) | Top 60 by award count |
 
 Counts at time of writing: 60 web design, 60 SEO, 143 branding, 60 motion
-design.
+design - 323 agencies on one page.
+
+**A category is a filter, not a destination.** `/directory/<category>` used
+to be four separate pages; each now 308s to the list pre-filtered to itself
+(`redirects` in `next.config.ts`, built from `DIRECTORY_CATEGORIES` so a new
+category cannot leave a retired route 404ing). The reasoning: a visitor
+arriving on "web design agencies" who wants a branding studio was being
+asked to go back out to a hub and start again, and four pages meant four
+search boxes, four country filters and four sets of the same furniture to
+keep in step. What they were **not** was four different kinds of content -
+every card on all four is the same object from a different source.
+
+Two consequences worth knowing before changing any of this:
+
+- **The four category URLs were indexed and linked.** They are redirects
+  now, not deletions, and `/directory` is the canonical for every filtered
+  view (`?category=` never mints a second canonical - see
+  `generateMetadata` in `app/directory/page.tsx`). That deliberately trades
+  four pages each ranking for its own phrase for one page consolidating
+  their standing; if that trade turns out badly, the way back is a real
+  route per category rendering the same list pre-filtered, not an undo of
+  the list itself.
+- **One page now carries every agency.** See "Page weight" below - it is
+  the constraint that shapes how this page is built.
 
 **One data file per writer, merged at read time.** Each script under
 `scripts/directory-import/` overwrites its own file wholesale on every run,
@@ -133,37 +157,40 @@ why the two are kept structurally apart.
 
 ## Routes
 
-- `app/directory/page.tsx` — hub page. Lists every category in
-  `DIRECTORY_CATEGORIES`, each with a count of indexed agencies (or a
-  "coming soon" label while that category's data is still empty). Built on
-  the shared `ListingPage` / `ListingGrid` components (the 2026 set in
-  `components/listing-2026/`, same as `/use-case` and `/user-persona`), so
-  adding a category needs **no edit here**.
-- `app/directory/[category]/page.tsx` — category detail page. Statically
-  generated for every slug in `DIRECTORY_CATEGORIES` via
-  `generateStaticParams`; any other slug 404s via `notFound()`. Header is
-  `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
-  hero, closing on a white card carrying the live stat row. Agencies render
-  as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
-  each carrying a one-line "Worked with X, Y, Z +N more" summary). **The
-  whole card opens the agency's detail page**, via a stretched link
-  (`.header::after` covers the card) rather than by wrapping the card in an
-  `<a>` — the footer still carries the agency's own outbound website link,
-  and an anchor inside an anchor is invalid HTML that browsers recover from
-  in their own incompatible ways. `.websiteLink` lifts itself above the
-  overlay to keep its own click. Both halves are covered by
+- `app/directory/page.tsx` — **the list page**, and the only route that
+  lists agencies. Renders every agency in the dataset as a card, in the
+  directory's default order (`getDirectoryAgencyList`), under the filter
+  toolbar described in "List page controls" below. Reads `?category=` to
+  decide which category the controls open on, which is what the retired
+  category routes redirect into; an unknown value falls back to "all"
+  rather than 404ing, because a filter is not a route. Header is
+  `components/directory/DirectoryListHero.tsx` (the shared blue-gradient
+  2026 hero). Reading `searchParams` makes this route server-rendered on
+  demand rather than static - the dataset behind it is memoized for 60s, so
+  that costs a render rather than a fetch.
+  Agencies render as a card grid (`components/directory/AgencyGrid.tsx` →
+  `AgencyExplorer.tsx` → `AgencyCard.tsx`). **The whole card opens the
+  agency's detail page**, via a stretched link (`.header::after` covers the
+  card) rather than by wrapping the card in an `<a>` — the footer still
+  carries the agency's own outbound website link, and an anchor inside an
+  anchor is invalid HTML that browsers recover from in their own
+  incompatible ways. `.websiteLink` lifts itself above the overlay to keep
+  its own click. Both halves are covered by
   `tests/directory/agency-card.spec.ts`, because neither failure mode (a
   dead card body, or an overlay that eats the website link) is visible to
-  `tsc` or `next build`. The card carries **no** link back to the source
-  directory: that attribution lives on the detail page one click away, and
-  the figures on the card name their source in the label itself ("48
-  Awwwards awards"), so nothing on it is an unattributed claim. Cards are
-  sorted in the directory's default order: Superflow partners first, then
-  total award count descending, then review score descending, then name.
-  The two credibility keys are disjoint per category (see the top of this
-  file), so in practice web-design sorts on awards and SEO on reviews. Each card links through to that
-  agency's detail page. See "Category page controls" below for the
-  search/filter/sort layer on top of this grid.
+  `tsc` or `next build`. That test clicks by coordinate rather than with
+  `locator.click()`, because Playwright's actionability check refuses to
+  click an element that another element covers - and the covering overlay
+  is the thing under test.
+  The card carries **no** link back to the source directory: that
+  attribution lives on the detail page one click away. It does always
+  **name** the source under its credential ("Awwwards · 91x Site of the
+  Day", "Semrush Agency Partners · 108 reviews" - see
+  `getAgencyCredential`), so no figure on a card is an unattributed claim.
+  Cards are sorted in the directory's default order: Superflow partners
+  first, then a round-robin over the per-category rankings (see
+  `getDirectoryAgencyList` for why the categories are interleaved rather
+  than ranked against each other).
 - `app/directory/agency/[slug]/page.tsx` — agency detail page. **Flat**
   route, deliberately not nested under a category — `Agency.categories` is
   an array, so a nested scheme would mint two URLs for an agency in two
@@ -193,13 +220,20 @@ headlines over Urbanist/Poppins, and the light card idiom (`#fbfbfd` fill,
 `#ececf1` hairline, 20px radius, `#433df3` accent). The directory's own
 pieces live in four CSS modules under `components/directory/`:
 
-- `DirectoryHero.module.css` — the gradient hero shared by the category page
-  and an agency profile, including the white meta card both close on.
-- `DirectoryGrid.module.css` — the white grid section, the search/country/sort
-  control bar, and both empty states. Shared by `AgencyGrid`, `AgencyExplorer`
-  and `RelatedAgencies` so the halves of one visual section can't drift.
-- `AgencyCard.module.css` — the category-grid card.
-- `AgencyDetail.module.css` — the profile's content cards.
+- `DirectoryHero.module.css` — the gradient hero shared by the list page and
+  an agency profile, as a `.heroList` / `.heroProfile` pair of modifiers:
+  the list carries a headline and nothing else, a profile carries a
+  breadcrumb, a logo plate, an identity block, two calls to action and the
+  white stat strip riding the fade into the page. One file rather than two,
+  so the gradient/crop/fade maths cannot drift between them.
+- `DirectoryGrid.module.css` — the white list section, the filter toolbar,
+  and both empty states. Shared by `AgencyGrid` and `AgencyExplorer` so the
+  halves of one visual section can't drift.
+- `AgencyCard.module.css` — the list card.
+- `AgencyDetail.module.css` — the profile's two-column body and its cards.
+- `RelatedAgencies.module.css` — the "more agencies" rows at the foot of a
+  profile. Rows rather than a repeat of the card grid: the block follows a
+  page of content, and a second grid there read as a second listing page.
 
 **Hover on cards and buttons is gated behind
 `@media (hover: hover) and (pointer: fine)`, and must stay that way.** Touch
@@ -256,19 +290,23 @@ refusing to open on a phone. See the note in `AgencyCard.module.css` and the
   `partners.json`.
 - `lib/directory/agencies.ts` — the only module that reads the JSON files
   directly. Pages should go through these helpers rather than importing
-  the JSON files themselves. Notable exports: `getAgenciesByCategory`,
-  `getAgencyCountByCategory`, `getDirectoryCategory`, `getAgencyBySlug`,
+  the JSON files themselves. Notable exports: `getDirectoryAgencyList` (the
+  whole directory in the list page's order - see its own note on why the
+  categories are interleaved rather than ranked against each other),
+  `getAgenciesByCategory`, `getDirectoryCategory`, `getAgencyBySlug`,
   `getAllAgencySlugs`, `agencyPath` (the single place the detail-page URL
   is assembled), `getRelatedAgencies`, `buildAgencyMetaTitle` /
   `buildAgencyMetaDescription` (per-agency, composed from real fields —
   see below), `buildAgencyOrganizationJsonLd`, `formatAgencyLocation`,
-  `getAwardBreakdown`, `formatAgencyRating` / `getAgencyRatingScore` (the
+  `getAwardBreakdown`, `getHeadlineAward`, `getAgencyCredential` (the one
+  figure a card leads with, plus the line naming who published it),
+  `isJuryAccoladeSource`, `formatAgencyRating` / `getAgencyRatingScore` (the
   review-based counterparts, see "Review ranking" below),
   `mergeAgencySources`, `resolveAgencySourceLabel`, `isSuperflowPartner`,
-  `buildAgencyListItems` / `AgencyListItem` (the slim, client-safe
-  projection behind the category page's controls), `buildAgencyListStats`
-  (agency/country/partner counts for `CategoryHero`), and the thin-content
-  gate described next.
+  `buildAgencyListItems` / `AgencyListItem` (the client-safe projection the
+  list page renders and filters on), `buildAgencyListStats`
+  (agency/country/partner counts behind the hero's subheading), and the
+  thin-content gate described next.
 
 ## Thin-content guard
 
@@ -367,15 +405,21 @@ SEO records carry self-reported badges ("Top Advertising Company", BBB
 awards), and ranking on those would promote the most self-congratulatory
 agencies over the best-reviewed ones.
 
-**Both sides of the ranking must agree.** The server sorts in
-`getAgenciesByCategory`; `AgencyExplorer` re-sorts the same list on the
-client for its "Top ranked" mode, so `compareByAccoladeRanking` there is a
-mirror of `compareAgenciesByAccolades` here and the two must stay identical
-or the page reorders itself on hydration. Both read
-`isAccoladeRankedCategory`, which lives in `constants.ts` rather than
-`agencies.ts` precisely so the client can import it — `agencies.ts` imports
-the JSON datasets, and taking a *value* from it in a `"use client"` file
-would ship the whole directory into the browser bundle.
+**The client no longer keeps its own copy of the ranking.** It used to:
+`AgencyExplorer` mirrored `compareAgenciesDefaultOrder` and
+`compareAgenciesByAccolades` so its "Top ranked" mode could reproduce the
+server's order, and a key added on one side and not the other silently
+reordered the page on hydration — away from the order the page's own
+`ItemList` JSON-LD claimed. The server now stamps each item with its
+position (`AgencyListItem.rank`, from `buildAgencyListItems`) and the client
+sorts on that number, so there is no second copy to drift from. Filtering to
+one category leaves those ranks a subsequence of the same order, which is
+exactly that category's own ranking — see `getDirectoryAgencyList`.
+
+`isAccoladeRankedCategory` still lives in `constants.ts` rather than
+`agencies.ts`, because `agencies.ts` imports the JSON datasets and taking a
+*value* from it in a `"use client"` file would ship the whole directory into
+the browser bundle.
 
 ## Corrections from the agency (the CMS layer)
 
@@ -532,10 +576,10 @@ profile rather than stated in our own voice.
 
 ## Client list
 
-Each agency carries the brands it has shipped work for — surfaced as a
-one-line "Worked with X, Y, Z +N more" summary on
-`components/directory/AgencyCard.tsx`, and as a full "Worked with" card on
-`AgencyDetail.tsx` pairing each client with the project it came from.
+Each agency carries the brands it has shipped work for — surfaced as up to
+three name chips plus a "+N" on `components/directory/AgencyCard.tsx`, and
+as a full "Worked with" card on `AgencyDetail.tsx` pairing each client with
+the project it came from.
 
 - **Where it comes from (Awwwards):** `clients: AgencyClient[]`
   (`lib/directory/types.ts`) is populated by
@@ -575,8 +619,7 @@ one-line "Worked with X, Y, Z +N more" summary on
   deduped list (deduped by *name* here, separately from the scraper's
   dedupe-by-domain, since one brand reached under two domains would
   otherwise print twice); `formatAgencyClientSummary(agency, limit?)`
-  collapses it into the one-line summary shared by the card and the meta
-  description.
+  collapses it into a one-line summary, which the meta description uses.
 - Capped at 12 per agency (`MAX_CLIENTS_PER_AGENCY` in the scraper), stored
   with recognisable brands first.
 - **Rendering note:** the detail card hides the project title when it adds
@@ -591,10 +634,14 @@ one-line "Worked with X, Y, Z +N more" summary on
 
 ## Superflow partner badge
 
-`components/directory/PartnerBadge.tsx` renders an icon-only, verified-style
-tick on both the card and the detail page for any agency `isSuperflowPartner`
-matches. It renders nothing for a non-partner, so both call sites use it
-unconditionally. The mark is a scalloped burst in `--color-superflow-blue`
+`components/directory/PartnerBadge.tsx` renders an icon-only,
+verified-style tick on an agency profile for any agency
+`isSuperflowPartner` matches. It renders nothing for a non-partner, so the
+call site uses it unconditionally. The list card renders
+`PartnerBadgeMark` directly instead, off the `isPartner` flag the server
+already put on its `AgencyListItem` - the card is a client component and
+must not import the module `isSuperflowPartner` lives in (see "List page
+controls"). The mark is a scalloped burst in `--color-superflow-blue`
 with a white tick, sized 18px; the burst path is generated (12 lobes,
 Catmull-Rom spline), not hand-drawn — regenerate it rather than nudging
 points. Styles are in `PartnerBadge.module.css`.
@@ -634,14 +681,14 @@ load-bearing: `PartnerBadge` calls `isSuperflowPartner`, a real runtime
 import from `lib/directory/agencies.ts`, whose module scope imports
 `agencies.json`. Marking *that* component `"use client"` would very likely
 pull the whole scraped dataset into the browser bundle — the same trap
-`AgencyExplorer` avoids with a type-only import (see "Category page
+`AgencyExplorer` avoids with a type-only import (see "List page
 controls"). `PartnerBadgeMark` therefore takes plain strings and imports
 nothing from `lib/directory/`. `tests/directory/partner-badge.spec.ts`
 guards this, and was confirmed to fail when the boundary is moved up.
 
 ### Other things to preserve
 
-- **The tap is intercepted.** On the card the mark sits inside the
+- **The tap is intercepted.** On the list card the mark sits inside the
   card-wide `<Link>`, so `PartnerBadgeMark` calls `preventDefault()` +
   `stopPropagation()` — otherwise tapping the badge would navigate to the
   agency page instead of explaining the badge.
@@ -657,9 +704,10 @@ guards this, and was confirmed to fail when the boundary is moved up.
   styled one after roughly a second and repeat the same sentence.
 - The tooltip is `pointer-events: none`, so it cannot swallow taps meant
   for the card link it overlaps.
-- The category hero's "N Superflow partners" stat (`buildAgencyListStats` →
-  `CategoryHero`) is the only place the phrase appears as visible text on a
-  category page; the agency detail page has no equivalent.
+- `buildAgencyListStats` still counts partners, but nothing renders that
+  count today: the list hero's subheading states the agency and country
+  totals only, and the agency detail page has no equivalent. The badge and
+  its tooltip are the only place the claim appears.
 
 ### Previewing the badge
 
@@ -721,87 +769,124 @@ schema.org has no property that cleanly means "is a customer of this
 specific software product" without misusing one (see the comment on
 `buildAgencyOrganizationJsonLd`).
 
-## Category page controls
+## List page controls
 
-`components/directory/AgencyGrid.tsx` renders every agency's card
-server-side, in the directory's default order, then hands two things to
-`components/directory/AgencyExplorer.tsx` (a small `"use client"`
-component): the pre-rendered `<AgencyCard/>` elements (keyed by
-`Agency.slug` in a `cardsBySlug` map, never by array index) and a slim,
-serializable `AgencyListItem[]` (see `buildAgencyListItems`) for the
-filtering/sorting logic itself.
+`components/directory/AgencyGrid.tsx` projects every agency into an
+`AgencyListItem` (see `buildAgencyListItems`) and hands the array to
+`components/directory/AgencyExplorer.tsx`, a `"use client"` component that
+owns all four pieces of interactive state — search, category, country, sort
+— and renders the cards for whichever items survive them.
 
-**Why this split matters for SEO:** `AgencyExplorer`'s `useState` defaults
-(empty search, "all" countries, "Top ranked" sort) reproduce exactly what
-the server already rendered, so the first-paint HTML — what a crawler or
-`curl` sees — always contains every agency card and its link, regardless
-of client JS. Filtering/reordering only happens after a visitor actually
-interacts with a control. Verify this holds after any change here with:
+**Why this is safe for SEO:** a client component server-renders too, and
+`AgencyExplorer`'s `useState` defaults are the props the server was given
+(empty search, the `?category=` it resolved, "all" countries, "Top ranked"),
+so the first-paint HTML — what a crawler or `curl` sees — contains every
+agency card and link regardless of client JS. Filtering only happens after a
+visitor touches a control. Verify after any change here:
 
 ```
-curl -s http://localhost:3000/directory/web-design \
+curl -s http://localhost:3000/directory \
   | grep -o 'href="/directory/agency/[a-z0-9-]*"' | sort -u | wc -l
 ```
 
-That count should equal the category's total agency count.
+That count should equal the whole dataset (323 today), not the visible
+subset. `tests/directory/directory-list.spec.ts` asserts it, and asserts
+that the browser shows the same number of cards with JS running.
 
-**Why `AgencyListItem` instead of passing full `Agency` records:**
-`AgencyExplorer` only imports `AgencyListItem` as a `import type` (erased
-at compile time, zero runtime cost). If a client component instead
-imported anything real from `lib/directory/agencies.ts`, the module's
-top-level `agencies.json`/`partners.json` imports would very likely ride
-along into the client bundle too (JSON module imports aren't reliably
-tree-shaken), doubling the dataset's footprint on top of what is already
-server-rendered as HTML. Keep new client-side directory code following
-this pattern: type-only imports from `lib/directory/agencies.ts`, plain
-data passed in as props from a server component.
+**What crosses the client boundary, and what must not.** `AgencyExplorer`
+and `AgencyCard` import `AgencyListItem` as a `import type` only (erased at
+compile time) and take everything they paint as props. A client component
+that instead imported anything *real* from `lib/directory/agencies.ts`
+would very likely pull the module's top-level `agencies.json` /
+`partners.json` imports into the browser bundle (JSON module imports aren't
+reliably tree-shaken), and the Sanity client with them.
+`tests/directory/partner-badge.spec.ts` scans every JS response for dataset
+markers and fails if that happens. This is also why `AgencyCard` renders
+`PartnerBadgeMark` directly rather than the server `PartnerBadge` wrapper:
+the wrapper decides partner status by calling `isSuperflowPartner`, and the
+decision is already on the projection as `isPartner`.
 
-The control set: search (name + description + location + client names +
-services + industries, via `AgencyListItem.searchText` — so searching a category page for "nike"
-surfaces the agencies that built for Nike, not just agencies named that),
-a country filter whose options are derived
-from the data (`buildCountryOptions`, never a hardcoded list), and four
-sort modes — "Top ranked" (the default, and the only mode that reproduces
-the SSR order), "Client rating" (shrinkage-weighted review score with no
-partner boost, see "Review ranking" above), "Name A-Z" (literal
-alphabetical, no partner boost), and "Partners first" (partners first,
-then name).
+**Why cards are not passed across as rendered elements.** They used to be:
+`AgencyGrid` rendered every `<AgencyCard/>` server-side and passed them to
+the explorer in a slug-keyed map. React serializes any element passed into a
+client component into the RSC payload, so every card was in the document
+twice — as markup and again as payload. At 60 cards per category that was
+tolerable; at 323 on one page it was 983 KB, 57% of the document. The
+projection carries no field a card does not paint and costs about a fifth of
+that. **Do not "simplify" this back into passing rendered cards.**
 
-**"Top ranked" (`compareByDirectoryRanking`) must stay a key-for-key
-mirror of `compareAgenciesDefaultOrder` in `lib/directory/agencies.ts`.**
-The server sorts the list with that comparator; the explorer sorts the
-same list again on the client, so a key in one and not the other makes
-the page reorder itself on hydration — and leaves the visible order
-disagreeing with the `ItemList` JSON-LD, which is built from the server's
-order.
+The control set, in one toolbar row:
 
-This mode used to be "Award total" and ranked on awards alone, which was
-a faithful mirror while Awwwards was the only source. The SEO category
-broke it: every record there scores 0 on awards, so the mode fell through
-to its name tiebreaker and rendered the whole category **alphabetically**,
-under a heading promising agencies "ranked on their published client
-reviews". Adding the review score as a third key fixed it — one comparator
-that ranks web design by awards and SEO by reviews, because the two keys
-never compete inside a single category.
+- **Search** over `AgencyListItem.searchText` — name, description, location,
+  client names, service and industry names, and the category title. So
+  searching "nike" surfaces the agencies that built for Nike, "link
+  building" surfaces the agencies that sell it, and "motion design" works
+  before a visitor reaches for the category select.
+- **Category**, with the count of agencies behind each option, derived from
+  the data rather than typed into the labels. Selecting one resets the
+  country filter (country options are category-scoped, so a stale value
+  would show an empty grid with no obvious cause) and writes `?category=`
+  into the address bar with `history.replaceState` — so a filtered view is
+  linkable and reloadable, and the 308 from a retired category URL lands
+  somewhere that still reads as that category. `replaceState` rather than a
+  router push: the whole list is already in the DOM, and a navigation would
+  refetch several hundred cards to show a subset of what is on screen.
+- **Country**, options derived from the active category's records
+  (`buildCountryOptions`, never a hardcoded list).
+- **Sort** — "Top ranked" (the default; replays `AgencyListItem.rank`, the
+  server's own order), "Client rating" (shrinkage-weighted review score, see
+  "Review ranking" above) and "Name A-Z" (literal alphabetical, no partner
+  boost).
 
-"Client rating" is hidden when nothing in the current list has a rating,
-so it never appears on a pure web-design category. There is no
-"Award total" option to hide symmetrically — "Top ranked" already *is*
-award ranking on a web-design category. A live `aria-live="polite"` result
-count and a
-"no matches" empty state with a reset action round it out. All controls
-are native `<input>`/`<select>`/`<button>` elements with paired
-`<label htmlFor>`s, so keyboard access and screen readers work without
-extra plumbing.
+"Client rating" is hidden when nothing in the current category has a rating,
+so it never appears on a pure web-design list — a sort mode that can never
+reorder anything is a dead control, not a choice. "Top ranked" never gets
+the same treatment: it is the SSR default, and a `<select>` whose selected
+value has no matching `<option>` renders as an unlabelled blank.
+
+There was a fourth mode, "Partners first". It is gone: partner status is
+already the primary key of "Top ranked", so the two modes differed only in
+how they broke ties, and with `partners.json` shipping empty it reordered
+nothing at all.
+
+A live `aria-live="polite"` count ("Showing 60 of 323 agencies"), a "Clear
+filters" action that appears only when something is filtered, and a "no
+matches" empty state with a reset action round it out. The controls are
+native `<input>`/`<select>`/`<button>` elements; the search field's visible
+label is replaced by its icon and placeholder, so it carries a
+visually-hidden `<label>` and the selects carry `aria-label`s — an
+unlabelled control is not an option.
+
+## Page weight
+
+The list page carries every agency in the directory, and that is the
+constraint behind most of the choices above. Measured on the 323-record
+dataset:
+
+| | Document | gzip |
+| --- | --- | --- |
+| Rendered-cards-as-props (the first cut) | 1.73 MB | 389 KB |
+| `AgencyListItem` projection (shipped) | 1.26 MB | 204 KB |
+
+Roughly 700 KB of that is the card markup itself, 509 KB the projection in
+the RSC payload, and 41 KB the `ItemList` JSON-LD. Before adding a field to
+`AgencyListItem`, or a row to the card, remember it is paid 323 times.
+
+The alternative — paging or lazily loading the list — was rejected because
+the four category pages are gone: this is now the only page that links to an
+agency profile, and a crawler that finds 60 of 323 links leaves 263 profiles
+reachable only from the sitemap and from each other's "more agencies"
+blocks. If the page has to shrink further, shrink the card, not the list.
 
 ## Adding a category
 
 Add one entry to `DIRECTORY_CATEGORIES` in `lib/directory/constants.ts`
 (slug, title, heading, subheading, metaDescription) — **not** the reserved
 `DIRECTORY_AGENCY_SEGMENT` value, which `assertNoReservedCategorySlug`
-rejects at build time. That's it — the hub page, the category route's
-`generateStaticParams`, and the sitemap (`app/sitemap.ts`) all read off
-that array, so no page code needs to change. The importer is responsible
+rejects at build time. That's it: the list page's category select, the
+ranking interleave in `getDirectoryAgencyList`, the Markdown copy, and the
+`/directory/<slug>` → `?category=<slug>` redirect in `next.config.ts` all
+read off that array, so no page code needs to change. The importer is responsible
 for tagging agency records with the new category slug in their
 `categories` array.
 
@@ -838,13 +923,22 @@ adding a slug, and the SEO category is the worked example of it:
 
 ## SEO
 
-All three routes follow the site's standard pattern: `buildPageMetadata`
+Both routes follow the site's standard pattern: `buildPageMetadata`
 for `<meta>`/OG/Twitter tags, `PageJsonLd` for WebPage + BreadcrumbList,
 plus hand-rolled schema alongside it. See `app/alternative/[slug]/page.tsx`
 for the reference this was modeled on.
 
-- Hub + category pages: a hand-rolled `ItemList` (`CollectionPage` too on
-  the category page), pointing at the agency detail pages.
+- List page: a hand-rolled `CollectionPage` and an `ItemList` naming every
+  agency on it, pointing at the detail pages. The canonical is `/directory`
+  for every view, filtered or not — a `?category=` view is one list
+  narrowed, not a second document, and the whole point of redirecting the
+  four category routes was to consolidate onto one URL rather than mint
+  four more.
+- A retired category route (`/directory/<slug>`) 308s to
+  `/directory?category=<slug>`; its Markdown copy is gone with it, since
+  `directoryHubToAgentDoc` covers all four categories in one document (see
+  "Machine-readable surface" in the root `AGENTS.md`). `app/sitemap.ts`
+  lists `/directory` and the agency profiles — never a redirect.
 - Agency detail pages: per-agency `title`/`description` composed from
   name + primary category + location + award total + the agency's own
   description (see `buildAgencyMetaTitle` / `buildAgencyMetaDescription`)

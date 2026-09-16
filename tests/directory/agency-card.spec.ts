@@ -1,4 +1,4 @@
-// Browser tests for the agency card's click behaviour on a category grid.
+// Browser tests for the agency card's click behaviour on the directory list.
 //
 // Why this file exists: the card is one click target for the detail page,
 // built with a stretched link (`.header::after` covers the card) rather than
@@ -17,13 +17,15 @@
 //      that click, every link on the grid quietly goes to the same place.
 
 import { test, expect } from "@playwright/test";
-import { DIRECTORY_CATEGORIES } from "../../lib/directory/constants";
+import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 
-const CATEGORY_PATH = `/directory/${DIRECTORY_CATEGORIES[0].slug}`;
+/** The one page that lists agencies. The four category routes it replaced
+ *  now 308 here - see the redirect test in directory-list.spec.ts. */
+const LIST_PATH = DIRECTORY_BASE_PATH;
 
 test.describe("agency card", () => {
   test("clicking the card body opens the agency's detail page", async ({ page }) => {
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
 
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     await expect(card).toBeVisible();
@@ -33,7 +35,18 @@ test.describe("agency card", () => {
     // the card rather than the header happening to be under the cursor.
     const body = card.locator("p").first();
     await expect(body).toBeVisible();
-    await body.click();
+
+    // Clicked by coordinate rather than with `body.click()`. Playwright's
+    // actionability check refuses to click an element another element sits
+    // on top of - and the stretched-link overlay sitting on top of this one
+    // is the entire thing being tested, so the guard fires on a correct
+    // build. A real mouse click at the description's own coordinates is
+    // what a visitor does, and the browser routes it to whatever is
+    // actually on top: the overlay on a working build, the inert <p> on a
+    // broken one, which leaves the URL where it was and fails below.
+    const box = await body.boundingBox();
+    expect(box, "the description should have a layout box to click").not.toBeNull();
+    await page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
 
     await expect(page).toHaveURL(/\/directory\/agency\/[^/]+$/);
     // A real profile, not a 404 shell.
@@ -41,7 +54,7 @@ test.describe("agency card", () => {
   });
 
   test("the agency's own website link still wins its own click", async ({ page }) => {
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
 
     const websiteLink = page
       .locator("article a[target='_blank'][rel*='noopener']")
@@ -54,11 +67,11 @@ test.describe("agency card", () => {
     // the stretched-link overlay had swallowed this, we would be sitting on
     // an agency profile instead.
     await websiteLink.click();
-    await expect(page).toHaveURL(new RegExp(`${CATEGORY_PATH}$`));
+    await expect(page).toHaveURL(new RegExp(`${LIST_PATH}/?$`));
   });
 
   test("the card carries no link back to the source directory", async ({ page }) => {
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
 
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     // Attribution lives on the detail page this card opens, one click away.
@@ -69,7 +82,7 @@ test.describe("agency card", () => {
   });
 
   test("no anchor is nested inside another anchor", async ({ page }) => {
-    await page.goto(CATEGORY_PATH);
+    await page.goto(LIST_PATH);
 
     // The whole reason the card uses an overlay instead of wrapping itself
     // in a link. Browsers recover from nested anchors in incompatible ways,

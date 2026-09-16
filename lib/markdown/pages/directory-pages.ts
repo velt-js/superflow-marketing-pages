@@ -13,22 +13,31 @@
 // starts laundering its own opinions as facts.
 
 import type { AgentDoc, AgentDocSection } from "../types";
-import type { Agency, DirectoryCategory } from "@/lib/directory/types";
+import type { Agency } from "@/lib/directory/types";
+import { absoluteUrl } from "../render";
 import {
   agencyPath,
   formatAgencyLocation,
   formatAgencyRating,
-  getAgenciesByCategory,
   getAgencyClients,
   getAwardBreakdown,
-  getIndexableAgencySlugs,
+  getDirectoryAgencyList,
   getRelatedAgencies,
+  isJuryAccoladeSource,
   resolveAgencySourceLabel,
   resolveAwardTallyLabel,
   shouldIndexAgency,
 } from "@/lib/directory/agencies";
-import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
+import {
+  DIRECTORY_BASE_PATH,
+  DIRECTORY_CATEGORIES,
+  DIRECTORY_CATEGORY_PARAM,
+} from "@/lib/directory/constants";
 import { clean } from "../text";
+
+/** How many agencies the hub document links in its "Related pages" block.
+ *  The table above it already carries every profile URL. */
+const RELATED_AGENCY_LIMIT = 12;
 
 /** Section list with the empties dropped. */
 function sections(...candidates: (AgentDocSection | null)[]): AgentDocSection[] {
@@ -118,8 +127,17 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
           : undefined,
       },
       {
-        heading: "Recognitions",
-        body: ["Self-reported by the agency, unverified."],
+        // Two different claims live in `accolades` depending on the source,
+        // and the caption has to say which one this is: a D&AD Pencil list
+        // captioned "self-reported" is wrong about the jury, and a wall of
+        // vendor certifications captioned "published by the jury" is wrong
+        // about the agency. See `isJuryAccoladeSource`.
+        heading: isJuryAccoladeSource(agency.source) ? "Award wins" : "Recognitions",
+        body: [
+          isJuryAccoladeSource(agency.source)
+            ? `Every entry is one win, as published by ${source}.`
+            : "Self-reported by the agency, unverified.",
+        ],
         bullets: (agency.accolades ?? []).map(clean).filter(Boolean),
       },
       // Neither of these comes from a source directory - no directory
@@ -168,67 +186,36 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
   };
 }
 
-/** One directory category listing. */
-export async function directoryCategoryToAgentDoc(
-  category: DirectoryCategory,
-): Promise<AgentDoc> {
-  const agencies = (await getAgenciesByCategory(category.slug)).filter(shouldIndexAgency);
+/** The directory list page, with every listed agency as one table row. */
+export async function directoryHubToAgentDoc(): Promise<AgentDoc> {
+  const agencies = (await getDirectoryAgencyList()).filter(shouldIndexAgency);
+  const countries = new Set(
+    agencies
+      .map((agency) => agency.location?.country?.trim())
+      .filter((country): country is string => Boolean(country)),
+  );
 
+  // One row per agency, with the profile URL in the row itself. The whole
+  // point of this document is that "find me a motion design studio in
+  // Amsterdam that has worked with Nike" should be a table scan rather than
+  // 320 page fetches, and a table whose rows cannot be followed up sends
+  // the agent back to fetching pages.
   const rows = agencies.map((agency) => [
     agency.name,
+    categoryTitles(agency),
     formatAgencyLocation(agency.location ?? null) ?? "",
     agency.teamSize ?? "",
     agency.budgetLabel ?? "",
-    // Names the jury, for the same reason the detail page does: "48
-    // awards" read out of context is a claim about an agency's whole
-    // record, which this number is not.
+    // Names the jury or the review source, for the same reason the pages
+    // do: "48 awards" read out of context is a claim about an agency's
+    // whole record, which this number is not.
     formatAgencyRating(agency.rating) ??
       (agency.awards?.total
         ? `${agency.awards.total} ${resolveAwardTallyLabel(agency.source, agency.awards.total)}`
         : ""),
+    resolveAgencySourceLabel(agency.source),
+    absoluteUrl(agencyPath(agency.slug)),
   ]);
-
-  return {
-    title: category.heading,
-    summary: category.metaDescription || category.subheading,
-    path: `${DIRECTORY_BASE_PATH}/${category.slug}`,
-    kind: "Agency directory category",
-    facts: [
-      { label: "Category", value: category.title },
-      { label: "Agencies listed", value: String(agencies.length) },
-    ],
-    sections: sections(
-      { heading: "What this listing is", body: [clean(category.subheading)] },
-      {
-        heading: "Agencies",
-        body: [
-          "Every figure below is reported by the source directory named on each agency's own page, never computed here.",
-        ],
-        table: rows.length
-          ? {
-              headers: ["Agency", "Location", "Team size", "Typical budget", "Record"],
-              rows,
-            }
-          : undefined,
-      },
-    ),
-    related: agencies.map((agency) => ({
-      title: agency.name,
-      path: agencyPath(agency.slug),
-    })),
-  };
-}
-
-/** The directory hub. */
-export async function directoryHubToAgentDoc(): Promise<AgentDoc> {
-  const rows = await Promise.all(
-    DIRECTORY_CATEGORIES.map(async (category) => [
-      category.title,
-      `${DIRECTORY_BASE_PATH}/${category.slug}`,
-      String((await getAgenciesByCategory(category.slug)).filter(shouldIndexAgency).length),
-    ]),
-  );
-  const indexableCount = (await getIndexableAgencySlugs()).length;
 
   return {
     title: "Agency directory",
@@ -237,20 +224,60 @@ export async function directoryHubToAgentDoc(): Promise<AgentDoc> {
     path: DIRECTORY_BASE_PATH,
     kind: "Directory index",
     facts: [
-      { label: "Categories", value: String(DIRECTORY_CATEGORIES.length) },
-      { label: "Agencies listed", value: String(indexableCount) },
+      { label: "Agencies listed", value: String(agencies.length) },
+      { label: "Countries", value: String(countries.size) },
+      {
+        label: "Categories",
+        value: DIRECTORY_CATEGORIES.map((category) => category.title).join(", "),
+      },
+      {
+        label: "Filtering",
+        value: `Add ?${DIRECTORY_CATEGORY_PARAM}=<slug> to ${DIRECTORY_BASE_PATH} to narrow the list to one category.`,
+      },
       {
         label: "Data provenance",
         value: "Every field is reported by a named source directory and links back to it.",
       },
     ],
-    sections: sections({
-      heading: "Categories",
-      table: { headers: ["Category", "Path", "Agencies"], rows },
-    }),
-    related: DIRECTORY_CATEGORIES.map((category) => ({
-      title: category.heading,
-      path: `${DIRECTORY_BASE_PATH}/${category.slug}`,
+    sections: sections(
+      {
+        heading: "What this listing is",
+        body: [
+          "One list of every agency in the directory, filterable by category, country and search rather than split across separate category pages.",
+          DIRECTORY_CATEGORIES.map(
+            (category) => `${category.title}: ${category.subheading}`,
+          ).join(" "),
+        ],
+      },
+      {
+        heading: "Agencies",
+        body: [
+          "Every figure below is reported by the source named in its own row, never computed here. Each profile URL also publishes a Markdown copy at that path plus `.md`.",
+        ],
+        table: rows.length
+          ? {
+              headers: [
+                "Agency",
+                "Category",
+                "Location",
+                "Team size",
+                "Typical budget",
+                "Record",
+                "Source",
+                "Profile",
+              ],
+              rows,
+            }
+          : undefined,
+      },
+    ),
+    // The table already carries every profile URL, so this block is the
+    // shortlist rather than a second copy of it - a 300-link list under a
+    // 300-row table is noise in a document whose whole purpose is signal.
+    related: agencies.slice(0, RELATED_AGENCY_LIMIT).map((agency) => ({
+      title: agency.name,
+      path: agencyPath(agency.slug),
+      note: formatAgencyLocation(agency.location ?? null) ?? undefined,
     })),
   };
 }
