@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
+  getAgencyClientLink,
   getAgencyClients,
   getAwardBreakdown,
   getHeadlineAward,
@@ -498,14 +499,34 @@ export default function AgencyDetail({
           <span className={styles.cardNote}>{buildClientsNote(agency, sourceLabel)}</span>
         </div>
         <ul className={styles.clientList}>
-          {clients.map((client) => (
-            <li key={client.name} className={styles.clientRow}>
+          {clients.map((client) => {
+            // The name carries the link when we hold one, because the name
+            // is the row's subject and it is the half that survives on a
+            // narrow screen - `.clientProject` is hidden there. A row with
+            // no link renders as the same text without one rather than as
+            // a dead anchor.
+            const href = getAgencyClientLink(client);
+            const name = href ? (
+              <a
+                className={`${styles.clientName} ${styles.clientLink}`}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {client.name}
+              </a>
+            ) : (
               <span className={styles.clientName}>{client.name}</span>
-              {titleAddsDetail(client.name, client.projectTitle) && (
-                <span className={styles.clientProject}>{client.projectTitle}</span>
-              )}
-            </li>
-          ))}
+            );
+            return (
+              <li key={client.name} className={styles.clientRow}>
+                {name}
+                {titleAddsDetail(client.name, client.projectTitle) && (
+                  <span className={styles.clientProject}>{client.projectTitle}</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     );

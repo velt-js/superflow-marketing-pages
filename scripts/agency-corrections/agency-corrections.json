@@ -1,0 +1,63 @@
+{
+  "note": "Corrections agencies have sent about their own directory entries, applied straight onto their `agency` documents in Sanity by ./apply-agency-corrections.mjs. This file is the record of what each agency said and when, not a source of truth: once applied, Studio owns the document, and re-running only fills fields that are still empty or still missing a link. Supersedes scripts/agency-listing-import/agency-listings.json, which seeded the deprecated `agencyListing` overlay - see 'The agencyListing overlay is deprecated' in app/directory/README.md.",
+  "corrections": [
+    {
+      "agencySlug": "burocratik",
+      "agencyName": "Bürocratik",
+      "verifiedAt": "2026-09-16",
+      "verifiedBy": null,
+      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; recorded in euros, the studio's own currency in Coimbra, and the USD floor is left empty rather than converted.",
+      "set": {
+        "budgetLabel": "Branding from €50,000; websites from €100,000",
+        "budgetMinimums": [
+          { "scope": "Branding", "amount": 50000, "currency": "EUR" },
+          { "scope": "Website", "amount": 100000, "currency": "EUR" }
+        ],
+        "exclusions": ["Timelines shorter than three months from start to finish"]
+      },
+      "unset": ["engagementNote"]
+    },
+    {
+      "agencySlug": "buildinamsterdam",
+      "agencyName": "Build in Amsterdam",
+      "verifiedAt": "2026-09-16",
+      "verifiedBy": "Karla Vincheva",
+      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the page as correct and sent seven more projects by URL, each the brand's own site. Moooi was already on the record from Awwwards and keeps its entry - the reply only adds the brand's domain to it. Budget was quoted in euros, so the USD floor is left empty rather than converted.",
+      "set": {
+        "awardsNote": "Build in Amsterdam has not submitted work to Awwwards for some time, so this tally covers less of the studio's recent output than it may appear to.",
+        "budgetLabel": "Projects from €100,000",
+        "budgetMinimums": [{ "scope": "Any project", "amount": 100000, "currency": "EUR" }],
+        "exclusions": [
+          "Work far from lifestyle brands — mass production, pure utility and similar",
+          "Clients that don't make their brand a priority"
+        ],
+        "engagementNote": "The floor always depends on the brief."
+      },
+      "clients": [
+        { "name": "Dr Martens", "domain": "drmartens.com" },
+        { "name": "Mammut", "domain": "mammut.com" },
+        { "name": "Alpine", "domain": "alpinehearingprotection.com" },
+        { "name": "PME Legend", "domain": "pme-legend.com" },
+        { "name": "Moooi", "domain": "moooi.com" },
+        { "name": "Akris", "domain": "akris.com" },
+        { "name": "Bloom & Wolf", "domain": "bloomandwolf.com" }
+      ]
+    },
+    {
+      "agencySlug": "malvah",
+      "agencyName": "Malvah",
+      "verifiedAt": "2026-09-15",
+      "verifiedBy": null,
+      "provenance": "Reply to directory outreach, 15 September 2026 - the same reply that set the budgets already on the record. It sent seven projects by URL and only their names were kept, so this pass attaches the links. Three of the seven (The Up&Up Group, Estrela, Bitter Creek) were already on the record with their domains and are unchanged.",
+      "clients": [
+        { "name": "The Up&Up Group", "domain": "theupandupgroup.com" },
+        { "name": "M+C Saatchi Abel", "domain": "mcsaatchiabel.co.za" },
+        { "name": "Razor PR", "domain": "razorpr.co.za" },
+        { "name": "Estrela", "domain": "estrela.studio" },
+        { "name": "Bitter Creek", "domain": "bittercreek.studio" },
+        { "name": "First/Light", "domain": "firstlight.healthcare" },
+        { "name": "Oxygen at Work", "domain": "oxygenatwork.com" }
+      ]
+    }
+  ]
+}

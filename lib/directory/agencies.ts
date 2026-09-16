@@ -1005,6 +1005,44 @@ const MIN_ACCOLADES_FOR_INDEXING = 3;
  * @returns Display-ready clients in stored order (recognisable first),
  *          or an empty array when there are none.
  */
+/**
+ * Where a client row should link, or null when we hold no link for it.
+ *
+ * Two of `AgencyClient`'s fields are addresses and they are not the same
+ * kind of thing. `domain` is the client's own site - for most records the
+ * live site the agency built, which is the strongest evidence a profile
+ * can offer and the one a visitor evaluating a studio actually wants.
+ * `projectUrl` is the SOURCE's page for that project (an Awwwards entry,
+ * say): a citation for the row rather than the work itself. So the live
+ * site wins, and the citation is the fallback for the rows that have no
+ * domain because the work was hosted somewhere generic.
+ *
+ * 719 of 1,515 client rows have neither, which is why this returns null
+ * rather than inventing an address from the name.
+ *
+ * @param client - The client row.
+ * @returns An absolute URL, or null when the row carries no link.
+ */
+export function getAgencyClientLink(client: AgencyClient | null | undefined): string | null {
+  try {
+    const domain = client?.domain?.trim();
+    if (domain) {
+      // Stored as a bare host by contract, but a record typed by hand may
+      // carry a full URL. `new URL` settles which it is instead of us
+      // guessing, and rejects anything that is neither.
+      const url = new URL(/^https?:\/\//i.test(domain) ? domain : `https://${domain}`);
+      if (url.protocol === "https:" || url.protocol === "http:") return url.toString();
+    }
+    const projectUrl = client?.projectUrl?.trim();
+    if (projectUrl && /^https?:\/\//i.test(projectUrl)) return projectUrl;
+    return null;
+  } catch {
+    // A malformed domain is a row that renders as plain text, never a
+    // broken link and never a crash.
+    return null;
+  }
+}
+
 export function getAgencyClients(agency: Agency | null | undefined): AgencyClient[] {
   try {
     const seenNames = new Set<string>();

@@ -531,6 +531,36 @@ belongs in the record itself.
   still carry what an agency told us and the fallback still reads them.
   Delete them once the fallback is retired.
 
+### A correction that arrives today
+
+`scripts/agency-corrections/apply-agency-corrections.mjs` is where a reply
+from an agency goes now. Its JSON file is the record of what each agency
+said and when; the script patches that onto the agency document, which is
+the thing that renders.
+
+```
+DRY_RUN=1 node scripts/agency-corrections/apply-agency-corrections.mjs
+SANITY_API_TOKEN=<token> node scripts/agency-corrections/apply-agency-corrections.mjs
+```
+
+It patches rather than replaces, so nothing outside the fields the agency
+corrected can be lost, and two rules keep it from trampling Studio work
+inside them: **a field that already holds a different value is reported and
+skipped** (`--force=<slug>` overrides, per agency), and **clients are
+merged, never swapped** - a row matched by domain or name keeps what it has
+and only gains the link the agency supplied. Re-running writes only what is
+genuinely missing, so a partial failure is fixed by running it again.
+
+A dry run needs no token and prints the exact patch per agency. Do that
+first: it is also the fastest way to see that a correction has already
+landed.
+
+**Budgets are recorded in the currency the agency quoted, and never
+converted** - the same rule `budgetFloorUsd` states on the schema. An agency
+that writes "50k" with no symbol is quoting its own currency; record that
+one, leave the USD floor empty, and say so in the entry's `provenance` so
+the next person can see it was read rather than stated.
+
 The rules that shaped that overlay still hold for the fallback path, and
 three of them are the reason `tests/directory/agency-listing-overrides.spec.ts`
 exists:
@@ -653,6 +683,18 @@ Each agency carries the brands it has shipped work for — surfaced as up to
 three name chips plus a "+N" on `components/directory/AgencyCard.tsx`, and
 as a full "Worked with" card on `AgencyDetail.tsx` pairing each client with
 the project it came from.
+
+**On the profile, a client name links to the work.** A row carries up to two
+addresses and they are not the same kind of thing: `domain` is the client's
+own site — for most rows the live site the agency built — and `projectUrl`
+is the *source's* page for that project, a citation rather than the work.
+`getAgencyClientLink` in `lib/directory/agencies.ts` prefers the live site
+and falls back to the citation; 719 of 1,515 rows have neither and render as
+plain text, never a dead anchor. This reverses an earlier call to keep the
+names unlinked — see the comment above `.clientList` in
+`AgencyDetail.module.css` for why, and `tests/directory/agency-client-links.spec.ts`
+for the rules that hold it (the preference order, and that a `javascript:`
+value in either field is no link at all).
 
 - **Where it comes from (Awwwards):** `clients: AgencyClient[]`
   (`lib/directory/types.ts`) is populated by
