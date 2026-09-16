@@ -624,8 +624,15 @@ export default function AgencyDetail({
               {budgetMinimums.map((minimum) => (
                 <li key={minimum.scope} className={styles.factRow}>
                   <span>{minimum.scope}</span>
+                  {/* Band plus the currency it was quoted in. The band is
+                      the discreet half; the currency is not sensitive, is
+                      already public wherever a source published a budget,
+                      and without it a euro floor and a dollar floor read
+                      identically. Never converted - see
+                      `AgencyListing.budgetMinimums`. */}
                   <span className={styles.factValue}>
                     {formatBudgetBand(minimum.amount)}
+                    {minimum.currency ? ` (${minimum.currency})` : ""}
                   </span>
                 </li>
               ))}

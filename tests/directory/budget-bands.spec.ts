@@ -47,7 +47,10 @@ test.describe("budget bands", () => {
     await page.goto(BANDED_PROFILE);
 
     const terms = page.locator("div").filter({ has: page.getByRole("heading", { name: "Working with them" }) }).last();
-    await expect(terms).toContainText(/\d figures/);
+    // Band AND the currency it was quoted in. Without the currency a euro
+    // floor and a dollar floor read identically, and these are never
+    // converted - the currency is the half that has to survive banding.
+    await expect(terms).toContainText(/\d figures \([A-Z]{3}\)/);
 
     // The exact quotes behind those bands must not appear anywhere on the
     // page - not in the card, not in the stat strip, not in the payload

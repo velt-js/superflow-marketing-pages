@@ -546,8 +546,12 @@ SANITY_API_TOKEN=<token> node scripts/agency-corrections/apply-agency-correction
 It patches rather than replaces, so nothing outside the fields the agency
 corrected can be lost, and two rules keep it from trampling Studio work
 inside them: **a field that already holds a different value is reported and
-skipped** (`--force=<slug>` overrides, per agency), and **clients are
-merged, never swapped** - a row matched by domain or name keeps what it has
+skipped** (`--force=<slug>` overrides, per agency; a `replaces` entry
+naming the exact superseded value - or a list of them, for a field this
+file has rewritten more than once - migrates that one field without
+forcing anything else, because a field still holding what this file last
+wrote is this file's to update), and **clients are merged, never
+swapped** - a row matched by domain or name keeps what it has
 and only gains the link the agency supplied. Re-running writes only what is
 genuinely missing, so a partial failure is fixed by running it again.
 
@@ -590,8 +594,10 @@ next prospect opens the negotiation at. Bürocratik asked for theirs to
 come off for that reason, and the band is applied to every agency-supplied
 figure rather than just theirs, because a quote shown for one agency
 beside a band for the next tells a visitor the second one is hiding
-something. The currency is not banded: it is not the sensitive half, and
-the Markdown copy keeps it as its own column for agents filtering on cost.
+something. The currency is not banded and is printed beside the band
+("5 figures (EUR)"): it is not the sensitive half, it is never converted,
+and without it a euro floor and a dollar floor read identically. The
+Markdown copy keeps it as its own column for agents filtering on cost.
 
 This applies to figures an **agency** sent us. A `budgetLabel` a source
 directory published - Semrush's "Starting from $5,000" - is already public

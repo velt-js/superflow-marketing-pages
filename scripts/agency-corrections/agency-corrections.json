@@ -8,7 +8,7 @@
       "verifiedBy": null,
       "provenance": "Reply to directory outreach, 16 September 2026, and a follow-up the same day. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; the follow-up confirmed euros and asked for the quotes to come off the page - they send them on contact. So the figures are removed from the record rather than banded at render like every other agency's: this dataset is publicly readable, and a figure left in it is a figure published. The label carries the band instead, which is what they agreed to. The timeline answer renders as the one exclusion chip; an engagement note beside it would only restate it, so the field is cleared.",
       "set": {
-        "budgetLabel": "Branding from 5 figures; websites from 6 figures",
+        "budgetLabel": "Branding from 5 figures; websites from 6 figures, in euros",
         "exclusions": [
           "Timelines shorter than three months from start to finish"
         ]
@@ -16,7 +16,13 @@
       "unset": [
         "engagementNote",
         "budgetMinimums"
-      ]
+      ],
+      "replaces": {
+        "budgetLabel": [
+          "Branding from €50,000; websites from €100,000",
+          "Branding from 5 figures; websites from 6 figures"
+        ]
+      }
     },
     {
       "agencySlug": "buildinamsterdam",
@@ -69,7 +75,10 @@
           "name": "Bloom & Wolf",
           "domain": "bloomandwolf.com"
         }
-      ]
+      ],
+      "replaces": {
+        "budgetLabel": "Projects from €100,000"
+      }
     },
     {
       "agencySlug": "bizopia",
@@ -96,6 +105,9 @@
       "provenance": "Reply to directory outreach, 15 September 2026, folded in during the Sanity migration - the client list, the awards note and the exclusions are already on the record and are not touched here. Only the budget label changes, to match the directory-wide move from quotes to bands (see `formatBudgetBand`). Rubén volunteered \"from EUR 15,000, typically EUR 25,000 to EUR 60,000\" and did not ask for it to come off; the band is applied anyway because a quote shown for one agency beside a band for the next tells a visitor the second one is hiding something. The typical range survives as prose rather than as two more figures.",
       "set": {
         "budgetLabel": "Projects from 5 figures, typically the middle of that range"
+      },
+      "replaces": {
+        "budgetLabel": "Projects from €15,000, typically €25,000–€60,000"
       }
     },
     {
@@ -136,6 +148,9 @@
       ],
       "set": {
         "budgetLabel": "Websites and branding both start in 5 figures"
+      },
+      "replaces": {
+        "budgetLabel": "Websites from $24,000; branding from $12,000"
       }
     }
   ]
