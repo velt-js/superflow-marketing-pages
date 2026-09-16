@@ -38,12 +38,13 @@ import {
   getDirectoryCategory,
 } from "@/lib/directory/agencies";
 
-// Agencies are read from a bundled JSON file (lib/directory/data/agencies.json),
-// refreshed only when the scraper's output is redeployed, not from a live
-// fetch at request time. `revalidate` is set to match sibling listing
-// routes (e.g. app/checklist/page.tsx) for consistency - it has no effect
-// on this route's data freshness today, but keeps this file's shape
-// aligned if the source ever moves to a live fetch.
+// Agencies are the bundled scrape (lib/directory/data/*.json) with the
+// `agencyListing` corrections in Sanity merged over it - see
+// lib/directory/agencies.ts#getDirectoryAgencies. The scrape moves only
+// when its output is redeployed; the corrections are a live fetch, and
+// this `revalidate` is what puts one published in the Studio on the page
+// without a deploy. `getDirectoryAgencies` memoizes on the same 60s clock,
+// so the two cannot drift.
 export const revalidate = 60;
 
 interface DirectoryCategoryPageProps {
@@ -101,7 +102,7 @@ export default async function DirectoryCategoryPage({
   const category = getDirectoryCategory(categorySlug);
   if (!category) notFound();
 
-  const agencies = getAgenciesByCategory(category.slug);
+  const agencies = await getAgenciesByCategory(category.slug);
   const stats = buildAgencyListStats(agencies);
   const path = `${DIRECTORY_BASE_PATH}/${category.slug}`;
 

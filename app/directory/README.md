@@ -25,6 +25,11 @@ Note the rule is one file per **writer**, not one per source directory: the
 branding file holds records from three directories because one loader writes
 all three.
 
+**Corrections an agency sends us do not go in those files.** The importers
+would overwrite them on the next run, so they live in Sanity as
+`agencyListing` documents and are merged over the scrape at read time — see
+"Corrections from the agency (the CMS layer)" below.
+
 **The branding category is sourced differently from the other two, and
 deliberately so.** It has no scraper. Clutch, DesignRush, Sortlist, The
 Manifest and GoodFirms — the only directories that publish a minimum project
@@ -140,7 +145,19 @@ why the two are kept structurally apart.
   `components/directory/CategoryHero.tsx` — the shared blue-gradient 2026
   hero, closing on a white card carrying the live stat row. Agencies render
   as a card grid (`components/directory/AgencyGrid.tsx` → `AgencyCard.tsx`,
-  each carrying a one-line "Worked with X, Y, Z +N more" summary),
+  each carrying a one-line "Worked with X, Y, Z +N more" summary). **The
+  whole card opens the agency's detail page**, via a stretched link
+  (`.header::after` covers the card) rather than by wrapping the card in an
+  `<a>` — the footer still carries the agency's own outbound website link,
+  and an anchor inside an anchor is invalid HTML that browsers recover from
+  in their own incompatible ways. `.websiteLink` lifts itself above the
+  overlay to keep its own click. Both halves are covered by
+  `tests/directory/agency-card.spec.ts`, because neither failure mode (a
+  dead card body, or an overlay that eats the website link) is visible to
+  `tsc` or `next build`. The card carries **no** link back to the source
+  directory: that attribution lives on the detail page one click away, and
+  the figures on the card name their source in the label itself ("48
+  Awwwards awards"), so nothing on it is an unattributed claim. Cards are
   sorted in the directory's default order: Superflow partners first, then
   total award count descending, then review score descending, then name.
   The two credibility keys are disjoint per category (see the top of this
@@ -360,14 +377,106 @@ or the page reorders itself on hydration. Both read
 the JSON datasets, and taking a *value* from it in a `"use client"` file
 would ship the whole directory into the browser bundle.
 
-## Budget: label vs floor
+## Corrections from the agency (the CMS layer)
 
-Two fields, deliberately not one:
+Agencies write in. They say the client list is the one Awwwards happens to
+have awarded rather than the one they would choose, that the award total
+counts one jury out of five, that their minimum project is €15,000, that
+they don't take template work. Those corrections have nowhere to live in
+the files above: **every importer overwrites its own data file wholesale on
+every run**, so a correction typed into `agencies.json` survives until the
+next scrape and no further.
+
+So they live in Sanity, as `agencyListing` documents, and are merged onto
+the scraped record on the way to the page:
+
+| Piece | Where |
+| --- | --- |
+| Schema | `sanity/schemas/agencyListing.ts` |
+| Query | `getAgencyListingOverrides` in `sanity/lib/queries.ts` |
+| Merge | `lib/directory/overrides.ts` |
+| Resolved dataset | `getDirectoryAgencies` in `lib/directory/agencies.ts` |
+| Seed script | `scripts/agency-listing-import/seed-agency-listings.mjs` |
+
+This is the same reasoning that already keeps the Superflow partner list in
+its own file: anything that must outlive a re-scrape cannot be stored in
+what the scrape overwrites.
+
+**An empty field is not a correction.** A listing created to fix one wrong
+budget leaves the other twenty fields alone. That is what makes it safe to
+create one for a single figure without re-entering a whole profile — and it
+is why every field in the schema is optional and why nothing in the merge
+ever blanks a value.
+
+**`clients` is the one field with two modes.** `replace` drops the scraped
+list (an agency that sends the list it wants published is disowning the
+other one); `add` appends, deduping against what is already there by
+registrable domain and then by name. Both showed up in the first two
+listings we were sent.
+
+**Source attribution is never overridden.** `slug`, `source`, `profileUrl`,
+`scrapedAt`, `awards` and `rating` are what the named directory published,
+and an `agencyListing` document is not that directory. An agency that
+disputes its award tally gets an `awardsNote` printed beside it, not a
+rewrite of it — see "Accolades vs awards" below for why the two kinds of
+claim stay apart. This is also why the CMS cannot **add** an agency: a
+record with no source profile to link has nothing to attribute, and the
+merge drops a listing whose slug matches nothing.
+
+**Budget minimums are the one field where the CMS carries more structure
+than the scrape.** `budgetMinimums` holds a row per floor an agency stated,
+in the currency it quoted, and is never converted between currencies — a
+rate the agency did not give is a figure the agency did not state. That is
+also why `budgetFloorUsd` is left null for an agency that quoted in euros:
+the rows carry the real number, and the null reads correctly as "no US
+dollar floor on record" rather than as a converted guess. See "Budget:
+label vs floor vs stated minimums" below.
+
+**`verifiedAt` is the only thing that puts "Confirmed by the agency" on the
+page.** It is the one line on an agency page that is not attributable to a
+linked source profile — it says the agency looked at this page and stood
+behind it — so it is set only for a correction that came from the agency
+itself, never for an in-house edit. `verifiedBy` and `verificationSource`
+sit next to it for the editor's benefit and are deliberately **not** in the
+GROQ query: they usually name a person at the agency, the site has no use
+for them, and a field that is never fetched cannot be published by
+accident.
+
+**Sanity being unreachable costs the corrections and nothing else.**
+`getDirectoryAgencies` resolves to the scraped dataset on any failure, so
+every page still renders everything its named source published. Failing the
+build instead would take ~320 working pages off the site to protect a
+correction on a handful of them. The resolved dataset is memoized for 60s,
+matching the `revalidate` on these routes, so a build renders hundreds of
+pages off one fetch.
+
+**The seed script seeds; it does not sync.** `agency-listings.json` is
+where a correction is first written down, but once the document exists,
+Studio owns it: the script runs `createIfNotExists` and only overwrites the
+slugs named in `--replace`. There is no stale-delete pass — a document this
+script did not create is not this script's to remove. This is the opposite
+of `scripts/bug-book-import/`, where the JSON is the source of truth and a
+rerun is meant to win.
+
+## Budget: label vs floor vs stated minimums
+
+Three representations, deliberately not one:
 
 - `budgetLabel` — the display string ("Starting from $5,000", "Under
   $1,000"). What the card footer and the detail page's facts list render.
 - `budgetFloorUsd` — the same thing as a number (`5000`), which is what the
   SEO category's threshold is applied against.
+- `AgencyListing.budgetMinimums` — what an agency told us directly, as
+  `{ scope, amount, currency }` rows. CMS-only; no source directory
+  publishes this.
+
+The third exists because the first two cannot carry what agencies actually
+say. Malvah quoted **$24,000 for a website and $12,000 for a brand
+identity** — two floors for two kinds of work, and the difference is the
+whole answer to "can I afford them". One number flattens it; one sentence
+makes it unreadable by anything but a human. So the rows stay rows, render
+as rows on the detail page, and go into the Markdown copy as a table an
+agent can filter.
 
 Neither derives cleanly from the other. Re-parsing a number out of the
 label is brittle the moment a source localises its currency formatting, and
@@ -385,6 +494,16 @@ Two traps worth knowing, both real:
   but nothing guarantees it, and an unsorted array would yield a wrong
   floor with no visible symptom — the record would just quietly sit in the
   wrong category.
+
+A third, which the CMS layer introduced: **an agency that quotes in another
+currency gets a `budgetLabel` and a null `budgetFloorUsd`.** A studio
+whose projects start at €15,000 is not a studio whose projects start at
+$15,000, and converting at a rate they never quoted would invent precision
+the whole two-field split exists to avoid. The label carries the real
+figure; the floor stays null, which the rule above already reads as "didn't
+say" rather than "free". Only the SEO and branding importers filter on the
+floor, and both do so at collection time, so a null costs nothing at read
+time.
 
 Note also that the source's own `budgets=` API filter answers a different
 question — "will this agency accept work in this band" — so it cannot

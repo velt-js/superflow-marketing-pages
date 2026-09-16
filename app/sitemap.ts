@@ -203,7 +203,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // submitted here — held-back agencies still render a real page (see
     // app/directory/agency/[slug]/page.tsx), they're just not pushed at
     // search engines via the sitemap.
-    ...unique(getIndexableAgencySlugs()).map((slug) => agencyPath(slug)),
+    ...unique(await getIndexableAgencySlugs()).map((slug) => agencyPath(slug)),
   ];
 
   const lastModified = new Date();

@@ -118,6 +118,80 @@ export interface AgencyClient {
   notable: boolean;
 }
 
+/**
+ * One project-size floor an agency has stated, in the currency the agency
+ * used.
+ *
+ * Separate from `Agency.budgetFloorUsd`, and not a replacement for it.
+ * That field is a single US-dollar number the category importers filter
+ * on; this is what the agency actually said, which is frequently neither
+ * single nor in dollars. Malvah quoted $24,000 for a website and $12,000
+ * for a brand identity - one number cannot carry that, and the difference
+ * is the answer to the only question a budget figure is ever asked.
+ *
+ * Never converted between currencies. A rate the agency did not give is a
+ * figure the agency did not state.
+ */
+export interface AgencyBudgetMinimum {
+  /** What the floor applies to, in the agency's terms - "Website",
+   *  "Branding", or "Any project" when they quoted one floor for
+   *  everything. */
+  scope: string;
+  /** The figure alone, unformatted: 15000. */
+  amount: number;
+  /** Three-letter ISO code for the currency the agency quoted in. */
+  currency: string;
+}
+
+/**
+ * The part of a listing that exists only because an agency told us, and
+ * that no source directory publishes.
+ *
+ * Kept as its own object hanging off `Agency` rather than as loose fields
+ * on it, because `Agency` is the scraper's contract: every importer under
+ * scripts/directory-import/ writes every field on that interface, and none
+ * of them can ever write these. A null `listing` therefore means "no
+ * agency has corrected this record", which is the state of almost the
+ * whole dataset and is not missing data.
+ *
+ * Populated from the `agencyListing` document type in Sanity by
+ * lib/directory/overrides.ts. See sanity/schemas/agencyListing.ts for why
+ * the CMS layers over the scraped record instead of replacing it.
+ */
+export interface AgencyListing {
+  /**
+   * ISO-8601 date the agency itself confirmed the details on this record,
+   * or null for an in-house edit.
+   *
+   * This is the whole basis of the "confirmed by the agency" line the
+   * detail page renders, so it must never be set for a correction that did
+   * not come from the agency - that line is a claim about who stands
+   * behind the figures, and it is the one thing on these pages that is not
+   * attributable to a linked source profile.
+   */
+  verifiedAt: string | null;
+  /**
+   * One line on what the counted award tally cannot say - typically that
+   * it covers a single jury while the agency's real record spans several.
+   *
+   * Deliberately prose rather than a second number: the agency's own total
+   * is self-reported and uncountable from here, and printing it as a
+   * figure beside a tally scraped from a named jury would present the two
+   * as the same kind of claim. See `AgencyAwards`.
+   */
+  awardsNote: string | null;
+  /** One line on the shapes of engagement the agency takes (design only,
+   *  development only, a full project), as they phrase it. */
+  engagementNote: string | null;
+  /** Kinds of work the agency says it turns down, in its own words. Empty
+   *  for an agency that rules nothing out - which is a real answer, and
+   *  renders as nothing rather than as an empty section. */
+  exclusions: string[];
+  /** Every project-size floor the agency stated, in the currency it used.
+   *  Empty when the agency named no figure. */
+  budgetMinimums: AgencyBudgetMinimum[];
+}
+
 /** One agency in the directory. */
 export interface Agency {
   /** URL-safe identifier, unique across the dataset. Derived from `domain`
@@ -197,6 +271,10 @@ export interface Agency {
    *  `awards`) rather than in a side file the way partner status does.
    *  Empty when the source listed no attributable work. */
   clients: AgencyClient[];
+  /** Agency-supplied detail merged in from the CMS, or null/absent when
+   *  no agency has corrected this record. Never written by an importer -
+   *  see `AgencyListing`. */
+  listing?: AgencyListing | null;
   source: AgencySource;
   /** ISO-8601 timestamp of when this record was collected. */
   scrapedAt: string;

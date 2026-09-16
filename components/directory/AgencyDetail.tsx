@@ -9,6 +9,7 @@ import {
   getAwardBreakdown,
   isSuperflowPartner,
   resolveAgencySourceLabel,
+  resolveAwardTallyLabel,
 } from "@/lib/directory/agencies";
 import { DIRECTORY_BASE_PATH } from "@/lib/directory/constants";
 import PartnerBadge from "./PartnerBadge";
@@ -43,6 +44,14 @@ const INDUSTRIES_HEADING = "Industries";
  *  (see `Agency.accolades` in lib/directory/types.ts), so the heading
  *  itself has to admit that rather than imply a second award tally. */
 const ACCOLADES_HEADING = "Awards & certifications";
+/** Heading above the engagement note and the list of work an agency
+ *  turns down. Both come from the agency rather than from a source
+ *  profile - see `AgencyListing` in lib/directory/types.ts. */
+const TERMS_HEADING = "Working with them";
+/** Sub-heading above the exclusions list inside that card. */
+const EXCLUSIONS_HEADING = "Doesn't take on";
+/** Sub-heading above the stated project-size floors inside that card. */
+const BUDGET_MINIMUMS_HEADING = "Minimum project";
 
 /**
  * Whether a project title says anything the client name hasn't already.
@@ -96,6 +105,80 @@ function buildAccoladesNote(sourceLabel: string): string {
     return `Self-reported on the agency's ${sourceLabel} profile - a mix of awards and certifications, not independently verified.`;
   } catch {
     return "Self-reported on the agency's source profile - a mix of awards and certifications, not independently verified.";
+  }
+}
+
+/**
+ * Builds the caption above the award tally, naming the jury that counted
+ * it.
+ *
+ * Rendered only alongside an agency's own note about its wider record
+ * (see `AgencyListing.awardsNote`), which is the one place on the page
+ * where two different claims about awards sit in the same card and a
+ * reader could take the second for the first's source.
+ *
+ * @param sourceLabel - The agency's resolved source label.
+ * @returns The caption text.
+ */
+function buildAwardTallyNote(sourceLabel: string): string {
+  try {
+    return `The counts below are the tally ${sourceLabel} publishes.`;
+  } catch {
+    return "The counts below are the tally the source directory publishes.";
+  }
+}
+
+/**
+ * Formats one stated project-size floor, e.g. "€15,000".
+ *
+ * Formatted in the currency the agency quoted, never converted into one
+ * shared currency: a rate they did not give is a figure they did not
+ * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
+ * still readable and still honest about which currency it is.
+ *
+ * @param amount - The figure, unformatted.
+ * @param currency - Three-letter ISO currency code.
+ * @returns The formatted amount.
+ */
+function formatBudgetAmount(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  } catch {
+    return `${currency} ${amount}`;
+  }
+}
+
+/**
+ * Builds the line stating that the agency itself confirmed this page.
+ *
+ * Every other claim on an agency page is attributable to the source
+ * profile linked from the hero. This one is not - it says the agency
+ * looked at the page and stood behind it - so it names the date and reads
+ * as a statement about provenance rather than as an endorsement.
+ *
+ * @param verifiedAt - ISO-8601 date the agency confirmed the details.
+ * @returns The line, or null when the date is missing or unparseable (an
+ *          in-house edit is not a verification and renders nothing).
+ */
+function buildVerifiedNote(verifiedAt: string | null | undefined): string | null {
+  try {
+    const raw = verifiedAt?.trim();
+    if (!raw) return null;
+    const parsed = new Date(raw);
+    if (Number.isNaN(parsed.getTime())) return null;
+    const formatted = parsed.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+    return `Confirmed by the agency on ${formatted}.`;
+  } catch {
+    return null;
   }
 }
 
@@ -186,7 +269,7 @@ function buildAgencyFacts(
       facts.push({ label: "Clients on record", value: `${clientCount}` });
     }
     if (awardTotal > 0) {
-      facts.push({ label: "Total awards", value: `${awardTotal}` });
+      facts.push({ label: resolveAwardTallyLabel(agency?.source), value: `${awardTotal}` });
     }
     if (ratingLabel) {
       facts.push({ label: "Client rating", value: ratingLabel });
@@ -271,12 +354,24 @@ export default function AgencyDetail({
     const clients = getAgencyClients(agency);
     const facts = buildAgencyFacts(agency, category, clients.length);
     const isPartner = isSuperflowPartner(agency);
+    // Everything the agency told us directly, absent for all but the
+    // handful of records an agency has written in about.
+    const listing = agency?.listing ?? null;
+    const awardsNote = listing?.awardsNote?.trim() || null;
+    const engagementNote = listing?.engagementNote?.trim() || null;
+    const exclusions =
+      listing?.exclusions?.filter((exclusion) => Boolean(exclusion?.trim())) ?? [];
+    const budgetMinimums = listing?.budgetMinimums ?? [];
+    const verifiedNote = buildVerifiedNote(listing?.verifiedAt);
+    const hasTerms =
+      Boolean(engagementNote) || exclusions.length > 0 || budgetMinimums.length > 0;
     // A lone card would otherwise sit in a half-empty two-column row.
     const cardCount =
       (clients.length > 0 ? 1 : 0) +
       (services.length > 0 || industries.length > 0 ? 1 : 0) +
       (awardBreakdown.length > 0 ? 1 : 0) +
-      (accolades.length > 0 ? 1 : 0);
+      (accolades.length > 0 ? 1 : 0) +
+      (hasTerms ? 1 : 0);
 
     return (
       <>
@@ -353,6 +448,8 @@ export default function AgencyDetail({
               <p className={styles.lead}>{agency.description}</p>
             )}
 
+            {verifiedNote && <p className={styles.verified}>{verifiedNote}</p>}
+
             {cardCount > 0 && (
               <div
                 className={`${styles.cards}${cardCount === 1 ? ` ${styles.cardsSingle}` : ""}`}
@@ -414,6 +511,12 @@ export default function AgencyDetail({
                 {awardBreakdown.length > 0 && (
                   <div className={styles.card}>
                     <h2 className={styles.cardTitle}>{AWARDS_HEADING}</h2>
+                    {/* Only named when the agency has added a note of its
+                        own below the tally - otherwise the hero's source
+                        link is already the one attribution on the card. */}
+                    {awardsNote && (
+                      <p className={styles.cardNote}>{buildAwardTallyNote(sourceLabel)}</p>
+                    )}
                     <ul className={styles.awardList}>
                       {awardBreakdown.map((entry) => (
                         <li key={entry.label} className={styles.awardRow}>
@@ -422,13 +525,14 @@ export default function AgencyDetail({
                         </li>
                       ))}
                     </ul>
+                    {awardsNote && <p className={styles.cardNote}>{awardsNote}</p>}
                   </div>
                 )}
 
                 {accolades.length > 0 && (
                   <div className={styles.card}>
                     <h2 className={styles.cardTitle}>{ACCOLADES_HEADING}</h2>
-                    <p className={styles.accoladesNote}>{buildAccoladesNote(sourceLabel)}</p>
+                    <p className={styles.cardNote}>{buildAccoladesNote(sourceLabel)}</p>
                     <ul className={styles.chips}>
                       {accolades.map((accolade) => (
                         <li key={accolade} className={styles.chip}>
@@ -436,6 +540,50 @@ export default function AgencyDetail({
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* Only ever present for an agency that has written in -
+                    no source directory publishes either of these, which
+                    is why an empty exclusions list renders no card rather
+                    than an empty one. An agency that rules nothing out
+                    has said something real, and saying it under a
+                    "Doesn't take on" heading would invert it. */}
+                {hasTerms && (
+                  <div className={styles.card}>
+                    <h2 className={styles.cardTitle}>{TERMS_HEADING}</h2>
+                    {/* Floors lead the card. "What does it cost to start"
+                        is the question a visitor opens an agency profile
+                        with, and it is the one the source directories
+                        almost never answer. */}
+                    {budgetMinimums.length > 0 && (
+                      <>
+                        <h3 className={styles.cardSubtitle}>{BUDGET_MINIMUMS_HEADING}</h3>
+                        <ul className={styles.awardList}>
+                          {budgetMinimums.map((minimum) => (
+                            <li key={minimum.scope} className={styles.awardRow}>
+                              <span>{minimum.scope}</span>
+                              <span className={styles.awardCount}>
+                                {formatBudgetAmount(minimum.amount, minimum.currency)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {engagementNote && <p className={styles.cardBody}>{engagementNote}</p>}
+                    {exclusions.length > 0 && (
+                      <>
+                        <h3 className={styles.cardSubtitle}>{EXCLUSIONS_HEADING}</h3>
+                        <ul className={styles.chips}>
+                          {exclusions.map((exclusion) => (
+                            <li key={exclusion} className={styles.chip}>
+                              {exclusion}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                   </div>
                 )}
               </div>

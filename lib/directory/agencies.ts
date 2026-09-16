@@ -5,11 +5,21 @@
 // rather than importing the JSON file directly, so filtering/sorting logic
 // lives in one place and every read path degrades gracefully.
 //
+// The dataset is the scrape with the CMS layered over it. Every helper that
+// reads the dataset as a whole is therefore async: it awaits
+// `getDirectoryAgencies` below, which merges the `agencyListing` documents
+// in Sanity onto the scraped records. Helpers that take an `Agency` and
+// only format it stay synchronous - they are pure functions of a record
+// that has already been resolved, and several are called from client
+// components that could not await anything anyway.
+//
 // The JSON file is `[]` until the scraper populates it (see
 // lib/directory/types.ts header) and is expected to hold a few hundred
 // records at runtime, so every helper here must handle an empty dataset
 // without throwing.
 
+import { getAgencyListingOverrides } from "@/sanity/lib/queries";
+import { applyAgencyListings } from "./overrides";
 import agenciesData from "./data/agencies.json";
 import seoAgenciesData from "./data/seo-agencies.json";
 import brandingAgenciesData from "./data/branding-agencies.json";
@@ -108,12 +118,70 @@ export function mergeAgencySources(...datasets: Agency[][]): Agency[] {
  *  them. `branding-agencies.json` is validated field by field on the way in
  *  by load-branding-json.mjs, since unlike the others it is written from
  *  a hand-driven browser session rather than by a scraper. */
-const AGENCIES: Agency[] = mergeAgencySources(
+const SCRAPED_AGENCIES: Agency[] = mergeAgencySources(
   agenciesData as Agency[],
   seoAgenciesData as Agency[],
   brandingAgenciesData as Agency[],
   motionDesignAgenciesData as Agency[],
 );
+
+/** How long a resolved dataset is reused before the CMS is asked again.
+ *  Matches the `revalidate` on the directory routes, so a correction
+ *  published in the Studio reaches the site on the same clock the pages
+ *  already promise rather than on a second, slower one of this module's
+ *  own. */
+const DATASET_TTL_MS = 60_000;
+
+/** The in-flight or last-resolved dataset, with the time it was started.
+ *  Memoized at module scope rather than per render: a full build renders
+ *  several hundred agency pages, and one CMS fetch for all of them is the
+ *  difference between one request and several hundred. */
+let datasetCache: { startedAt: number; dataset: Promise<Agency[]> } | null = null;
+
+/**
+ * Fetches the CMS corrections and merges them onto the scrape.
+ *
+ * Resolves to the scraped dataset unchanged when Sanity cannot be reached.
+ * That is the deliberate failure mode: the directory's substance is the
+ * scrape, so an outage costs the corrections layered on top of it and
+ * nothing else - every page still renders, with everything its named
+ * source published. Failing the build instead would take ~320 working
+ * pages off the site to protect a correction on a handful of them.
+ *
+ * @returns The resolved dataset.
+ */
+async function resolveDataset(): Promise<Agency[]> {
+  try {
+    const overrides = await getAgencyListingOverrides();
+    return applyAgencyListings(SCRAPED_AGENCIES, overrides);
+  } catch {
+    return SCRAPED_AGENCIES;
+  }
+}
+
+/**
+ * The dataset every helper below reads: the scraped records with the
+ * `agencyListing` documents in Sanity merged over them.
+ *
+ * Memoized for `DATASET_TTL_MS`. The resolved promise is cached rather
+ * than the array, so concurrent renders during a cold window share one
+ * fetch instead of each starting their own. `resolveDataset` never
+ * rejects, so a failed fetch caches the scraped baseline for one TTL and
+ * then retries - it cannot wedge the cache with a rejected promise.
+ *
+ * @returns Every agency in the directory, corrections applied.
+ */
+export async function getDirectoryAgencies(): Promise<Agency[]> {
+  try {
+    const now = Date.now();
+    if (!datasetCache || now - datasetCache.startedAt > DATASET_TTL_MS) {
+      datasetCache = { startedAt: now, dataset: resolveDataset() };
+    }
+    return await datasetCache.dataset;
+  } catch {
+    return SCRAPED_AGENCIES;
+  }
+}
 
 /** Raw partner list, typed against `SuperflowPartnerList`. Ships with an
  *  empty `domains` array until someone pastes in the real CRM export - see
@@ -219,6 +287,15 @@ const SOURCE_LABELS: Record<AgencySource, string> = {
 
 /** Fallback label for a source not present in `SOURCE_LABELS`. */
 const GENERIC_SOURCE_LABEL = "View source profile";
+
+/** Labels for the counted award tally - see `resolveAwardTallyLabel`. The
+ *  generic one deliberately says "recorded" rather than "total": it is the
+ *  count one named jury published, never a claim about every award an
+ *  agency holds. */
+const AWARD_TALLY_LABEL_AWWWARDS = "Awwwards awards";
+const AWARD_TALLY_LABEL_AWWWARDS_ONE = "Awwwards award";
+const AWARD_TALLY_LABEL_GENERIC = "Awards recorded";
+const AWARD_TALLY_LABEL_GENERIC_ONE = "Award recorded";
 
 /**
  * Reports whether an agency is a Superflow partner/customer, joining
@@ -337,13 +414,15 @@ function compareAgenciesByAccolades(agencyOne: Agency, agencyTwo: Agency): numbe
  *          while the dataset is still empty - callers render an empty
  *          state rather than treating this as an error.
  */
-export function getAgenciesByCategory(categorySlug: string): Agency[] {
+export async function getAgenciesByCategory(categorySlug: string): Promise<Agency[]> {
   try {
     if (!categorySlug) return [];
     const comparator = isAccoladeRankedCategory(categorySlug)
       ? compareAgenciesByAccolades
       : compareAgenciesDefaultOrder;
-    return AGENCIES.filter((agency) => agency?.categories?.includes(categorySlug))
+    const agencies = await getDirectoryAgencies();
+    return agencies
+      .filter((agency) => agency?.categories?.includes(categorySlug))
       .slice()
       .sort(comparator);
   } catch {
@@ -358,10 +437,11 @@ export function getAgenciesByCategory(categorySlug: string): Agency[] {
  * @param categorySlug - The `DirectoryCategory.slug` to count.
  * @returns The number of agencies in that category, 0 on any failure.
  */
-export function getAgencyCountByCategory(categorySlug: string): number {
+export async function getAgencyCountByCategory(categorySlug: string): Promise<number> {
   try {
     if (!categorySlug) return 0;
-    return AGENCIES.filter((agency) => agency?.categories?.includes(categorySlug)).length;
+    const agencies = await getDirectoryAgencies();
+    return agencies.filter((agency) => agency?.categories?.includes(categorySlug)).length;
   } catch {
     return 0;
   }
@@ -419,6 +499,39 @@ export function resolveAgencySourceLabel(source: AgencySource | null | undefined
     return SOURCE_LABELS[source] ?? GENERIC_SOURCE_LABEL;
   } catch {
     return GENERIC_SOURCE_LABEL;
+  }
+}
+
+/**
+ * The label for an agency's counted award tally.
+ *
+ * Never "Total awards". `AgencyAwards` is Awwwards' scheme and nothing
+ * else - see its doc comment in lib/directory/types.ts, and the way the
+ * other sources keep their wins in `accolades` precisely because they are
+ * a different jury's. A studio with 48 Awwwards awards and another thirty
+ * from FWA, Laus and Behance is not a studio with 48 awards, and a label
+ * saying "total" tells every such studio the directory has undercounted
+ * them. Naming the jury makes the same number true.
+ *
+ * @param source - The source the record was collected from.
+ * @param count - The tally itself, when the label sits inline next to it
+ *                 ("1 Awwwards award") and has to agree with it. Omit
+ *                 where the label heads a field rather than completing a
+ *                 phrase - a field name stays plural at any count.
+ * @returns The label to render for the tally.
+ */
+export function resolveAwardTallyLabel(
+  source: AgencySource | null | undefined,
+  count?: number,
+): string {
+  try {
+    const singular = count === 1;
+    if (source === "awwwards") {
+      return singular ? AWARD_TALLY_LABEL_AWWWARDS_ONE : AWARD_TALLY_LABEL_AWWWARDS;
+    }
+    return singular ? AWARD_TALLY_LABEL_GENERIC_ONE : AWARD_TALLY_LABEL_GENERIC;
+  } catch {
+    return AWARD_TALLY_LABEL_GENERIC;
   }
 }
 
@@ -538,10 +651,11 @@ export function agencyPath(slug: string): string {
  * @param slug - The requested route slug.
  * @returns The matching agency, or undefined when no record has that slug.
  */
-export function getAgencyBySlug(slug: string): Agency | undefined {
+export async function getAgencyBySlug(slug: string): Promise<Agency | undefined> {
   try {
     if (!slug) return undefined;
-    return AGENCIES.find((agency) => agency?.slug === slug);
+    const agencies = await getDirectoryAgencies();
+    return agencies.find((agency) => agency?.slug === slug);
   } catch {
     return undefined;
   }
@@ -554,9 +668,10 @@ export function getAgencyBySlug(slug: string): Agency | undefined {
  *
  * @returns All known agency slugs, in no particular order.
  */
-export function getAllAgencySlugs(): string[] {
+export async function getAllAgencySlugs(): Promise<string[]> {
   try {
-    const slugs = AGENCIES.map((agency) => agency?.slug).filter(
+    const agencies = await getDirectoryAgencies();
+    const slugs = agencies.map((agency) => agency?.slug).filter(
       (slug): slug is string => Boolean(slug),
     );
     return Array.from(new Set(slugs));
@@ -746,9 +861,11 @@ export function shouldIndexAgency(agency: Agency | null | undefined): boolean {
  *
  * @returns Indexable agency slugs.
  */
-export function getIndexableAgencySlugs(): string[] {
+export async function getIndexableAgencySlugs(): Promise<string[]> {
   try {
-    return AGENCIES.filter((agency) => shouldIndexAgency(agency))
+    const agencies = await getDirectoryAgencies();
+    return agencies
+      .filter((agency) => shouldIndexAgency(agency))
       .map((agency) => agency?.slug)
       .filter((slug): slug is string => Boolean(slug));
   } catch {
@@ -770,10 +887,11 @@ export interface AgencyIndexingSummary {
  * @returns Total agency count, how many are indexable, and how many are
  *          held back (noindex, excluded from the sitemap).
  */
-export function getAgencyIndexingSummary(): AgencyIndexingSummary {
+export async function getAgencyIndexingSummary(): Promise<AgencyIndexingSummary> {
   try {
-    const total = AGENCIES.length;
-    const indexable = AGENCIES.filter((agency) => shouldIndexAgency(agency)).length;
+    const agencies = await getDirectoryAgencies();
+    const total = agencies.length;
+    const indexable = agencies.filter((agency) => shouldIndexAgency(agency)).length;
     return { total, indexable, heldBack: total - indexable };
   } catch {
     return { total: 0, indexable: 0, heldBack: 0 };
@@ -808,13 +926,16 @@ export interface RelatedAgenciesBlock {
  * @returns A heading plus up to `limit` agencies, sorted by the
  *          directory's default order. Empty when nothing qualifies.
  */
-export function getRelatedAgencies(
+export async function getRelatedAgencies(
   agency: Agency | null | undefined,
   limit: number = RELATED_AGENCIES_LIMIT_DEFAULT,
-): RelatedAgenciesBlock {
+): Promise<RelatedAgenciesBlock> {
   try {
     if (!agency) return { heading: FALLBACK_RELATED_HEADING, agencies: [] };
 
+    // Resolved once here rather than inside `collectTier`, which runs up
+    // to three times per page.
+    const dataset = await getDirectoryAgencies();
     const countryName = agency.location?.country?.trim();
     const primaryCategorySlug = agency.categories?.[0];
     const category = primaryCategorySlug
@@ -831,7 +952,7 @@ export function getRelatedAgencies(
      */
     const collectTier = (requireCountry: boolean, requireCategory: boolean): Agency[] => {
       try {
-        return AGENCIES.filter((candidate) => {
+        return dataset.filter((candidate) => {
           if (!candidate || candidate.slug === agency.slug) return false;
           if (requireCountry && candidate.location?.country?.trim() !== countryName) {
             return false;

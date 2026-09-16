@@ -24,6 +24,7 @@ import {
   getIndexableAgencySlugs,
   getRelatedAgencies,
   resolveAgencySourceLabel,
+  resolveAwardTallyLabel,
   shouldIndexAgency,
 } from "@/lib/directory/agencies";
 import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
@@ -52,12 +53,13 @@ function categoryTitles(agency: Agency): string {
 }
 
 /** One agency profile. */
-export function agencyToAgentDoc(agency: Agency): AgentDoc {
+export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
   const location = formatAgencyLocation(agency.location ?? null) ?? "";
   const rating = formatAgencyRating(agency.rating) ?? "";
   const clients = getAgencyClients(agency);
   const awards = getAwardBreakdown(agency.awards).filter((entry) => entry.count > 0);
   const source = resolveAgencySourceLabel(agency.source);
+  const listing = agency.listing ?? null;
 
   return {
     title: agency.name,
@@ -76,9 +78,13 @@ export function agencyToAgentDoc(agency: Agency): AgentDoc {
       { label: "Typical project budget", value: agency.budgetLabel ?? "" },
       { label: "Client rating", value: rating },
       {
-        label: "Awards",
-        value: agency.awards?.total ? `${agency.awards.total} total` : "",
+        // Never "N total": the tally is one jury's scheme (see
+        // `resolveAwardTallyLabel`), and an agent repeating it as a total
+        // would be asserting something the source never said.
+        label: resolveAwardTallyLabel(agency.source),
+        value: agency.awards?.total ? String(agency.awards.total) : "",
       },
+      { label: "Confirmed by the agency", value: clean(listing?.verifiedAt) },
       // Attribution is a fact, not a footnote: every figure above is
       // reported by this source, and an agent repeating one should be able
       // to say where it came from.
@@ -94,7 +100,7 @@ export function agencyToAgentDoc(agency: Agency): AgentDoc {
       },
       {
         heading: "Award record",
-        body: [`As tallied by ${source}.`],
+        body: [`As tallied by ${source}.`, clean(listing?.awardsNote)],
         table: awards.length
           ? {
               headers: ["Award", "Count"],
@@ -116,8 +122,45 @@ export function agencyToAgentDoc(agency: Agency): AgentDoc {
         body: ["Self-reported by the agency, unverified."],
         bullets: (agency.accolades ?? []).map(clean).filter(Boolean),
       },
+      // Neither of these comes from a source directory - no directory
+      // publishes them. They exist only where the agency wrote in, which
+      // is also the one kind of answer an agent asked "who would take this
+      // brief" actually needs.
+      {
+        // The stated floors get their own table rather than a sentence:
+        // an agent filtering "agencies that take £20k projects" needs the
+        // figure and its currency as data, and an agency that quoted two
+        // different floors for two kinds of work said something a single
+        // number cannot carry.
+        heading: "Minimum project size",
+        body: [
+          (listing?.budgetMinimums ?? []).length > 0
+            ? "Stated by the agency, in the currency it quoted. Never converted."
+            : "",
+        ],
+        table: (listing?.budgetMinimums ?? []).length > 0
+          ? {
+              headers: ["Kind of work", "From", "Currency"],
+              rows: (listing?.budgetMinimums ?? []).map((minimum) => [
+                clean(minimum.scope),
+                String(minimum.amount),
+                clean(minimum.currency),
+              ]),
+            }
+          : undefined,
+      },
+      {
+        heading: "Working with them",
+        body: [
+          clean(listing?.engagementNote),
+          (listing?.exclusions ?? []).length > 0
+            ? "Work the agency says it does not take on:"
+            : "",
+        ],
+        bullets: (listing?.exclusions ?? []).map(clean).filter(Boolean),
+      },
     ),
-    related: getRelatedAgencies(agency, 6).agencies.map((related) => ({
+    related: (await getRelatedAgencies(agency, 6)).agencies.map((related) => ({
       title: related.name,
       path: agencyPath(related.slug),
       note: formatAgencyLocation(related.location ?? null) ?? undefined,
@@ -126,15 +169,23 @@ export function agencyToAgentDoc(agency: Agency): AgentDoc {
 }
 
 /** One directory category listing. */
-export function directoryCategoryToAgentDoc(category: DirectoryCategory): AgentDoc {
-  const agencies = getAgenciesByCategory(category.slug).filter(shouldIndexAgency);
+export async function directoryCategoryToAgentDoc(
+  category: DirectoryCategory,
+): Promise<AgentDoc> {
+  const agencies = (await getAgenciesByCategory(category.slug)).filter(shouldIndexAgency);
 
   const rows = agencies.map((agency) => [
     agency.name,
     formatAgencyLocation(agency.location ?? null) ?? "",
     agency.teamSize ?? "",
     agency.budgetLabel ?? "",
-    formatAgencyRating(agency.rating) ?? (agency.awards?.total ? `${agency.awards.total} awards` : ""),
+    // Names the jury, for the same reason the detail page does: "48
+    // awards" read out of context is a claim about an agency's whole
+    // record, which this number is not.
+    formatAgencyRating(agency.rating) ??
+      (agency.awards?.total
+        ? `${agency.awards.total} ${resolveAwardTallyLabel(agency.source, agency.awards.total)}`
+        : ""),
   ]);
 
   return {
@@ -169,12 +220,15 @@ export function directoryCategoryToAgentDoc(category: DirectoryCategory): AgentD
 }
 
 /** The directory hub. */
-export function directoryHubToAgentDoc(): AgentDoc {
-  const rows = DIRECTORY_CATEGORIES.map((category) => [
-    category.title,
-    `${DIRECTORY_BASE_PATH}/${category.slug}`,
-    String(getAgenciesByCategory(category.slug).filter(shouldIndexAgency).length),
-  ]);
+export async function directoryHubToAgentDoc(): Promise<AgentDoc> {
+  const rows = await Promise.all(
+    DIRECTORY_CATEGORIES.map(async (category) => [
+      category.title,
+      `${DIRECTORY_BASE_PATH}/${category.slug}`,
+      String((await getAgenciesByCategory(category.slug)).filter(shouldIndexAgency).length),
+    ]),
+  );
+  const indexableCount = (await getIndexableAgencySlugs()).length;
 
   return {
     title: "Agency directory",
@@ -184,7 +238,7 @@ export function directoryHubToAgentDoc(): AgentDoc {
     kind: "Directory index",
     facts: [
       { label: "Categories", value: String(DIRECTORY_CATEGORIES.length) },
-      { label: "Agencies listed", value: String(getIndexableAgencySlugs().length) },
+      { label: "Agencies listed", value: String(indexableCount) },
       {
         label: "Data provenance",
         value: "Every field is reported by a named source directory and links back to it.",

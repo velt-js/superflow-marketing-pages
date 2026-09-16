@@ -25,13 +25,14 @@ const ACTIVATION_KEYS = ["Enter", " ", "Spacebar"];
  *
  * That split is load-bearing, not cosmetic. `PartnerBadge` calls
  * `isSuperflowPartner`, a real runtime import from
- * `lib/directory/agencies.ts`, whose module scope imports `agencies.json`
- * and `partners.json`. Marking that component `"use client"` would very
- * likely pull the whole scraped dataset into the browser bundle (JSON
- * module imports are not reliably tree-shaken) - the same trap
- * `AgencyExplorer` avoids with a type-only import, documented in
- * app/directory/README.md. This component therefore takes plain strings
- * and imports nothing from `lib/directory/`.
+ * `lib/directory/agencies.ts`, whose module scope imports `agencies.json`,
+ * `partners.json` and - since the directory picked up its CMS layer - the
+ * Sanity client. Marking that component `"use client"` would very likely
+ * pull the whole scraped dataset into the browser bundle (JSON module
+ * imports are not reliably tree-shaken), and a server-side data client
+ * with it - the same trap `AgencyExplorer` avoids with a type-only import,
+ * documented in app/directory/README.md. This component therefore takes
+ * plain strings and imports nothing from `lib/directory/`.
  *
  * Why it needs to be interactive at all: the mark paints no words, so on a
  * touch device - where there is no hover - the tooltip was previously
