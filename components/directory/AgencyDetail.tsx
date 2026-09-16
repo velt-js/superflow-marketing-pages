@@ -446,10 +446,9 @@ function AwardBar({
  * The body below is then only the detail that answer sits on.
  *
  * The body below is a template with fixed slots, not a layout that
- * reflows around whatever a record happens to carry: the wide column is
- * always the agency's record and the rail beside it is always what they
- * offer and how they work, so two profiles read the same way. See the
- * comment on `recordCards` below.
+ * reflows around whatever a record happens to carry: one column, the same
+ * cards in the same order on every profile, so two agencies read the same
+ * way. See the comment on `cards` below.
  *
  * Deliberately holds more than `AgencyCard` shows on the list - the detail
  * page needs to justify its own existence with real content, not just
@@ -647,33 +646,29 @@ export default function AgencyDetail({
       </div>
     );
 
-    // **Every card has a fixed slot.** The wide column is the agency's
-    // record - who they have worked for and what that work has won - and
-    // the rail beside it is what they offer and how they work. Two
-    // profiles with the same fields on file therefore lay out identically,
-    // which is the whole point of a template: a visitor comparing three
-    // agencies should be reading the same page three times, not relearning
-    // where things are.
+    // **One column, fixed order, every profile.** Who they have worked
+    // for, what it won, what else that record holds, what they do, and what
+    // it costs to work with them - in that order, at full measure, whether
+    // a record carries all five or one.
     //
-    // An earlier cut sized the columns by content instead, giving the wide
-    // column to whichever card ran longest. It packed better - a D&AD
-    // studio's 34 award chips got the space they need - and it was wrong:
-    // it made two profiles of the same category look like two different
-    // page designs. The packing problem is handled by the degradation rule
-    // below instead, which widens the record column when there is nothing
-    // to put beside it.
-    const recordCards: ReactNode[] = [clientsCard, awardsCard, accoladesCard].filter(
-      Boolean,
-    ) as ReactNode[];
-    const offerCards: ReactNode[] = [servicesCard, termsCard].filter(Boolean) as ReactNode[];
-
-    // A profile with nothing in one column is not a two-column page with a
-    // hole in it. Source directories publish wildly different fields (a
-    // Motion Design Awards record has an award list and literally nothing
-    // else), so the layout collapses rather than rendering an empty rail.
-    const hasRail = recordCards.length > 0 && offerCards.length > 0;
-    const columnCards = recordCards.length > 0 ? recordCards : offerCards;
-    const cardCount = recordCards.length + offerCards.length;
+    // This has been wrong twice, both times by trying to use the space
+    // better. Sizing the columns by content gave the wide column to
+    // whichever card ran longest, so an Awwwards profile led with clients
+    // and a D&AD one led with awards. Fixing the slots but collapsing the
+    // rail when it was empty was subtler and just as bad: source
+    // directories publish wildly different fields, so 185 records had a
+    // rail and 138 did not, and the directory shipped two page shapes.
+    //
+    // A visitor comparing three agencies should be reading the same page
+    // three times. That is worth more than the whitespace a rail saves, so
+    // there is no rail.
+    const cards: ReactNode[] = [
+      clientsCard,
+      awardsCard,
+      accoladesCard,
+      servicesCard,
+      termsCard,
+    ].filter(Boolean) as ReactNode[];
 
     return (
       <>
@@ -787,22 +782,7 @@ export default function AgencyDetail({
           <div className={styles.inner}>
             {verifiedNote && <p className={styles.verified}>{verifiedNote}</p>}
 
-            {cardCount > 0 && (
-              <div
-                className={[
-                  styles.columns,
-                  hasRail ? "" : styles.columnsStacked,
-                  // One lone card spanning the full measure reads as a
-                  // page that lost the rest of itself.
-                  cardCount === 1 ? styles.columnsSingle : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-              >
-                <div className={styles.recordColumn}>{columnCards}</div>
-                {hasRail && <div className={styles.offerColumn}>{offerCards}</div>}
-              </div>
-            )}
+            {cards.length > 0 && <div className={styles.cards}>{cards}</div>}
           </div>
         </section>
       </>

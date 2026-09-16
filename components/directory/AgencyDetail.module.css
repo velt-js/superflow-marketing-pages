@@ -56,49 +56,15 @@
     text-align: center;
 }
 
-/* Two fixed columns: the agency's record (who they worked for, what it
-   won) against a rail of what they offer and how they work. Every profile
-   puts the same card in the same place - see the note in AgencyDetail.tsx
-   for why this is not sized by content.
-
-   Not a symmetric 1fr/1fr: the record column carries the long lists (a
-   dozen clients, thirty-four pencils) and the rail carries short ones, so
-   equal columns would leave the right half empty on every page. */
-.columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+/* One column, full measure, every profile - see the note in
+   AgencyDetail.tsx for why there is no side rail. The cards inside are
+   what adapt: the client list is its own responsive grid, and the chip
+   lists wrap, so a wide card is filled rather than stretched. */
+.cards {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
-    align-items: start;
     width: 100%;
-}
-
-/* Nothing to put in the rail - a Motion Design Awards record has an award
-   list and no other field on file - so the record column takes the full
-   measure rather than rendering an empty half. */
-.columnsStacked {
-    grid-template-columns: minmax(0, 1fr);
-}
-
-/* A lone card at full measure reads as a page that lost the rest of
-   itself. */
-.columnsSingle {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 760px;
-    margin: 0 auto;
-}
-
-.recordColumn {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.offerColumn {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .card {
@@ -350,12 +316,6 @@
     font-weight: 700;
     letter-spacing: -0.2px;
     color: var(--ad-accent);
-}
-
-@media (max-width: 900px) {
-    .columns {
-        grid-template-columns: minmax(0, 1fr);
-    }
 }
 
 @media (max-width: 600px) {
