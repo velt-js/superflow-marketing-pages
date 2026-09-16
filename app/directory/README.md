@@ -166,7 +166,12 @@ why the two are kept structurally apart.
   `?category=` (which category the controls open on - this is what the
   retired category routes redirect into) and `?page=`; an unknown or
   unparseable value falls back to the default rather than 404ing, because
-  these are view parameters on one list, not routes. Header is
+  these are view parameters on one list, not routes. A `?page=` past the
+  end is **clamped to the last page**, in the body and in
+  `generateMetadata` alike, so `?page=999` serves the last page of cards
+  under the last page's canonical and title. Both have to clamp or the two
+  disagree - an unclamped canonical mints an unbounded set of URLs that all
+  render the same cards, and an unclamped body renders none. Header is
   `components/directory/DirectoryListHero.tsx` (the shared blue-gradient
   2026 hero). Reading `searchParams` makes this route server-rendered on
   demand rather than static - the dataset behind it is memoized for 60s, so

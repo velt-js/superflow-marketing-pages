@@ -29,6 +29,7 @@ import {
   applyAgencyListings,
   type AgencyListingOverride,
 } from "../../lib/directory/overrides";
+import { toAgency } from "../../lib/directory/cms";
 import type { Agency } from "../../lib/directory/types";
 
 const SCRAPED = agenciesData as Agency[];
@@ -238,5 +239,52 @@ test.describe("agency listing overrides", () => {
       { scope: "Website", amount: 24000, currency: "USD" },
       { scope: "Branding", amount: 12000, currency: "USD" },
     ]);
+  });
+});
+
+// The same three rules have to hold when the record arrives from Sanity
+// rather than from the seed file, because `toAgency` re-implements the
+// listing block instead of calling `applyAgencyListing` - the CMS document
+// already *is* the merged record, so there is nothing to merge onto. Two
+// implementations of one promise is exactly the shape that drifts, so the
+// budget rule is asserted against both.
+test.describe("cms listing parity", () => {
+  /** The smallest document `toAgency` will accept, so each test below only
+   *  has to state the field it is about. */
+  const DOC = { slug: "fixture-studio", name: "Fixture Studio" };
+
+  test("a zero or negative floor is dropped, exactly as a seeded one is", () => {
+    const rows = [
+      { scope: "Website", amount: 0, currency: "usd" },
+      { scope: "Branding", amount: -1, currency: "usd" },
+      { scope: "Retainer", amount: 9000, currency: "usd" },
+    ];
+    const fromCms = toAgency({ ...DOC, listing: { budgetMinimums: rows } });
+    const fromSeed = applyAgencyListing(BASE, {
+      agencySlug: BASE.slug,
+      budgetMinimums: rows,
+    });
+
+    // A half-typed row is not a claim to work for nothing, and a negative
+    // one is not a claim at all. Only the third row is a figure a buyer
+    // could act on.
+    const kept = [{ scope: "Retainer", amount: 9000, currency: "USD" }];
+    expect(fromCms?.listing?.budgetMinimums).toEqual(kept);
+    expect(fromSeed?.listing?.budgetMinimums).toEqual(kept);
+  });
+
+  test("a listing holding nothing but a zero floor is no listing at all", () => {
+    // Otherwise the profile renders "Engagement terms" over an empty box.
+    const rows = [{ scope: "Website", amount: 0, currency: "USD" }];
+    expect(toAgency({ ...DOC, listing: { budgetMinimums: rows } })?.listing).toBeNull();
+    expect(
+      applyAgencyListing(BASE, { agencySlug: BASE.slug, budgetMinimums: rows })?.listing,
+    ).toBeNull();
+  });
+
+  test("a zero budgetFloorUsd is kept - it is a different field saying a different thing", () => {
+    // `budgetFloorUsd` is the directory's own number, where 0 means "takes
+    // work at any budget". Only the stated minimums above treat 0 as noise.
+    expect(toAgency({ ...DOC, budgetFloorUsd: 0 })?.budgetFloorUsd).toBe(0);
   });
 });

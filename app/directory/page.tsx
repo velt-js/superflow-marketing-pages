@@ -105,6 +105,34 @@ function selectCategory(items: AgencyListItem[], categorySlug: string): AgencyLi
 }
 
 /**
+ * Clamps a requested page to one that exists in the given list.
+ *
+ * `?page=` is a number anyone can type, and a category has however many
+ * pages it has - `?category=seo&page=2` asks for a second page of a
+ * 60-record category that only has one. Unclamped, the server sliced past
+ * the end and rendered a page with no cards and no ItemList under a
+ * canonical and a title that both said "page 2", while the client clamped
+ * itself back to page 1 and showed page 1's cards. Same request, two
+ * answers, neither of them the one the URL claimed.
+ *
+ * Clamped rather than 404ed or redirected: an out-of-range page is a view
+ * parameter that has drifted, not a missing page, and the canonical this
+ * produces points at the page the visitor actually got.
+ *
+ * @param requestedPage - The 1-based page from the query string.
+ * @param itemCount - How many agencies the active category holds.
+ * @returns A page number that exists, 1 or greater.
+ */
+function clampPage(requestedPage: number, itemCount: number): number {
+  try {
+    const pageCount = Math.max(1, Math.ceil(itemCount / DIRECTORY_PAGE_SIZE));
+    return Math.min(Math.max(1, requestedPage), pageCount);
+  } catch {
+    return 1;
+  }
+}
+
+/**
  * Builds metadata for one view of the list.
  *
  * **Each server-rendered view is its own canonical** - `/directory`,
@@ -117,6 +145,12 @@ function selectCategory(items: AgencyListItem[], categorySlug: string): AgencyLi
  * linked from, and a page whose canonical points elsewhere is a page whose
  * links may never be followed.
  *
+ * The page number is clamped here against the live list, exactly as the
+ * page body clamps it. Both have to, or `?page=99` renders the last page
+ * under a canonical and a title claiming page 99 - see `clampPage`. The
+ * dataset behind the clamp is memoized, so asking for it twice in one
+ * request costs nothing.
+ *
  * @param props - Route props carrying the query string.
  * @returns Next.js Metadata for the requested view.
  */
@@ -126,7 +160,14 @@ export async function generateMetadata({
   try {
     const params = await searchParams;
     const categorySlug = resolveDirectoryCategoryParam(params?.[DIRECTORY_CATEGORY_PARAM]);
-    const page = resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]);
+    const categoryItems = selectCategory(
+      buildAgencyListItems(await getDirectoryAgencyList()),
+      categorySlug,
+    );
+    const page = clampPage(
+      resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]),
+      categoryItems.length,
+    );
     const category =
       categorySlug === DIRECTORY_ALL_CATEGORIES ? undefined : getDirectoryCategory(categorySlug);
     const title = category ? category.title : HUB_TITLE;
@@ -153,7 +194,6 @@ export async function generateMetadata({
 export default async function DirectoryListPage({ searchParams }: DirectoryPageProps) {
   const params = await searchParams;
   const initialCategory = resolveDirectoryCategoryParam(params?.[DIRECTORY_CATEGORY_PARAM]);
-  const initialPage = resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]);
 
   // Always the whole list, never the page's slice: the client filters and
   // searches across every item and renders the page's worth of cards from
@@ -161,12 +201,17 @@ export default async function DirectoryListPage({ searchParams }: DirectoryPageP
   const agencies = await getDirectoryAgencyList();
   const items = buildAgencyListItems(agencies);
   const stats = buildAgencyListStats(agencies);
-  const path = directoryListPath(initialCategory, initialPage);
 
   // The slice this render actually shows, for the ItemList below. Derived
-  // the same way the client derives it - same filter rule, same page size
-  // - so the schema and the page can't disagree about what is on it.
+  // the same way the client derives it - same filter rule, same clamp, same
+  // page size - so the schema, the canonical and the cards on screen cannot
+  // disagree about which page this is.
   const categoryItems = selectCategory(items, initialCategory);
+  const initialPage = clampPage(
+    resolveDirectoryPageParam(params?.[DIRECTORY_PAGE_PARAM]),
+    categoryItems.length,
+  );
+  const path = directoryListPath(initialCategory, initialPage);
   const pageOffset = (initialPage - 1) * DIRECTORY_PAGE_SIZE;
   const pageItems = categoryItems.slice(pageOffset, pageOffset + DIRECTORY_PAGE_SIZE);
 

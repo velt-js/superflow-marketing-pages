@@ -221,8 +221,14 @@ function applyListing(agency, listing) {
     .map((minimum) => {
       const scope = text(minimum?.scope);
       const currency = text(minimum?.currency);
-      const amount = typeof minimum?.amount === "number" ? minimum.amount : null;
-      if (!scope || !currency || amount === null) return null;
+      const amount = minimum?.amount;
+      if (!scope || !currency) return null;
+      // Positive, exactly as `applyAgencyListing` requires: a row reading
+      // "Website - $0" is a half-typed entry, not a floor, and the schema
+      // still permits one. The read path has always dropped it; if this
+      // migration wrote it, the CMS becoming authoritative would publish a
+      // figure the site had been hiding.
+      if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) return null;
       return { scope, amount, currency: currency.toUpperCase() };
     })
     .filter(Boolean);

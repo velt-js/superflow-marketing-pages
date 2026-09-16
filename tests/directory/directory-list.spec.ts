@@ -14,8 +14,15 @@
 //      what keeps all 323 profiles linked from the one page that lists
 //      them. Rendering the grid - or the pager - client-side only would
 //      look identical in a browser and leave a crawler with 60 of 323.
+//   4. **A page number past the end resolves to a real page.** `?page=99`
+//      is a URL anyone can type and a crawler can invent, and the list has
+//      to answer it with cards under a canonical that matches what it
+//      rendered - not an empty grid claiming to be page 99.
+//   5. **The Markdown alternate is a `.md` URL.** The suffix belongs on the
+//      path; appended to the whole URL it lands on `?category=seo.md`,
+//      which is the HTML page again under a category that does not exist.
 
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import {
   DIRECTORY_BASE_PATH,
   DIRECTORY_CATEGORIES,
@@ -141,6 +148,61 @@ test.describe("directory list", () => {
     // so the two renderings agree rather than the client re-deriving them.
     await page.goto(LIST_PATH);
     await expect.poll(async () => page.locator("article").count()).toBe(firstPage.size);
+  });
+
+  test("a page past the end lands on the last page, not an empty one", async ({
+    request,
+  }) => {
+    // Derived rather than hardcoded: the last page moves every time an
+    // agency is published, and a test that pins it would fail on content.
+    const listHtml = await (await request.get(LIST_PATH)).text();
+    const total = Number(listHtml.match(/of (\d+) agenc/)?.[1] ?? 0);
+    expect(total).toBeGreaterThan(DIRECTORY_PAGE_SIZE);
+    const lastPage = Math.ceil(total / DIRECTORY_PAGE_SIZE);
+
+    const html = await (
+      await request.get(`${LIST_PATH}?${DIRECTORY_PAGE_PARAM}=999`)
+    ).text();
+
+    // Cards, not an empty grid: the offset for page 999 is past every
+    // record, so an unclamped page slices nothing out of the list.
+    expect(agencyHrefs(html).size).toBeGreaterThan(0);
+
+    // And the two things a crawler indexes say which page it actually is.
+    // A canonical echoing `?page=999` would mint an unbounded set of URLs
+    // that all show the same cards. Asserted on the tags rather than on the
+    // whole document, because Next echoes the requested URL back in its own
+    // router payload no matter what the page resolved to.
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+    expect(canonical).toBe(
+      `https://usesuperflow.ai${LIST_PATH}?${DIRECTORY_PAGE_PARAM}=${lastPage}`,
+    );
+    expect(html.match(/<title>([^<]*)<\/title>/)?.[1]).toContain(`Page ${lastPage}`);
+  });
+
+  test("the Markdown alternate is a .md path, not a .md query value", async ({
+    request,
+  }) => {
+    const category = DIRECTORY_CATEGORIES[0];
+    const html = await (
+      await request.get(`${LIST_PATH}?${DIRECTORY_CATEGORY_PARAM}=${category.slug}`)
+    ).text();
+
+    // `.md` goes on the pathname, before the query string.
+    const alternate = html.match(
+      /<link rel="alternate" type="text\/markdown" href="([^"]+)"/,
+    )?.[1];
+    expect(alternate).toBe(
+      `https://usesuperflow.ai${LIST_PATH}.md?${DIRECTORY_CATEGORY_PARAM}=${category.slug}`,
+    );
+
+    // And it resolves - the point of asserting the shape is that this URL
+    // serves Markdown rather than the HTML page under a bogus category.
+    const response = await request.get(
+      `${LIST_PATH}.md?${DIRECTORY_CATEGORY_PARAM}=${category.slug}`,
+    );
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("text/markdown");
   });
 
   test("a page link shows a different page of agencies", async ({ page }) => {

@@ -56,6 +56,32 @@ export type BuildPageMetadataInput = {
 };
 
 /**
+ * Builds the path of a page's Markdown copy.
+ *
+ * The suffix goes on the PATHNAME, never on the end of the whole string:
+ * `proxy.ts` decides what to serve from the pathname's suffix, so
+ * `/directory?category=seo.md` is a request for `/directory` and comes back
+ * as HTML - an advertised copy that is not a copy. A page with a query in
+ * its canonical (the directory list, filtered or paged) is the case that
+ * found this.
+ *
+ * @param path - The page's path, with or without a query string.
+ * @returns The path of its Markdown copy.
+ */
+function markdownPath(path: string): string {
+  try {
+    const queryIndex = path.indexOf("?");
+    const pathname = queryIndex === -1 ? path : path.slice(0, queryIndex);
+    const query = queryIndex === -1 ? "" : path.slice(queryIndex);
+    // The homepage has no slug to suffix.
+    const base = pathname === "/" || pathname === "" ? "/index" : pathname;
+    return `${base}.md${query}`;
+  } catch {
+    return path;
+  }
+}
+
+/**
  * Build a complete Next.js Metadata object for a page.
  *
  * @param input - Page metadata inputs.
@@ -103,7 +129,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
         // convention - the same job the `Link` response header does for a
         // client that only reads headers. Served by proxy.ts -> app/api/md.
         types: {
-          "text/markdown": path === "/" ? "/index.md" : `${path}.md`,
+          "text/markdown": markdownPath(path),
         },
       },
       openGraph: {

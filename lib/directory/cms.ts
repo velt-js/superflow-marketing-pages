@@ -301,8 +301,10 @@ function toListing(listing: CmsAgencyDocument["listing"]): AgencyListing | null 
         const currency = text(minimum?.currency);
         // A floor is three facts or it is not a floor: what it applies to,
         // how much, and in which currency. Two of the three is not a
-        // figure anyone can act on.
-        if (!scope || amount === null || !currency) return null;
+        // figure anyone can act on - and a zero is a half-typed row rather
+        // than a claim to take work for nothing, which is why
+        // `applyAgencyListing` has always dropped it too.
+        if (!scope || amount === null || amount <= 0 || !currency) return null;
         return { scope, amount, currency: currency.toUpperCase() };
       })
       .filter((minimum): minimum is NonNullable<typeof minimum> => minimum !== null);

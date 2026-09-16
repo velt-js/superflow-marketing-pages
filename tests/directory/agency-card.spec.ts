@@ -16,17 +16,46 @@
 //      one outbound link the card still carries, and if the overlay wins
 //      that click, every link on the grid quietly goes to the same place.
 
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 
 /** The one page that lists agencies. The four category routes it replaced
  *  now 308 here - see the redirect test in directory-list.spec.ts. */
 const LIST_PATH = DIRECTORY_BASE_PATH;
 
-test.describe("agency card", () => {
-  test("clicking the card body opens the agency's detail page", async ({ page }) => {
-    await page.goto(LIST_PATH);
+test("the consent banner's script is refused, not merely absent", async ({ page }) => {
+  // The block in ./fixtures.ts matches one host. If Termly ever moves,
+  // the banner comes back and covers the cards again - and the only
+  // symptom would be this suite failing on CI and passing everywhere
+  // else, which is the exact trap it was written to close. So assert the
+  // request was actually intercepted rather than trusting silence: an
+  // abort raises `requestfailed`, before the network, so this is the same
+  // answer on a runner with the CDN reachable and in a sandbox without
+  // it. If <Script id="termly"> is ever removed from
+  // components/scripts/ThirdPartyScripts.tsx, delete this test and the
+  // block with it.
+  const refused: string[] = [];
+  page.on("requestfailed", (request) => {
+    if (request.url().includes("termly.io")) refused.push(request.url());
+  });
 
+  await page.goto(LIST_PATH);
+  await expect
+    .poll(() => refused.length, {
+      message: "the consent banner script was never requested - has its host changed?",
+    })
+    .toBeGreaterThan(0);
+});
+
+test.describe("agency card", () => {
+  test.beforeEach(async ({ page }) => {
+    // The consent banner would cover the first row of cards on CI; the
+    // `test` imported above blocks it. See ./fixtures.ts - this test
+    // shipped broken without that.
+    await page.goto(LIST_PATH);
+  });
+
+  test("clicking the card body opens the agency's detail page", async ({ page }) => {
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     await expect(card).toBeVisible();
 
@@ -44,6 +73,26 @@ test.describe("agency card", () => {
     // what a visitor does, and the browser routes it to whatever is
     // actually on top: the overlay on a working build, the inert <p> on a
     // broken one, which leaves the URL where it was and fails below.
+    //
+    // Checked before clicking, because "the URL did not change" is a
+    // terrible description of "something is covering the card". This names
+    // whatever is actually on top.
+    const onTop = await body.evaluate((node) => {
+      const rect = node.getBoundingClientRect();
+      const hit = document.elementFromPoint(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+      );
+      return {
+        opensProfile: Boolean(hit?.closest("a[href^='/directory/agency/']")),
+        describe: hit ? `${hit.tagName.toLowerCase()}.${hit.className}`.slice(0, 120) : "nothing",
+      };
+    });
+    expect(
+      onTop.opensProfile,
+      `the card's stretched link should be on top of its description, but ${onTop.describe} is`,
+    ).toBe(true);
+
     const box = await body.boundingBox();
     expect(box, "the description should have a layout box to click").not.toBeNull();
     await page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
@@ -54,8 +103,6 @@ test.describe("agency card", () => {
   });
 
   test("the agency's own website link still wins its own click", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     const websiteLink = page
       .locator("article a[target='_blank'][rel*='noopener']")
       .first();
@@ -71,8 +118,6 @@ test.describe("agency card", () => {
   });
 
   test("the card carries no link back to the source directory", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     const card = page.locator("article").filter({ has: page.locator("h3") }).first();
     // Attribution lives on the detail page this card opens, one click away.
     // The figures on the card still name their source in the label itself
@@ -82,8 +127,6 @@ test.describe("agency card", () => {
   });
 
   test("no anchor is nested inside another anchor", async ({ page }) => {
-    await page.goto(LIST_PATH);
-
     // The whole reason the card uses an overlay instead of wrapping itself
     // in a link. Browsers recover from nested anchors in incompatible ways,
     // so this must never regress into "just wrap the card".
