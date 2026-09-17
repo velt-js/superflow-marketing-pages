@@ -585,32 +585,32 @@ the stale 4.8 from 30 or given the 33. During a CMS outage the directory
 therefore shows what Semrush publishes, which is the honest thing for a
 file whose whole role is to be the named source's copy.
 
-**Stated floors render as bands, never as quotes.** `formatBudgetBand` in
-`lib/directory/agencies.ts` turns a figure into the count of its digits -
-€50,000 is "5 figures", €100,000 is "6 figures" - and that is what the
-profile's terms card, its stat-strip label and its `.md` copy all print.
-The reason is the agencies': a published exact quote is the number their
-next prospect opens the negotiation at. Bürocratik asked for theirs to
-come off for that reason, and the band is applied to every agency-supplied
-figure rather than just theirs, because a quote shown for one agency
-beside a band for the next tells a visitor the second one is hiding
-something. The currency is not banded and is printed beside the band
-("5 figures (EUR)"): it is not the sensitive half, it is never converted,
-and without it a euro floor and a dollar floor read identically. The
-Markdown copy keeps it as its own column for agents filtering on cost.
+**A stated floor is published as the agency quoted it.** The figure is the
+most useful thing a profile carries - it is the question a visitor opens
+an agency page with, and the one the source directories almost never
+answer - so the terms card, the stat-strip label and the `.md` copy all
+print it, with its currency symbol.
 
-This applies to figures an **agency** sent us. A `budgetLabel` a source
-directory published - Semrush's "Starting from $5,000" - is already public
-under that source's name and is left as it published it;
-`budgetFloorUsd` is likewise untouched, because the category gates are
-written against it.
+**An agency that asks for its quotes to come off gets them off, and that
+is the only reason to abstract one.** The directory does not decide on an
+agency's behalf that its pricing should be public, and it does not
+abstract everyone's figures because one agency asked: a band shown for an
+agency that never objected buries information a visitor needs and tells
+nobody anything.
 
-**Bürocratik's record goes one step further and holds no figures at all.**
-Banding at render is not removal: this dataset is publicly readable, so a
-figure left in it is a figure published. An agency that asks for its
-quotes to come off gets them unset, with the band carried in
-`budgetLabel` instead - see its entry in
-`scripts/agency-corrections/agency-corrections.json`.
+The opt-out is data rather than a flag on the schema:
+
+1. **Unset `budgetMinimums`.** Removed from the record, not hidden at
+   render - this dataset is publicly readable, so a figure left in it is a
+   figure published however the page chooses to draw it.
+2. **Write the band into `budgetLabel`** - "Branding from 5 figures;
+   websites from 6 figures, in euros" - so the profile still tells a
+   visitor whether they are in the right room.
+
+Bürocratik is the one record in that state, and
+`tests/directory/budget-figures.spec.ts` holds both halves: a floor that
+was stated renders as quoted, and a withdrawn one is absent from the page,
+the hydration payload and the Markdown copy alike.
 
 **Budgets are recorded in the currency the agency quoted, and never
 converted** - the same rule `budgetFloorUsd` states on the schema. An agency

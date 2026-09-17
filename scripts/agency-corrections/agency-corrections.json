@@ -6,7 +6,7 @@
       "agencyName": "Bürocratik",
       "verifiedAt": "2026-09-16",
       "verifiedBy": null,
-      "provenance": "Reply to directory outreach, 16 September 2026, and a follow-up the same day. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; the follow-up confirmed euros and asked for the quotes to come off the page - they send them on contact. So the figures are removed from the record rather than banded at render like every other agency's: this dataset is publicly readable, and a figure left in it is a figure published. The label carries the band instead, which is what they agreed to. The timeline answer renders as the one exclusion chip; an engagement note beside it would only restate it, so the field is cleared.",
+      "provenance": "Reply to directory outreach, 16 September 2026, and a follow-up the same day. Confirmed the client list on the page (Floema, Phive, Jeton) as correct, so no client changes here. Budget was quoted as \">50k Branding\" and \">100k Website\" with no currency symbol; the follow-up confirmed euros and asked for the quotes to come off the page - they send them on contact. The directory shows a stated figure by default; this is the one record that does not, because this agency asked. The figures are REMOVED rather than hidden at render: this dataset is publicly readable, so a figure left in it is a figure published however the page chooses to draw it. The label carries the band instead, which is what they agreed to. That is the whole opt-out - unset `budgetMinimums`, write the band into `budgetLabel` - and it needs no flag on the schema. The timeline answer renders as the one exclusion chip; an engagement note beside it would only restate it, so the field is cleared.",
       "set": {
         "budgetLabel": "Branding from 5 figures; websites from 6 figures, in euros",
         "exclusions": [
@@ -29,10 +29,10 @@
       "agencyName": "Build in Amsterdam",
       "verifiedAt": "2026-09-16",
       "verifiedBy": "Karla Vincheva",
-      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the page as correct and sent seven more projects by URL, each the brand's own site. Moooi was already on the record from Awwwards and keeps its entry - the reply only adds the brand's domain to it. Budget was quoted in euros, so the USD floor is left empty rather than converted. The stated floors render as bands rather than quotes across the directory (see `formatBudgetBand`), so the label beside them says the same thing the same way - an exact figure in the stat strip beside a band in the card would be the quote published anyway.",
+      "provenance": "Reply to directory outreach, 16 September 2026. Confirmed the page as correct and sent seven more projects by URL, each the brand's own site. Moooi was already on the record from Awwwards and keeps its entry - the reply only adds the brand's domain to it. Budget was quoted in euros, so the USD floor is left empty rather than converted. Its figures are published as quoted: the directory shows the number by default, and abstracts one only for an agency that has asked us to.",
       "set": {
         "awardsNote": "Build in Amsterdam has not submitted work to Awwwards for some time, so this tally covers less of the studio's recent output than it may appear to.",
-        "budgetLabel": "Projects from 6 figures",
+        "budgetLabel": "Projects from €100,000",
         "budgetMinimums": [
           {
             "scope": "Any project",
@@ -77,7 +77,10 @@
         }
       ],
       "replaces": {
-        "budgetLabel": "Projects from €100,000"
+        "budgetLabel": [
+          "Projects from €100,000",
+          "Projects from 6 figures"
+        ]
       }
     },
     {
@@ -104,10 +107,13 @@
       "verifiedBy": "Rubén",
       "provenance": "Reply to directory outreach, 15 September 2026, folded in during the Sanity migration - the client list, the awards note and the exclusions are already on the record and are not touched here. Only the budget label changes, to match the directory-wide move from quotes to bands (see `formatBudgetBand`). Rubén volunteered \"from EUR 15,000, typically EUR 25,000 to EUR 60,000\" and did not ask for it to come off; the band is applied anyway because a quote shown for one agency beside a band for the next tells a visitor the second one is hiding something. The typical range survives as prose rather than as two more figures.",
       "set": {
-        "budgetLabel": "Projects from 5 figures, typically the middle of that range"
+        "budgetLabel": "Projects from €15,000, typically €25,000–€60,000"
       },
       "replaces": {
-        "budgetLabel": "Projects from €15,000, typically €25,000–€60,000"
+        "budgetLabel": [
+          "Projects from €15,000, typically €25,000–€60,000",
+          "Projects from 5 figures, typically the middle of that range"
+        ]
       }
     },
     {
@@ -115,7 +121,7 @@
       "agencyName": "Malvah",
       "verifiedAt": "2026-09-15",
       "verifiedBy": null,
-      "provenance": "Reply to directory outreach, 15 September 2026 - the same reply that set the budgets already on the record. It sent seven projects by URL and only their names were kept, so this pass attaches the links. Three of the seven (The Up&Up Group, Estrela, Bitter Creek) were already on the record with their domains and are unchanged. The stated floors render as bands rather than quotes across the directory (see `formatBudgetBand`), so the label beside them says the same thing the same way - an exact figure in the stat strip beside a band in the card would be the quote published anyway.",
+      "provenance": "Reply to directory outreach, 15 September 2026 - the same reply that set the budgets already on the record. It sent seven projects by URL and only their names were kept, so this pass attaches the links. Three of the seven (The Up&Up Group, Estrela, Bitter Creek) were already on the record with their domains and are unchanged. Its figures are published as quoted: the directory shows the number by default, and abstracts one only for an agency that has asked us to.",
       "clients": [
         {
           "name": "The Up&Up Group",
@@ -147,10 +153,13 @@
         }
       ],
       "set": {
-        "budgetLabel": "Websites and branding both start in 5 figures"
+        "budgetLabel": "Websites from $24,000; branding from $12,000"
       },
       "replaces": {
-        "budgetLabel": "Websites from $24,000; branding from $12,000"
+        "budgetLabel": [
+          "Websites from $24,000; branding from $12,000",
+          "Websites and branding both start in 5 figures"
+        ]
       }
     },
     {
@@ -158,9 +167,9 @@
       "agencyName": "Polar",
       "verifiedAt": "2026-09-17",
       "verifiedBy": null,
-      "provenance": "Reply to directory outreach, 17 September 2026. Confirmed the page as correct apart from the minimum: \"adjust the minimum project value to $35k as GBP 25k is our minimum\". Clutch publishes \"Starting from $25,000\", which understates them - their floor is GBP 25,000, worth appreciably more. So the quoted figure goes in `budgetMinimums` in the currency they actually quoted, GBP, and renders as a band like every other agency's. `budgetFloorUsd` takes the $35,000 they gave us rather than a rate we picked: the field is the USD number the category thresholds are written against, it is never rendered, and the rule against converting is a rule against US doing the conversion, not against recording one the agency supplied. The Clutch label is replaced rather than left beside the band, because a source's exact dollar figure in the stat strip next to the agency's own banded pound figure in the card contradicts itself on the same screen.",
+      "provenance": "Reply to directory outreach, 17 September 2026. Confirmed the page as correct apart from the minimum: \"adjust the minimum project value to $35k as GBP 25k is our minimum\". Clutch publishes \"Starting from $25,000\", which understates them - their floor is GBP 25,000, worth appreciably more. So the quoted figure goes in `budgetMinimums` in the currency they actually quoted, GBP, and the label states it: GBP 25,000, not the $35,000 they offered as a convenience. We do not convert, and GBP 25,000 is the figure they gave as their own minimum. `budgetFloorUsd` takes the $35,000 they gave us rather than a rate we picked: the field is the USD number the category thresholds are written against, it is never rendered, and the rule against converting is a rule against US doing the conversion, not against recording one the agency supplied. The Clutch label is replaced rather than left beside the band, because a source's exact dollar figure in the stat strip next to the agency's own banded pound figure in the card contradicts itself on the same screen.",
       "set": {
-        "budgetLabel": "Projects from 5 figures",
+        "budgetLabel": "Projects from £25,000",
         "budgetFloorUsd": 35000,
         "budgetMinimums": [
           {
@@ -171,7 +180,10 @@
         ]
       },
       "replaces": {
-        "budgetLabel": "Starting from $25,000",
+        "budgetLabel": [
+          "Starting from $25,000",
+          "Projects from 5 figures"
+        ],
         "budgetFloorUsd": 25000
       }
     }

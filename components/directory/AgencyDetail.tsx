@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
-  formatBudgetBand,
   getAgencyClientLink,
   getAgencyClients,
   getAwardBreakdown,
@@ -180,6 +179,30 @@ function buildAwardTallyNote(sourceLabel: string): string {
     return `The counts below are the tally ${sourceLabel} publishes.`;
   } catch {
     return "The counts below are the tally the source directory publishes.";
+  }
+}
+
+/**
+ * Formats one stated project-size floor, e.g. "€15,000".
+ *
+ * Formatted in the currency the agency quoted, never converted into one
+ * shared currency: a rate they did not give is a figure they did not
+ * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
+ * still readable and still honest about which currency it is.
+ *
+ * @param amount - The figure, unformatted.
+ * @param currency - Three-letter ISO currency code.
+ * @returns The formatted amount.
+ */
+function formatBudgetAmount(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  } catch {
+    return `${currency} ${amount}`;
   }
 }
 
@@ -463,11 +486,7 @@ export default function AgencyDetail({
     const awardsNote = listing?.awardsNote?.trim() || null;
     const engagementNote = listing?.engagementNote?.trim() || null;
     const exclusions = listing?.exclusions?.filter((exclusion) => Boolean(exclusion?.trim())) ?? [];
-    // Only rows that band. A figure that cannot be banded cannot be shown
-    // discreetly, and showing it exactly is the thing this stopped doing.
-    const budgetMinimums = (listing?.budgetMinimums ?? []).filter((minimum) =>
-      Boolean(formatBudgetBand(minimum.amount)),
-    );
+    const budgetMinimums = listing?.budgetMinimums ?? [];
     const verifiedNote = buildVerifiedNote(listing?.verifiedAt);
     const hasTerms =
       Boolean(engagementNote) || exclusions.length > 0 || budgetMinimums.length > 0;
@@ -624,15 +643,8 @@ export default function AgencyDetail({
               {budgetMinimums.map((minimum) => (
                 <li key={minimum.scope} className={styles.factRow}>
                   <span>{minimum.scope}</span>
-                  {/* Band plus the currency it was quoted in. The band is
-                      the discreet half; the currency is not sensitive, is
-                      already public wherever a source published a budget,
-                      and without it a euro floor and a dollar floor read
-                      identically. Never converted - see
-                      `AgencyListing.budgetMinimums`. */}
                   <span className={styles.factValue}>
-                    {formatBudgetBand(minimum.amount)}
-                    {minimum.currency ? ` (${minimum.currency})` : ""}
+                    {formatBudgetAmount(minimum.amount, minimum.currency)}
                   </span>
                 </li>
               ))}
