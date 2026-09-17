@@ -49,3 +49,23 @@ HTML page's own URL when the request sends `Accept: text/markdown`.
   api-catalog), the `Link` headers in `next.config.ts`, and `app/robots.txt`.
 - `tests/seo/agent-surface.spec.ts` covers all of it. Run it after touching
   any of the above: most of these failures are invisible in a browser.
+
+## Publishing from Sanity
+
+CMS-backed pages are `export const revalidate = 60` and their Markdown copies
+`revalidate = 3600`, so a publish is invisible for up to a minute (an hour for
+the copy), and the first request after that window still serves the stale copy
+while Next regenerates behind it - the edit only appears on the request after.
+Checking a CMS change once, immediately, therefore reads as "nothing happened"
+even when the write succeeded.
+
+`app/api/revalidate/route.ts` is the fix: a signed Sanity webhook clears the
+entries for the document's own path, its hubs, both Markdown copies, and the
+sitemap/llms files the moment it is published. It needs two manual settings,
+done together - `SANITY_REVALIDATE_SECRET` in the deployment environment, and a
+webhook in manage.sanity.io carrying the same secret. The route comment has the
+exact values. Until both exist the route answers 500 and the time-based windows
+remain the only path, which is also the backstop if the webhook ever fails.
+
+When you change CMS content yourself and want to confirm it, either fire the
+webhook or request the page twice - a single `curl` reads the stale copy.
