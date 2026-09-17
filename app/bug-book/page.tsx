@@ -29,7 +29,7 @@ const BUG_BOOK_WEBPAGE = buildWebPageSchema({
 export const revalidate = 60;
 
 export const metadata = buildPageMetadata({
-  title: "The Bug Book",
+  title: "The Bug Book: Real Client Feedback",
   description: BUG_BOOK_DESCRIPTION,
   path: "/bug-book",
   // Without naming a card the helper falls back to the site-wide OG

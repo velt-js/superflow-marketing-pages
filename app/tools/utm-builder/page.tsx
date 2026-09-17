@@ -20,11 +20,9 @@ const { faq: FAQ, howItWorks: HOW_IT_WORKS } = UTM_BUILDER_CONTENT;
 const SLUG = "utm-builder";
 const PATH = `/tools/${SLUG}`;
 
-const TITLE = "UTM Builder";
-const SUBHEAD =
-  "Build campaign URLs that follow one convention, and see which GA4 channel each link will land in before you send it.";
-const DESCRIPTION =
-  "Free UTM builder and campaign URL generator. Enforces a tagging convention across your team, shows the GA4 channel each link lands in, warns about the mistakes that break reporting, and builds links in bulk. Runs in your browser. No login, no ads.";
+const TITLE = UTM_BUILDER_CONTENT.title;
+const SUBHEAD = UTM_BUILDER_CONTENT.subhead;
+const DESCRIPTION = UTM_BUILDER_CONTENT.description;
 
 
 

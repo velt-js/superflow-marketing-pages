@@ -30,7 +30,7 @@ const SUBHEAD = SOCIAL_PREVIEW_CHECKER_CONTENT.subhead;
 const DESCRIPTION = SOCIAL_PREVIEW_CHECKER_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: See Your Link Before You Post It`,
+  title: `${TITLE}: See It Before You Post`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

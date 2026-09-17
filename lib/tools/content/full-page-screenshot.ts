@@ -16,7 +16,7 @@ export const FULL_PAGE_SCREENSHOT_CONTENT: ToolContent = {
   subhead:
     "Capture any page from top to bottom in a real browser. No watermark, no extension, no signup.",
   description:
-    "Free full page screenshot tool. Paste a URL and get the whole page as one PNG, captured in a real browser that scrolls to load lazy images. No watermark, no login, no height cap.",
+    "Free full page screenshot tool. Paste a URL and get the whole page as one PNG, captured in a real browser that scrolls to load lazy images. No watermark.",
   howItWorks: [
     {
       title: "Paste any URL",

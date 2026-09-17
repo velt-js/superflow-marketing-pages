@@ -139,11 +139,12 @@ export const blogPost = defineType({
     }),
     defineField({
       name: "blogPostingSchema",
-      title: "BlogPosting JSON-LD",
+      title: "BlogPosting JSON-LD (retired)",
       description:
-        "Raw JSON-LD for the BlogPosting/Article schema, injected as <script type=\"application/ld+json\"> on the rendered page.",
+        "Not rendered. The page builds its own BlogPosting node from this document (see app/blog/[slug]/page.tsx); the values here are the Framer export's copy, most of which still name the retired usesuperflow.com host. Kept read-only so the old markup stays inspectable - edits have no effect on the page.",
       type: "text",
       rows: 12,
+      readOnly: true,
     }),
   ],
   orderings: [

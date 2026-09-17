@@ -11,7 +11,7 @@ export const MARKDOWN_FOR_AGENTS_CONTENT: ToolContent = {
   subhead:
     "Turn any page into clean Markdown an AI agent can actually read, with the nav, footer, and scripts stripped out.",
   description:
-    "Free HTML to Markdown converter built for AI agents. Paste a URL and get a clean Markdown copy of the page with navigation, headers, footers, and scripts removed. Copy it, download it, or publish it next to your HTML. No login, no ads.",
+    "Free HTML to Markdown converter built for AI agents. Paste a URL and get a clean Markdown copy with navigation, headers, footers and scripts stripped out.",
   howItWorks: [
     {
       title: "Paste a page URL",

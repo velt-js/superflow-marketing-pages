@@ -64,8 +64,7 @@ export async function getBlogPostBySlug(slug: string) {
       metaTitle,
       metaDescription,
       "ogImage": ogImage.asset->url,
-      faqSchema,
-      blogPostingSchema
+      faqSchema
     }
   `,
     { slug }

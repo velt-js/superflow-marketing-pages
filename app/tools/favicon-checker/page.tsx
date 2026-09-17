@@ -27,7 +27,7 @@ const SUBHEAD = FAVICON_CHECKER_CONTENT.subhead;
 const DESCRIPTION = FAVICON_CHECKER_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: Does Your Favicon Actually Load?`,
+  title: `${TITLE}: Does Your Favicon Load?`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

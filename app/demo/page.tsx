@@ -11,7 +11,7 @@ import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
 import { SITE_URL } from "@/app/_seo/schema";
 
-const PAGE_TITLE = "Live Product Demo - Superflow";
+const PAGE_TITLE = "See Superflow in Action | Live Product Demo";
 const PAGE_DESCRIPTION =
   "Click an asset for a live demo of Superflow. Review and collaborate on websites, videos, PDFs, Lottie files, and images.";
 

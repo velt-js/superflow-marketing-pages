@@ -18,7 +18,7 @@ const HERO_SUBHEADING =
 // root layout's site-wide title, description, and canonical. Declaring it
 // here gives the page its own canonical and social card.
 export const metadata = buildPageMetadata({
-  title: "Book a Demo",
+  title: "Book a Demo: See Superflow on Your Site",
   description:
     "Pick a time for a personalized Superflow walkthrough. See how agencies and marketing teams review websites, video, PDFs, and images 10x faster.",
   path: "/book-demo",

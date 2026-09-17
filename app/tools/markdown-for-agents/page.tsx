@@ -26,7 +26,7 @@ const SUBHEAD = MARKDOWN_FOR_AGENTS_CONTENT.subhead;
 const DESCRIPTION = MARKDOWN_FOR_AGENTS_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: Convert Any Page to Clean Markdown`,
+  title: `${TITLE}: Any Page to Clean Markdown`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

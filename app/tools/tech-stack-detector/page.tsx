@@ -26,7 +26,7 @@ const SUBHEAD = TECH_STACK_DETECTOR_CONTENT.subhead;
 const DESCRIPTION = TECH_STACK_DETECTOR_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: What Is That Site Built With?`,
+  title: `${TITLE}: What Is a Site Built With?`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

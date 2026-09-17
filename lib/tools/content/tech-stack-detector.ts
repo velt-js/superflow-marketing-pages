@@ -11,7 +11,7 @@ export const TECH_STACK_DETECTOR_CONTENT: ToolContent = {
   subhead:
     "Paste a URL and see the platform, theme, plugins, analytics, fonts, and hosting behind it, with the evidence for every claim.",
   description:
-    "Free tech stack detector. Find out what any website is built with: platform, theme, plugins, analytics tags, fonts, and hosting. Every finding shows its evidence and confidence. No login, no ads.",
+    "Free tech stack detector. Find out what any website is built with: platform, theme, plugins, analytics tags, fonts and hosting, each with its own evidence.",
   howItWorks: [
     {
       title: "Paste any URL",
