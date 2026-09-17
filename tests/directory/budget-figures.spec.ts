@@ -14,6 +14,7 @@
 // rendering rule.
 
 import { test, expect } from "./fixtures";
+import { formatBudgetAmount } from "../../lib/directory/agencies";
 import { DIRECTORY_BASE_PATH } from "../../lib/directory/constants";
 
 /** An agency that stated two floors and did not ask us to hide them. */
@@ -23,6 +24,24 @@ const PUBLISHED_PROFILE = `${DIRECTORY_BASE_PATH}/agency/malvah`;
 const WITHHELD_PROFILE = `${DIRECTORY_BASE_PATH}/agency/burocratik`;
 
 test.describe("budget figures", () => {
+  test("a figure is printed as given, fractions included", () => {
+    // Whole figures are the normal case and carry no decimals.
+    expect(formatBudgetAmount(15000, "EUR")).toBe("€15,000");
+    expect(formatBudgetAmount(25000, "GBP")).toBe("£25,000");
+
+    // A fractional one keeps its digits rather than being rounded. The
+    // Markdown copy publishes the raw number beside this, so rounding
+    // here would misquote the agency AND make the two surfaces disagree
+    // about its price. The schema now requires whole figures, but data
+    // already in the CMS predates that rule.
+    expect(formatBudgetAmount(12500.5, "USD")).toBe("$12,500.50");
+    expect(formatBudgetAmount(12500.55, "USD")).toBe("$12,500.55");
+
+    // An unusable currency code still reads as a figure and a currency,
+    // rather than throwing inside a profile render.
+    expect(formatBudgetAmount(15000, "NOT-A-CODE")).toBe("NOT-A-CODE 15000");
+  });
+
   test("a stated floor is printed as quoted, currency and all", async ({ page, request }) => {
     await page.goto(PUBLISHED_PROFILE);
 

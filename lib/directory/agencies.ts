@@ -1043,6 +1043,37 @@ export function getAgencyClientLink(client: AgencyClient | null | undefined): st
   }
 }
 
+/**
+ * Formats one stated project-size floor, e.g. "€15,000".
+ *
+ * Formatted in the currency the agency quoted, never converted into one
+ * shared currency: a rate they did not give is a figure they did not
+ * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
+ * still readable and still honest about which currency it is.
+ *
+ * FRACTIONS ARE KEPT. A floor is a whole figure in practice, and the
+ * schema now requires one, but a value already in the CMS or arriving
+ * from an importer may not be - and rounding it here would print a
+ * number the agency never said, while the Markdown copy published the
+ * real one beside it. Two surfaces disagreeing about an agency's price
+ * is worse than a page with pennies on it.
+ *
+ * @param amount - The figure, unformatted.
+ * @param currency - Three-letter ISO currency code.
+ * @returns The formatted amount.
+ */
+export function formatBudgetAmount(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+    }).format(amount);
+  } catch {
+    return `${currency} ${amount}`;
+  }
+}
+
 export function getAgencyClients(agency: Agency | null | undefined): AgencyClient[] {
   try {
     const seenNames = new Set<string>();

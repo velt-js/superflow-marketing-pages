@@ -161,8 +161,9 @@ export const agencyListingBudgetMinimum = defineType({
       name: "amount",
       title: "Amount",
       type: "number",
-      description: "The figure alone, no symbol and no separators — 15000, not €15,000.",
-      validation: (rule) => rule.required().min(0),
+      description:
+        "The figure alone, no symbol and no separators — 15000, not €15,000. Whole figures only: a floor is quoted in round numbers, and a fractional one would print rounded on the profile and unrounded in the Markdown copy.",
+      validation: (rule) => rule.required().min(0).integer(),
     }),
     defineField({
       name: "currency",

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
+  formatBudgetAmount,
   getAgencyClientLink,
   getAgencyClients,
   getAwardBreakdown,
@@ -179,30 +180,6 @@ function buildAwardTallyNote(sourceLabel: string): string {
     return `The counts below are the tally ${sourceLabel} publishes.`;
   } catch {
     return "The counts below are the tally the source directory publishes.";
-  }
-}
-
-/**
- * Formats one stated project-size floor, e.g. "€15,000".
- *
- * Formatted in the currency the agency quoted, never converted into one
- * shared currency: a rate they did not give is a figure they did not
- * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
- * still readable and still honest about which currency it is.
- *
- * @param amount - The figure, unformatted.
- * @param currency - Three-letter ISO currency code.
- * @returns The formatted amount.
- */
-function formatBudgetAmount(amount: number, currency: string): string {
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${currency} ${amount}`;
   }
 }
 
