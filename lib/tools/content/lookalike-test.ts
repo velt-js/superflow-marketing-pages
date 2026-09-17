@@ -8,7 +8,7 @@ export const LOOKALIKE_TEST_CONTENT: ToolContent = {
   subhead:
     "Paste your URL, pick a benchmark or name the sites you admire, and see exactly where your page's structure, copy and layout differ from theirs.",
   description:
-    "Free design comparison tool. See how your page's structure, hero, calls to action, navigation and density compare against a curated benchmark set or against sites you name, with the numbers on both sides and what to change. No login, no email.",
+    "Free design comparison tool. See how your page's structure, hero, calls to action and density compare against a benchmark set, with numbers on both sides.",
   howItWorks: [
     {
       title: "Give us your page, and a benchmark",

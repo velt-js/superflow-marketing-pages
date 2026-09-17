@@ -24,7 +24,7 @@ import { SITE_URL } from "@/app/_seo/schema";
 
 const TITLE = "State of Agency Tools 2026";
 const DESCRIPTION =
-  "Share your agency's creative, operations, CRM, outreach, client support and AI tools. Get the free State of Agency Tools report in November 2026. Contact details are optional.";
+  "Share the creative, operations, CRM, outreach and AI tools your agency runs on, and get the free State of Agency Tools report in November 2026.";
 
 export const metadata = buildPageMetadata({
   title: TITLE,

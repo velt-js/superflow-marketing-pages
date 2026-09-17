@@ -11,7 +11,7 @@ export const SOCIAL_PREVIEW_CHECKER_CONTENT: ToolContent = {
   subhead:
     "Paste a URL and see the card X, LinkedIn, Facebook, Slack, Discord, and Google will each build from it, with the tag behind every line.",
   description:
-    "Free social preview checker. See how your link renders on X, LinkedIn, Facebook, Slack, Discord, and Google before you post it. Shows which tag each line came from, where the text gets cut, and what to fix. No login, no ads.",
+    "Free social preview checker. See how your link renders on X, LinkedIn, Facebook, Slack, Discord and Google, which tag each line came from, and where it cuts.",
   howItWorks: [
     {
       title: "Paste any URL",

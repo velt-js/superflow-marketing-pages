@@ -30,7 +30,7 @@ const BLOG_WEBPAGE = buildWebPageSchema({
 export const revalidate = 60;
 
 export const metadata = buildPageMetadata({
-  title: "Blog",
+  title: "Blog: Website Review and QA for Agencies",
   description: BLOG_DESCRIPTION,
   path: "/blog",
   ogImage: PAGE_OG_IMAGES.blog,

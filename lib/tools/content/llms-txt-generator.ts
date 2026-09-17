@@ -11,7 +11,7 @@ export const LLMS_TXT_GENERATOR_CONTENT: ToolContent = {
   subhead:
     "Generate a spec-correct llms.txt and llms-full.txt for any site, then publish them at your site root.",
   description:
-    "Free llms.txt generator. Paste a site URL and get both files the llmstxt.org convention describes: llms.txt, an index of your pages, and llms-full.txt with the page content inlined. Deterministic, no AI model involved. No login, no ads.",
+    "Free llms.txt generator. Paste a site URL and get both files llmstxt.org describes: llms.txt indexing your pages, llms-full.txt with the content inlined.",
   howItWorks: [
     {
       title: "Paste your site URL",

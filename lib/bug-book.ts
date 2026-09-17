@@ -91,6 +91,10 @@ export type BugBookEntryDetail = BugBookListEntry & {
   finding?: BugFinding | null;
   whyItMatters?: string;
   outcome?: string;
+  /** Overrides the headline-derived <title>, which runs long on most entries. */
+  metaTitle?: string;
+  /** Overrides the hook, which is written as a caption and rarely fills a snippet. */
+  metaDescription?: string;
 };
 
 /** Accent + soft tint per category — shared by chips and thumbnails. */

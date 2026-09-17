@@ -64,8 +64,7 @@ export async function getBlogPostBySlug(slug: string) {
       metaTitle,
       metaDescription,
       "ogImage": ogImage.asset->url,
-      faqSchema,
-      blogPostingSchema
+      faqSchema
     }
   `,
     { slug }
@@ -957,7 +956,9 @@ export async function getBugBookEntryBySlug(
       thread[]{ speaker, text, attachment },
       finding{ title, description, suggestion, issueType, confidence },
       whyItMatters,
-      outcome
+      outcome,
+      metaTitle,
+      metaDescription
     }
   `,
     { slug }

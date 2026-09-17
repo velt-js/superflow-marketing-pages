@@ -13,7 +13,7 @@ export const ROBOTS_TXT_AI_CHECKER_CONTENT: ToolContent = {
   slug: "robots-txt-ai-checker",
   title: "robots.txt Tester for AI Crawlers",
   subhead: "Test your robots.txt against GPTBot, ClaudeBot, PerplexityBot, Googlebot, and every other crawler that decides whether AI can cite you.",
-  description: "Free robots.txt tester built for AI crawlers. See which of GPTBot, ClaudeBot, PerplexityBot, Googlebot, and Bingbot your robots.txt allows, plus a firewall test that catches CDN-level blocks. No login.",
+  description: "Free robots.txt tester built for AI crawlers. See which of GPTBot, ClaudeBot, PerplexityBot, Googlebot and Bingbot you allow, plus a CDN firewall test.",
   howItWorks: [
   {
     title: "Paste your URL",

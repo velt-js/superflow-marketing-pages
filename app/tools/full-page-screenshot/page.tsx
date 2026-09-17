@@ -27,7 +27,7 @@ const SUBHEAD = FULL_PAGE_SCREENSHOT_CONTENT.subhead;
 const DESCRIPTION = FULL_PAGE_SCREENSHOT_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: Capture A Whole Page As One PNG`,
+  title: `${TITLE}: A Whole Page as One PNG`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

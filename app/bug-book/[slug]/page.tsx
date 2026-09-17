@@ -55,10 +55,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const entry = await getBugBookEntryBySlug(slug);
   if (!entry) return {};
-  const title = `${entry.headline} - The Superflow Bug Book`;
+  // The headline is the entry - a verbatim quote or the line that makes the
+  // joke land - so it is never trimmed to suit a search result. metaTitle and
+  // metaDescription carry the short forms instead, and the headline-derived
+  // title stays as the fallback for entries that have not been given one.
+  const title = entry.metaTitle ?? `${entry.headline} - The Superflow Bug Book`;
   const metadata = buildPageMetadata({
     title,
-    description: entry.hook ?? entry.headline,
+    description: entry.metaDescription ?? entry.hook ?? entry.headline,
     path: `/bug-book/${slug}`,
     noBrandSuffix: true,
     // buildPageMetadata always sets openGraph.images, and explicit

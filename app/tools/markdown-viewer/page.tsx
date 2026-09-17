@@ -23,11 +23,9 @@ const { faq: FAQ, howItWorks: HOW_IT_WORKS } = MARKDOWN_VIEWER_CONTENT;
 const SLUG = "markdown-viewer";
 const PATH = `/tools/${SLUG}`;
 
-const TITLE = "Markdown Viewer";
-const SUBHEAD =
-  "Open and read any Markdown file. Paste it or drop it in, and it renders as you type. Nothing is uploaded.";
-const DESCRIPTION =
-  "Free online Markdown viewer and preview. Open .md files, paste Markdown, and read it rendered with tables, code blocks, and an outline. Runs entirely in your browser. No login, no ads, no upload.";
+const TITLE = MARKDOWN_VIEWER_CONTENT.title;
+const SUBHEAD = MARKDOWN_VIEWER_CONTENT.subhead;
+const DESCRIPTION = MARKDOWN_VIEWER_CONTENT.description;
 
 
 

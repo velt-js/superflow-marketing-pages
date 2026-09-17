@@ -1,0 +1,689 @@
+{
+  "comparisonPreviewArbiterPage-filestage-vs-frame-io": {
+    "path": "/comparisons/filestage-vs-frame-io",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Filestage vs Frame.io (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewArbiterPage-marker-io-vs-usersnap": {
+    "path": "/comparisons/marker-io-vs-usersnap",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Marker.io vs Usersnap (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewArbiterPage-markup-vs-bugherd": {
+    "path": "/comparisons/markup-vs-bugherd",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Markup.io vs BugHerd (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewArbiterPage-bugherd-vs-marker-io": {
+    "path": "/comparisons/bugherd-vs-marker-io",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "BugHerd vs Marker.io (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewArbiterPage-usersnap-vs-userback": {
+    "path": "/comparisons/usersnap-vs-userback",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Usersnap vs Userback (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewArbiterPage-marker-io-vs-userback": {
+    "path": "/comparisons/marker-io-vs-userback",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Marker.io vs Userback (2026): Best for Agencies? | Superflow"
+    }
+  },
+  "comparisonPreviewAlternativesPage-markup-alternative": {
+    "path": "/alternative/markup-alternative",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "5 Best Markup.io Alternatives for Agencies | Superflow"
+    }
+  },
+  "comparisonPreviewAlternativesPage-projecthuddle-alternative": {
+    "path": "/alternative/projecthuddle-alternative",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "5 Best ProjectHuddle Alternatives for Agencies | Superflow"
+    }
+  },
+  "comparisonPreviewAlternativesPage-marker-io-alternative": {
+    "path": "/alternative/marker-io-alternative",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "5 Best Marker.io Alternatives for Agencies | Superflow"
+    }
+  },
+  "comparisonPreviewAlternativesPage-filestage-alternative": {
+    "path": "/alternative/filestage-alternative",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "5 Best Filestage Alternatives for Agencies | Superflow"
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-ruttl": {
+    "path": "/comparisons/superflow-vs-ruttl",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Ruttl is a feedback tool. Superflow is a feedback tool plus AI agents built from your checklist. They check every change; clients approve from a link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-bugherd": {
+    "path": "/comparisons/superflow-vs-bugherd",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs BugHerd (2026): One Tool vs a Team | Superflow",
+      "metaDescription": "BugHerd is a QA tool. Superflow is a QA tool plus AI agents built from your checklist. They check every change; your client approves from a link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-marker-io": {
+    "path": "/comparisons/superflow-vs-marker-io",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs Marker.io (2026): Tool vs a Team | Superflow",
+      "metaDescription": "Marker.io is a bug reporting tool. Superflow is that plus AI agents built from your checklist. They check every change; clients approve from a link.",
+      "headline": "Marker.io is a bug reporting tool. Superflow is that plus a team."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-usersnap": {
+    "path": "/comparisons/superflow-vs-usersnap",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs Usersnap (2026): One Tool vs a Team | Superflow",
+      "metaDescription": "Usersnap is a feedback tool. Superflow is a feedback tool plus AI agents built from your checklist. They check every change; clients approve by link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-frame-io": {
+    "path": "/comparisons/superflow-vs-frame-io",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs Frame.io (2026): One Tool vs a Team | Superflow",
+      "metaDescription": "Frame.io is a video review tool. Superflow is a QA tool plus AI agents built from your checklist. They check every change; clients approve by link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-markup": {
+    "path": "/comparisons/superflow-vs-markup",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Markup.io is a feedback tool. Superflow is a feedback tool plus AI agents built from your checklist. They check every change; clients approve by link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-filestage": {
+    "path": "/comparisons/superflow-vs-filestage",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Filestage is a proofing tool. Superflow is a QA tool plus AI agents built from your checklist. They check every change; clients approve from a link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-pastel": {
+    "path": "/comparisons/superflow-vs-pastel",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Pastel is a feedback tool. Superflow is a feedback tool plus AI agents built from your checklist. They check every change; clients approve from a link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-userback": {
+    "path": "/comparisons/superflow-vs-userback",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Userback is a feedback tool. Superflow is a feedback tool plus AI agents built from your checklist. They check every change; clients approve by link."
+    }
+  },
+  "comparisonPreviewVsPage-superflow-vs-spur": {
+    "path": "/comparisons/superflow-vs-spur",
+    "fixes": [
+      "h1.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "headline": "Spur is agentic QA testing. Superflow adds a human in the loop.",
+      "metaDescription": "Spur is agentic QA testing for engineering teams. Superflow is a QA reviewer with a human in the loop: agents check, your team calls it, clients sign off."
+    }
+  },
+  "cmp-pastel-vs-bugherd": {
+    "path": "/comparisons/pastel-vs-bugherd",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaTitle": "Pastel vs BugHerd: Which Web Feedback Tool Wins? | Superflow",
+      "metaDescription": "Pastel and BugHerd compared on commenting, integrations, client management and pricing, so you can tell which web feedback tool fits how your team works."
+    }
+  },
+  "cmp-markup-vs-pastel": {
+    "path": "/comparisons/markup-vs-pastel",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "MarkUp vs Pastel: Which Web Feedback Tool Wins? | Superflow"
+    }
+  },
+  "cmp-markup-vs-ruttl": {
+    "path": "/comparisons/markup-vs-ruttl",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "MarkUp vs Ruttl: Which Web Feedback Tool Wins? | Superflow"
+    }
+  },
+  "alt-vercel-comments-alternative": {
+    "path": "/alternative/vercel-comments-alternative",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Vercel Comments does text only. Superflow adds audio, video, area selection and 20+ integrations. Here is the detailed comparison of the two tools."
+    }
+  },
+  "up-qa-teams": {
+    "path": "/user-persona/qa-teams",
+    "fixes": [
+      "meta_description.too_long",
+      "h1.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "title": "Faster QA bug fixing. Ship EOD, not EOW",
+      "metaTitle": "Faster QA Bug Fixing: Ship EOD, Not EOW | Superflow",
+      "metaDescription": "Capture, track and resolve bugs in one place so testing stays fast and feedback stays clear. Get your QA team from open to done the same day."
+    }
+  },
+  "up-product-managers": {
+    "path": "/user-persona/product-managers",
+    "fixes": [
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Manage product feedback, built for agile PMs"
+    }
+  },
+  "up-marketing-agencies": {
+    "path": "/user-persona/marketing-agencies",
+    "fixes": [
+      "title_tag.too_long",
+      "h1.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "title": "Fewer, clearer client reviews. Ship 10x faster",
+      "metaTitle": "Client Reviews for Marketing Agencies | Superflow",
+      "metaDescription": "Superflow puts every client's feedback directly on your live website, so no comment is left behind. Precise reviews, and websites shipped up to 10x faster."
+    }
+  },
+  "up-product-companies": {
+    "path": "/user-persona/product-companies",
+    "fixes": [
+      "title_tag.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Review and leave feedback right on your landing pages",
+      "metaTitle": "Landing Page Feedback for Product Teams | Superflow"
+    }
+  },
+  "up-marketers": {
+    "path": "/user-persona/marketers",
+    "fixes": [
+      "title_tag.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Stick the landing with your landing pages",
+      "metaTitle": "Live Landing Page Feedback for Marketers | Superflow"
+    }
+  },
+  "up-project-managers": {
+    "path": "/user-persona/project-managers",
+    "fixes": [
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Hit Deadlines with Smarter Project Management | Superflow"
+    }
+  },
+  "up-founders": {
+    "path": "/user-persona/founders",
+    "fixes": [
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Your website is your baby. Progress shouldn't crawl"
+    }
+  },
+  "use-case-bug-reporting": {
+    "path": "/use-case/bug-reporting",
+    "fixes": [
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaDescription": "Superflow makes bug reporting easy by combining pinpoint feedback on the live page, task management and real-device testing, so issues get fixed faster."
+    }
+  },
+  "use-case-client-feedback": {
+    "path": "/use-case/client-feedback",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaTitle": "Collect Client Feedback on Your Live Site | Superflow",
+      "metaDescription": "Collect and respond to client feedback directly on your live site. Better feedback loops mean faster timelines, happier clients and a flawless launch."
+    }
+  },
+  "use-case-uat-qa-testing": {
+    "path": "/use-case/uat-qa-testing",
+    "fixes": [
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaDescription": "Pin feedback directly on your live app during QA and UAT. Your team resolves issues faster with clear, in-context comments on every bug they find."
+    }
+  },
+  "use-case-conversion-optimization": {
+    "path": "/use-case/conversion-optimization",
+    "fixes": [
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaDescription": "Optimize landing page conversion with a smarter feedback process. Get every stakeholder commenting on the live page instead of in a thread of screenshots."
+    }
+  },
+  "case-study-writesonic": {
+    "path": "/case-study/writesonic",
+    "fixes": [
+      "h1.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "title": "How Writesonic saved $5000 a week on overhead costs",
+      "metaDescription": "Writesonic is a generative AI startup helping teams with copywriting. See how it cut $5000 a week in overhead costs by moving website review into Superflow."
+    }
+  },
+  "checklist-seo-checklist-2023": {
+    "path": "/seo-checklist-2023",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaTitle": "SEO Checklist: 50 Tips to Rank Your Content | Superflow",
+      "metaDescription": "Millions of pages never get the attention they were written for. Work through these 50 checks on titles, meta descriptions, speed and content to rank yours."
+    }
+  },
+  "bugBook-ai-copy-detected": {
+    "path": "/bug-book/ai-copy-detected",
+    "fixes": [
+      "meta_description.too_short",
+      "h1.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "headline": "\"Unlock Possibility.\" The AI-copy detector said: that means nothing.",
+      "metaTitle": "\"Unlock Possibility\" Means Nothing | Bug Book",
+      "metaDescription": "An agent trained to smell AI-written filler read the headline \"Unlock Possibility\" and called it what it was: hollow. From the Superflow Bug Book."
+    }
+  },
+  "bugBook-gpt-notes": {
+    "path": "/bug-book/gpt-notes",
+    "fixes": [
+      "title_tag.too_long",
+      "h1.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "headline": "The client's review of the article was ChatGPT's. Emoji included.",
+      "metaTitle": "The Client Pasted ChatGPT's Review | Bug Book",
+      "metaDescription": "A client reviewed the article by pasting ChatGPT's critique of it, verbatim, emoji included. The whole feedback loop ran through an AI. From the Bug Book."
+    }
+  },
+  "bugBook-make-the-logo-bigger": {
+    "path": "/bug-book/make-the-logo-bigger",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_short"
+    ],
+    "set": {
+      "metaTitle": "Make the Logo Bigger | Superflow Bug Book",
+      "metaDescription": "The most famous request in design history, delivered fully self-aware: \"I know you're going to laugh, but I'd make the logo bigger. HAHA. Sorry, man.\""
+    }
+  },
+  "bugBook-no-this-is-what-the-client-wants": {
+    "path": "/bug-book/no-this-is-what-the-client-wants",
+    "fixes": [
+      "meta_description.too_short",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "No. This Is What the Client Wants | Bug Book",
+      "metaDescription": "A designer asks to reorder the section as per the XD file. The project lead ends the debate in eight words. Eight words, design debate over."
+    }
+  },
+  "bugBook-i-was-the-problem": {
+    "path": "/bug-book/i-was-the-problem",
+    "fixes": [
+      "h1.too_long",
+      "meta_description.too_short",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "headline": "A designer traced a line-break bug back to the culprit: themselves",
+      "metaTitle": "The Designer Was the Bug | Superflow Bug Book",
+      "metaDescription": "A designer filed a line-break bug, traced it back through the file, and found the culprit was themselves. \"Oh f*ck I was the problem, sorry.\""
+    }
+  },
+  "bugBook-just-make-something-up": {
+    "path": "/bug-book/just-make-something-up",
+    "fixes": [
+      "meta_description.too_short",
+      "title_tag.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "headline": "\"Can your copywriters just make something up for testimonials?\"",
+      "metaTitle": "Just Make the Testimonials Up | Bug Book",
+      "metaDescription": "On the review call, the client asked whether the copywriters could invent the testimonials. The agency's answer, for the record: no. Gather real ones."
+    }
+  },
+  "blog-optimizing-team-and-agency-client-collaboration-nine-key-practices-for-enhanced-synergy": {
+    "path": "/blog/optimizing-team-and-agency-client-collaboration-nine-key-practices-for-enhanced-synergy",
+    "fixes": [
+      "h1.too_long",
+      "title_tag.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "title": "Nine key practices for team and agency-client collaboration",
+      "metaTitle": "9 Agency-Client Collaboration Practices | Superflow",
+      "metaDescription": "Inefficient communication restarts projects and loses clients. Nine practices for sharing information and collaborating well, inside your team and with clients."
+    }
+  },
+  "blog-website-collaboration-a-guide-to-getting-it-right": {
+    "path": "/blog/website-collaboration-a-guide-to-getting-it-right",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Website Collaboration: Getting It Right | Superflow",
+      "metaDescription": "A guide to website collaboration for marketers and developers: how to choose the tools, and the practices that keep teams and clients aligned on every change."
+    }
+  },
+  "blog-10-best-website-project-management-tools": {
+    "path": "/blog/10-best-website-project-management-tools",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaTitle": "10 Best Website Project Management Tools | Superflow",
+      "metaDescription": "The 10 best project management tools for website work, from Superflow to Asana and Trello, with the key features, pricing and reviews that separate them."
+    }
+  },
+  "blog-top-20-website-annotation-tools-for-effective-teams": {
+    "path": "/blog/top-20-website-annotation-tools-for-effective-teams",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Top 20 Website Annotation Tools for Teams | Superflow",
+      "metaDescription": "The top 20 website annotation tools for design and development teams, Superflow included, compared on the features that actually speed up a feedback round."
+    }
+  },
+  "blog-beyond-loom-top-10-dynamic-video-communication-alternatives": {
+    "path": "/blog/beyond-loom-top-10-dynamic-video-communication-alternatives",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "Looking past Loom? Ten video communication tools compared, for the moments when no written explanation lands and you need to record the thing instead."
+    }
+  },
+  "blog-superflow-vs-pastel-comparison": {
+    "path": "/blog/superflow-vs-pastel-comparison",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs. Pastel: Which Tool Wins? | Superflow",
+      "metaDescription": "Superflow and Pastel compared on features, pricing and usability, for teams tired of running the feedback process through email threads and long Zoom calls."
+    }
+  },
+  "blog-how-to-choose-the-right-marketing-agency-for-your-small-business": {
+    "path": "/blog/how-to-choose-the-right-marketing-agency-for-your-small-business",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaTitle": "How to Choose a Marketing Agency | Superflow",
+      "metaDescription": "How a small business picks the right marketing agency: setting goals, judging expertise, reading the tech stack, and balancing cost against commitment."
+    }
+  },
+  "blog-ai-tools-for-writing-directly-on-your-website--chatgpt-4-powered--superflow-s-ai-copilot-in-the-palm-of-your-mouse": {
+    "path": "/blog/ai-tools-for-writing-directly-on-your-website--chatgpt-4-powered--superflow-s-ai-copilot-in-the-palm-of-your-mouse",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "AI writing tools for your website: Superflow's AI Copilot",
+      "metaTitle": "AI Writing Tools for Your Website | Superflow",
+      "metaDescription": "Superflow's ChatGPT-4 powered Copilot rewrites the copy on your website, app or page right where it sits. No swapping tabs like a mad scientist."
+    }
+  },
+  "blog-superflow-vs-bugherd--2023--battle-of-the-best-website-feedback-tools": {
+    "path": "/blog/superflow-vs-bugherd--2023--battle-of-the-best-website-feedback-tools",
+    "fixes": [
+      "meta_description.too_long",
+      "h1.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "title": "Superflow vs. Bugherd: battle of the feedback tools",
+      "metaTitle": "Superflow vs. Bugherd: Feedback Tools | Superflow",
+      "metaDescription": "Shopping for a website feedback tool is hard, and good is not always right. Superflow and BugHerd compared on features, pricing and ease of use before you pick."
+    }
+  },
+  "blog-top-google-docs-alternatives-and-competitors": {
+    "path": "/blog/top-google-docs-alternatives-and-competitors",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Top Google Docs Alternatives | Superflow",
+      "metaDescription": "The best Google Docs alternatives for document collaboration, from Microsoft 365 to ClickUp and Superflow, compared on comments, integrations and live editing."
+    }
+  },
+  "blog-5-factors-to-consider-while-choosing-a-saas-performance-marketing-agency": {
+    "path": "/blog/5-factors-to-consider-while-choosing-a-saas-performance-marketing-agency",
+    "fixes": [
+      "meta_description.too_short",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "5 factors to weigh when choosing a SaaS marketing agency",
+      "metaDescription": "Five things to look for in a performance-based marketing agency for your SaaS business, from the proposal and the reporting to whether their stack fits yours."
+    }
+  },
+  "blog-how-to-choose-right-website-project-management-tool-for-your-team": {
+    "path": "/blog/how-to-choose-right-website-project-management-tool-for-your-team",
+    "fixes": [
+      "meta_description.too_long",
+      "h1.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "title": "How to choose the right website project management tool",
+      "metaTitle": "Choosing a Website Project Management Tool | Superflow",
+      "metaDescription": "Why web projects need a specialised project management tool, and how to match your own project's needs to the right software instead of the best-reviewed one."
+    }
+  },
+  "blog-website-feedback-for-beginners-5-practical-use-cases": {
+    "path": "/blog/website-feedback-for-beginners-5-practical-use-cases",
+    "fixes": [
+      "meta_description.too_long"
+    ],
+    "set": {
+      "metaDescription": "A converting website is the result of its feedback process. Five practical use cases showing where feedback from your team, clients and users changes things."
+    }
+  },
+  "blog-a-guide-to-choosing-the-best-webflow-agency-in-2024": {
+    "path": "/blog/a-guide-to-choosing-the-best-webflow-agency-in-2024",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "How to Choose a Webflow Agency | Superflow",
+      "metaDescription": "Choosing the best agency for your Webflow website is easier than you think. What Webflow agencies do, how to pick one, and how to collaborate with them well."
+    }
+  },
+  "blog-top-5-ai-copywriters-in-2024": {
+    "path": "/blog/top-5-ai-copywriters-in-2024",
+    "fixes": [
+      "title_tag.too_short"
+    ],
+    "set": {
+      "metaTitle": "Top 5 AI Copywriters for Marketing Teams | Superflow"
+    }
+  },
+  "blog-a-comprehensive-guide-to-choosing-the-best-hubspot-development-agency": {
+    "path": "/blog/a-comprehensive-guide-to-choosing-the-best-hubspot-development-agency",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "How to Choose a HubSpot Agency | Superflow",
+      "metaDescription": "A guide to the world of HubSpot partners: what HubSpot development agencies actually do, the criteria for choosing one, and the benefits of working with them."
+    }
+  },
+  "blog-top-13-asana-alternatives-for-project-management-in-startups-and-agencies": {
+    "path": "/blog/top-13-asana-alternatives-for-project-management-in-startups-and-agencies",
+    "fixes": [
+      "meta_description.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "13 Asana alternatives for startups and agencies",
+      "metaDescription": "Thirteen Asana alternatives for startups and agencies, each with the features and pricing that matter, for teams that have run into Asana's limits."
+    }
+  },
+  "blog-website-redesign-beginner-s-guide-a-ten-step-checklist-to-successful-website-redesign-strategy": {
+    "path": "/blog/website-redesign-beginner-s-guide-a-ten-step-checklist-to-successful-website-redesign-strategy",
+    "fixes": [
+      "h1.too_long",
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "title": "Website redesign: a beginner's guide and 10-step checklist",
+      "metaTitle": "Website Redesign: 10-Step Checklist | Superflow",
+      "metaDescription": "A beginner-friendly website redesign guide and 10-step checklist: match the site to your brand, fix the user experience, and lift traffic and conversions."
+    }
+  },
+  "blog-superflow-vs-ruttl-a-comprehensive-comparison-of-website-feedback-tools-2023": {
+    "path": "/blog/superflow-vs-ruttl-a-comprehensive-comparison-of-website-feedback-tools-2023",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Superflow vs. Ruttl: website feedback tools compared",
+      "metaTitle": "Superflow vs. Ruttl: Feedback Tools | Superflow",
+      "metaDescription": "Superflow and Ruttl compared across annotation, project management integrations, mobile support, pricing and data security, so you can tell which one fits."
+    }
+  },
+  "blog-superflow-vs-markup-io-choosing-the-right-annotation-tool-for-website-feedback": {
+    "path": "/blog/superflow-vs-markup-io-choosing-the-right-annotation-tool-for-website-feedback",
+    "fixes": [
+      "title_tag.too_long",
+      "meta_description.too_long",
+      "h1.too_long"
+    ],
+    "set": {
+      "title": "Superflow vs. Markup.io: choosing an annotation tool",
+      "metaTitle": "Superflow vs. Markup.io: Annotation Tools | Superflow",
+      "metaDescription": "Unclear feedback used to arrive as endless emails of screenshots and vague messages. Superflow and Markup.io compared on features, integrations and pricing."
+    }
+  },
+  "blog-superflow-vs-webflow-which-website-feedback-tool-is-best-for-you": {
+    "path": "/blog/superflow-vs-webflow-which-website-feedback-tool-is-best-for-you",
+    "fixes": [
+      "meta_description.too_long",
+      "title_tag.too_long"
+    ],
+    "set": {
+      "metaTitle": "Superflow vs Webflow Comments | Superflow",
+      "metaDescription": "Every Slack beep another party of screenshots and voice notes. Superflow and Webflow comments compared on annotation, integrations and what each one costs."
+    }
+  },
+  "blog-top-5-ai-seo-tools-in-2024": {
+    "path": "/blog/top-5-ai-seo-tools-in-2024",
+    "fixes": [
+      "title_tag.too_short"
+    ],
+    "set": {
+      "metaTitle": "Top 5 AI SEO Tools for Content Teams | Superflow"
+    }
+  }
+}

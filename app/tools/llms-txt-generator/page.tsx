@@ -26,7 +26,7 @@ const SUBHEAD = LLMS_TXT_GENERATOR_CONTENT.subhead;
 const DESCRIPTION = LLMS_TXT_GENERATOR_CONTENT.description;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `${TITLE}: Build llms.txt and llms-full.txt Free`,
+  title: `${TITLE}: Build Both Files Free`,
   description: DESCRIPTION,
   path: PATH,
   ogImage: toolOgImage(SLUG),

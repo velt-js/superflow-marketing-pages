@@ -30,10 +30,30 @@ type PostShape = {
   metaTitle?: string;
   metaDescription?: string;
   faqSchema?: string;
-  blogPostingSchema?: string;
   body?: BlogPostBodyPost["body"];
 };
 
+/**
+ * Collapse the whitespace a CMS field picks up from pasted copy. Raw values
+ * reach the JSON-LD with trailing spaces and hard line breaks in them, which
+ * validators read as sloppy (and sometimes truncated) values.
+ */
+function tidy(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+/**
+ * The one BlogPosting node for a post.
+ *
+ * Posts also carry a `blogPostingSchema` string in Sanity, left over from the
+ * Framer export. It is deliberately NOT rendered: it emitted a second
+ * BlogPosting for the same URL, and on 25 of the 39 posts that copy still
+ * pointed `url` at the retired usesuperflow.com host and `image` at dead
+ * framerusercontent.com assets. This node supersedes it - it is built from the
+ * live document, carries `publisher`/`mainEntityOfPage`/`dateModified`, and
+ * always names the canonical .ai URL. `faqSchema` is unaffected and still
+ * renders; it is the only schema on these posts with no code-built equivalent.
+ */
 function buildBlogPostingSchema({
   post,
   slug,
@@ -46,7 +66,7 @@ function buildBlogPostingSchema({
   const node: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.title,
+    headline: tidy(post.title),
     url: pageUrl,
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -55,7 +75,7 @@ function buildBlogPostingSchema({
     publisher: { "@id": ORG_ID },
   };
   const description = post.metaDescription ?? post.description;
-  if (description) node.description = description;
+  if (description) node.description = tidy(description);
   if (post.publishedAt) node.datePublished = post.publishedAt;
   if (post._updatedAt) node.dateModified = post._updatedAt;
   if (post.author?.name) {
@@ -125,12 +145,6 @@ export default async function BlogPostPage({
         <JsonLd id="ld-blog-post" data={blogPostingSchema} />
       ) : null}
       <JsonLd id="ld-blog-post-breadcrumb" data={blogBreadcrumb} />
-      {post.blogPostingSchema ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: post.blogPostingSchema }}
-        />
-      ) : null}
       {post.faqSchema ? (
         <script
           type="application/ld+json"

@@ -9,7 +9,7 @@ export const MARKDOWN_VIEWER_CONTENT: ToolContent = {
   slug: "markdown-viewer",
   title: "Markdown Viewer",
   subhead: "Open and read any Markdown file. Paste it or drop it in, and it renders as you type. Nothing is uploaded.",
-  description: "Free online Markdown viewer and preview. Open .md files, paste Markdown, and read it rendered with tables, code blocks, and an outline. Runs entirely in your browser. No login, no ads, no upload.",
+  description: "Free online Markdown viewer and preview. Open .md files or paste Markdown and read it rendered, with tables, code blocks and an outline. Nothing is uploaded.",
   howItWorks: [
   {
     title: "Paste or drop",

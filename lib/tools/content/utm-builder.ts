@@ -9,7 +9,7 @@ export const UTM_BUILDER_CONTENT: ToolContent = {
   slug: "utm-builder",
   title: "UTM Builder",
   subhead: "Build campaign URLs that follow one convention, and see which GA4 channel each link will land in before you send it.",
-  description: "Free UTM builder and campaign URL generator. Enforces a tagging convention across your team, shows the GA4 channel each link lands in, warns about the mistakes that break reporting, and builds links in bulk. Runs in your browser. No login, no ads.",
+  description: "Free UTM builder and campaign URL generator. Enforce one tagging convention, see the GA4 channel each link lands in, and catch what breaks your reporting.",
   howItWorks: [
   {
     title: "Paste the destination",

@@ -39,10 +39,9 @@ interface BlogPostBodyProps {
  * Full presentation layer for `/blog/[slug]`: SiteNav, a centered header
  * (category kicker, serif headline, author + date/read-time), a rounded
  * featured-image card, the article body rendered with `BlogPortableText`,
- * and SiteFooter. All SEO/JSON-LD, the Sanity query, and the raw
- * `blogPostingSchema`/`faqSchema` script tags stay in
- * `app/blog/[slug]/page.tsx`; this component only renders whatever post data
- * it's handed.
+ * and SiteFooter. All SEO/JSON-LD, the Sanity query, and the raw `faqSchema`
+ * script tag stay in `app/blog/[slug]/page.tsx`; this component only renders
+ * whatever post data it's handed.
  *
  * @param props.post - The resolved blog post document.
  */

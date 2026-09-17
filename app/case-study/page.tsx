@@ -12,9 +12,15 @@ const HERO_HEADING = "Customer case studies";
 const HERO_SUBHEADING =
   "See how teams use Superflow to ship faster, cut review rounds, and keep every comment in context.";
 
+// The hero line reads well on the page but is too short to fill a SERP
+// snippet, so the meta description says the same thing at snippet length
+// rather than stretching the hero to suit search engines.
+const META_DESCRIPTION =
+  "See how real agencies and product teams use Superflow to ship faster, cut review rounds, and keep every client comment in context. Read their results.";
+
 export const metadata = buildPageMetadata({
-  title: "Case Studies",
-  description: HERO_SUBHEADING,
+  title: "Customer Case Studies and Results",
+  description: META_DESCRIPTION,
   path: "/case-study",
   ogImage: PAGE_OG_IMAGES.caseStudy,
 });
@@ -25,7 +31,7 @@ export default async function CaseStudyIndexPage() {
     <>
       <PageJsonLd
         name="Case Studies | Superflow"
-        description={HERO_SUBHEADING}
+        description={META_DESCRIPTION}
         path="/case-study"
         trail={[{ name: "Case Studies", url: `${SITE_URL}/case-study` }]}
       />

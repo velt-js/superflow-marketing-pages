@@ -107,7 +107,7 @@ const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 export const metadata = buildPageMetadata({
   title: "Pricing - Ship Creative Assets Impossibly Fast",
   description:
-    "Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter, Growth, Scale & Enterprise plans.",
+    "Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter to Enterprise.",
   path: "/pricing",
   ogImage: PAGE_OG_IMAGES.pricing,
   noBrandSuffix: true,
@@ -121,7 +121,7 @@ export default function PricingPage() {
           duplicate BreadcrumbList. */}
       <PageJsonLd
         name="Pricing - Ship Creative Assets Impossibly Fast"
-        description="Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter, Growth, Scale & Enterprise plans."
+        description="Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter to Enterprise."
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />

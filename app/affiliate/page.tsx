@@ -16,7 +16,7 @@ import { JsonLd } from "@/app/_seo/JsonLd";
 import { buildFaqPageSchema, SITE_URL } from "@/app/_seo/schema";
 
 export const metadata = buildPageMetadata({
-  title: "Affiliate Program",
+  title: "Affiliate Program: Earn 30% Revenue Share",
   description:
     "Join the Superflow Affiliate Program. Earn 30% revenue share by sharing Superflow with your audience.",
   path: "/affiliate",

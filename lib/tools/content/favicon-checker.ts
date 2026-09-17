@@ -11,7 +11,7 @@ export const FAVICON_CHECKER_CONTENT: ToolContent = {
   subhead:
     "Paste a URL and find out whether your favicon actually works. We fetch every icon the page declares and read the real file, not just the HTML.",
   description:
-    "Free favicon checker. Test whether your favicon really loads: every declared icon is fetched and its real format, size, and pixel dimensions are read from the file. Catches the 200-that-returns-HTML that other checkers pass. No login, no ads.",
+    "Free favicon checker. Every icon your page declares is fetched and its real format and pixel size read from the file, so a 200 that returns HTML is caught.",
   howItWorks: [
     {
       title: "Paste any URL",

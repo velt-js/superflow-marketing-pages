@@ -11,7 +11,7 @@ export const JSON_LD_GENERATOR_CONTENT: ToolContent = {
   subhead:
     "Give it a page URL and it writes the schema.org block for that page, then runs a validator over its own output before you see it.",
   description:
-    "Free JSON-LD generator. Reads a page, picks the schema.org type that matches it, and writes a block grounded in what the page actually says. Validates its own output and shows you every check. Copy the script tag and paste it in. No login, no ads.",
+    "Free JSON-LD generator. Reads your page, picks the schema.org type that matches, and writes a block grounded in what the page says. Validated before you copy.",
   howItWorks: [
     {
       title: "Paste the page you want marked up",
