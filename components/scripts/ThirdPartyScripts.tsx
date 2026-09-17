@@ -15,15 +15,34 @@ const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
 // GA4 above (one library, two destinations) so an ad click anywhere on this
 // site writes the `_gcl_aw` / `_gcl_au` linker cookies.
 //
-// Those cookies are written on the registrable domain (`usesuperflow.com`),
-// which is what carries the click through to app.usesuperflow.com — the
-// product app reads them back when it fires the signup / install-success
-// conversions (see `GoogleAdsService` in superflow_portal_v2). Nothing here
-// fires a conversion: this site has no signup, every CTA hands off to the app.
+// Nothing here fires a conversion: this site has no signup, every CTA hands
+// off to the app, and the portal fires the signup / install-success actions
+// (see `GoogleAdsService` in superflow_portal_v2). This site's only job is to
+// capture the click and hand it across.
 //
 // DO NOT also add a Google Ads tag for this ID inside the GTM container
 // (GTM-M6Q8QPG) — gtag.js already owns it, and both would double-count.
 const GOOGLE_ADS_ID = "AW-11181152032";
+// Domains that share the Ads click id, for the gtag cross-domain linker.
+//
+// This is load-bearing, and the reason is easy to get wrong: the `_gcl_*`
+// cookies are scoped to a REGISTRABLE DOMAIN, and this site serves on
+// `usesuperflow.ai` (both `usesuperflow.com` and `www.` 301 here, query string
+// intact). The portal is on `app.usesuperflow.com`. Different registrable
+// domains means different cookie jars, so a cookie written here cannot be read
+// there — without the linker the click id never reaches the conversion and
+// every ad-driven signup reads as organic.
+//
+// The linker closes that gap by decorating outbound links to these domains
+// with a `_gl` parameter, which the portal's tag reads back
+// (`accept_incoming` defaults to true once `domains` is set). BOTH halves are
+// required: this one decorates, `environment.googleAds.linkerDomains` in
+// superflow_portal_v2 accepts. Keep the two lists identical.
+//
+// `app.usesuperflow.com` is listed even though `usesuperflow.com` already
+// suffix-matches it. Deliberate: a silently unmatched link is exactly the
+// failure this config exists to prevent, and a redundant entry costs nothing.
+const LINKER_DOMAINS = ["usesuperflow.ai", "usesuperflow.com", "app.usesuperflow.com"];
 const REWARDFUL_KEY = "626baf";
 const MIXPANEL_TOKEN = "15f22bfd89315cb10f7cd65937b149cb";
 const INTERCOM_APP_ID = "gkjq60px";
@@ -55,6 +74,7 @@ export function ThirdPartyScripts() {
       <Script id="ga-config" strategy="afterInteractive">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+gtag('set', 'linker', {'domains': ${JSON.stringify(LINKER_DOMAINS)}});
 gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');
 gtag('config', '${GOOGLE_ADS_ID}');`}
