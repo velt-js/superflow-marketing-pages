@@ -152,6 +152,28 @@
       "replaces": {
         "budgetLabel": "Websites from $24,000; branding from $12,000"
       }
+    },
+    {
+      "agencySlug": "polar",
+      "agencyName": "Polar",
+      "verifiedAt": "2026-09-17",
+      "verifiedBy": null,
+      "provenance": "Reply to directory outreach, 17 September 2026. Confirmed the page as correct apart from the minimum: \"adjust the minimum project value to $35k as GBP 25k is our minimum\". Clutch publishes \"Starting from $25,000\", which understates them - their floor is GBP 25,000, worth appreciably more. So the quoted figure goes in `budgetMinimums` in the currency they actually quoted, GBP, and renders as a band like every other agency's. `budgetFloorUsd` takes the $35,000 they gave us rather than a rate we picked: the field is the USD number the category thresholds are written against, it is never rendered, and the rule against converting is a rule against US doing the conversion, not against recording one the agency supplied. The Clutch label is replaced rather than left beside the band, because a source's exact dollar figure in the stat strip next to the agency's own banded pound figure in the card contradicts itself on the same screen.",
+      "set": {
+        "budgetLabel": "Projects from 5 figures",
+        "budgetFloorUsd": 35000,
+        "budgetMinimums": [
+          {
+            "scope": "Any project",
+            "amount": 25000,
+            "currency": "GBP"
+          }
+        ]
+      },
+      "replaces": {
+        "budgetLabel": "Starting from $25,000",
+        "budgetFloorUsd": 25000
+      }
     }
   ]
 }
