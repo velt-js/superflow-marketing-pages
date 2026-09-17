@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import {
   formatAgencyLocation,
-  formatBudgetBand,
+  formatBudgetAmount,
   getAgencyClientLink,
   getAgencyClients,
   getAwardBreakdown,
@@ -463,11 +463,7 @@ export default function AgencyDetail({
     const awardsNote = listing?.awardsNote?.trim() || null;
     const engagementNote = listing?.engagementNote?.trim() || null;
     const exclusions = listing?.exclusions?.filter((exclusion) => Boolean(exclusion?.trim())) ?? [];
-    // Only rows that band. A figure that cannot be banded cannot be shown
-    // discreetly, and showing it exactly is the thing this stopped doing.
-    const budgetMinimums = (listing?.budgetMinimums ?? []).filter((minimum) =>
-      Boolean(formatBudgetBand(minimum.amount)),
-    );
+    const budgetMinimums = listing?.budgetMinimums ?? [];
     const verifiedNote = buildVerifiedNote(listing?.verifiedAt);
     const hasTerms =
       Boolean(engagementNote) || exclusions.length > 0 || budgetMinimums.length > 0;
@@ -624,15 +620,8 @@ export default function AgencyDetail({
               {budgetMinimums.map((minimum) => (
                 <li key={minimum.scope} className={styles.factRow}>
                   <span>{minimum.scope}</span>
-                  {/* Band plus the currency it was quoted in. The band is
-                      the discreet half; the currency is not sensitive, is
-                      already public wherever a source published a budget,
-                      and without it a euro floor and a dollar floor read
-                      identically. Never converted - see
-                      `AgencyListing.budgetMinimums`. */}
                   <span className={styles.factValue}>
-                    {formatBudgetBand(minimum.amount)}
-                    {minimum.currency ? ` (${minimum.currency})` : ""}
+                    {formatBudgetAmount(minimum.amount, minimum.currency)}
                   </span>
                 </li>
               ))}

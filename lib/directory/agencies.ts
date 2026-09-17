@@ -1044,33 +1044,33 @@ export function getAgencyClientLink(client: AgencyClient | null | undefined): st
 }
 
 /**
- * A stated project floor as a figure band - "5 figures", "6 figures".
+ * Formats one stated project-size floor, e.g. "€15,000".
  *
- * WHY A BAND RATHER THAN THE FIGURE: these are numbers agencies send us
- * about their own pricing, and a published exact quote is a number their
- * next prospect opens the negotiation at. Bürocratik asked for theirs to
- * come off for that reason, and the request generalises: the band is what
- * a visitor needs to know whether they are in the right room, and the
- * quote is the agency's to give on contact.
+ * Formatted in the currency the agency quoted, never converted into one
+ * shared currency: a rate they did not give is a figure they did not
+ * state. Falls back to "CODE 15000" if `Intl` rejects the code, which is
+ * still readable and still honest about which currency it is.
  *
- * The currency is not folded in. It is not the sensitive half, it is
- * already public wherever a source directory published a budget, and an
- * agent filtering on cost needs to know which currency a floor is in -
- * see the Markdown copy, which keeps it as its own column.
+ * FRACTIONS ARE KEPT. A floor is a whole figure in practice, and the
+ * schema now requires one, but a value already in the CMS or arriving
+ * from an importer may not be - and rounding it here would print a
+ * number the agency never said, while the Markdown copy published the
+ * real one beside it. Two surfaces disagreeing about an agency's price
+ * is worse than a page with pennies on it.
  *
- * @param amount - The figure the agency stated.
- * @returns The band, or null when there is no usable figure to band.
+ * @param amount - The figure, unformatted.
+ * @param currency - Three-letter ISO currency code.
+ * @returns The formatted amount.
  */
-export function formatBudgetBand(amount: number | null | undefined): string | null {
+export function formatBudgetAmount(amount: number, currency: string): string {
   try {
-    if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) return null;
-    // Digits in the whole-number part: 50000 -> 5, 100000 -> 6. Rounded
-    // down, so 99,999 is five figures and 100,000 is six, which is what
-    // the phrase means to the people who use it.
-    const digits = Math.floor(amount).toString().length;
-    return `${digits} figures`;
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+    }).format(amount);
   } catch {
-    return null;
+    return `${currency} ${amount}`;
   }
 }
 

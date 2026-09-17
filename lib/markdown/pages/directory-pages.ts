@@ -19,7 +19,6 @@ import {
   agencyPath,
   formatAgencyLocation,
   formatAgencyRating,
-  formatBudgetBand,
   getAgencyClients,
   getAwardBreakdown,
   getDirectoryAgencyList,
@@ -70,11 +69,6 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
   const awards = getAwardBreakdown(agency.awards).filter((entry) => entry.count > 0);
   const source = resolveAgencySourceLabel(agency.source);
   const listing = agency.listing ?? null;
-  /** Stated floors as bands, dropping any row with no bandable figure. */
-  const budgetBands = (listing?.budgetMinimums ?? []).flatMap((minimum) => {
-    const band = formatBudgetBand(minimum.amount);
-    return band ? [[clean(minimum.scope), band, clean(minimum.currency)]] : [];
-  });
 
   return {
     title: agency.name,
@@ -151,25 +145,25 @@ export async function agencyToAgentDoc(agency: Agency): Promise<AgentDoc> {
       // is also the one kind of answer an agent asked "who would take this
       // brief" actually needs.
       {
-        // The stated floors get their own table rather than a sentence: an
-        // agency that quoted two different floors for two kinds of work
-        // said something a single number cannot carry.
-        //
-        // As a BAND, not the figure, matching the HTML page - see
-        // `formatBudgetBand`. These are the agencies' own quotes, and a
-        // published exact one is the number their next prospect opens at.
-        // The currency stays its own column: it is not the sensitive half,
-        // and an agent filtering on cost needs it.
+        // The stated floors get their own table rather than a sentence:
+        // an agent filtering "agencies that take £20k projects" needs the
+        // figure and its currency as data, and an agency that quoted two
+        // different floors for two kinds of work said something a single
+        // number cannot carry.
         heading: "Minimum project size",
         body: [
-          budgetBands.length > 0
-            ? "Stated by the agency, as a band. Exact quotes come from the agency."
+          (listing?.budgetMinimums ?? []).length > 0
+            ? "Stated by the agency, in the currency it quoted. Never converted."
             : "",
         ],
-        table: budgetBands.length > 0
+        table: (listing?.budgetMinimums ?? []).length > 0
           ? {
               headers: ["Kind of work", "From", "Currency"],
-              rows: budgetBands,
+              rows: (listing?.budgetMinimums ?? []).map((minimum) => [
+                clean(minimum.scope),
+                String(minimum.amount),
+                clean(minimum.currency),
+              ]),
             }
           : undefined,
       },
