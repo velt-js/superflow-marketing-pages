@@ -956,7 +956,9 @@ export async function getBugBookEntryBySlug(
       thread[]{ speaker, text, attachment },
       finding{ title, description, suggestion, issueType, confidence },
       whyItMatters,
-      outcome
+      outcome,
+      metaTitle,
+      metaDescription
     }
   `,
     { slug }

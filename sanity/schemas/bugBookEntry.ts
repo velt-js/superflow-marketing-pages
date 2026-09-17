@@ -219,6 +219,23 @@ export const bugBookSample = defineType({
       type: "number",
       description: "Position within the samples band.",
     }),
+    defineField({
+      name: "metaTitle",
+      title: "Meta Title",
+      type: "string",
+      description:
+        "The browser-tab and search-result title, used verbatim. Leave empty and the page falls back to the headline plus \" - The Superflow Bug Book\", which runs past the ~60 characters a result shows on these entries. Aim for 30-60.",
+      validation: (rule) => rule.max(60).warning("Search results cut off past ~60 characters."),
+    }),
+    defineField({
+      name: "metaDescription",
+      title: "Meta Description",
+      type: "text",
+      rows: 3,
+      description:
+        "The search-result snippet. Leave empty and the page falls back to the hook, which is written as a caption and is usually too short to fill one. Aim for 120-160.",
+      validation: (rule) => rule.max(160).warning("Search results cut off past ~160 characters."),
+    }),
   ],
   orderings: [
     { title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },
