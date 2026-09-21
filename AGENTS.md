@@ -79,6 +79,21 @@ registered, that navigation unregisters it, and that the handlers really
 return the page copy and call the real endpoints. Run it after touching the
 registry, the `.md` surface, or the provider.
 
+## Indexing rules worth not relearning
+
+- `/_next/static/*` is served with `X-Robots-Tag: noindex` from
+  `next.config.ts`, because Search Console collects one entry per file per
+  deploy (Vercel's `?dpl=` cache-buster mints a fresh set each release). Do NOT
+  reach for a robots.txt `Disallow: /_next` instead: Googlebot renders a page
+  by fetching its JS and CSS, so blocking them costs the rendered DOM and far
+  more than the report noise. The rule stops at `/_next/static` on purpose -
+  `/_next/image` serves content images that are supposed to be indexable.
+- Both `Product` nodes on `/pricing` carry `image`. It is required, and an
+  item without it is dropped from rich results entirely rather than degraded.
+
+`tests/seo/agent-surface.spec.ts` covers both, including the negative cases
+(the optimizer must not be noindexed, pages must not pick the header up).
+
 ## Publishing from Sanity
 
 CMS-backed pages are `export const revalidate = 60` and their Markdown copies

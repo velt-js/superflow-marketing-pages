@@ -154,7 +154,37 @@ const nextConfig: NextConfig = {
       ? [{ key: "Origin-Trial", value: process.env.WEBMCP_ORIGIN_TRIAL_TOKEN }]
       : [];
 
+    // Build output should be CRAWLABLE but not INDEXABLE.
+    //
+    // Search Console had 299 /_next/static/*.js and *.css URLs in its index
+    // reports, one per file per deploy - Vercel appends ?dpl=<deployment> for
+    // cache busting, so every release mints a fresh set. They are not pages
+    // and nobody should land on one from a search result.
+    //
+    // The fix is NOT a robots.txt disallow. Googlebot renders a page by
+    // fetching its JavaScript and CSS, so blocking /_next/ would stop it
+    // seeing the rendered DOM and cost far more than the report noise. A
+    // `noindex` header keeps the fetch and drops only the indexing.
+    //
+    // Scoped to /_next/static on purpose: that is chunks (JS/CSS) and media
+    // (fonts, the favicon). It deliberately does NOT cover /_next/image, the
+    // optimizer that serves this site's content images - those are supposed
+    // to be indexable, and noindexing them would pull the site's own
+    // photography out of Google Images.
+    const buildOutputNoIndex = [{ key: "X-Robots-Tag", value: "noindex" }];
+
     return [
+      {
+        source: "/_next/static/:path*",
+        headers: buildOutputNoIndex,
+      },
+      {
+        // The docs are reverse-proxied to Mintlify, which serves its own
+        // Next build under this prefix. Its chunks showed up in the same
+        // report, and the rewrite happens after headers, so this reaches them.
+        source: "/docs/_next/static/:path*",
+        headers: buildOutputNoIndex,
+      },
       {
         // `.md` paths are excluded: every Markdown route emits its own `Link`
         // carrying `rel="canonical"` back to the HTML page it copies, and a

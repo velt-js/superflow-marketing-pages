@@ -39,6 +39,28 @@ const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
 const HERO_SUBHEADING =
   "Transparent per-seat pricing with a free 10-day trial, plus AI credits priced by scan, not by token. Start free and upgrade whenever your team is ready.";
 
+/**
+ * Images for the two Product nodes below.
+ *
+ * `image` is REQUIRED on Product: without it Search Console reports the item
+ * invalid and drops it from rich results entirely, which is what happened to
+ * both of these between 2026-08-08 and 2026-09-17. Google also asks for more
+ * than one aspect ratio, so this is the wide card and the square mark rather
+ * than either alone.
+ *
+ * `/brand/logo.png` is the square one on purpose, not `/logo.png`: the brand
+ * file carries an opaque background plate and literal hex fills, built for
+ * renderers outside this site (see README.md). The other one is transparent
+ * and disappears on a dark surface.
+ *
+ * Absolute URLs, because a consumer of this JSON-LD has no base to resolve a
+ * relative path against.
+ */
+const PRODUCT_IMAGES = [
+  `${SITE_URL}${PAGE_OG_IMAGES.pricing}`, // 1200x630
+  `${SITE_URL}/brand/logo.png`, // 512x512
+];
+
 // Only tiers with published numeric prices qualify as Product offers.
 // Enterprise remains visible in the pricing cards as a custom quote.
 const PRICING_PRODUCT_SCHEMA = {
@@ -48,6 +70,7 @@ const PRICING_PRODUCT_SCHEMA = {
   description:
     "Superflow plans - Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
   brand: { "@id": ORG_ID },
+  image: PRODUCT_IMAGES,
   url: `${SITE_URL}/pricing`,
   offers: TIERS.filter((tier) => !tier.customPrice).map((tier) => {
     const offerUrl = tier.cta.href.startsWith("http")
@@ -86,6 +109,9 @@ const AI_CREDITS_PRODUCT_SCHEMA = {
   description:
     `AI credits for Superflow agent scans. One credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent: ${SCAN_RATE_CARD_SUMMARY}. Every new workspace gets ${SIGNUP_BONUS_CREDITS} bonus credits. One-time add-on packs top up any plan, and pack credits roll over month to month.`,
   brand: { "@id": ORG_ID },
+  // Credits are sold on this page and have no artwork of their own, so they
+  // carry the same pair rather than an invented image.
+  image: PRODUCT_IMAGES,
   url: `${SITE_URL}/pricing`,
   offers: CREDIT_PACKS.map((pack) => ({
     "@type": "Offer",
