@@ -50,6 +50,35 @@ HTML page's own URL when the request sends `Accept: text/markdown`.
 - `tests/seo/agent-surface.spec.ts` covers all of it. Run it after touching
   any of the above: most of these failures are invisible in a browser.
 
+## WebMCP
+
+The site registers callable tools on the browser's WebMCP API
+(`document.modelContext`), so an agent driving the browser a person is looking
+at can use the page instead of scraping it. `components/webmcp/WebMcpProvider`
+is mounted once in `app/layout.tsx` and derives the tool list from the path, so
+every route is covered and no page wires anything up.
+
+- Three site tools everywhere - read this page, read any page, list the pages -
+  all answered from the `.md` copies above rather than the DOM.
+- The free tools are built from `lib/tools/api-catalog.ts`, the same entries
+  `/api/mcp` serves, so a tool cannot exist on one surface and not the other or
+  drift in what it claims to take. A tool page registers its own tool; `/tools`
+  and `/tools/mcp` register the whole live suite; nothing else registers extra.
+
+WebMCP is an origin trial through Chrome 156 and the API has moved twice
+(`window.agent` -> `navigator.modelContext` -> `document.modelContext`), so
+`lib/webmcp/types.ts` feature-detects both surfaces and everything no-ops when
+neither is present. Serving the trial token is opt-in per origin: register at
+developer.chrome.com/origintrials and set `WEBMCP_ORIGIN_TRIAL_TOKEN` in the
+build environment, which `next.config.ts` turns into an `Origin-Trial` header
+on HTML pages only. Unset is a supported state - the tools stay reachable over
+`/api/mcp` regardless.
+
+`tests/webmcp/` stubs the API before page scripts run and asserts what gets
+registered, that navigation unregisters it, and that the handlers really
+return the page copy and call the real endpoints. Run it after touching the
+registry, the `.md` surface, or the provider.
+
 ## Publishing from Sanity
 
 CMS-backed pages are `export const revalidate = 60` and their Markdown copies

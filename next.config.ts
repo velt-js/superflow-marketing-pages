@@ -141,6 +141,19 @@ const nextConfig: NextConfig = {
       { key: "X-Llms-Txt", value: "/llms.txt" },
     ];
 
+    // WebMCP (document.modelContext) is an origin trial through Chrome 156,
+    // and a trial is opt-in PER ORIGIN: without a token served on the document
+    // response, the API is simply absent and components/webmcp/WebMcpProvider
+    // no-ops. Register the origin at https://developer.chrome.com/origintrials
+    // and set WEBMCP_ORIGIN_TRIAL_TOKEN in the deployment environment.
+    //
+    // Unset is a supported state, not a broken one - the tools stay reachable
+    // over /api/mcp either way - so this adds nothing rather than an empty
+    // header, which Chrome would log as a malformed trial token.
+    const originTrial = process.env.WEBMCP_ORIGIN_TRIAL_TOKEN
+      ? [{ key: "Origin-Trial", value: process.env.WEBMCP_ORIGIN_TRIAL_TOKEN }]
+      : [];
+
     return [
       {
         // `.md` paths are excluded: every Markdown route emits its own `Link`
@@ -150,7 +163,7 @@ const nextConfig: NextConfig = {
         // treating the copy and the page as competing documents.
         source:
           "/((?!api/|_next/|_mintlify/|mintlify-assets/|docs).*(?<!\\.md))",
-        headers: discovery,
+        headers: [...discovery, ...originTrial],
       },
     ];
   },

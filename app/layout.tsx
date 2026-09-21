@@ -17,6 +17,7 @@ import {
   GtmNoScript,
   ThirdPartyScripts,
 } from "@/components/scripts/ThirdPartyScripts";
+import { WebMcpProvider } from "@/components/webmcp/WebMcpProvider";
 
 // Fonts are self-hosted from app/fonts rather than fetched with
 // next/font/google.
@@ -142,6 +143,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageviewTracker />
           <AmplitudePageView />
         </Suspense>
+        {/* Registers this site's tools with a WebMCP-capable browser. Renders
+            nothing, and is inert everywhere the API is absent. */}
+        <WebMcpProvider />
         {children}
       </body>
     </html>

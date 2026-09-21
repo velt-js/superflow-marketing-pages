@@ -59,6 +59,12 @@ export function GET(): NextResponse {
       // exactly the reader that wants these, and burying them costs a fetch.
       endpoints: {
         mcp: `${SITE_URL}${MCP_PATH}`,
+        // Not an endpoint to fetch: an agent driving a browser gets these
+        // tools from the page itself via document.modelContext. Named here
+        // because an agent that CAN use them has no other way to learn the
+        // site offers them without loading a page and looking.
+        webmcp:
+          "In-page tools are registered on document.modelContext (WebMCP) on every page of this site. The free tools carry the same names and input schemas as the MCP server above.",
         llmsTxt: `${SITE_URL}/llms.txt`,
         llmsFullTxt: `${SITE_URL}/llms-full.txt`,
         apiCatalog: `${SITE_URL}/.well-known/api-catalog`,
