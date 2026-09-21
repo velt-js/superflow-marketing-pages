@@ -296,3 +296,83 @@ test.describe("Paths the proxy must not touch", () => {
     expect(await response.text()).toContain("# Superflow free tools");
   });
 });
+
+test.describe("Crawlable but not indexable", () => {
+  // Search Console collected 299 /_next/static URLs, one per file per deploy
+  // (Vercel's ?dpl= cache-buster mints a new set every release). The fix is a
+  // noindex header, NOT a robots.txt disallow: Googlebot renders a page by
+  // fetching its JS and CSS, so blocking them costs the rendered DOM.
+  test("build output is noindex, and the image optimizer is not", async ({ request }) => {
+    const page = await get(request, "/pricing");
+    const html = await page.text();
+
+    const chunk = /\/_next\/static\/chunks\/[^"']+\.js/.exec(html)?.[0];
+    expect(chunk, "the page should reference a JS chunk").toBeTruthy();
+    const js = await get(request, chunk!);
+    expect(js.headers()["x-robots-tag"]).toContain("noindex");
+
+    const css = /\/_next\/static\/chunks\/[^"']+\.css/.exec(html)?.[0];
+    if (css) {
+      expect((await get(request, css)).headers()["x-robots-tag"]).toContain("noindex");
+    }
+
+    // /_next/image serves this site's content images. Noindexing it would pull
+    // the site's own photography out of Google Images, so the rule is scoped
+    // to /_next/static and must never widen to cover this.
+    const optimized = await get(
+      request,
+      "/_next/image?url=%2Fopengraph-image.png&w=640&q=75",
+    );
+    expect(optimized.headers()["x-robots-tag"]).toBeUndefined();
+
+    // And a real page must never pick the header up.
+    expect(page.headers()["x-robots-tag"]).toBeUndefined();
+  });
+
+  test("robots.txt does not block the assets Google renders with", async ({ request }) => {
+    const body = await (await get(request, "/robots.txt")).text();
+    expect(body).not.toContain("Disallow: /_next");
+  });
+});
+
+test.describe("Pricing Product schema", () => {
+  // Both Product nodes were reported invalid by Search Console from 2026-08-08
+  // for a missing `image`, which is required and drops the item from rich
+  // results entirely when absent.
+  test("every Product node carries the fields Google requires", async ({ request }) => {
+    const html = await (await get(request, "/pricing")).text();
+    const products = [
+      ...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi),
+    ]
+      .map((match) => {
+        try {
+          return JSON.parse(
+            match[1]
+              .replace(/&quot;/g, '"')
+              .replace(/&#x27;/g, "'")
+              .replace(/&amp;/g, "&"),
+          );
+        } catch {
+          return null;
+        }
+      })
+      .filter((node) => node?.["@type"] === "Product");
+
+    expect(products.length).toBe(2);
+    for (const product of products) {
+      const images = Array.isArray(product.image) ? product.image : [product.image];
+      expect(images.length, `${product.name} needs an image`).toBeGreaterThan(0);
+      for (const image of images) {
+        // A consumer of this JSON-LD has no base to resolve a relative path.
+        expect(image).toMatch(/^https:\/\//);
+        expect((await get(request, new URL(image).pathname)).status()).toBe(200);
+      }
+      expect(product.name).toBeTruthy();
+      expect(product.offers?.length, `${product.name} needs offers`).toBeGreaterThan(0);
+      for (const offer of product.offers) {
+        expect(offer.price).toBeDefined();
+        expect(offer.priceCurrency).toBe("USD");
+      }
+    }
+  });
+});
