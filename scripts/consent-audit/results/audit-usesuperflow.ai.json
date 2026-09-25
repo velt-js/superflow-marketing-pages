@@ -1,0 +1,5871 @@
+{
+  "baseUrl": "https://usesuperflow.ai",
+  "ranAt": "2026-09-25T18:05:24.227Z",
+  "settleMs": 5000,
+  "results": [
+    {
+      "scenario": "none",
+      "name": "home",
+      "path": "/",
+      "url": "https://usesuperflow.ai/",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "AMP_SR_START_4b7ef064c6_1790359052250",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 9,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359051265&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=680865290.1790359052&frm=0&ngs=1&pscdl=denied&rcb=3&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B1",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=17&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2F&scrsrc=www.googletagmanager.com&rnd=1329062761.1790359052&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1&dma_cps=",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=a49f0fcd-4be3-48f5-b405-4007e2c786b5&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=63ba2e84-2e4c-40e0-aaf9-386957d289a1&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=a49f0fcd-4be3-48f5-b405-4007e2c786b5&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=63ba2e84-2e4c-40e0-aaf9-386957d289",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359052570%26li_adsId%3D342e9300-448a-4cc9-9ec8-a5bc19bf0767%26pageLoadId%3Df0f247c3-9671-4970-a08d-b318d079302b%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252F%26",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "pricing",
+      "path": "/pricing",
+      "url": "https://usesuperflow.ai/pricing",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "AMP_SR_START_4b7ef064c6_1790359101891",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 9,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359101249&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=656531791.1790359101&frm=0&ngs=1&pscdl=denied&rcb=16&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=10&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fpricing&scrsrc=www.googletagmanager.com&rnd=733879572.1790359102&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1&dm",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=1bcf2059-dbac-41f9-a436-35a7c1dcaf62&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=4135d6e3-0839-4693-8118-2794b67dc2fa&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=1bcf2059-dbac-41f9-a436-35a7c1dcaf62&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=4135d6e3-0839-4693-8118-2794b67dc2",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359102316%26li_adsId%3De800bd8e-3914-4ba6-a733-c591f38a44d7%26pageLoadId%3D07948c53-4896-47bc-803b-861e56153068%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fpri",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "blog post",
+      "path": "/blog/bugherd-alternatives-comparison",
+      "url": "https://usesuperflow.ai/blog/bugherd-alternatives-comparison",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE",
+        "AMP_SR_START_4b7ef064c6_1790359141317"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "cdn.sanity.io",
+          "count": 2,
+          "essential": true,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://cdn.sanity.io/images/sckr62cw/production/7da0544c96e3821153905bfe6ace17ba7015dd02-1664x899.png?w=1200&fit=max&auto=format",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 2,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359140520&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=599937347.1790359141&frm=0&ngs=1&pscdl=denied&rcb=16&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=15&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fblog%2Fbugherd-alternatives-comparison&scrsrc=www.googletagmanager.com&rnd=225309170.1790359141&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeax",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=905447a0-6b70-4c92-97e4-1676cc3aa169&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=774a18e7-e30b-400c-8c2c-f01723b672cf&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=905447a0-6b70-4c92-97e4-1676cc3aa169&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=774a18e7-e30b-400c-8c2c-f01723b672",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/?id=825109945989286&ev=PageView&dl=https%3A%2F%2Fusesuperflow.ai%2Fblog%2Fbugherd-alternatives-comparison&rl=&if=false&ts=1790359141408&iw=false&sw=1920&sh=1080&v=2.9.408&r=stable&ec=0&o=12318&aems=0%3B0&fbp=fb.1.1790359141389.770102222658105906&ler=empty&pmd[title]=BugHe",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359141448%26li_adsId%3Da62280aa-79b1-4c5d-ac7c-4dbb6810dede%26pageLoadId%3D9e20eac2-2fa1-4963-aa5d-5ec9564fafc4%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fblo",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 3,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "feature page",
+      "path": "/video-review",
+      "url": "https://usesuperflow.ai/video-review",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "AMP_SR_START_4b7ef064c6_1790359151620",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.sanity.io",
+          "count": 1,
+          "essential": true,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://cdn.sanity.io/images/sckr62cw/production/3bf403d2bb849a41723c560c7bd8b4c36c942152-1024x558.png",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 7,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69o0h2v9257706511za200zd9257706511xf1&_p=1790359150601&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1394256857.1790359151&frm=0&ngs=1&pscdl=denied&rcb=4&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=3&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fvideo-review&scrsrc=www.googletagmanager.com&rnd=1752069229.1790359151&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69o0h2v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=42c4b800-af11-4109-9a4b-4222d1da548d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=c548badd-7546-4d86-907c-a2c70f7d347b&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=42c4b800-af11-4109-9a4b-4222d1da548d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=c548badd-7546-4d86-907c-a2c70f7d34",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359151487%26li_adsId%3Dceb19080-0790-4b6a-8e94-402ea79022a3%26pageLoadId%3D9639f071-fd6e-4d25-93cd-a90946367c5c%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fvid",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "solutions (use case)",
+      "path": "/use-case/client-feedback",
+      "url": "https://usesuperflow.ai/use-case/client-feedback",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "AMP_SR_START_4b7ef064c6_1790359200193",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 5,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script",
+            "image"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69o0h2v9257706511za200zd9257706511xf1&_p=1790359198692&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1853290439.1790359199&frm=0&ngs=1&pscdl=denied&rcb=6&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=3&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fuse-case%2Fclient-feedback&scrsrc=www.googletagmanager.com&rnd=851092683.1790359199&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69o0h2v9115564320za200zd9115564320xeaxf1&gcs=G100",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 5,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=5ba248cf-daac-4cd9-9815-efa1ce3da28d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=8b96a12f-cfc8-4717-ab09-2b0f27c38232&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=5ba248cf-daac-4cd9-9815-efa1ce3da28d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=8b96a12f-cfc8-4717-ab09-2b0f27c382",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=4956052&time=1790359199896&li_adsId=8fef56c1-2130-41a2-bf75-f4f197eaca17&pageLoadId=a928ef50-ec47-4d46-8885-d6c133be5c0e&url=https%3A%2F%2Fusesuperflow.ai%2Fuse-case%2Fclient-feedback&tm=gtmv2",
+          "types": [
+            "image",
+            "fetch"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359199896%26li_adsId%3D8fef56c1-2130-41a2-bf75-f4f197eaca17%26pageLoadId%3Da928ef50-ec47-4d46-8885-d6c133be5c0e%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fuse",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "tools hub",
+      "path": "/tools",
+      "url": "https://usesuperflow.ai/tools",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "AMP_SR_START_4b7ef064c6_1790359239930",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1h1v9257706511za200zd9257706511xf1&_p=1790359238393&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=2137922258.1790359239&frm=0&ngs=1&pscdl=denied&rcb=10&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=11&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Ftools&scrsrc=www.googletagmanager.com&rnd=164109249.1790359239&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1&dma_",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 7,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=43142db4-7f81-4812-a925-5e799d56320c&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=a31a8a24-7413-4ec0-bb0b-92f3093c0d1b&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=43142db4-7f81-4812-a925-5e799d56320c&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=a31a8a24-7413-4ec0-bb0b-92f3093c0d",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/?id=825109945989286&ev=PageView&dl=https%3A%2F%2Fusesuperflow.ai%2Ftools&rl=&if=false&ts=1790359239672&iw=false&sw=1920&sh=1080&v=2.9.408&r=stable&ec=0&o=12318&aems=0%3B0&fbp=fb.1.1790359239637.73021950681165396&ler=empty&pmd[title]=Free%20Tools%20for%20Marketers%20and%20",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359239586%26li_adsId%3Ddf581d13-094c-40ce-a1ca-8034473109d3%26pageLoadId%3Dcae8885f-88db-4dbf-88a1-d3a65bed0957%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Ftoo",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "tool page",
+      "path": "/tools/utm-builder",
+      "url": "https://usesuperflow.ai/tools/utm-builder",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "_ga_HFXRYF6WF8",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_ga",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_gcl_au",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "_ga_NKFPRQTBQY",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "test_cookie",
+          "domain": ".doubleclick.net",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "_gcl_ls",
+        "li_adsId",
+        "AMP_SR_START_4b7ef064c6_1790359290479",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359279226&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=776176759.1790359279&frm=0&ngs=1&pscdl=noapi&rcb=7&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.google.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Google Ads (ccm / pagead)",
+          "category": "Marketing",
+          "sample": "https://www.google.com/ccm/collect?rcb=12&frm=0&apvc=1&ae=g&auid=937117134.1790359279&dt=UTM%20Builder%3A%20Free%20Campaign%20URL%20Generator%20%7C%20Superflow&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Ftools%2Futm-builder&scrsrc=www.googletagmanager.com&rnd=1110451278.1790359279&navt=n&npa=0&e",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "ad.doubleclick.net",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Ads / DoubleClick",
+          "category": "Marketing",
+          "sample": "https://ad.doubleclick.net/ccm/s/collect?auid=937117134.1790359279&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&fmt=8",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 2,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "googleads.g.doubleclick.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Ads / DoubleClick",
+          "category": "Marketing",
+          "sample": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11181152032/?random=1790359279656&cv=11&fst=1790359279656&bg=ffffff&guid=ON&async=1&gtm=45be69n1v9119564538z89115564320za200zb9257706511zd9257706511xeaxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938469~118897920~118897930",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "analytics.google.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://analytics.google.com/g/collect?v=2&tid=G-NKFPRQTBQY&gtm=45je69n1v894366666z89115564320za20gzb9115564320zd9115564320xf1&_p=1790359279226&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGA&are=1&cid=776176759.1790359279&frm=0&pscdl=noapi&rcb=15&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B1",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "stats.g.doubleclick.net",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Ads / DoubleClick",
+          "category": "Marketing",
+          "sample": "https://stats.g.doubleclick.net/g/collect?v=2&tid=G-NKFPRQTBQY&cid=776176759.1790359279&gtm=45je69n1v894366666z89115564320za20gzb9115564320zd9115564320xf1&rcb=15&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115616986~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=1f102638-0374-4e90-9bc9-d8189decbae2&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=b15d7ccf-d222-42fb-acf7-ce44fce31971&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=1f102638-0374-4e90-9bc9-d8189decbae2&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=b15d7ccf-d222-42fb-acf7-ce44fce319",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359280641%26li_adsId%3D5e460b81-a853-412f-81be-559bf5cd819c%26pageLoadId%3De980f73d-d9b9-4bda-957b-019d48c384b1%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Ftoo",
+          "types": [
+            "image"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "directory",
+      "path": "/directory",
+      "url": "https://usesuperflow.ai/directory",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE",
+        "AMP_SR_START_4b7ef064c6_1790359318869"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359316829&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1988901787.1790359317&frm=0&ngs=1&pscdl=denied&rcb=17&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 2,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=11&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fdirectory&scrsrc=www.googletagmanager.com&rnd=1182029752.1790359317&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=31f84db7-e015-4517-ac21-eab8c33afb40&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=9989c5ee-0b09-4ae8-adb9-c1b929580367&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=31f84db7-e015-4517-ac21-eab8c33afb40&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=9989c5ee-0b09-4ae8-adb9-c1b9295803",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 3,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/?id=825109945989286&ev=PageView&dl=https%3A%2F%2Fusesuperflow.ai%2Fdirectory&rl=&if=false&ts=1790359318140&iw=false&sw=1920&sh=1080&v=2.9.408&r=stable&ec=0&o=12318&aems=0%3B0&fbp=fb.1.1790359318110.862801247465625389&ler=empty&pmd[title]=Agency%20Directory%20%7C%20Superfl",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359317990%26li_adsId%3Dac9bf533-3f9f-4673-9058-fde27828f810%26pageLoadId%3Db7d1ff23-e2c2-482c-8454-32c0942d8a11%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fdir",
+          "types": [
+            "image"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "book demo (Calendly)",
+      "path": "/book-demo",
+      "url": "https://usesuperflow.ai/book-demo",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "m",
+          "domain": "m.stripe.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".calendly.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "_cfuvid",
+          "domain": ".calendly.com",
+          "firstParty": false,
+          "expires": "session"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "AMP_SR_START_4b7ef064c6_1790359332095",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 5,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "assets.calendly.com",
+          "count": 6,
+          "essential": false,
+          "tool": "Calendly embed",
+          "category": "Functional (click-to-load)",
+          "sample": "https://assets.calendly.com/assets/external/widget.js",
+          "types": [
+            "script",
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "calendly.com",
+          "count": 8,
+          "essential": false,
+          "tool": "Calendly embed",
+          "category": "Functional (click-to-load)",
+          "sample": "https://calendly.com/goyalrakesh/30min?embed_domain=usesuperflow.ai&embed_type=Inline&hide_gdpr_banner=1&background_color=ffffff&text_color=1e1e1f&primary_color=433df3&hide_event_type_details=1&hide_landing_page_details=1",
+          "types": [
+            "document",
+            "xhr"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359330565&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1342950522.1790359331&frm=0&ngs=1&pscdl=denied&rcb=17&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3",
+          "types": [
+            "fetch",
+            "script"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 3,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=5&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fbook-demo&scrsrc=www.googletagmanager.com&rnd=878434397.1790359331&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69o0h2v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 5,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=a99dd6c2-1679-4ea7-818b-2b782aefc2fd&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=dc101065-8857-4655-9495-6085d153e2fa&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=a99dd6c2-1679-4ea7-818b-2b782aefc2fd&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=dc101065-8857-4655-9495-6085d153e2",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 3,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/?id=825109945989286&ev=PageView&dl=https%3A%2F%2Fusesuperflow.ai%2Fbook-demo&rl=&if=false&ts=1790359331831&iw=false&sw=1920&sh=1080&v=2.9.408&r=stable&ec=0&o=12318&aems=0%3B0&fbp=fb.1.1790359331816.70833209147115078&ler=empty&pmd[title]=Book%20a%20Demo%3A%20See%20Superflo",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359331704%26li_adsId%3Dbe39f382-a5a9-4e1d-918a-b526d1d8f488%26pageLoadId%3D9a07ea0d-4b8d-494d-8244-78f8c79d3da1%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fboo",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "js.stripe.com",
+          "count": 3,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://js.stripe.com/v3",
+          "types": [
+            "script",
+            "document"
+          ]
+        },
+        {
+          "host": "cdn.segment.io",
+          "count": 11,
+          "essential": false,
+          "tool": "Segment",
+          "category": "Analytics",
+          "sample": "https://cdn.segment.io/analytics.js/v1/rfvnxd6wnn/analytics.min.js",
+          "types": [
+            "script",
+            "fetch"
+          ]
+        },
+        {
+          "host": "www.recaptcha.net",
+          "count": 3,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://www.recaptcha.net/recaptcha/enterprise.js?render=6LeAb4QUAAAAAOM9CNYSsvbnzWTByRAgm3GA5D4n",
+          "types": [
+            "script",
+            "document"
+          ]
+        },
+        {
+          "host": "notifier-configs.airbrake.io",
+          "count": 1,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://notifier-configs.airbrake.io/2020-06-18/config/648967/config.json?&notifier_name=airbrake-js%2Fbrowser&notifier_version=2.1.9&os=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F141.0.7390.37%20Safari%2F537.36&language=Ja",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "accounts.google.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Ads (ccm / pagead)",
+          "category": "Marketing",
+          "sample": "https://accounts.google.com/gsi/client",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "dfp.calendly.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Calendly embed",
+          "category": "Functional (click-to-load)",
+          "sample": "https://dfp.calendly.com/submit",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "www.gstatic.com",
+          "count": 5,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://www.gstatic.com/recaptcha/releases/kemdRjWFxNjgsGdhRslyEPwU/recaptcha__en.js",
+          "types": [
+            "script",
+            "stylesheet",
+            "image",
+            "other"
+          ]
+        },
+        {
+          "host": "m.stripe.network",
+          "count": 2,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://m.stripe.network/inner.html",
+          "types": [
+            "document",
+            "script"
+          ]
+        },
+        {
+          "host": "m.stripe.com",
+          "count": 2,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://m.stripe.com/6",
+          "types": [
+            "xhr"
+          ]
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2",
+          "types": [
+            "font"
+          ]
+        },
+        {
+          "host": "js.appboycdn.com",
+          "count": 1,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://js.appboycdn.com/web-sdk/5.9/braze.no-module.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.sprig.com",
+          "count": 2,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://cdn.sprig.com/shim.js?id=mJsBxzyJ95ws",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.sprig.com",
+          "count": 1,
+          "essential": false,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://api.sprig.com/sdk/1/environments/mJsBxzyJ95ws/config",
+          "types": [
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "none",
+      "name": "survey (Tally)",
+      "path": "/state-of-agency-tools",
+      "url": "https://usesuperflow.ai/state-of-agency-tools",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "AMP_SR_START_4b7ef064c6_1790359377402",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "tally.so",
+          "count": 29,
+          "essential": false,
+          "tool": "Tally form embed",
+          "category": "Functional (click-to-load)",
+          "sample": "https://tally.so/embed/ODqdPK?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+          "types": [
+            "document",
+            "font",
+            "stylesheet",
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2",
+          "types": [
+            "font"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359375923&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=910191430.1790359376&frm=0&ngs=1&pscdl=denied&rcb=0&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B1",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "o407628.ingest.us.sentry.io",
+          "count": 2,
+          "essential": false,
+          "tool": "Sentry (loaded inside the Tally iframe)",
+          "category": "Functional (click-to-load)",
+          "sample": "https://o407628.ingest.us.sentry.io/api/5277002/envelope/?sentry_version=7&sentry_key=c17ee4982b124541ae255c0c2f93d48f&sentry_client=sentry.javascript.nextjs%2F10.75.2",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 8,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=5&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fstate-of-agency-tools&scrsrc=www.googletagmanager.com&rnd=810251815.1790359377&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=4e5ccbc9-6fca-4726-acb5-cec4e74f021d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=d9a2df07-1112-4c2b-a9db-b40cbeda05a5&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=4e5ccbc9-6fca-4726-acb5-cec4e74f021d&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=d9a2df07-1112-4c2b-a9db-b40cbeda05",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "api.tally.so",
+          "count": 1,
+          "essential": false,
+          "tool": "Tally form embed",
+          "category": "Functional (click-to-load)",
+          "sample": "https://api.tally.so/forms/ODqdPK/events",
+          "types": [
+            "xhr"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/?id=825109945989286&ev=PageView&dl=https%3A%2F%2Fusesuperflow.ai%2Fstate-of-agency-tools&rl=&if=false&ts=1790359377123&iw=false&sw=1920&sh=1080&v=2.9.408&r=stable&ec=0&o=12318&aems=0%3B0&fbp=fb.1.1790359377107.37868359774002151&ler=empty&pmd[title]=State%20of%20Agency%20T",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359377613%26li_adsId%3Da6855e63-0e29-41f2-ba74-8e7da2deb3e1%26pageLoadId%3D8cf06535-a848-43dc-ade3-8302e35433e7%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252Fsta",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 3
+    },
+    {
+      "scenario": "none",
+      "name": "docs (Mintlify proxy)",
+      "path": "/docs",
+      "url": "https://usesuperflow.ai/docs",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [],
+      "localStorage": [],
+      "sessionStorage": [],
+      "gtagCallOrder": [],
+      "bannerVisible": false,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "mintcdn.com",
+          "count": 3,
+          "essential": true,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://mintcdn.com/superflow/hdb1NqEMmtSslllh/logo/logo-light.svg?fit=max&auto=format&n=hdb1NqEMmtSslllh&q=85&s=836e2ea45c954fbd3c8647fed153e2d0",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "d3gk2c5xim1je2.cloudfront.net",
+          "count": 26,
+          "essential": true,
+          "tool": "UNKNOWN",
+          "category": "UNKNOWN",
+          "sample": "https://d3gk2c5xim1je2.cloudfront.net/fontawesome/v7.2.0/regular/circle-play.svg",
+          "types": [
+            "image"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "decline",
+      "name": "home -> Decline -> /pricing",
+      "path": "/pricing",
+      "url": "https://usesuperflow.ai/pricing",
+      "declineClicked": true,
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "AMP_SR_START_4b7ef064c6_1790359436378",
+        "li_adsId",
+        "TERMLY_API_CACHE"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_ped",
+        "radar_sn_sh",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": false,
+      "gpc": null,
+      "hosts": [
+        {
+          "host": "api.claydar.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "ping",
+            "fetch"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 3,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/metrics",
+          "types": [
+            "ping",
+            "xhr"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359434812&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1426351647.1790359435&frm=0&ngs=1&pscdl=denied&rcb=19&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 8,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-t?device_id=93514eb6-ddb3-482d-bdca-6e8243e2ad9f&session_id=1790359436378&type=replay&api_key=4b7ef064c6a2dbf2c7ff5f99a1e6f87f",
+          "types": [
+            "ping",
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "www.google.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Ads (ccm / pagead)",
+          "category": "Marketing",
+          "sample": "https://www.google.com/g/collect?v=2&tid=G-NKFPRQTBQY&gtm=45je69n1v894366666za20gzb9115564320zd9115564320xf1&_p=1790359434812&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&_eu=AAAAAGA&are=1&cid=1426351647.1790359435&frm=0&pscdl=denied&rcb=13&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessC",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 4,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch",
+            "other"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=10&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2Fpricing&scrsrc=www.googletagmanager.com&rnd=903391975.1790359447&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1&dm",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/wa/?medium=fetch&fmt=g",
+          "types": [
+            "fetch",
+            "image"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=349a3d69-af8b-496b-ae79-ca106baf5ab8&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=c82e3b05-4192-4364-b849-3e139898702e&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=349a3d69-af8b-496b-ae79-ca106baf5ab8&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=c82e3b05-4192-4364-b849-3e13989870",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        }
+      ],
+      "attempts": 1
+    },
+    {
+      "scenario": "gpc",
+      "name": "home with GPC on",
+      "path": "/",
+      "url": "https://usesuperflow.ai/",
+      "status": 200,
+      "error": null,
+      "hydrated": true,
+      "cookies": [
+        {
+          "name": "csrf_token",
+          "domain": "usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "_twpid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "muc_ads",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_marketing",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id_ads",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "personalization_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "guest_id",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2027-10-30"
+        },
+        {
+          "name": "li_gp",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "li_sugr",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bcookie",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "lidc",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-26"
+        },
+        {
+          "name": "_fbp",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "UserMatchHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "AnalyticsSyncHistory",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-10-25"
+        },
+        {
+          "name": "fr",
+          "domain": ".facebook.com",
+          "firstParty": false,
+          "expires": "2026-12-24"
+        },
+        {
+          "name": "bscookie",
+          "domain": ".www.linkedin.com",
+          "firstParty": false,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "AMP_MKTG_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".linkedin.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "AMP_4b7ef064c6",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-09-25"
+        },
+        {
+          "name": "intercom-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "intercom-session-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2026-10-02"
+        },
+        {
+          "name": "intercom-device-id-gkjq60px",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-06-22"
+        },
+        {
+          "name": "_twsid",
+          "domain": ".usesuperflow.ai",
+          "firstParty": true,
+          "expires": "2027-10-20"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".t.co",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        },
+        {
+          "name": "__cf_bm",
+          "domain": ".twitter.com",
+          "firstParty": false,
+          "expires": "2026-09-25"
+        }
+      ],
+      "localStorage": [
+        "AMP_unsent_4b7ef064c6",
+        "sfToolbarVersion",
+        "AMP_remote_config_4b7ef064c6",
+        "lastExternalReferrerTime",
+        "intercom.intercom-state-gkjq60px",
+        "lastExternalReferrer",
+        "li_adsId",
+        "TERMLY_API_CACHE",
+        "AMP_SR_START_4b7ef064c6_1790359488370"
+      ],
+      "sessionStorage": [
+        "radar_sn_rs",
+        "radar_sn_sg",
+        "AMP_URL_INFO",
+        "claydar_device_id",
+        "claydar_session",
+        "radar_sn_sh",
+        "radar_sn_ped",
+        "radar_sn_de"
+      ],
+      "gtagCallOrder": [
+        "set:linker",
+        "js:",
+        "config:G-HFXRYF6WF8",
+        "config:AW-11181152032",
+        "set:developer_id.dNzg2MD",
+        "consent:default"
+      ],
+      "bannerVisible": true,
+      "gpc": true,
+      "hosts": [
+        {
+          "host": "r.wdfl.co",
+          "count": 1,
+          "essential": false,
+          "tool": "Rewardful (affiliate attribution)",
+          "category": "Marketing",
+          "sample": "https://r.wdfl.co/rw.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "www.googletagmanager.com",
+          "count": 4,
+          "essential": false,
+          "tool": "Google tag / GTM loader",
+          "category": "Analytics + Marketing",
+          "sample": "https://www.googletagmanager.com/gtag/js?id=G-HFXRYF6WF8",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 1,
+          "essential": false,
+          "tool": "Superflow toolbar (own product, served from Velt)",
+          "category": "Functional (decision needed)",
+          "sample": "https://cdn.velt.dev/lib/superflow.js?apiKey=aU1MxKP0rca2UXwKi8bl&projectId=8818554835635078",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "app.termly.io",
+          "count": 8,
+          "essential": true,
+          "tool": "Termly (consent banner)",
+          "category": "Necessary",
+          "sample": "https://app.termly.io/resource-blocker/2bc67d1d-a9a0-4aab-8562-dcd9c354bff2?autoBlock=off",
+          "types": [
+            "script",
+            "xhr"
+          ]
+        },
+        {
+          "host": "static.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://static.claydar.com/init.v1.js?id=cgBo1m1XAw",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "ddwl4m2hdecbv.cloudfront.net",
+          "count": 1,
+          "essential": false,
+          "tool": "RB2B (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://ddwl4m2hdecbv.cloudfront.net/b/Q6J2RH2WVE6D/Q6J2RH2WVE6D.js.gz",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "sr-client-cfg.amplitude.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://sr-client-cfg.amplitude.com/config/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.claydar.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://cdn.claydar.com/releases/latest/radar.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "fonts.googleapis.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Google Fonts (requested by the Superflow toolbar / Tally)",
+          "category": "Functional (self-host or gate)",
+          "sample": "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "types": [
+            "stylesheet"
+          ]
+        },
+        {
+          "host": "www.google-analytics.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Google Analytics 4",
+          "category": "Analytics",
+          "sample": "https://www.google-analytics.com/g/collect?v=2&tid=G-HFXRYF6WF8&gtm=45je69n1v9257706511za200zd9257706511xf1&_p=1790359486693&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dNzg2MD&are=1&cid=1002157699.1790359487&frm=0&ngs=1&pscdl=denied&rcb=15&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "static.ads-twitter.com",
+          "count": 1,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://static.ads-twitter.com/uwt.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "snap.licdn.com",
+          "count": 2,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "connect.facebook.net",
+          "count": 2,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://connect.facebook.net/en_US/fbevents.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "pagead2.googlesyndication.com",
+          "count": 3,
+          "essential": false,
+          "tool": "Google Ads",
+          "category": "Marketing",
+          "sample": "https://pagead2.googlesyndication.com/ccm/collect?rcb=5&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fusesuperflow.ai%2F&scrsrc=www.googletagmanager.com&rnd=2107894531.1790359487&navt=n&npa=1&ep.ads_data_redaction=0&gtm=45He69n1h1v9115564320za200zd9115564320xeaxf1&gcs=G100&gcd=13p3p3p3p5l1&dma_cps",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "api.claydar.com",
+          "count": 2,
+          "essential": false,
+          "tool": "Claydar / Clay web intent (visitor deanonymizer)",
+          "category": "Marketing",
+          "sample": "https://api.claydar.com/tracker/event",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "cdn.velt.dev",
+          "count": 7,
+          "essential": false,
+          "tool": "Amplitude (analytics + session replay)",
+          "category": "Analytics",
+          "sample": "https://cdn.velt.dev/am-sr-c/4b7ef064c6a2dbf2c7ff5f99a1e6f87f?config_group=browser",
+          "types": [
+            "fetch"
+          ]
+        },
+        {
+          "host": "t.co",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://t.co/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=0ed193a2-7872-43f6-98cc-b3d94511d730&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=25ea8c7d-387d-4448-8bb2-5d0ac9426181&tw_ch_fvl=Head",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "analytics.twitter.com",
+          "count": 2,
+          "essential": false,
+          "tool": "X pixel",
+          "category": "Marketing",
+          "sample": "https://analytics.twitter.com/1/i/adsct?bci=4&dv=UTC%26en-US%40posix%26Google%20Inc.%26Linux%20x86_64%26255%261920%261080%264%2624%261920%261080%260%26na&eci=3&event=%7B%7D&event_id=0ed193a2-7872-43f6-98cc-b3d94511d730&integration=gtm&p_id=Twitter&p_user_id=0&pl_id=25ea8c7d-387d-4448-8bb2-5d0ac94261",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "px.ads.linkedin.com",
+          "count": 4,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=4956052&time=1790359487552&li_adsId=4e79a041-c7ad-40a9-976b-3a87b7ee00b3&pageLoadId=ae6832b8-5711-425c-aa98-bf8499b94fbc&url=https%3A%2F%2Fusesuperflow.ai%2F&tm=gtmv2",
+          "types": [
+            "image",
+            "fetch"
+          ]
+        },
+        {
+          "host": "www.facebook.com",
+          "count": 1,
+          "essential": false,
+          "tool": "Meta pixel",
+          "category": "Marketing",
+          "sample": "https://www.facebook.com/tr/",
+          "types": [
+            "ping"
+          ]
+        },
+        {
+          "host": "www.linkedin.com",
+          "count": 1,
+          "essential": false,
+          "tool": "LinkedIn Insight",
+          "category": "Marketing",
+          "sample": "https://www.linkedin.com/px/li_sync?redirect=https%3A%2F%2Fpx.ads.linkedin.com%2Fcollect%3Fv%3D2%26fmt%3Djs%26pid%3D4956052%26time%3D1790359487552%26li_adsId%3D4e79a041-c7ad-40a9-976b-3a87b7ee00b3%26pageLoadId%3Dae6832b8-5711-425c-aa98-bf8499b94fbc%26url%3Dhttps%253A%252F%252Fusesuperflow.ai%252F%26",
+          "types": [
+            "image"
+          ]
+        },
+        {
+          "host": "widget.intercom.io",
+          "count": 1,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://widget.intercom.io/widget/gkjq60px",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "js.intercomcdn.com",
+          "count": 7,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://js.intercomcdn.com/frame-modern.ab10dc4b.js",
+          "types": [
+            "script"
+          ]
+        },
+        {
+          "host": "api-iam.intercom.io",
+          "count": 4,
+          "essential": false,
+          "tool": "Intercom (chat)",
+          "category": "Functional (load on click)",
+          "sample": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+          "types": [
+            "xhr",
+            "fetch"
+          ]
+        }
+      ],
+      "attempts": 2
+    }
+  ]
+}
