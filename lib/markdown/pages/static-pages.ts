@@ -22,6 +22,20 @@ import {
 import { SITE_URL } from "@/app/_seo/schema";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
+import {
+  BENCHMARK_BUCKETS,
+  CITATION,
+  CONTENTS,
+  DATA_SOURCE_LINE,
+  DATA_STRIP,
+  FAQ as QA_REPORT_FAQ,
+  FINDINGS,
+  METHODOLOGY,
+  REPORT_PATH as QA_REPORT_PATH,
+  REPORT_SUBTITLE as QA_REPORT_SUBTITLE,
+  REPORT_TITLE as QA_REPORT_TITLE,
+  findingAnchor,
+} from "@/lib/website-qa-report/report";
 
 /** The homepage, published at /index.md. */
 function homeDoc(): AgentDoc {
@@ -329,6 +343,61 @@ function toolsHubDoc(): AgentDoc {
   };
 }
 
+/**
+ * /state-of-website-qa - the report page. Every figure is read from the same
+ * module the page renders, so the copy cannot quote a number the page does not.
+ */
+function websiteQaReportDoc(): AgentDoc {
+  return {
+    title: QA_REPORT_TITLE,
+    summary: `${QA_REPORT_SUBTITLE} An industry report built from real website review data, not a survey.`,
+    path: QA_REPORT_PATH,
+    kind: "Research report",
+    facts: [
+      { label: "Publisher", value: "Superflow" },
+      { label: "Review comments and replies", value: DATA_STRIP[0].value },
+      { label: "Pages reviewed", value: DATA_STRIP[1].value },
+      { label: "Agency teams", value: DATA_STRIP[2].value },
+      { label: "Period", value: "2022 to 2026" },
+      { label: "Format", value: "12-page PDF, about a 5-minute read" },
+      { label: "Cost", value: "Free. The PDF is sent in exchange for an email address." },
+    ],
+    sections: [
+      {
+        heading: "Key findings",
+        body: [
+          "These are published on the page without an email. Each has its own anchor, for linking.",
+        ],
+        bullets: FINDINGS.map(
+          (finding) =>
+            `**${finding.headline}** ${finding.meaning} (${SITE_URL}${QA_REPORT_PATH}#${findingAnchor(finding.n)})`,
+        ),
+      },
+      {
+        heading: "Review rounds before launch",
+        table: {
+          headers: ["Rounds", "Share of sites"],
+          rows: BENCHMARK_BUCKETS.map((bucket) => [`${bucket.label} rounds`, `${bucket.share}%`]),
+        },
+      },
+      {
+        heading: "Inside the report",
+        steps: [...CONTENTS],
+      },
+      {
+        heading: "Methodology",
+        body: [DATA_SOURCE_LINE],
+        bullets: METHODOLOGY.map((row) => `**${row.term}.** ${row.detail}`),
+      },
+      {
+        heading: "Citing it",
+        body: [`Please cite and link back: ${CITATION}`],
+      },
+    ],
+    faq: QA_REPORT_FAQ.map((item) => ({ question: item.question, answer: item.answer })),
+  };
+}
+
 /** /state-of-agency-tools - the survey, and the report it produces. */
 function surveyDoc(): AgentDoc {
   return {
@@ -412,4 +481,5 @@ export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/tools": toolsHubDoc,
   "/state-of-agency-tools": surveyDoc,
   "/state-of-agency-tools/report": surveyReportDoc,
+  [QA_REPORT_PATH]: websiteQaReportDoc,
 };

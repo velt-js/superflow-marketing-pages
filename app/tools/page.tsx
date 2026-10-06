@@ -5,6 +5,7 @@ import ListingHero from "@/components/listing-2026/ListingHero";
 import styles from "@/components/tools/Tools.module.css";
 import ToolsExplorer from "@/components/tools/ToolsExplorer";
 import { CodeBlock } from "@/components/tools/CodeBlock";
+import { ReportPromo } from "@/components/website-qa-report-2026/ReportPromo";
 import { MCP_PATH } from "@/lib/tools/api-catalog";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { toolOgImage } from "@/app/_seo/og-images";
@@ -102,6 +103,14 @@ export default function ToolsIndexPage() {
             tools={orderedTools()}
             categoryOrder={CATEGORY_ORDER}
           />
+        </div>
+      </section>
+
+      {/* The free tools are where agency people already arrive; the report
+          is the research they would read next. */}
+      <section className={styles.section} aria-label="Research">
+        <div className={`${styles.sectionInner} ${styles.sectionInnerWide}`}>
+          <ReportPromo source="tools" />
         </div>
       </section>
 
