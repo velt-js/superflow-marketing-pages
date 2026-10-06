@@ -102,6 +102,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Case Study", href: "/case-study/writesonic" },
       { label: "SEO Checklist", href: "/seo-checklist-2023" },
       { label: "ROI Calculator", href: "/calculator", paid: true },
+      { label: "State of Website QA 2026", href: "/state-of-website-qa" },
       { label: "Agency Tools Survey", href: "/state-of-agency-tools" },
       { label: "Agency Directory", href: DIRECTORY_BASE_PATH },
       { label: "YouTube", href: "https://www.youtube.com/@usesuperflow" },

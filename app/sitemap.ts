@@ -113,6 +113,7 @@ const STATIC_PATHS = [
   // until real results replace the sample data - see
   // app/state-of-agency-tools/README.md.
   "/state-of-agency-tools",
+  "/state-of-website-qa",
   "/terms",
   "/tools",
   // The MCP and API reference for the tools. Not in the tool registry (it is
