@@ -258,6 +258,13 @@ const nextConfig: NextConfig = {
         destination: "/security",
         permanent: true,
       },
+      // The conference page lives in the app. Temporary so the marketing
+      // site can take the path back without browsers holding a cached 308.
+      {
+        source: "/conf",
+        destination: "https://app.usesuperflow.com/conf",
+        permanent: false,
+      },
       // The MD5 endpoint moved from beside its page to where the other tool
       // endpoints live. `permanent` emits a 308, which — unlike a 301/302 —
       // preserves the method and the body, so a script that POSTs to the old
