@@ -857,94 +857,6 @@
   color: var(--hero-accent-blue);
 }
 
-/* Single-line marquee: the track holds two identical logo sets and scrolls
-   left forever, translating by exactly half its width so the loop is seamless.
-   The container clips the overflow and fades both edges. */
-.logoCarousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 6%,
-    #000 94%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 6%,
-    #000 94%,
-    transparent
-  );
-}
-
-.logoTrack {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  animation: logoMarquee 34s linear infinite;
-}
-
-.logoCarousel:hover .logoTrack {
-  animation-play-state: paused;
-}
-
-.logoItem {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 26px;
-}
-
-@keyframes logoMarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Motion-averse users get a static, centered, wrapping row (no clones). */
-@media (prefers-reduced-motion: reduce) {
-  .logoCarousel {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .logoTrack {
-    animation: none;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    row-gap: 24px;
-  }
-
-  .logoItem[aria-hidden="true"] {
-    display: none;
-  }
-}
-
-/* Real customer logos carried over from the previous homepage. The source
-   PNGs are white marks on transparent backgrounds, so `brightness(0)` inverts
-   them to solid black and the reduced opacity yields the muted gray tone a
-   trust bar reads best with. Height is normalized so mixed logo aspect ratios
-   line up on a common baseline. */
-.logoImage {
-  width: auto;
-  height: 26px;
-  object-fit: contain;
-  opacity: 0.5;
-  filter: brightness(0);
-  transition: opacity 0.15s ease;
-}
-
-.logoImage:hover {
-  opacity: 0.72;
-}
-
 /* ------------------------------------------------------------ Responsive */
 
 @media (max-width: 1080px) {
@@ -1041,13 +953,5 @@
 
   .rail {
     flex-direction: row;
-  }
-
-  .logoImage {
-    height: 22px;
-  }
-
-  .logoItem {
-    padding: 0 18px;
   }
 }

@@ -4,6 +4,7 @@ import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
 import IntercomButton from "@/components/home/IntercomButton";
 import ListingHero from "@/components/listing-2026/ListingHero";
 import CaseStudyGrid from "./CaseStudyGrid";
+import CaseStudyLogos from "./CaseStudyLogos";
 import type { CaseStudyListItem } from "@/sanity/lib/queries";
 
 /** Props for {@link CaseStudyListingPage}. */
@@ -18,9 +19,9 @@ export interface CaseStudyListingPageProps {
 
 /**
  * 2026-styled `/case-study` index page: the shared `SiteNav`/`SiteFooter`
- * chrome around the compact gradient `ListingHero`, a dedicated logo-led
- * case-study card grid, and the homepage's testimonials section for social
- * proof. Replaces the old dark `components/listing/ListingPage` composition,
+ * chrome around the compact gradient `ListingHero`, the shared customer logo
+ * carousel, a dedicated logo-led case-study card grid, and the homepage's
+ * testimonials section for social proof. Replaces the old dark `components/listing/ListingPage` composition,
  * which is left in place untouched.
  *
  * @param props - Hero copy and the case-study list items.
@@ -34,6 +35,7 @@ export default function CaseStudyListingPage({
     <main>
       <SiteNav />
       <ListingHero heading={heading} subheading={subheading} />
+      <CaseStudyLogos />
       <CaseStudyGrid items={items ?? []} />
       <TestimonialsSection />
       <SiteFooter />
