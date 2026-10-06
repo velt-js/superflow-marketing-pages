@@ -5,14 +5,16 @@ import styles from "./Hero.module.css";
 import { CheckIcon, ChevronDownIcon } from "./HeroIcons";
 
 /**
- * The four fixed QA agents shown in the hero. All are always on and not
+ * The fixed QA agents shown in the hero. All are always on and not
  * togglable — the list is purely informative.
  */
 const AGENT_LABELS: readonly string[] = [
-  "Accessibility",
-  "Broken Links",
-  "Spell Check",
-  "OG Image Checker",
+  "Link Checker",
+  "Proofreader",
+  "Mobile Inspector",
+  "Image Inspector",
+  "Consistency Checker",
+  "AI Visibility (AEO)",
 ];
 
 const TITLE_TAIL = " Agents will run";
@@ -20,7 +22,7 @@ const TITLE_TAIL = " Agents will run";
 /**
  * Expandable "agents" card shown beside the hero URL input.
  *
- * Purely presentational: the header only shows/hides the fixed list of four
+ * Purely presentational: the header only shows/hides the fixed list of
  * agents. The agents themselves are always selected and cannot be toggled.
  */
 export default function HeroChecksDropdown() {
