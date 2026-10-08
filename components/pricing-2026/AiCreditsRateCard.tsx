@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 import {
+  BULK_SITE_PLAN,
   CREDIT_PACKS,
   CREDIT_UNIT_PRICE_USD,
   BILLING_RATE_USD,
@@ -44,6 +45,37 @@ const PACK_NOTES = [
   `Every new workspace starts with ${SIGNUP_BONUS_CREDITS} bonus credits: your first full scan is free, at any site size.`,
   "Pack credits roll over month to month. Auto-refill tops you up $10 at a time, and you can switch it off.",
 ];
+
+/**
+ * Bulk pricing card: the flat per-site rate that swaps credits for
+ * unlimited reviews and monitoring on that site.
+ */
+function BulkPricingCard() {
+  try {
+    return (
+      <div className={styles.bulkCard} data-card="bulk-pricing">
+        <div className={styles.bulkIntro}>
+          <p className={styles.cardTitle}>{BULK_SITE_PLAN.name}</p>
+          <p className={styles.bulkSummary}>{BULK_SITE_PLAN.summary}</p>
+        </div>
+        <ul className={styles.bulkIncludes}>
+          {BULK_SITE_PLAN.includes.map((item) => (
+            <li key={item} className={styles.packNote}>
+              <RateCardCheckIcon />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p className={styles.bulkPrice}>
+          <span className={styles.bulkAmount}>${BULK_SITE_PLAN.priceUsd}</span>
+          <span className={styles.bulkUnit}>/ mo per site</span>
+        </p>
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
 
 /** Tabler "check" glyph, matching the tier cards' bullet treatment. */
 function RateCardCheckIcon() {
@@ -210,6 +242,8 @@ export default function AiCreditsRateCard() {
               </p>
             </div>
           </div>
+
+          <BulkPricingCard />
         </div>
       </section>
     );

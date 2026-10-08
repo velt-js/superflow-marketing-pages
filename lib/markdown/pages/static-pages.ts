@@ -13,6 +13,8 @@ import type { AgentDoc } from "../types";
 import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
+  BULK_SITE_PLAN,
+  BULK_SITE_PRICE_LABEL,
   CREDIT_PACKS,
   RESCAN_NEW_SCAN_THRESHOLD,
   SCAN_RATE_CARD,
@@ -118,6 +120,7 @@ function pricingDoc(): AgentDoc {
       { label: "Signup bonus", value: `${SIGNUP_BONUS_CREDITS} AI credits` },
       { label: "Client seats needed", value: "None. Clients review over a link." },
       { label: "Typical project cost", value: `About ${TYPICAL_PROJECT_CREDITS} credits` },
+      { label: "Bulk pricing", value: `${BULK_SITE_PRICE_LABEL}, unlimited reviews and monitoring` },
     ],
     sections: [
       {
@@ -140,6 +143,13 @@ function pricingDoc(): AgentDoc {
         heading: "Credit packs",
         body: ["Packs roll over month to month."],
         table: { headers: ["Pack", "Price", "Unit price"], rows: packRows },
+      },
+      {
+        heading: "Bulk pricing",
+        body: [
+          `${BULK_SITE_PRICE_LABEL}: ${BULK_SITE_PLAN.summary}`,
+        ],
+        bullets: BULK_SITE_PLAN.includes,
       },
     ],
   };

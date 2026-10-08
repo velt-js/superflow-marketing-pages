@@ -359,11 +359,76 @@
     outline-offset: 2px;
 }
 
+/* --- Bulk pricing --------------------------------------------------------- */
+
+/* Full-width strip under the two cards: pitch, what it covers, price. */
+.bulkCard {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+    padding: 24px 28px;
+    border: 1px solid rgba(67, 61, 243, 0.22);
+    border-radius: 20px;
+    background: rgba(67, 61, 243, 0.05);
+}
+
+.bulkIntro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bulkSummary {
+    margin: 0;
+    font-family: var(--rc-body);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--rc-muted);
+}
+
+.bulkIncludes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bulkPrice {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.bulkAmount {
+    font-family: var(--rc-serif);
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    color: var(--rc-ink);
+}
+
+.bulkUnit {
+    font-family: var(--rc-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rc-accent);
+}
+
 /* --- Responsive ----------------------------------------------------------- */
 
 @media (max-width: 900px) {
-    .grid {
+    .grid,
+    .bulkCard {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bulkCard {
+        gap: 16px;
     }
 }
 
@@ -383,7 +448,8 @@
     }
 
     .rateCard,
-    .packsCard {
+    .packsCard,
+    .bulkCard {
         padding: 22px;
     }
 

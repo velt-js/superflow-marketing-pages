@@ -16,6 +16,8 @@ import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
+  BULK_SITE_PLAN,
+  BULK_SITE_PRICE_LABEL,
   CREDIT_PACKS,
   CREDIT_UNIT_PRICE_USD,
   SCAN_RATE_CARD,
@@ -165,6 +167,8 @@ ${scans}
 A typical project is one medium-site scan plus four rescans: ${TYPICAL_PROJECT_CREDITS} credits. Included credits reset each billing cycle. Every new workspace gets a one-time signup bonus of ${SIGNUP_BONUS_CREDITS} credits, enough for one full scan at any size. One-time add-on packs top up any plan and roll over month to month, and auto-refill tops up $10 at a time:
 
 ${packs}
+
+Bulk pricing: ${BULK_SITE_PRICE_LABEL}. ${BULK_SITE_PLAN.summary} Covers: ${BULK_SITE_PLAN.includes.join("; ")}.
 `;
 }
 

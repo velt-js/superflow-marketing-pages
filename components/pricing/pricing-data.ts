@@ -17,6 +17,7 @@ import {
   type ScanScope,
   SIGNUP_BONUS_CREDITS,
   CREDIT_PACKS,
+  BULK_SITE_PLAN,
   getCreditsPriceLabel,
 } from "@/components/pricing-2026/ai-credits-data";
 
@@ -325,6 +326,16 @@ export const SECTIONS: Section[] = [
         label: "Auto-Refill",
         sublabel: "Top up $10 at a time, on by default",
         values: [check, check, check, check],
+      },
+      {
+        label: "Bulk Pricing",
+        sublabel: "Unlimited reviews and monitoring, no credits",
+        values: [
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+        ],
       },
     ],
   },

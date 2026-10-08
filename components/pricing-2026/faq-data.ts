@@ -6,6 +6,7 @@
 // one source of truth for both.
 
 import type { FaqItem } from "@/components/home-2026/faq-data";
+import { BULK_SITE_PLAN } from "./ai-credits-data";
 
 export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
@@ -52,6 +53,11 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
     question: "What happens when I run out of AI credits?",
     answer:
       "You can top up with a one-time add-on pack at any time: $10 buys 25 credits, $25 buys 70 credits, and $49 buys 145 credits. Bigger packs cost less per credit, pack credits roll over month to month until you use them, and auto-refill can top you up $10 at a time so a run never stalls. You can switch auto-refill off.",
+  },
+  {
+    question: "Is there a flat rate instead of credits?",
+    answer:
+      `Yes. Bulk pricing is $${BULK_SITE_PLAN.priceUsd} per site per month for unlimited reviews and monitoring on that site: unlimited scans and rescans at any site size, with every agent on every run, and no credits to count. It suits agencies maintaining a portfolio of sites that are reviewed and monitored continuously.`,
   },
   {
     question: "Does Superflow offer a free plan?",
