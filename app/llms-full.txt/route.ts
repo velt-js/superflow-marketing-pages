@@ -160,15 +160,15 @@ Superflow is priced per seat with a free 10-day trial. Guest users are free and 
 
 ${plans}
 
-AI agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
+AI agents default to bulk pricing: ${BULK_SITE_PRICE_LABEL}. ${BULK_SITE_PLAN.summary} Covers: ${BULK_SITE_PLAN.includes.join("; ")}.
+
+Customers can switch to à la carte instead, where agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
 
 ${scans}
 
 A typical project is one medium-site scan plus four rescans: ${TYPICAL_PROJECT_CREDITS} credits. Included credits reset each billing cycle. Every new workspace gets a one-time signup bonus of ${SIGNUP_BONUS_CREDITS} credits, enough for one full scan at any size. One-time add-on packs top up any plan and roll over month to month, and auto-refill tops up $10 at a time:
 
 ${packs}
-
-Bulk pricing: ${BULK_SITE_PRICE_LABEL}. ${BULK_SITE_PLAN.summary} Covers: ${BULK_SITE_PLAN.includes.join("; ")}.
 `;
 }
 

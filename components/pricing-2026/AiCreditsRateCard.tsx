@@ -1,7 +1,10 @@
-// AI credits rate card section on /pricing — the scan price list (v4),
-// sitting between the tier cards and the feature comparison table.
+// AI pricing section on /pricing, between the tier cards and the feature
+// comparison table. Two ways to pay for agents, behind a switch:
+// bulk pricing (flat per site, the default) and à la carte credits (the
+// scan price list, v4, plus one-time packs).
 //
-// Server component: every figure comes from
+// Server component: both panels render here and AiPricingModeSwitch only
+// toggles which is visible. Every figure comes from
 // components/pricing-2026/ai-credits-data.ts, so the section, the tier
 // chips, the comparison table and /llms-full.txt all quote one rate card.
 // The gated 1,000-credit prepay pack is deliberately not shown here — it
@@ -22,11 +25,14 @@ import {
   getPerCreditLabel,
   getProjectsLabel,
 } from "./ai-credits-data";
+import AiPricingModeSwitch from "./AiPricingModeSwitch";
 import styles from "./AiCreditsRateCard.module.css";
 
-const HEADING = "AI credits, priced like the work";
-const LEDE =
-  "One credit is $0.40. A scan checks your whole site with every agent — no per-agent multiplier, no per-page math, no token talk. A rescan is 1 credit, always: only the pages that changed get reviewed.";
+const HEADING = "AI agents, one flat rate per site";
+const LEDE = `$${BULK_SITE_PLAN.priceUsd} a month per site covers unlimited reviews and monitoring, with every agent on every run. Prefer to pay per scan? Switch to à la carte and buy credits instead.`;
+
+/** Lede for the à la carte panel: how credits work. */
+const ALA_CARTE_LEDE = `One credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}. A scan checks your whole site with every agent — no per-agent multiplier, no per-page math, no token talk. A rescan is 1 credit, always: only the pages that changed get reviewed.`;
 
 /** Worked example under the rate card, built from the same numbers: the
  *  credit cost of a project next to the hours — and the billable value of
@@ -128,10 +134,10 @@ function RateCardRow({ scope }: { scope: (typeof SCAN_RATE_CARD)[number] }) {
 }
 
 /**
- * The AI credits rate card: the scan price list, a worked project
- * example, and the one-time top-up packs. Static content — safe to
- * render inside the page's BillingProvider without becoming a client
- * component, since pack prices don't move with the billing period.
+ * The AI pricing section: bulk pricing by default, and à la carte (the
+ * scan price list, a worked project example, and the one-time top-up
+ * packs) behind the switch. Prices don't move with the billing period, so
+ * the section reads nothing from the page's BillingProvider.
  */
 export default function AiCreditsRateCard() {
   try {
@@ -145,105 +151,112 @@ export default function AiCreditsRateCard() {
             <p className={styles.lede}>{LEDE}</p>
           </div>
 
-          <div className={styles.grid}>
-            <div className={styles.rateCard}>
-              <div className={styles.cardHead}>
-                <p className={styles.cardTitle}>What a scan costs</p>
-                <p className={styles.cardUnit}>
-                  1 credit = ${CREDIT_UNIT_PRICE_USD.toFixed(2)}
-                </p>
-              </div>
-              <ul className={styles.rateList}>
-                {SCAN_RATE_CARD.map((scope) => (
-                  <RateCardRow key={scope.id} scope={scope} />
-                ))}
-              </ul>
-              <div className={styles.example}>
-                <p className={styles.exampleTitle}>{EXAMPLE_TITLE}</p>
-                <p className={styles.exampleBody}>{EXAMPLE_BODY}</p>
-                <dl className={styles.compare}>
-                  <div className={styles.compareRow}>
-                    <dt className={styles.compareLabel}>
-                      {EXAMPLE_AGENT_LABEL}
-                    </dt>
-                    <dd className={styles.compareValue}>
-                      <span className={styles.compareFigure}>
-                        {TYPICAL_PROJECT_CREDITS} credits
-                      </span>
-                      {exampleCost ? (
-                        <span className={styles.compareNote}>
-                          about {exampleCost}
-                        </span>
-                      ) : null}
-                    </dd>
+          <AiPricingModeSwitch
+            bulkHint={`$${BULK_SITE_PLAN.priceUsd}/site`}
+            bulk={<BulkPricingCard />}
+            alaCarte={
+              <div className={styles.alaCarte}>
+                <p className={styles.panelLede}>{ALA_CARTE_LEDE}</p>
+                <div className={styles.grid}>
+                  <div className={styles.rateCard}>
+                    <div className={styles.cardHead}>
+                      <p className={styles.cardTitle}>What a scan costs</p>
+                      <p className={styles.cardUnit}>
+                        1 credit = ${CREDIT_UNIT_PRICE_USD.toFixed(2)}
+                      </p>
+                    </div>
+                    <ul className={styles.rateList}>
+                      {SCAN_RATE_CARD.map((scope) => (
+                        <RateCardRow key={scope.id} scope={scope} />
+                      ))}
+                    </ul>
+                    <div className={styles.example}>
+                      <p className={styles.exampleTitle}>{EXAMPLE_TITLE}</p>
+                      <p className={styles.exampleBody}>{EXAMPLE_BODY}</p>
+                      <dl className={styles.compare}>
+                        <div className={styles.compareRow}>
+                          <dt className={styles.compareLabel}>
+                            {EXAMPLE_AGENT_LABEL}
+                          </dt>
+                          <dd className={styles.compareValue}>
+                            <span className={styles.compareFigure}>
+                              {TYPICAL_PROJECT_CREDITS} credits
+                            </span>
+                            {exampleCost ? (
+                              <span className={styles.compareNote}>
+                                about {exampleCost}
+                              </span>
+                            ) : null}
+                          </dd>
+                        </div>
+                        <div className={styles.compareRow}>
+                          <dt className={styles.compareLabel}>
+                            {EXAMPLE_MANUAL_LABEL}
+                          </dt>
+                          <dd className={styles.compareValue}>
+                            <span
+                              className={`${styles.compareFigure} ${styles.compareManual}`}
+                            >
+                              {MANUAL_PASS_HOURS_LABEL}
+                            </span>
+                            <span className={styles.compareNote}>
+                              {EXAMPLE_MANUAL_NOTE}
+                            </span>
+                          </dd>
+                        </div>
+                      </dl>
+                      <p className={styles.exampleFootnote}>
+                        Hours valued as billable time at ${BILLING_RATE_USD}/hr, the
+                        mid preset in our{" "}
+                        <Link className={styles.exampleLink} href="/calculator">
+                          ROI calculator
+                        </Link>
+                        . Agents take the mechanical pass; your team keeps the
+                        judgment calls.
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.compareRow}>
-                    <dt className={styles.compareLabel}>
-                      {EXAMPLE_MANUAL_LABEL}
-                    </dt>
-                    <dd className={styles.compareValue}>
-                      <span
-                        className={`${styles.compareFigure} ${styles.compareManual}`}
-                      >
-                        {MANUAL_PASS_HOURS_LABEL}
-                      </span>
-                      <span className={styles.compareNote}>
-                        {EXAMPLE_MANUAL_NOTE}
-                      </span>
-                    </dd>
+
+                  <div className={styles.packsCard}>
+                    <div className={styles.cardHead}>
+                      <p className={styles.cardTitle}>Need more credits</p>
+                      <p className={styles.cardUnit}>One-time packs</p>
+                    </div>
+                    <ul className={styles.packList}>
+                      {CREDIT_PACKS.map((pack) => (
+                        <li key={pack.id} className={styles.packRow}>
+                          <span className={styles.packLabel}>
+                            <span className={styles.packCredits}>
+                              {pack.credits.toLocaleString("en-US")} credits
+                            </span>
+                            <span className={styles.packSub}>
+                              {getProjectsLabel(pack.credits)} · {getPerCreditLabel(pack)}
+                            </span>
+                          </span>
+                          <span className={styles.packPrice}>${pack.priceUsd}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className={styles.packNotes}>
+                      {PACK_NOTES.map((note) => (
+                        <li key={note} className={styles.packNote}>
+                          <RateCardCheckIcon />
+                          <span>{note}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className={styles.packFooter}>
+                      Running more than a few hundred dollars of credits a month?{" "}
+                      <Link className={styles.packLink} href="/book-demo">
+                        Talk to us about Enterprise
+                      </Link>
+                      .
+                    </p>
                   </div>
-                </dl>
-                <p className={styles.exampleFootnote}>
-                  Hours valued as billable time at ${BILLING_RATE_USD}/hr, the
-                  mid preset in our{" "}
-                  <Link className={styles.exampleLink} href="/calculator">
-                    ROI calculator
-                  </Link>
-                  . Agents take the mechanical pass; your team keeps the
-                  judgment calls.
-                </p>
+                </div>
               </div>
-            </div>
-
-            <div className={styles.packsCard}>
-              <div className={styles.cardHead}>
-                <p className={styles.cardTitle}>Need more credits</p>
-                <p className={styles.cardUnit}>One-time packs</p>
-              </div>
-              <ul className={styles.packList}>
-                {CREDIT_PACKS.map((pack) => (
-                  <li key={pack.id} className={styles.packRow}>
-                    <span className={styles.packLabel}>
-                      <span className={styles.packCredits}>
-                        {pack.credits.toLocaleString("en-US")} credits
-                      </span>
-                      <span className={styles.packSub}>
-                        {getProjectsLabel(pack.credits)} · {getPerCreditLabel(pack)}
-                      </span>
-                    </span>
-                    <span className={styles.packPrice}>${pack.priceUsd}</span>
-                  </li>
-                ))}
-              </ul>
-              <ul className={styles.packNotes}>
-                {PACK_NOTES.map((note) => (
-                  <li key={note} className={styles.packNote}>
-                    <RateCardCheckIcon />
-                    <span>{note}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className={styles.packFooter}>
-                Running more than a few hundred dollars of credits a month?{" "}
-                <Link className={styles.packLink} href="/book-demo">
-                  Talk to us about Enterprise
-                </Link>
-                .
-              </p>
-            </div>
-          </div>
-
-          <BulkPricingCard />
+            }
+          />
         </div>
       </section>
     );

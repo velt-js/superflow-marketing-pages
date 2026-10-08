@@ -45,7 +45,10 @@ function homeDoc(): AgentDoc {
       },
       { label: "Client accounts required", value: "No. Clients review over a link." },
       { label: "Free tier", value: "Yes. Starter is $0 and the trial needs no card." },
-      { label: "Pricing model", value: "Per seat, plus AI credits priced per scan" },
+      {
+        label: "Pricing model",
+        value: `Per seat, plus AI at ${BULK_SITE_PRICE_LABEL} or à la carte credits per scan`,
+      },
     ],
     sections: [
       {
@@ -110,7 +113,7 @@ function pricingDoc(): AgentDoc {
   return {
     title: "Superflow pricing",
     summary:
-      "Per-seat plans with a free tier, plus AI credits bought separately and priced by the scope of each scan.",
+      `Per-seat plans with a free tier, plus AI agents at a flat ${BULK_SITE_PRICE_LABEL} by default, or à la carte credits priced by the scope of each scan.`,
     path: "/pricing",
     kind: "Pricing page",
     facts: [
@@ -120,7 +123,8 @@ function pricingDoc(): AgentDoc {
       { label: "Signup bonus", value: `${SIGNUP_BONUS_CREDITS} AI credits` },
       { label: "Client seats needed", value: "None. Clients review over a link." },
       { label: "Typical project cost", value: `About ${TYPICAL_PROJECT_CREDITS} credits` },
-      { label: "Bulk pricing", value: `${BULK_SITE_PRICE_LABEL}, unlimited reviews and monitoring` },
+      { label: "AI pricing (default)", value: `${BULK_SITE_PRICE_LABEL}, unlimited reviews and monitoring` },
+      { label: "AI pricing (à la carte)", value: "Credits per scan, from 1 credit" },
     ],
     sections: [
       {
@@ -132,9 +136,16 @@ function pricingDoc(): AgentDoc {
         },
       },
       {
-        heading: "AI credits",
+        heading: "AI agents: bulk pricing (default)",
         body: [
-          "Agent runs are paid for in credits, separately from seats. A scan runs every agent you have enabled, and is priced by how much of the site it covers rather than by how many agents run.",
+          `${BULK_SITE_PRICE_LABEL}: ${BULK_SITE_PLAN.summary}`,
+        ],
+        bullets: BULK_SITE_PLAN.includes,
+      },
+      {
+        heading: "AI agents: à la carte credits",
+        body: [
+          "Instead of bulk pricing, customers can switch to à la carte and pay for agent runs in credits, separately from seats. A scan runs every agent you have enabled, and is priced by how much of the site it covers rather than by how many agents run.",
           `Rescans cost 1 credit; ${RESCAN_NEW_SCAN_THRESHOLD}.`,
         ],
         table: { headers: ["Scope", "Cost", "Detail"], rows: scanRows },
@@ -143,13 +154,6 @@ function pricingDoc(): AgentDoc {
         heading: "Credit packs",
         body: ["Packs roll over month to month."],
         table: { headers: ["Pack", "Price", "Unit price"], rows: packRows },
-      },
-      {
-        heading: "Bulk pricing",
-        body: [
-          `${BULK_SITE_PRICE_LABEL}: ${BULK_SITE_PLAN.summary}`,
-        ],
-        bullets: BULK_SITE_PLAN.includes,
       },
     ],
   };

@@ -1,5 +1,5 @@
-// Interactivity smoke tests for the three components whose hooks were moved
-// out of their try/catch.
+// Interactivity smoke tests for the components whose hooks were moved (or,
+// for AiPricingModeSwitch, written) outside their try/catch.
 //
 // WHY THIS FILE EXISTS
 //
@@ -57,5 +57,26 @@ test("the agency explorer still filters as you type", async ({ page }) => {
   await search.fill("lusion");
 
   await expect.poll(async () => countLabel.innerText()).not.toBe(before);
+  expect(errors, "no uncaught errors").toEqual([]);
+});
+
+test("the AI pricing switch defaults to bulk and flips to à la carte", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(String(error)));
+
+  await page.goto("/pricing");
+  const section = page.locator('[data-section="ai-credits-rate-card"]');
+  const bulk = section.locator('[data-panel="bulk"]');
+  const alaCarte = section.locator('[data-panel="alacarte"]');
+
+  await expect(section.getByRole("radio", { name: /bulk/i })).toHaveAttribute("aria-checked", "true");
+  await expect(bulk).toBeVisible();
+  await expect(alaCarte).toBeHidden();
+
+  await section.getByRole("radio", { name: /à la carte/i }).click();
+  await expect(alaCarte).toBeVisible();
+  await expect(bulk).toBeHidden();
+  await expect(alaCarte.getByText("What a scan costs")).toBeVisible();
+
   expect(errors, "no uncaught errors").toEqual([]);
 });

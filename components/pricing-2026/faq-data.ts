@@ -30,9 +30,14 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
       "Team user: Your team members should be added as team users. They have full access to the admin panel and get access to all features in your account, and they are the seats you pay for. Guest user: Your clients and external reviewers should be added as guest users. They can read or write comments, they are free, and they are not counted towards your seats. Guests who sign in are available on all plans; guests who comment without signing in are available on Scale and Enterprise plans.",
   },
   {
+    question: "How are AI agents priced?",
+    answer:
+      `By default, with bulk pricing: $${BULK_SITE_PLAN.priceUsd} per site per month for unlimited reviews and monitoring on that site. That covers unlimited scans and rescans at any site size, with every agent on every run, and no credits to count. If you would rather pay per scan, switch to à la carte and use AI credits instead.`,
+  },
+  {
     question: "What are AI credits?",
     answer:
-      "AI credits pay for Superflow's AI agent scans. One credit is $0.40, and you buy a scan, not a token: one scan checks your whole site with every agent. Scans are priced by scope, so there is no per-agent multiplier and no per-page arithmetic, and you always see the credit cost before you start a run.",
+      "AI credits are the à la carte way to pay for Superflow's AI agent scans, as an alternative to bulk pricing. One credit is $0.40, and you buy a scan, not a token: one scan checks your whole site with every agent. Scans are priced by scope, so there is no per-agent multiplier and no per-page arithmetic, and you always see the credit cost before you start a run.",
   },
   {
     question: "How much does a scan cost?",
@@ -53,11 +58,6 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
     question: "What happens when I run out of AI credits?",
     answer:
       "You can top up with a one-time add-on pack at any time: $10 buys 25 credits, $25 buys 70 credits, and $49 buys 145 credits. Bigger packs cost less per credit, pack credits roll over month to month until you use them, and auto-refill can top you up $10 at a time so a run never stalls. You can switch auto-refill off.",
-  },
-  {
-    question: "Is there a flat rate instead of credits?",
-    answer:
-      `Yes. Bulk pricing is $${BULK_SITE_PLAN.priceUsd} per site per month for unlimited reviews and monitoring on that site: unlimited scans and rescans at any site size, with every agent on every run, and no credits to count. It suits agencies maintaining a portfolio of sites that are reviewed and monitored continuously.`,
   },
   {
     question: "Does Superflow offer a free plan?",

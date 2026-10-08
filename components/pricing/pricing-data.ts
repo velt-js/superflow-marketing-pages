@@ -292,8 +292,18 @@ export const SECTIONS: Section[] = [
     accent: "#7C3AED",
     rows: [
       {
+        label: "Bulk Pricing",
+        sublabel: "Default · unlimited reviews and monitoring, no credits",
+        values: [
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+        ],
+      },
+      {
         label: "Included AI Credits",
-        sublabel: "Reset each billing cycle · 1 credit = $0.40",
+        sublabel: "À la carte · reset each billing cycle · 1 credit = $0.40",
         values: [
           creditsCell("starter"),
           creditsCell("growth"),
@@ -326,16 +336,6 @@ export const SECTIONS: Section[] = [
         label: "Auto-Refill",
         sublabel: "Top up $10 at a time, on by default",
         values: [check, check, check, check],
-      },
-      {
-        label: "Bulk Pricing",
-        sublabel: "Unlimited reviews and monitoring, no credits",
-        values: [
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-        ],
       },
     ],
   },
