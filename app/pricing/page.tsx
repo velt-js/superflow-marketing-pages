@@ -14,6 +14,7 @@ import PricingTiers from "@/components/pricing-2026/PricingTiers";
 import PricingComparisonTable from "@/components/pricing-2026/PricingComparisonTable";
 import AiCreditsRateCard from "@/components/pricing-2026/AiCreditsRateCard";
 import {
+  BULK_SITE_PLAN,
   CREDIT_PACKS,
   CREDIT_UNIT_PRICE_USD,
   SCAN_RATE_CARD,
@@ -37,7 +38,9 @@ export const revalidate = 60;
 
 const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
 const HERO_SUBHEADING =
-  "Transparent per-seat pricing with a free 10-day trial, plus AI credits priced by scan, not by token. Start free and upgrade whenever your team is ready.";
+  `Transparent per-seat pricing with a free 10-day trial, plus AI agents at a flat $${BULK_SITE_PLAN.priceUsd} per site, or à la carte credits priced by scan. Start free and upgrade whenever your team is ready.`;
+
+const PAGE_DESCRIPTION = `Per-seat pricing with a free trial, plus AI agents at a flat $${BULK_SITE_PLAN.priceUsd}/mo per site for unlimited reviews, or à la carte credits per scan.`;
 
 /**
  * Images for the two Product nodes below.
@@ -107,20 +110,36 @@ const AI_CREDITS_PRODUCT_SCHEMA = {
   "@type": "Product",
   name: "Superflow AI Credits",
   description:
-    `AI credits for Superflow agent scans. One credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent: ${SCAN_RATE_CARD_SUMMARY}. Every new workspace gets ${SIGNUP_BONUS_CREDITS} bonus credits. One-time add-on packs top up any plan, and pack credits roll over month to month.`,
+    `AI agent pricing for Superflow. By default, bulk pricing is $${BULK_SITE_PLAN.priceUsd} per site per month for unlimited reviews and monitoring. À la carte, agent scans are paid in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent: ${SCAN_RATE_CARD_SUMMARY}. Every new workspace gets ${SIGNUP_BONUS_CREDITS} bonus credits. One-time add-on packs top up any plan, and pack credits roll over month to month.`,
   brand: { "@id": ORG_ID },
   // Credits are sold on this page and have no artwork of their own, so they
   // carry the same pair rather than an invented image.
   image: PRODUCT_IMAGES,
   url: `${SITE_URL}/pricing`,
-  offers: CREDIT_PACKS.map((pack) => ({
-    "@type": "Offer",
-    name: `${pack.name} pack: ${pack.credits.toLocaleString("en-US")} AI credits`,
-    url: `${SITE_URL}/pricing`,
-    price: pack.priceUsd,
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-  })),
+  offers: [
+    {
+      "@type": "Offer",
+      name: `${BULK_SITE_PLAN.name}: unlimited reviews and monitoring`,
+      url: `${SITE_URL}/pricing`,
+      price: BULK_SITE_PLAN.priceUsd,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: BULK_SITE_PLAN.priceUsd,
+        priceCurrency: "USD",
+        unitText: "per site per month",
+      },
+    },
+    ...CREDIT_PACKS.map((pack) => ({
+      "@type": "Offer",
+      name: `${pack.name} pack: ${pack.credits.toLocaleString("en-US")} AI credits`,
+      url: `${SITE_URL}/pricing`,
+      price: pack.priceUsd,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    })),
+  ],
 };
 
 const PRICING_BREADCRUMB = buildBreadcrumbList([
@@ -132,8 +151,7 @@ const PRICING_FAQ_SCHEMA = buildFaqPageSchema(PRICING_FAQ_ITEMS);
 
 export const metadata = buildPageMetadata({
   title: "Pricing - Ship Creative Assets Impossibly Fast",
-  description:
-    "Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter to Enterprise.",
+  description: PAGE_DESCRIPTION,
   path: "/pricing",
   ogImage: PAGE_OG_IMAGES.pricing,
   noBrandSuffix: true,
@@ -147,7 +165,7 @@ export default function PricingPage() {
           duplicate BreadcrumbList. */}
       <PageJsonLd
         name="Pricing - Ship Creative Assets Impossibly Fast"
-        description="Per-seat pricing with a free trial, plus AI credits priced by scan: a whole site with every agent from 5 credits, rescans always 1. Starter to Enterprise."
+        description={PAGE_DESCRIPTION}
         path="/pricing"
       />
       <JsonLd id="ld-pricing-product" data={PRICING_PRODUCT_SCHEMA} />

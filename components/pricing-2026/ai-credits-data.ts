@@ -74,6 +74,35 @@ export const CREDIT_PACKS: CreditPack[] = [
 ];
 
 /**
+ * Bulk pricing: a flat monthly rate per site that replaces credits for
+ * that site entirely. Built for agencies maintaining a portfolio, where
+ * per-scan metering makes ongoing monitoring feel like a meter running.
+ */
+export type BulkSitePlan = {
+  name: string;
+  /** Price per site per month. */
+  priceUsd: number;
+  /** One-line pitch under the price. */
+  summary: string;
+  /** What the flat rate covers, in display order. */
+  includes: string[];
+};
+
+export const BULK_SITE_PLAN: BulkSitePlan = {
+  name: "Bulk pricing",
+  priceUsd: 14,
+  summary: "One flat rate per site for unlimited reviews and monitoring. No credits to count.",
+  includes: [
+    "Unlimited scans and rescans, any site size",
+    "Unlimited monitoring, every agent on every run",
+    "Billed per site, per month",
+  ],
+};
+
+/** "$14 / mo per site" — the bulk rate as a price label. */
+export const BULK_SITE_PRICE_LABEL = `$${BULK_SITE_PLAN.priceUsd} / mo per site`;
+
+/**
  * What the same first pass costs by hand. Hours are the measured manual
  * QA pass per site per round; the rate is the 10-person-agency preset
  * from the ROI calculator on /calculator (components/home-2026/

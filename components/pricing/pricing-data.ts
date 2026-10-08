@@ -17,6 +17,7 @@ import {
   type ScanScope,
   SIGNUP_BONUS_CREDITS,
   CREDIT_PACKS,
+  BULK_SITE_PLAN,
   getCreditsPriceLabel,
 } from "@/components/pricing-2026/ai-credits-data";
 
@@ -291,8 +292,18 @@ export const SECTIONS: Section[] = [
     accent: "#7C3AED",
     rows: [
       {
+        label: "Bulk Pricing",
+        sublabel: "Default · unlimited reviews and monitoring, no credits",
+        values: [
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
+        ],
+      },
+      {
         label: "Included AI Credits",
-        sublabel: "Reset each billing cycle · 1 credit = $0.40",
+        sublabel: "À la carte · reset each billing cycle · 1 credit = $0.40",
         values: [
           creditsCell("starter"),
           creditsCell("growth"),

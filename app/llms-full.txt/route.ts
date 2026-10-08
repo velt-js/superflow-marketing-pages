@@ -16,6 +16,8 @@ import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
+  BULK_SITE_PLAN,
+  BULK_SITE_PRICE_LABEL,
   CREDIT_PACKS,
   CREDIT_UNIT_PRICE_USD,
   SCAN_RATE_CARD,
@@ -158,7 +160,9 @@ Superflow is priced per seat with a free 10-day trial. Guest users are free and 
 
 ${plans}
 
-AI agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
+AI agents default to bulk pricing: ${BULK_SITE_PRICE_LABEL}. ${BULK_SITE_PLAN.summary} Covers: ${BULK_SITE_PLAN.includes.join("; ")}.
+
+Customers can switch to à la carte instead, where agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
 
 ${scans}
 
