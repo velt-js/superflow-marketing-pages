@@ -3,9 +3,8 @@ import { sessionReplayPlugin } from "@amplitude/plugin-session-replay-browser";
 
 // Client-side Amplitude bootstrap. This is the Next.js equivalent of the
 // top-of-file init block in the source Angular app's `main.ts`. It is
-// invoked once, as early as possible, from `instrumentation-client.ts`
-// (Next.js' client bootstrap entry point, which runs after the HTML loads
-// but before React hydration).
+// invoked once from `components/consent/ConsentScripts.tsx`, and only after
+// the visitor grants Analytics consent in the cookie banner.
 //
 // Amplitude Browser SDK keys are client-side by design (they end up in the
 // bundled JS), so they are read from `NEXT_PUBLIC_`-prefixed env vars.

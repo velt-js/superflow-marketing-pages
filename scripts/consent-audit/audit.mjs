@@ -120,7 +120,7 @@ function summariseHosts(requests) {
     const row = byHost.get(key) ?? {
       host: r.host,
       count: 0,
-      essential: isEssential(r.host),
+      essential: isEssential(r.host, r.url),
       tool: vendor?.tool ?? "UNKNOWN",
       category: vendor?.category ?? "UNKNOWN",
       sample: r.url,
