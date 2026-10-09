@@ -16,7 +16,6 @@ import { chromiumLaunchOptions } from "./browser.mjs";
 
 const BASE_URL = (process.env.CONSENT_BASE_URL ?? "http://127.0.0.1:3211").replace(/\/$/, "");
 const IS_LOCAL = /127\.0\.0\.1|localhost/.test(BASE_URL);
-const launch = chromiumLaunchOptions();
 
 export default defineConfig({
   testDir: ".",
@@ -32,11 +31,7 @@ export default defineConfig({
     ...devices["Desktop Chrome"],
     baseURL: BASE_URL,
     trace: "retain-on-failure",
-    launchOptions: {
-      ...launch,
-      // In a proxied sandbox the local server must not go through the proxy.
-      ...(launch.proxy ? { proxy: { ...launch.proxy, bypass: "127.0.0.1,localhost" } } : {}),
-    },
+    launchOptions: chromiumLaunchOptions(),
   },
   webServer: IS_LOCAL
     ? {

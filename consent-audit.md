@@ -1,6 +1,6 @@
-# Consent audit — usesuperflow.ai (before)
+# Consent audit — usesuperflow.ai (before and after)
 
-Phase 1 of the consent-gating spec. **No site code has changed.** The only additions are this report and the audit script in `scripts/consent-audit/`.
+The "before" sections record production as audited on 2026-09-25. The fix and its test results are in **After** at the end.
 
 - Audited: production `https://usesuperflow.ai`, 2026-09-25, from a US (Ohio) IP.
 - Stack: Next.js 16 (App Router) + Sanity, on Vercel. `/docs` is Mintlify, reverse-proxied from `superflow.mintlify.dev` (see `next.config.ts`).
@@ -102,7 +102,7 @@ The Category column is the category each tool **should** have under the agreed m
 11. **Embeds load third parties on page load.** Calendly drags in Stripe, Segment, Sprig, Braze, reCAPTCHA and Airbrake before the visitor interacts. Tally drags in Sentry and Google Fonts.
 12. **CMS HTML can inject script.** `app/blog/[slug]/page.tsx` writes the Sanity `faqSchema` text field into a `<script type="application/ld+json">` through `dangerouslySetInnerHTML`, with no escaping. A `</script><script src=…>` in that field would run on the page. The site's own `JsonLd` helper escapes `<`; this path skips it. No other Sanity field renders raw HTML: legal pages use static HTML from `lib/legal-content.ts`, and Portable Text doesn't render HTML.
 13. **Two GA4 properties run side by side.** `G-HFXRYF6WF8` is hardcoded and `G-NKFPRQTBQY` comes from GTM. Both send page views.
-14. **/docs has no banner and no footer link.** Nothing there fires today, so there is nothing to consent to, but Mintlify pages can't reopen our banner.
+14. **/docs has no banner and no footer link.** Nothing fired there in this audit, but see **After**: Koala, Intercom and Mixpanel are switched on in Mintlify and fire when the docs are served from Mintlify's domain or a non-production host.
 
 ## Can Termly do the job? (decision 5)
 
@@ -115,23 +115,59 @@ Mostly yes, so this report does **not** propose switching vendors.
 
 If "exactly three categories" or "the banner itself states GPC" is a hard requirement, Termly can't meet it on its own. That becomes a vendor-options question for you.
 
-## Decisions needed before Phase 2
+## Decisions (answered 2026-10-09)
 
-1. **There are two deanonymizers, RB2B and Claydar**, not one. Should both be kept and gated as Marketing, or should one be dropped? (Default: keep both, gate both.)
-2. **Reddit pixel:** nothing to delete in code, and no active GTM tag. Please check the 4 paused GTM tags (45, 60, 75, 82) and delete Reddit if it's one of them. It goes on the GTM checklist either way.
-3. **Superflow toolbar** (`cdn.velt.dev/lib/superflow.js`, our own product): Necessary, or gated? It loads Google Fonts and writes localStorage for every visitor. (Suggested: Analytics, or load it only for team members.)
-4. **Two GA4 properties:** keep both, gated as Analytics, or consolidate? (Default: keep both, gate both. Consolidating isn't a removal we'd do without asking.)
-5. **Business impact of gating, for your awareness:**
-   - Google Ads click IDs (`_gcl_*`) and the cross-domain linker to `app.usesuperflow.com` won't run until Marketing consent, so ad-driven signups from visitors who decline will read as organic. Consent Mode's `url_passthrough` can recover part of this without cookies.
-   - The same goes for Rewardful affiliate attribution if it's gated as Marketing.
-6. **Chat:** I plan to load Intercom **on click** — the site already has its own `IntercomButton`, so this is clean. Visitors won't be recognised by Intercom until they open chat.
-7. **Calendly on `/book-demo`:** click-to-load placeholder ("Load scheduler — this loads Calendly, which sets cookies") vs. gating behind Marketing/Analytics consent. (Default: click-to-load, per the spec's embed rule.) Same for Tally.
-8. **Shared GTM container:** adding consent requirements to the Meta, LinkedIn and X event tags will also gate them in the logged-in app, which is out of scope. Is that acceptable, or should the app's tags move to their own container first?
+1. **RB2B and Claydar:** keep both, gated as Marketing.
+2. **Reddit pixel:** not in code or in any active GTM tag. Checking the paused GTM tags is in `gtm-checklist.md`.
+3. **Superflow toolbar:** keep it on for every visitor (treated as Necessary).
+4. **Two GA4 properties:** both kept, both gated.
+5. **Shared GTM container:** changing consent settings there is fine even though the logged-in app uses it too.
+6. **Chat:** Intercom loads on click. **Calendly and Tally:** click-to-load.
+7. **Accepted cost:** visitors who decline aren't counted in ad or affiliate attribution.
 
-## Phase 2 plan (for reference, not started)
+## After (this PR)
 
-- One gate: a `ConsentScripts` client component that reads Termly's consent state and renders `next/script` only for granted categories. Every non-essential tag moves behind it: RB2B, Claydar, gtag/GA4/Ads, GTM, Rewardful, Amplitude (removed from `instrumentation-client.ts`) and the toolbar (per decision 3).
-- Termly loads first, in `<head>`, with a `beforeInteractive` inline Consent Mode v2 default (all four signals `denied`) ahead of GTM. Consent Mode is updated from Termly's consent events.
-- Intercom loads on click. Calendly and Tally get click-to-load placeholders. The footer gets a "Cookie settings" link. GPC gets its first-party override. `faqSchema` gets escaped.
-- The Phase 3 test builds on this script (`scripts/consent-audit/`, `npm run consent:test`), with the allowlist in `scripts/consent-audit/config.mjs`.
-- Also in Phase 2: `gtm-checklist.md` and `tool-inventory.md`.
+### What changed
+
+- **One gate.** `components/consent/ConsentScripts.tsx` is the only place a non-essential script is rendered. It reads Termly's choice (`Termly.getConsentState()` and its `consent` event) and fails closed: if Termly hasn't loaded, nothing is granted.
+  - **Analytics:** GA4 `G-HFXRYF6WF8` and Amplitude (events, heatmaps, session replay). Amplitude no longer starts from `instrumentation-client.ts`.
+  - **Marketing:** Google Ads, the GTM container (Meta / LinkedIn / X pixels, Ads remarketing, GA4 `G-NKFPRQTBQY`), RB2B, Claydar and Rewardful.
+  - GTM counts as Marketing because its tags have no consent settings. Loading it for Analytics-only visitors would fire the ad pixels.
+- **Termly first.** Consent Mode v2 defaults (all four signals `denied`) and Termly are server-rendered into `<head>`. Termly stays `autoBlock=off`, because the gate does the blocking.
+- **Consent Mode follows the banner.** The update is pushed synchronously from Termly's event. Termly sends its own update that ignores GPC; ours lands after it and before any Google tag renders.
+- **GPC.** `navigator.globalPrivacyControl` keeps Marketing off even after "Accept". The banner shows a line saying so. GA4 also runs with Google signals and ad personalisation off unless Marketing is granted.
+- **Withdrawal.** Turning a category off in Cookie settings deletes its first-party cookies and storage keys (`lib/consent/consent.ts`) and reloads the page without those scripts.
+- **Chat and embeds.**
+  - Intercom loads only when the chat button is clicked.
+  - Calendly (`/book-demo`) and Tally (`/state-of-agency-tools`) sit behind click-to-load placeholders that name the provider.
+- **Footer.** "Cookie settings" is in both site footers and reopens Termly's preferences panel.
+- **CMS.** The blog's free-text `faqSchema` is escaped, so Sanity text can't open a `<script>`.
+- **Docs.** Once both categories are granted, the site writes `superflow-docs-consent = granted` to local storage for Mintlify to read (`gtm-checklist.md` §7).
+- **Unchanged by decision:** the Superflow toolbar (and the Google Fonts it pulls in) loads for everyone.
+
+### Test results
+
+`npm run consent:test` (`scripts/consent-audit/consent.spec.ts`). Local production build, 2026-10-09:
+
+| Scenario | Result |
+|---|---|
+| No interaction, 10 marketing-site pages: zero non-essential requests, cookies and storage keys; banner shows; footer link present | **pass** |
+| No interaction, `/docs` | **fail.** Mintlify loads Koala, Intercom, Mixpanel and its own PostHog before consent. Needs the Mintlify change in `gtm-checklist.md` §7 (or removing those integrations) |
+| Reject all: nothing on that page or the next; choice persists | **pass** |
+| Accept all: gtag.js, GTM container, Claydar, RB2B, Rewardful and Amplitude load, and keep loading on the next page | **pass** |
+| GPC on, then Accept all: no Marketing request, no Marketing cookie, every Google hit has ads denied (`gcs=G101`), Analytics still loads | **pass** |
+| Footer "Cookie settings" reopens the preferences panel | **pass** |
+
+**Not yet run on a preview deployment.** Vercel previews for this project sit behind Vercel's login. Run it with the project's automation bypass secret:
+
+```
+CONSENT_BASE_URL=https://<preview>.vercel.app VERCEL_AUTOMATION_BYPASS_SECRET=<secret> npm run consent:test
+```
+
+The test sends the secret only to the preview's own host.
+
+### Still open
+
+- **`/docs` integrations:** your decision (`gtm-checklist.md` §7).
+- **GTM and Termly dashboard steps:** `gtm-checklist.md`.
+- **Banner wording and categories:** Termly's buttons still read Accept / Decline / Preferences, and its preferences panel shows Termly's five categories. Analytics maps to `analytics`, Marketing to `advertising`; the other three switches control nothing on this site.

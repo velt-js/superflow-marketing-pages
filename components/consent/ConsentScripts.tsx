@@ -38,6 +38,7 @@ import {
   consentModeSignals,
   grantsFrom,
   hasGpc,
+  syncDocsConsent,
   type ConsentCategory,
   type ConsentWindow,
   type Grants,
@@ -78,6 +79,12 @@ function useConsentGrants(): { grants: Grants; known: boolean } {
 
     const apply = (consentState?: TermlyConsentState | null) => {
       const next = grantsFrom(consentState ?? w.Termly?.getConsentState?.(), gpc);
+      // Correct Google Consent Mode right now, synchronously. Termly sends
+      // its own Consent Mode update from the same event, straight from the
+      // banner and ignoring GPC ("Accept" -> ad_storage granted). This has to
+      // land after Termly's and before any Google tag renders, or Google's
+      // first hit goes out with Termly's grants.
+      w.gtag?.("consent", "update", consentModeSignals(next));
       setState((prev) =>
         prev.known && prev.grants.analytics === next.analytics && prev.grants.marketing === next.marketing
           ? prev
@@ -147,14 +154,10 @@ export function ConsentScripts() {
   const previous = useRef<Grants | null>(null);
   useGpcNotice();
 
-  // Keep Google Consent Mode in step with the banner, and handle withdrawal.
+  // Withdrawal. (Consent Mode updates are pushed in useConsentGrants.)
   useEffect(() => {
     if (!known) return;
-    const w = window as ConsentWindow;
-    // Pushed after Termly's own Consent Mode update (it sends one from the
-    // same event), so ours - the one that applies GPC - is the last word.
-    window.setTimeout(() => w.gtag?.("consent", "update", consentModeSignals(grants)), 0);
-
+    syncDocsConsent(grants);
     const before = previous.current;
     previous.current = grants;
     if (!before) return;
@@ -198,8 +201,15 @@ gtag('js', new Date());`}
         </>
       ) : null}
       {grants.analytics ? (
+        // Google signals links GA4 data to signed-in Google accounts for ads
+        // (it beacons to www.google.com), so it is Marketing, not Analytics.
+        // Fixed at first render: granting Marketing later turns it on from
+        // the next page load.
         <Script id="gtag-ga4" strategy="afterInteractive">
-          {`gtag('config', '${GA_MEASUREMENT_ID}');`}
+          {`gtag('config', '${GA_MEASUREMENT_ID}', ${JSON.stringify({
+            allow_google_signals: grants.marketing,
+            allow_ad_personalization_signals: grants.marketing,
+          })});`}
         </Script>
       ) : null}
 

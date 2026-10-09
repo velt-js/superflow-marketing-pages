@@ -117,3 +117,23 @@ export function clearCategory(category: ConsentCategory): void {
     }
   }
 }
+
+/**
+ * The Mintlify docs at /docs share this origin, so they read the same
+ * localStorage. Mintlify's docs.json `integrations.cookies` setting holds its
+ * telemetry and integrations (Koala, Intercom, Mixpanel are configured there)
+ * until this key has this value. Written only when BOTH categories are
+ * granted, because Koala identifies visitors (Marketing) and Mixpanel is
+ * Analytics; removed otherwise. See gtm-checklist.md for the docs.json side.
+ */
+export const DOCS_CONSENT_KEY = "superflow-docs-consent";
+export const DOCS_CONSENT_VALUE = "granted";
+
+export function syncDocsConsent(grants: Grants): void {
+  try {
+    if (grants.analytics && grants.marketing) localStorage.setItem(DOCS_CONSENT_KEY, DOCS_CONSENT_VALUE);
+    else localStorage.removeItem(DOCS_CONSENT_KEY);
+  } catch {
+    // Storage blocked: the docs then stay without their integrations.
+  }
+}
