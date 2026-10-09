@@ -37,13 +37,41 @@ export const ESSENTIAL_HOSTS = [
   "d3gk2c5xim1je2.cloudfront.net", // Mintlify's icon CDN (Font Awesome SVGs)
   // Consent vendor. It has to load for the banner to exist at all.
   "termly.io",
+  // Superflow toolbar - our own product, kept on for every visitor (decision
+  // recorded in consent-audit.md). URL_RULES below carves the Amplitude
+  // proxy paths on this same host back out.
+  "cdn.velt.dev",
+  // Fonts. The toolbar requests Google Fonts; the site's own fonts are
+  // self-hosted (app/fonts).
+  "fonts.googleapis.com",
+  "fonts.gstatic.com",
+  // Vercel's preview toolbar. Injected on preview deployments only, never in
+  // production, so it never reaches a real visitor.
+  "vercel.live",
 ];
 
 /**
+ * Cookies and web-storage keys allowed before consent: the consent vendor's
+ * own state (it has to remember the choice somewhere) and the toolbar's
+ * version marker. Anything else set before consent fails the test.
+ */
+export const ESSENTIAL_STORAGE = [
+  /^csrf_token$/, // Termly
+  /^TERMLY_/i, // Termly's config cache and consent record
+  /^qoweadssdf$/, // Termly (internal)
+  /^__tluid$/, // Termly
+  /^sfToolbarVersion$/, // Superflow toolbar
+  /^__vercel/i, /^_vercel/i, // Vercel preview toolbar (preview only)
+];
+
+export function isEssentialStorage(name) {
+  return ESSENTIAL_STORAGE.some((p) => p.test(name));
+}
+
+/**
  * Known vendors, for labelling. Suffix-matched against the request host. The
- * category here is the one the tool SHOULD have under the consent model
- * (Necessary / Analytics / Marketing / Functional-on-demand), not what it has
- * today.
+ * category is the tool's category under the consent model (Necessary /
+ * Analytics / Marketing / Functional, which loads only on a click).
  */
 export const VENDORS = [
   { host: "termly.io", tool: "Termly (consent banner)", category: "Necessary" },
@@ -74,11 +102,11 @@ export const VENDORS = [
   { host: "intercom.io", tool: "Intercom (chat)", category: "Functional (load on click)" },
   { host: "intercomcdn.com", tool: "Intercom (chat)", category: "Functional (load on click)" },
   { host: "intercomassets.com", tool: "Intercom (chat)", category: "Functional (load on click)" },
-  { host: "velt.dev", tool: "Superflow toolbar (own product, served from Velt)", category: "Functional (decision needed)" },
+  { host: "velt.dev", tool: "Superflow toolbar (own product, served from Velt)", category: "Necessary" },
   { host: "snippyly-sdk-prod.cloudfunctions.net", tool: "Superflow toolbar backend", category: "Functional (decision needed)" },
   { host: "firebaseio.com", tool: "Superflow toolbar backend (Firebase)", category: "Functional (decision needed)" },
-  { host: "fonts.googleapis.com", tool: "Google Fonts (requested by the Superflow toolbar / Tally)", category: "Functional (self-host or gate)" },
-  { host: "fonts.gstatic.com", tool: "Google Fonts (requested by the Superflow toolbar / Tally)", category: "Functional (self-host or gate)" },
+  { host: "fonts.googleapis.com", tool: "Google Fonts (requested by the Superflow toolbar / Tally)", category: "Necessary" },
+  { host: "fonts.gstatic.com", tool: "Google Fonts (requested by the Superflow toolbar / Tally)", category: "Necessary" },
   { host: "googleapis.com", tool: "Google APIs (toolbar Firebase)", category: "Functional (decision needed)" },
   { host: "calendly.com", tool: "Calendly embed", category: "Functional (click-to-load)" },
   { host: "sentry.io", tool: "Sentry (loaded inside the Tally iframe)", category: "Functional (click-to-load)" },
@@ -100,6 +128,10 @@ export const VENDORS = [
  */
 export const URL_RULES = [
   { pattern: /^https:\/\/cdn\.velt\.dev\/am(-|\/|\?|$)/, tool: "Amplitude (analytics + session replay)", category: "Analytics" },
+  // One Google host, two loaders: the GTM container (ad pixels) is Marketing,
+  // gtag.js serves GA4 (Analytics) and Google Ads (Marketing).
+  { pattern: /^https:\/\/www\.googletagmanager\.com\/gtm\.js/, tool: "Google Tag Manager container", category: "Marketing" },
+  { pattern: /^https:\/\/www\.googletagmanager\.com\/gtag\/js/, tool: "Google tag (gtag.js)", category: "Analytics + Marketing" },
 ];
 
 /**
@@ -129,8 +161,18 @@ export function isOwned(host) {
   return OWNED_HOSTS.some((d) => hostMatches(host, d));
 }
 
-export function isEssential(host) {
+/**
+ * Whether a request is essential. A URL rule (a tracker on an otherwise
+ * essential host) always wins over the host allowlist.
+ */
+export function isEssential(host, url = "") {
+  if (URL_RULES.some((r) => r.pattern.test(url))) return false;
   return isOwned(host) || ESSENTIAL_HOSTS.some((d) => hostMatches(host, d));
+}
+
+/** True for requests that belong to a Marketing tool (blocked under GPC). */
+export function isMarketing(host, url = "") {
+  return vendorFor(host, url)?.category.startsWith("Marketing") ?? false;
 }
 
 /**
