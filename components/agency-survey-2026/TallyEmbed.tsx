@@ -11,6 +11,7 @@
 // scrolling, and embed.js upgrades it to auto-resize when it loads.
 
 import { useEffect } from "react";
+import { ClickToLoad } from "@/components/consent/ClickToLoad";
 import styles from "./Survey.module.css";
 
 declare global {
@@ -21,7 +22,20 @@ declare global {
 
 const EMBED_SCRIPT_SRC = "https://tally.so/widgets/embed.js";
 
+/**
+ * The survey form, behind a click-to-load placeholder: Tally's iframe sets
+ * its own state and loads Sentry and Google Fonts, so it waits for the
+ * visitor to ask for it.
+ */
 export function TallyEmbed({ formId }: { formId: string }) {
+  return (
+    <ClickToLoad title="Take the survey" provider="Tally" buttonLabel="Start the survey" minHeight={420}>
+      <TallyFrame formId={formId} />
+    </ClickToLoad>
+  );
+}
+
+function TallyFrame({ formId }: { formId: string }) {
   useEffect(() => {
     if (window.Tally) {
       window.Tally.loadEmbeds();

@@ -1,0 +1,50 @@
+/* Placeholder shown in place of a third-party embed until the visitor asks
+   for it. Sized by the caller (minHeight) so the page does not jump when the
+   real embed replaces it. */
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    padding: 32px 24px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    text-align: center;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+.title {
+    margin: 0;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e1e1f;
+}
+
+.note {
+    max-width: 440px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7079;
+}
+
+.button {
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: #1e1e1f;
+    color: #ffffff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #433df3;
+}

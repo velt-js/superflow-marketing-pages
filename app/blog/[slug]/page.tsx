@@ -146,9 +146,13 @@ export default async function BlogPostPage({
       ) : null}
       <JsonLd id="ld-blog-post-breadcrumb" data={blogBreadcrumb} />
       {post.faqSchema ? (
+        // `faqSchema` is free text from Sanity. Escaping `<` keeps it inside
+        // this tag: unescaped, a `</script><script src=...>` in the field
+        // would run any script an editor pasted, past the consent gate.
+        // `\u003c` is the same character to a JSON parser.
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: post.faqSchema }}
+          dangerouslySetInnerHTML={{ __html: post.faqSchema.replace(/</g, "\\u003c") }}
         />
       ) : null}
 
