@@ -5,6 +5,11 @@
 // the consent gate or the banner is merged:
 //   CONSENT_BASE_URL=https://<preview>.vercel.app npm run consent:test
 //
+// Vercel previews sit behind Vercel's login. Set VERCEL_AUTOMATION_BYPASS_SECRET
+// (Vercel project -> Settings -> Deployment Protection -> Protection Bypass for
+// Automation) and the test sends it - only to the preview's own host, never
+// to a third party.
+//
 // What counts as essential is decided in ONE place, ./config.mjs. If this test
 // goes red, the fix is almost never to add a host there - it is to route the
 // new script through components/consent/ConsentScripts.tsx.
@@ -25,6 +30,16 @@ const SETTLE_MS = 5_000;
 const BANNER = "[class*='termly-styles-termly-banner']";
 
 type Req = { host: string; url: string };
+
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+test.beforeEach(async ({ context, baseURL }) => {
+  if (!BYPASS || !baseURL) return;
+  const host = new URL(baseURL).hostname;
+  await context.route(
+    (url) => url.hostname === host,
+    (route) => route.continue({ headers: { ...route.request().headers(), "x-vercel-protection-bypass": BYPASS } }),
+  );
+});
 
 /** Records every request this page makes to a host we do not own. */
 function recordThirdParty(page: Page): Req[] {
@@ -159,6 +174,11 @@ test.describe("with Global Privacy Control on", () => {
     await open(page, "/pricing");
 
     expect(marketing(reqs), "Marketing tools under GPC").toEqual([]);
+    // Every Google hit carries its consent state in `gcs` ("G1" + ad_storage
+    // + analytics_storage, 1 = granted). Under GPC ads must read denied.
+    const googleHits = reqs.filter((r) => /google|doubleclick/.test(r.host) && /collect/.test(r.url));
+    const adsGranted = googleHits.filter((r) => new URL(r.url).searchParams.get("gcs")?.[2] !== "0");
+    expect(describe(adsGranted), "Google hits with ad consent not denied under GPC").toEqual([]);
     const cookies = (await context.cookies()).map((c) => c.name);
     expect(cookies.filter((n) => /^_gcl_|^_fbp$|^_twpid$|^rewardful/.test(n)), "Marketing cookies under GPC").toEqual([]);
     // Analytics is not covered by GPC, so accepting it still works.

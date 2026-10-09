@@ -75,7 +75,28 @@ Google tags have **built-in** consent checks, so they need no extra consent. Mak
    - **Auto-block off.** The site blocks scripts in its own code, and Termly's auto-block on top would mean two gates disagreeing.
 5. **Optional:** turn on "Honor Global Privacy Control". The site already honours GPC in code, so this is belt and braces.
 
-## 7. After publishing
+## 7. Mintlify docs (`/docs`): hold integrations until consent
+
+The docs have Koala (visitor identification), Intercom and Mixpanel switched on, plus Mintlify's own PostHog and telemetry. They fire on page load, before any consent. The test caught them on the local build and on `superflow.mintlify.dev`. They don't fire on `usesuperflow.ai/docs` today, for reasons on Mintlify's side we don't control, so that can change without warning.
+
+The site now writes `superflow-docs-consent = granted` to local storage once a visitor accepts both Analytics and Marketing, and removes it otherwise. `/docs` is on the same domain, so Mintlify can read it.
+
+**Pick one:**
+
+- **(a) Gate them.** In the docs repo's `docs.json`, add:
+
+  ```json
+  "integrations": {
+    "cookies": { "key": "superflow-docs-consent", "value": "granted" }
+  }
+  ```
+
+  Keep the existing integrations alongside it. Mintlify documents this setting as disabling "telemetry". Whether it also holds back Koala, Intercom and Mixpanel isn't stated, and the consent test will show it either way.
+- **(b) Remove them.** Remove the integrations Mintlify can't hold back (Koala first).
+
+Either way, run the consent test afterwards. Its `/docs` case passes only when nothing loads before consent.
+
+## 8. After publishing
 
 Run the consent test against production:
 
@@ -83,6 +104,6 @@ Run the consent test against production:
 CONSENT_BASE_URL=https://usesuperflow.ai npm run consent:test
 ```
 
-## Later (optional): Analytics-only visitors and GTM
+## 9. Later (optional): Analytics-only visitors and GTM
 
 Once step 3 is published, GTM could load for Analytics-only visitors too, so that `G-NKFPRQTBQY` also counts them. That's a one-line change in `components/consent/ConsentScripts.tsx`: render GTM when `grants.analytics || grants.marketing`. Re-run the consent test after making it.

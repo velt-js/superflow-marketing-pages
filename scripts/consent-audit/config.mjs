@@ -29,10 +29,9 @@ export const ESSENTIAL_HOSTS = [
   "img.shgstatic.com",
   "media.designrush.com",
   "storage-01-mda.keyfram.es",
-  // Docs are reverse-proxied from Mintlify under /docs.
-  "mintlify.dev",
-  "mintlify.app",
-  "mintlify.com",
+  // Docs are reverse-proxied from Mintlify under /docs; the browser only
+  // talks to its asset CDNs. Not "mintlify.com": ph. and leaves. on it are
+  // Mintlify's own analytics.
   "mintcdn.com",
   "d3gk2c5xim1je2.cloudfront.net", // Mintlify's icon CDN (Font Awesome SVGs)
   // Consent vendor. It has to load for the banner to exist at all.
@@ -61,6 +60,7 @@ export const ESSENTIAL_STORAGE = [
   /^qoweadssdf$/, // Termly (internal)
   /^__tluid$/, // Termly
   /^sfToolbarVersion$/, // Superflow toolbar
+  /^superflow-docs-consent$/, // our consent flag for the Mintlify docs (only ever set after consent)
   /^__vercel/i, /^_vercel/i, // Vercel preview toolbar (preview only)
 ];
 
@@ -113,6 +113,10 @@ export const VENDORS = [
   { host: "tally.so", tool: "Tally form embed", category: "Functional (click-to-load)" },
   { host: "youtube.com", tool: "YouTube embed", category: "Functional (nocookie / click-to-load)" },
   { host: "ytimg.com", tool: "YouTube embed", category: "Functional (nocookie / click-to-load)" },
+  { host: "getkoala.com", tool: "Koala (visitor identification, via Mintlify docs)", category: "Marketing" },
+  { host: "mixpanel.com", tool: "Mixpanel (via Mintlify docs)", category: "Analytics" },
+  { host: "ph.mintlify.com", tool: "Mintlify's own PostHog", category: "Analytics" },
+  { host: "leaves.mintlify.com", tool: "Mintlify telemetry", category: "Analytics" },
   { host: "hotjar.com", tool: "Hotjar", category: "Analytics" },
   { host: "clarity.ms", tool: "Microsoft Clarity", category: "Analytics" },
   { host: "posthog.com", tool: "PostHog", category: "Analytics" },
@@ -132,6 +136,10 @@ export const URL_RULES = [
   // gtag.js serves GA4 (Analytics) and Google Ads (Marketing).
   { pattern: /^https:\/\/www\.googletagmanager\.com\/gtm\.js/, tool: "Google Tag Manager container", category: "Marketing" },
   { pattern: /^https:\/\/www\.googletagmanager\.com\/gtag\/js/, tool: "Google tag (gtag.js)", category: "Analytics + Marketing" },
+  // GA4 also sends hits via www.google.com/g/collect. Its consent state rides
+  // in the `gcs` parameter; the GPC test checks that ads are denied on every
+  // Google hit, so this is labelled by property, not assumed to be ads.
+  { pattern: /^https:\/\/www\.google\.com\/g\/collect\?.*tid=G-/, tool: "Google Analytics 4", category: "Analytics" },
 ];
 
 /**
