@@ -165,6 +165,21 @@ export const comparisonPreviewDimension = defineType({
       type: "string",
     }),
     defineField({
+      name: "superflowPlan",
+      title: "Superflow plan these facts need (vs pages)",
+      description:
+        "The lowest Superflow plan that includes everything in the Superflow card. Check /pricing's feature table. Renders beside the card the way competitor cards name their plan gates. Leave empty on X vs Y pages.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Every plan (Starter, free)", value: "starter" },
+          { title: "Growth and up", value: "growth" },
+          { title: "Scale and up", value: "scale" },
+          { title: "Enterprise only", value: "enterprise" },
+        ],
+      },
+    }),
+    defineField({
       name: "verdict",
       title: "Verdict line",
       description: "Names a winner or says even. No scores, no trash-talk.",

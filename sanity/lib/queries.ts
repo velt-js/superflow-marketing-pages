@@ -793,6 +793,7 @@ const COMPARISON_PREVIEW_DIMENSION_FIELDS = `
   rightFacts,
   leftVerified,
   rightVerified,
+  superflowPlan,
   verdict
 `;
 

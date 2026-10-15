@@ -114,6 +114,7 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
                 leftName={SUPERFLOW_NAME}
                 rightName={competitorName}
                 leadSide="left"
+                superflowSide="left"
                 index={dimensionIndex}
               />
             ))}

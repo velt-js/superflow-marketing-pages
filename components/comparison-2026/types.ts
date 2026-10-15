@@ -19,6 +19,8 @@ export type ComparisonDimension = {
   rightFacts?: string[];
   leftVerified?: string;
   rightVerified?: string;
+  /** TIERS id of the plan the Superflow card needs (vs pages only). */
+  superflowPlan?: string;
   verdict?: string;
 };
 

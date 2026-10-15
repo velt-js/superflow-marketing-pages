@@ -12,6 +12,7 @@
 // steps, limits, prices, and FAQ answers are kept.
 
 import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
+import { superflowPlanLabel } from "@/lib/comparison-plans";
 import type { AgentDoc, AgentDocFaq, AgentDocSection } from "../types";
 import { portableTextToMarkdown, portableTextToPlain } from "../portable-text";
 import {
@@ -71,6 +72,22 @@ function pick(tool: string, line: unknown): string {
     return tool ? `Pick ${tool} ${text}` : text;
   } catch {
     return "";
+  }
+}
+
+/**
+ * Joins a plan gate and a verification note into the one parenthetical
+ * `facts` appends, e.g. "Scale plan and up; verified July 2026". Returns the
+ * verified value untouched when there is no plan, so `facts` still sees a
+ * `false` flag.
+ */
+function joinNotes(plan: string, verified: unknown): unknown {
+  try {
+    if (!plan) return verified;
+    const note = clean(verified);
+    return note ? `${plan}; ${note}` : plan;
+  } catch {
+    return verified;
   }
 }
 
@@ -774,7 +791,13 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
   const dimensionRows = arr(doc.dimensions)
     .map((item) => [
       clean(str(item, "label")),
-      facts(item.leftFacts, item.leftVerified),
+      facts(
+        item.leftFacts,
+        joinNotes(
+          isArbiter ? "" : superflowPlanLabel(str(item, "superflowPlan")),
+          item.leftVerified,
+        ),
+      ),
       facts(item.rightFacts, item.rightVerified),
       clean(str(item, "verdict")),
     ])

@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 
 import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
 import { toInternalHref, isExternalHref } from "@/lib/links";
+import { superflowPlanLabel } from "@/lib/comparison-plans";
 import { TIERS, type Tier } from "@/components/pricing/pricing-data";
 
 import styles from "./comparison.module.css";
@@ -321,11 +322,14 @@ function DimensionToolCard({
   name,
   facts,
   verified,
+  plan,
   lead = false,
 }: {
   name: string;
   facts?: string[];
   verified?: string;
+  /** Plan gate label, e.g. "Scale plan and up". */
+  plan?: string;
   lead?: boolean;
 }) {
   const cardClass = lead
@@ -343,6 +347,7 @@ function DimensionToolCard({
           </li>
         ))}
       </ul>
+      {plan ? <p className={styles.factPlan}>{plan}</p> : null}
       {verified ? <p className={styles.factVerified}>({verified})</p> : null}
     </div>
   );
@@ -354,21 +359,25 @@ function DimensionToolCard({
  * block (award glyph + purple "Verdict" + takeaway); on the right the two
  * tool fact cards stacked. `leadSide` marks which tool card gets the accent
  * treatment (Superflow on vs pages; none on neutral arbiter pages).
- * `index` picks the badge color.
+ * `superflowSide` names the Superflow card on vs pages, which then shows
+ * the plan its facts need. `index` picks the badge color.
  */
 export function ComparisonDimensionSection({
   dimension,
   leftName,
   rightName,
   leadSide,
+  superflowSide,
   index = 0,
 }: {
   dimension: ComparisonDimension;
   leftName: string;
   rightName: string;
   leadSide?: "left" | "right";
+  superflowSide?: "left" | "right";
   index?: number;
 }) {
+  const plan = superflowPlanLabel(dimension?.superflowPlan);
   return (
     <section
       id={dimensionAnchorId(dimension.label)}
@@ -403,12 +412,14 @@ export function ComparisonDimensionSection({
             name={leftName}
             facts={dimension.leftFacts}
             verified={dimension.leftVerified}
+            plan={superflowSide === "left" ? plan : undefined}
             lead={leadSide === "left"}
           />
           <DimensionToolCard
             name={rightName}
             facts={dimension.rightFacts}
             verified={dimension.rightVerified}
+            plan={superflowSide === "right" ? plan : undefined}
             lead={leadSide === "right"}
           />
         </div>
