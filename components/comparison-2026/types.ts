@@ -62,6 +62,8 @@ export type ComparisonVsDoc = ComparisonPreviewShared & {
   secondary?: string;
   prevents?: string[];
   qualifier?: string;
+  pickSuperflow?: string;
+  pickCompetitor?: string;
   heroCaption?: string;
   dimensions?: ComparisonDimension[];
   scorecardKicker?: string;

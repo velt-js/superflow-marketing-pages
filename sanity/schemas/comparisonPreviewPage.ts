@@ -324,6 +324,24 @@ export const comparisonPreviewVsPage = defineType({
       group: "hero",
     }),
     defineField({
+      name: "pickSuperflow",
+      title: "Short answer: pick Superflow if…",
+      description:
+        'Renders as a "Pick Superflow" card at the top of the page. Start with "if", e.g. "if you want every change checked before a person looks". Name a situation the buyer can recognise, not a feature.',
+      type: "text",
+      rows: 2,
+      group: "hero",
+    }),
+    defineField({
+      name: "pickCompetitor",
+      title: "Short answer: pick the competitor if…",
+      description:
+        'Renders as a "Pick {competitor}" card beside the Superflow one. Start with "if". Be as generous as the facts allow: this is the line that makes the page credible.',
+      type: "text",
+      rows: 2,
+      group: "hero",
+    }),
+    defineField({
       name: "heroCaption",
       title: "Hero visual caption",
       description: 'e.g. "It\'s like BugHerd hired a QA team."',
@@ -390,7 +408,8 @@ export const comparisonPreviewVsPage = defineType({
     defineField({
       name: "stayLine",
       title: "Stay line",
-      description: '"If {condition}, {X} is a fine tool. Stay."',
+      description:
+        '"If {condition}, {X} is a fine tool. Stay." Also renders under the hero pick cards as the "switching probably isn\'t worth it if…" answer.',
       type: "string",
       group: "close",
     }),

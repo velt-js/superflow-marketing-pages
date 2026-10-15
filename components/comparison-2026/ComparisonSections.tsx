@@ -100,6 +100,34 @@ export function ToolNameWithLogo({
   );
 }
 
+/**
+ * One hero "Pick X" card (Figma 1061:2142): the tool's logo, a bold
+ * "Pick {name}" title and the pick line from the doc. Shared by the arbiter
+ * short answer and the vs-page "which should I choose?" pair.
+ */
+export function HeroPickCard({ name, line }: { name: string; line: string }) {
+  const logoSrc = getToolLogoSrc(name);
+  return (
+    <div className={styles.pickCard}>
+      {logoSrc ? (
+        <Image
+          src={logoSrc}
+          alt=""
+          aria-hidden="true"
+          width={40}
+          height={40}
+          className={styles.pickCardLogo}
+          unoptimized
+        />
+      ) : null}
+      <div className={styles.pickCardBody}>
+        <p className={styles.pickCardTitle}>Pick {name}</p>
+        <p className={styles.pickCardLine}>{line}</p>
+      </div>
+    </div>
+  );
+}
+
 /** The Start free / Book a demo pair with the sitewide microcopy. */
 export function ComparisonCtas({ onDark = true }: { onDark?: boolean }) {
   return (

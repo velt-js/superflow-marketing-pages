@@ -58,6 +58,21 @@ function facts(value: unknown, verified: unknown): string {
   }
 }
 
+/**
+ * A short-answer pick line. The fields hold an "if …" fragment that the HTML
+ * page sets under a "Pick {tool}" card title, so the copy has to put the
+ * tool's name back or the line reads as a condition with no subject.
+ */
+function pick(tool: string, line: unknown): string {
+  try {
+    const text = clean(line);
+    if (!text) return "";
+    return tool ? `Pick ${tool} ${text}` : text;
+  } catch {
+    return "";
+  }
+}
+
 /** Drops empty sections so a sparsely-filled document stays readable. */
 function sections(...candidates: (AgentDocSection | null)[]): AgentDocSection[] {
   return candidates.filter((section): section is AgentDocSection => {
@@ -827,9 +842,12 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
       {
         heading: "Short answer",
         bullets: [
-          clean(str(doc, "shortAnswerPickLeft")),
-          clean(str(doc, "shortAnswerPickRight")),
+          pick(toolLeft, str(doc, "shortAnswerPickLeft")),
+          pick(toolRight, str(doc, "shortAnswerPickRight")),
           clean(str(doc, "shortAnswerShared")),
+          pick("Superflow", str(doc, "pickSuperflow")),
+          pick(competitor, str(doc, "pickCompetitor")),
+          clean(str(doc, "stayLine")),
           clean(str(doc, "standfirst")),
         ].filter(Boolean),
       },

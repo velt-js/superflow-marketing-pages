@@ -836,6 +836,8 @@ export async function getComparisonPreviewBySlug(slug: string) {
         secondary,
         prevents,
         qualifier,
+        pickSuperflow,
+        pickCompetitor,
         heroCaption,
         dimensions[]{ ${COMPARISON_PREVIEW_DIMENSION_FIELDS} },
         scorecardKicker,
