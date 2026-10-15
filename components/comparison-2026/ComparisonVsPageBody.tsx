@@ -2,9 +2,12 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
+import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
+
 import styles from "./comparison.module.css";
 import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
+  ComparisonByline,
   ComparisonCriteriaGrid,
   ComparisonDimensionSection,
   ComparisonFinalCta,
@@ -25,8 +28,9 @@ const SUPERFLOW_NAME = "Superflow";
  * The head-to-head class: /comparisons/superflow-vs-<x>.
  * Section order per the Figma 1061 redesign: split hero (kicker + serif
  * headline left, secondary + qualifier right) with the "Pick Superflow /
- * Pick {competitor}" short answer and the stay line beneath, so a buyer gets
- * "which should I choose?" before any table; then the agents-at-work product
+ * Pick {competitor}" short answer, the stay line, the disclosure and the
+ * byline beneath, so a buyer gets "which should I choose?" and who is
+ * answering before any table; then the agents-at-work product
  * window (captioned by heroCaption), the blueprint-framed criteria grid,
  * the dimension panels (Superflow left, competitor right), scorecard recap,
  * pricing, switching, the honest close, FAQ, related, final CTA.
@@ -70,11 +74,21 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
             </div>
           ) : null}
 
-          {doc?.stayLine ? (
-            <div className={styles.heroFootnotes}>
+          <div className={styles.heroFootnotes}>
+            {doc?.stayLine ? (
               <p className={styles.heroFootnoteLead}>{doc.stayLine}</p>
-            </div>
-          ) : null}
+            ) : null}
+            <p className={styles.heroFootnoteLead}>{SUPERFLOW_VS_DISCLOSURE}</p>
+            {doc?.factsCheckedAt ? (
+              <p className={styles.heroFootnoteFine}>
+                Facts checked {doc.factsCheckedAt}.
+              </p>
+            ) : null}
+            <ComparisonByline
+              preparedBy={doc?.preparedBy}
+              methodNote={doc?.methodNote}
+            />
+          </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>

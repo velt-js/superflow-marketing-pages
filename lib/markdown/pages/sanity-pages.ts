@@ -11,6 +11,7 @@
 // icons, accent colours, and layout flags are dropped. Facts, verdicts,
 // steps, limits, prices, and FAQ answers are kept.
 
+import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
 import type { AgentDoc, AgentDocFaq, AgentDocSection } from "../types";
 import { portableTextToMarkdown, portableTextToPlain } from "../portable-text";
 import {
@@ -695,7 +696,7 @@ export function headToHeadToAgentDoc(doc: Doc, basePath: string, kind: string): 
       { label: "Author", value: clean(str(doc, "author")) },
       {
         label: "Disclosure",
-        value: "Published by Superflow. Superflow is one of the tools compared.",
+        value: SUPERFLOW_VS_DISCLOSURE,
       },
     ],
     sections: sections(
@@ -832,11 +833,10 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
       { label: "Dateline", value: clean(str(doc, "dateline")) },
       {
         label: "Disclosure",
-        value: firstOf(
-          str(doc, "disclosure"),
-          "Published by Superflow. Superflow is one of the tools compared.",
-        ),
+        value: firstOf(str(doc, "disclosure"), SUPERFLOW_VS_DISCLOSURE),
       },
+      { label: "Prepared by", value: clean(str(doc, "preparedBy")) },
+      { label: "How the facts were checked", value: clean(str(doc, "methodNote")) },
     ],
     sections: sections(
       {

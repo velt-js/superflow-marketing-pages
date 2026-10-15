@@ -442,6 +442,23 @@ export const comparisonPreviewVsPage = defineType({
       group: "seo",
     }),
     defineField({
+      name: "preparedBy",
+      title: "Prepared by",
+      description:
+        'Who researched and wrote this comparison, e.g. "Superflow growth team". Renders in the hero byline.',
+      type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "methodNote",
+      title: "How the facts were checked",
+      description:
+        'One or two sentences, e.g. "Pricing and limits read from each vendor\'s site; review flows tested on a trial account." Renders in the hero byline.',
+      type: "text",
+      rows: 2,
+      group: "seo",
+    }),
+    defineField({
       name: "sourceUrls",
       title: "Source URLs",
       description: "Vendor pages every rendered claim was checked against.",
@@ -629,6 +646,23 @@ export const comparisonPreviewArbiterPage = defineType({
       name: "factsCheckedAt",
       title: "Facts checked",
       type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "preparedBy",
+      title: "Prepared by",
+      description:
+        'Who researched and wrote this comparison, e.g. "Superflow growth team". Renders in the hero byline.',
+      type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "methodNote",
+      title: "How the facts were checked",
+      description:
+        'One or two sentences, e.g. "Pricing and limits read from each vendor\'s site; review flows tested on a trial account." Renders in the hero byline.',
+      type: "text",
+      rows: 2,
       group: "seo",
     }),
     defineField({

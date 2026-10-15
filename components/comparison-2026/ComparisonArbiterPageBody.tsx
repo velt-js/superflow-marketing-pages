@@ -8,6 +8,7 @@ import FaqSection from "@/components/home-2026/FaqSection";
 import styles from "./comparison.module.css";
 import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
+  ComparisonByline,
   ComparisonCriteriaGrid,
   ComparisonDimensionSection,
   ComparisonPricingNote,
@@ -168,6 +169,10 @@ export default function ComparisonArbiterPageBody({
             {doc?.dateline ? (
               <p className={styles.heroFootnoteFine}>{doc.dateline}</p>
             ) : null}
+            <ComparisonByline
+              preparedBy={doc?.preparedBy}
+              methodNote={doc?.methodNote}
+            />
           </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />

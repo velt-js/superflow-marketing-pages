@@ -128,6 +128,28 @@ export function HeroPickCard({ name, line }: { name: string; line: string }) {
   );
 }
 
+/**
+ * The hero byline: who prepared the comparison and how its facts were
+ * checked. Renders nothing until an editor fills either field.
+ */
+export function ComparisonByline({
+  preparedBy,
+  methodNote,
+}: {
+  preparedBy?: string;
+  methodNote?: string;
+}) {
+  if (!preparedBy && !methodNote) {
+    return null;
+  }
+  return (
+    <p className={styles.heroFootnoteFine}>
+      {preparedBy ? `Prepared by ${preparedBy}. ` : null}
+      {methodNote ?? null}
+    </p>
+  );
+}
+
 /** The Start free / Book a demo pair with the sitewide microcopy. */
 export function ComparisonCtas({ onDark = true }: { onDark?: boolean }) {
   return (

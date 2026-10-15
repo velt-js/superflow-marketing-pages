@@ -51,6 +51,8 @@ type ComparisonPreviewShared = {
   related?: ComparisonLink[];
   factsCheckedAt?: string;
   sourceUrls?: string[];
+  preparedBy?: string;
+  methodNote?: string;
   metaTitle?: string;
   metaDescription?: string;
 };

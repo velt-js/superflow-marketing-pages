@@ -779,6 +779,8 @@ const COMPARISON_PREVIEW_SHARED_FIELDS = `
   related[]{ label, href },
   factsCheckedAt,
   sourceUrls,
+  preparedBy,
+  methodNote,
   metaTitle,
   metaDescription
 `;
