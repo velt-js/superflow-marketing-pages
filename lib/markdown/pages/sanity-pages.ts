@@ -11,6 +11,8 @@
 // icons, accent colours, and layout flags are dropped. Facts, verdicts,
 // steps, limits, prices, and FAQ answers are kept.
 
+import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
+import { superflowPlanLabel } from "@/lib/comparison-plans";
 import type { AgentDoc, AgentDocFaq, AgentDocSection } from "../types";
 import { portableTextToMarkdown, portableTextToPlain } from "../portable-text";
 import {
@@ -55,6 +57,37 @@ function facts(value: unknown, verified: unknown): string {
     return `${claims.join(" ")}${suffix}`;
   } catch {
     return "";
+  }
+}
+
+/**
+ * A short-answer pick line. The fields hold an "if …" fragment that the HTML
+ * page sets under a "Pick {tool}" card title, so the copy has to put the
+ * tool's name back or the line reads as a condition with no subject.
+ */
+function pick(tool: string, line: unknown): string {
+  try {
+    const text = clean(line);
+    if (!text) return "";
+    return tool ? `Pick ${tool} ${text}` : text;
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Joins a plan gate and a verification note into the one parenthetical
+ * `facts` appends, e.g. "Scale plan and up; verified July 2026". Returns the
+ * verified value untouched when there is no plan, so `facts` still sees a
+ * `false` flag.
+ */
+function joinNotes(plan: string, verified: unknown): unknown {
+  try {
+    if (!plan) return verified;
+    const note = clean(verified);
+    return note ? `${plan}; ${note}` : plan;
+  } catch {
+    return verified;
   }
 }
 
@@ -680,7 +713,7 @@ export function headToHeadToAgentDoc(doc: Doc, basePath: string, kind: string): 
       { label: "Author", value: clean(str(doc, "author")) },
       {
         label: "Disclosure",
-        value: "Published by Superflow. Superflow is one of the tools compared.",
+        value: SUPERFLOW_VS_DISCLOSURE,
       },
     ],
     sections: sections(
@@ -758,7 +791,13 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
   const dimensionRows = arr(doc.dimensions)
     .map((item) => [
       clean(str(item, "label")),
-      facts(item.leftFacts, item.leftVerified),
+      facts(
+        item.leftFacts,
+        joinNotes(
+          isArbiter ? "" : superflowPlanLabel(str(item, "superflowPlan")),
+          item.leftVerified,
+        ),
+      ),
       facts(item.rightFacts, item.rightVerified),
       clean(str(item, "verdict")),
     ])
@@ -797,6 +836,34 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
   const checkedAt = isoDate(str(doc, "factsCheckedAt"));
   const sourceUrls = strs(doc.sourceUrls);
 
+  // The per-card research rows, one bullet per source, so an agent can
+  // cite the page a claim came from rather than the whole comparison.
+  const claimSources = arr(doc.dimensions).flatMap((item) => {
+    const label = clean(str(item, "label"));
+    return [
+      { tool: dimensionLeft, rows: arr(item.leftSources) },
+      { tool: dimensionRight, rows: arr(item.rightSources) },
+    ].flatMap(({ tool, rows }) =>
+      rows
+        .map((row) => {
+          const url = clean(str(row, "url"));
+          if (!url) return "";
+          const method = clean(str(row, "method"));
+          const notes = [
+            method === "tested"
+              ? "tested firsthand"
+              : method === "documented"
+                ? "documented only"
+                : "",
+            clean(str(row, "checkedOn")) ? `checked ${clean(str(row, "checkedOn"))}` : "",
+          ].filter(Boolean);
+          const subject = [label, tool].filter(Boolean).join(", ");
+          return `${subject}: ${url}${notes.length ? ` (${notes.join("; ")})` : ""}`;
+        })
+        .filter(Boolean),
+    );
+  });
+
   return {
     title: firstOf(str(doc, "title"), str(doc, "headline"), titleFromSlug(slug)),
     summary: firstOf(
@@ -817,19 +884,21 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
       { label: "Dateline", value: clean(str(doc, "dateline")) },
       {
         label: "Disclosure",
-        value: firstOf(
-          str(doc, "disclosure"),
-          "Published by Superflow. Superflow is one of the tools compared.",
-        ),
+        value: firstOf(str(doc, "disclosure"), SUPERFLOW_VS_DISCLOSURE),
       },
+      { label: "Prepared by", value: clean(str(doc, "preparedBy")) },
+      { label: "How the facts were checked", value: clean(str(doc, "methodNote")) },
     ],
     sections: sections(
       {
         heading: "Short answer",
         bullets: [
-          clean(str(doc, "shortAnswerPickLeft")),
-          clean(str(doc, "shortAnswerPickRight")),
+          pick(toolLeft, str(doc, "shortAnswerPickLeft")),
+          pick(toolRight, str(doc, "shortAnswerPickRight")),
           clean(str(doc, "shortAnswerShared")),
+          pick("Superflow", str(doc, "pickSuperflow")),
+          pick(competitor, str(doc, "pickCompetitor")),
+          clean(str(doc, "stayLine")),
           clean(str(doc, "standfirst")),
         ].filter(Boolean),
       },
@@ -882,6 +951,7 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
           cleanMultiline(str(doc, "pricingNote")),
         ],
       },
+      { heading: "Claim sources", bullets: claimSources },
       { heading: "Sources", bullets: sourceUrls },
     ),
     faq: faqOf(doc.faq),

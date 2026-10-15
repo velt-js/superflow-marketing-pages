@@ -2,9 +2,12 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import FaqSection from "@/components/home-2026/FaqSection";
 
+import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
+
 import styles from "./comparison.module.css";
 import ComparisonArtifactWindow from "./ComparisonArtifact";
 import {
+  ComparisonByline,
   ComparisonCriteriaGrid,
   ComparisonDimensionSection,
   ComparisonFinalCta,
@@ -12,6 +15,7 @@ import {
   ComparisonScorecardTable,
   ComparisonSmartLink,
   ComparisonSources,
+  HeroPickCard,
   SuperflowPricingSummary,
   ToolNameWithLogo,
   criteriaItemsFromDimensions,
@@ -23,7 +27,10 @@ const SUPERFLOW_NAME = "Superflow";
 /**
  * The head-to-head class: /comparisons/superflow-vs-<x>.
  * Section order per the Figma 1061 redesign: split hero (kicker + serif
- * headline left, secondary + qualifier right), the agents-at-work product
+ * headline left, secondary + qualifier right) with the "Pick Superflow /
+ * Pick {competitor}" short answer, the stay line, the disclosure and the
+ * byline beneath, so a buyer gets "which should I choose?" and who is
+ * answering before any table; then the agents-at-work product
  * window (captioned by heroCaption), the blueprint-framed criteria grid,
  * the dimension panels (Superflow left, competitor right), scorecard recap,
  * pricing, switching, the honest close, FAQ, related, final CTA.
@@ -55,6 +62,33 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
               ) : null}
             </div>
           </div>
+
+          {doc?.pickSuperflow || doc?.pickCompetitor ? (
+            <div className={styles.pickCardsWrap}>
+              {doc?.pickSuperflow ? (
+                <HeroPickCard name={SUPERFLOW_NAME} line={doc.pickSuperflow} />
+              ) : null}
+              {doc?.pickCompetitor ? (
+                <HeroPickCard name={competitorName} line={doc.pickCompetitor} />
+              ) : null}
+            </div>
+          ) : null}
+
+          <div className={styles.heroFootnotes}>
+            {doc?.stayLine ? (
+              <p className={styles.heroFootnoteLead}>{doc.stayLine}</p>
+            ) : null}
+            <p className={styles.heroFootnoteLead}>{SUPERFLOW_VS_DISCLOSURE}</p>
+            {doc?.factsCheckedAt ? (
+              <p className={styles.heroFootnoteFine}>
+                Facts checked {doc.factsCheckedAt}.
+              </p>
+            ) : null}
+            <ComparisonByline
+              preparedBy={doc?.preparedBy}
+              methodNote={doc?.methodNote}
+            />
+          </div>
         </div>
         <div className={styles.heroFade} aria-hidden="true" />
       </header>
@@ -80,6 +114,7 @@ export default function ComparisonVsPageBody({ doc }: { doc: ComparisonVsDoc }) 
                 leftName={SUPERFLOW_NAME}
                 rightName={competitorName}
                 leadSide="left"
+                superflowSide="left"
                 index={dimensionIndex}
               />
             ))}

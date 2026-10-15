@@ -114,6 +114,46 @@ export const comparisonPreviewScorecardRow = defineType({
   preview: { select: { title: "label", subtitle: "leftCell" } },
 });
 
+/**
+ * One row of the research sheet behind a fact card: where the claim came
+ * from, when it was checked, and whether someone ran it or only read it.
+ * Renders under the card's facts, so a claim and its source sit together.
+ */
+export const comparisonPreviewClaimSource = defineType({
+  name: "comparisonPreviewClaimSource",
+  title: "Claim source",
+  type: "object",
+  fields: [
+    defineField({
+      name: "url",
+      title: "Source URL",
+      description: "The docs, pricing or changelog page the facts were checked against.",
+      type: "url",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "checkedOn",
+      title: "Checked on",
+      type: "date",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "method",
+      title: "How it was checked",
+      type: "string",
+      options: {
+        list: [
+          { title: "Tested firsthand", value: "tested" },
+          { title: "Documented only", value: "documented" },
+        ],
+        layout: "radio",
+      },
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: { select: { title: "url", subtitle: "checkedOn" } },
+});
+
 export const comparisonPreviewDimension = defineType({
   name: "comparisonPreviewDimension",
   title: "Dimension",
@@ -163,6 +203,35 @@ export const comparisonPreviewDimension = defineType({
       name: "rightVerified",
       title: "Right card verification note",
       type: "string",
+    }),
+    defineField({
+      name: "leftSources",
+      title: "Left card sources",
+      description:
+        "One row per source behind the left card's facts. When a vendor changes pricing or features, re-check these rows and update the date; don't just refresh it.",
+      type: "array",
+      of: [{ type: "comparisonPreviewClaimSource" }],
+    }),
+    defineField({
+      name: "rightSources",
+      title: "Right card sources",
+      type: "array",
+      of: [{ type: "comparisonPreviewClaimSource" }],
+    }),
+    defineField({
+      name: "superflowPlan",
+      title: "Superflow plan these facts need (vs pages)",
+      description:
+        "The lowest Superflow plan that includes everything in the Superflow card. Check /pricing's feature table. Renders beside the card the way competitor cards name their plan gates. Leave empty on X vs Y pages.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Every plan (Starter, free)", value: "starter" },
+          { title: "Growth and up", value: "growth" },
+          { title: "Scale and up", value: "scale" },
+          { title: "Enterprise only", value: "enterprise" },
+        ],
+      },
     }),
     defineField({
       name: "verdict",
@@ -324,6 +393,24 @@ export const comparisonPreviewVsPage = defineType({
       group: "hero",
     }),
     defineField({
+      name: "pickSuperflow",
+      title: "Short answer: pick Superflow if…",
+      description:
+        'Renders as a "Pick Superflow" card at the top of the page. Start with "if", e.g. "if you want every change checked before a person looks". Name a situation the buyer can recognise, not a feature.',
+      type: "text",
+      rows: 2,
+      group: "hero",
+    }),
+    defineField({
+      name: "pickCompetitor",
+      title: "Short answer: pick the competitor if…",
+      description:
+        'Renders as a "Pick {competitor}" card beside the Superflow one. Start with "if". Be as generous as the facts allow: this is the line that makes the page credible.',
+      type: "text",
+      rows: 2,
+      group: "hero",
+    }),
+    defineField({
       name: "heroCaption",
       title: "Hero visual caption",
       description: 'e.g. "It\'s like BugHerd hired a QA team."',
@@ -390,7 +477,8 @@ export const comparisonPreviewVsPage = defineType({
     defineField({
       name: "stayLine",
       title: "Stay line",
-      description: '"If {condition}, {X} is a fine tool. Stay."',
+      description:
+        '"If {condition}, {X} is a fine tool. Stay." Also renders under the hero pick cards as the "switching probably isn\'t worth it if…" answer.',
       type: "string",
       group: "close",
     }),
@@ -420,6 +508,23 @@ export const comparisonPreviewVsPage = defineType({
       title: "Facts checked",
       description: 'e.g. "July 2026".',
       type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "preparedBy",
+      title: "Prepared by",
+      description:
+        'Who researched and wrote this comparison, e.g. "Superflow growth team". Renders in the hero byline.',
+      type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "methodNote",
+      title: "How the facts were checked",
+      description:
+        'One or two sentences, e.g. "Pricing and limits read from each vendor\'s site; review flows tested on a trial account." Renders in the hero byline.',
+      type: "text",
+      rows: 2,
       group: "seo",
     }),
     defineField({
@@ -610,6 +715,23 @@ export const comparisonPreviewArbiterPage = defineType({
       name: "factsCheckedAt",
       title: "Facts checked",
       type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "preparedBy",
+      title: "Prepared by",
+      description:
+        'Who researched and wrote this comparison, e.g. "Superflow growth team". Renders in the hero byline.',
+      type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "methodNote",
+      title: "How the facts were checked",
+      description:
+        'One or two sentences, e.g. "Pricing and limits read from each vendor\'s site; review flows tested on a trial account." Renders in the hero byline.',
+      type: "text",
+      rows: 2,
       group: "seo",
     }),
     defineField({

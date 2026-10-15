@@ -547,6 +547,44 @@
   color: var(--cmp-muted);
 }
 
+/* Research rows under a fact card: source, method, date. */
+.claimSources {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--cmp-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--cmp-muted);
+}
+
+.claimSources a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Plan gate on the Superflow card ("Scale plan and up"), the same
+   information competitor cards carry inline. Takes over the push to the
+   card's foot so the verification note sits directly under it. */
+.factPlan {
+  align-self: flex-start;
+  margin: auto 0 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  font-family: var(--cmp-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cmp-ink);
+}
+
+.factPlan + .factVerified {
+  margin-top: 0;
+}
+
 /* "Verdict" label with the award glyph (purple, per Figma 1061:2302). */
 .verdictTag {
   display: inline-flex;

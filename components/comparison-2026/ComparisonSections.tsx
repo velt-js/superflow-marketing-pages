@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 
 import BlueprintFrame from "@/components/home-2026/BlueprintFrame";
 import { toInternalHref, isExternalHref } from "@/lib/links";
+import { superflowPlanLabel } from "@/lib/comparison-plans";
 import { TIERS, type Tier } from "@/components/pricing/pricing-data";
 
 import styles from "./comparison.module.css";
@@ -11,6 +12,7 @@ import { badgeNumber, dimensionBadgeColor } from "./comparisonBadges";
 import ComparisonReveal from "./ComparisonReveal";
 import { getToolLogoSrc, getToolLogosFromSlug } from "./toolLogos";
 import type {
+  ComparisonClaimSource,
   ComparisonDimension,
   ComparisonLink,
   ComparisonScorecardRow,
@@ -97,6 +99,56 @@ export function ToolNameWithLogo({
       />
       {label}
     </span>
+  );
+}
+
+/**
+ * One hero "Pick X" card (Figma 1061:2142): the tool's logo, a bold
+ * "Pick {name}" title and the pick line from the doc. Shared by the arbiter
+ * short answer and the vs-page "which should I choose?" pair.
+ */
+export function HeroPickCard({ name, line }: { name: string; line: string }) {
+  const logoSrc = getToolLogoSrc(name);
+  return (
+    <div className={styles.pickCard}>
+      {logoSrc ? (
+        <Image
+          src={logoSrc}
+          alt=""
+          aria-hidden="true"
+          width={40}
+          height={40}
+          className={styles.pickCardLogo}
+          unoptimized
+        />
+      ) : null}
+      <div className={styles.pickCardBody}>
+        <p className={styles.pickCardTitle}>Pick {name}</p>
+        <p className={styles.pickCardLine}>{line}</p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The hero byline: who prepared the comparison and how its facts were
+ * checked. Renders nothing until an editor fills either field.
+ */
+export function ComparisonByline({
+  preparedBy,
+  methodNote,
+}: {
+  preparedBy?: string;
+  methodNote?: string;
+}) {
+  if (!preparedBy && !methodNote) {
+    return null;
+  }
+  return (
+    <p className={styles.heroFootnoteFine}>
+      {preparedBy ? `Prepared by ${preparedBy}. ` : null}
+      {methodNote ?? null}
+    </p>
   );
 }
 
@@ -266,16 +318,56 @@ export function criteriaItemsFromDimensions(
   }
 }
 
+/** Reader-facing word for how a claim was checked. */
+const CLAIM_METHOD_LABELS: Record<string, string> = {
+  tested: "tested",
+  documented: "from the docs",
+};
+
+/**
+ * The research rows behind a fact card, under its facts: source link, how
+ * it was checked, and the date. Rows without a URL are skipped.
+ */
+function ClaimSourceList({ sources }: { sources?: ComparisonClaimSource[] }) {
+  const rows = (sources ?? []).filter((source) => source?.url);
+  if (rows.length === 0) {
+    return null;
+  }
+  return (
+    <ul className={styles.claimSources}>
+      {rows.map((source) => (
+        <li key={`${source.url}-${source.checkedOn ?? ""}`}>
+          <a href={source.url} target="_blank" rel="noopener noreferrer">
+            {sourceUrlLabel(source.url)}
+          </a>
+          {[
+            source.method ? CLAIM_METHOD_LABELS[source.method] : "",
+            source.checkedOn ? `checked ${source.checkedOn}` : "",
+          ]
+            .filter(Boolean)
+            .map((part) => ` · ${part}`)
+            .join("")}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** One tool's fact card inside a dimension panel (Figma 1061:2282). */
 function DimensionToolCard({
   name,
   facts,
   verified,
+  sources,
+  plan,
   lead = false,
 }: {
   name: string;
   facts?: string[];
   verified?: string;
+  sources?: ComparisonClaimSource[];
+  /** Plan gate label, e.g. "Scale plan and up". */
+  plan?: string;
   lead?: boolean;
 }) {
   const cardClass = lead
@@ -293,6 +385,8 @@ function DimensionToolCard({
           </li>
         ))}
       </ul>
+      <ClaimSourceList sources={sources} />
+      {plan ? <p className={styles.factPlan}>{plan}</p> : null}
       {verified ? <p className={styles.factVerified}>({verified})</p> : null}
     </div>
   );
@@ -304,21 +398,25 @@ function DimensionToolCard({
  * block (award glyph + purple "Verdict" + takeaway); on the right the two
  * tool fact cards stacked. `leadSide` marks which tool card gets the accent
  * treatment (Superflow on vs pages; none on neutral arbiter pages).
- * `index` picks the badge color.
+ * `superflowSide` names the Superflow card on vs pages, which then shows
+ * the plan its facts need. `index` picks the badge color.
  */
 export function ComparisonDimensionSection({
   dimension,
   leftName,
   rightName,
   leadSide,
+  superflowSide,
   index = 0,
 }: {
   dimension: ComparisonDimension;
   leftName: string;
   rightName: string;
   leadSide?: "left" | "right";
+  superflowSide?: "left" | "right";
   index?: number;
 }) {
+  const plan = superflowPlanLabel(dimension?.superflowPlan);
   return (
     <section
       id={dimensionAnchorId(dimension.label)}
@@ -353,12 +451,16 @@ export function ComparisonDimensionSection({
             name={leftName}
             facts={dimension.leftFacts}
             verified={dimension.leftVerified}
+            sources={dimension.leftSources}
+            plan={superflowSide === "left" ? plan : undefined}
             lead={leadSide === "left"}
           />
           <DimensionToolCard
             name={rightName}
             facts={dimension.rightFacts}
             verified={dimension.rightVerified}
+            sources={dimension.rightSources}
+            plan={superflowSide === "right" ? plan : undefined}
             lead={leadSide === "right"}
           />
         </div>

@@ -779,6 +779,8 @@ const COMPARISON_PREVIEW_SHARED_FIELDS = `
   related[]{ label, href },
   factsCheckedAt,
   sourceUrls,
+  preparedBy,
+  methodNote,
   metaTitle,
   metaDescription
 `;
@@ -791,6 +793,9 @@ const COMPARISON_PREVIEW_DIMENSION_FIELDS = `
   rightFacts,
   leftVerified,
   rightVerified,
+  superflowPlan,
+  leftSources[]{ url, checkedOn, method },
+  rightSources[]{ url, checkedOn, method },
   verdict
 `;
 
@@ -836,6 +841,8 @@ export async function getComparisonPreviewBySlug(slug: string) {
         secondary,
         prevents,
         qualifier,
+        pickSuperflow,
+        pickCompetitor,
         heroCaption,
         dimensions[]{ ${COMPARISON_PREVIEW_DIMENSION_FIELDS} },
         scorecardKicker,
