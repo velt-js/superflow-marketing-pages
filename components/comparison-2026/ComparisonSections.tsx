@@ -12,6 +12,7 @@ import { badgeNumber, dimensionBadgeColor } from "./comparisonBadges";
 import ComparisonReveal from "./ComparisonReveal";
 import { getToolLogoSrc, getToolLogosFromSlug } from "./toolLogos";
 import type {
+  ComparisonClaimSource,
   ComparisonDimension,
   ComparisonLink,
   ComparisonScorecardRow,
@@ -317,17 +318,54 @@ export function criteriaItemsFromDimensions(
   }
 }
 
+/** Reader-facing word for how a claim was checked. */
+const CLAIM_METHOD_LABELS: Record<string, string> = {
+  tested: "tested",
+  documented: "from the docs",
+};
+
+/**
+ * The research rows behind a fact card, under its facts: source link, how
+ * it was checked, and the date. Rows without a URL are skipped.
+ */
+function ClaimSourceList({ sources }: { sources?: ComparisonClaimSource[] }) {
+  const rows = (sources ?? []).filter((source) => source?.url);
+  if (rows.length === 0) {
+    return null;
+  }
+  return (
+    <ul className={styles.claimSources}>
+      {rows.map((source) => (
+        <li key={`${source.url}-${source.checkedOn ?? ""}`}>
+          <a href={source.url} target="_blank" rel="noopener noreferrer">
+            {sourceUrlLabel(source.url)}
+          </a>
+          {[
+            source.method ? CLAIM_METHOD_LABELS[source.method] : "",
+            source.checkedOn ? `checked ${source.checkedOn}` : "",
+          ]
+            .filter(Boolean)
+            .map((part) => ` · ${part}`)
+            .join("")}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** One tool's fact card inside a dimension panel (Figma 1061:2282). */
 function DimensionToolCard({
   name,
   facts,
   verified,
+  sources,
   plan,
   lead = false,
 }: {
   name: string;
   facts?: string[];
   verified?: string;
+  sources?: ComparisonClaimSource[];
   /** Plan gate label, e.g. "Scale plan and up". */
   plan?: string;
   lead?: boolean;
@@ -347,6 +385,7 @@ function DimensionToolCard({
           </li>
         ))}
       </ul>
+      <ClaimSourceList sources={sources} />
       {plan ? <p className={styles.factPlan}>{plan}</p> : null}
       {verified ? <p className={styles.factVerified}>({verified})</p> : null}
     </div>
@@ -412,6 +451,7 @@ export function ComparisonDimensionSection({
             name={leftName}
             facts={dimension.leftFacts}
             verified={dimension.leftVerified}
+            sources={dimension.leftSources}
             plan={superflowSide === "left" ? plan : undefined}
             lead={leadSide === "left"}
           />
@@ -419,6 +459,7 @@ export function ComparisonDimensionSection({
             name={rightName}
             facts={dimension.rightFacts}
             verified={dimension.rightVerified}
+            sources={dimension.rightSources}
             plan={superflowSide === "right" ? plan : undefined}
             lead={leadSide === "right"}
           />

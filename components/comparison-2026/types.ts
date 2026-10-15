@@ -11,6 +11,13 @@ export type ComparisonLink = {
   href: string;
 };
 
+export type ComparisonClaimSource = {
+  url: string;
+  /** ISO date, e.g. "2026-07-01". */
+  checkedOn?: string;
+  method?: "tested" | "documented";
+};
+
 export type ComparisonDimension = {
   number?: string;
   label: string;
@@ -21,6 +28,8 @@ export type ComparisonDimension = {
   rightVerified?: string;
   /** TIERS id of the plan the Superflow card needs (vs pages only). */
   superflowPlan?: string;
+  leftSources?: ComparisonClaimSource[];
+  rightSources?: ComparisonClaimSource[];
   verdict?: string;
 };
 

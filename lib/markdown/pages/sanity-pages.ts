@@ -836,6 +836,34 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
   const checkedAt = isoDate(str(doc, "factsCheckedAt"));
   const sourceUrls = strs(doc.sourceUrls);
 
+  // The per-card research rows, one bullet per source, so an agent can
+  // cite the page a claim came from rather than the whole comparison.
+  const claimSources = arr(doc.dimensions).flatMap((item) => {
+    const label = clean(str(item, "label"));
+    return [
+      { tool: dimensionLeft, rows: arr(item.leftSources) },
+      { tool: dimensionRight, rows: arr(item.rightSources) },
+    ].flatMap(({ tool, rows }) =>
+      rows
+        .map((row) => {
+          const url = clean(str(row, "url"));
+          if (!url) return "";
+          const method = clean(str(row, "method"));
+          const notes = [
+            method === "tested"
+              ? "tested firsthand"
+              : method === "documented"
+                ? "documented only"
+                : "",
+            clean(str(row, "checkedOn")) ? `checked ${clean(str(row, "checkedOn"))}` : "",
+          ].filter(Boolean);
+          const subject = [label, tool].filter(Boolean).join(", ");
+          return `${subject}: ${url}${notes.length ? ` (${notes.join("; ")})` : ""}`;
+        })
+        .filter(Boolean),
+    );
+  });
+
   return {
     title: firstOf(str(doc, "title"), str(doc, "headline"), titleFromSlug(slug)),
     summary: firstOf(
@@ -923,6 +951,7 @@ export function comparisonPreviewToAgentDoc(doc: Doc, basePath: string): AgentDo
           cleanMultiline(str(doc, "pricingNote")),
         ],
       },
+      { heading: "Claim sources", bullets: claimSources },
       { heading: "Sources", bullets: sourceUrls },
     ),
     faq: faqOf(doc.faq),

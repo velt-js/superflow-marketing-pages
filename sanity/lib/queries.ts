@@ -794,6 +794,8 @@ const COMPARISON_PREVIEW_DIMENSION_FIELDS = `
   leftVerified,
   rightVerified,
   superflowPlan,
+  leftSources[]{ url, checkedOn, method },
+  rightSources[]{ url, checkedOn, method },
   verdict
 `;
 

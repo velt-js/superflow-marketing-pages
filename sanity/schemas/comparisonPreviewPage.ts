@@ -114,6 +114,46 @@ export const comparisonPreviewScorecardRow = defineType({
   preview: { select: { title: "label", subtitle: "leftCell" } },
 });
 
+/**
+ * One row of the research sheet behind a fact card: where the claim came
+ * from, when it was checked, and whether someone ran it or only read it.
+ * Renders under the card's facts, so a claim and its source sit together.
+ */
+export const comparisonPreviewClaimSource = defineType({
+  name: "comparisonPreviewClaimSource",
+  title: "Claim source",
+  type: "object",
+  fields: [
+    defineField({
+      name: "url",
+      title: "Source URL",
+      description: "The docs, pricing or changelog page the facts were checked against.",
+      type: "url",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "checkedOn",
+      title: "Checked on",
+      type: "date",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "method",
+      title: "How it was checked",
+      type: "string",
+      options: {
+        list: [
+          { title: "Tested firsthand", value: "tested" },
+          { title: "Documented only", value: "documented" },
+        ],
+        layout: "radio",
+      },
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: { select: { title: "url", subtitle: "checkedOn" } },
+});
+
 export const comparisonPreviewDimension = defineType({
   name: "comparisonPreviewDimension",
   title: "Dimension",
@@ -163,6 +203,20 @@ export const comparisonPreviewDimension = defineType({
       name: "rightVerified",
       title: "Right card verification note",
       type: "string",
+    }),
+    defineField({
+      name: "leftSources",
+      title: "Left card sources",
+      description:
+        "One row per source behind the left card's facts. When a vendor changes pricing or features, re-check these rows and update the date; don't just refresh it.",
+      type: "array",
+      of: [{ type: "comparisonPreviewClaimSource" }],
+    }),
+    defineField({
+      name: "rightSources",
+      title: "Right card sources",
+      type: "array",
+      of: [{ type: "comparisonPreviewClaimSource" }],
     }),
     defineField({
       name: "superflowPlan",

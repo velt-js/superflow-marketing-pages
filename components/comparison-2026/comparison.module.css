@@ -547,6 +547,25 @@
   color: var(--cmp-muted);
 }
 
+/* Research rows under a fact card: source, method, date. */
+.claimSources {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--cmp-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--cmp-muted);
+}
+
+.claimSources a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* Plan gate on the Superflow card ("Scale plan and up"), the same
    information competitor cards carry inline. Takes over the push to the
    card's foot so the verification note sits directly under it. */

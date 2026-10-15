@@ -110,6 +110,7 @@ import {
 } from "./featurePage";
 import {
   comparisonPreviewFaqItem,
+  comparisonPreviewClaimSource,
   comparisonPreviewLink,
   comparisonPreviewScorecardRow,
   comparisonPreviewDimension,
@@ -281,6 +282,7 @@ export const schemaTypes = [
 
   // comparisonPreview* sub-types
   comparisonPreviewFaqItem,
+  comparisonPreviewClaimSource,
   comparisonPreviewLink,
   comparisonPreviewScorecardRow,
   comparisonPreviewDimension,
