@@ -22,6 +22,21 @@ import {
   TYPICAL_PROJECT_CREDITS,
 } from "@/components/pricing-2026/ai-credits-data";
 import { SITE_URL } from "@/app/_seo/schema";
+import {
+  AGENTS,
+  AGENT_START_LABELS,
+  ALTERNATIVES,
+  BENEFITS,
+  BUILD_OR_BUY,
+  BUILD_OR_BUY_SUB,
+  NEW_HOME_PATH,
+  PAGE_DESCRIPTION as NEW_HOME_DESCRIPTION,
+  PAGE_TITLE as NEW_HOME_TITLE,
+  REPORT_POINTS,
+  STAGES,
+  WHY_NOW,
+  buildNewHomeFaq,
+} from "@/components/home-new-2026/content";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
 
@@ -86,6 +101,60 @@ function homeDoc(): AgentDoc {
       question: clean(item.question),
       answer: clean(item.answer),
     })),
+  };
+}
+
+/** /new-home-2026, the draft homepage, read from the same copy module. */
+function newHomeDoc(): AgentDoc {
+  return {
+    title: NEW_HOME_TITLE,
+    summary: NEW_HOME_DESCRIPTION,
+    path: NEW_HOME_PATH,
+    kind: "Homepage (draft)",
+    facts: [
+      { label: "Agents", value: `${AGENTS.length}` },
+      { label: "Client accounts required", value: "No. Clients review over a link." },
+      { label: "AI pricing", value: BULK_SITE_PRICE_LABEL },
+    ],
+    sections: [
+      {
+        heading: "Three stages",
+        bullets: STAGES.map((stage) => `**${stage.title}**: ${stage.line} ${stage.audience}.`),
+      },
+      {
+        heading: "What you get",
+        bullets: BENEFITS.map((benefit) => `**${benefit.title}**: ${benefit.line}`),
+      },
+      {
+        heading: "Why now",
+        bullets: WHY_NOW.map((item) => `**${item.title}**: ${item.line}`),
+      },
+      {
+        heading: "Agents",
+        table: {
+          headers: ["Agent", "What it checks", "Starts"],
+          rows: AGENTS.map((agent) => [agent.name, agent.checks, AGENT_START_LABELS[agent.start]]),
+        },
+      },
+      { heading: "The client report", bullets: [...REPORT_POINTS] },
+      {
+        heading: "Compared with",
+        bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap} Superflow: ${alt.answer}`),
+      },
+      {
+        heading: "Build it, or use ours",
+        body: [BUILD_OR_BUY_SUB],
+        bullets: BUILD_OR_BUY.map((item) => `**${item.title}**: ${item.line}`),
+      },
+      {
+        heading: "Where to go next",
+        bullets: [
+          `Pricing: ${SITE_URL}/pricing.md`,
+          `Current homepage: ${SITE_URL}/index.md`,
+        ],
+      },
+    ],
+    faq: buildNewHomeFaq(BULK_SITE_PRICE_LABEL),
   };
 }
 
@@ -416,6 +485,7 @@ function surveyReportDoc(): AgentDoc {
 export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/": homeDoc,
   "/pricing": pricingDoc,
+  [NEW_HOME_PATH]: newHomeDoc,
   "/security": securityDoc,
   "/book-demo": bookDemoDoc,
   "/demo": demoDoc,
