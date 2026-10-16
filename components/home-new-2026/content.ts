@@ -1,0 +1,179 @@
+// Copy for /new-home-2026, kept in one module so the page and its Markdown
+// copy (lib/markdown/pages/static-pages.ts) read the same words.
+//
+// House rules for this page: one idea per sentence, five to twelve words,
+// no em dashes, no narrative. Say "checking", not "verification". Never put a
+// precision number or a retainer price on the page.
+
+export const NEW_HOME_PATH = "/new-home-2026";
+
+export const HERO_HEADLINE_LINES: readonly string[] = [
+  "QA agents for web",
+  "and marketing agencies",
+];
+
+export const HERO_SUBHEAD =
+  "Agents check client sites before launch, at handoff, and after launch.";
+
+export const PAGE_TITLE = "QA agents for web and marketing agencies";
+export const PAGE_DESCRIPTION =
+  "Superflow's QA agents check client websites before launch, at handoff, and after launch. Your team accepts each finding. Your client signs off from one link.";
+
+/** One of the three moments Superflow checks a site. */
+export type Stage = {
+  id: "before" | "handoff" | "after";
+  title: string;
+  /** Who cares about this stage. */
+  audience: string;
+  line: string;
+};
+
+export const STAGES_HEADLINE_LINES: readonly string[] = [
+  "Superflow helps",
+  "you QA at each stage",
+];
+
+export const STAGES: readonly Stage[] = [
+  {
+    id: "before",
+    title: "Before handoff",
+    audience: "For devs and PMs",
+    line: "Agents catch the black and white issues. Your team checks the rest.",
+  },
+  {
+    id: "handoff",
+    title: "At handoff",
+    audience: "For PMs and clients",
+    line: "Send your client one link. They review and approve without a login.",
+  },
+  {
+    id: "after",
+    title: "After launch",
+    audience: "For agency owners and clients",
+    line: "Agents recheck every change and every week. Fixes get confirmed.",
+  },
+];
+
+/** A card in the "What you get" grid. */
+export type Benefit = {
+  id: "agents" | "report" | "monitoring" | "accessibility" | "mcp" | "figma";
+  title: string;
+  line: string;
+};
+
+export const BENEFITS: readonly Benefit[] = [
+  {
+    id: "agents",
+    title: "13 agents out of the box",
+    line: "Seven run on the first scan. No uploads needed.",
+  },
+  {
+    id: "report",
+    title: "Shareable QA report",
+    line: "Your logo on top. Shows what was checked and fixed.",
+  },
+  {
+    id: "monitoring",
+    title: "Always-on monitoring",
+    line: "Agents rerun on every change and every week.",
+  },
+  {
+    id: "accessibility",
+    title: "Accessibility reporting",
+    line: "Check to WCAG A, AA, or AAA. Results in plain words.",
+  },
+  {
+    id: "mcp",
+    title: "Resolve issues with MCP",
+    line: "Connect Superflow MCP with your agents to fetch and resolve issues.",
+  },
+  {
+    id: "figma",
+    title: "Check against Figma",
+    line: "Compare the built page to the design, desktop and mobile.",
+  },
+];
+
+/** A reason the work matters more this year than last. */
+export type WhyNowItem = { title: string; line: string };
+
+export const WHY_NOW: readonly WhyNowItem[] = [
+  {
+    title: "AI search reads the site",
+    line: "Broken pages and missing labels change how AI describes your client.",
+  },
+  {
+    title: "Accessibility lawsuits keep rising",
+    line: "Small businesses get sued too.",
+  },
+  {
+    title: "More people edit the site",
+    line: "Marketers, clients, and AI tools publish every day.",
+  },
+  {
+    title: "Devs ship more pages with AI",
+    line: "Building got faster. Checking is now the slow part.",
+  },
+];
+
+/** When an agent first runs on a new site. */
+export type AgentStart = "first-scan" | "one-click" | "upload";
+
+export const AGENT_START_LABELS: Readonly<Record<AgentStart, string>> = {
+  "first-scan": "First scan",
+  "one-click": "One click",
+  upload: "Needs upload",
+};
+
+export type Agent = {
+  name: string;
+  checks: string;
+  start: AgentStart;
+};
+
+// Order matches the report: the seven quiet agents that run on a first scan,
+// then the ones that need one click or an upload.
+export const AGENTS: readonly Agent[] = [
+  { name: "Link Checker", checks: "Dead links, 404s, broken CTAs and forms", start: "first-scan" },
+  { name: "Image Inspector", checks: "Missing, stretched, oversized, or broken images", start: "first-scan" },
+  { name: "Mobile Inspector", checks: "Text overlap, clipped buttons, side scroll", start: "first-scan" },
+  { name: "Accessibility", checks: "Contrast, alt text, headings, labels, focus", start: "first-scan" },
+  { name: "AI Visibility", checks: "Titles, meta, schema, sitemap, llms.txt", start: "first-scan" },
+  { name: "Proofreader", checks: "Typos, Lorem Ipsum, placeholder text", start: "first-scan" },
+  { name: "Consistency Checker", checks: "Fonts, colors, and spacing drifting across pages", start: "first-scan" },
+  { name: "Performance", checks: "Core Web Vitals, heavy images, layout shift", start: "one-click" },
+  { name: "Compliance", checks: "Cookie banner, privacy policy, form consent", start: "one-click" },
+  { name: "Data Privacy", checks: "Exposed emails, PII in source, cookie flags", start: "one-click" },
+  { name: "Security", checks: "Unknown scripts, mixed content, risky libraries", start: "one-click" },
+  { name: "Figma Match", checks: "Built page against the Figma file", start: "upload" },
+  { name: "Copyright", checks: "Stock watermarks, unlicensed fonts, copied text", start: "upload" },
+];
+
+export const FIRST_SCAN_AGENT_COUNT = AGENTS.filter(
+  (agent) => agent.start === "first-scan",
+).length;
+
+export const REPORT_POINTS: readonly string[] = [
+  "One score out of 100",
+  "Work done this week",
+  "Found, fixed, confirmed, open",
+  "Before and after screenshots",
+  "Your logo, not ours",
+];
+
+/** What an agency would use instead, and where it falls short. */
+export type Alternative = { name: string; gap: string };
+
+export const ALTERNATIVES: readonly Alternative[] = [
+  { name: "Free scanners", gap: "One page at a time. No history." },
+  { name: "Enterprise tools", gap: "Annual contracts and a long sales cycle." },
+  { name: "Accessibility overlays", gap: "Add a widget. The code stays broken." },
+  { name: "DIY Claude Code scripts", gap: "No pins, no client view, no history." },
+];
+
+export const SUPERFLOW_ROW: readonly string[] = [
+  "Whole site, every change",
+  "Pinned on the page",
+  "Your team decides",
+  "Client report built in",
+];

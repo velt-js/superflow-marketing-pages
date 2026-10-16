@@ -17,6 +17,7 @@ import {
   IntegrationsWordPressArtifact,
   IntegrationsGtmArtifact,
 } from "./hero-artifacts/IntegrationsInstallArtifact";
+import HeroAgentsArtifact from "@/components/home-new-2026/HeroAgentsArtifact";
 
 /**
  * Chrome-less hero artifacts that render inside a plain white card (no tab
@@ -33,6 +34,7 @@ const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-webflow": IntegrationsWebflowArtifact,
   "integrations-wordpress": IntegrationsWordPressArtifact,
   "integrations-google-tag-manager": IntegrationsGtmArtifact,
+  "new-home-agents": HeroAgentsArtifact,
 };
 
 const CTA_MICROCOPY =
@@ -102,6 +104,13 @@ export interface HeroProps {
    * on a shadow-less card.
    */
   staticArtifactFlat?: boolean;
+  /**
+   * When true (and a `staticArtifact` is set), the static card takes a light
+   * grey hairline instead of the near-black one (/new-home-2026).
+   */
+  staticArtifactLight?: boolean;
+  /** Smaller headline for longer two-line headlines (/new-home-2026). */
+  compactHeadline?: boolean;
   /** Hide the "Trusted by" logo strip (pages that carry their own logo strip). */
   hideTrusted?: boolean;
 }
@@ -161,6 +170,8 @@ export default function Hero({
   background = "default",
   staticArtifact,
   staticArtifactFlat = false,
+  staticArtifactLight = false,
+  compactHeadline = false,
   hideTrusted = false,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
@@ -185,7 +196,13 @@ export default function Hero({
         <div className={styles.body}>
           <div className={styles.copy}>
             {kicker ? <p className={styles.kicker}>{kicker}</p> : null}
-            <h1 className={styles.headline}>
+            <h1
+              className={
+                compactHeadline
+                  ? `${styles.headline} ${styles.headlineCompact}`
+                  : styles.headline
+              }
+            >
               {resolvedHeadlineLines.map((line, index) => (
                 <span key={line} className={styles.headlineLine}>
                   {line}
@@ -217,11 +234,13 @@ export default function Hero({
         {StaticArtifact ? (
           <div className={styles.showcase}>
             <div
-              className={
-                staticArtifactFlat
-                  ? `${styles.staticCard} ${styles.staticCardFlat}`
-                  : styles.staticCard
-              }
+              className={[
+                styles.staticCard,
+                staticArtifactFlat ? styles.staticCardFlat : "",
+                staticArtifactLight ? styles.staticCardLight : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
               <StaticArtifact />
             </div>
