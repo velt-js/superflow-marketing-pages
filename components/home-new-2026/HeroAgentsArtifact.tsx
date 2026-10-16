@@ -1,7 +1,8 @@
 import styles from "./HeroAgentsArtifact.module.css";
+import { FIRST_SCAN_AGENT_COUNT } from "./content";
 
 /**
- * Hero visual for /new-home-2026: agents pin findings on a client page, then a
+ * Hero visual for /new-home-2026: agents pin issues on a client page, then a
  * person accepts one, rejects one, and leaves a comment of their own.
  *
  * Pure CSS: every element runs its own keyframes on one shared 16s loop, so it
@@ -66,10 +67,10 @@ export default function HeroAgentsArtifact() {
               </span>
               <span className={styles.address}>
                 <span className={styles.stagingTag}>Staging</span>
-                brightsmile-dental.com
+                brightsmile.com
               </span>
               <span className={styles.agentsRunning}>
-                <span className={styles.pulse} />6 agents running
+                <span className={styles.pulse} />{FIRST_SCAN_AGENT_COUNT} agents running
               </span>
             </div>
 
@@ -178,7 +179,7 @@ export default function HeroAgentsArtifact() {
           {/* ----------------------------------------------- feed */}
           <div className={styles.feed}>
             <div className={styles.feedHeader}>
-              <span>Findings</span>
+              <span>Issues</span>
               <span className={styles.feedCount}>Your team decides</span>
             </div>
             <ul className={styles.feedList}>

@@ -111,6 +111,8 @@ export interface HeroProps {
   staticArtifactLight?: boolean;
   /** Smaller headline for longer two-line headlines (/new-home-2026). */
   compactHeadline?: boolean;
+  /** Agent names for the checks dropdown. Defaults to the homepage set. */
+  agentLabels?: readonly string[];
   /** Hide the "Trusted by" logo strip (pages that carry their own logo strip). */
   hideTrusted?: boolean;
 }
@@ -172,6 +174,7 @@ export default function Hero({
   staticArtifactFlat = false,
   staticArtifactLight = false,
   compactHeadline = false,
+  agentLabels,
   hideTrusted = false,
 }: HeroProps = {}) {
   const resolvedHeadlineLines =
@@ -226,7 +229,7 @@ export default function Hero({
 
               <p className={styles.microcopy}>{CTA_MICROCOPY}</p>
 
-              <HeroChecksDropdown />
+              <HeroChecksDropdown labels={agentLabels} />
             </div>
           )}
         </div>

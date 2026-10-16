@@ -23,6 +23,7 @@ import {
 import {
   HERO_HEADLINE_LINES,
   HERO_SUBHEAD,
+  FIRST_SCAN_AGENTS,
   NEW_HOME_PATH,
   PAGE_DESCRIPTION,
   PAGE_TITLE,
@@ -49,10 +50,11 @@ export default function NewHomePage() {
         staticArtifact="new-home-agents"
         staticArtifactLight
         compactHeadline
+        agentLabels={FIRST_SCAN_AGENTS}
       />
       <StagesSection />
-      <WhatYouGetSection />
       <WhyNowSection />
+      <WhatYouGetSection />
       <AgentsSection />
       <ReportSection />
       <CompareSection />

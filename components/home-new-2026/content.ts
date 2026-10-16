@@ -13,11 +13,11 @@ export const HERO_HEADLINE_LINES: readonly string[] = [
 ];
 
 export const HERO_SUBHEAD =
-  "Agents check client sites before launch, at handoff, and after launch.";
+  "Agents check client sites before handoff, at handoff, and after launch. Your team decides what to fix.";
 
 export const PAGE_TITLE = "QA agents for web and marketing agencies";
 export const PAGE_DESCRIPTION =
-  "Superflow's QA agents check client websites before launch, at handoff, and after launch. Your team accepts each finding. Your client signs off from one link.";
+  "Superflow's QA agents check client websites before handoff, at handoff, and after launch. Your team decides what to fix. Your client signs off from one link.";
 
 /** One of the three moments Superflow checks a site. */
 export type Stage = {
@@ -38,7 +38,7 @@ export const STAGES: readonly Stage[] = [
     id: "before",
     title: "Before handoff",
     audience: "For devs and PMs",
-    line: "Agents catch the black and white issues. Your team checks the rest.",
+    line: "Agents find the obvious issues. Your team judges the rest.",
   },
   {
     id: "handoff",
@@ -50,7 +50,7 @@ export const STAGES: readonly Stage[] = [
     id: "after",
     title: "After launch",
     audience: "For agency owners and clients",
-    line: "Agents recheck every change and every week. Fixes get confirmed.",
+    line: "Agents recheck on every change and every week. A rescan confirms each fix.",
   },
 ];
 
@@ -64,13 +64,13 @@ export type Benefit = {
 export const BENEFITS: readonly Benefit[] = [
   {
     id: "agents",
-    title: "13 agents out of the box",
-    line: "Seven run on the first scan. No uploads needed.",
+    title: "13 agents built in",
+    line: "Seven run on the first scan. No setup, no uploads.",
   },
   {
     id: "report",
     title: "Shareable QA report",
-    line: "Your logo on top. Shows what was checked and fixed.",
+    line: "Your logo on top. It lists what was checked and what was fixed.",
   },
   {
     id: "monitoring",
@@ -80,17 +80,17 @@ export const BENEFITS: readonly Benefit[] = [
   {
     id: "accessibility",
     title: "Accessibility reporting",
-    line: "Check to WCAG A, AA, or AAA. Results in plain words.",
+    line: "Checks to WCAG A, AA, or AAA. Results in plain words.",
   },
   {
     id: "mcp",
     title: "Resolve issues with MCP",
-    line: "Connect Superflow MCP with your agents to fetch and resolve issues.",
+    line: "Your coding agent pulls open issues and fixes them. A rescan closes them.",
   },
   {
     id: "figma",
     title: "Check against Figma",
-    line: "Compare the built page to the design, desktop and mobile.",
+    line: "Compares the built page to the Figma file, on desktop and mobile.",
   },
 ];
 
@@ -112,7 +112,7 @@ export const WHY_NOW: readonly WhyNowItem[] = [
   },
   {
     title: "Devs ship more pages with AI",
-    line: "Building got faster. Checking is now the slow part.",
+    line: "Building got faster. Checking did not.",
   },
 ];
 
@@ -152,13 +152,15 @@ export const AGENTS: readonly Agent[] = [
   { name: "Compliance", checks: "Cookie banner, privacy policy, form consent", start: "one-click" },
   { name: "Data Privacy", checks: "Exposed emails, PII in source, cookie flags", start: "one-click" },
   { name: "Security", checks: "Unknown scripts, mixed content, risky libraries", start: "one-click" },
-  { name: "Figma Match", checks: "Built page against the Figma file", start: "upload" },
+  { name: "Figma Match", checks: "The built page against the Figma file", start: "upload" },
   { name: "Copyright", checks: "Stock watermarks, unlicensed fonts, copied text", start: "upload" },
 ];
 
-export const FIRST_SCAN_AGENT_COUNT = AGENTS.filter(
+export const FIRST_SCAN_AGENTS: readonly string[] = AGENTS.filter(
   (agent) => agent.start === "first-scan",
-).length;
+).map((agent) => agent.name);
+
+export const FIRST_SCAN_AGENT_COUNT = FIRST_SCAN_AGENTS.length;
 
 export const REPORT_POINTS: readonly string[] = [
   "One score out of 100",
@@ -175,7 +177,7 @@ export const ALTERNATIVES: readonly Alternative[] = [
   {
     name: "Free scanners",
     gap: "One page at a time. No history.",
-    answer: "Whole site, with full history.",
+    answer: "The whole site, with history.",
   },
   {
     name: "Enterprise tools",
@@ -185,12 +187,12 @@ export const ALTERNATIVES: readonly Alternative[] = [
   {
     name: "Accessibility overlays",
     gap: "Add a widget. The code stays broken.",
-    answer: "Pins the issue so you fix the code.",
+    answer: "Pins the issue. You fix the code.",
   },
   {
     name: "DIY Claude Code scripts",
     gap: "No pins, no client view, no history.",
-    answer: "Keep them. Send findings in over MCP.",
+    answer: "Keep them. Send their issues in over MCP.",
   },
 ];
 
@@ -205,7 +207,7 @@ export function buildNewHomeFaq(priceLabel: string): NewHomeFaq[] {
     {
       question: "Does the AI replace my QA person?",
       answer:
-        "No. Agents catch the black and white issues. Your team accepts, rejects, or assigns each one.",
+        "No. Agents find the obvious issues. Your team accepts, rejects, or assigns each one.",
     },
     {
       question: "When do the agents run?",
@@ -223,7 +225,7 @@ export function buildNewHomeFaq(priceLabel: string): NewHomeFaq[] {
     {
       question: "Can my devs keep their own Claude Code checks?",
       answer:
-        "Yes. Send their findings in over Superflow MCP. They show on the page in their own lane.",
+        "Yes. Send their issues in over Superflow MCP. They show as pins on the page, labeled as theirs.",
     },
     {
       question: "What does it cost?",
