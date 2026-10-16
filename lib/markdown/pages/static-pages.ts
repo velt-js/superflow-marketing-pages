@@ -27,6 +27,8 @@ import {
   AGENT_START_LABELS,
   ALTERNATIVES,
   BENEFITS,
+  BUILD_OR_BUY,
+  BUILD_OR_BUY_SUB,
   NEW_HOME_PATH,
   PAGE_DESCRIPTION as NEW_HOME_DESCRIPTION,
   PAGE_TITLE as NEW_HOME_TITLE,
@@ -138,6 +140,11 @@ function newHomeDoc(): AgentDoc {
       {
         heading: "Compared with",
         bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap} Superflow: ${alt.answer}`),
+      },
+      {
+        heading: "Build it, or use ours",
+        body: [BUILD_OR_BUY_SUB],
+        bullets: BUILD_OR_BUY.map((item) => `**${item.title}**: ${item.line}`),
       },
       {
         heading: "Where to go next",

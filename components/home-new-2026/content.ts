@@ -196,6 +196,34 @@ export const ALTERNATIVES: readonly Alternative[] = [
   },
 ];
 
+/** Build or buy: what our agents already know that a new script does not. */
+export type BuildOrBuyItem = {
+  id: "tuned" | "client" | "workspace";
+  title: string;
+  line: string;
+};
+
+export const BUILD_OR_BUY_HEADLINE = "Build it, or use ours?";
+export const BUILD_OR_BUY_SUB = "A new script starts from zero. Ours already learned.";
+
+export const BUILD_OR_BUY: readonly BuildOrBuyItem[] = [
+  {
+    id: "tuned",
+    title: "Tuned on 15,000+ website reviews",
+    line: "Every accept and reject taught the agents what counts.",
+  },
+  {
+    id: "client",
+    title: "Memory per client",
+    line: "Each client's rules and exceptions, kept across every run.",
+  },
+  {
+    id: "workspace",
+    title: "Memory per workspace",
+    line: "Learns what your team flags most. Checks for it first.",
+  },
+];
+
 /** FAQ for this page. The price answer is filled in by the caller. */
 export type NewHomeFaq = { question: string; answer: string };
 
@@ -226,6 +254,11 @@ export function buildNewHomeFaq(priceLabel: string): NewHomeFaq[] {
       question: "Can my devs keep their own Claude Code checks?",
       answer:
         "Yes. Send their issues in over Superflow MCP. They show as pins on the page, labeled as theirs.",
+    },
+    {
+      question: "Why not build this with Claude Code myself?",
+      answer:
+        "You can, and you can send its issues in over MCP. Our agents have learned from 15,000+ website reviews, keep each client's rules, and learn what your team flags.",
     },
     {
       question: "What does it cost?",

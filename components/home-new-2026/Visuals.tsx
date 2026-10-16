@@ -336,6 +336,103 @@ export function FigmaBenefitVisual() {
   );
 }
 
+/* ------------------------------------------------------------ build or buy */
+
+/** Reviews taught the agents: accepted and rejected issues, then a tuned agent. */
+export function TunedVisual() {
+  const rows = [
+    { text: "Alt text missing on hero", ok: true },
+    { text: "Button color off by one shade", ok: false },
+    { text: "Footer link returns 404", ok: true },
+  ];
+  return (
+    <div className={styles.cardVisual} aria-hidden="true">
+      <div className={styles.tuned}>
+        <ul className={styles.reviewList}>
+          {rows.map((row) => (
+            <li key={row.text} className={styles.reviewRow}>
+              <span className={row.ok ? styles.okDot : styles.noDot}>{row.ok ? <CheckGlyph size={10} /> : "✕"}</span>
+              <span>{row.text}</span>
+            </li>
+          ))}
+        </ul>
+        <span className={styles.tunedCount}>
+          <b>15,000+</b> website reviews
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/** One client's remembered rules. */
+export function ClientMemoryVisual() {
+  const rules = [
+    { label: "Brand blue", value: "#1E3A8A" },
+    { label: "Spelling", value: "check-up, not checkup" },
+    { label: "Ignore", value: "Footer disclaimer" },
+  ];
+  return (
+    <div className={styles.cardVisual} aria-hidden="true">
+      <div className={styles.memoryCard}>
+        <span className={styles.memoryHead}>
+          <span className={styles.clientMark}>BS</span>
+          <span>
+            <b>{CLIENT}</b>
+            <span>3 rules remembered</span>
+          </span>
+        </span>
+        <ul className={styles.ruleList}>
+          {rules.map((rule) => (
+            <li key={rule.label}>
+              <span>{rule.label}</span>
+              <b>{rule.value}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/** What the team flags most, with the agent now checking for it first. */
+export function WorkspaceMemoryVisual() {
+  const issues = [
+    { text: "Missing alt text", count: 42 },
+    { text: "Off-brand button color", count: 31 },
+    { text: "Broken footer links", count: 18 },
+  ];
+  const max = issues[0].count;
+  return (
+    <div className={styles.cardVisual} aria-hidden="true">
+      <div className={styles.memoryCard}>
+        <span className={styles.memoryHead}>
+          <span className={styles.workspaceMark}>N</span>
+          <span>
+            <b>{AGENCY}</b>
+            <span>Your team flags most</span>
+          </span>
+        </span>
+        <ul className={styles.barList}>
+          {issues.map((issue) => (
+            <li key={issue.text}>
+              <span className={styles.barLabel}>
+                <span>{issue.text}</span>
+                <b>{issue.count}</b>
+              </span>
+              <span className={styles.barTrack}>
+                <span className={styles.barFill} style={{ width: `${(issue.count / max) * 100}%` }} />
+              </span>
+            </li>
+          ))}
+        </ul>
+        <span className={styles.checksFirst}>
+          <CheckGlyph size={10} /> Checked first on every run
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ report */
 
 export function ClientReportVisual() {

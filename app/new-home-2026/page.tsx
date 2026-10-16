@@ -14,6 +14,7 @@ import { BULK_SITE_PRICE_LABEL } from "@/components/pricing-2026/ai-credits-data
 import IntercomButton from "@/components/home/IntercomButton";
 import {
   AgentsSection,
+  BuildOrBuySection,
   CompareSection,
   ReportSection,
   StagesSection,
@@ -58,6 +59,7 @@ export default function NewHomePage() {
       <AgentsSection />
       <ReportSection />
       <CompareSection />
+      <BuildOrBuySection />
       <TestimonialsSection />
       <TrustSection />
       <IntegrationsSection />

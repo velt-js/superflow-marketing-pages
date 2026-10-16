@@ -6,12 +6,16 @@ import {
   AGENT_GROUPS,
   ALTERNATIVES,
   BENEFITS,
+  BUILD_OR_BUY,
+  BUILD_OR_BUY_HEADLINE,
+  BUILD_OR_BUY_SUB,
   FIRST_SCAN_AGENT_COUNT,
   REPORT_POINTS,
   STAGES,
   STAGES_HEADLINE_LINES,
   WHY_NOW,
   type Benefit,
+  type BuildOrBuyItem,
   type Stage,
 } from "./content";
 import {
@@ -19,12 +23,15 @@ import {
   AfterLaunchVisual,
   AgentsBenefitVisual,
   BeforeHandoffVisual,
+  ClientMemoryVisual,
   ClientReportVisual,
   FigmaBenefitVisual,
   HandoffVisual,
   McpBenefitVisual,
   MonitoringBenefitVisual,
   ReportBenefitVisual,
+  TunedVisual,
+  WorkspaceMemoryVisual,
 } from "./Visuals";
 
 const STAGE_VISUALS: Readonly<Record<Stage["id"], ComponentType>> = {
@@ -40,6 +47,12 @@ const BENEFIT_VISUALS: Readonly<Record<Benefit["id"], ComponentType>> = {
   accessibility: AccessibilityBenefitVisual,
   mcp: McpBenefitVisual,
   figma: FigmaBenefitVisual,
+};
+
+const BUILD_OR_BUY_VISUALS: Readonly<Record<BuildOrBuyItem["id"], ComponentType>> = {
+  tuned: TunedVisual,
+  client: ClientMemoryVisual,
+  workspace: WorkspaceMemoryVisual,
 };
 
 function Tick() {
@@ -231,6 +244,32 @@ export function CompareSection() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/** 08 / Build or buy: what the agents already know. */
+export function BuildOrBuySection() {
+  return (
+    <section className={`${styles.section} ${styles.tinted}`} id="build-or-buy">
+      <div className={styles.inner}>
+        <h2 className={`${styles.h2} ${styles.center}`}>{BUILD_OR_BUY_HEADLINE}</h2>
+        <p className={`${styles.sub} ${styles.center}`}>{BUILD_OR_BUY_SUB}</p>
+        <ul className={styles.benefitGrid}>
+          {BUILD_OR_BUY.map((item) => {
+            const Visual = BUILD_OR_BUY_VISUALS[item.id];
+            return (
+              <li key={item.id} className={styles.benefit}>
+                <Visual />
+                <div className={styles.benefitBody}>
+                  <h3 className={styles.cardTitle}>{item.title}</h3>
+                  <p className={styles.cardText}>{item.line}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );
