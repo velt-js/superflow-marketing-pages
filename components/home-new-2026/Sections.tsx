@@ -1,30 +1,30 @@
 import type { ComponentType } from "react";
 import styles from "./Sections.module.css";
+import { AgentIcon, agentColors } from "./AgentIcons";
 import {
   AGENTS,
-  AGENT_START_LABELS,
+  AGENT_GROUPS,
   ALTERNATIVES,
   BENEFITS,
   FIRST_SCAN_AGENT_COUNT,
   REPORT_POINTS,
   STAGES,
   STAGES_HEADLINE_LINES,
-  SUPERFLOW_ROW,
   WHY_NOW,
   type Benefit,
   type Stage,
 } from "./content";
 import {
-  AccessibilityVisual,
+  AccessibilityBenefitVisual,
   AfterLaunchVisual,
-  AgentsVisual,
+  AgentsBenefitVisual,
   BeforeHandoffVisual,
   ClientReportVisual,
-  FigmaVisual,
+  FigmaBenefitVisual,
   HandoffVisual,
-  McpVisual,
-  MonitoringVisual,
-  ReportVisual,
+  McpBenefitVisual,
+  MonitoringBenefitVisual,
+  ReportBenefitVisual,
 } from "./Visuals";
 
 const STAGE_VISUALS: Readonly<Record<Stage["id"], ComponentType>> = {
@@ -34,25 +34,31 @@ const STAGE_VISUALS: Readonly<Record<Stage["id"], ComponentType>> = {
 };
 
 const BENEFIT_VISUALS: Readonly<Record<Benefit["id"], ComponentType>> = {
-  agents: AgentsVisual,
-  report: ReportVisual,
-  monitoring: MonitoringVisual,
-  accessibility: AccessibilityVisual,
-  mcp: McpVisual,
-  figma: FigmaVisual,
+  agents: AgentsBenefitVisual,
+  report: ReportBenefitVisual,
+  monitoring: MonitoringBenefitVisual,
+  accessibility: AccessibilityBenefitVisual,
+  mcp: McpBenefitVisual,
+  figma: FigmaBenefitVisual,
 };
 
-/** Multi-line serif heading; a trailing space keeps the text from joining. */
-function LinedHeading({ lines, className }: { lines: readonly string[]; className: string }) {
+function Tick() {
   return (
-    <h2 className={className}>
-      {lines.map((line, index) => (
-        <span key={line} className={styles.line}>
-          {line}
-          {index < lines.length - 1 ? " " : null}
-        </span>
-      ))}
-    </h2>
+    <span className={styles.tick} aria-hidden="true">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7.5" />
+      </svg>
+    </span>
+  );
+}
+
+function Cross() {
+  return (
+    <span className={styles.cross} aria-hidden="true">
+      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </span>
   );
 }
 
@@ -62,14 +68,21 @@ export function StagesSection() {
     <section className={styles.section} id="stages">
       <div className={`${styles.inner} ${styles.stagesGrid}`}>
         <div className={styles.stagesIntro}>
-          <LinedHeading lines={STAGES_HEADLINE_LINES} className={styles.h2} />
+          <h2 className={styles.h2}>
+            {STAGES_HEADLINE_LINES.map((line, index) => (
+              <span key={line} className={styles.line}>
+                {line}
+                {index < STAGES_HEADLINE_LINES.length - 1 ? " " : null}
+              </span>
+            ))}
+          </h2>
         </div>
         <ol className={styles.stageList}>
           {STAGES.map((stage) => {
             const Visual = STAGE_VISUALS[stage.id];
             return (
               <li key={stage.id} className={styles.stage}>
-                <span className={styles.audience}>{stage.audience}</span>
+                <span className={styles.eyebrow}>{stage.audience}</span>
                 <h3 className={styles.h3}>{stage.title}</h3>
                 <p className={styles.text}>{stage.line}</p>
                 <Visual />
@@ -82,7 +95,7 @@ export function StagesSection() {
   );
 }
 
-/** 03 / What you get: six cards with a visual each. */
+/** 03 / What you get: six cards, visual on top, copy below. */
 export function WhatYouGetSection() {
   return (
     <section className={styles.section} id="what-you-get">
@@ -93,9 +106,11 @@ export function WhatYouGetSection() {
             const Visual = BENEFIT_VISUALS[benefit.id];
             return (
               <li key={benefit.id} className={styles.benefit}>
-                <h3 className={styles.h3}>{benefit.title}</h3>
-                <p className={styles.text}>{benefit.line}</p>
                 <Visual />
+                <div className={styles.benefitBody}>
+                  <h3 className={styles.cardTitle}>{benefit.title}</h3>
+                  <p className={styles.cardText}>{benefit.line}</p>
+                </div>
               </li>
             );
           })}
@@ -115,8 +130,8 @@ export function WhyNowSection() {
           {WHY_NOW.map((item, index) => (
             <li key={item.title} className={styles.why}>
               <span className={styles.whyNumber}>{String(index + 1).padStart(2, "0")}</span>
-              <h3 className={styles.whyTitle}>{item.title}</h3>
-              <p className={styles.text}>{item.line}</p>
+              <h3 className={styles.cardTitle}>{item.title}</h3>
+              <p className={styles.cardText}>{item.line}</p>
             </li>
           ))}
         </ol>
@@ -125,7 +140,7 @@ export function WhyNowSection() {
   );
 }
 
-/** 05 / The 13 agents, as one table. */
+/** 05 / The 13 agents as icon tiles, grouped by when they start. */
 export function AgentsSection() {
   return (
     <section className={styles.section} id="agents">
@@ -133,32 +148,33 @@ export function AgentsSection() {
         <h2 className={`${styles.h2} ${styles.center}`}>
           {AGENTS.length} agents. {FIRST_SCAN_AGENT_COUNT} run on the first scan.
         </h2>
-        <p className={`${styles.sub} ${styles.center}`}>
-          Each agent is a set of pass or fail checks. Every agent runs at every stage.
-        </p>
-        <div className={styles.tableWrap}>
-          <table className={styles.agentTable}>
-            <thead>
-              <tr>
-                <th scope="col">Agent</th>
-                <th scope="col">What it checks</th>
-                <th scope="col">Starts</th>
-              </tr>
-            </thead>
-            <tbody>
-              {AGENTS.map((agent) => (
-                <tr key={agent.name}>
-                  <th scope="row">{agent.name}</th>
-                  <td>{agent.checks}</td>
-                  <td>
-                    <span className={`${styles.startTag} ${styles[`start_${agent.start.replace("-", "_")}`]}`}>
-                      {AGENT_START_LABELS[agent.start]}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <p className={`${styles.sub} ${styles.center}`}>Each agent is a set of pass or fail checks.</p>
+
+        <div className={styles.agentGroups}>
+          {AGENT_GROUPS.map((group) => {
+            const agents = AGENTS.filter((agent) => agent.start === group.start);
+            return (
+              <div key={group.start} className={styles.agentGroup}>
+                <h3 className={styles.groupHead}>
+                  {group.label}
+                  <span className={styles.groupCount}>{agents.length}</span>
+                </h3>
+                <ul className={styles.agentTiles}>
+                  {agents.map((agent) => (
+                    <li key={agent.name} className={styles.agentTile}>
+                      <span className={styles.agentIcon} style={{ background: agentColors(agent.name).tint }}>
+                        <AgentIcon name={agent.name} size={20} />
+                      </span>
+                      <span className={styles.agentText}>
+                        <b>{agent.name}</b>
+                        <span>{agent.checks}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -170,15 +186,13 @@ export function ReportSection() {
   return (
     <section className={`${styles.section} ${styles.tinted}`} id="report">
       <div className={`${styles.inner} ${styles.reportGrid}`}>
-        <div className={styles.reportCopy}>
+        <div>
           <h2 className={styles.h2}>The report your client reads</h2>
           <p className={styles.sub}>Send it at handoff. Send it every week after launch.</p>
           <ul className={styles.checkList}>
             {REPORT_POINTS.map((point) => (
               <li key={point}>
-                <span className={styles.tick} aria-hidden="true">
-                  ✓
-                </span>
+                <Tick />
                 {point}
               </li>
             ))}
@@ -190,37 +204,32 @@ export function ReportSection() {
   );
 }
 
-/** 07 / What agencies use today, and the gap in each. */
+/** 07 / Today's tools next to Superflow, one row each. */
 export function CompareSection() {
   return (
     <section className={styles.section} id="compare">
       <div className={styles.inner}>
-        <h2 className={`${styles.h2} ${styles.center}`}>What agencies use today</h2>
-        <div className={styles.compareGrid}>
+        <h2 className={`${styles.h2} ${styles.center}`}>How Superflow compares</h2>
+        <div className={styles.compare} role="table" aria-label="Superflow compared with what agencies use today">
+          <div className={styles.compareHead} role="row">
+            <span role="columnheader">What agencies use today</span>
+            <span role="columnheader">With Superflow</span>
+          </div>
           {ALTERNATIVES.map((alt) => (
-            <div key={alt.name} className={styles.compareCard}>
-              <h3 className={styles.compareName}>{alt.name}</h3>
-              <p className={styles.compareGap}>
-                <span className={styles.cross} aria-hidden="true">
-                  ✕
+            <div key={alt.name} className={styles.compareRow} role="row">
+              <div className={styles.compareOld} role="cell">
+                <b>{alt.name}</b>
+                <span>
+                  <Cross />
+                  {alt.gap}
                 </span>
-                {alt.gap}
-              </p>
+              </div>
+              <div className={styles.compareNew} role="cell">
+                <Tick />
+                {alt.answer}
+              </div>
             </div>
           ))}
-          <div className={`${styles.compareCard} ${styles.compareUs}`}>
-            <h3 className={styles.compareName}>Superflow</h3>
-            <ul className={styles.compareList}>
-              {SUPERFLOW_ROW.map((point) => (
-                <li key={point}>
-                  <span className={styles.tick} aria-hidden="true">
-                    ✓
-                  </span>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </section>

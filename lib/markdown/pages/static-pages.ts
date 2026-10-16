@@ -33,6 +33,7 @@ import {
   REPORT_POINTS,
   STAGES,
   WHY_NOW,
+  buildNewHomeFaq,
 } from "@/components/home-new-2026/content";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
@@ -136,7 +137,7 @@ function newHomeDoc(): AgentDoc {
       { heading: "The client report", bullets: [...REPORT_POINTS] },
       {
         heading: "Compared with",
-        bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap}`),
+        bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap} Superflow: ${alt.answer}`),
       },
       {
         heading: "Where to go next",
@@ -146,6 +147,7 @@ function newHomeDoc(): AgentDoc {
         ],
       },
     ],
+    faq: buildNewHomeFaq(BULK_SITE_PRICE_LABEL),
   };
 }
 

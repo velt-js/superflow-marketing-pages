@@ -5,7 +5,12 @@
 
 import SiteNav from "@/components/home-2026/SiteNav";
 import Hero from "@/components/home-2026/Hero";
+import TestimonialsSection from "@/components/home-2026/TestimonialsSection";
+import TrustSection from "@/components/home-2026/TrustSection";
+import IntegrationsSection from "@/components/home-2026/IntegrationsSection";
+import FaqSection from "@/components/home-2026/FaqSection";
 import SiteFooter from "@/components/home-2026/SiteFooter";
+import { BULK_SITE_PRICE_LABEL } from "@/components/pricing-2026/ai-credits-data";
 import IntercomButton from "@/components/home/IntercomButton";
 import {
   AgentsSection,
@@ -21,6 +26,7 @@ import {
   NEW_HOME_PATH,
   PAGE_DESCRIPTION,
   PAGE_TITLE,
+  buildNewHomeFaq,
 } from "@/components/home-new-2026/content";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 
@@ -30,6 +36,8 @@ export const metadata = buildPageMetadata({
   path: NEW_HOME_PATH,
   noindex: true,
 });
+
+const FAQ_ITEMS = buildNewHomeFaq(BULK_SITE_PRICE_LABEL);
 
 export default function NewHomePage() {
   return (
@@ -48,6 +56,10 @@ export default function NewHomePage() {
       <AgentsSection />
       <ReportSection />
       <CompareSection />
+      <TestimonialsSection />
+      <TrustSection />
+      <IntegrationsSection />
+      <FaqSection items={FAQ_ITEMS} />
       <SiteFooter />
       <IntercomButton />
     </main>

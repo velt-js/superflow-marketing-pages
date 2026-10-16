@@ -125,6 +125,13 @@ export const AGENT_START_LABELS: Readonly<Record<AgentStart, string>> = {
   upload: "Needs upload",
 };
 
+/** Group headings for the agents section, in display order. */
+export const AGENT_GROUPS: readonly { start: AgentStart; label: string }[] = [
+  { start: "first-scan", label: "Run on the first scan" },
+  { start: "one-click", label: "Turn on in one click" },
+  { start: "upload", label: "Add a file to start" },
+];
+
 export type Agent = {
   name: string;
   checks: string;
@@ -161,19 +168,66 @@ export const REPORT_POINTS: readonly string[] = [
   "Your logo, not ours",
 ];
 
-/** What an agency would use instead, and where it falls short. */
-export type Alternative = { name: string; gap: string };
+/** What an agency would use instead, where it falls short, and our answer. */
+export type Alternative = { name: string; gap: string; answer: string };
 
 export const ALTERNATIVES: readonly Alternative[] = [
-  { name: "Free scanners", gap: "One page at a time. No history." },
-  { name: "Enterprise tools", gap: "Annual contracts and a long sales cycle." },
-  { name: "Accessibility overlays", gap: "Add a widget. The code stays broken." },
-  { name: "DIY Claude Code scripts", gap: "No pins, no client view, no history." },
+  {
+    name: "Free scanners",
+    gap: "One page at a time. No history.",
+    answer: "Whole site, with full history.",
+  },
+  {
+    name: "Enterprise tools",
+    gap: "Annual contracts and a long sales cycle.",
+    answer: "Start free. Pay per site.",
+  },
+  {
+    name: "Accessibility overlays",
+    gap: "Add a widget. The code stays broken.",
+    answer: "Pins the issue so you fix the code.",
+  },
+  {
+    name: "DIY Claude Code scripts",
+    gap: "No pins, no client view, no history.",
+    answer: "Keep them. Send findings in over MCP.",
+  },
 ];
 
-export const SUPERFLOW_ROW: readonly string[] = [
-  "Whole site, every change",
-  "Pinned on the page",
-  "Your team decides",
-  "Client report built in",
-];
+/** FAQ for this page. The price answer is filled in by the caller. */
+export type NewHomeFaq = { question: string; answer: string };
+
+export function buildNewHomeFaq(priceLabel: string): NewHomeFaq[] {
+  const firstScan = AGENTS.filter((agent) => agent.start === "first-scan")
+    .map((agent) => agent.name)
+    .join(", ");
+  return [
+    {
+      question: "Does the AI replace my QA person?",
+      answer:
+        "No. Agents catch the black and white issues. Your team accepts, rejects, or assigns each one.",
+    },
+    {
+      question: "When do the agents run?",
+      answer:
+        "Before handoff on staging, at handoff for the client, and after launch on every change and every week.",
+    },
+    {
+      question: "Do my clients need an account?",
+      answer: "No. They open one link, suggest edits, and approve on the page.",
+    },
+    {
+      question: "Which agents run on the first scan?",
+      answer: `${firstScan}. They need no uploads. Turn on the rest in one click.`,
+    },
+    {
+      question: "Can my devs keep their own Claude Code checks?",
+      answer:
+        "Yes. Send their findings in over Superflow MCP. They show on the page in their own lane.",
+    },
+    {
+      question: "What does it cost?",
+      answer: `Free to start, no credit card. AI agents are ${priceLabel}. Seats are priced per plan on the pricing page.`,
+    },
+  ];
+}
