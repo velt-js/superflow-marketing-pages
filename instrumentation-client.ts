@@ -1,18 +1,15 @@
 // Next.js client instrumentation entry point (App Router, v15.3+). Runs once
-// after the HTML document loads but before React hydration — the ideal spot
-// to bootstrap analytics, matching the source app's top-of-`main.ts` init.
+// after the HTML document loads but before React hydration.
 //
-// initAmplitude() no-ops outside production or when the API key is absent, so
-// this is safe to run unconditionally. skipIdentification() flushes buffered
-// events immediately because this marketing site has no login/identify step.
+// Amplitude is NOT started here any more: it needs Analytics consent, so
+// components/consent/ConsentScripts.tsx calls initAmplitude() and
+// skipIdentification() once the visitor grants it. Until then the analytics
+// service only buffers events in memory - nothing leaves the browser.
 
-import { initAmplitude } from "@/lib/analytics/amplitude-client";
 import { analytics } from "@/lib/analytics/analytics-service";
 
 try {
-  initAmplitude();
   analytics.setDefaultProperties({ sourcePlatform: "marketingSite" });
-  analytics.skipIdentification();
 } catch (error) {
   console.error("[Analytics] Client instrumentation bootstrap failed:", error);
 }

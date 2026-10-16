@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./SiteFooter.module.css";
+import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 import { liveTools, toolPath } from "@/lib/tools/registry";
 
 /** Assets exported from Figma node 582:6645. */
@@ -406,6 +407,7 @@ export default function SiteFooter() {
                   {link.label}
                 </Link>
               ))}
+              <CookieSettingsLink className={styles.legalLink} />
             </div>
           </div>
         </div>
