@@ -1,0 +1,82 @@
+/* The report card on /tools and /blog. Same card tokens as /tools. */
+
+.card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 16px 24px 16px 16px;
+    border: 1px solid #ececf1;
+    border-radius: 20px;
+    background: #fbfbfd;
+    color: #16171a;
+    text-decoration: none;
+    transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.card:hover {
+    border-color: rgba(67, 61, 243, 0.35);
+    transform: translateY(-1px);
+}
+
+.card:focus-visible {
+    outline: 2px solid #433df3;
+    outline-offset: 3px;
+}
+
+.cover {
+    flex: none;
+    width: 72px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 6px 16px rgba(22, 23, 26, 0.18);
+    transform: rotate(-3deg);
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.eyebrow {
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #433df3;
+}
+
+.title {
+    font-family: var(--font-adamina), Georgia, serif;
+    font-size: 20px;
+    line-height: 1.25;
+}
+
+.subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7079;
+}
+
+.cta {
+    flex: none;
+    font-family: var(--font-urbanist), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #433df3;
+}
+
+@media (max-width: 640px) {
+    .card {
+        align-items: flex-start;
+    }
+
+    .cta {
+        display: none;
+    }
+}

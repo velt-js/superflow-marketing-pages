@@ -82,6 +82,11 @@
 
 /* --------------------------------------------------------- Featured post */
 
+/* The State of Website QA card, between the hero and the featured post. */
+.reportPromo {
+    padding: 48px 24px 0;
+}
+
 .featuredSection {
     padding: 72px 24px 32px;
 }

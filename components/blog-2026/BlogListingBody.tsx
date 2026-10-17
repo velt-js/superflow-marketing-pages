@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import { formatBlogDate } from "./formatBlogDate";
+import { ReportPromo } from "@/components/website-qa-report-2026/ReportPromo";
 import styles from "./BlogListingBody.module.css";
 
 /** Mono uppercase eyebrow shown above the hero headline. */
@@ -154,6 +155,10 @@ export default function BlogListingBody({
           <h1 className={styles.headline}>{HERO_HEADLINE}</h1>
           <p className={styles.subhead}>{HERO_SUBHEAD}</p>
         </div>
+      </section>
+
+      <section className={styles.reportPromo} aria-label="Research">
+        <ReportPromo source="blog" />
       </section>
 
       {featuredPost ? (

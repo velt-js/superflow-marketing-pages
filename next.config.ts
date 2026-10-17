@@ -179,6 +179,12 @@ const nextConfig: NextConfig = {
         headers: buildOutputNoIndex,
       },
       {
+        // The gated report PDF. Search should send people to the report page,
+        // which has the findings and the form, not straight to the file.
+        source: "/reports/:path*.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+      {
         // The docs are reverse-proxied to Mintlify, which serves its own
         // Next build under this prefix. Its chunks showed up in the same
         // report, and the rewrite happens after headers, so this reaches them.

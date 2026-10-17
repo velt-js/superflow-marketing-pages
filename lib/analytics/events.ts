@@ -35,6 +35,21 @@ export const AnalyticsEvents = {
   CTA_CLICK: "ctaClick",
 } as const;
 
+/**
+ * The State of Website QA report funnel (/state-of-website-qa). Snake case,
+ * unlike the events above, because these names were specified up front for
+ * the Amplitude dashboard and must match it exactly.
+ */
+export const QaReportEvents = {
+  VIEWED: "qa_report_viewed",
+  BENCHMARK_ANSWERED: "qa_report_benchmark_answered",
+  FINDING_SHARED: "qa_report_finding_shared",
+  FORM_STARTED: "qa_report_form_started",
+  SUBMITTED: "qa_report_submitted",
+  DOWNLOADED: "qa_report_downloaded",
+  SCAN_CLICKED: "qa_report_scan_clicked",
+} as const;
+
 /** Where in the UI an event originated, attached as an event property. */
 export const AnalyticsSource = {
   HERO: "hero",
