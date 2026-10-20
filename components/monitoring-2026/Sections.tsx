@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { ComponentType } from "react";
 import styles from "@/components/home-new-2026/Sections.module.css";
-import { ClientReportVisual, MonitoringBenefitVisual, ReportBenefitVisual } from "@/components/home-new-2026/Visuals";
+import { ClientReportVisual } from "@/components/home-new-2026/Visuals";
 import { BULK_SITE_PLAN, BULK_SITE_PRICE_LABEL } from "@/components/pricing-2026/ai-credits-data";
 import own from "./Sections.module.css";
-import { AgentSwitchesVisual, ScheduleVisual } from "./Visuals";
+import { AgentSwitchesVisual, ReportScoreVisual, ScheduleVisual, ScoreLineVisual } from "./Visuals";
 import {
   BENEFITS,
   PRICE_HEADING,
@@ -25,8 +25,8 @@ import {
 const BENEFIT_VISUALS: Readonly<Record<Benefit["id"], ComponentType>> = {
   agents: AgentSwitchesVisual,
   schedule: ScheduleVisual,
-  score: MonitoringBenefitVisual,
-  report: ReportBenefitVisual,
+  score: ScoreLineVisual,
+  report: ReportScoreVisual,
 };
 
 function Tick() {

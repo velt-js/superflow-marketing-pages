@@ -52,8 +52,18 @@
   flex-shrink: 0;
   width: 30px;
   height: 17px;
+  padding: 0;
+  border: none;
   border-radius: 999px;
   background: #d8d8de;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  animation: switchIn 0.5s ease both;
+}
+
+.switch:focus-visible {
+  outline: 2px solid #1a78e0;
+  outline-offset: 2px;
 }
 
 .switchOn {
@@ -68,11 +78,16 @@
   height: 13px;
   border-radius: 50%;
   background: #ffffff;
+  transition: transform 0.2s ease;
 }
 
 .switchOn .knob {
-  left: auto;
-  right: 2px;
+  transform: translateX(13px);
+}
+
+@keyframes switchIn {
+  from { opacity: 0; transform: translateX(6px); }
+  to { opacity: 1; transform: none; }
 }
 
 .switchMore {
@@ -109,19 +124,45 @@
   background: #f0f0f3;
 }
 
-.segmented span {
+.segment,
+.segmentOn {
   padding: 6px 0;
+  border: none;
   border-radius: 7px;
+  background: transparent;
   text-align: center;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 700;
   color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.segmented .segmentOn {
+.segment:hover {
+  color: var(--ink);
+}
+
+.segment:focus-visible,
+.segmentOn:focus-visible {
+  outline: 2px solid #1a78e0;
+  outline-offset: 1px;
+}
+
+.segmentOn {
   background: #ffffff;
   color: var(--ink);
   box-shadow: 0 1px 3px rgba(17, 17, 17, 0.12);
+}
+
+.monthChip {
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #e8f1fd;
+  color: #1557a8;
+  font-size: 10.5px;
+  font-weight: 700;
 }
 
 .calendar {
@@ -141,6 +182,7 @@
   font-weight: 700;
   color: var(--muted);
   background: #f7f7f9;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .dayOn {
@@ -159,4 +201,226 @@
 .nextRun b {
   font-size: 12.5px;
   color: var(--ink);
+}
+
+/* --------------------------------------------------------------- score */
+
+.monitor,
+.reportCard {
+  --ink: #111111;
+  --muted: #6b6b70;
+  --line: #e7e7eb;
+  --blue: #1a78e0;
+  --green: #16a34a;
+
+  width: min(250px, 100%);
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.07);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.monitorHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.liveTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: var(--green);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: live 1.8s ease-out infinite;
+}
+
+.sparkWrap {
+  position: relative;
+  display: block;
+  height: 60px;
+  margin: 12px 0 10px;
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 60px;
+}
+
+/* The clip rect widens from 0 to the full chart, so the line and its fill
+   draw in together from the left. */
+.sparkReveal {
+  animation: reveal 1.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.sparkLine {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.sparkDot {
+  position: absolute;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: liveBlue 1.8s ease-out infinite, fadeIn 0.3s 1.7s both;
+}
+
+.monitorFoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.scoreNow b {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--green);
+  animation: fadeIn 0.3s 1.6s both;
+}
+
+@keyframes reveal {
+  from { width: 0; }
+  to { width: 200px; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes live {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+  100% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+}
+
+@keyframes liveBlue {
+  0% { box-shadow: 0 0 0 0 rgba(26, 120, 224, 0.45); }
+  100% { box-shadow: 0 0 0 7px rgba(26, 120, 224, 0); }
+}
+
+/* -------------------------------------------------------------- report */
+
+.reportCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agency {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.agency::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+}
+
+.reportCardBody {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ring {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.ring b {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ringArc {
+  animation: arc 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes arc {
+  from { stroke-dashoffset: var(--arc-start); }
+}
+
+.reportCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.reportCardText b {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.fixedLine {
+  color: var(--green);
+  font-weight: 700;
+  animation: fadeIn 0.3s 1.3s both;
+}
+
+.sentLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  animation: fadeIn 0.3s 1.9s both;
+}
+
+.sentLine::before {
+  content: "✓";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .sparkReveal,
+  .sparkDot,
+  .scoreNow b,
+  .ringArc,
+  .fixedLine,
+  .sentLine,
+  .liveDot {
+    animation: none;
+  }
 }
