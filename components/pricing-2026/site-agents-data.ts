@@ -25,7 +25,7 @@ export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
   {
     id: "versioning",
     label: "Automatic versioning",
-    description: "Every change to the site is captured as a new version, with nothing to set up.",
+    description: "Every change to the site is captured as a new version. No set up needed.",
   },
   {
     id: "change-detection",
@@ -40,7 +40,7 @@ export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
   {
     id: "checks",
     label: "Run checks",
-    description: "QA agents check each change against your team's checklist.",
+    description: "QA agents check each change and flag if they find an issue.",
   },
 ];
 

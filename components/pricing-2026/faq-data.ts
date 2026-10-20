@@ -41,7 +41,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What do the QA agents and monitoring do?",
     answer:
-      "Superflow versions your site automatically, so every change is captured without anyone saving a copy. Monitoring stays on and detects changes as they ship. You can compare versions side by side to see exactly what changed, and the QA agents run your team's checks on each change, so review starts from a list of findings rather than a blank page.",
+      "Every change to the site is captured as a new version, with no set up needed. Monitoring stays on and detects changes as they ship. You can compare versions side by side to see exactly what changed, and QA agents check each change and flag any issue they find, so review starts from a list of findings rather than a blank page.",
   },
   {
     question: "Does Superflow offer a free plan?",
