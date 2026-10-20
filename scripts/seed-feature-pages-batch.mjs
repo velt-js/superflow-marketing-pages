@@ -1006,7 +1006,7 @@ const screenshots = {
         _key: "faq-cost",
         question: "What do automatic screenshots cost?",
         answer:
-          "Included on every plan; capture is part of commenting, not an add-on.",
+          "Included on Growth and above; capture is part of commenting, not an add-on.",
       },
     ],
   },
@@ -1468,7 +1468,7 @@ const privateComments = {
       {
         _key: "faq-cost",
         question: "What do private comments cost?",
-        answer: "Included wherever comments are, on every plan.",
+        answer: "Included on the Scale and Enterprise plans.",
       },
     ],
   },

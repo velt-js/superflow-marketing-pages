@@ -13,14 +13,11 @@ import type { AgentDoc } from "../types";
 import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
-  BULK_SITE_PLAN,
-  BULK_SITE_PRICE_LABEL,
-  CREDIT_PACKS,
-  RESCAN_NEW_SCAN_THRESHOLD,
-  SCAN_RATE_CARD,
-  SIGNUP_BONUS_CREDITS,
-  TYPICAL_PROJECT_CREDITS,
-} from "@/components/pricing-2026/ai-credits-data";
+  SITE_AGENTS_AVAILABILITY,
+  SITE_AGENTS_CAPABILITIES,
+  SITE_AGENTS_NAME,
+  SITE_AGENTS_PRICE_LABEL,
+} from "@/components/pricing-2026/site-agents-data";
 import { SITE_URL } from "@/app/_seo/schema";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
@@ -41,13 +38,14 @@ function homeDoc(): AgentDoc {
       },
       {
         label: "Integrations",
-        value: "Asana, ClickUp, Monday, Slack, Webflow, Google Tag Manager",
+        value:
+          "Email and Slack on every plan; Asana, ClickUp, Monday and webhooks on Scale and above; REST API on Enterprise. Also works with Webflow and Google Tag Manager.",
       },
       { label: "Client accounts required", value: "No. Clients review over a link." },
       { label: "Free tier", value: "Yes. Starter is $0 and the trial needs no card." },
       {
         label: "Pricing model",
-        value: `Per seat, plus AI at ${BULK_SITE_PRICE_LABEL} or à la carte credits per scan`,
+        value: `Per seat, plus QA agents and monitoring at ${SITE_AGENTS_PRICE_LABEL}`,
       },
     ],
     sections: [
@@ -75,7 +73,7 @@ function homeDoc(): AgentDoc {
       {
         heading: "Where to go next",
         bullets: [
-          `Pricing and credit costs: ${SITE_URL}/pricing.md`,
+          `Pricing: ${SITE_URL}/pricing.md`,
           `Security, SOC 2, and data handling: ${SITE_URL}/security.md`,
           `Free tools with no account: ${SITE_URL}/tools.md`,
           `Full site index: ${SITE_URL}/llms.txt`,
@@ -95,65 +93,44 @@ function pricingDoc(): AgentDoc {
     tier.name,
     tier.monthlyPrice === "Let's Talk" ? "Custom" : `$${tier.monthlyPrice}/seat/mo`,
     tier.annualPrice === "Let's Talk" ? "Custom" : `$${tier.annualPrice}/seat/mo`,
-    clean(tier.aiCreditsCovers ?? tier.aiCredits ?? ""),
-  ]);
-
-  const scanRows = SCAN_RATE_CARD.map((scope) => [
-    clean(scope.label),
-    `${scope.credits} credit${scope.credits === 1 ? "" : "s"}`,
-    clean(scope.sublabel ?? ""),
-  ]);
-
-  const packRows = CREDIT_PACKS.map((pack) => [
-    `${pack.credits} credits`,
-    `$${pack.priceUsd}`,
-    `$${(pack.priceUsd / pack.credits).toFixed(2)} per credit`,
   ]);
 
   return {
     title: "Superflow pricing",
-    summary:
-      `Per-seat plans with a free tier, plus AI agents at a flat ${BULK_SITE_PRICE_LABEL} by default, or à la carte credits priced by the scope of each scan.`,
+    summary: `Per-seat plans with a free tier, plus QA agents and always-on monitoring at ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/pricing",
     kind: "Pricing page",
     facts: [
       { label: "Billing model", value: "Per seat, billed monthly or annually" },
       { label: "Free tier", value: "Yes, the Starter plan" },
       { label: "Trial", value: "10 day free trial" },
-      { label: "Signup bonus", value: `${SIGNUP_BONUS_CREDITS} AI credits` },
-      { label: "Client seats needed", value: "None. Clients review over a link." },
-      { label: "Typical project cost", value: `About ${TYPICAL_PROJECT_CREDITS} credits` },
-      { label: "AI pricing (default)", value: `${BULK_SITE_PRICE_LABEL}, unlimited reviews and monitoring` },
-      { label: "AI pricing (à la carte)", value: "Credits per scan, from 1 credit" },
+      {
+        label: "QA agents and monitoring",
+        value: `${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
+      },
+      {
+        label: "Client seats needed",
+        value:
+          "None. Guests are free on every plan; guests can comment without signing in on Scale and Enterprise.",
+      },
     ],
     sections: [
       {
         heading: "Plans",
         body: ["Annual prices are per seat per month, billed yearly."],
         table: {
-          headers: ["Plan", "Monthly", "Annual (per month)", "Included AI credits"],
+          headers: ["Plan", "Monthly", "Annual (per month)"],
           rows: tierRows,
         },
       },
       {
-        heading: "AI agents: bulk pricing (default)",
+        heading: SITE_AGENTS_NAME,
         body: [
-          `${BULK_SITE_PRICE_LABEL}: ${BULK_SITE_PLAN.summary}`,
+          `Every site gets its own QA agents and monitoring that stays on, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter.`,
         ],
-        bullets: BULK_SITE_PLAN.includes,
-      },
-      {
-        heading: "AI agents: à la carte credits",
-        body: [
-          "Instead of bulk pricing, customers can switch to à la carte and pay for agent runs in credits, separately from seats. A scan runs every agent you have enabled, and is priced by how much of the site it covers rather than by how many agents run.",
-          `Rescans cost 1 credit; ${RESCAN_NEW_SCAN_THRESHOLD}.`,
-        ],
-        table: { headers: ["Scope", "Cost", "Detail"], rows: scanRows },
-      },
-      {
-        heading: "Credit packs",
-        body: ["Packs roll over month to month."],
-        table: { headers: ["Pack", "Price", "Unit price"], rows: packRows },
+        bullets: SITE_AGENTS_CAPABILITIES.map(
+          (capability) => `**${capability.label}.** ${capability.description}`,
+        ),
       },
     ],
   };
@@ -164,14 +141,14 @@ function securityDoc(): AgentDoc {
   return {
     title: "Superflow security and privacy",
     summary:
-      "Superflow is SOC 2 compliant, encrypts data in transit and at rest, supports SSO, and does not train models on customer content.",
+      "Superflow is SOC 2 Type II compliant, encrypts data in transit and at rest, offers SAML SSO on Enterprise, and does not train models on customer content.",
     path: "/security",
     kind: "Security and compliance page",
     facts: [
-      { label: "SOC 2", value: "Compliant, monitored continuously and audited by a third party" },
+      { label: "SOC 2", value: "Type II, monitored continuously and audited annually by a third party" },
       { label: "GDPR", value: "Supported" },
       { label: "Encryption", value: "In transit and at rest" },
-      { label: "SSO", value: "Supported" },
+      { label: "SSO", value: "SAML-based, with SCIM provisioning, on the Enterprise plan" },
       { label: "Model training on customer data", value: "No" },
     ],
     sections: [
@@ -242,7 +219,7 @@ function calculatorDoc(): AgentDoc {
   return {
     title: "Superflow ROI calculator",
     summary:
-      "Estimates what review rounds currently cost in billable hours, against what the same coverage costs in Superflow credits.",
+      `Estimates what review rounds currently cost in billable hours, against Superflow's QA agents at ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/calculator",
     kind: "Calculator",
     facts: [
@@ -253,7 +230,7 @@ function calculatorDoc(): AgentDoc {
       {
         heading: "What this page does",
         body: [
-          "Takes your review volume and billing rate and compares the cost of a manual QA pass against the credit cost of the same coverage run by agents. The credit prices it uses are the ones published on /pricing.",
+          "Takes your review volume and billing rate and estimates the billable hours agents give back from the manual QA pass, set against the per-site agents price published on /pricing.",
         ],
       },
     ],

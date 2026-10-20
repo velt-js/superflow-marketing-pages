@@ -7,23 +7,13 @@
 // accent hover, single #433df3 accent instead of per-tier rainbow colors.
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import { toInternalHref } from "@/lib/links";
 import { TIERS, type Tier, type TierBullet } from "@/components/pricing/pricing-data";
 import { useBilling, type BillingPeriod } from "@/components/pricing/BillingContext";
-import {
-  CREDIT_PACKS,
-  CUSTOM_CREDITS_ESTIMATE,
-  getPerCreditLabel,
-} from "./ai-credits-data";
 import styles from "./PricingTiers.module.css";
 
 /** Copy for the annual toggle's savings hint. */
 const ANNUAL_HINT = "2 months free";
-
-/** Footer copy in the packs dropdown. */
-const PACKS_HINT =
-  "One-time top-ups that roll over month to month. Bigger packs cost less per credit.";
 
 /**
  * Tabler "check" bullet glyph, stroked in the section's green accent.
@@ -42,121 +32,6 @@ function PricingTiersCheckIcon() {
     >
       <path d="M5 12l5 5l10 -10" />
     </svg>
-  );
-}
-
-/** Tabler "sparkles" glyph for the AI credits chip. */
-function PricingTiersSparklesIcon() {
-  return (
-    <svg
-      className={styles.creditsIcon}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2" />
-      <path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2" />
-      <path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" />
-    </svg>
-  );
-}
-
-/** Chevron glyph for the credits dropdown; rotates via CSS when open. */
-function PricingTiersChevronIcon() {
-  return (
-    <svg
-      className={styles.creditsChevron}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M6 9l6 6l6 -6" />
-    </svg>
-  );
-}
-
-/**
- * Clay-style AI credits chip under the price: the plan's included
- * monthly credits ("30 AI credits/mo") in a hairline row that expands
- * into a dropdown listing the one-time add-on packs. With `packs`
- * false (Enterprise) it renders as a static chip with no dropdown.
- * Pack prices are one-time and don't move with the billing period —
- * the volume discount lives in the per-credit price instead.
- *
- * @param props.label - The tier's aiCredits label.
- * @param props.packs - Whether the add-on packs dropdown is shown.
- */
-function PricingTiersCreditsChip({
-  label,
-  packs,
-}: {
-  label: string;
-  packs: boolean;
-}) {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
-
-  // Native <details> stays open on outside clicks; close the dropdown
-  // when a pointer lands anywhere outside it.
-  useEffect(() => {
-    if (!packs) {
-      return undefined;
-    }
-    const handlePointerDown = (event: PointerEvent) => {
-      const details = detailsRef.current;
-      if (!details?.open) {
-        return;
-      }
-      if (event.target instanceof Node && details.contains(event.target)) {
-        return;
-      }
-      details.open = false;
-    };
-    document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
-  }, [packs]);
-
-  if (!packs) {
-    return (
-      <span className={`${styles.creditsSummary} ${styles.creditsStatic}`}>
-        <PricingTiersSparklesIcon />
-        <span className={styles.creditsLabel}>{label}</span>
-      </span>
-    );
-  }
-
-  return (
-    <details ref={detailsRef} className={styles.creditsChip}>
-      <summary className={styles.creditsSummary}>
-        <PricingTiersSparklesIcon />
-        <span className={styles.creditsLabel}>{label}</span>
-        <PricingTiersChevronIcon />
-      </summary>
-      <div className={styles.creditsPanel}>
-        <p className={styles.creditsPanelTitle}>Add-on packs</p>
-        <ul className={styles.creditsPackList}>
-          {CREDIT_PACKS.map((pack) => (
-            <li key={pack.id} className={styles.creditsPackRow}>
-              <span className={styles.creditsPackLabel}>
-                <span>{pack.credits.toLocaleString("en-US")} credits</span>
-                <span className={styles.creditsPackReviews}>
-                  {getPerCreditLabel(pack)}
-                </span>
-              </span>
-              <span className={styles.creditsPackPrice}>${pack.priceUsd}</span>
-            </li>
-          ))}
-        </ul>
-        <p className={styles.creditsPanelHint}>{PACKS_HINT}</p>
-      </div>
-    </details>
   );
 }
 
@@ -212,14 +87,25 @@ function PricingTiersPrice({
     const showStrike = isAnnual && Boolean(tier.annualStrikePrice);
     const suffix = isAnnual
       ? "per seat / month, billed yearly"
-      : "per seat / month";
+      : "per seat / month, billed monthly";
 
     return (
       <div className={styles.priceBlock}>
         <span className={styles.priceRow}>
           <span className={styles.price}>${price}</span>
-          {showStrike ? (
-            <span className={styles.priceStrike}>${tier.annualStrikePrice}</span>
+          {/* Rendered whenever the tier has a strike price and only hidden on
+              monthly, so the toggle never changes the row's height. */}
+          {tier.annualStrikePrice ? (
+            <span
+              className={
+                showStrike
+                  ? styles.priceStrike
+                  : `${styles.priceStrike} ${styles.priceStrikeHidden}`
+              }
+              aria-hidden={showStrike ? undefined : true}
+            >
+              ${tier.annualStrikePrice}
+            </span>
           ) : null}
         </span>
         <span className={styles.priceSuffix}>{suffix}</span>
@@ -232,7 +118,7 @@ function PricingTiersPrice({
 
 /**
  * A single pricing tier card in the 2026 idiom. The highlighted tier
- * (Growth) gets an accent border, a soft shadow and its badge pill.
+ * (Scale) gets an accent border, a soft shadow and its badge pill.
  *
  * @param props.tier - The tier to render.
  * @param props.billing - The active billing period.
@@ -264,19 +150,6 @@ function PricingTiersCard({
         <div className={styles.cardTop}>
           <h2 className={styles.tierName}>{tier?.name}</h2>
           <PricingTiersPrice tier={tier} billing={billing} />
-          {tier?.aiCredits ? (
-            <div className={styles.creditsBlock}>
-              {/* Packs dropdown only on the paid self-serve tiers; Starter
-                  and Enterprise show the static chip. */}
-              <PricingTiersCreditsChip
-                label={tier.aiCredits}
-                packs={tier?.id === "growth" || tier?.id === "scale"}
-              />
-              <span className={styles.creditsEstimate}>
-                {tier?.aiCreditsCovers ?? CUSTOM_CREDITS_ESTIMATE}
-              </span>
-            </div>
-          ) : null}
           {tier?.trialLabel ? (
             <span className={styles.trialLabel}>{tier.trialLabel}</span>
           ) : null}

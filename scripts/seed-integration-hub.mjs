@@ -250,7 +250,7 @@ const doc = {
         _key: "faq-cost",
         question: "What do integrations cost?",
         answer:
-          "Included from the Growth plan. Okta, SAML, and SCIM are Enterprise. See /pricing for the breakdown.",
+          "Slack and email are on every plan; Asana, Monday, ClickUp, and webhooks are on Scale and above; the REST API, Okta, SAML, and SCIM are Enterprise. See /pricing for the breakdown.",
       },
     ],
   },

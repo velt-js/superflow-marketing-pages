@@ -417,7 +417,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "$0",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Pro",
         "c2Price": "$20",
         "c2Users": "1 User"
@@ -426,8 +426,8 @@
         "_key": "9271186f8bd1",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Team",
         "c2Price": "$65",
         "c2Users": "7 Users"
@@ -436,8 +436,8 @@
         "_key": "d25cc1dc7863",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Studio",
         "c2Price": "$140",
         "c2Users": "20 Users"
@@ -551,7 +551,7 @@
         "_key": "09facbb6dcc8",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free trial?",
-        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 active project per month and two user seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
+        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 project, one team seat, and unlimited guest seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
       },
       {
         "_key": "18b64dcc3a49",
@@ -979,7 +979,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Starter",
         "c2Price": "Free",
         "c2Users": "For Individuals"
@@ -988,8 +988,8 @@
         "_key": "8595352821ec",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "-",
         "c2Price": "-",
         "c2Users": "-"
@@ -998,8 +998,8 @@
         "_key": "2a4025ec1181",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Business",
         "c2Price": "$12.50/user",
         "c2Users": "Paid per user"
@@ -1565,7 +1565,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "$0",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Pro",
         "c2Price": "$20",
         "c2Users": "1 User"
@@ -1574,8 +1574,8 @@
         "_key": "22b489a65680",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Team",
         "c2Price": "$65",
         "c2Users": "7 Users"
@@ -1584,8 +1584,8 @@
         "_key": "1e7af63576ef",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Studio",
         "c2Price": "$140",
         "c2Users": "20 Users"
@@ -1696,7 +1696,7 @@
         "_key": "ee6c6c3f8cf7",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free trial?",
-        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 active project per month and two user seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
+        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 project, one team seat, and unlimited guest seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
       },
       {
         "_key": "588b6f9efd10",
@@ -2154,15 +2154,15 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "$0",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Price": "No Free plan"
       },
       {
         "_key": "0dea2c5e5834",
         "_type": "comparisonPricingRow",
-        "c1Name": "Starter",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Name": "Growth",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Starter",
         "c2Price": "$39",
         "c2Users": "3 Members"
@@ -2171,8 +2171,8 @@
         "_key": "d3c2abc3ee5b",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Team",
         "c2Price": "$99",
         "c2Users": "15 Members"
@@ -2727,7 +2727,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Team Basic",
         "c2Price": "Free",
         "c2Users": "2 Channels"
@@ -2736,8 +2736,8 @@
         "_key": "ac54ed492a8f",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "-",
         "c2Price": "-",
         "c2Users": "-"
@@ -2746,8 +2746,8 @@
         "_key": "17b9cd36b2b4",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "10 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Teams Pro",
         "c2Price": "$8/user",
         "c2Users": "$80 for 10 User"
@@ -3313,7 +3313,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "$0",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Hobby",
         "c2Price": "$0",
         "c2Users": "1 User"
@@ -3321,9 +3321,9 @@
       {
         "_key": "e71003d43658",
         "_type": "comparisonPricingRow",
-        "c1Name": "Starter",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Name": "Growth",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Pro",
         "c2Price": "$20",
         "c2Users": "1 User"
@@ -3331,9 +3331,9 @@
       {
         "_key": "c1a6011cfbcc",
         "_type": "comparisonPricingRow",
-        "c1Name": "Growth",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Name": "Scale",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "NA",
         "c2Price": "--",
         "c2Users": "--"
@@ -3444,7 +3444,7 @@
         "_key": "17df832e4281",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free trial?",
-        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 active project per month and two user seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
+        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 project, one team seat, and unlimited guest seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
       },
       {
         "_key": "72c785638efb",
@@ -4050,7 +4050,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "$0",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Starter",
         "c2Price": "$0",
         "c2Users": "1 User"
@@ -4058,9 +4058,9 @@
       {
         "_key": "35f5da1f2c22",
         "_type": "comparisonPricingRow",
-        "c1Name": "Starter",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Name": "Growth",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Basic",
         "c2Price": "$14",
         "c2Users": "1 User"
@@ -4068,9 +4068,9 @@
       {
         "_key": "50c5d53579bd",
         "_type": "comparisonPricingRow",
-        "c1Name": "Growth",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Name": "Scale",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "CMS",
         "c2Price": "$23",
         "c2Users": "3 Users"
@@ -4180,7 +4180,7 @@
         "_key": "043c11891972",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free trial?",
-        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 active project per month and two user seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
+        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 project, one team seat, and unlimited guest seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
       },
       {
         "_key": "5a6be06ac2d3",
@@ -4725,7 +4725,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Standard",
         "c2Price": "$33",
         "c2Users": "5 Users"
@@ -4733,9 +4733,9 @@
       {
         "_key": "93cf223edf16",
         "_type": "comparisonPricingRow",
-        "c1Name": "Starter",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Name": "Growth",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Studio",
         "c2Price": "$58",
         "c2Users": "10 users"
@@ -4744,8 +4744,8 @@
         "_key": "3b92d1bbb3a0",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Premium",
         "c2Price": "$108",
         "c2Users": "25 Users"
@@ -4861,7 +4861,7 @@
         "_key": "6f4ef47a4591",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free plan? ",
-        "answer": "Yes, Superflow offers a “free forever plan” at $0 with two users and one active project every month. You can also try out the 10-day free trial available on every paid subscription. "
+        "answer": "Yes, Superflow offers a “free forever plan” at $0 with one team seat, unlimited guest seats, and one project. You can also try out the 10-day free trial available on every paid subscription. "
       },
       {
         "_key": "0708b39cb1c4",
@@ -5313,7 +5313,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Free",
         "c2Price": "$0",
         "c2Users": "Unlimited users"
@@ -5322,8 +5322,8 @@
         "_key": "11f2c47a48bf",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Pro",
         "c2Price": "$25",
         "c2Users": "Unlimited users"
@@ -5331,9 +5331,9 @@
       {
         "_key": "743663f55f1a",
         "_type": "comparisonPricingRow",
-        "c1Name": "Growth",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Name": "Scale",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "NA",
         "c2Price": "--",
         "c2Users": "--"
@@ -5444,7 +5444,7 @@
         "_key": "d352cac8e0a8",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free trial?",
-        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 active project per month and two user seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
+        "answer": "Yes, Superflow offers a “Free Forever” plan at $0 with 1 project, one team seat, and unlimited guest seats. Besides this, if you want to check out a premium plan, you can opt for a 10-day free trial on each of our paid plans. Check out the pricing page for more details."
       },
       {
         "_key": "77c42c68f94f",
@@ -5902,7 +5902,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Free",
         "c2Price": "$0",
         "c2Users": "5 Users"
@@ -5911,8 +5911,8 @@
         "_key": "19644d0cf2a2",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Pro",
         "c2Price": "$4",
         "c2Users": "50 Users"
@@ -5921,8 +5921,8 @@
         "_key": "bff6f2d83e88",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Team",
         "c2Price": "$12",
         "c2Users": "50 Users"
@@ -6031,7 +6031,7 @@
         "_key": "679645abe6bd",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free plan?",
-        "answer": "Yes, Superflow offers a “free forever plan” at $0 with two users and one active project every month. You can also try out the 10-day free trial available on every paid subscription. "
+        "answer": "Yes, Superflow offers a “free forever plan” at $0 with one team seat, unlimited guest seats, and one project. You can also try out the 10-day free trial available on every paid subscription. "
       },
       {
         "_key": "c5a85e763f3f",
@@ -6489,7 +6489,7 @@
         "_type": "comparisonPricingRow",
         "c1Name": "Starter",
         "c1Price": "Free",
-        "c1Users": "3 Users",
+        "c1Users": "1 seat",
         "c2Name": "Free",
         "c2Price": "$0",
         "c2Users": "1 User"
@@ -6498,8 +6498,8 @@
         "_key": "e15efa37f715",
         "_type": "comparisonPricingRow",
         "c1Name": "Growth",
-        "c1Price": "$249",
-        "c1Users": "10 Users",
+        "c1Price": "$29",
+        "c1Users": "per seat/month",
         "c2Name": "Solo",
         "c2Price": "$24",
         "c2Users": "1 User"
@@ -6508,8 +6508,8 @@
         "_key": "734c7b89f988",
         "_type": "comparisonPricingRow",
         "c1Name": "Scale",
-        "c1Price": "$449",
-        "c1Users": "20 Users",
+        "c1Price": "$34",
+        "c1Users": "per seat/month",
         "c2Name": "Studio",
         "c2Price": "$83",
         "c2Users": "5 Users"
@@ -6525,8 +6525,8 @@
         "_key": "c22797bc6703",
         "_type": "comparisonPricingRow",
         "c1Name": "Enterprise",
-        "c1Price": "$350",
-        "c1Users": "10 Users"
+        "c1Price": "Custom",
+        "c1Users": "Custom users"
       }
     ],
     "overview": "Comparing the two website feedback tools, here's a quick run-through of how Superflow performs 10x better than Pastel",
@@ -6620,7 +6620,7 @@
         "_key": "11c36b6fcde4",
         "_type": "comparisonFaqItem",
         "question": "Does Superflow offer a free plan?",
-        "answer": "Yes, Superflow offers a “free forever plan” at $0 with two users and one active project every month. You can also try out the 10-day free trial available on every paid subscription. "
+        "answer": "Yes, Superflow offers a “free forever plan” at $0 with one team seat, unlimited guest seats, and one project. You can also try out the 10-day free trial available on every paid subscription. "
       },
       {
         "_key": "cad587bfe724",

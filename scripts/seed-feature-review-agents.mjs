@@ -279,7 +279,7 @@ const doc = {
         _key: "faq-cost",
         question: "What does it cost?",
         answer:
-          "Plans run from a free start for solo studios to Enterprise with SSO and SCIM for larger teams. Start free, no credit card.",
+          "QA agents and always-on monitoring are $14 per site per month on Growth and Scale. Plans run from a free start for solo studios to Enterprise with SSO and SCIM for larger teams. Start free, no credit card.",
       },
     ],
   },

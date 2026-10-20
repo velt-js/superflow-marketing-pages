@@ -78,7 +78,7 @@ export const INTEGRATION_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What do integrations cost?",
     answer:
-      "Included from the Growth plan. Okta, SAML, and SCIM are Enterprise. See /pricing for the breakdown.",
+      "Slack and email are on every plan. Asana, ClickUp, Monday, and webhooks are on Scale and above, and the REST API, SAML SSO, and SCIM are Enterprise. See /pricing for the breakdown.",
   },
 ];
 

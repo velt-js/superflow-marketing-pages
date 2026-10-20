@@ -6,20 +6,14 @@
 // the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
 // doesn't fit cleanly in CMS arrays and the copy changes infrequently.
 //
-// The per-tier AI credits chips and the "AI Agent Scans" comparison
-// section come from the AI Credits rate card (v4, scan-based pricing)
-// rather than the live site; the rate card itself lives in
-// components/pricing-2026/ai-credits-data.ts.
+// The "QA Agents & Monitoring" comparison section is the flat per-site
+// price in components/pricing-2026/site-agents-data.ts, not the live site.
 
 import {
-  CUSTOM_CREDITS_ESTIMATE,
-  SCAN_RATE_CARD,
-  type ScanScope,
-  SIGNUP_BONUS_CREDITS,
-  CREDIT_PACKS,
-  BULK_SITE_PLAN,
-  getCreditsPriceLabel,
-} from "@/components/pricing-2026/ai-credits-data";
+  SITE_AGENTS_CAPABILITIES,
+  SITE_AGENTS_NAME,
+  SITE_AGENTS_PRICE_USD,
+} from "@/components/pricing-2026/site-agents-data";
 
 export type TierBullet = {
   text: string;
@@ -49,19 +43,8 @@ export type Tier = {
   /** Small uppercase label above the CTA button ("10 DAY FREE TRIAL"). */
   trialLabel?: string;
   /** Pink "Most Popular" pill rendered above the card. Currently only
-   *  Growth ("Loved by 100+ Agencies"). */
+   *  Scale ("Loved by 100+ Agencies"). */
   badge?: string;
-  /** Clay-style AI credits chip rendered under the price ("30 AI
-   *  credits/mo"); expands into an add-on packs dropdown. From the AI
-   *  Credits rate card: a scan is priced by scope and runs every agent,
-   *  a rescan is always 1 credit, and included credits reset each cycle. */
-  aiCredits?: string;
-  /** Numeric form of `aiCredits`. Omitted on custom-contract tiers,
-   *  which have no fixed monthly allowance. */
-  aiCreditsPerMonth?: number;
-  /** Plain-English line under the chip: what the monthly allowance
-   *  actually covers in scans and projects. */
-  aiCreditsCovers?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
   cta: { label: string; href: string };
@@ -71,7 +54,14 @@ export type Tier = {
 export type CellValue =
   | { kind: "check" }
   | { kind: "x" }
-  | { kind: "text"; value: string; sub?: string };
+  | {
+      kind: "text";
+      /** Shown on monthly billing, and always when `annualValue` is unset. */
+      value: string;
+      sub?: string;
+      /** Shown instead of `value` while annual billing is selected. */
+      annualValue?: string;
+    };
 
 export type Row = {
   label: string;
@@ -98,54 +88,6 @@ const text = (value: string, sub?: string): CellValue => ({
   sub,
 });
 
-/**
- * Comparison-table cell for a plan's monthly credit allowance. The
- * sub-line is the tier's own "covers" copy, so the table and the tier
- * cards can't drift apart.
- *
- * @param tierId - The tier whose allowance is rendered.
- * @returns The cell value, with what the allowance covers as its sub.
- */
-const creditsCell = (tierId: Tier["id"]): CellValue => {
-  try {
-    const tier = TIERS.find((candidate) => candidate.id === tierId);
-    if (!tier?.aiCreditsPerMonth) {
-      return text("Custom", CUSTOM_CREDITS_ESTIMATE);
-    }
-    return text(`${tier.aiCreditsPerMonth} / mo`, tier.aiCreditsCovers);
-  } catch {
-    return text("Custom", CUSTOM_CREDITS_ESTIMATE);
-  }
-};
-
-/**
- * Comparison-table row for one scope on the scan rate card. Scan prices
- * are the same on every plan — the plan only sets how many credits come
- * included — so all four cells carry the same credit figure.
- *
- * @param scope - The rate-card scope to render.
- * @returns The row, or null when the scope can't be rendered.
- */
-const scanRow = (scope: ScanScope): Row | null => {
-  try {
-    if (!scope) {
-      return null;
-    }
-    const creditWord = scope.credits === 1 ? "credit" : "credits";
-    const cell = text(
-      `${scope.credits} ${creditWord}`,
-      getCreditsPriceLabel(scope.credits) ?? undefined,
-    );
-    return {
-      label: scope.label,
-      sublabel: scope.sublabel,
-      values: [cell, cell, cell, cell],
-    };
-  } catch {
-    return null;
-  }
-};
-
 export const TRIAL_LABEL = "10 DAY FREE TRIAL";
 export const APP_URL = "https://app.usesuperflow.com";
 
@@ -159,9 +101,6 @@ export const TIERS: Tier[] = [
     monthlyPrice: "0",
     annualPrice: "0",
     trialLabel: TRIAL_LABEL,
-    aiCredits: "5 AI credits/mo",
-    aiCreditsPerMonth: 5,
-    aiCreditsCovers: "One small-site scan",
     cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
@@ -179,17 +118,15 @@ export const TIERS: Tier[] = [
     annualPrice: "24",
     annualStrikePrice: "29",
     trialLabel: TRIAL_LABEL,
-    badge: "Loved by 100+ Agencies",
-    highlighted: true,
-    aiCredits: "30 AI credits/mo",
-    aiCreditsPerMonth: 30,
-    aiCreditsCovers: "Two full projects, rescans included",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
       { text: "Unlimited Projects" },
       { text: "Pay Per Team Seat" },
       { text: "10GB Storage" },
+      { text: "Automatic website version snapshots (limited time)" },
+      { text: "QA agents (add-on)" },
+      { text: "Always-on monitoring (add-on)" },
       { text: "+8 More Features" },
     ],
   },
@@ -200,16 +137,18 @@ export const TIERS: Tier[] = [
     monthlyPrice: "34",
     annualPrice: "28",
     annualStrikePrice: "34",
+    badge: "Loved by 100+ Agencies",
+    highlighted: true,
     trialLabel: TRIAL_LABEL,
-    aiCredits: "60 AI credits/mo",
-    aiCreditsPerMonth: 60,
-    aiCreditsCovers: "Four projects, or portfolio monitoring",
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
       { text: "30GB Storage" },
-      { text: "Automated Screenshots" },
+      { text: "Asana, ClickUp & Monday" },
       { text: "Private Comments" },
+      { text: "Automatic website version snapshots (limited time)" },
+      { text: "QA agents (add-on)" },
+      { text: "Always-on monitoring (add-on)" },
       { text: "+15 More Features" },
     ],
   },
@@ -221,26 +160,46 @@ export const TIERS: Tier[] = [
     annualPrice: "Let's Talk",
     customPrice: true,
     trialLabel: TRIAL_LABEL,
-    aiCredits: "Custom AI credits",
-    aiCreditsCovers: CUSTOM_CREDITS_ESTIMATE,
     cta: { label: "Book Demo", href: "/book-demo" },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
       { text: "SAML based SSO" },
       { text: "REST API" },
       { text: "Data Self-Hosting" },
+      { text: "QA agents (add-on)" },
+      { text: "Always-on monitoring (add-on)" },
       { text: "+15 More Features" },
     ],
   },
 ];
 
-/** Scan rate-card rows, in price order, dropped into the AI section. */
-const SCAN_ROWS: Row[] = SCAN_RATE_CARD.map(scanRow).filter(
-  (row): row is Row => row !== null,
-);
+/**
+ * Team Seats cell for a paid tier: the per-seat price in both billing
+ * periods, read from the tier cards so the table follows the toggle and
+ * cannot drift from the cards.
+ *
+ * @param tierId - The tier whose seat price is rendered.
+ * @returns The cell value, or "Custom" when the tier has no seat price.
+ */
+const seatPriceCell = (tierId: Tier["id"]): CellValue => {
+  try {
+    const tier = TIERS.find((candidate) => candidate.id === tierId);
+    if (!tier || tier.customPrice) {
+      return text("Custom");
+    }
+    return {
+      kind: "text",
+      value: `$${tier.monthlyPrice} /mo/seat`,
+      annualValue: `$${tier.annualPrice} /mo/seat`,
+    };
+  } catch {
+    return text("Custom");
+  }
+};
 
-/** "From $10 for 25 credits · roll over monthly", built from the packs. */
-const PACKS_SUBLABEL = `From $${CREDIT_PACKS[0].priceUsd} for ${CREDIT_PACKS[0].credits} credits · roll over monthly`;
+/** "$14 /mo/site", the Growth and Scale cells in the agents row. Starter
+ *  has no QA agents add-on; Enterprise prices it in the contract. */
+const SITE_AGENTS_CELL = text(`$${SITE_AGENTS_PRICE_USD} /mo/site`);
 
 // --- Comparison table --------------------------------------------------------
 // Order: [starter, growth, scale, enterprise]. Cell kinds match the live
@@ -267,10 +226,15 @@ export const SECTIONS: Section[] = [
         label: "Team Seats",
         values: [
           text("1", "(No Additional Seats)"),
-          text("$24 /mo/seat"),
-          text("$28 /mo/seat"),
+          seatPriceCell("growth"),
+          seatPriceCell("scale"),
           text("Custom"),
         ],
+      },
+      {
+        label: "Automatic Website Version Snapshots",
+        sublabel: "Limited time",
+        values: [cross, check, check, check],
       },
       {
         label: "Guest Seats",
@@ -288,55 +252,20 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
-    title: "AI Agent Scans",
+    title: "QA Agents & Monitoring",
     accent: "#7C3AED",
     rows: [
       {
-        label: "Bulk Pricing",
-        sublabel: "Default · unlimited reviews and monitoring, no credits",
-        values: [
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-          text(`$${BULK_SITE_PLAN.priceUsd} /mo/site`),
-        ],
+        label: SITE_AGENTS_NAME,
+        sublabel: "Flat price per site, per month",
+        values: [cross, SITE_AGENTS_CELL, SITE_AGENTS_CELL, text("Custom")],
       },
-      {
-        label: "Included AI Credits",
-        sublabel: "À la carte · reset each billing cycle · 1 credit = $0.40",
-        values: [
-          creditsCell("starter"),
-          creditsCell("growth"),
-          creditsCell("scale"),
-          creditsCell("enterprise"),
-        ],
-      },
-      {
-        label: "Every Agent On Every Scan",
-        sublabel: "No per-agent multiplier",
-        values: [check, check, check, check],
-      },
-      ...SCAN_ROWS,
-      {
-        label: "Signup Bonus Credits",
-        sublabel: "One-time, on workspace creation: first full scan free, any size",
-        values: [
-          text(`${SIGNUP_BONUS_CREDITS}`),
-          text(`${SIGNUP_BONUS_CREDITS}`),
-          text(`${SIGNUP_BONUS_CREDITS}`),
-          text(`${SIGNUP_BONUS_CREDITS}`),
-        ],
-      },
-      {
-        label: "AI Credit Packs",
-        sublabel: PACKS_SUBLABEL,
-        values: [check, check, check, check],
-      },
-      {
-        label: "Auto-Refill",
-        sublabel: "Top up $10 at a time, on by default",
-        values: [check, check, check, check],
-      },
+      ...SITE_AGENTS_CAPABILITIES.map(
+        (capability): Row => ({
+          label: capability.label,
+          values: [cross, check, check, check],
+        }),
+      ),
     ],
   },
   {
@@ -418,6 +347,7 @@ export const SECTIONS: Section[] = [
     accent: "#F62F6A",
     rows: [
       { label: "SAML based SSO", values: [cross, cross, cross, check] },
+      { label: "SCIM Provisioning", values: [cross, cross, cross, check] },
       { label: "SOC 2 Type 2", values: [cross, cross, cross, check] },
       { label: "HIPAA with BAA", values: [cross, cross, cross, check] },
       { label: "Pen Testing", values: [cross, cross, cross, check] },
