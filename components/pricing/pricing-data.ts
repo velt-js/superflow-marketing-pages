@@ -124,7 +124,7 @@ export const TIERS: Tier[] = [
       { text: "Unlimited Projects" },
       { text: "Pay Per Team Seat" },
       { text: "10GB Storage" },
-      { text: "Automatic website version snapshots (limited time)" },
+      { text: "Automatic website version snapshots" },
       { text: "QA agents (add-on)" },
       { text: "Always-on monitoring (add-on)" },
       { text: "+8 More Features" },
@@ -146,7 +146,7 @@ export const TIERS: Tier[] = [
       { text: "30GB Storage" },
       { text: "Asana, ClickUp & Monday" },
       { text: "Private Comments" },
-      { text: "Automatic website version snapshots (limited time)" },
+      { text: "Automatic website version snapshots" },
       { text: "QA agents (add-on)" },
       { text: "Always-on monitoring (add-on)" },
       { text: "+15 More Features" },
@@ -233,7 +233,6 @@ export const SECTIONS: Section[] = [
       },
       {
         label: "Automatic Website Version Snapshots",
-        sublabel: "Limited time",
         values: [cross, check, check, check],
       },
       {
