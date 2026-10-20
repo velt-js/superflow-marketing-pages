@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import styles from "./StageProgress.module.css";
 
-export type StageProgressStep = { id: string; title: string; audience: string };
+export type StageProgressStep = { id: string; title: string; audience: string; color: string };
 
 /** Reference point in the viewport: a stage counts as reached when its top crosses this line. */
 const VIEWPORT_LINE = 0.45;
@@ -69,9 +69,16 @@ export default function StageProgress({ steps }: { steps: readonly StageProgress
   }
 
   return (
-    <ol className={styles.track} aria-label="Stages">
+    <ol
+      className={styles.track}
+      aria-label="Stages"
+      style={{
+        "--progress": progress,
+        "--rail-gradient": `linear-gradient(${steps.map((step) => step.color).join(", ")})`,
+      } as CSSProperties}
+    >
       <span className={styles.rail} aria-hidden="true">
-        <span className={styles.fill} style={{ transform: `scaleY(${progress})` }} />
+        <span className={styles.fill} />
       </span>
       {steps.map((step, index) => {
         const reached = index <= activeIndex;
@@ -82,6 +89,7 @@ export default function StageProgress({ steps }: { steps: readonly StageProgress
               type="button"
               className={`${styles.button} ${reached ? styles.reached : ""} ${current ? styles.current : ""}`}
               aria-current={current ? "step" : undefined}
+              style={{ "--step-color": step.color } as CSSProperties}
               onClick={() => handleClick(step.id)}
             >
               <span className={styles.node} aria-hidden="true">

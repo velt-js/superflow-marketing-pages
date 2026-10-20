@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
-  margin: 40px 0 0;
+  margin: 64px 0 0;
   padding: 0 0 0 0;
   list-style: none;
   font-family: var(--font-urbanist), system-ui, sans-serif;
@@ -29,12 +29,14 @@
   overflow: hidden;
 }
 
+/* One gradient through every step's color, revealed from the top as the
+   reader scrolls. Clipping instead of scaling keeps the gradient in place. */
 .fill {
   position: absolute;
   inset: 0;
-  background: var(--blue);
-  transform-origin: top;
-  transition: transform 0.15s linear;
+  background: var(--rail-gradient, var(--blue));
+  clip-path: inset(0 0 calc((1 - var(--progress, 0)) * 100%) 0);
+  transition: clip-path 0.15s linear;
 }
 
 .step {
@@ -93,13 +95,13 @@
 }
 
 .reached .node {
-  border-color: var(--blue);
-  background: var(--blue);
+  border-color: var(--step-color, var(--blue));
+  background: var(--step-color, var(--blue));
   color: #ffffff;
 }
 
 .current .node {
-  box-shadow: 0 0 0 5px rgba(26, 120, 224, 0.14);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--step-color, var(--blue)) 16%, transparent);
 }
 
 .current .title {

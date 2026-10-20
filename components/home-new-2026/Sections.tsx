@@ -50,6 +50,13 @@ const BENEFIT_VISUALS: Readonly<Record<Benefit["id"], ComponentType>> = {
   figma: FigmaBenefitVisual,
 };
 
+/** One color per stage, shared by the tracker nodes and the stage eyebrows. */
+const STAGE_COLORS: Readonly<Record<Stage["id"], string>> = {
+  before: "#1a78e0",
+  handoff: "#0f9d58",
+  after: "#7c3aed",
+};
+
 const BUILD_OR_BUY_VISUALS: Readonly<Record<BuildOrBuyItem["id"], ComponentType>> = {
   tuned: TunedVisual,
   client: ClientMemoryVisual,
@@ -95,6 +102,7 @@ export function StagesSection() {
               id: `stage-${stage.id}`,
               title: stage.title,
               audience: stage.audience,
+              color: STAGE_COLORS[stage.id],
             }))}
           />
         </div>
@@ -103,7 +111,9 @@ export function StagesSection() {
             const Visual = STAGE_VISUALS[stage.id];
             return (
               <li key={stage.id} id={`stage-${stage.id}`} className={styles.stage}>
-                <span className={styles.eyebrow}>{stage.audience}</span>
+                <span className={styles.eyebrow} style={{ color: STAGE_COLORS[stage.id] }}>
+                  {stage.audience}
+                </span>
                 <h3 className={styles.h3}>{stage.title}</h3>
                 <p className={styles.text}>{stage.line}</p>
                 <Visual />
