@@ -5,9 +5,14 @@
 // Three sections, composed under the CostSection calculator:
 //   RoiHowItWorks - the four steps behind the calculator's math
 //   RoiOutputs    - what each of the three result numbers means
-//   RoiCost       - the scan-priced AI-credits cost set against the recovery
+//   RoiCost       - the per-site QA agents price set against the recovery
 
 import styles from "./RoiSections.module.css";
+import {
+  SITE_AGENTS_CAPABILITIES_SENTENCE,
+  SITE_AGENTS_PRICE_LABEL,
+  SITE_AGENTS_PRICE_USD,
+} from "@/components/pricing-2026/site-agents-data";
 import Link from "next/link";
 
 /** The calculator's math, one step per card, in calculation order. */
@@ -53,11 +58,11 @@ const OUTPUTS = [
   },
 ];
 
-/** The cost side of the ROI story, grounded in the public rate card. */
+/** The cost side of the ROI story, read from the /pricing data module. */
 const COST_POINTS = [
-  "One credit is $0.40, and a scan checks the whole site with every agent: 5 credits for a small site, 10 for a medium one. No per-agent multiplier, no token math, and the cost shows before every run.",
-  "Rescans are 1 credit at any size, because only the changed pages get reviewed. A typical project is one scan plus four rescans: 14 credits, about $5.60.",
-  "Every plan includes monthly credits, every new workspace starts with a one-time bonus of 30 credits (your first full scan, free), and one-time packs start at $10 and roll over month to month.",
+  `QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. One flat price per site, so the cost is known before the month starts.`,
+  `Every site gets ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
+  "Seats are per team member and guests are free on every plan, so clients and external reviewers never add to the bill.",
 ];
 
 /**
@@ -115,8 +120,8 @@ export function RoiOutputs() {
 }
 
 /**
- * "Set that against what it costs" - the flat AI-credits pricing next to
- * the recovery, closing the ROI argument with the public rate card.
+ * "Set that against what it costs" - the flat per-site agents price next
+ * to the recovery, closing the ROI argument with the /pricing figures.
  */
 export function RoiCost() {
   return (
@@ -128,10 +133,10 @@ export function RoiCost() {
               Set that against what it costs
             </h2>
             <p className={styles.costLede}>
-              Superflow is priced per seat, guests are free, and the AI is
-              metered in credits priced per scan. A busy agency spends tens
-              of dollars a month on credits while the calculator above shows
-              five or six figures recovered per year.
+              Superflow is priced per seat, guests are free, and QA agents
+              are ${SITE_AGENTS_PRICE_USD} per site per month. A ten-site
+              portfolio costs ${SITE_AGENTS_PRICE_USD * 10} a month while the
+              calculator above shows five or six figures recovered per year.
             </p>
           </div>
           <ul className={styles.costPoints}>

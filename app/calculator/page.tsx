@@ -2,7 +2,7 @@
 // Calculator with the homepage's interactive ROI calculator
 // (home-2026/CostSection: presets + three sliders driving the billings
 // readout) and adds ROI explainer content: the math, what each output
-// means, the flat AI-credits cost against it, and an FAQ that also
+// means, the per-site QA agents price against it, and an FAQ that also
 // feeds FAQPage JSON-LD.
 
 import SiteNav from "@/components/home-2026/SiteNav";

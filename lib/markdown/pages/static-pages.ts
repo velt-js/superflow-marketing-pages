@@ -37,7 +37,8 @@ function homeDoc(): AgentDoc {
       },
       {
         label: "Integrations",
-        value: "Asana, ClickUp, Monday, Slack, Webflow, Google Tag Manager",
+        value:
+          "Email and Slack on every plan; Asana, ClickUp, Monday and webhooks on Scale and above; REST API on Enterprise. Also works with Webflow and Google Tag Manager.",
       },
       { label: "Client accounts required", value: "No. Clients review over a link." },
       { label: "Free tier", value: "Yes. Starter is $0 and the trial needs no card." },
@@ -71,7 +72,7 @@ function homeDoc(): AgentDoc {
       {
         heading: "Where to go next",
         bullets: [
-          `Pricing and credit costs: ${SITE_URL}/pricing.md`,
+          `Pricing: ${SITE_URL}/pricing.md`,
           `Security, SOC 2, and data handling: ${SITE_URL}/security.md`,
           `Free tools with no account: ${SITE_URL}/tools.md`,
           `Full site index: ${SITE_URL}/llms.txt`,
@@ -136,14 +137,14 @@ function securityDoc(): AgentDoc {
   return {
     title: "Superflow security and privacy",
     summary:
-      "Superflow is SOC 2 compliant, encrypts data in transit and at rest, supports SSO, and does not train models on customer content.",
+      "Superflow is SOC 2 Type II compliant, encrypts data in transit and at rest, offers SAML SSO on Enterprise, and does not train models on customer content.",
     path: "/security",
     kind: "Security and compliance page",
     facts: [
-      { label: "SOC 2", value: "Compliant, monitored continuously and audited by a third party" },
+      { label: "SOC 2", value: "Type II, monitored continuously and audited annually by a third party" },
       { label: "GDPR", value: "Supported" },
       { label: "Encryption", value: "In transit and at rest" },
-      { label: "SSO", value: "Supported" },
+      { label: "SSO", value: "SAML-based, on the Enterprise plan" },
       { label: "Model training on customer data", value: "No" },
     ],
     sections: [
@@ -214,7 +215,7 @@ function calculatorDoc(): AgentDoc {
   return {
     title: "Superflow ROI calculator",
     summary:
-      "Estimates what review rounds currently cost in billable hours, against what the same coverage costs in Superflow credits.",
+      `Estimates what review rounds currently cost in billable hours, against Superflow's QA agents at ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/calculator",
     kind: "Calculator",
     facts: [
@@ -225,7 +226,7 @@ function calculatorDoc(): AgentDoc {
       {
         heading: "What this page does",
         body: [
-          "Takes your review volume and billing rate and compares the cost of a manual QA pass against the credit cost of the same coverage run by agents. The credit prices it uses are the ones published on /pricing.",
+          "Takes your review volume and billing rate and estimates the billable hours agents give back from the manual QA pass, set against the per-site agents price published on /pricing.",
         ],
       },
     ],

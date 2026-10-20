@@ -3,6 +3,11 @@
 // <FaqSection> renders, matching the /pricing pattern.
 
 import type { FaqItem } from "@/components/home-2026/faq-data";
+import {
+  SITE_AGENTS_CAPABILITIES_SENTENCE,
+  SITE_AGENTS_PRICE_LABEL,
+  SITE_AGENTS_PRICE_USD,
+} from "@/components/pricing-2026/site-agents-data";
 
 export const CALCULATOR_FAQ_ITEMS: FaqItem[] = [
   {
@@ -23,7 +28,7 @@ export const CALCULATOR_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What does Superflow cost against the recovered billings?",
     answer:
-      "Per-seat plans start free, and every plan includes monthly AI credits. Agent scans are priced by scope — 1 credit ($0.40) for a page or asset, 5 for a small site, 10 for a medium one, and 1 for any rescan — and one-time add-on packs start at $10 for 25 credits. A busy agency spends tens of dollars a month on packs while the calculator shows five or six figures recovered per year.",
+      `Per-seat plans start free, and guests are free on every plan. QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}, covering ${SITE_AGENTS_CAPABILITIES_SENTENCE}. A ten-site portfolio costs $${SITE_AGENTS_PRICE_USD * 10} a month while the calculator shows five or six figures recovered per year.`,
   },
   {
     question: "Does my whole team need paid seats?",

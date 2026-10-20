@@ -34,7 +34,7 @@ const AFFILIATE_FAQS = [
   },
   {
     q: "Does Superflow offer a free plan?",
-    a: "Superflow offers a free 10-day trial to new users, no credit card needed. During the trial period, you get full access to all features.",
+    a: "Yes. The Starter plan is free forever, with one project and one team seat. New users also get a free 10-day trial with full access to all features, no credit card needed.",
   },
 ];
 

@@ -224,7 +224,7 @@ export async function GET() {
     "",
     "> Superflow is a website and creative-asset review tool for agencies and marketing teams. Teams leave contextual feedback on live websites, videos, PDFs, images, and Lottie animations, record videos, sync tasks to PM tools, run AI agent reviews, and ship faster with fewer review rounds.",
     "",
-    "Comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager. AI review agents catch issues (spelling, layout, links, brand) before clients do, billed in AI credits priced per scan. The link index version of this file is at " +
+    `Comments go to Slack and email on every plan and sync two-way with Asana, ClickUp, and Monday on the Scale plan and above; Superflow also works with Webflow and Google Tag Manager. AI QA agents catch issues (spelling, layout, links, brand) before clients do, at ${SITE_AGENTS_PRICE_LABEL}. The link index version of this file is at ` +
       `${SITE_URL}/llms.txt`,
     "",
     pricingSection(),
