@@ -43,7 +43,7 @@ export type Tier = {
   /** Small uppercase label above the CTA button ("10 DAY FREE TRIAL"). */
   trialLabel?: string;
   /** Pink "Most Popular" pill rendered above the card. Currently only
-   *  Growth ("Loved by 100+ Agencies"). */
+   *  Scale ("Loved by 100+ Agencies"). */
   badge?: string;
   /** When true, the Growth-style purple→cyan gradient ring is drawn. */
   highlighted?: boolean;
@@ -111,8 +111,6 @@ export const TIERS: Tier[] = [
     annualPrice: "24",
     annualStrikePrice: "29",
     trialLabel: TRIAL_LABEL,
-    badge: "Loved by 100+ Agencies",
-    highlighted: true,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
@@ -129,12 +127,14 @@ export const TIERS: Tier[] = [
     monthlyPrice: "34",
     annualPrice: "28",
     annualStrikePrice: "34",
+    badge: "Loved by 100+ Agencies",
+    highlighted: true,
     trialLabel: TRIAL_LABEL,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
       { text: "30GB Storage" },
-      { text: "Automated Screenshots" },
+      { text: "Asana, ClickUp & Monday" },
       { text: "Private Comments" },
       { text: "+15 More Features" },
     ],

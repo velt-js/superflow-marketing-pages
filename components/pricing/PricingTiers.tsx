@@ -3,7 +3,7 @@
 // Four pricing tier cards for /pricing — mirrors usesuperflow.com/pricing.
 // Black-on-black cards with the tier name in the tier accent color, the
 // price block (monthly or annual), an outline CTA button, and a bulleted
-// feature list. The Growth tier is the "Most Popular" — it gets a pink
+// feature list. The Scale tier is the "Most Popular" — it gets a pink
 // "Loved by 100+ Agencies" badge above the card and a gradient ring.
 //
 // A single billing toggle ("Monthly | Annually (2 Months Free)") sits

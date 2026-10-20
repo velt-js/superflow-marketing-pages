@@ -107,7 +107,7 @@ function PricingTiersPrice({
 
 /**
  * A single pricing tier card in the 2026 idiom. The highlighted tier
- * (Growth) gets an accent border, a soft shadow and its badge pill.
+ * (Scale) gets an accent border, a soft shadow and its badge pill.
  *
  * @param props.tier - The tier to render.
  * @param props.billing - The active billing period.
