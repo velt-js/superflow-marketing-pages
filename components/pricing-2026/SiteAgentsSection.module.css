@@ -1,0 +1,184 @@
+/* QA agents + always-on monitoring section — 2026 light idiom, matching
+   PricingTiers.module.css: #fbfbfd cards, #ececf1 hairline, 20px radius,
+   serif headings and the single #433df3 accent. */
+
+.section {
+    --sa-serif: var(--font-adamina), Georgia, serif;
+    --sa-display: var(--font-urbanist), system-ui, sans-serif;
+    --sa-body: var(--font-poppins), system-ui, sans-serif;
+    --sa-mono: ui-monospace, "Geist Mono", "SFMono-Regular", Menlo, monospace;
+    --sa-ink: #16171a;
+    --sa-muted: #6b7079;
+    --sa-accent: #433df3;
+    --sa-check: #17b26a;
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 24px 72px;
+    background: #ffffff;
+}
+
+.section *,
+.section *::before,
+.section *::after {
+    box-sizing: border-box;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 28px;
+}
+
+/* --- Intro ---------------------------------------------------------------- */
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 780px;
+}
+
+.heading {
+    margin: 0;
+    font-family: var(--sa-serif);
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+    color: var(--sa-ink);
+}
+
+.lede {
+    margin: 0;
+    font-family: var(--sa-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--sa-muted);
+}
+
+/* --- Card ----------------------------------------------------------------- */
+
+/* Price on the left, the four capabilities in a 2x2 grid on the right. */
+.card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+    align-items: center;
+    gap: 32px;
+    padding: 32px;
+    border: 1px solid rgba(67, 61, 243, 0.22);
+    border-radius: 20px;
+    background: rgba(67, 61, 243, 0.05);
+}
+
+.priceBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--sa-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--sa-ink);
+}
+
+.price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.amount {
+    font-family: var(--sa-serif);
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    color: var(--sa-ink);
+}
+
+.unit {
+    font-family: var(--sa-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sa-accent);
+}
+
+/* --- Capabilities --------------------------------------------------------- */
+
+.capabilities {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.capability {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    border: 1px solid #ececf1;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.capabilityLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sa-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    color: var(--sa-ink);
+}
+
+.capabilityText {
+    padding-left: 23px;
+    font-family: var(--sa-body);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--sa-muted);
+}
+
+.checkIcon {
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    color: var(--sa-check);
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 620px) {
+    .section {
+        padding: 8px 20px 56px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .capabilities {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

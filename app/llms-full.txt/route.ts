@@ -16,15 +16,9 @@ import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
-  BULK_SITE_PLAN,
-  BULK_SITE_PRICE_LABEL,
-  CREDIT_PACKS,
-  CREDIT_UNIT_PRICE_USD,
-  SCAN_RATE_CARD,
-  SIGNUP_BONUS_CREDITS,
-  TYPICAL_PROJECT_CREDITS,
-  getPerCreditLabel,
-} from "@/components/pricing-2026/ai-credits-data";
+  SITE_AGENTS_CAPABILITIES,
+  SITE_AGENTS_PRICE_LABEL,
+} from "@/components/pricing-2026/site-agents-data";
 
 export const revalidate = 3600;
 
@@ -136,22 +130,11 @@ function pricingSection(): string {
       : tier.monthlyPrice === "0"
         ? "free"
         : `$${tier.monthlyPrice}/seat/month, or $${tier.annualPrice}/seat/month billed yearly`;
-    const credits = tier.aiCredits
-      ? tier.aiCredits.startsWith("Custom")
-        ? " AI credit allowance is custom."
-        : ` Includes ${tier.aiCredits}.`
-      : "";
-    return `- ${tier.name}: ${price}.${credits}`;
+    return `- ${tier.name}: ${price}.`;
   }).join("\n");
 
-  const packs = CREDIT_PACKS.map(
-    (pack) =>
-      `- ${pack.name} pack: ${pack.credits.toLocaleString("en-US")} credits for $${pack.priceUsd} (${getPerCreditLabel(pack)})`,
-  ).join("\n");
-
-  const scans = SCAN_RATE_CARD.map(
-    (scope) =>
-      `- ${scope.label}${scope.sublabel ? ` — ${scope.sublabel}` : ""}: ${scope.credits} credit${scope.credits === 1 ? "" : "s"}`,
+  const capabilities = SITE_AGENTS_CAPABILITIES.map(
+    (capability) => `- ${capability.label}: ${capability.description}`,
   ).join("\n");
 
   return `## Pricing
@@ -160,15 +143,9 @@ Superflow is priced per seat with a free 10-day trial. Guest users are free and 
 
 ${plans}
 
-AI agents default to bulk pricing: ${BULK_SITE_PRICE_LABEL}. ${BULK_SITE_PLAN.summary} Covers: ${BULK_SITE_PLAN.includes.join("; ")}.
+QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. Every site gets:
 
-Customers can switch to à la carte instead, where agent scans are metered in credits: one credit is $${CREDIT_UNIT_PRICE_USD.toFixed(2)}, and one scan checks a whole site with every agent — no per-agent multiplier and no per-page math. Scans are priced by scope:
-
-${scans}
-
-A typical project is one medium-site scan plus four rescans: ${TYPICAL_PROJECT_CREDITS} credits. Included credits reset each billing cycle. Every new workspace gets a one-time signup bonus of ${SIGNUP_BONUS_CREDITS} credits, enough for one full scan at any size. One-time add-on packs top up any plan and roll over month to month, and auto-refill tops up $10 at a time:
-
-${packs}
+${capabilities}
 `;
 }
 
