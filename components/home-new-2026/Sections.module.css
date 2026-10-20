@@ -143,6 +143,8 @@
 .stage {
   display: flex;
   flex-direction: column;
+  /* Room for the fixed nav when a tracker click scrolls a stage into view. */
+  scroll-margin-top: 110px;
 }
 
 /* ---------------------------------------------------------- what you get */

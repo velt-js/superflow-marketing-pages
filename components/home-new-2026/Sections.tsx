@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import styles from "./Sections.module.css";
+import StageProgress from "./StageProgress";
 import { AgentIcon, agentColors } from "./AgentIcons";
 import {
   AGENTS,
@@ -89,12 +90,19 @@ export function StagesSection() {
               </span>
             ))}
           </h2>
+          <StageProgress
+            steps={STAGES.map((stage) => ({
+              id: `stage-${stage.id}`,
+              title: stage.title,
+              audience: stage.audience,
+            }))}
+          />
         </div>
         <ol className={styles.stageList}>
           {STAGES.map((stage) => {
             const Visual = STAGE_VISUALS[stage.id];
             return (
-              <li key={stage.id} className={styles.stage}>
+              <li key={stage.id} id={`stage-${stage.id}`} className={styles.stage}>
                 <span className={styles.eyebrow}>{stage.audience}</span>
                 <h3 className={styles.h3}>{stage.title}</h3>
                 <p className={styles.text}>{stage.line}</p>

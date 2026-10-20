@@ -1,0 +1,127 @@
+/* Scroll tracker in the stages section's sticky left column. A grey rail runs
+   down the left of the steps; the blue fill scales from the top as the reader
+   moves through the stages. */
+
+.track {
+  --ink: #1e1e1f;
+  --muted: #8a8a92;
+  --line: #e7e7eb;
+  --blue: #1a78e0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin: 40px 0 0;
+  padding: 0 0 0 0;
+  list-style: none;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+.rail {
+  position: absolute;
+  left: 15px;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  transform-origin: top;
+  transition: transform 0.15s linear;
+}
+
+.step {
+  position: relative;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.node {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.audience {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.reached {
+  color: var(--ink);
+}
+
+.reached .node {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.current .node {
+  box-shadow: 0 0 0 5px rgba(26, 120, 224, 0.14);
+}
+
+.current .title {
+  color: var(--ink);
+}
+
+.button:hover .title {
+  color: var(--ink);
+}
+
+/* Below this width the left column is no longer sticky, so the tracker would
+   only push the stages down. */
+@media (max-width: 860px) {
+  .track {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .node,
+  .button {
+    transition: none;
+  }
+}
