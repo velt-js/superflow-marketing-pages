@@ -6876,7 +6876,7 @@
             {
               "_type": "span",
               "_key": "ef42553e4e1a",
-              "text": "Superflow has a free forever plan with which you can use audio and video to collaborate. Its paid plans include:",
+              "text": "Superflow has a free forever plan with which you can use audio and video to collaborate. Its plans include:",
               "marks": []
             }
           ]
@@ -6890,7 +6890,7 @@
             {
               "_type": "span",
               "_key": "f0ff8332828b",
-              "text": "Starter plan ($39 per month).",
+              "text": "Starter plan (free, with one project and one team seat).",
               "marks": []
             }
           ],
@@ -6906,7 +6906,7 @@
             {
               "_type": "span",
               "_key": "7cbb533bc909",
-              "text": "Growth plan ($79 per month).",
+              "text": "Growth plan ($29 per seat per month, or $24 billed annually).",
               "marks": []
             }
           ],
@@ -6922,7 +6922,7 @@
             {
               "_type": "span",
               "_key": "e5216c4edde4",
-              "text": "Scale plan ($149 per month).",
+              "text": "Scale plan ($34 per seat per month, or $28 billed annually).",
               "marks": []
             }
           ],
@@ -13150,13 +13150,13 @@
             {
               "_type": "span",
               "_key": "0a4201c25c1d",
-              "text": "Superflow has a free plan where you can use audio and video features to collaborate. Its paid plans start with the Starter package at ",
+              "text": "Superflow has a free plan where you can use audio and video features to collaborate. Its paid plans start with the Growth plan at ",
               "marks": []
             },
             {
               "_type": "span",
               "_key": "b101869e57f1",
-              "text": "$39",
+              "text": "$29",
               "marks": [
                 "strong"
               ]
@@ -13164,13 +13164,13 @@
             {
               "_type": "span",
               "_key": "cb121e866fee",
-              "text": " per month. Next, is the Growth plan priced at ",
+              "text": " per seat per month ($24 billed annually). Next is the Scale plan, priced at ",
               "marks": []
             },
             {
               "_type": "span",
               "_key": "b850fab62588",
-              "text": "$79",
+              "text": "$34",
               "marks": [
                 "strong"
               ]
@@ -13178,7 +13178,7 @@
             {
               "_type": "span",
               "_key": "3cabbef571ee",
-              "text": " per month, after that is  the Scale plan at $149 per month. Finally is the Enterprise plan which is customized to each client’s needs or project plan.",
+              "text": " per seat per month ($28 billed annually). Finally is the Enterprise plan which is customized to each client’s needs or project plan.",
               "marks": []
             }
           ]
@@ -23587,7 +23587,7 @@
             {
               "_type": "span",
               "_key": "1a37889f71d3",
-              "text": "Basic plan (Free forever), Starter plan ($39 per month), Growth plan ($79 per month), Scale plan ($149 per month), Enterprise plan (tailored to client's needs)",
+              "text": "Starter plan (Free forever), Growth plan ($29 per seat per month), Scale plan ($34 per seat per month), Enterprise plan (tailored to client's needs)",
               "marks": []
             }
           ]
@@ -26540,7 +26540,7 @@
       ],
       "metaTitle": "Top 20 Annotation Tools for Enhanced Team Productivity and Collaboration",
       "metaDescription": "Discover the best annotation tools to streamline your team's workflow. Our comprehensive guide covers the top 20 website annotation tools, including Superflow, to enhance team productivity, collaboration, and effective communication. Perfect for design and web development teams looking to optimize their project management and feedback processes",
-      "faqSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"How can I annotate a website?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"You can annotate a website by adding comments, highlights or other forms of annotation to web pages. This can be done alone or as part of a team and with the aid of a website annotation tool like Superflow .\"}},{\"@type\":\"Question\",\"name\":\"What is an example of a website annotation?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"An example of a website annotation is making comments and highlighting issues on a website for improvement. Teams do this for better collaboration and communication.\"}},{\"@type\":\"Question\",\"name\":\"What is an online annotation tool?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"An online annotation tool is an app that enables users to input comments, notes and highlights to web pages. These tools are often used for feedback sharing and collaboration.\"}},{\"@type\":\"Question\",\"name\":\"Which tool is used for annotation?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Superflow is the best tool for website annotation. It is loaded with features that enable teams to share feedback more effectively. These features include robust commenting, in-built audio and video support, task assignment, comment prioritization, status management, AI auto-categorization, built-in Kanban board, dedicated data storage, and seamless integration among others.\"}},{\"@type\":\"Question\",\"name\":\"How can I annotate a website for free?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"To annotate a website for free, use the Free Forever plan in Superflow . The plan accommodates two team members, lets you record and offers features like the task manager, arrow tool, comment highlights and email notification, among others.\"}}]}",
+      "faqSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"How can I annotate a website?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"You can annotate a website by adding comments, highlights or other forms of annotation to web pages. This can be done alone or as part of a team and with the aid of a website annotation tool like Superflow .\"}},{\"@type\":\"Question\",\"name\":\"What is an example of a website annotation?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"An example of a website annotation is making comments and highlighting issues on a website for improvement. Teams do this for better collaboration and communication.\"}},{\"@type\":\"Question\",\"name\":\"What is an online annotation tool?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"An online annotation tool is an app that enables users to input comments, notes and highlights to web pages. These tools are often used for feedback sharing and collaboration.\"}},{\"@type\":\"Question\",\"name\":\"Which tool is used for annotation?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Superflow is the best tool for website annotation. It is loaded with features that enable teams to share feedback more effectively. These features include robust commenting, in-built audio and video support, task assignment, comment prioritization, status management, AI auto-categorization, built-in Kanban board, dedicated data storage, and seamless integration among others.\"}},{\"@type\":\"Question\",\"name\":\"How can I annotate a website for free?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"To annotate a website for free, use the Free Forever plan in Superflow . The plan includes one team seat plus unlimited free guest seats, lets you record and offers features like the task manager, arrow tool, comment highlights and email notification, among others.\"}}]}",
       "blogPostingSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"Top 20 Website Annotation Tools for Effective Teams in 2024\",\"description\":\"Discover the best annotation tools to streamline your team's workflow. Our comprehensive guide covers the top 20 website annotation tools, including Superflow, to enhance team productivity, collaboration, and effective communication. Perfect for design and web development teams looking to optimize their project management and feedback processes\",\"datePublished\":\"2023-11-30T00:00:00.000Z\",\"author\":{\"@type\":\"Person\",\"name\":\"Chaitanya\"},\"image\":\"https://framerusercontent.com/images/XKmni3BB6daXrC30GyEfa07oK8.png\",\"url\":\"https://usesuperflow.com/blog/top-20-website-annotation-tools-for-effective-teams\"}"
     },
     {
@@ -28585,7 +28585,7 @@
             {
               "_type": "span",
               "_key": "db579b778fbc",
-              "text": "Starter plan (Free forever), Growth plan ($249 per month), Scale plan ($449 per month), Enterprise plan (tailored to client's needs)",
+              "text": "Starter plan (Free forever), Growth plan ($29 per seat per month), Scale plan ($34 per seat per month), Enterprise plan (tailored to client's needs)",
               "marks": []
             }
           ]
@@ -31986,7 +31986,7 @@
             {
               "_type": "span",
               "_key": "f35705f15198",
-              "text": "Superflow provides a free plan, allowing you to work on one project per month. The paid plan starts at $29 for more advanced features, offering three active projects monthly, and includes features like file attachments and Slack integration. Superflow offers higher-tier plans such as Growth, Scale, and Enterprise as you scale your needs, providing tailored options to accommodate various project sizes and requirements.",
+              "text": "Superflow provides a free Starter plan, allowing you to work on one project. The paid plans start at $29 per seat per month with Growth for more advanced features, offering unlimited projects, and every plan includes features like file attachments and Slack integration. Superflow offers higher-tier plans such as Scale and Enterprise as you scale your needs, providing tailored options to accommodate various project sizes and requirements.",
               "marks": []
             }
           ]
@@ -32886,7 +32886,7 @@
             {
               "_type": "span",
               "_key": "1c478adcfbb6",
-              "text": " provides a free package, allowing you to try the solution at no cost. With this free plan, you can collaborate with at least one team member, allowing you to explore the features and benefits of Superflow before making any commitments.",
+              "text": " provides a free package, allowing you to try the solution at no cost. With this free plan, you get one team seat and unlimited free guest seats, allowing you to explore the features and benefits of Superflow before making any commitments.",
               "marks": []
             }
           ]
@@ -32928,7 +32928,7 @@
             {
               "_type": "span",
               "_key": "865c106ed793",
-              "text": "Basic",
+              "text": "Starter",
               "marks": [
                 "strong"
               ]
@@ -32936,7 +32936,7 @@
             {
               "_type": "span",
               "_key": "4f0f05d28542",
-              "text": ": Enjoy free access forever with $0/month, supporting one active project monthly, and additional benefits. Sign up to get started.",
+              "text": ": Enjoy free access forever with $0/month, supporting one project and one team seat, and additional benefits. Sign up to get started.",
               "marks": []
             },
             {
@@ -32958,7 +32958,7 @@
             {
               "_type": "span",
               "_key": "d8c84c95c77c",
-              "text": "Starter",
+              "text": "Growth",
               "marks": [
                 "strong"
               ]
@@ -32966,7 +32966,7 @@
             {
               "_type": "span",
               "_key": "00b840e8ad3a",
-              "text": ": Priced at $29/month, this plan accommodates three active projects and offers other features for your convenience.",
+              "text": ": Priced at $29 per seat/month ($24 billed annually), this plan accommodates unlimited projects and offers other features for your convenience.",
               "marks": []
             },
             {
@@ -32988,7 +32988,7 @@
             {
               "_type": "span",
               "_key": "fa51eccd5c0b",
-              "text": "Growth",
+              "text": "Scale",
               "marks": [
                 "strong"
               ]
@@ -32996,7 +32996,7 @@
             {
               "_type": "span",
               "_key": "21a5385149d2",
-              "text": ": For $64/month, unlock unlimited project capabilities and more, enhancing your experience with added features.",
+              "text": ": For $34 per seat/month ($28 billed annually), unlock private comments, custom branding and more, enhancing your experience with added features.",
               "marks": []
             },
             {
@@ -33018,7 +33018,7 @@
             {
               "_type": "span",
               "_key": "5adfadef571f",
-              "text": "Scale",
+              "text": "QA agents",
               "marks": [
                 "strong"
               ]
@@ -33026,7 +33026,7 @@
             {
               "_type": "span",
               "_key": "b9b42b2f72bc",
-              "text": ": Elevate your options at $124/month, providing unlimited features and extra perks to meet your expanding needs.",
+              "text": ": Add always-on monitoring at $14 per site per month on Growth and Scale. QA agents check each change and flag if they find an issue.",
               "marks": []
             },
             {
@@ -33086,7 +33086,7 @@
             {
               "_type": "span",
               "_key": "9c1c4e2255ad",
-              "text": "When choosing a website feedback tool, prioritizing security is crucial, and Superflow emerges as the top-tier option. What sets Superflow apart from its competitors is its ability to enable direct feedback on your website, eliminating security risks associated with sandboxing. Also, Superflow proudly holds SOC II Type I compliance—a feature absent in most other providers.",
+              "text": "When choosing a website feedback tool, prioritizing security is crucial, and Superflow emerges as the top-tier option. What sets Superflow apart from its competitors is its ability to enable direct feedback on your website, eliminating security risks associated with sandboxing. Also, Superflow proudly holds SOC 2 Type II compliance—a feature absent in most other providers.",
               "marks": []
             }
           ]
@@ -37516,7 +37516,7 @@
             {
               "_type": "span",
               "_key": "e237dbe6d5f0",
-              "text": "Starter plan (Free Forever), Scale plan ($249 per month), Growth plan ($449 per month), Enterprise plan (tailored to client’s needs)",
+              "text": "Starter plan (Free Forever), Growth plan ($29 per seat per month), Scale plan ($34 per seat per month), Enterprise plan (tailored to client’s needs)",
               "marks": []
             }
           ]
@@ -40333,7 +40333,7 @@
             {
               "_type": "span",
               "_key": "2a5619b0cb84",
-              "text": "Superflow offers flexible pricing options tailored to your team's size. You can choose from Free (Basic), Freelancer (Starter), Agency (Growth), Agency Pro (Scale), and Enterprise plans, each designed to accommodate diverse collaboration needs and enhance workflow efficiency with a variety of features and benefits. Whether you're a freelancer, a small agency, or a larger team, Superflow has a cost-effective solution for you.",
+              "text": "Superflow offers flexible pricing options tailored to your team's size. You can choose from Starter (free), Growth, Scale, and Enterprise plans, each designed to accommodate diverse collaboration needs and enhance workflow efficiency with a variety of features and benefits. Whether you're a freelancer, a small agency, or a larger team, Superflow has a cost-effective solution for you.",
               "marks": []
             }
           ]
@@ -40361,7 +40361,7 @@
             {
               "_type": "span",
               "_key": "f7fc670724b4",
-              "text": "Basic",
+              "text": "Starter",
               "marks": [
                 "strong"
               ]
@@ -40369,7 +40369,7 @@
             {
               "_type": "span",
               "_key": "54735a3348e7",
-              "text": ": This plan is free forever with no monthly cost and includes one active project per month. Sign up to get started.",
+              "text": ": This plan is free forever with no monthly cost and includes one project and one team seat. Sign up to get started.",
               "marks": []
             }
           ],
@@ -40385,7 +40385,7 @@
             {
               "_type": "span",
               "_key": "3a1f8c9c4578",
-              "text": "Starter",
+              "text": "Growth",
               "marks": [
                 "strong"
               ]
@@ -40393,7 +40393,7 @@
             {
               "_type": "span",
               "_key": "273a922b4973",
-              "text": ": The starter plan charges $29 monthly, offering three active projects and additional features.",
+              "text": ": The Growth plan charges $29 per seat monthly ($24 billed annually), offering unlimited projects and additional features.",
               "marks": []
             }
           ],
@@ -40409,7 +40409,7 @@
             {
               "_type": "span",
               "_key": "82b90538679a",
-              "text": "Growth",
+              "text": "Scale",
               "marks": [
                 "strong"
               ]
@@ -40417,7 +40417,7 @@
             {
               "_type": "span",
               "_key": "99c864606b65",
-              "text": ": For $64 per month, the Growth plan allows unlimited projects and provides additional features.",
+              "text": ": For $34 per seat per month ($28 billed annually), the Scale plan adds private comments, custom branding, and additional features.",
               "marks": []
             }
           ],
@@ -40433,7 +40433,7 @@
             {
               "_type": "span",
               "_key": "0976f8a03e5c",
-              "text": "Scale",
+              "text": "QA agents",
               "marks": [
                 "strong"
               ]
@@ -40441,7 +40441,7 @@
             {
               "_type": "span",
               "_key": "6c7b7660dec7",
-              "text": ": At $124 per month, the Scale plan offers unlimited features and other extras.",
+              "text": ": $14 per site per month on Growth and Scale, with always-on monitoring. QA agents check each change and flag if they find an issue.",
               "marks": []
             }
           ],
@@ -43232,7 +43232,7 @@
             {
               "_type": "span",
               "_key": "71cf1e5077f4",
-              "text": "Superflow and Ruttl offer different pricing plans for various requirements. However, Superflow provides multiple pricing options to meet your needs. Its pricing plans are Basic, Starter, Growth, Scale, and Enterprise.",
+              "text": "Superflow and Ruttl offer different pricing plans for various requirements. However, Superflow provides multiple pricing options to meet your needs. Its pricing plans are Starter, Growth, Scale, and Enterprise, with QA agents priced per site.",
               "marks": []
             }
           ]
@@ -43272,7 +43272,7 @@
             {
               "_type": "span",
               "_key": "6ae546b7f6fc",
-              "text": "Basic:",
+              "text": "Starter:",
               "marks": [
                 "strong"
               ]
@@ -43280,7 +43280,7 @@
             {
               "_type": "span",
               "_key": "ad80c4214d2c",
-              "text": " Enjoy free access forever with $0/month. This plan includes one active project each month and more. Simply sign up to get started.",
+              "text": " Enjoy free access forever with $0/month. This plan includes one project and one team seat, and more. Simply sign up to get started.",
               "marks": []
             },
             {
@@ -43308,7 +43308,7 @@
             {
               "_type": "span",
               "_key": "c0bb70fc2ca6",
-              "text": "Starter:",
+              "text": "Growth:",
               "marks": [
                 "strong"
               ]
@@ -43316,7 +43316,7 @@
             {
               "_type": "span",
               "_key": "54963f6a2ecf",
-              "text": " Priced at $29/month, the Starter plan grants you access to three active projects and additional features.",
+              "text": " Priced at $29 per seat/month ($24 billed annually), the Growth plan grants you access to unlimited projects and additional features.",
               "marks": []
             },
             {
@@ -43344,7 +43344,7 @@
             {
               "_type": "span",
               "_key": "c7cde878d42e",
-              "text": "Growth:",
+              "text": "Scale:",
               "marks": [
                 "strong"
               ]
@@ -43352,7 +43352,7 @@
             {
               "_type": "span",
               "_key": "893f269691bd",
-              "text": " For $64/month, the Growth plan provides unlimited projects and more features.",
+              "text": " For $34 per seat/month ($28 billed annually), the Scale plan adds private comments, custom branding, and more features.",
               "marks": []
             },
             {
@@ -43380,7 +43380,7 @@
             {
               "_type": "span",
               "_key": "54826761d002",
-              "text": "Scale:",
+              "text": "QA agents:",
               "marks": [
                 "strong"
               ]
@@ -43388,7 +43388,7 @@
             {
               "_type": "span",
               "_key": "9c76e8a71f94",
-              "text": " At $124/month, the Scale plan offers unlimited features and additional extras.",
+              "text": " $14 per site per month on Growth and Scale, with always-on monitoring. QA agents check each change and flag if they find an issue.",
               "marks": []
             },
             {
@@ -43610,7 +43610,7 @@
             {
               "_type": "span",
               "_key": "4863ee4fb5a1",
-              "text": "Providers of website feedback solutions have access to sensitive data and are required to adhere to SOC 2 Type 1 reporting standards to ensure the safety of this data. Unlike Ruttl and Ruttl alternatives, Superflow is actively working to achieve compliance. At the time of this comparison, they are expected to be fully compliant within the next few weeks.",
+              "text": "Providers of website feedback solutions have access to sensitive data and are expected to adhere to SOC 2 reporting standards to ensure the safety of this data. Unlike Ruttl and Ruttl alternatives, Superflow has completed independent SOC 2 Type II audits.",
               "marks": []
             }
           ]
@@ -44527,7 +44527,7 @@
             {
               "_type": "span",
               "_key": "7277db3a3a3d",
-              "text": " offer multiple pricing plans to cater to different user needs. However, Superflow provides a more extensive pricing option to suit your team's size. Its pricing includes Free (Basic), Freelancer (Starter), Agency (Growth), Agency Pro (Scale), and Enterprise, each offering a range of features and benefits to meet different collaboration requirements and improve workflow efficiency.",
+              "text": " offer multiple pricing plans to cater to different user needs. However, Superflow provides a more extensive pricing option to suit your team's size. Its pricing includes Starter (free), Growth, Scale, and Enterprise, each offering a range of features and benefits to meet different collaboration requirements and improve workflow efficiency.",
               "marks": []
             }
           ]
@@ -44555,7 +44555,7 @@
             {
               "_type": "span",
               "_key": "32993148fe1d",
-              "text": "Basic - Free forever at $0/month, allows one active project monthly, and more. To use this plan, all you need to do is sign up.",
+              "text": "Starter - Free forever at $0/month, allows one project and one team seat, and more. To use this plan, all you need to do is sign up.",
               "marks": []
             }
           ]
@@ -44569,7 +44569,7 @@
             {
               "_type": "span",
               "_key": "7b0c4af0e91d",
-              "text": "Starter - Billed at $29/month, allows three active projects and more.",
+              "text": "Growth - Billed at $29/seat/month ($24/seat annually), allows unlimited projects and more.",
               "marks": []
             }
           ]
@@ -44583,7 +44583,7 @@
             {
               "_type": "span",
               "_key": "b59d8a58d983",
-              "text": "Growth - Billed at $64/month, allows unlimited projects and more.",
+              "text": "Scale - Billed at $34/seat/month ($28/seat annually), adds private comments, custom branding, and more.",
               "marks": []
             }
           ]
@@ -44597,7 +44597,7 @@
             {
               "_type": "span",
               "_key": "3483126208d0",
-              "text": "Scale - Billed at $124/month, allows unlimited features and other extra features.",
+              "text": "QA agents - $14 per site per month on Growth and Scale, with always-on monitoring and change detection. QA agents check each change and flag if they find an issue.",
               "marks": []
             }
           ]
@@ -44715,7 +44715,7 @@
             {
               "_type": "span",
               "_key": "3e928328b3cb",
-              "text": "Vendors of website feedback tools handle customer data and are required to meet SOC 2 Type 1 reporting standards to ensure the safety of this data. Unlike most feedback tools, Superflow is actively working on achieving compliance. As of the time of writing this article, they are expected to be fully compliant within the next few weeks, demonstrating their commitment to data security.",
+              "text": "Vendors of website feedback tools handle customer data and are expected to meet SOC 2 reporting standards to ensure the safety of this data. Unlike most feedback tools, Superflow has completed independent SOC 2 Type II audits, demonstrating its commitment to data security.",
               "marks": []
             }
           ]
@@ -44987,7 +44987,7 @@
             {
               "_type": "span",
               "_key": "11f51af59984",
-              "text": " lastly, this session evaluates the commitment of the tool's vendor in terms of data security in compliance with SOC 2 Type 1 requirements and it's encryption abilities.",
+              "text": " lastly, this session evaluates the commitment of the tool's vendor in terms of data security in compliance with SOC 2 Type II requirements and it's encryption abilities.",
               "marks": []
             },
             {
@@ -45651,7 +45651,7 @@
             {
               "_type": "span",
               "_key": "ef6d5ee89e94",
-              "text": "Starts at $29 basic plan which offers three active projects monthly as well as file attachments and Slack integration. There are also other advanced plans like the Growth, Scale and the Enterprise plan.",
+              "text": "Paid plans start at $29 per seat per month with Growth, which offers unlimited projects as well as file attachments and Slack integration. There are also other advanced plans like the Scale and the Enterprise plan.",
               "marks": []
             }
           ]
@@ -45665,7 +45665,7 @@
             {
               "_type": "span",
               "_key": "39ea215e2ec1",
-              "text": "There’s a free plan that allows you to do one project per month.",
+              "text": "There’s a free plan that allows you to do one project.",
               "marks": []
             }
           ]
@@ -47081,7 +47081,7 @@
             {
               "_type": "span",
               "_key": "f1f10c2af018",
-              "text": "SOC II Type I",
+              "text": "SOC 2 Type II",
               "marks": []
             },
             {
@@ -47387,7 +47387,7 @@
             {
               "_type": "span",
               "_key": "0d812f4330fe",
-              "text": "Starter plan: This plan is free forever and includes 3 monthly active project, 3 seats and up to 5 minutes of recording.",
+              "text": "Starter plan: This plan is free forever and includes 1 project, 1 team seat, unlimited guest seats and recordings.",
               "marks": []
             },
             {
@@ -47409,7 +47409,7 @@
             {
               "_type": "span",
               "_key": "d9420bc5b9d6",
-              "text": "Growth plan: This plan offers unlimited projects, 10 seats and unlimited recording and costs $249 monthly. ",
+              "text": "Growth plan: This plan offers unlimited projects and automated screenshots, and costs $29 per seat monthly ($24 billed annually). ",
               "marks": []
             },
             {
@@ -47431,7 +47431,7 @@
             {
               "_type": "span",
               "_key": "bfa022b1bd4a",
-              "text": "Scale plan: With $449 per month, this package offers unlimited projects, 10 seats and unlimited recording.",
+              "text": "Scale plan: At $34 per seat per month ($28 billed annually), this package adds private comments, custom branding and ClickUp, Asana, Monday.com and webhook integrations.",
               "marks": []
             },
             {
@@ -48009,7 +48009,7 @@
             {
               "_type": "span",
               "_key": "96a5b7392ff1",
-              "text": "It gets even better with Superflow. Its first paid plan is $29 only, making it $4 cheaper than BugHerd’s first paid plan. However, BugHerd’s $33 plan covers 5 users while Superflow’s $29 plan covers only 3 users, with the ability to add more users at a token fee of $5 monthly per user. ",
+              "text": "It gets even better with Superflow. Its first paid plan, Growth, is $29 per seat per month ($24 billed annually). BugHerd’s $33 plan covers 5 users, while Superflow charges only for the team seats you use, and guests are always free.",
               "marks": []
             }
           ]
@@ -48023,7 +48023,7 @@
             {
               "_type": "span",
               "_key": "eb0742df4772",
-              "text": "While BugHerd’s Deluxe plan is $191, Superflow’s equivalent Scale plan costs just $124. However, BugHerd lets you add up to 50 users while Superflow permits 15 users with access to over 18 features as well as the ability to add as many members as you like at a token fee of $5 monthly per user.",
+              "text": "While BugHerd’s Deluxe plan is $191, Superflow’s Scale plan costs $34 per seat per month ($28 billed annually). BugHerd lets you add up to 50 users, while Superflow lets you add as many members as you like at that per-seat price, with guests always free.",
               "marks": []
             }
           ]
@@ -48163,7 +48163,7 @@
             {
               "_type": "span",
               "_key": "498525f625f4",
-              "text": "On the flip side, Superflow has a forever free planthat permits two users, one active project per month and over seven other features. See why Superfow is the top scorer in the website feedback tool playing field? It’s a clear win. And now that you’ve come to the end of your dilemma, it’s time to sign up for Superflow, the premium feedback management and collaboration tool.",
+              "text": "On the flip side, Superflow has a forever free plan that includes one team seat, unlimited guest seats, one project and over seven other features. See why Superfow is the top scorer in the website feedback tool playing field? It’s a clear win. And now that you’ve come to the end of your dilemma, it’s time to sign up for Superflow, the premium feedback management and collaboration tool.",
               "marks": []
             }
           ]
@@ -48851,7 +48851,7 @@
             {
               "_type": "span",
               "_key": "ed30671dfd31",
-              "text": "SOC II Type I",
+              "text": "SOC 2 Type II",
               "marks": []
             },
             {
@@ -48929,7 +48929,7 @@
             {
               "_type": "span",
               "_key": "5faf2f2bb70a",
-              "text": " It’s free forever and includes 3 active project per month, 3 seats and up to 5 minutes of recording.",
+              "text": " It’s free forever and includes 1 project, 1 team seat, unlimited guest seats and recordings.",
               "marks": []
             },
             {
@@ -48959,7 +48959,7 @@
             {
               "_type": "span",
               "_key": "21d7a49c3914",
-              "text": " With $249 per month, billed yearly, you have access to unlimited projects, 10 seats and unlimited recording.",
+              "text": " With $24 per seat per month, billed yearly ($29 billed monthly), you have access to unlimited projects and automated screenshots.",
               "marks": []
             },
             {
@@ -48989,7 +48989,7 @@
             {
               "_type": "span",
               "_key": "41527cf42bae",
-              "text": " This plan costs $449 monthly, is billed yearly and offers unlimited projects, 20 seats and unlimited recording.",
+              "text": " This plan costs $28 per seat per month, billed yearly ($34 billed monthly), and adds private comments, custom branding and ClickUp, Asana, Monday.com and webhook integrations.",
               "marks": []
             },
             {
@@ -49899,7 +49899,7 @@
             {
               "_type": "span",
               "_key": "d6abc0b32ee1",
-              "text": "To start with, the value Superflow offers for the free package is better than what Pastel offers. Superflow allows two users for their free plan while Pastel allows only one user. ",
+              "text": "To start with, the value Superflow offers for the free package is better than what Pastel offers. Superflow’s free plan includes one team seat plus unlimited free guest seats, while Pastel allows only one user. ",
               "marks": []
             }
           ]
@@ -49919,7 +49919,7 @@
             {
               "_type": "span",
               "_key": "01ebce6aa18d",
-              "text": "Although Superflow’s starter plan is $3 costlier than Pastel’s, the difference in value is wide. Superflow allows three active projects per month, three users (with the ability to add more users without upgrading) and up to five minutes of recording. For the same plan, Pastel allows only one user.",
+              "text": "Superflow’s first paid plan, Growth, is $29 per seat per month ($24 billed annually), and the difference in value is wide: it includes unlimited projects, automated screenshots and unlimited free guest seats. For a comparable plan, Pastel allows only one user.",
               "marks": []
             }
           ]
@@ -49933,7 +49933,7 @@
             {
               "_type": "span",
               "_key": "ef74bec22513",
-              "text": "Pastel’s next plan, which is Studio, costs $83 while Superflow’s next plan costs less at $64 with better value. ",
+              "text": "Pastel’s next plan, which is Studio, costs $83 while Superflow’s next plan, Scale, is $34 per seat per month ($28 billed annually). ",
               "marks": []
             }
           ]
@@ -49995,7 +49995,7 @@
             {
               "_type": "span",
               "_key": "1b248224c184",
-              "text": "Security is paramount when considering a website feedback tool and out of the two contenders, only Superflow boldly ticks that box. Because Superflow enables you to share feedback directly on your website, security risks associated with sandboxing are eliminated. Also, Superflow is Soc II Type 1 compliant, which is not the case with most providers.",
+              "text": "Security is paramount when considering a website feedback tool and out of the two contenders, only Superflow boldly ticks that box. Because Superflow enables you to share feedback directly on your website, security risks associated with sandboxing are eliminated. Also, Superflow is SOC 2 Type II compliant, which is not the case with most providers.",
               "marks": []
             }
           ]
@@ -50017,7 +50017,7 @@
       ],
       "metaTitle": "Superflow vs. Pastel (2003): Which Website Feedback Tool Wins?",
       "metaDescription": "You’re working on this design project you love. The team is tight, the flow is right but guess what is whack? \n\nThe feedback process. \n\nYou have to deal with countless email threads and long Zoom calls and it’s beginning to take the fun out of the project. ",
-      "faqSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"What are website feedback tools?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Website feedback tools are software solutions that enable website design and development teams to give and receive feedback on the website.\"}},{\"@type\":\"Question\",\"name\":\"Is Superflow feedback software free?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Superflow has a free plan that covers two users and one active project per month. It also has other paid plans with more robust features.\"}},{\"@type\":\"Question\",\"name\":\"Is Superflow better than Pastel?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"While both Superflow and Pastel have great features, Superflow offers more value in terms of collaboration and flexibility than Pastel.\"}},{\"@type\":\"Question\",\"name\":\"What is a website feedback tool?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"A website feedback tool is a software used in web design and development to streamline the feedback process and boost collaboration.\"}},{\"@type\":\"Question\",\"name\":\"How do I give feedback to a website?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"To give feedback to a website, you must first find the feedback channel. Next, document your feedback. Ensure it’s constructive and concise. Then, send the feedback through the authorized channel.\"}}]}",
+      "faqSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"What are website feedback tools?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Website feedback tools are software solutions that enable website design and development teams to give and receive feedback on the website.\"}},{\"@type\":\"Question\",\"name\":\"Is Superflow feedback software free?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Superflow has a free plan that covers one team seat, unlimited guest seats, and one project. It also has other paid plans with more robust features.\"}},{\"@type\":\"Question\",\"name\":\"Is Superflow better than Pastel?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"While both Superflow and Pastel have great features, Superflow offers more value in terms of collaboration and flexibility than Pastel.\"}},{\"@type\":\"Question\",\"name\":\"What is a website feedback tool?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"A website feedback tool is a software used in web design and development to streamline the feedback process and boost collaboration.\"}},{\"@type\":\"Question\",\"name\":\"How do I give feedback to a website?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"To give feedback to a website, you must first find the feedback channel. Next, document your feedback. Ensure it’s constructive and concise. Then, send the feedback through the authorized channel.\"}}]}",
       "blogPostingSchema": "{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"Superflow vs. Pastel (2003): Which Website Feedback Tool Wins?\",\"description\":\"You’re working on this design project you love. The team is tight, the flow is right but guess what is whack? \\n\\nThe feedback process. \\n\\nYou have to deal with countless email threads and long Zoom calls and it’s beginning to take the fun out of the project. \",\"datePublished\":\"2023-10-24T00:00:00.000Z\",\"author\":{\"@type\":\"Person\",\"name\":\"Chaitanya\"},\"image\":\"https://framerusercontent.com/images/OU8O8vNrQ65Tf9ror6FSffWpE.png\",\"url\":\"https://usesuperflow.com/blog/superflow-vs-pastel-comparison\"}"
     },
     {
@@ -51669,7 +51669,7 @@
             {
               "_type": "span",
               "_key": "dd46369a8491",
-              "text": "A more budget-friendly option that we are talking about here is Superflow—a MarkUp and Pastel alternative that provides more features (like commenting on LIVE web pages and an in-built video recorder) at just $24/month. Let's know more about it...",
+              "text": "A more budget-friendly option that we are talking about here is Superflow—a MarkUp and Pastel alternative that provides more features (like commenting on LIVE web pages and an in-built video recorder) at just $24 per seat per month (Growth, billed annually). Let's know more about it...",
               "marks": []
             }
           ]
@@ -52167,7 +52167,7 @@
             {
               "_type": "span",
               "_key": "30a791d4519b",
-              "text": "Freelancer",
+              "text": "Starter",
               "marks": [
                 "strong"
               ]
@@ -52175,7 +52175,7 @@
             {
               "_type": "span",
               "_key": "ad94505fa202",
-              "text": ": $24/month with 5 seats",
+              "text": ": Free, with one project and one team seat",
               "marks": []
             }
           ]
@@ -52189,7 +52189,7 @@
             {
               "_type": "span",
               "_key": "9bd2f4c0f85e",
-              "text": "Agency",
+              "text": "Growth",
               "marks": [
                 "strong"
               ]
@@ -52197,7 +52197,7 @@
             {
               "_type": "span",
               "_key": "3aef55538030",
-              "text": ": $49/month with 5 seats and more benefits",
+              "text": ": $29 per seat per month ($24 billed annually), with unlimited projects and more benefits",
               "marks": []
             }
           ]
@@ -52211,7 +52211,7 @@
             {
               "_type": "span",
               "_key": "ca100ed73f21",
-              "text": "Agency",
+              "text": "Scale",
               "marks": [
                 "strong"
               ]
@@ -52219,13 +52219,13 @@
             {
               "_type": "span",
               "_key": "447504cf8fb6",
-              "text": " ",
+              "text": "",
               "marks": []
             },
             {
               "_type": "span",
               "_key": "88e6aa875c1f",
-              "text": "Pro",
+              "text": "",
               "marks": [
                 "strong"
               ]
@@ -52233,7 +52233,7 @@
             {
               "_type": "span",
               "_key": "90ccdb6338f6",
-              "text": ": $99/month with up to 10 seats",
+              "text": ": $34 per seat per month ($28 billed annually), with private comments, custom branding and more",
               "marks": []
             }
           ]

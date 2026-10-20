@@ -249,7 +249,7 @@ const doc = {
       {
         _key: "faq-cost",
         question: "What does API access cost?",
-        answer: "Included from the Growth plan. See /pricing for the breakdown.",
+        answer: "Webhooks are included on Scale and above; the REST API is Enterprise. See /pricing for the breakdown.",
       },
     ],
   },

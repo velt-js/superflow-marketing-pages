@@ -295,7 +295,7 @@ const doc = {
       {
         _key: "faq-cost",
         question: "What does it cost?",
-        answer: "Included from the Growth plan. See /pricing for the breakdown.",
+        answer: "Included on Scale and above. See /pricing for the breakdown.",
       },
     ],
   },
