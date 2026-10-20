@@ -15,7 +15,8 @@ import {
 } from "./site-agents-data";
 import styles from "./SiteAgentsSection.module.css";
 
-const HEADING = `QA agents and always-on monitoring, $${SITE_AGENTS_PRICE_USD} per site`;
+// U+2011 (non-breaking hyphen) keeps "always-on" from splitting across lines.
+const HEADING = `QA agents and always\u2011on monitoring, $${SITE_AGENTS_PRICE_USD} per site`;
 const LEDE =
   "Every site you add gets its own QA agents and monitoring that never switches off. One flat price per site, per month.";
 
