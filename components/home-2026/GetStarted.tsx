@@ -141,6 +141,8 @@ export interface GetStartedProps {
    * no svg icon) instead of the homepage media cards.
    */
   steps?: readonly GetStartedNumberedStep[];
+  /** Hide the website-platform plugin strip (pages where nothing is installed). */
+  hidePlatforms?: boolean;
 }
 
 /**
@@ -165,6 +167,7 @@ export default function GetStarted({
   heading,
   subheading,
   steps,
+  hidePlatforms = false,
 }: GetStartedProps = {}) {
   const headingText = heading ?? SECTION_HEADING;
   const subheadingText = subheading ?? SECTION_SUBHEADING;
@@ -313,6 +316,7 @@ export default function GetStarted({
           )}
         </div>
 
+        {!hidePlatforms && (
         <div className={styles.footer}>
           <p className={styles.footerNote}>
             <svg
@@ -367,6 +371,7 @@ export default function GetStarted({
             })}
           </ul>
         </div>
+        )}
       </div>
     </section>
   );

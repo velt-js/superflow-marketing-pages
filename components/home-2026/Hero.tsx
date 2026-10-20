@@ -18,6 +18,7 @@ import {
   IntegrationsGtmArtifact,
 } from "./hero-artifacts/IntegrationsInstallArtifact";
 import HeroAgentsArtifact from "@/components/home-new-2026/HeroAgentsArtifact";
+import HeroMonitoringArtifact from "@/components/monitoring-2026/HeroMonitoringArtifact";
 
 /**
  * Chrome-less hero artifacts that render inside a plain white card (no tab
@@ -35,6 +36,7 @@ const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-wordpress": IntegrationsWordPressArtifact,
   "integrations-google-tag-manager": IntegrationsGtmArtifact,
   "new-home-agents": HeroAgentsArtifact,
+  monitoring: HeroMonitoringArtifact,
 };
 
 const CTA_MICROCOPY =

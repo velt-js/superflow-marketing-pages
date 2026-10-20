@@ -1,0 +1,162 @@
+/* Visuals for /monitoring that the homepage does not have. The card frame
+   comes from home-new-2026/Visuals.module.css. */
+
+.switches {
+  --ink: #111111;
+  --muted: #6b6b70;
+  --line: #e7e7eb;
+
+  width: min(250px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.07);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+.switchRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.switchIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+}
+
+.switchName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink);
+}
+
+.switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 30px;
+  height: 17px;
+  border-radius: 999px;
+  background: #d8d8de;
+}
+
+.switchOn {
+  background: #16a34a;
+}
+
+.knob {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.switchOn .knob {
+  left: auto;
+  right: 2px;
+}
+
+.switchMore {
+  margin-top: 2px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------ schedule */
+
+.schedule {
+  --ink: #111111;
+  --muted: #6b6b70;
+  --line: #e7e7eb;
+
+  width: min(250px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.07);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 3px;
+  border-radius: 9px;
+  background: #f0f0f3;
+}
+
+.segmented span {
+  padding: 6px 0;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.segmented .segmentOn {
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(17, 17, 17, 0.12);
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day,
+.dayOn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #f7f7f9;
+}
+
+.dayOn {
+  background: #1a78e0;
+  color: #ffffff;
+}
+
+.nextRun {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.nextRun b {
+  font-size: 12.5px;
+  color: var(--ink);
+}

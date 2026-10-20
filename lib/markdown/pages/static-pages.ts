@@ -38,6 +38,16 @@ import {
   WHY_NOW,
   buildNewHomeFaq,
 } from "@/components/home-new-2026/content";
+import {
+  BENEFITS as MONITORING_BENEFITS,
+  MONITORING_PATH,
+  PAGE_DESCRIPTION as MONITORING_DESCRIPTION,
+  PAGE_TITLE as MONITORING_TITLE,
+  REPORT_POINTS as MONITORING_REPORT_POINTS,
+  SCHEDULES,
+  STEPS as MONITORING_STEPS,
+  buildMonitoringFaq,
+} from "@/components/monitoring-2026/content";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
 
@@ -157,6 +167,45 @@ function newHomeDoc(): AgentDoc {
       },
     ],
     faq: buildNewHomeFaq(BULK_SITE_PRICE_LABEL),
+  };
+}
+
+/** /monitoring, read from the same copy module as the page. */
+function monitoringDoc(): AgentDoc {
+  return {
+    title: MONITORING_TITLE,
+    summary: MONITORING_DESCRIPTION,
+    path: MONITORING_PATH,
+    kind: "Feature page",
+    facts: [
+      { label: "Schedules", value: SCHEDULES.map((schedule) => schedule.label).join(", ") },
+      { label: "Also runs", value: "When a page changes" },
+      { label: "Code on the site", value: "None. Agents check from the outside." },
+      { label: "Price", value: `${BULK_SITE_PRICE_LABEL}, every agent on every run` },
+    ],
+    sections: [
+      {
+        heading: "How it works",
+        steps: MONITORING_STEPS.map((step) => `**${step.title}.** ${step.description}`),
+      },
+      {
+        heading: "What you get",
+        bullets: MONITORING_BENEFITS.map((benefit) => `**${benefit.title}**: ${benefit.line}`),
+      },
+      {
+        heading: "Schedules",
+        bullets: SCHEDULES.map((schedule) => `**${schedule.label}**: ${schedule.line}`),
+      },
+      { heading: "The maintenance report", bullets: [...MONITORING_REPORT_POINTS] },
+      {
+        heading: "Where to go next",
+        bullets: [
+          `Pricing: ${SITE_URL}/pricing.md`,
+          `The agents: ${SITE_URL}/new-home-2026.md`,
+        ],
+      },
+    ],
+    faq: buildMonitoringFaq(BULK_SITE_PRICE_LABEL),
   };
 }
 
@@ -488,6 +537,7 @@ export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/": homeDoc,
   "/pricing": pricingDoc,
   [NEW_HOME_PATH]: newHomeDoc,
+  [MONITORING_PATH]: monitoringDoc,
   "/security": securityDoc,
   "/book-demo": bookDemoDoc,
   "/demo": demoDoc,
