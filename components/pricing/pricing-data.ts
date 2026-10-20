@@ -302,6 +302,7 @@ export const SECTIONS: Section[] = [
     accent: "#F62F6A",
     rows: [
       { label: "SAML based SSO", values: [cross, cross, cross, check] },
+      { label: "SCIM Provisioning", values: [cross, cross, cross, check] },
       { label: "SOC 2 Type 2", values: [cross, cross, cross, check] },
       { label: "HIPAA with BAA", values: [cross, cross, cross, check] },
       { label: "Pen Testing", values: [cross, cross, cross, check] },

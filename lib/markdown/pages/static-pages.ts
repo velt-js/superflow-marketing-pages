@@ -144,7 +144,7 @@ function securityDoc(): AgentDoc {
       { label: "SOC 2", value: "Type II, monitored continuously and audited annually by a third party" },
       { label: "GDPR", value: "Supported" },
       { label: "Encryption", value: "In transit and at rest" },
-      { label: "SSO", value: "SAML-based, on the Enterprise plan" },
+      { label: "SSO", value: "SAML-based, with SCIM provisioning, on the Enterprise plan" },
       { label: "Model training on customer data", value: "No" },
     ],
     sections: [
