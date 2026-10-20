@@ -142,7 +142,7 @@ function newHomeDoc(): AgentDoc {
         bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap} Superflow: ${alt.answer}`),
       },
       {
-        heading: "Build it, or use ours",
+        heading: "Build vs buy",
         body: [BUILD_OR_BUY_SUB],
         bullets: BUILD_OR_BUY.map((item) => `**${item.title}**: ${item.line}`),
       },

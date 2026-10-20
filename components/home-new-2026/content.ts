@@ -203,8 +203,9 @@ export type BuildOrBuyItem = {
   line: string;
 };
 
-export const BUILD_OR_BUY_HEADLINE = "Build it, or use ours?";
-export const BUILD_OR_BUY_SUB = "A new script starts from zero. Ours already learned.";
+export const BUILD_OR_BUY_HEADLINE = "Build vs Buy";
+export const BUILD_OR_BUY_SUB =
+  "Our agents learned from 15,000+ websites. Then they learn from you: each client, each review.";
 
 export const BUILD_OR_BUY: readonly BuildOrBuyItem[] = [
   {
