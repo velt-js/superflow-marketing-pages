@@ -200,6 +200,10 @@
     text-decoration: line-through;
 }
 
+.priceStrikeHidden {
+    visibility: hidden;
+}
+
 .priceSuffix {
     font-family: var(--pt-body);
     font-size: 13px;

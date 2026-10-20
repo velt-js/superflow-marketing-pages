@@ -8,6 +8,7 @@
 // quote one price.
 
 import {
+  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_USD,
@@ -17,8 +18,7 @@ import styles from "./SiteAgentsSection.module.css";
 
 // U+2011 (non-breaking hyphen) keeps "always-on" from splitting across lines.
 const HEADING = `QA agents and always\u2011on monitoring, $${SITE_AGENTS_PRICE_USD} per site`;
-const LEDE =
-  "Every site you add gets its own QA agents and monitoring that never switches off. One flat price per site, per month.";
+const LEDE = `Every site you add gets its own QA agents and monitoring that never switches off. One flat price per site, per month. ${SITE_AGENTS_AVAILABILITY}`;
 
 /** Tabler "check" glyph, matching the tier cards' bullet treatment. */
 function SiteAgentsCheckIcon() {

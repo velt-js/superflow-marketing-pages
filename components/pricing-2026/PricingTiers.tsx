@@ -87,14 +87,25 @@ function PricingTiersPrice({
     const showStrike = isAnnual && Boolean(tier.annualStrikePrice);
     const suffix = isAnnual
       ? "per seat / month, billed yearly"
-      : "per seat / month";
+      : "per seat / month, billed monthly";
 
     return (
       <div className={styles.priceBlock}>
         <span className={styles.priceRow}>
           <span className={styles.price}>${price}</span>
-          {showStrike ? (
-            <span className={styles.priceStrike}>${tier.annualStrikePrice}</span>
+          {/* Rendered whenever the tier has a strike price and only hidden on
+              monthly, so the toggle never changes the row's height. */}
+          {tier.annualStrikePrice ? (
+            <span
+              className={
+                showStrike
+                  ? styles.priceStrike
+                  : `${styles.priceStrike} ${styles.priceStrikeHidden}`
+              }
+              aria-hidden={showStrike ? undefined : true}
+            >
+              ${tier.annualStrikePrice}
+            </span>
           ) : null}
         </span>
         <span className={styles.priceSuffix}>{suffix}</span>

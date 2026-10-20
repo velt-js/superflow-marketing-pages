@@ -9,6 +9,7 @@
 
 import type { FaqItem } from "@/components/home-2026/faq-data";
 import {
+  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES_SENTENCE,
   SITE_AGENTS_PRICE_LABEL,
 } from "./site-agents-data";
@@ -36,7 +37,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   },
   {
     question: "How are QA agents priced?",
-    answer: `QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. Each site you add gets ${SITE_AGENTS_CAPABILITIES_SENTENCE}, at one flat price.`,
+    answer: `QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. Each site you add gets ${SITE_AGENTS_CAPABILITIES_SENTENCE}, at one flat price. ${SITE_AGENTS_AVAILABILITY} It is not available on the free Starter plan.`,
   },
   {
     question: "What do the QA agents and monitoring do?",

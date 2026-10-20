@@ -16,6 +16,7 @@ import { SITE_URL } from "@/app/_seo/schema";
 import { stripEmDashes } from "@/app/_seo/page-metadata";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
+  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_PRICE_LABEL,
 } from "@/components/pricing-2026/site-agents-data";
@@ -143,7 +144,7 @@ Superflow is priced per seat with a free 10-day trial. Guest users are free and 
 
 ${plans}
 
-QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. Every site gets:
+QA agents and always-on monitoring are ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter. Every site gets:
 
 ${capabilities}
 `;

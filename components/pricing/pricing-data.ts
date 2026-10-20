@@ -54,7 +54,14 @@ export type Tier = {
 export type CellValue =
   | { kind: "check" }
   | { kind: "x" }
-  | { kind: "text"; value: string; sub?: string };
+  | {
+      kind: "text";
+      /** Shown on monthly billing, and always when `annualValue` is unset. */
+      value: string;
+      sub?: string;
+      /** Shown instead of `value` while annual billing is selected. */
+      annualValue?: string;
+    };
 
 export type Row = {
   label: string;
@@ -161,7 +168,32 @@ export const TIERS: Tier[] = [
   },
 ];
 
-/** "$14 /mo/site", shared by every plan's cell in the agents row. */
+/**
+ * Team Seats cell for a paid tier: the per-seat price in both billing
+ * periods, read from the tier cards so the table follows the toggle and
+ * cannot drift from the cards.
+ *
+ * @param tierId - The tier whose seat price is rendered.
+ * @returns The cell value, or "Custom" when the tier has no seat price.
+ */
+const seatPriceCell = (tierId: Tier["id"]): CellValue => {
+  try {
+    const tier = TIERS.find((candidate) => candidate.id === tierId);
+    if (!tier || tier.customPrice) {
+      return text("Custom");
+    }
+    return {
+      kind: "text",
+      value: `$${tier.monthlyPrice} /mo/seat`,
+      annualValue: `$${tier.annualPrice} /mo/seat`,
+    };
+  } catch {
+    return text("Custom");
+  }
+};
+
+/** "$14 /mo/site", the Growth and Scale cells in the agents row. Starter
+ *  has no QA agents add-on; Enterprise prices it in the contract. */
 const SITE_AGENTS_CELL = text(`$${SITE_AGENTS_PRICE_USD} /mo/site`);
 
 // --- Comparison table --------------------------------------------------------
@@ -189,8 +221,8 @@ export const SECTIONS: Section[] = [
         label: "Team Seats",
         values: [
           text("1", "(No Additional Seats)"),
-          text("$24 /mo/seat"),
-          text("$28 /mo/seat"),
+          seatPriceCell("growth"),
+          seatPriceCell("scale"),
           text("Custom"),
         ],
       },
@@ -216,12 +248,12 @@ export const SECTIONS: Section[] = [
       {
         label: SITE_AGENTS_NAME,
         sublabel: "Flat price per site, per month",
-        values: [SITE_AGENTS_CELL, SITE_AGENTS_CELL, SITE_AGENTS_CELL, SITE_AGENTS_CELL],
+        values: [cross, SITE_AGENTS_CELL, SITE_AGENTS_CELL, text("Custom")],
       },
       ...SITE_AGENTS_CAPABILITIES.map(
         (capability): Row => ({
           label: capability.label,
-          values: [check, check, check, check],
+          values: [cross, check, check, check],
         }),
       ),
     ],

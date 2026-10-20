@@ -14,6 +14,7 @@ import PricingTiers from "@/components/pricing-2026/PricingTiers";
 import PricingComparisonTable from "@/components/pricing-2026/PricingComparisonTable";
 import SiteAgentsSection from "@/components/pricing-2026/SiteAgentsSection";
 import {
+  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES_SENTENCE,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_LABEL,
@@ -103,7 +104,7 @@ const SITE_AGENTS_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: `Superflow ${SITE_AGENTS_NAME}`,
-  description: `Per-site QA agents and always-on monitoring for Superflow, at ${SITE_AGENTS_PRICE_LABEL}. Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
+  description: `Per-site QA agents and always-on monitoring for Superflow, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
   brand: { "@id": ORG_ID },
   // The agents are sold on this page and have no artwork of their own, so
   // they carry the same pair rather than an invented image.

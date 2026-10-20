@@ -13,6 +13,7 @@ import type { AgentDoc } from "../types";
 import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
 import { TIERS } from "@/components/pricing/pricing-data";
 import {
+  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_LABEL,
@@ -103,7 +104,10 @@ function pricingDoc(): AgentDoc {
       { label: "Billing model", value: "Per seat, billed monthly or annually" },
       { label: "Free tier", value: "Yes, the Starter plan" },
       { label: "Trial", value: "10 day free trial" },
-      { label: "QA agents and monitoring", value: SITE_AGENTS_PRICE_LABEL },
+      {
+        label: "QA agents and monitoring",
+        value: `${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
+      },
       {
         label: "Client seats needed",
         value:
@@ -122,7 +126,7 @@ function pricingDoc(): AgentDoc {
       {
         heading: SITE_AGENTS_NAME,
         body: [
-          `Every site gets its own QA agents and monitoring that stays on, at ${SITE_AGENTS_PRICE_LABEL}.`,
+          `Every site gets its own QA agents and monitoring that stays on, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter.`,
         ],
         bullets: SITE_AGENTS_CAPABILITIES.map(
           (capability) => `**${capability.label}.** ${capability.description}`,

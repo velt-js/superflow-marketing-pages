@@ -79,8 +79,16 @@ function ComparisonCheckIcon() {
  * text value with an optional muted sub-line.
  *
  * @param props.value - The cell's data value.
+ * @param props.billing - The active billing period; picks `annualValue`
+ *                        over `value` on annual billing.
  */
-function ComparisonCell({ value }: { value: CellValue }) {
+function ComparisonCell({
+  value,
+  billing,
+}: {
+  value: CellValue;
+  billing: BillingPeriod;
+}) {
   try {
     if (value?.kind === "check") {
       return <ComparisonCheckIcon />;
@@ -94,7 +102,9 @@ function ComparisonCell({ value }: { value: CellValue }) {
     }
     return (
       <span className={styles.cellText}>
-        <span className={styles.cellValue}>{value?.value}</span>
+        <span className={styles.cellValue}>
+          {billing === "annual" && value?.annualValue ? value.annualValue : value?.value}
+        </span>
         {value?.sub ? <span className={styles.cellSub}>{value.sub}</span> : null}
       </span>
     );
@@ -211,7 +221,7 @@ function ComparisonMobileAccordion({ billing }: { billing: BillingPeriod }) {
                         ) : null}
                       </span>
                       <span className={styles.mobileRowValue}>
-                        <ComparisonCell value={row.values[tierIndex]} />
+                        <ComparisonCell value={row.values[tierIndex]} billing={billing} />
                       </span>
                     </div>
                   ))}
@@ -330,7 +340,7 @@ export default function PricingComparisonTable() {
                         </div>
                         {row.values.map((value, valueIndex) => (
                           <div key={valueIndex} role="cell" className={styles.rowValueCell}>
-                            <ComparisonCell value={value} />
+                            <ComparisonCell value={value} billing={billing} />
                           </div>
                         ))}
                       </div>

@@ -11,6 +11,11 @@ export const SITE_AGENTS_PRICE_USD = 14;
 /** "$14 per site per month" — the price as prose. */
 export const SITE_AGENTS_PRICE_LABEL = `$${SITE_AGENTS_PRICE_USD} per site per month`;
 
+/** Which plans can add it. Starter has no QA agents add-on; Enterprise
+ *  prices it in the contract. */
+export const SITE_AGENTS_AVAILABILITY =
+  "Available on Growth and Scale; custom pricing on Enterprise.";
+
 /** What the price buys, as a name. */
 export const SITE_AGENTS_NAME = "QA agents + always-on monitoring";
 
