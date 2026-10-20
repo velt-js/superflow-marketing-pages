@@ -14,6 +14,7 @@ import {
   REPORT_POINTS,
   STAGES,
   STAGES_HEADLINE_LINES,
+  STAGES_SUB,
   WHY_NOW,
   type Benefit,
   type BuildOrBuyItem,
@@ -97,6 +98,7 @@ export function StagesSection() {
               </span>
             ))}
           </h2>
+          <p className={styles.sub}>{STAGES_SUB}</p>
           <StageProgress
             steps={STAGES.map((stage) => ({
               id: `stage-${stage.id}`,

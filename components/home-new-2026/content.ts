@@ -33,6 +33,9 @@ export const STAGES_HEADLINE_LINES: readonly string[] = [
   "you QA at each stage",
 ];
 
+export const STAGES_SUB =
+  "Agents check the site at three points. Your team and your client decide at each one.";
+
 export const STAGES: readonly Stage[] = [
   {
     id: "before",

@@ -34,6 +34,7 @@ import {
   PAGE_TITLE as NEW_HOME_TITLE,
   REPORT_POINTS,
   STAGES,
+  STAGES_SUB,
   WHY_NOW,
   buildNewHomeFaq,
 } from "@/components/home-new-2026/content";
@@ -119,6 +120,7 @@ function newHomeDoc(): AgentDoc {
     sections: [
       {
         heading: "Three stages",
+        body: [STAGES_SUB],
         bullets: STAGES.map((stage) => `**${stage.title}**: ${stage.line} ${stage.audience}.`),
       },
       {
