@@ -1,0 +1,295 @@
+/* The pack as one folder: a back panel with a tab, three finding cards
+   peeking out of the top, and a front panel that lists the agents. Greys sit
+   next to the site's white sections; the only color is the active check. */
+
+.folder {
+  --pf-ink: #1e1e1f;
+  --pf-back: #e4e4e9;
+  --pf-front: #f4f4f6;
+  --pf-line: rgba(30, 30, 31, 0.07);
+  --pf-check: #109534;
+  --pf-peek: 150px;
+
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  padding-top: var(--pf-peek);
+}
+
+/* Back panel and tab. */
+.back {
+  position: absolute;
+  z-index: 1;
+  top: 64px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--pf-back);
+  border-radius: 22px;
+}
+
+.back::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 30%;
+  min-width: 180px;
+  height: 46px;
+  background: var(--pf-back);
+  border-radius: 16px 16px 0 0;
+  clip-path: polygon(0 0, 86% 0, 100% 100%, 0 100%);
+}
+
+/* Papers peeking out of the folder. */
+.papers {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 6%;
+  width: 360px;
+  height: var(--pf-peek);
+  pointer-events: none;
+}
+
+.paper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  transform-origin: bottom center;
+  transition: transform 0.3s ease;
+}
+
+.paper[data-depth="0"] {
+  z-index: 3;
+  transform: translate(0, 40px) rotate(-3deg);
+}
+
+.paper[data-depth="1"] {
+  z-index: 2;
+  transform: translate(48px, 18px) rotate(2deg);
+}
+
+.paper[data-depth="2"] {
+  z-index: 1;
+  transform: translate(92px, 0) rotate(6deg);
+}
+
+.paperCard {
+  box-shadow:
+    0 1px 2px rgba(30, 30, 31, 0.06),
+    0 12px 28px -16px rgba(30, 30, 31, 0.35);
+}
+
+/* Front panel. */
+.front {
+  position: relative;
+  z-index: 3;
+  background: var(--pf-front);
+  border: 1px solid var(--pf-line);
+  border-radius: 20px;
+  padding: 36px 40px 32px;
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 28px 56px -40px rgba(30, 30, 31, 0.35);
+}
+
+.frontHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.packName {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  color: var(--pf-ink);
+}
+
+.count {
+  margin: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pf-ink);
+  opacity: 0.55;
+  white-space: nowrap;
+}
+
+/* Agent list. */
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--pf-ink);
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.rowActive,
+.row:hover {
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(30, 30, 31, 0.06);
+}
+
+.row:focus-visible {
+  outline: 2px solid #433df3;
+  outline-offset: 2px;
+}
+
+.glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border: 1.5px solid rgba(30, 30, 31, 0.18);
+  border-radius: 9999px;
+  color: transparent;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.rowActive .glyph,
+.row:hover .glyph {
+  background: var(--pf-check);
+  border-color: var(--pf-check);
+  color: #ffffff;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.checks {
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0.68;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1000px) {
+  .papers {
+    right: 4%;
+  }
+}
+
+@media (max-width: 720px) {
+  .folder {
+    --pf-peek: 116px;
+  }
+
+  .back {
+    top: 52px;
+  }
+
+  .back::before {
+    top: -24px;
+    height: 38px;
+    min-width: 140px;
+  }
+
+  .papers {
+    right: 12px;
+    width: 280px;
+  }
+
+  .paper {
+    width: 236px;
+  }
+
+  .paper[data-depth="0"] {
+    transform: translate(0, 28px) rotate(-3deg);
+  }
+
+  .paper[data-depth="1"] {
+    transform: translate(30px, 12px) rotate(2deg);
+  }
+
+  .paper[data-depth="2"] {
+    transform: translate(56px, 0) rotate(6deg);
+  }
+
+  .front {
+    padding: 24px 20px 20px;
+  }
+
+  .packName {
+    font-size: 24px;
+  }
+
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .paper[data-depth="2"] {
+    display: none;
+  }
+
+  .frontHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper,
+  .row,
+  .glyph {
+    transition: none;
+  }
+}

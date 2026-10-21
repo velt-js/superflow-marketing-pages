@@ -16,7 +16,7 @@
   "pack": {
     "name": "Studio Handoff Pack",
     "slug": "studio-handoff",
-    "intro": "Eight agents for the handoff. They run on every page of the staging site, desktop and phone, and post findings as comments.",
+    "intro": "Eight agents for the handoff. Every page of the staging site, desktop and phone.",
     "agents": [
       {
         "name": "Figma Match",
