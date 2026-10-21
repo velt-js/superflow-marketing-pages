@@ -305,6 +305,7 @@ const SOLUTION_ICONS: Readonly<Record<string, MenuIconComponent>> = {
   "web-design-studios": LayoutDashboardIcon,
   "shopify-ecommerce-agencies": BriefcaseIcon,
   "in-house-web-teams": DevicesIcon,
+  "white-label-agencies": KeyIcon,
   "real-estate-marketing": PinIcon,
   "brand-compliance": PaletteIcon,
   "accessibility-review": EyeIcon,

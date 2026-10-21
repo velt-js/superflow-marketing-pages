@@ -10,6 +10,7 @@ import HeroWorkflowShowcase, {
 } from "./HeroWorkflowShowcase";
 import SolutionHeroCtas from "@/components/solutions-2026/SolutionHeroCtas";
 import IntegrationsHubHeroArtifact from "./hero-artifacts/IntegrationsHubHeroArtifact";
+import WhiteLabelArtifact from "./hero-artifacts/WhiteLabelArtifact";
 import IntegrationsMondayArtifact from "./hero-artifacts/IntegrationsMondayArtifact";
 import IntegrationsAsanaArtifact from "./hero-artifacts/IntegrationsAsanaArtifact";
 import IntegrationsClickUpArtifact from "./hero-artifacts/IntegrationsClickUpArtifact";
@@ -35,6 +36,7 @@ const STATIC_HERO_ARTIFACTS: Readonly<Record<string, ComponentType>> = {
   "integrations-webflow": IntegrationsWebflowArtifact,
   "integrations-wordpress": IntegrationsWordPressArtifact,
   "integrations-google-tag-manager": IntegrationsGtmArtifact,
+  "white-label": WhiteLabelArtifact,
 };
 
 const CTA_MICROCOPY =

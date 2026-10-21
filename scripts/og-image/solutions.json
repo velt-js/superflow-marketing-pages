@@ -55,6 +55,11 @@
     "out": "public/og/solutions/brand-compliance.png"
   },
   {
+    "slug": "white-label-agencies",
+    "title": "Your brand on every review your client sees.",
+    "out": "public/og/solutions/white-label-agencies.png"
+  },
+  {
     "slug": "index",
     "title": "Built for the work you already ship.",
     "out": "public/og/solutions/index.png"
