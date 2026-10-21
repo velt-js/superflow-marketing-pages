@@ -15,6 +15,11 @@
     "out": "public/og/solutions/home-services-marketing.png"
   },
   {
+    "slug": "web-design-studios",
+    "title": "The build matches the Figma file. Every page.",
+    "out": "public/og/solutions/web-design-studios.png"
+  },
+  {
     "slug": "pre-launch-qa",
     "title": "Launch day. Nothing left on noindex.",
     "out": "public/og/solutions/pre-launch-qa.png"

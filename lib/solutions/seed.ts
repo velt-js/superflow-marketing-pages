@@ -14,6 +14,7 @@ import homeServices from "@/content/solutions/home-services-marketing.json";
 import preLaunch from "@/content/solutions/pre-launch-qa.json";
 import siteCare from "@/content/solutions/site-care.json";
 import migration from "@/content/solutions/website-migration-qa.json";
+import webDesignStudios from "@/content/solutions/web-design-studios.json";
 
 /** Base path every solutions route lives under. */
 export const SOLUTIONS_BASE_PATH = "/solutions";
@@ -23,6 +24,7 @@ export const SOLUTION_SEED: readonly SolutionPage[] = [
   dental as SolutionPage,
   healthcare as SolutionPage,
   homeServices as SolutionPage,
+  webDesignStudios as SolutionPage,
   preLaunch as SolutionPage,
   siteCare as SolutionPage,
   migration as SolutionPage,
