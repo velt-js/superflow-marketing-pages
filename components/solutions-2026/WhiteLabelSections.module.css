@@ -98,6 +98,8 @@
 }
 
 .visualName {
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: var(--font-urbanist), system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
@@ -109,9 +111,9 @@
 .visualToolbar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  padding: 8px 8px 8px 10px;
+  padding: 6px 6px 6px 8px;
   border-radius: 9999px;
   background: #ffffff;
   border: 1px solid var(--wl-line);
@@ -119,8 +121,9 @@
 }
 
 .visualApprove {
+  flex: 0 0 auto;
   margin-left: auto;
-  padding: 5px 10px;
+  padding: 5px 9px;
   border-radius: 9999px;
   background: var(--wl-agency);
   color: #ffffff;
