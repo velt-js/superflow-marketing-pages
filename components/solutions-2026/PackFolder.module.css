@@ -4,10 +4,14 @@
 
 .folder {
   --pf-ink: #1e1e1f;
-  --pf-back: #e4e4e9;
-  --pf-front: #f4f4f6;
-  --pf-line: rgba(30, 30, 31, 0.07);
-  --pf-check: #109534;
+  --pf-paper: #ffffff;
+  /* Blues from the hero: the back and tab darker, the front lighter. */
+  --pf-back: #1f6fd6;
+  --pf-back-deep: #1557b4;
+  --pf-front-top: #4f9bf0;
+  --pf-front-bottom: #2a80e2;
+  --pf-line: rgba(255, 255, 255, 0.22);
+  --pf-check: #22c55e;
   --pf-peek: 150px;
   --pf-tab: max(26%, 170px);
 
@@ -24,7 +28,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: var(--pf-back);
+  background: linear-gradient(180deg, var(--pf-back) 0%, var(--pf-back-deep) 100%);
   border-radius: 22px;
 }
 
@@ -90,24 +94,25 @@
 }
 
 .paperCard {
-  border: 1px solid rgba(30, 30, 31, 0.1);
+  border: 1px solid rgba(30, 30, 31, 0.08);
   box-shadow:
-    0 1px 2px rgba(30, 30, 31, 0.08),
-    0 10px 24px -10px rgba(30, 30, 31, 0.32),
-    0 22px 40px -24px rgba(30, 30, 31, 0.22);
+    0 1px 2px rgba(21, 87, 180, 0.12),
+    0 12px 28px -12px rgba(21, 87, 180, 0.45),
+    0 24px 44px -24px rgba(21, 87, 180, 0.3);
 }
 
 /* Front panel. */
 .front {
   position: relative;
   z-index: 3;
-  background: var(--pf-front);
+  background: linear-gradient(180deg, var(--pf-front-top) 0%, var(--pf-front-bottom) 100%);
   border: 1px solid var(--pf-line);
   border-radius: 20px;
   padding: 36px 40px 32px;
+  color: #ffffff;
   box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 28px 56px -40px rgba(30, 30, 31, 0.35);
+    0 1px 0 rgba(255, 255, 255, 0.35) inset,
+    0 30px 60px -36px rgba(21, 87, 180, 0.6);
 }
 
 .frontHead {
@@ -125,7 +130,7 @@
   font-size: 30px;
   line-height: 1.2;
   letter-spacing: -0.6px;
-  color: var(--pf-ink);
+  color: #ffffff;
 }
 
 .count {
@@ -136,8 +141,8 @@
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--pf-ink);
-  opacity: 0.55;
+  color: #ffffff;
+  opacity: 0.78;
   white-space: nowrap;
 }
 
@@ -164,21 +169,26 @@
   border: 0;
   border-radius: 12px;
   background: transparent;
-  color: var(--pf-ink);
+  color: #ffffff;
   font: inherit;
   text-align: left;
   cursor: default;
   transition: background-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.rowActive,
 .row:hover {
-  background: #ffffff;
-  box-shadow: 0 1px 2px rgba(30, 30, 31, 0.06);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.rowActive,
+.rowActive:hover {
+  background: var(--pf-paper);
+  color: var(--pf-ink);
+  box-shadow: 0 8px 20px -12px rgba(21, 87, 180, 0.6);
 }
 
 .row:focus-visible {
-  outline: 2px solid #433df3;
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
@@ -190,14 +200,18 @@
   width: 22px;
   height: 22px;
   margin-top: 1px;
-  border: 1.5px solid rgba(30, 30, 31, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
   border-radius: 9999px;
   color: transparent;
   transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.rowActive .glyph,
 .row:hover .glyph {
+  border-color: #ffffff;
+}
+
+.rowActive .glyph,
+.rowActive:hover .glyph {
   background: var(--pf-check);
   border-color: var(--pf-check);
   color: #ffffff;
@@ -219,7 +233,11 @@
 .checks {
   font-size: 14px;
   line-height: 1.45;
-  opacity: 0.68;
+  opacity: 0.82;
+}
+
+.rowActive .checks {
+  opacity: 0.7;
 }
 
 .srOnly {
