@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import { formatBlogDate } from "./formatBlogDate";
+import { formatBlogCategory } from "./formatBlogCategory";
 import styles from "./BlogListingBody.module.css";
 
 /** Mono uppercase eyebrow shown above the hero headline. */
@@ -66,7 +67,7 @@ function ArrowIcon() {
 /** Renders one large card for the featured post: image + kicker + title + date. */
 function FeaturedPostCard({ post }: { post: BlogListingPost }) {
   const dateLabel = formatBlogDate(post?.publishedAt);
-  const kicker = post?.categoryLabel ?? post?.category;
+  const kicker = formatBlogCategory(post);
 
   return (
     <Link href={`/blog/${post.slug}`} className={styles.featuredCard}>
@@ -102,7 +103,7 @@ function FeaturedPostCard({ post }: { post: BlogListingPost }) {
 /** Renders one card in the remaining-posts grid: image + kicker + title + date. */
 function PostCard({ post }: { post: BlogListingPost }) {
   const dateLabel = formatBlogDate(post?.publishedAt);
-  const kicker = post?.categoryLabel ?? post?.category;
+  const kicker = formatBlogCategory(post);
 
   return (
     <Link href={`/blog/${post.slug}`} className={styles.card}>

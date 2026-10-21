@@ -105,7 +105,7 @@ export async function generateMetadata({
     title: rawTitle,
     description,
     path: `/blog/${slug}`,
-    ogImage: post.ogImage ?? undefined,
+    ogImage: post.ogImage ?? post.featuredImage ?? undefined,
     socialTitle: rawTitle,
   });
   metadata.title = { absolute: rawTitle };
