@@ -4,6 +4,7 @@ import SiteNav from "@/components/home-2026/SiteNav";
 import SiteFooter from "@/components/home-2026/SiteFooter";
 import { BlogPortableText } from "./BlogPortableText";
 import { formatBlogDate } from "./formatBlogDate";
+import { formatBlogCategory } from "./formatBlogCategory";
 import styles from "./BlogPostBody.module.css";
 
 /** Pixel size of the author avatar rendered beside their name. */
@@ -47,7 +48,7 @@ interface BlogPostBodyProps {
  */
 export default function BlogPostBody({ post }: BlogPostBodyProps) {
   const dateLabel = formatBlogDate(post?.publishedAt);
-  const kicker = post?.categoryLabel ?? post?.category;
+  const kicker = formatBlogCategory(post);
 
   return (
     <main className={styles.page}>
