@@ -1,7 +1,7 @@
 {
   "slug": "site-care",
   "kind": "job",
-  "navLabel": "Site care",
+  "navLabel": "Site Care",
   "navDescriptor": "A monthly scan of every client site, a report you resell.",
   "order": 2,
   "seo": {

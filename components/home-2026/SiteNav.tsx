@@ -302,8 +302,9 @@ const SOLUTION_ICONS: Readonly<Record<string, MenuIconComponent>> = {
   "pre-launch-qa": ListCheckIcon,
   "site-care": HistoryIcon,
   "website-migration-qa": ArrowsExchangeIcon,
-  "webflow-studios": LayoutDashboardIcon,
-  "shopify-agencies": BriefcaseIcon,
+  "web-design-studios": LayoutDashboardIcon,
+  "shopify-ecommerce-agencies": BriefcaseIcon,
+  "in-house-web-teams": DevicesIcon,
   "real-estate-marketing": PinIcon,
   "brand-compliance": PaletteIcon,
   "accessibility-review": EyeIcon,
@@ -1347,9 +1348,6 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                         <span className={styles.megaLinkLabel}>
                           {solution.navLabel}
                         </span>
-                        <span className={styles.megaLinkDesc}>
-                          {solution.navDescriptor}
-                        </span>
                       </span>
                     </a>
                   );
@@ -1496,9 +1494,6 @@ export default function SiteNav({ solidAtTop = false }: SiteNavProps = {}) {
                               <span className={styles.mobileSubLinkText}>
                                 <span className={styles.mobileSubLinkLabel}>
                                   {solution.navLabel}
-                                </span>
-                                <span className={styles.mobileSubLinkDesc}>
-                                  {solution.navDescriptor}
                                 </span>
                               </span>
                             </a>
