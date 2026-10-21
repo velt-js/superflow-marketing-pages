@@ -1,0 +1,107 @@
+{
+  "slug": "in-house-web-teams",
+  "kind": "agency",
+  "navLabel": "In-house Web Team",
+  "navDescriptor": "Every edit by every team, checked against the brand.",
+  "order": 6,
+  "seo": {
+    "title": "QA agents for in-house web and brand teams | Superflow",
+    "description": "Fifty editors publish every day. Agents check every change against the brand guide, the legal lines and WCAG. Each team sees its own findings. SSO and SCIM on Enterprise."
+  },
+  "hero": {
+    "h1": "Fifty editors. One brand. Every page checked.",
+    "sub": "Agents check every change against the brand guide, the legal lines and WCAG. Your team decides what to fix. Each team sees its own findings.",
+    "clientLine": "The brand lead taps Approve on the fixes before the campaign goes live."
+  },
+  "pack": {
+    "name": "Brand Site Agent Pack",
+    "slug": "brand-site",
+    "intro": "Eight agents for a site many teams edit. Every change, with findings routed to the team that owns the page.",
+    "agents": [
+      {
+        "name": "Palette Guard",
+        "checks": "Checks every color on the page against the brand guide.",
+        "finding": "Careers page button uses #2F80ED. The guide allows #1E5BB8.",
+        "category": "brand"
+      },
+      {
+        "name": "Font Guard",
+        "checks": "Checks every font on the page against the brand guide.",
+        "finding": "Press page body text is Georgia. The guide allows Inter only.",
+        "category": "brand"
+      },
+      {
+        "name": "Tone Check",
+        "checks": "Reads copy against the voice guide: banned words, claims, tone.",
+        "finding": "Press page uses 'best-in-class'. The voice guide bans it.",
+        "category": "copy"
+      },
+      {
+        "name": "Legal Lines",
+        "checks": "Checks required disclaimers and trademark lines on every page.",
+        "finding": "Pricing page is missing the 'prices vary by region' line.",
+        "category": "compliance"
+      },
+      {
+        "name": "Broken Links",
+        "checks": "Follows every link on every page and flags the ones that fail.",
+        "finding": "23 links under /resources return 404.",
+        "category": "links"
+      },
+      {
+        "name": "Meta Titles",
+        "checks": "Checks every page has a unique, specific title.",
+        "finding": "Six pages share the title 'Home'.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Accessibility",
+        "checks": "Checks contrast, alt text, headings and form labels.",
+        "finding": "41 images under /blog have no alt text.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Consistency Checker",
+        "checks": "Finds spacing and components drifting across pages.",
+        "finding": "Three different card styles across /resources.",
+        "category": "layout-devices"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any page that still shows the old logo.",
+      "agentName": "Logo Check",
+      "finding": "The old logo appears on 11 pages, all under /blog."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Every page uses the brand's colors and fonts.",
+      "Every page carries the legal lines.",
+      "No link is broken.",
+      "Copy matches the voice guide."
+    ],
+    "youDecide": [
+      "Which teams own which findings.",
+      "Which exceptions the brand allows.",
+      "What gets fixed before the campaign.",
+      "When a page needs a redesign, not a fix."
+    ]
+  },
+  "platformsFirst": ["wordpress", "hubspot", "webflow"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "Can different teams get different findings?",
+      "a": "Yes. Assign findings by section or by page. Each team sees its own."
+    },
+    {
+      "q": "Does it work behind SSO?",
+      "a": "Yes. Agents check pages behind Okta and other SSO. Your team signs in with SSO on Enterprise."
+    },
+    {
+      "q": "Can we keep data in our region?",
+      "a": "Yes. Enterprise plans offer data residency options."
+    }
+  ],
+  "related": ["brand-compliance", "accessibility-review"]
+}

@@ -16,7 +16,7 @@ import {
 import { SITE_URL } from "@/app/_seo/schema";
 import { liveTools, toolPath } from "@/lib/tools/registry";
 import { resolveSolutionSlugs } from "@/lib/solutions/resolve";
-import { SOLUTIONS_BASE_PATH, solutionPath } from "@/lib/solutions/seed";
+import { OFFER_SOLUTION_SLUGS, SOLUTIONS_BASE_PATH, solutionPath } from "@/lib/solutions/seed";
 import { DIRECTORY_BASE_PATH, DIRECTORY_CATEGORIES } from "@/lib/directory/constants";
 import { agencyPath, getIndexableAgencySlugs } from "@/lib/directory/agencies";
 
@@ -181,6 +181,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .filter((slug) => !isHeldIntegrationSlug(slug))
       .map((slug) => `/integrations/${slug}`),
     ...unique(solutionSlugs).map((slug) => solutionPath(slug)),
+    ...OFFER_SOLUTION_SLUGS.map((slug) => solutionPath(slug)),
     ...unique([...alternativeSlugsCms, ...catalogAlternativeSlugs]).map(
       (slug) => `/alternative/${slug}`,
     ),

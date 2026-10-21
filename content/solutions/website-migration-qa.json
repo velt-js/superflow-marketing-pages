@@ -1,7 +1,7 @@
 {
   "slug": "website-migration-qa",
   "kind": "job",
-  "navLabel": "Website migration QA",
+  "navLabel": "Website Migration QA",
   "navDescriptor": "Old URLs, new site. Nothing lost.",
   "order": 3,
   "seo": {

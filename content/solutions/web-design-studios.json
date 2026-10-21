@@ -1,0 +1,107 @@
+{
+  "slug": "web-design-studios",
+  "kind": "agency",
+  "navLabel": "Web Design Studio",
+  "navDescriptor": "Build, review, launch, then a care plan.",
+  "order": 4,
+  "seo": {
+    "title": "QA agents for Webflow, Framer and WordPress studios | Superflow",
+    "description": "Agents check the build against the Figma file and the brand guide, on desktop and phone. Your client approves from the staging link. Then the care plan starts."
+  },
+  "hero": {
+    "h1": "The build matches the Figma file. Every page.",
+    "sub": "Agents compare each page to Figma and the brand guide, on desktop and phone. Your team decides what to fix. Your client approves from the staging link.",
+    "clientLine": "Your client taps Approve on the webflow.io staging link from their phone."
+  },
+  "pack": {
+    "name": "Studio Handoff Agent Pack",
+    "slug": "studio-handoff",
+    "intro": "Eight agents for the handoff. Every page of the staging site, desktop and phone.",
+    "agents": [
+      {
+        "name": "Figma Match",
+        "checks": "Compares the built page to its Figma frame on desktop and phone.",
+        "finding": "Hero heading is 48px. Figma has 56px.",
+        "category": "brand"
+      },
+      {
+        "name": "Breakpoint Check",
+        "checks": "Finds overlap, clipping and side scroll at tablet and phone widths.",
+        "finding": "Pricing table scrolls sideways at 375px.",
+        "category": "layout-devices"
+      },
+      {
+        "name": "Font Guard",
+        "checks": "Checks every font on the page against the brand guide.",
+        "finding": "Footer uses Arial. The guide allows Inter only.",
+        "category": "brand"
+      },
+      {
+        "name": "Interaction Check",
+        "checks": "Opens menus, accordions and modals and checks hover and focus states.",
+        "finding": "Mobile menu opens but the close button does nothing.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Staging Links",
+        "checks": "Finds links, forms and images that still point at staging.",
+        "finding": "Contact form posts to staging.northwind.dev.",
+        "category": "links"
+      },
+      {
+        "name": "Noindex Check",
+        "checks": "Finds pages still blocked from search after launch.",
+        "finding": "noindex is still set on 14 pages. Google can't see the site.",
+        "category": "seo-social"
+      },
+      {
+        "name": "Image Weight",
+        "checks": "Finds images large enough to slow the page on phone.",
+        "finding": "Hero image is 4.8 MB. Phone load passes six seconds.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Share Image",
+        "checks": "Checks the favicon and share image render on every page.",
+        "finding": "Share image is the Webflow default on 9 pages.",
+        "category": "seo-social"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any page where the CTA button text is not 'Book a call'.",
+      "agentName": "CTA Wording",
+      "finding": "6 pages use 'Get started'. The brief says 'Book a call'."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "The build matches the Figma file.",
+      "No breakpoint clips or overlaps.",
+      "Fonts and colors match the guide.",
+      "No link points at staging."
+    ],
+    "youDecide": [
+      "Which Figma gaps are on purpose.",
+      "What ships this round and what waits.",
+      "When the client sees the staging link.",
+      "Which findings become change orders."
+    ]
+  },
+  "platformsFirst": ["webflow", "framer", "wordpress"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "Does Figma Match need the Figma file?",
+      "a": "Yes. Upload the file or paste a share link. The agent compares each page to its frame on desktop and phone."
+    },
+    {
+      "q": "Does it work on Webflow and Framer staging domains?",
+      "a": "Yes. Agents check webflow.io and framer.website links, and pages behind a password."
+    },
+    {
+      "q": "Can the client comment on the staging site?",
+      "a": "Yes. Send one link. They comment and approve on the page with no account."
+    }
+  ],
+  "related": ["pre-launch-qa", "site-care"]
+}

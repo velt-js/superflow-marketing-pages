@@ -14,18 +14,28 @@ import homeServices from "@/content/solutions/home-services-marketing.json";
 import preLaunch from "@/content/solutions/pre-launch-qa.json";
 import siteCare from "@/content/solutions/site-care.json";
 import migration from "@/content/solutions/website-migration-qa.json";
+import webDesignStudios from "@/content/solutions/web-design-studios.json";
+import shopifyEcommerce from "@/content/solutions/shopify-ecommerce-agencies.json";
+import inHouseWebTeams from "@/content/solutions/in-house-web-teams.json";
+import accessibilityReview from "@/content/solutions/accessibility-review.json";
+import brandCompliance from "@/content/solutions/brand-compliance.json";
 
 /** Base path every solutions route lives under. */
 export const SOLUTIONS_BASE_PATH = "/solutions";
 
-/** The batch-1 pages in nav order (agency first, then job). */
+/** The seeded pages in nav order (agency first, then job). */
 export const SOLUTION_SEED: readonly SolutionPage[] = [
   dental as SolutionPage,
   healthcare as SolutionPage,
   homeServices as SolutionPage,
+  webDesignStudios as SolutionPage,
+  shopifyEcommerce as SolutionPage,
+  inHouseWebTeams as SolutionPage,
   preLaunch as SolutionPage,
   siteCare as SolutionPage,
   migration as SolutionPage,
+  accessibilityReview as SolutionPage,
+  brandCompliance as SolutionPage,
 ];
 
 /** Every seeded slug, in nav order. */
@@ -75,10 +85,34 @@ export function toSolutionSummary(page: SolutionPage): SolutionSummary {
   };
 }
 
-/** Seed summaries, sorted for display. */
-export const SOLUTION_SUMMARIES: readonly SolutionSummary[] = SOLUTION_SEED.map(
-  toSolutionSummary,
-).sort(compareSolutions);
+/**
+ * The white-label page: an offer with its own route
+ * (app/solutions/white-label-agencies) and no pack. Listed with the pack
+ * pages in the nav, footer, index and sitemap.
+ */
+export const WHITE_LABEL_SUMMARY: SolutionSummary = {
+  slug: "white-label-agencies",
+  kind: "agency",
+  navLabel: "White-label Agency",
+  navDescriptor: "Your brand on the toolbar, the portal, the report.",
+  order: 7,
+  packName: "",
+  agentNames: [],
+};
+
+/** Offer pages: solutions with their own route and no pack. */
+export const OFFER_SOLUTION_SUMMARIES: readonly SolutionSummary[] = [WHITE_LABEL_SUMMARY];
+
+/** Every offer slug, for the sitemap. */
+export const OFFER_SOLUTION_SLUGS: readonly string[] = OFFER_SOLUTION_SUMMARIES.map(
+  (summary) => summary.slug,
+);
+
+/** Seed summaries (pack pages plus offer pages), sorted for display. */
+export const SOLUTION_SUMMARIES: readonly SolutionSummary[] = [
+  ...SOLUTION_SEED.map(toSolutionSummary),
+  ...OFFER_SOLUTION_SUMMARIES,
+].sort(compareSolutions);
 
 /**
  * Seed summaries for one kind, sorted for display.

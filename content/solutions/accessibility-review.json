@@ -1,0 +1,107 @@
+{
+  "slug": "accessibility-review",
+  "kind": "job",
+  "navLabel": "Accessibility Review",
+  "navDescriptor": "WCAG checks on every page, in plain words.",
+  "order": 4,
+  "seo": {
+    "title": "Accessibility checks on every page, to WCAG A, AA or AAA | Superflow",
+    "description": "Agents check contrast, alt text, headings, labels, focus and captions on every page and every change. Findings read in plain words. You pick the WCAG level per site."
+  },
+  "hero": {
+    "h1": "Every page checked to WCAG, in plain words.",
+    "sub": "Agents check contrast, alt text, headings, labels, focus and captions on every change. Your team decides which level to hold and what to fix first.",
+    "clientLine": "Your client sees the findings in plain words and taps Approve on the fixes."
+  },
+  "pack": {
+    "name": "Accessibility Agent Pack",
+    "slug": "accessibility",
+    "intro": "Eight agents for WCAG. Every page, desktop and phone, on every change.",
+    "agents": [
+      {
+        "name": "Contrast",
+        "checks": "Checks text contrast meets the level you set.",
+        "finding": "Body text is 3.1:1 against the background. AA needs 4.5:1.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Alt Text",
+        "checks": "Finds images with no alt text or the file name as alt.",
+        "finding": "41 images have no alt text. 12 use the file name.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Heading Order",
+        "checks": "Checks each page has one H1 and headings nest in order.",
+        "finding": "/about has three H1s and skips from H2 to H4.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Form Labels",
+        "checks": "Checks every input has a label a screen reader can read.",
+        "finding": "Newsletter email field has no label.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Focus Order",
+        "checks": "Checks keyboard focus is visible and reaches every control in order.",
+        "finding": "Focus skips the main menu. Keyboard users cannot open it.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Link Text",
+        "checks": "Finds 'click here', 'learn more' and empty links.",
+        "finding": "19 links read 'Learn more'. Screen readers hear nothing else.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Media Captions",
+        "checks": "Checks video has captions and audio has a transcript.",
+        "finding": "Homepage video has no captions.",
+        "category": "accessibility"
+      },
+      {
+        "name": "Tap Targets",
+        "checks": "Checks tap targets on phone are big enough.",
+        "finding": "14 footer links are 28px tall. The minimum is 44px.",
+        "category": "layout-devices"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any PDF linked from the site that has no text layer.",
+      "agentName": "PDF Access",
+      "finding": "7 linked PDFs are scans with no text layer."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Contrast meets the level on every page.",
+      "Every image has alt text.",
+      "Every form field has a label.",
+      "Keyboard focus reaches every control."
+    ],
+    "youDecide": [
+      "Which level to hold the site to: A, AA or AAA.",
+      "Which findings are design and which are code.",
+      "What to fix before the audit.",
+      "What to tell the client about risk."
+    ]
+  },
+  "platformsFirst": ["wordpress", "webflow", "shopify"],
+  "proof": "headway",
+  "faq": [
+    {
+      "q": "Is this a WCAG audit?",
+      "a": "No. Agents check what a machine can check and report it in plain words. A human audit covers the rest."
+    },
+    {
+      "q": "Which WCAG level?",
+      "a": "You pick A, AA or AAA per site. Most clients ask for AA."
+    },
+    {
+      "q": "Does it cover the European Accessibility Act?",
+      "a": "Agents check the WCAG criteria the Act relies on. The legal call stays with you and your client."
+    }
+  ],
+  "related": ["in-house-web-teams", "site-care"]
+}

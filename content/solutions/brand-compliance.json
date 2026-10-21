@@ -1,0 +1,107 @@
+{
+  "slug": "brand-compliance",
+  "kind": "job",
+  "navLabel": "Brand Compliance",
+  "navDescriptor": "Your brand guide, checked on every page.",
+  "order": 5,
+  "seo": {
+    "title": "Brand compliance checks on every page | Superflow",
+    "description": "Upload the brand guide. Agents check colors, fonts, logos, product names, tone and legal lines on every page and every change. Your team decides which exceptions stand."
+  },
+  "hero": {
+    "h1": "Your brand guide, run on every page.",
+    "sub": "Upload the guide. Agents check colors, fonts, logos, names, tone and legal lines on every change. Your team decides which exceptions stand.",
+    "clientLine": "The brand owner taps Approve on each exception from their phone."
+  },
+  "pack": {
+    "name": "Brand Agent Pack",
+    "slug": "brand",
+    "intro": "Eight agents built from the brand guide. Every page and every uploaded asset.",
+    "agents": [
+      {
+        "name": "Palette Guard",
+        "checks": "Checks every color on the page against the brand guide.",
+        "finding": "Primary button uses #2F80ED. The guide allows #1E5BB8.",
+        "category": "brand"
+      },
+      {
+        "name": "Font Guard",
+        "checks": "Checks every font on the page against the brand guide.",
+        "finding": "Footer uses Arial. The guide allows Inter only.",
+        "category": "brand"
+      },
+      {
+        "name": "Logo Use",
+        "checks": "Checks logo version, clear space and minimum size.",
+        "finding": "Footer logo is 18px wide. The guide sets 32px minimum.",
+        "category": "brand"
+      },
+      {
+        "name": "Tone Check",
+        "checks": "Reads copy against the voice guide: banned words, claims, tone.",
+        "finding": "Press page uses 'best-in-class'. The voice guide bans it.",
+        "category": "copy"
+      },
+      {
+        "name": "Term Check",
+        "checks": "Checks product names, capitalization and trademarks.",
+        "finding": "'Superflow' is written 'SuperFlow' on 6 pages.",
+        "category": "copy"
+      },
+      {
+        "name": "Legal Lines",
+        "checks": "Checks required disclaimers and trademark lines on every page.",
+        "finding": "Pricing page is missing the 'prices vary by region' line.",
+        "category": "compliance"
+      },
+      {
+        "name": "Image Style",
+        "checks": "Finds stock photos, watermarks and off-brand imagery.",
+        "finding": "/careers uses a stock photo with a visible watermark.",
+        "category": "brand"
+      },
+      {
+        "name": "Consistency Checker",
+        "checks": "Finds spacing and components drifting across pages.",
+        "finding": "Three different card styles across /resources.",
+        "category": "layout-devices"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any page that mentions a competitor by name.",
+      "agentName": "Competitor Mentions",
+      "finding": "3 blog posts name a competitor without the comparison disclaimer."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Colors, fonts and logos match the guide.",
+      "Product names are spelled the guide's way.",
+      "Every page carries the legal lines.",
+      "No stock or watermarked image slipped in."
+    ],
+    "youDecide": [
+      "Which exceptions the brand allows.",
+      "Which findings go to the client.",
+      "When the guide, not the page, is wrong.",
+      "What to fix before the campaign."
+    ]
+  },
+  "platformsFirst": ["wordpress", "hubspot", "webflow"],
+  "proof": "harvey",
+  "faq": [
+    {
+      "q": "What does the agent read the brand from?",
+      "a": "Upload the brand guide as a PDF, or paste the rules. Superflow builds the agents from it."
+    },
+    {
+      "q": "Can one workspace hold many brands?",
+      "a": "Yes. Each client project keeps its own guide and its own agents."
+    },
+    {
+      "q": "Does it check PDFs, images and video too?",
+      "a": "Yes. Upload the asset and the same agents review it."
+    }
+  ],
+  "related": ["in-house-web-teams", "site-care"]
+}

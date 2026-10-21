@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import AgentCard from "@/components/shared-2026/AgentCard";
 import BuildYourOwnCard from "@/components/shared-2026/BuildYourOwnCard";
 import type {
   SolutionAgent,
@@ -7,6 +6,7 @@ import type {
   SolutionPage,
 } from "@/lib/solutions/types";
 import PackCta from "./PackCta";
+import PackFolder from "./PackFolder";
 import styles from "./PackSection.module.css";
 
 const HEADING_ID = "solution-pack-heading";
@@ -66,9 +66,10 @@ function toPackView(pack: SolutionPage["pack"] | null | undefined): PackView | n
 }
 
 /**
- * S2, the pack: heading, the intro line, a grid of the eight agent cards
- * (each with its sample finding), the "Build your own" card, and the CTA that
- * adds the pack to a new workspace. All copy comes from page data.
+ * S2, the pack: heading, the intro line, the pack folder (the eight agents
+ * listed inside one folder, their sample findings peeking out), the "Build
+ * your own" card, and the CTA that adds the pack to a new workspace. All copy
+ * comes from page data.
  *
  * @param props - The pack and the page slug.
  * @returns The section, or null when the pack has no agents.
@@ -93,20 +94,7 @@ export default function PackSection({ pack, slug }: PackSectionProps): ReactNode
           {view.intro ? <p className={styles.subhead}>{view.intro}</p> : null}
         </header>
 
-        <ul className={styles.grid}>
-          {view.agents.map((agent, index) => (
-            <li key={`${agent.name}-${index}`} className={styles.cell}>
-              <AgentCard
-                className={styles.card}
-                name={agent.name}
-                checks={agent.checks}
-                finding={agent.finding}
-                category={agent.category}
-                page={slug}
-              />
-            </li>
-          ))}
-        </ul>
+        <PackFolder packName={view.packName} agents={view.agents} page={slug} />
 
         {view.buildYourOwn ? (
           <BuildYourOwnCard

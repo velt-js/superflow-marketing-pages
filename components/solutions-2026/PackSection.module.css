@@ -1,7 +1,6 @@
-/* S2, the pack: heading, the eight agent cards in a grid, the "Build your
-   own" card and the pack CTA. Section chrome matches the other 2026 sections
-   (TrustSection, SolutionsSection). Grid: four columns on desktop, two on
-   tablet, one on phone, so nothing scrolls sideways at 375px. */
+/* S2, the pack: heading, the pack folder (PackFolder.module.css), the "Build
+   your own" card and the pack CTA. Section chrome matches the other 2026
+   sections (TrustSection, SolutionsSection). */
 
 .section {
   --ps-ink: #1e1e1f;
@@ -51,25 +50,6 @@
   opacity: 0.78;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.cell {
-  display: flex;
-  min-width: 0;
-}
-
-.card {
-  width: 100%;
-}
-
 .ctaRow {
   display: flex;
   justify-content: center;
@@ -111,10 +91,6 @@
 }
 
 @media (max-width: 1000px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .heading {
     font-size: 44px;
     letter-spacing: -1.2px;
@@ -133,12 +109,6 @@
   .heading {
     font-size: 36px;
     letter-spacing: -1px;
-  }
-}
-
-@media (max-width: 560px) {
-  .grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 

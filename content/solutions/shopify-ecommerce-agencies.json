@@ -1,0 +1,107 @@
+{
+  "slug": "shopify-ecommerce-agencies",
+  "kind": "agency",
+  "navLabel": "Shopify and Ecommerce Agency",
+  "navDescriptor": "Every product, price and checkout path checked.",
+  "order": 5,
+  "seo": {
+    "title": "QA agents for Shopify and ecommerce agencies | Superflow",
+    "description": "Agents check add to cart, prices, stock labels, tracking and checkout on every product page, desktop and phone, after every theme push. The merchant approves from a link."
+  },
+  "hero": {
+    "h1": "Every add to cart adds the right thing.",
+    "sub": "Agents check products, prices, stock labels and checkout on every page, desktop and phone. Your team decides what to fix. The merchant approves from a link.",
+    "clientLine": "The merchant taps Approve on the fixes from their phone, before the campaign goes live."
+  },
+  "pack": {
+    "name": "Store Check Agent Pack",
+    "slug": "store-check",
+    "intro": "Eight agents for the store. Every product and collection page, after every theme push.",
+    "agents": [
+      {
+        "name": "Add to Cart",
+        "checks": "Checks every add to cart button adds the right product and variant.",
+        "finding": "'Add to cart' on /products/oak-table adds the walnut variant.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Checkout Path",
+        "checks": "Walks product to checkout on desktop and phone.",
+        "finding": "Checkout button sits under the cookie banner on phone.",
+        "category": "layout-devices"
+      },
+      {
+        "name": "Price Match",
+        "checks": "Checks prices on collection pages match the product page.",
+        "finding": "Oak Table is 899 on the collection page and 949 on its own page.",
+        "category": "copy"
+      },
+      {
+        "name": "Image Inspector",
+        "checks": "Finds missing, stretched or broken product images.",
+        "finding": "12 products in /collections/sale have no image.",
+        "category": "layout-devices"
+      },
+      {
+        "name": "Stock Labels",
+        "checks": "Finds 'In stock' badges on sold-out products.",
+        "finding": "4 sold-out products still show 'In stock'.",
+        "category": "copy"
+      },
+      {
+        "name": "Offer Expiry",
+        "checks": "Finds promos and discount codes with a past end date.",
+        "finding": "Banner says 'Free shipping ends Sept 30.' Today is Oct 21.",
+        "category": "copy"
+      },
+      {
+        "name": "Tracking Check",
+        "checks": "Confirms analytics, pixel and tag manager fire through checkout.",
+        "finding": "Meta pixel fires on product pages but not on the thank-you page.",
+        "category": "launch-readiness"
+      },
+      {
+        "name": "Policy Links",
+        "checks": "Checks shipping, returns and privacy links work from every page.",
+        "finding": "Footer 'Returns' link returns 404.",
+        "category": "links"
+      }
+    ],
+    "buildYourOwn": {
+      "input": "Flag any product page with fewer than three photos.",
+      "agentName": "Photo Count",
+      "finding": "28 products have one photo. The brief asks for three."
+    }
+  },
+  "human": {
+    "agentsCheck": [
+      "Every add to cart adds the right variant.",
+      "Prices match across every page.",
+      "No sold-out product says in stock.",
+      "Tracking fires through checkout."
+    ],
+    "youDecide": [
+      "Which findings go to the merchant.",
+      "What waits for the next theme push.",
+      "When a change needs the merchant's sign-off.",
+      "What to charge for store checks each month."
+    ]
+  },
+  "platformsFirst": ["shopify", "wordpress", "webflow"],
+  "proof": "wonderist-review",
+  "faq": [
+    {
+      "q": "Does it check stores behind a password?",
+      "a": "Yes. Agents check password-protected stores and unpublished themes."
+    },
+    {
+      "q": "Does it work on WooCommerce and BigCommerce?",
+      "a": "Yes. Agents check the live store from the outside. One-click install exists for Shopify and WordPress."
+    },
+    {
+      "q": "Can agents run after every theme push?",
+      "a": "Yes. Fire a webhook on publish. The agents rerun on the pages that changed."
+    }
+  ],
+  "related": ["site-care", "pre-launch-qa"]
+}

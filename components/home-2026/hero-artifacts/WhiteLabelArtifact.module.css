@@ -1,0 +1,417 @@
+/* The white-label hero visual. The agency's brand is teal, on purpose a
+   color Superflow never uses, so the point reads at a glance. Sizes scale
+   with the container width through clamp(); nothing here is fixed-pixel
+   except hairlines. */
+
+.stage {
+  --wl-agency: #0f766e;
+  --wl-agency-deep: #115e59;
+  --wl-ink: #1e1e1f;
+  --wl-muted: #6b7079;
+  --wl-line: rgba(30, 30, 31, 0.08);
+  --wl-page: #f6f7f9;
+
+  position: relative;
+  width: 100%;
+  padding: clamp(20px, 3vw, 44px) clamp(12px, 2vw, 32px) clamp(28px, 4vw, 56px);
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  color: var(--wl-ink);
+  container-type: inline-size;
+}
+
+/* Browser window. */
+.browser {
+  position: relative;
+  width: min(100%, 860px);
+  margin: 0 auto;
+  border: 1px solid var(--wl-line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(30, 30, 31, 0.06),
+    0 24px 48px -28px rgba(30, 30, 31, 0.35);
+  overflow: hidden;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--wl-line);
+  background: #fafafb;
+}
+
+.dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: #e2e2e6;
+}
+
+.url {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  font-size: clamp(11px, 1.3cqw, 13px);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.urlPath {
+  font-weight: 500;
+  color: var(--wl-muted);
+}
+
+.lock {
+  width: 8px;
+  height: 10px;
+  border: 1.5px solid var(--wl-muted);
+  border-radius: 2px 2px 3px 3px;
+  box-sizing: border-box;
+}
+
+/* Placeholder page behind the toolbar. */
+.page {
+  position: relative;
+  padding: 18px 22px 92px;
+  background: var(--wl-page);
+}
+
+.pageNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.pageLogo {
+  width: 72px;
+  height: 12px;
+  border-radius: 6px;
+  background: #d9dbe1;
+}
+
+.pageLinks {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.pageLinks i {
+  width: 40px;
+  height: 8px;
+  border-radius: 4px;
+  background: #e3e5ea;
+}
+
+.pageHero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 52%;
+  margin-bottom: 18px;
+}
+
+.pageTitle {
+  width: 100%;
+  height: 18px;
+  border-radius: 6px;
+  background: #cfd3db;
+}
+
+.pageLine {
+  width: 92%;
+  height: 8px;
+  border-radius: 4px;
+  background: #e3e5ea;
+}
+
+.pageLineShort {
+  width: 60%;
+  height: 8px;
+  border-radius: 4px;
+  background: #e3e5ea;
+}
+
+.pageButton {
+  width: 96px;
+  height: 24px;
+  margin-top: 6px;
+  border-radius: 9999px;
+  background: #cfd3db;
+}
+
+.pageCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pageCards span {
+  height: 64px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+}
+
+/* Pinned finding, under the agency's name. */
+.pin {
+  position: absolute;
+  top: 58px;
+  right: 7%;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pinDot {
+  width: 14px;
+  height: 14px;
+  margin-top: 6px;
+  border-radius: 9999px;
+  background: var(--wl-agency);
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.18);
+}
+
+.pinCard {
+  width: clamp(180px, 28cqw, 240px);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 12px 28px -16px rgba(30, 30, 31, 0.35);
+}
+
+.pinHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.pinAgent {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pinText {
+  margin: 0;
+  font-family: var(--font-poppins, inherit);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* Agency mark. */
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--wl-agency);
+  color: #ffffff;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.markSmall {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* The review toolbar, floating over the page's bottom edge. */
+.toolbar {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(92%, 640px);
+  padding: 10px 12px 10px 14px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow:
+    0 1px 2px rgba(30, 30, 31, 0.06),
+    0 16px 36px -18px rgba(30, 30, 31, 0.4);
+}
+
+.toolbarBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.toolbarName {
+  font-size: clamp(12px, 1.5cqw, 14px);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.toolbarOpen {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--wl-agency-deep);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.toolbarActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.toolbarAction {
+  padding: 6px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wl-ink);
+}
+
+.toolbarApprove {
+  padding: 7px 14px;
+  border-radius: 9999px;
+  background: var(--wl-agency);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Report card, top right, overlapping the browser. */
+.report {
+  position: absolute;
+  top: clamp(4px, 1vw, 12px);
+  right: clamp(0px, 2vw, 24px);
+  width: clamp(168px, 22cqw, 220px);
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 18px 40px -22px rgba(30, 30, 31, 0.4);
+  transform: rotate(2deg);
+}
+
+.reportHead,
+.portalHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reportLabel,
+.portalName {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reportClient {
+  margin: 8px 0 4px;
+  font-size: 12px;
+  color: var(--wl-muted);
+}
+
+.reportScoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.reportScore {
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.reportDelta {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wl-agency-deep);
+}
+
+/* Portal card, bottom left, overlapping the browser. */
+.portal {
+  position: absolute;
+  left: clamp(0px, 2vw, 24px);
+  bottom: clamp(0px, 1.5vw, 16px);
+  width: clamp(150px, 20cqw, 196px);
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 18px 40px -22px rgba(30, 30, 31, 0.4);
+  transform: rotate(-2deg);
+}
+
+.portalList {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.portalItem,
+.portalItemActive {
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wl-muted);
+}
+
+.portalItemActive {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--wl-agency-deep);
+}
+
+@container (max-width: 640px) {
+  .report,
+  .portal {
+    display: none;
+  }
+
+  .pin {
+    top: 46px;
+    right: 4%;
+  }
+
+  .toolbarAction {
+    display: none;
+  }
+
+  .toolbar {
+    gap: 10px;
+    width: 94%;
+  }
+
+  .page {
+    padding-bottom: 84px;
+  }
+}

@@ -1,0 +1,318 @@
+/* "What you get" and "What clients never see" on the white-label page.
+   Section chrome matches the pack section; the sample agency's teal is the
+   only color, as in the hero visual. */
+
+.section {
+  --wl-ink: #1e1e1f;
+  --wl-agency: #0f766e;
+  --wl-agency-deep: #115e59;
+  --wl-line: rgba(30, 30, 31, 0.08);
+
+  background: #feffff;
+  color: var(--wl-ink);
+  padding: 100px 24px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading,
+.bandHeading {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.2;
+  letter-spacing: -1.56px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 20px;
+  border-radius: 20px;
+  background: #f7f7f9;
+  border: 1px solid var(--wl-line);
+}
+
+.visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 132px;
+  margin-bottom: 8px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cardLine {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.78;
+}
+
+/* Shared bits of the small drawings. */
+.mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--wl-agency);
+  color: #ffffff;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.visualName {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.visualToolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 6px 6px 8px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 10px 24px -14px rgba(30, 30, 31, 0.35);
+}
+
+.visualApprove {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 5px 9px;
+  border-radius: 9999px;
+  background: var(--wl-agency);
+  color: #ffffff;
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.visualPortal,
+.visualReport {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 10px 24px -14px rgba(30, 30, 31, 0.35);
+}
+
+.visualPortalHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.visualRow,
+.visualRowActive {
+  display: block;
+  height: 10px;
+  border-radius: 5px;
+  background: #e7e8ec;
+}
+
+.visualRowActive {
+  background: rgba(15, 118, 110, 0.18);
+}
+
+.visualRow:nth-of-type(3) {
+  width: 70%;
+}
+
+.visualScore {
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--wl-ink);
+}
+
+.visualDomain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  box-shadow: 0 10px 24px -14px rgba(30, 30, 31, 0.35);
+}
+
+.visualLock {
+  width: 8px;
+  height: 10px;
+  border: 1.5px solid var(--wl-agency-deep);
+  border-radius: 2px 2px 3px 3px;
+  box-sizing: border-box;
+}
+
+.visualUrl {
+  font-family: var(--font-urbanist), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "What clients never see" band. */
+.band {
+  --wl-ink: #1e1e1f;
+  --wl-line: rgba(30, 30, 31, 0.08);
+
+  background: #feffff;
+  color: var(--wl-ink);
+  padding: 0 24px 100px;
+}
+
+.bandInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 32px;
+  border-radius: 20px;
+  background: #1e1e1f;
+  color: #ffffff;
+}
+
+.bandHeading {
+  font-size: 32px;
+  letter-spacing: -0.8px;
+}
+
+.bandList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bandItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.bandCross {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: rgba(255, 87, 68, 0.18);
+  color: #ff8a7a;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heading {
+    font-size: 44px;
+    letter-spacing: -1.2px;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 72px 20px;
+  }
+
+  .band {
+    padding-bottom: 72px;
+  }
+
+  .bandInner {
+    padding: 32px 20px;
+  }
+
+  .heading {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .bandHeading {
+    font-size: 26px;
+  }
+
+  .bandItem {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .section {
+    padding: 56px 16px;
+  }
+
+  .heading {
+    font-size: 30px;
+    letter-spacing: -0.6px;
+  }
+}
