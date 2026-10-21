@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import AgentCard from "./AgentCard";
+import AgentCommentCard from "@/components/home-2026/feature-artifacts/AgentCommentCard";
 import styles from "./BuildYourOwnCard.module.css";
 
 /** Copy shared by every "Build your own" card. */
@@ -62,7 +62,19 @@ export default function BuildYourOwnCard({
       </div>
       <div className={styles.right}>
         <p className={styles.label}>{RESULT_LABEL}</p>
-        <AgentCard name={agentName} finding={finding} page={page} emphasis />
+        <div className={styles.paper} data-agent-card={agentName} data-page={page}>
+          <AgentCommentCard
+            className={styles.paperCard}
+            agentName={agentName}
+            timeAgo=""
+            title={finding}
+            description=""
+            avatarVariant="agentDots"
+            showMenu={false}
+            showActions={false}
+            interactive={false}
+          />
+        </div>
       </div>
     </div>
   );
