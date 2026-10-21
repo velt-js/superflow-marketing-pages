@@ -35,6 +35,26 @@
     "out": "public/og/solutions/website-migration-qa.png"
   },
   {
+    "slug": "shopify-ecommerce-agencies",
+    "title": "Every add to cart adds the right thing.",
+    "out": "public/og/solutions/shopify-ecommerce-agencies.png"
+  },
+  {
+    "slug": "in-house-web-teams",
+    "title": "Fifty editors. One brand. Every page checked.",
+    "out": "public/og/solutions/in-house-web-teams.png"
+  },
+  {
+    "slug": "accessibility-review",
+    "title": "Every page checked to WCAG, in plain words.",
+    "out": "public/og/solutions/accessibility-review.png"
+  },
+  {
+    "slug": "brand-compliance",
+    "title": "Your brand guide, run on every page.",
+    "out": "public/og/solutions/brand-compliance.png"
+  },
+  {
     "slug": "index",
     "title": "Built for the work you already ship.",
     "out": "public/og/solutions/index.png"

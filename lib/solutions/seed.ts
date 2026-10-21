@@ -15,19 +15,27 @@ import preLaunch from "@/content/solutions/pre-launch-qa.json";
 import siteCare from "@/content/solutions/site-care.json";
 import migration from "@/content/solutions/website-migration-qa.json";
 import webDesignStudios from "@/content/solutions/web-design-studios.json";
+import shopifyEcommerce from "@/content/solutions/shopify-ecommerce-agencies.json";
+import inHouseWebTeams from "@/content/solutions/in-house-web-teams.json";
+import accessibilityReview from "@/content/solutions/accessibility-review.json";
+import brandCompliance from "@/content/solutions/brand-compliance.json";
 
 /** Base path every solutions route lives under. */
 export const SOLUTIONS_BASE_PATH = "/solutions";
 
-/** The batch-1 pages in nav order (agency first, then job). */
+/** The seeded pages in nav order (agency first, then job). */
 export const SOLUTION_SEED: readonly SolutionPage[] = [
   dental as SolutionPage,
   healthcare as SolutionPage,
   homeServices as SolutionPage,
   webDesignStudios as SolutionPage,
+  shopifyEcommerce as SolutionPage,
+  inHouseWebTeams as SolutionPage,
   preLaunch as SolutionPage,
   siteCare as SolutionPage,
   migration as SolutionPage,
+  accessibilityReview as SolutionPage,
+  brandCompliance as SolutionPage,
 ];
 
 /** Every seeded slug, in nav order. */
