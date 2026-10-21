@@ -60,6 +60,7 @@ export const blogPost = defineType({
           { title: "Thought Leadership", value: "thought-leadership" },
         ],
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "featured",
