@@ -14,7 +14,7 @@
     "clientLine": "Your client taps Approve on the webflow.io staging link from their phone."
   },
   "pack": {
-    "name": "Studio Handoff Pack",
+    "name": "Studio Handoff Agent Pack",
     "slug": "studio-handoff",
     "intro": "Eight agents for the handoff. Every page of the staging site, desktop and phone.",
     "agents": [

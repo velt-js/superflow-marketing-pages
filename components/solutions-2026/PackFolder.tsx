@@ -20,7 +20,7 @@ const AGENTS_LABEL = "agents";
 
 /** Props for {@link PackFolder}. */
 export interface PackFolderProps {
-  /** e.g. "Studio Handoff Pack". */
+  /** e.g. "Studio Handoff Agent Pack". */
   packName: string;
   /** The agents in the pack, in display order. */
   agents: readonly SolutionAgent[];
