@@ -8,6 +8,7 @@
 export type SiteStatusVerdict = "up" | "down";
 
 export type SiteStatusDownReason =
+  | "dns"
   | "timeout"
   | "network"
   | "too-many-redirects"
@@ -42,9 +43,10 @@ export const STATUS_TOOL_PATH = "/tools/website-status-checker";
 /** Plain-words copy for each way a site can count as down. */
 export const DOWN_REASON_MESSAGES: Record<SiteStatusDownReason, string> = {
   "server-error": "The server answered, but with a server error.",
+  dns: "The domain name could not be resolved. Check the spelling, or the domain may have expired.",
   timeout: `No response within ${STATUS_TIMEOUT_MS / 1000} seconds.`,
   network:
-    "The connection could not be made. The domain may not resolve, or the server refused it.",
+    "The connection could not be made. The server refused it or closed it before answering.",
   "too-many-redirects": "The site kept redirecting and never landed on a page.",
   "redirect-blocked":
     "The site redirected to an address that is not on the public internet, so we stopped there.",

@@ -23,8 +23,13 @@
 // blocking /tools/, where the human-facing page lives.
 
 import type { NextRequest } from "next/server";
-import { checkSiteStatus, type SiteStatusReport } from "@/lib/toolkit/site-status";
-import { resolveUserUrl, URL_REJECTION_MESSAGES } from "@/lib/toolkit/url";
+import {
+  checkSiteStatus,
+  resolveStatusTarget,
+  STATUS_REJECTION_MESSAGES,
+  unresolvableReport,
+  type SiteStatusReport,
+} from "@/lib/toolkit/site-status";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 
 const TOOL_SLUG = "website-status-checker";
@@ -74,12 +79,13 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const rawUrl = typeof payload?.url === "string" ? payload.url : "";
 
-    // 1. Normalize and SSRF-check what the user typed. Every rejection has
-    //    friendly copy already written in the toolkit.
-    const resolved = await resolveUserUrl(rawUrl);
-    if (!resolved.ok) {
+    // 1. Normalize and SSRF-check what the user typed. A private address is
+    //    refused; a domain that does not resolve is a verdict, handled after
+    //    the rate limit below so a flood of made-up domains still costs a slot.
+    const resolved = await resolveStatusTarget(rawUrl);
+    if (!resolved.ok && resolved.kind === "rejected") {
       return json({
-        error: URL_REJECTION_MESSAGES[resolved.reason],
+        error: STATUS_REJECTION_MESSAGES[resolved.reason],
         errorCode: "invalid-url",
       });
     }
@@ -100,8 +106,11 @@ export async function POST(request: NextRequest): Promise<Response> {
       });
     }
 
-    // 3. One live check. The engine never throws; a dead site is a verdict.
-    const report = await checkSiteStatus(resolved.url);
+    // 3. One live check. The engine never throws; a dead site is a verdict,
+    //    and so is a domain that does not resolve.
+    const report = resolved.ok
+      ? await checkSiteStatus(resolved.url)
+      : unresolvableReport(resolved.url);
     const result: SiteStatusPayload = { submittedUrl: resolved.url, ...report };
     return json(result);
   } catch {

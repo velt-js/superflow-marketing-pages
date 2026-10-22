@@ -32,11 +32,12 @@ import { WEBSITE_STATUS_CHECKER_CONTENT } from "@/lib/tools/content";
 import {
   checkSiteStatus,
   labelForUrl,
+  resolveStatusTarget,
   statusPagePathFor,
+  unresolvableReport,
   urlFromStatusSegments,
   type SiteStatusReport,
 } from "@/lib/toolkit/site-status";
-import { resolveUserUrl } from "@/lib/toolkit/url";
 import { applyRateLimit, clientIpFrom } from "@/lib/toolkit/ratelimit";
 import styles from "@/components/tools/website-status/WebsiteStatus.module.css";
 
@@ -51,18 +52,23 @@ interface PageProps {
   params: Promise<{ site: string[] }>;
 }
 
+type Target = { url: string; resolvable: boolean };
+
 /**
  * The normalized, SSRF-checked URL a status page is about, or null when the
- * segments do not name a public website.
+ * segments do not name a public-looking website. An unresolvable domain is
+ * still a page: its verdict is "down".
  *
  * @param site - The catch-all segments.
  */
-async function resolveTarget(site: string[] | undefined): Promise<string | null> {
+async function resolveTarget(site: string[] | undefined): Promise<Target | null> {
   try {
     const raw = urlFromStatusSegments(site);
     if (!raw) return null;
-    const resolved = await resolveUserUrl(raw);
-    return resolved.ok ? resolved.url : null;
+    const resolved = await resolveStatusTarget(raw);
+    if (resolved.ok) return { url: resolved.url, resolvable: true };
+    if (resolved.kind === "unresolvable") return { url: resolved.url, resolvable: false };
+    return null;
   } catch {
     return null;
   }
@@ -70,8 +76,9 @@ async function resolveTarget(site: string[] | undefined): Promise<string | null>
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { site } = await params;
-  const url = await resolveTarget(site);
-  if (!url) return {};
+  const target = await resolveTarget(site);
+  if (!target) return {};
+  const { url } = target;
   const label = labelForUrl(url);
   return buildPageMetadata({
     title: `Is ${label} down right now?`,
@@ -86,9 +93,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function WebsiteStatusPage({ params }: PageProps) {
   const { site } = await params;
-  const url = await resolveTarget(site);
-  if (!url) notFound();
+  const target = await resolveTarget(site);
+  if (!target) notFound();
 
+  const { url, resolvable } = target;
   const label = labelForUrl(url);
 
   // Same budget as the API: a reload here is a run.
@@ -98,7 +106,7 @@ export default async function WebsiteStatusPage({ params }: PageProps) {
 
   let report: SiteStatusReport | undefined;
   if (decision.allowed) {
-    report = await checkSiteStatus(url);
+    report = resolvable ? await checkSiteStatus(url) : unresolvableReport(url);
   }
 
   return (

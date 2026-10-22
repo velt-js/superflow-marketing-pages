@@ -500,6 +500,21 @@ test.describe("the website status checker answers end to end", () => {
     expect(errors, "website-status-checker errors during run").toEqual([]);
   });
 
+  test("an unresolvable domain is a down verdict, not a 404", async ({ page }) => {
+    // The toolkit's URL guard folds "does not resolve" into "not publicly
+    // routable". This tool must tell them apart: an expired domain is the
+    // most ordinary reason a site is down, and the page has to say so.
+    const response = await page.goto(
+      `${toolPath("website-status-checker")}/this-domain-does-not-exist-zz.example`,
+      { waitUntil: "domcontentloaded" },
+    );
+    expect(response?.status()).toBe(200);
+    await expect(
+      page.getByRole("heading", { name: /this-domain-does-not-exist-zz\.example is down/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/could not be resolved/i)).toBeVisible();
+  });
+
   test("a private host is a 404, not a probe", async ({ page }) => {
     const response = await page.goto(
       `${toolPath("website-status-checker")}/localhost`,

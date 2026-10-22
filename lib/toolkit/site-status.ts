@@ -20,7 +20,15 @@
 // failure on https is retried once on http. A timeout is not retried: the
 // host is there and slow, and http would not be faster.
 
+import dns from "node:dns";
+import net from "node:net";
 import { fetchUrl } from "./fetcher";
+import {
+  isPubliclyRoutable,
+  normalizeUrl,
+  URL_REJECTION_MESSAGES,
+  type UrlRejection,
+} from "./url";
 import type { SiteStatusReport } from "@/lib/tools/website-status/shared";
 import { STATUS_TIMEOUT_MS } from "@/lib/tools/website-status/shared";
 
@@ -41,6 +49,81 @@ export {
 
 /** We only need headers; 1 KB keeps a huge page from costing anything. */
 const MAX_BODY_BYTES = 1024;
+
+/**
+ * The toolkit's rejection copy, with the one line that names AI crawlers
+ * reworded: that message was written for the visibility checker, and a
+ * visitor asking whether a site is up has no crawler in mind.
+ */
+export const STATUS_REJECTION_MESSAGES: Record<UrlRejection, string> = {
+  ...URL_REJECTION_MESSAGES,
+  "not-publicly-routable":
+    "That address is on a private network, so it cannot be checked from here.",
+};
+
+export type StatusTargetResolution =
+  | { ok: true; url: string }
+  /** Not a URL this tool will touch: malformed, private, credentials, etc. */
+  | { ok: false; kind: "rejected"; reason: UrlRejection }
+  /** A well-formed public-looking host that DNS cannot resolve. */
+  | { ok: false; kind: "unresolvable"; url: string };
+
+/**
+ * Normalizes and SSRF-checks a visitor's URL, like `resolveUserUrl`, but
+ * tells an UNRESOLVABLE host apart from a PRIVATE one.
+ *
+ * The toolkit guard treats both as "not publicly routable", which is right
+ * for a checker that needs the page's HTML: there is nothing to read either
+ * way. For this tool the two are different answers. A private address is
+ * refused; a domain that does not resolve IS the verdict, because "the site
+ * is down" is exactly what a visitor with an expired domain needs to hear.
+ *
+ * @param rawUrl - Whatever the visitor typed.
+ */
+export async function resolveStatusTarget(rawUrl: string): Promise<StatusTargetResolution> {
+  try {
+    const normalized = normalizeUrl(rawUrl);
+    if (!normalized.ok) {
+      return { ok: false, kind: "rejected", reason: normalized.reason };
+    }
+
+    if (!net.isIP(normalized.hostname)) {
+      try {
+        await dns.promises.lookup(normalized.hostname, { all: true });
+      } catch {
+        return { ok: false, kind: "unresolvable", url: normalized.url };
+      }
+    }
+
+    // The guard resolves again and checks every address. The second lookup
+    // is served from the resolver cache; the duplication buys a guard that
+    // stays a byte-for-byte port of the backend's, which is worth more.
+    if (!(await isPubliclyRoutable(normalized.url))) {
+      return { ok: false, kind: "rejected", reason: "not-publicly-routable" };
+    }
+
+    return { ok: true, url: normalized.url };
+  } catch {
+    return { ok: false, kind: "rejected", reason: "malformed" };
+  }
+}
+
+/**
+ * The report for a host DNS could not resolve: down, with no response.
+ *
+ * @param url - The normalized URL that was asked about.
+ */
+export function unresolvableReport(url: string): SiteStatusReport {
+  return {
+    verdict: "down",
+    reason: "dns",
+    responseTimeMs: 0,
+    requestedUrl: url,
+    finalUrl: url,
+    redirectCount: 0,
+    checkedAt: new Date().toISOString(),
+  };
+}
 
 /**
  * Runs one live check against an already normalized and SSRF-checked URL.
