@@ -33,6 +33,7 @@ const STATIC_PATHS = [
   "/privacy",
   "/security",
   "/terms",
+  "/tool/status",
   "/use-case",
   "/user-persona",
 ];
