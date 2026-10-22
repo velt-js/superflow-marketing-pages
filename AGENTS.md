@@ -18,3 +18,13 @@ Mirror the patterns established in `velt-marketing-pages`:
   delete the matching HTML directory.
 - Use `scripts/transform-framer-jsx.mjs` to convert Framer HTML → JSX.
 - All Sanity env config flows through `sanity/env.ts`.
+
+## Standalone tools (`/tool/*`)
+
+- `/tool/status` is a website status checker. The landing page lives in
+  `app/tool/status/page.tsx`; `/tool/status/<host>/<path...>` is a catch-all
+  route (`app/tool/status/[...site]/page.tsx`) that is `force-dynamic` and runs
+  one live request from the server on every load via `lib/site-status/check.ts`.
+  `lib/site-status/target.ts` is the shared (client + server) URL parser; it
+  refuses private hosts and the checker re-checks the resolved address before
+  fetching. Result pages are `noindex`; only the landing page is in the sitemap.
