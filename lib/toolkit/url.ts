@@ -146,6 +146,26 @@ function isPrivateAddress(address: string): boolean {
 }
 
 /**
+ * True for names that are internal by convention and must never be looked
+ * up, let alone fetched: `localhost` and the `.localhost` / `.local` /
+ * `.internal` suffixes. Exported so a caller that needs its own DNS step
+ * (the status checker) can refuse these BEFORE resolving anything, rather
+ * than handing the server's resolver a question about an internal name.
+ *
+ * @param hostname - Lowercased hostname with no brackets.
+ */
+export function isInternalHostname(hostname: string): boolean {
+  try {
+    return (
+      hostname === "localhost" ||
+      INTERNAL_HOST_SUFFIXES.some((suffix) => hostname.endsWith(suffix))
+    );
+  } catch {
+    return true;
+  }
+}
+
+/**
  * SSRF guard. Blocks internal hostnames outright, then resolves DNS and
  * rejects the URL if ANY resolved address is private, loopback, link-local,
  * or the cloud metadata range.
@@ -164,10 +184,7 @@ export async function isPubliclyRoutable(urlString: string): Promise<boolean> {
     // never resolve. Strip them first.
     const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/g, "");
 
-    if (
-      hostname === "localhost" ||
-      INTERNAL_HOST_SUFFIXES.some((suffix) => hostname.endsWith(suffix))
-    ) {
+    if (isInternalHostname(hostname)) {
       return false;
     }
 

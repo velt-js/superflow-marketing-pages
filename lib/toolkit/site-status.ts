@@ -24,6 +24,7 @@ import dns from "node:dns";
 import net from "node:net";
 import { fetchUrl } from "./fetcher";
 import {
+  isInternalHostname,
   isPubliclyRoutable,
   normalizeUrl,
   URL_REJECTION_MESSAGES,
@@ -85,6 +86,13 @@ export async function resolveStatusTarget(rawUrl: string): Promise<StatusTargetR
     const normalized = normalizeUrl(rawUrl);
     if (!normalized.ok) {
       return { ok: false, kind: "rejected", reason: normalized.reason };
+    }
+
+    // Internal names are refused before any lookup, exactly as the guard
+    // does: resolving them would turn this tool into an oracle for which
+    // names exist in the server's own resolver.
+    if (isInternalHostname(normalized.hostname)) {
+      return { ok: false, kind: "rejected", reason: "not-publicly-routable" };
     }
 
     if (!net.isIP(normalized.hostname)) {

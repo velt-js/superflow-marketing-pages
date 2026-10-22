@@ -518,11 +518,16 @@ test.describe("the website status checker answers end to end", () => {
   });
 
   test("a private host is a 404, not a probe", async ({ page }) => {
-    const response = await page.goto(
-      `${toolPath("website-status-checker")}/localhost`,
-      { waitUntil: "domcontentloaded" },
-    );
-    expect(response?.status()).toBe(404);
+    // `localhost` fails the hostname shape; `metadata.internal` has the
+    // shape of a real domain and is refused by suffix BEFORE any DNS lookup,
+    // so it must not come back as a "down" verdict either.
+    for (const host of ["localhost", "metadata.internal", "printer.local"]) {
+      const response = await page.goto(
+        `${toolPath("website-status-checker")}/${host}`,
+        { waitUntil: "domcontentloaded" },
+      );
+      expect(response?.status(), host).toBe(404);
+    }
   });
 
   test("a 5xx response is a down verdict with the status attached", async () => {
