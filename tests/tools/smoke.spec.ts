@@ -22,7 +22,9 @@ import {
   type APIRequestContext,
   type Page,
 } from "@playwright/test";
+import { createServer } from "node:http";
 import { TOOLS, liveTools, toolPath } from "../../lib/tools/registry";
+import { checkSiteStatus } from "../../lib/toolkit/site-status";
 import {
   MCP_PATH,
   MCP_PROTOCOL_VERSION,
@@ -523,21 +525,27 @@ test.describe("the website status checker answers end to end", () => {
     expect(response?.status()).toBe(404);
   });
 
-  test("the endpoint reports a down verdict for a 5xx", async ({ request }) => {
-    const response = await request.post("/api/tools/website-status-checker", {
-      data: { url: "httpstat.us/503" },
+  test("a 5xx response is a down verdict with the status attached", async () => {
+    // Against a server this test owns, not a third-party status host: the
+    // first run of this suite on CI could not reach httpstat.us at all and
+    // reported "network", which says nothing about the verdict rule. The
+    // engine is called directly; the SSRF guard sits in front of it in the
+    // route and is covered by the private-host case above.
+    const server = createServer((_request, response) => {
+      response.statusCode = 503;
+      response.end("down for maintenance");
     });
-    expect(response.status()).toBe(200);
-    const payload = (await response.json()) as {
-      verdict?: string;
-      reason?: string;
-      httpStatus?: number;
-      error?: string;
-    };
-    expect(payload.error).toBeUndefined();
-    expect(payload.verdict).toBe("down");
-    expect(payload.reason).toBe("server-error");
-    expect(payload.httpStatus).toBe(503);
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("no port");
+      const report = await checkSiteStatus(`http://127.0.0.1:${address.port}/`);
+      expect(report.verdict).toBe("down");
+      expect(report.reason).toBe("server-error");
+      expect(report.httpStatus).toBe(503);
+    } finally {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
   });
 });
 
