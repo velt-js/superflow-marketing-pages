@@ -104,6 +104,13 @@ const PATHS: Record<ToolIconKey, React.ReactNode> = {
       <path d="M12 11h6" />
     </>
   ),
+  // A heartbeat trace: the status checker's question is whether there is a
+  // pulse at all.
+  pulse: (
+    <>
+      <path d="M3 12h4l2.5-6 3.5 12 2.5-8 1.5 2H21" />
+    </>
+  ),
 };
 
 /**

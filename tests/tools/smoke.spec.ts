@@ -470,6 +470,62 @@ test.describe("the favicon checker survives a real run", () => {
   });
 });
 
+test.describe("the website status checker answers end to end", () => {
+  // The shareable page runs the check SERVER-SIDE before any JavaScript
+  // loads, so the verdict must be in the HTML itself: a visitor with scripts
+  // off, or an agent fetching the page, gets the same answer.
+  test("the status page carries a server-rendered verdict", async ({ page }) => {
+    const errors = collectErrors(page);
+
+    const response = await page.goto(
+      `${toolPath("website-status-checker")}/example.com`,
+      { waitUntil: "domcontentloaded" },
+    );
+    expect(response?.status(), "status page HTTP status").toBe(200);
+
+    // example.com has answered 200 for decades; if it is down the whole
+    // internet has bigger problems than this suite.
+    await expect(
+      page.getByRole("heading", { name: /example\.com is up/i }),
+    ).toBeVisible();
+    await expect(page.getByText("HTTP status", { exact: true })).toBeVisible();
+    await expect(page.getByText(/^200 OK$/)).toBeVisible();
+
+    // The page is one result per URL, so it must not be indexed.
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      /noindex/,
+    );
+
+    expect(errors, "website-status-checker errors during run").toEqual([]);
+  });
+
+  test("a private host is a 404, not a probe", async ({ page }) => {
+    const response = await page.goto(
+      `${toolPath("website-status-checker")}/localhost`,
+      { waitUntil: "domcontentloaded" },
+    );
+    expect(response?.status()).toBe(404);
+  });
+
+  test("the endpoint reports a down verdict for a 5xx", async ({ request }) => {
+    const response = await request.post("/api/tools/website-status-checker", {
+      data: { url: "httpstat.us/503" },
+    });
+    expect(response.status()).toBe(200);
+    const payload = (await response.json()) as {
+      verdict?: string;
+      reason?: string;
+      httpStatus?: number;
+      error?: string;
+    };
+    expect(payload.error).toBeUndefined();
+    expect(payload.verdict).toBe("down");
+    expect(payload.reason).toBe("server-error");
+    expect(payload.httpStatus).toBe(503);
+  });
+});
+
 test.describe("the MCP server answers the protocol", () => {
   // These call the endpoint rather than a browser on purpose: MCP has no UI,
   // and the failure mode that matters is a client that cannot complete the

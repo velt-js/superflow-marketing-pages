@@ -112,6 +112,19 @@ const URL_SCHEMA: ToolInputSchema = {
 };
 
 /**
+ * The one argument the status checker takes. No `refresh`: the tool never
+ * caches, so every call is already a fresh run.
+ */
+const STATUS_SCHEMA: ToolInputSchema = {
+  type: "object",
+  properties: {
+    url: URL_SCHEMA.properties.url,
+  },
+  required: ["url"],
+  additionalProperties: false,
+};
+
+/**
  * The arguments a BACKEND-RUN tool takes: the URL ones, plus a run handle.
  *
  * These runs are dispatched into the product backend and take from half a
@@ -345,6 +358,21 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     sample: { url: "example.com" },
     returns:
       "{ hasWorkingFavicon, tabIcon, icons[] with format, dimensions, bytes and problem, manifest, themeColor, checks[] with id, status and fix, counts }",
+    rateLimit: "60 runs per hour per IP",
+    timeoutSeconds: 30,
+  },
+  {
+    slug: "website-status-checker",
+    mcpTool: "check_website_status",
+    title: "Website Status Checker",
+    description:
+      "Check whether a website is up right now. Makes one live GET request to the URL from Superflow's servers, following redirects, and reports a verdict: up when the server answers with any HTTP status below 500, down on a 5xx, a timeout after 10 seconds, a refused connection, or an unresolvable domain. Returns the HTTP status, the response time, the final URL after redirects, and the time of the check. Never cached, so every call is a fresh request. Use this to answer 'is it down or is it just me'; use check_favicon or check_social_preview to inspect what a page contains.",
+    method: "POST",
+    path: "/api/tools/website-status-checker",
+    inputSchema: STATUS_SCHEMA,
+    sample: { url: "example.com" },
+    returns:
+      "{ verdict: 'up' | 'down', reason?, httpStatus?, responseTimeMs, requestedUrl, finalUrl, redirectCount, checkedAt, submittedUrl }",
     rateLimit: "60 runs per hour per IP",
     timeoutSeconds: 30,
   },

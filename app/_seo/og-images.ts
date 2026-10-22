@@ -84,6 +84,7 @@ export const TOOL_OG_IMAGES: Record<string, string> = {
   "social-preview-checker": `${TOOL_OG_DIR}/social-preview-checker.png`,
   "tech-stack-detector": `${TOOL_OG_DIR}/tech-stack-detector.png`,
   "utm-builder": `${TOOL_OG_DIR}/utm-builder.png`,
+  "website-status-checker": `${TOOL_OG_DIR}/website-status-checker.png`,
 };
 
 /**

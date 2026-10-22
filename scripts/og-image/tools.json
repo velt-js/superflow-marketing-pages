@@ -8,6 +8,7 @@
   { "title": "JSON-LD Validator", "out": "public/og/tools/json-ld-validator.png" },
   { "title": "Social Preview Checker", "out": "public/og/tools/social-preview-checker.png" },
   { "title": "Favicon Checker", "out": "public/og/tools/favicon-checker.png" },
+  { "title": "Website Status Checker", "out": "public/og/tools/website-status-checker.png" },
   { "title": "Tech Stack Detector", "out": "public/og/tools/tech-stack-detector.png" },
   { "title": "UTM Builder", "out": "public/og/tools/utm-builder.png" },
   { "title": "Full Page Screenshot", "out": "public/og/tools/full-page-screenshot.png" },
