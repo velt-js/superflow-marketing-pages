@@ -22,7 +22,9 @@ import {
   type APIRequestContext,
   type Page,
 } from "@playwright/test";
+import { createServer } from "node:http";
 import { TOOLS, liveTools, toolPath } from "../../lib/tools/registry";
+import { checkSiteStatus } from "../../lib/toolkit/site-status";
 import {
   MCP_PATH,
   MCP_PROTOCOL_VERSION,
@@ -467,6 +469,88 @@ test.describe("the favicon checker survives a real run", () => {
     ).toBeVisible();
 
     expect(errors, "favicon-checker errors during run").toEqual([]);
+  });
+});
+
+test.describe("the website status checker answers end to end", () => {
+  // The shareable page runs the check SERVER-SIDE before any JavaScript
+  // loads, so the verdict must be in the HTML itself: a visitor with scripts
+  // off, or an agent fetching the page, gets the same answer.
+  test("the status page carries a server-rendered verdict", async ({ page }) => {
+    const errors = collectErrors(page);
+
+    const response = await page.goto(
+      `${toolPath("website-status-checker")}/example.com`,
+      { waitUntil: "domcontentloaded" },
+    );
+    expect(response?.status(), "status page HTTP status").toBe(200);
+
+    // example.com has answered 200 for decades; if it is down the whole
+    // internet has bigger problems than this suite.
+    await expect(
+      page.getByRole("heading", { name: /example\.com is up/i }),
+    ).toBeVisible();
+    await expect(page.getByText("HTTP status", { exact: true })).toBeVisible();
+    await expect(page.getByText(/^200 OK$/)).toBeVisible();
+
+    // The page is one result per URL, so it must not be indexed.
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      /noindex/,
+    );
+
+    expect(errors, "website-status-checker errors during run").toEqual([]);
+  });
+
+  test("an unresolvable domain is a down verdict, not a 404", async ({ page }) => {
+    // The toolkit's URL guard folds "does not resolve" into "not publicly
+    // routable". This tool must tell them apart: an expired domain is the
+    // most ordinary reason a site is down, and the page has to say so.
+    const response = await page.goto(
+      `${toolPath("website-status-checker")}/this-domain-does-not-exist-zz.example`,
+      { waitUntil: "domcontentloaded" },
+    );
+    expect(response?.status()).toBe(200);
+    await expect(
+      page.getByRole("heading", { name: /this-domain-does-not-exist-zz\.example is down/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/could not be resolved/i)).toBeVisible();
+  });
+
+  test("a private host is a 404, not a probe", async ({ page }) => {
+    // `localhost` fails the hostname shape; `metadata.internal` has the
+    // shape of a real domain and is refused by suffix BEFORE any DNS lookup,
+    // so it must not come back as a "down" verdict either.
+    for (const host of ["localhost", "metadata.internal", "printer.local"]) {
+      const response = await page.goto(
+        `${toolPath("website-status-checker")}/${host}`,
+        { waitUntil: "domcontentloaded" },
+      );
+      expect(response?.status(), host).toBe(404);
+    }
+  });
+
+  test("a 5xx response is a down verdict with the status attached", async () => {
+    // Against a server this test owns, not a third-party status host: the
+    // first run of this suite on CI could not reach httpstat.us at all and
+    // reported "network", which says nothing about the verdict rule. The
+    // engine is called directly; the SSRF guard sits in front of it in the
+    // route and is covered by the private-host case above.
+    const server = createServer((_request, response) => {
+      response.statusCode = 503;
+      response.end("down for maintenance");
+    });
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("no port");
+      const report = await checkSiteStatus(`http://127.0.0.1:${address.port}/`);
+      expect(report.verdict).toBe("down");
+      expect(report.reason).toBe("server-error");
+      expect(report.httpStatus).toBe(503);
+    } finally {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
   });
 });
 

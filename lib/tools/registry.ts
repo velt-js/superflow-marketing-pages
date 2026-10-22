@@ -55,7 +55,8 @@ export type ToolIconKey =
   | "link"
   | "camera"
   | "image"
-  | "tab";
+  | "tab"
+  | "pulse";
 
 export const TOOLS: readonly ToolEntry[] = [
   {
@@ -235,6 +236,22 @@ export const TOOLS: readonly ToolEntry[] = [
     related: [
       "favicon-checker",
       "ai-visibility-checker",
+      "social-preview-checker",
+    ],
+  },
+  {
+    slug: "website-status-checker",
+    name: "Website Status Checker",
+    tagline: "Find out whether a site is down right now, or whether it is just you",
+    category: "quality",
+    // Self-contained: one live GET through the toolkit fetcher, on the same
+    // SSRF guard and rate limit as the Favicon Checker, and deliberately no
+    // cache. No backend dependency, so it is live on merge.
+    status: "live",
+    icon: "pulse",
+    related: [
+      "favicon-checker",
+      "tech-stack-detector",
       "social-preview-checker",
     ],
   },
