@@ -51,7 +51,11 @@ jobs:
   pr:
     name: Branch build
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    # Pinned, not `ubuntu-latest`: that label moved to Ubuntu 26.04 on
+    # 2026-10-22 and `playwright install --with-deps` refuses it ("Playwright
+    # does not support chromium on ubuntu26.04-x64"), so every run died before
+    # a single test ran. Bump this together with the Playwright version.
+    runs-on: ubuntu-24.04
     # The suite drives real, uncached backend runs, and the slowest of them is
     # a persona review at two to three minutes. Serial by design: the tools
     # share per-IP budgets, so running them in parallel would have the suite
@@ -127,7 +131,8 @@ jobs:
   deployed:
     name: Deployed site
     if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    # Same pin as the gate above, for the same reason.
+    runs-on: ubuntu-24.04
     # Same budget as the gate above, and for the same reason.
     timeout-minutes: 35
     steps:
