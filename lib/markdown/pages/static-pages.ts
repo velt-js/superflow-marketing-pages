@@ -19,6 +19,32 @@ import {
   SITE_AGENTS_PRICE_LABEL,
 } from "@/components/pricing-2026/site-agents-data";
 import { SITE_URL } from "@/app/_seo/schema";
+import {
+  AGENTS,
+  AGENT_START_LABELS,
+  ALTERNATIVES,
+  BENEFITS,
+  BUILD_OR_BUY,
+  BUILD_OR_BUY_SUB,
+  NEW_HOME_PATH,
+  PAGE_DESCRIPTION as NEW_HOME_DESCRIPTION,
+  PAGE_TITLE as NEW_HOME_TITLE,
+  REPORT_POINTS,
+  STAGES,
+  STAGES_SUB,
+  WHY_NOW,
+  buildNewHomeFaq,
+} from "@/components/home-new-2026/content";
+import {
+  BENEFITS as MONITORING_BENEFITS,
+  MONITORING_PATH,
+  PAGE_DESCRIPTION as MONITORING_DESCRIPTION,
+  PAGE_TITLE as MONITORING_TITLE,
+  REPORT_POINTS as MONITORING_REPORT_POINTS,
+  SCHEDULES,
+  STEPS as MONITORING_STEPS,
+  buildMonitoringFaq,
+} from "@/components/monitoring-2026/content";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
 
@@ -84,6 +110,100 @@ function homeDoc(): AgentDoc {
       question: clean(item.question),
       answer: clean(item.answer),
     })),
+  };
+}
+
+/** /new-home-2026, the draft homepage, read from the same copy module. */
+function newHomeDoc(): AgentDoc {
+  return {
+    title: NEW_HOME_TITLE,
+    summary: NEW_HOME_DESCRIPTION,
+    path: NEW_HOME_PATH,
+    kind: "Homepage (draft)",
+    facts: [
+      { label: "Agents", value: `${AGENTS.length}` },
+      { label: "Client accounts required", value: "No. Clients review over a link." },
+      { label: "AI pricing", value: BULK_SITE_PRICE_LABEL },
+    ],
+    sections: [
+      {
+        heading: "Three stages",
+        body: [STAGES_SUB],
+        bullets: STAGES.map((stage) => `**${stage.title}**: ${stage.line} ${stage.audience}.`),
+      },
+      {
+        heading: "What you get",
+        bullets: BENEFITS.map((benefit) => `**${benefit.title}**: ${benefit.line}`),
+      },
+      {
+        heading: "Why now",
+        bullets: WHY_NOW.map((item) => `**${item.title}**: ${item.line}`),
+      },
+      {
+        heading: "Agents",
+        table: {
+          headers: ["Agent", "What it checks", "Starts"],
+          rows: AGENTS.map((agent) => [agent.name, agent.checks, AGENT_START_LABELS[agent.start]]),
+        },
+      },
+      { heading: "The client report", bullets: [...REPORT_POINTS] },
+      {
+        heading: "Compared with",
+        bullets: ALTERNATIVES.map((alt) => `**${alt.name}**: ${alt.gap} Superflow: ${alt.answer}`),
+      },
+      {
+        heading: "Build vs buy",
+        body: [BUILD_OR_BUY_SUB],
+        bullets: BUILD_OR_BUY.map((item) => `**${item.title}**: ${item.line}`),
+      },
+      {
+        heading: "Where to go next",
+        bullets: [
+          `Pricing: ${SITE_URL}/pricing.md`,
+          `Current homepage: ${SITE_URL}/index.md`,
+        ],
+      },
+    ],
+    faq: buildNewHomeFaq(BULK_SITE_PRICE_LABEL),
+  };
+}
+
+/** /monitoring, read from the same copy module as the page. */
+function monitoringDoc(): AgentDoc {
+  return {
+    title: MONITORING_TITLE,
+    summary: MONITORING_DESCRIPTION,
+    path: MONITORING_PATH,
+    kind: "Feature page",
+    facts: [
+      { label: "Schedules", value: SCHEDULES.map((schedule) => schedule.label).join(", ") },
+      { label: "Also runs", value: "When a page changes" },
+      { label: "Code on the site", value: "None. Agents check from the outside." },
+      { label: "Price", value: `${BULK_SITE_PRICE_LABEL}, every agent on every run` },
+    ],
+    sections: [
+      {
+        heading: "How it works",
+        steps: MONITORING_STEPS.map((step) => `**${step.title}.** ${step.description}`),
+      },
+      {
+        heading: "What you get",
+        bullets: MONITORING_BENEFITS.map((benefit) => `**${benefit.title}**: ${benefit.line}`),
+      },
+      {
+        heading: "Schedules",
+        bullets: SCHEDULES.map((schedule) => `**${schedule.label}**: ${schedule.line}`),
+      },
+      { heading: "The maintenance report", bullets: [...MONITORING_REPORT_POINTS] },
+      {
+        heading: "Where to go next",
+        bullets: [
+          `Pricing: ${SITE_URL}/pricing.md`,
+          `The agents: ${SITE_URL}/new-home-2026.md`,
+        ],
+      },
+    ],
+    faq: buildMonitoringFaq(BULK_SITE_PRICE_LABEL),
   };
 }
 
@@ -393,6 +513,8 @@ function surveyReportDoc(): AgentDoc {
 export const STATIC_AGENT_DOCS: Record<string, () => AgentDoc> = {
   "/": homeDoc,
   "/pricing": pricingDoc,
+  [NEW_HOME_PATH]: newHomeDoc,
+  [MONITORING_PATH]: monitoringDoc,
   "/security": securityDoc,
   "/book-demo": bookDemoDoc,
   "/demo": demoDoc,
