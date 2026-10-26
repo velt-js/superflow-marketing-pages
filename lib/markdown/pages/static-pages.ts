@@ -18,6 +18,7 @@ import {
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_LABEL,
 } from "@/components/pricing-2026/site-agents-data";
+import { SECURITY_EMAIL, SECURITY_SCOPE } from "@/components/security/security-contact";
 import { SITE_URL } from "@/app/_seo/schema";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
@@ -150,12 +151,19 @@ function securityDoc(): AgentDoc {
       { label: "Encryption", value: "In transit and at rest" },
       { label: "SSO", value: "SAML-based, with SCIM provisioning, on the Enterprise plan" },
       { label: "Model training on customer data", value: "No" },
+      { label: "Security and abuse contact", value: SECURITY_EMAIL },
     ],
     sections: [
       {
         heading: "What this page covers",
         body: [
           "The controls Superflow operates, how compliance is monitored and evidenced, and how customer data is stored and handled. Read the full page for the current attestation status and the sub-processor list.",
+        ],
+      },
+      {
+        heading: "Report security issues or abuse",
+        body: [
+          `Security vulnerabilities, phishing, or any other abuse originating from ${SECURITY_SCOPE.join(" or ")} can be reported to ${SECURITY_EMAIL} (mailto:${SECURITY_EMAIL}). Include the affected URL and any details that help reproduce the issue.`,
         ],
       },
       {
