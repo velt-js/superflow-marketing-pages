@@ -8,6 +8,7 @@ import FoundationalPrinciples from "@/components/security/FoundationalPrinciples
 import DataProtection from "@/components/security/DataProtection";
 import EnterpriseSecurity from "@/components/security/EnterpriseSecurity";
 import DataPrivacy from "@/components/security/DataPrivacy";
+import ReportSecurity from "@/components/security/ReportSecurity";
 import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -37,6 +38,7 @@ export default function SecurityPage() {
       <DataProtection />
       <EnterpriseSecurity />
       <DataPrivacy />
+      <ReportSecurity />
       <section className="pt-[40px] pb-[80px] lg:pt-[60px] lg:pb-[120px]" style={{ background: "#000" }}>
         <CTABanner />
       </section>
