@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Suspense } from "react";
 import "./globals.css";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import {
@@ -11,10 +10,9 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/app/_seo/schema";
-import { AmplitudePageView } from "@/components/scripts/AmplitudePageView";
-import { PageviewTracker } from "@/components/scripts/PageviewTracker";
+import { ConsentScripts } from "@/components/consent/ConsentScripts";
 import {
-  GtmNoScript,
+  ConsentHead,
   ThirdPartyScripts,
 } from "@/components/scripts/ThirdPartyScripts";
 import { WebMcpProvider } from "@/components/webmcp/WebMcpProvider";
@@ -134,15 +132,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${poppins.variable} ${urbanist.variable} ${adamina.variable}`}
     >
+      <head>
+        {/* Consent Mode defaults and the Termly banner, ahead of every other
+            script. Nothing non-essential loads until ConsentScripts below
+            sees the visitor's consent. */}
+        <ConsentHead />
+      </head>
       <body className={poppins.className} style={{ overflowX: "hidden" }}>
-        <GtmNoScript />
         <JsonLd id="ld-organization" data={ORGANIZATION_SCHEMA} />
         <JsonLd id="ld-website" data={WEBSITE_SCHEMA} />
         <ThirdPartyScripts />
-        <Suspense fallback={null}>
-          <PageviewTracker />
-          <AmplitudePageView />
-        </Suspense>
+        {/* The one gate for every non-essential script. */}
+        <ConsentScripts />
         {/* Registers this site's tools with a WebMCP-capable browser. Renders
             nothing, and is inert everywhere the API is absent. */}
         <WebMcpProvider />
