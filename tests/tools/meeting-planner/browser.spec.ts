@@ -21,7 +21,7 @@ async function use24HourClock(page: Page) {
 test.beforeEach(async ({ context }) => {
   // Product-owned resources stay real; unrelated analytics are outside this test.
   await context.route(
-    /(googletagmanager|google-analytics|amplitude|claydar|intercom|termly|rewardful)/,
+    /(googletagmanager|google-analytics|amplitude|claydar|snitcher|intercom|termly|rewardful)/,
     (route) => route.abort(),
   );
 });
