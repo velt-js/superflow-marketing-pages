@@ -87,6 +87,7 @@ export const VENDORS = [
   { host: "b2bjsstore.s3.us-west-2.amazonaws.com", tool: "RB2B (visitor deanonymizer)", category: "Marketing" },
   { host: "claydar.com", tool: "Claydar / Clay web intent (visitor deanonymizer)", category: "Marketing" },
   { host: "clay.com", tool: "Claydar / Clay web intent (visitor deanonymizer)", category: "Marketing" },
+  { host: "snitcher.com", tool: "Snitcher Radar (visitor deanonymizer)", category: "Marketing" },
   { host: "redditstatic.com", tool: "Reddit pixel", category: "Marketing (to be removed)" },
   { host: "reddit.com", tool: "Reddit pixel", category: "Marketing (to be removed)" },
   { host: "licdn.com", tool: "LinkedIn Insight", category: "Marketing" },

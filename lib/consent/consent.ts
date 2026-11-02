@@ -82,7 +82,8 @@ export const CATEGORY_STORAGE: Record<ConsentCategory, RegExp[]> = {
     /^_twpid$/, /^_twsid$/, // X pixel
     /^li_/, // LinkedIn Insight
     /^rewardful/, // Rewardful
-    /^claydar_/, /^radar_sn_/, // Claydar
+    /^claydar_/, /^radar_sn_/, // Claydar (and Snitcher Radar, same engine)
+    /^monaco_/, // Snitcher Radar (namespace "Monaco")
     /^__test__$/, /^reb2b/, // RB2B
   ],
 };

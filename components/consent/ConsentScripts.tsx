@@ -17,8 +17,9 @@
 //                (events, heatmaps, session replay).
 //   Marketing  - Google Ads (AW-11181152032, same gtag.js loader), Google Tag
 //                Manager (GTM-M6Q8QPG: Meta, LinkedIn and X pixels, Ads
-//                remarketing, a second GA4 property), RB2B and Claydar
-//                (visitor identification), Rewardful (affiliate attribution).
+//                remarketing, a second GA4 property), RB2B, Claydar and
+//                Snitcher Radar (visitor identification), Rewardful (affiliate
+//                attribution).
 //
 // GTM is Marketing rather than Analytics because, today, most of what it
 // fires is advertising and none of its tags declare a consent requirement.
@@ -61,6 +62,15 @@ const LINKER_DOMAINS = ["usesuperflow.ai", "usesuperflow.com", "app.usesuperflow
 const REWARDFUL_KEY = "626baf";
 const RB2B_KEY = "Q6J2RH2WVE6D";
 const CLAYDAR_ID = "cgBo1m1XAw";
+// Snitcher Radar settings, passed verbatim to the vendor bootstrapper below.
+// `namespace` is the window global it queues calls on (window.Monaco).
+const SNITCHER_RADAR_SETTINGS = {
+  cdn: "cdn.snitcher.com",
+  apiEndpoint: "radar.snitcher.com",
+  profileId: "roakcpqQfkP",
+  namespace: "Monaco",
+  waitForConsent: true,
+};
 
 const GPC_NOTICE =
   "Your browser is sending a Global Privacy Control signal, so marketing cookies stay off on this site even if you accept.";
@@ -228,7 +238,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`}
           </Script>
 
-          {/* RB2B and Claydar identify visitors, so they wait for Marketing
+          {/* RB2B, Claydar and Snitcher Radar identify visitors, so they wait for Marketing
               consent like everything else here. They used to be native tags
               that ran during HTML parse to catch visitors who leave before
               hydration; that is exactly what consent rules out, so the lost
@@ -237,6 +247,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s,document.getElementsByTagName("script")[0]);}("${RB2B_KEY}");`}
           </Script>
           <Script id="claydar" src={`https://static.claydar.com/init.v1.js?id=${CLAYDAR_ID}`} strategy="afterInteractive" />
+
+          {/* Snitcher Radar - company-level visitor identification, gated
+              like RB2B and Claydar. The vendor snippet is verbatim apart from
+              the settings object. With `waitForConsent` Radar keeps its
+              visitor id in sessionStorage until giveCookieConsent() is called,
+              and it does not detect Termly itself. Rendering here already
+              means Marketing was granted, so the trailing call passes that on.
+              giveCookieConsent is not on the pre-load stub, so it is queued;
+              Radar replays the queue on init (it has no ready() to hook). */}
+          <Script id="snitcher-radar" strategy="afterInteractive">
+            {`!function(e){"use strict";var a=e&&e.namespace;if(a&&e.profileId&&e.cdn){var r=window[a];if(r&&Array.isArray(r)||(r=window[a]=[]),!r.initialized&&!r._loaded)if(r._loaded)console&&console.warn("[Radar] Duplicate initialization attempted");else{r._loaded=!0;["track","page","identify","group","alias","ready","debug","on","off","once","trackClick","trackSubmit","trackLink","trackForm","pageview","screen","reset","register","setAnonymousId","addSourceMiddleware","addIntegrationMiddleware","addDestinationMiddleware"].forEach((function(e){var i;r[e]=(i=e,function(){var e=window[a];if(e.initialized)return e[i].apply(e,arguments);var r=[].slice.call(arguments);return r.unshift(i),e.push(r),e})})),r.bootstrap=function(){var a=document.createElement("script");a.async=!0,a.type="text/javascript",a.id="__radar__",a.dataset.settings=JSON.stringify(e),a.src="https://"+e.cdn+"/releases/latest/radar.min.js";var r=document.scripts[0];r.parentNode.insertBefore(a,r)},r.bootstrap()}}else"undefined"!=typeof console&&console.error("[Radar] Configuration incomplete")}(${JSON.stringify(SNITCHER_RADAR_SETTINGS)});!function(m){m.initialized?m.giveCookieConsent():m.push(["giveCookieConsent"])}(window.${SNITCHER_RADAR_SETTINGS.namespace});`}
+          </Script>
 
           <Script id="rewardful-queue" strategy="afterInteractive">
             {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}

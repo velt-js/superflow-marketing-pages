@@ -140,6 +140,7 @@ test("Accept all: the expected tools load, and keep loading on the next page", a
     "www.googletagmanager.com", // gtag.js (GA4 + Ads) and the GTM container
     "static.claydar.com", // Claydar
     "ddwl4m2hdecbv.cloudfront.net", // RB2B
+    "cdn.snitcher.com", // Snitcher Radar
     "r.wdfl.co", // Rewardful
   ]) {
     expect(hosts(), `${expected} after Accept all`).toContain(expected);
