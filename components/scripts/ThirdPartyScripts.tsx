@@ -70,11 +70,10 @@ const RB2B_KEY = "Q6J2RH2WVE6D";
 const CLAYDAR_ID = "cgBo1m1XAw";
 // Snitcher Radar settings, passed verbatim to the vendor bootstrapper below.
 // `namespace` is the window global it queues calls on (window.Monaco).
-// With `waitForConsent`, Radar still tracks every visit but keeps its visitor
-// id in sessionStorage until `window.Monaco.giveCookieConsent()` is called.
-// Snitcher only detects Cookiebot, CookieYes, OneTrust and Transcend on its
-// own, not Termly, so nothing on this site calls that yet: returning visitors
-// are not linked across sessions.
+// With `waitForConsent`, Radar keeps its visitor id in sessionStorage until
+// `giveCookieConsent()` is called, so returning visitors are not linked across
+// sessions. Snitcher only detects Cookiebot, CookieYes, OneTrust and Transcend
+// on its own, not Termly, so the snippet below grants it on every load.
 const SNITCHER_RADAR_SETTINGS = {
   cdn: "cdn.snitcher.com",
   apiEndpoint: "radar.snitcher.com",
@@ -124,11 +123,14 @@ export function ThirdPartyScripts() {
       {/* Snitcher Radar — company-level visitor identification. Same
           treatment as RB2B: the vendor's inline bootstrapper, which creates
           an async <script id="__radar__"> for its payload. Kept verbatim
-          apart from the settings object, which comes from the constant. */}
+          apart from the settings object, which comes from the constant.
+          The trailing call grants storage consent. giveCookieConsent is not
+          on the pre-load stub, so it is queued; Radar replays the queue on
+          init (it has no ready() to hook, and drops unknown queued calls). */}
       <script
         id="snitcher-radar"
         dangerouslySetInnerHTML={{
-          __html: `!function(e){"use strict";var a=e&&e.namespace;if(a&&e.profileId&&e.cdn){var r=window[a];if(r&&Array.isArray(r)||(r=window[a]=[]),!r.initialized&&!r._loaded)if(r._loaded)console&&console.warn("[Radar] Duplicate initialization attempted");else{r._loaded=!0;["track","page","identify","group","alias","ready","debug","on","off","once","trackClick","trackSubmit","trackLink","trackForm","pageview","screen","reset","register","setAnonymousId","addSourceMiddleware","addIntegrationMiddleware","addDestinationMiddleware"].forEach((function(e){var i;r[e]=(i=e,function(){var e=window[a];if(e.initialized)return e[i].apply(e,arguments);var r=[].slice.call(arguments);return r.unshift(i),e.push(r),e})})),r.bootstrap=function(){var a=document.createElement("script");a.async=!0,a.type="text/javascript",a.id="__radar__",a.dataset.settings=JSON.stringify(e),a.src="https://"+e.cdn+"/releases/latest/radar.min.js";var r=document.scripts[0];r.parentNode.insertBefore(a,r)},r.bootstrap()}}else"undefined"!=typeof console&&console.error("[Radar] Configuration incomplete")}(${JSON.stringify(SNITCHER_RADAR_SETTINGS)});`,
+          __html: `!function(e){"use strict";var a=e&&e.namespace;if(a&&e.profileId&&e.cdn){var r=window[a];if(r&&Array.isArray(r)||(r=window[a]=[]),!r.initialized&&!r._loaded)if(r._loaded)console&&console.warn("[Radar] Duplicate initialization attempted");else{r._loaded=!0;["track","page","identify","group","alias","ready","debug","on","off","once","trackClick","trackSubmit","trackLink","trackForm","pageview","screen","reset","register","setAnonymousId","addSourceMiddleware","addIntegrationMiddleware","addDestinationMiddleware"].forEach((function(e){var i;r[e]=(i=e,function(){var e=window[a];if(e.initialized)return e[i].apply(e,arguments);var r=[].slice.call(arguments);return r.unshift(i),e.push(r),e})})),r.bootstrap=function(){var a=document.createElement("script");a.async=!0,a.type="text/javascript",a.id="__radar__",a.dataset.settings=JSON.stringify(e),a.src="https://"+e.cdn+"/releases/latest/radar.min.js";var r=document.scripts[0];r.parentNode.insertBefore(a,r)},r.bootstrap()}}else"undefined"!=typeof console&&console.error("[Radar] Configuration incomplete")}(${JSON.stringify(SNITCHER_RADAR_SETTINGS)});!function(m){m.initialized?m.giveCookieConsent():m.push(["giveCookieConsent"])}(window.${SNITCHER_RADAR_SETTINGS.namespace});`,
         }}
       />
 
