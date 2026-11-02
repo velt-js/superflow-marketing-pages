@@ -2,7 +2,7 @@
 // every route picks them up. They fall into two groups, and the split is
 // deliberate — see IDENTITY TAGS below before moving anything between them.
 //
-// IDENTITY TAGS (RB2B, Claydar) are native <script> elements, rendered first
+// IDENTITY TAGS (RB2B, Claydar, Snitcher) are native <script> elements, rendered first
 // so they are the earliest executable tags in <body>. They must NOT use
 // next/script: strategy="afterInteractive" injects from a React effect, so
 // the tag never reaches the server HTML and only runs once the page's
@@ -68,6 +68,21 @@ const SUPERFLOW_TOOLBAR_PROJECT_ID = "8818554835635078";
 const TERMLY_ID = "2bc67d1d-a9a0-4aab-8562-dcd9c354bff2";
 const RB2B_KEY = "Q6J2RH2WVE6D";
 const CLAYDAR_ID = "cgBo1m1XAw";
+// Snitcher Radar loader config, passed verbatim to the vendor bootstrapper.
+// `namespace` is the window global the queue lives on (window.Monaco).
+//
+// `waitForConsent: true` does NOT stop tracking: page views and sessions are
+// still recorded, but the visitor id lives in sessionStorage until consent is
+// granted, so returning visitors are not recognized across tabs. Termly is not
+// one of Snitcher's auto-detected CMPs, so consent is only persisted once
+// something calls `window.Monaco.giveCookieConsent()`.
+const SNITCHER_CONFIG = {
+  cdn: "cdn.snitcher.com",
+  apiEndpoint: "radar.snitcher.com",
+  profileId: "roakcpqQfkP",
+  namespace: "Monaco",
+  waitForConsent: true,
+};
 
 export function ThirdPartyScripts() {
   return (
@@ -105,6 +120,18 @@ export function ThirdPartyScripts() {
         id="claydar"
         defer
         src={`https://static.claydar.com/init.v1.js?id=${CLAYDAR_ID}`}
+      />
+
+      {/* Snitcher Radar — company-level visitor identification. Same
+          treatment as RB2B: the vendor's inline bootstrapper, rendered as a
+          native tag so it runs during HTML parse and injects its own async
+          radar.min.js. The minified body is the vendor snippet unchanged;
+          only the config object is lifted into SNITCHER_CONFIG above. */}
+      <script
+        id="snitcher-radar"
+        dangerouslySetInnerHTML={{
+          __html: `!function(e){"use strict";var a=e&&e.namespace;if(a&&e.profileId&&e.cdn){var r=window[a];if(r&&Array.isArray(r)||(r=window[a]=[]),!r.initialized&&!r._loaded)if(r._loaded)console&&console.warn("[Radar] Duplicate initialization attempted");else{r._loaded=!0;["track","page","identify","group","alias","ready","debug","on","off","once","trackClick","trackSubmit","trackLink","trackForm","pageview","screen","reset","register","setAnonymousId","addSourceMiddleware","addIntegrationMiddleware","addDestinationMiddleware"].forEach((function(e){var i;r[e]=(i=e,function(){var e=window[a];if(e.initialized)return e[i].apply(e,arguments);var r=[].slice.call(arguments);return r.unshift(i),e.push(r),e})})),r.bootstrap=function(){var a=document.createElement("script");a.async=!0,a.type="text/javascript",a.id="__radar__",a.dataset.settings=JSON.stringify(e),a.src="https://"+e.cdn+"/releases/latest/radar.min.js";var r=document.scripts[0];r.parentNode.insertBefore(a,r)},r.bootstrap()}}else"undefined"!=typeof console&&console.error("[Radar] Configuration incomplete")}(${JSON.stringify(SNITCHER_CONFIG)});`,
+        }}
       />
 
       {/* ---- Everything below is next/script / afterInteractive ---- */}
