@@ -1,7 +1,8 @@
 "use client";
 
 // Mounts the Amplitude route-change page-view side effect. Rendered from
-// app/layout.tsx inside a <Suspense> boundary because usePageView() reads
+// components/consent/ConsentScripts.tsx, only with Analytics consent, inside
+// a <Suspense> boundary because usePageView() reads
 // useSearchParams(), which opts its subtree into dynamic rendering.
 //
 // Kept separate from PageviewTracker (GTM/GA4): those skip the first

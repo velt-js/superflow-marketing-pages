@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 
 type LinkItem = { label: string; href: string; dollar?: boolean };
 type Column = { title: string; links: LinkItem[] };
@@ -145,6 +146,14 @@ function ColumnBlock({ col }: { col: Column }) {
             </Link>
           </li>
         ))}
+        {col.title === "Legal" ? (
+          <li>
+            <CookieSettingsLink
+              className="flex items-center text-[16px] leading-[20px] hover:text-white transition-colors"
+              style={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-urbanist)" }}
+            />
+          </li>
+        ) : null}
       </ul>
     </div>
   );
