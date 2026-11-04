@@ -56,7 +56,8 @@ export type ToolIconKey =
   | "camera"
   | "image"
   | "tab"
-  | "pulse";
+  | "pulse"
+  | "play";
 
 export const TOOLS: readonly ToolEntry[] = [
   {
@@ -203,9 +204,27 @@ export const TOOLS: readonly ToolEntry[] = [
     status: "live",
     icon: "share",
     related: [
+      "og-video-checker",
       "favicon-checker",
       "ai-visibility-checker",
-      "website-launch-checklist",
+    ],
+  },
+  {
+    slug: "og-video-checker",
+    name: "Open Graph Video Checker",
+    tagline:
+      "Find out whether your og:video plays when the link is shared, not just whether the tag is there",
+    category: "social",
+    // Self-contained, like the Favicon Checker: the engine is
+    // lib/toolkit/og-video.ts in this repo, on the toolkit's guarded fetch,
+    // SSRF check, light rate tier, and 24 hour cache. No backend dependency,
+    // so it is live on merge.
+    status: "live",
+    icon: "play",
+    related: [
+      "social-preview-checker",
+      "json-ld-validator",
+      "favicon-checker",
     ],
   },
   {

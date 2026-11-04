@@ -32,6 +32,7 @@ import { REVIEW_LIKE_JARED_FRIEDMAN_CONTENT } from "./review-like-jared-friedman
 import { AI_VISIBILITY_CHECKER_CONTENT } from "./ai-visibility-checker";
 import { ROBOTS_TXT_AI_CHECKER_CONTENT } from "./robots-txt-ai-checker";
 import { WEBSITE_STATUS_CHECKER_CONTENT } from "./website-status-checker";
+import { OG_VIDEO_CHECKER_CONTENT } from "./og-video-checker";
 
 export type { ToolContent, ToolFaqEntry, ToolHowItWorksStep, ToolFact } from "./types";
 
@@ -63,6 +64,7 @@ export const TOOL_CONTENT: readonly ToolContent[] = [
   AI_VISIBILITY_CHECKER_CONTENT,
   ROBOTS_TXT_AI_CHECKER_CONTENT,
   WEBSITE_STATUS_CHECKER_CONTENT,
+  OG_VIDEO_CHECKER_CONTENT,
 ];
 
 /**
@@ -104,4 +106,5 @@ export {
   REVIEW_LIKE_GUSTAF_ALSTROMER_CONTENT,
   REVIEW_LIKE_JARED_FRIEDMAN_CONTENT,
   WEBSITE_STATUS_CHECKER_CONTENT,
+  OG_VIDEO_CHECKER_CONTENT,
 };

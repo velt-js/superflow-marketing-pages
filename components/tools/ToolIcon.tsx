@@ -111,6 +111,13 @@ const PATHS: Record<ToolIconKey, React.ReactNode> = {
       <path d="M3 12h4l2.5-6 3.5 12 2.5-8 1.5 2H21" />
     </>
   ),
+  // A video frame with a play button: the question is whether it plays.
+  play: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m10 9 5 3-5 3z" />
+    </>
+  ),
 };
 
 /**

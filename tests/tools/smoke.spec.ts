@@ -554,6 +554,36 @@ test.describe("the website status checker answers end to end", () => {
   });
 });
 
+test.describe("the og:video checker survives a real run", () => {
+  // Its own describe for the same reason as the favicon checker's: it renders
+  // a verdict, a player, and a check list, not a score dial.
+  test("og-video-checker renders a verdict end to end", async ({ page }) => {
+    test.setTimeout(RUN_TEST_TIMEOUT_MS);
+    const errors = collectErrors(page);
+
+    // A Vimeo video page is the deliberate case: og:video is a player page,
+    // there is an X player card, and there is no VideoObject, so the run
+    // exercises the passing verdict, the player-page branch of the player,
+    // and both pass and warn rows.
+    await page.goto(
+      `${toolPath("og-video-checker")}?url=${encodeURIComponent("https://vimeo.com/76979871")}`,
+      { waitUntil: "domcontentloaded" },
+    );
+
+    await expect(
+      page.getByRole("heading", { name: /shares as a video|og:video does not load|has no og:video/i }),
+    ).toBeVisible({ timeout: RUN_TIMEOUT_MS });
+
+    // The sections that would throw if `checks`, `videos` or `twitter` came
+    // back undefined, which is the failure mode this suite exists for.
+    await expect(page.getByRole("heading", { name: "What we checked" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "The tags we read" })).toBeVisible();
+    await expect(page.getByText("twitter:player", { exact: true })).toBeVisible();
+
+    expect(errors, "og-video-checker errors during run").toEqual([]);
+  });
+});
+
 test.describe("the MCP server answers the protocol", () => {
   // These call the endpoint rather than a browser on purpose: MCP has no UI,
   // and the failure mode that matters is a client that cannot complete the
