@@ -70,6 +70,7 @@ export const TOOL_OG_IMAGES: Record<string, string> = {
   mcp: `${TOOL_OG_DIR}/mcp.png`,
   "md5-generator": `${TOOL_OG_DIR}/md5-generator.png`,
   "meeting-planner": `${TOOL_OG_DIR}/meeting-planner.png`,
+  "og-video-checker": `${TOOL_OG_DIR}/og-video-checker.png`,
   "review-like-aaron-epstein": `${TOOL_OG_DIR}/review-like-aaron-epstein.png`,
   "review-like-elon-musk": `${TOOL_OG_DIR}/review-like-elon-musk.png`,
   "review-like-gustaf-alstromer": `${TOOL_OG_DIR}/review-like-gustaf-alstromer.png`,
