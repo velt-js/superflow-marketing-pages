@@ -106,6 +106,7 @@ const STATIC_PATHS = [
   // in a sitemap. Agency profiles are added below, from the data.
   DIRECTORY_BASE_PATH,
   "/integrations",
+  "/monitoring",
   "/pricing",
   "/privacy",
   "/security",

@@ -25,7 +25,12 @@ const TITLE_TAIL = " Agents will run";
  * Purely presentational: the header only shows/hides the fixed list of
  * agents. The agents themselves are always selected and cannot be toggled.
  */
-export default function HeroChecksDropdown() {
+export default function HeroChecksDropdown({
+  labels = AGENT_LABELS,
+}: {
+  /** Agent names to list. Defaults to the homepage set. */
+  labels?: readonly string[];
+} = {}) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const listId = useId();
 
@@ -48,7 +53,7 @@ export default function HeroChecksDropdown() {
         onClick={handleToggle}
       >
         <span className={styles.checksTitle}>
-          <span className={styles.checksTitleCount}>{AGENT_LABELS.length}</span>
+          <span className={styles.checksTitleCount}>{labels.length}</span>
           {TITLE_TAIL}
         </span>
         <ChevronDownIcon
@@ -61,7 +66,7 @@ export default function HeroChecksDropdown() {
 
       {isOpen ? (
         <ul id={listId} className={styles.checksList}>
-          {AGENT_LABELS.map((label) => (
+          {labels.map((label) => (
             <li key={label} className={styles.checkItem}>
               <span className={`${styles.checkMark} ${styles.checkMarkOn}`}>
                 <CheckIcon size={12} strokeWidth={3} />
