@@ -53,6 +53,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Workflows", href: `${FEATURE_PATH}review-workflows` },
       { label: "Kanban", href: `${FEATURE_PATH}kanban-board` },
+      { label: "Monitoring", href: "/monitoring" },
       { label: "Integrations", href: INTEGRATIONS_PATH },
       { label: "White-label", href: `${FEATURE_PATH}white-label` },
     ],
