@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
         path="/privacy"
         trail={[{ name: "Privacy", url: `${SITE_URL}/privacy` }]}
       />
-      <LegalPage title="Privacy Policy" lastUpdated="9th Sept 2022">
+      <LegalPage title="Privacy Policy" lastUpdated="November 10, 2026">
         <div dangerouslySetInnerHTML={{ __html: privacyHtml }} />
       </LegalPage>
     </>

@@ -94,6 +94,10 @@ export default function LegalPage({
         .legal-content a:hover { color: #3b32c2; }
         .legal-content ul { margin: 12px 0; padding-left: 24px; color: rgba(17,17,17,0.78); }
         .legal-content ul li { list-style: disc; margin: 6px 0; }
+        .legal-content ul ul li { list-style: circle; }
+        .legal-content ol { margin: 12px 0; padding-left: 24px; color: rgba(17,17,17,0.78); }
+        .legal-content ol li { list-style: decimal; margin: 6px 0; }
+        .legal-content [id] { scroll-margin-top: 110px; }
         .legal-content hr {
           border: 0;
           border-top: 1px solid #ECECEC;
