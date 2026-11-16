@@ -77,7 +77,8 @@ function PricingTiersPrice({
       return (
         <div className={styles.priceBlock}>
           <span className={styles.price}>{tier.monthlyPrice}</span>
-          <span className={styles.priceSuffix}>Custom</span>
+          {/* Empty line, so the CTA lines up with the other cards. */}
+          <span className={styles.priceSuffix} aria-hidden="true">&nbsp;</span>
         </div>
       );
     }

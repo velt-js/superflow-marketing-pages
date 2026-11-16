@@ -104,15 +104,15 @@ const ENTERPRISE_ONLY: Row["values"] = [cross, cross, cross, check];
 export const APP_URL = "https://app.usesuperflow.com";
 export const SALES_URL = "/book-demo";
 
-/** "$10/site/mo", the Care price as a card bullet. */
-const CARE_PRICE_SHORT = `$${SITE_AGENTS_PRICE_USD}/site/mo`;
+/** "$10/site", the Care price as a card bullet. */
+const CARE_PRICE_SHORT = `$${SITE_AGENTS_PRICE_USD}/site`;
 
 // --- Tier cards --------------------------------------------------------------
-// Pricing v8 spec section 5 ("The four cards": Review, Watch, Care, Extras),
-// with the same omissions as the portal (see the header). The bullets are
-// the portal's plan-card bullets word for word (superflow_portal_v2
-// BillingPlansService `featureList`, the copy ops seeds into the plan docs):
-// change both together.
+// Pricing v8 spec section 5 ("The four cards"), kept short: each card lists
+// only what it adds over the plan before it; the comparison table carries
+// the detail. The bullets are the portal's plan-card bullets word for word
+// (superflow_portal_v2 BillingPlansService `featureList`, the copy ops seeds
+// into the plan docs): change both together.
 
 export const TIERS: Tier[] = [
   {
@@ -121,14 +121,13 @@ export const TIERS: Tier[] = [
     accent: "#FF74A8",
     monthlyPrice: "0",
     annualPrice: "0",
-    bestFor: "Review live pages and run your first full site scan",
+    bestFor: "Try it on one site",
     cta: { label: "Start for free", href: APP_URL },
     bullets: [
       { text: "1 seat and 1 site" },
-      { text: "Review: unlimited guests and clients, always free" },
-      { text: "Watch (free): a full scan of your first site, up to 100 pages" },
-      { text: "Watch (free): issue counts and the top 2 issues in full" },
-      { text: "Extras: 30 days of version history, Slack and email alerts, MCP (read)" },
+      { text: "Unlimited free guests" },
+      { text: "Free full scan of your first site" },
+      { text: "Top 2 issues per site" },
     ],
   },
   {
@@ -141,14 +140,11 @@ export const TIERS: Tier[] = [
     bestFor: "Small teams with a few retainers",
     cta: { label: "Start with card", href: APP_URL },
     bullets: [
-      { text: "Review: unlimited projects, guests and clients, always free" },
-      { text: "Review: Asana, ClickUp and Monday" },
-      { text: "Watch (free): every site, checks on every changed page" },
-      { text: `Care: ${CARE_SITES_INCLUDED.growth} site included, then ${CARE_PRICE_SHORT}` },
-      { text: "Care: every issue in full, side-by-side diffs, verified fixes, monthly report" },
-      { text: "Extras: unlimited branded prospect audits" },
-      { text: "Extras: 250 pages per site, 90 days of version history" },
-      { text: "Extras: staging password per site, webhooks, REST API, MCP" },
+      { text: "Everything in Starter, plus", divider: true },
+      { text: "Every site watched free" },
+      { text: `${CARE_SITES_INCLUDED.growth} Care site, then ${CARE_PRICE_SHORT}` },
+      { text: "Asana, ClickUp and Monday" },
+      { text: "250 pages per site" },
     ],
   },
   {
@@ -158,19 +154,16 @@ export const TIERS: Tier[] = [
     monthlyPrice: "39",
     annualPrice: "32",
     annualStrikePrice: "39",
-    bestFor: "Agencies running care plans across a client book",
+    bestFor: "Agencies with a client book",
     badge: "Most agencies",
     highlighted: true,
     cta: { label: "Start with card", href: APP_URL },
     bullets: [
-      { text: "Review: private comments, custom statuses, access control" },
-      { text: "Watch (free): every site, checks on every changed page" },
-      { text: `Care: ${CARE_SITES_INCLUDED.scale} sites included, then ${CARE_PRICE_SHORT}` },
-      { text: "Care: custom QA rules, 1 per Care site" },
-      { text: "Care: white-label reports, no Superflow footer" },
-      { text: "Extras: 10 white-label audits a month, then $5 each" },
-      { text: "Extras: 500 pages per site, more on request" },
-      { text: "Extras: 180 days of version history, priority support" },
+      { text: "Everything in Growth, plus", divider: true },
+      { text: `${CARE_SITES_INCLUDED.scale} Care sites, then ${CARE_PRICE_SHORT}` },
+      { text: "White-label reports" },
+      { text: "Custom QA rules" },
+      { text: "500 pages per site" },
     ],
   },
   {
@@ -180,17 +173,14 @@ export const TIERS: Tier[] = [
     monthlyPrice: "Contact us",
     annualPrice: "Contact us",
     customPrice: true,
-    bestFor: "Brand teams and large site portfolios",
+    bestFor: "Brands and large portfolios",
     cta: { label: "Talk to sales", href: SALES_URL },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
-      { text: "Custom seats, Care sites and pages" },
-      { text: "Unlimited custom QA rules and white-label audits" },
-      { text: "Automated QA behind login, private staging and VPN" },
-      { text: "365 days of immutable version history" },
-      { text: "SAML SSO, SCIM, HIPAA with BAA, self-hosting" },
-      { text: "Uptime SLA with credits, named CSM, onboarding" },
-      { text: "Contract, PO, net-60" },
+      { text: "Custom seats, sites and pages" },
+      { text: "QA behind login and VPN" },
+      { text: "SSO, SCIM and HIPAA" },
+      { text: "365-day history" },
     ],
   },
 ];

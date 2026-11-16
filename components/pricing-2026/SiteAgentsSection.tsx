@@ -8,7 +8,6 @@
 // quote one price.
 
 import {
-  SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_USD,
@@ -19,7 +18,7 @@ import {
 import styles from "./SiteAgentsSection.module.css";
 
 const HEADING = `Every site watched for free. Care for a site at $${SITE_AGENTS_PRICE_USD}.`;
-const LEDE = `Watch and Care are two states of one site. Every site starts on Watch. Put the sites you look after for clients on Care, and move a site back at the end of the month. ${SITE_AGENTS_AVAILABILITY} No usage limits.`;
+const LEDE = "Every site starts on Watch. Move the sites you look after to Care.";
 
 /** Tabler "check" glyph, matching the tier cards' bullet treatment. */
 function SiteAgentsCheckIcon() {

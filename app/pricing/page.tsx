@@ -39,7 +39,7 @@ export const revalidate = 60;
 // Pricing v8 spec section 5: the headline and its paragraph.
 const HERO_HEADING = "Seats for your team, sites for your book.";
 const HERO_SUBHEADING =
-  `Per-seat plans for the people who run the work. Guests are always free. Developers working tickets in Asana, ClickUp or Monday don't need seats. Every site in your workspace is watched for free. Pay only for the sites you care for, $${SITE_AGENTS_PRICE_USD} each. Yearly billing is two months free.`;
+  `Pay per seat. Guests are free. Every site is watched for free, and you pay $${SITE_AGENTS_PRICE_USD} for each site you care for.`;
 
 const PAGE_DESCRIPTION = `Per-seat plans for your team, and every site watched for free. Care for a client site at $${SITE_AGENTS_PRICE_USD} per site per month. Starter to Enterprise.`;
 

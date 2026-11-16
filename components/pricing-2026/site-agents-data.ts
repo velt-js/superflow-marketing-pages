@@ -41,22 +41,22 @@ export const WATCH_CAPABILITIES: SiteAgentsCapability[] = [
   {
     id: "uptime",
     label: "Uptime and Site Score",
-    description: "An uptime check every 5 minutes and a live Site Score for every site.",
+    description: "Checked every 5 minutes.",
   },
   {
     id: "agents",
-    label: "Agents on every changed page",
-    description: "QA agents check each page that changes and count every issue they find.",
+    label: "QA on every change",
+    description: "Agents check every page that changes.",
   },
   {
     id: "top-issues",
-    label: "Top 2 issues in full",
-    description: "The 2 most severe issues in full. The rest are counted and locked.",
+    label: "Top 2 issues",
+    description: "The rest are counted and locked.",
   },
   {
     id: "history",
     label: "Version history",
-    description: "Which pages changed and when, for your plan's history window.",
+    description: "Which pages changed, and when.",
   },
 ];
 
@@ -64,23 +64,23 @@ export const WATCH_CAPABILITIES: SiteAgentsCapability[] = [
 export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
   {
     id: "every-issue",
-    label: "Every issue in full",
-    description: "Every finding, pinned on the page, with a fix suggestion.",
+    label: "Every issue",
+    description: "Pinned on the page, with a fix.",
   },
   {
     id: "compare",
     label: "Side-by-side diffs",
-    description: "See exactly what changed between any two versions in your history window.",
+    description: "See exactly what changed.",
   },
   {
     id: "verify",
-    label: "Verify fix by rescan",
-    description: "Rescan on deploy or on demand. A rescan confirms each fix before it counts.",
+    label: "Verified fixes",
+    description: "A rescan confirms each fix.",
   },
   {
     id: "report",
     label: "Monthly client report",
-    description: "A plain-words report and Machine Work Ledger with your logo. White-label on Scale.",
+    description: "With your logo.",
   },
 ];
 

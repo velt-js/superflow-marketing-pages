@@ -169,11 +169,11 @@
     color: var(--pt-ink);
 }
 
-/* "Best for" line under the tier name (pricing v8). Fixed two-line height
+/* "Best for" line under the tier name (pricing v8). Fixed one-line height
    so the prices and CTAs stay aligned across the four cards. */
 .bestFor {
     margin: -10px 0 0;
-    min-height: calc(2 * 1.45em);
+    min-height: 1.45em;
     font-family: var(--pt-body);
     font-size: 13px;
     line-height: 1.45;
