@@ -1,8 +1,9 @@
 "use client";
 
 // Fires a pageview to GTM (dataLayer push) and GA4 (gtag) on every client-
-// side route change. The third-party snippets in ThirdPartyScripts.tsx
-// only capture the INITIAL page load — without this hook, every Next.js
+// side route change. Mounted by components/consent/ConsentScripts.tsx only
+// once the visitor has consented. The gtag/GTM snippets there only capture
+// the page they load on — without this hook, every Next.js
 // SPA navigation would silently drop the pageview.
 //
 // The first effect run is skipped (via a ref) because:
@@ -18,7 +19,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 // Standalone GA4 measurement ID (installed via gtag.js in
-// ThirdPartyScripts.tsx). Kept in sync with GA_MEASUREMENT_ID there.
+// components/consent/ConsentScripts.tsx). Kept in sync with
+// GA_MEASUREMENT_ID there.
 const GA_MEASUREMENT_ID = "G-HFXRYF6WF8";
 
 type DataLayerEntry = Record<string, unknown>;
@@ -63,7 +65,7 @@ export function PageviewTracker() {
       // GA4 (gtag.js) — standalone property installed directly (not via
       // GTM), so it does not react to the dataLayer push above. Fire an
       // explicit page_view on SPA navigations; gtag's initial config call
-      // in ThirdPartyScripts.tsx only covers the first hard load.
+      // in ConsentScripts.tsx only covers the page it loads on.
       if (typeof w.gtag === "function") {
         w.gtag("event", "page_view", {
           page_path: pagePath,

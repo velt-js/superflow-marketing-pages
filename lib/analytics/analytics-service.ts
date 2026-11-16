@@ -5,8 +5,9 @@ import * as amplitude from "@amplitude/analytics-browser";
 // been identified (or identification has been explicitly skipped) so early
 // events aren't lost or mis-attributed to an anonymous device ID.
 //
-// This marketing site has no login, so `skipIdentification()` is called
-// once at bootstrap (see `instrumentation-client.ts`) to flush immediately.
+// This marketing site has no login, so `skipIdentification()` is called once
+// Analytics consent is granted (see `components/consent/ConsentScripts.tsx`)
+// to flush immediately. Until then events stay buffered in memory.
 
 const LOG_PREFIX = "[Analytics]";
 const PAGE_VIEW_EVENT = "Page View";
