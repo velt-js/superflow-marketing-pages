@@ -122,7 +122,6 @@ export const TIERS: Tier[] = [
     monthlyPrice: "0",
     annualPrice: "0",
     bestFor: "Review live pages and run your first full site scan",
-    trialLabel: "FREE FOREVER",
     cta: { label: "Start for free", href: APP_URL },
     bullets: [
       { text: "1 seat and 1 site" },

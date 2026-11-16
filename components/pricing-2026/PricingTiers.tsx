@@ -85,9 +85,12 @@ function PricingTiersPrice({
     const isAnnual = billing === "annual";
     const price = isAnnual ? tier.annualPrice : tier.monthlyPrice;
     const showStrike = isAnnual && Boolean(tier.annualStrikePrice);
-    const suffix = isAnnual
-      ? "per seat / month, billed yearly"
-      : "per seat / month, billed monthly";
+    // A free plan has no seat price or billing period: "$0 forever".
+    const suffix = tier.monthlyPrice === "0"
+      ? "forever"
+      : isAnnual
+        ? "per seat / month, billed yearly"
+        : "per seat / month, billed monthly";
 
     return (
       <div className={styles.priceBlock}>
