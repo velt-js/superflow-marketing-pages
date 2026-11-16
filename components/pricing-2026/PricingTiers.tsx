@@ -149,6 +149,7 @@ function PricingTiersCard({
       <article className={cardClassName}>
         <div className={styles.cardTop}>
           <h2 className={styles.tierName}>{tier?.name}</h2>
+          {tier?.bestFor ? <p className={styles.bestFor}>{tier.bestFor}</p> : null}
           <PricingTiersPrice tier={tier} billing={billing} />
           {tier?.trialLabel ? (
             <span className={styles.trialLabel}>{tier.trialLabel}</span>
