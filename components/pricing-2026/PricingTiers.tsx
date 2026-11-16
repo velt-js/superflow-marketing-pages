@@ -77,7 +77,8 @@ function PricingTiersPrice({
       return (
         <div className={styles.priceBlock}>
           <span className={styles.price}>{tier.monthlyPrice}</span>
-          <span className={styles.priceSuffix}>Custom</span>
+          {/* Empty line, so the CTA lines up with the other cards. */}
+          <span className={styles.priceSuffix} aria-hidden="true">&nbsp;</span>
         </div>
       );
     }
@@ -85,9 +86,12 @@ function PricingTiersPrice({
     const isAnnual = billing === "annual";
     const price = isAnnual ? tier.annualPrice : tier.monthlyPrice;
     const showStrike = isAnnual && Boolean(tier.annualStrikePrice);
-    const suffix = isAnnual
-      ? "per seat / month, billed yearly"
-      : "per seat / month, billed monthly";
+    // A free plan has no seat price or billing period: "$0 forever".
+    const suffix = tier.monthlyPrice === "0"
+      ? "forever"
+      : isAnnual
+        ? "per seat / month, billed yearly"
+        : "per seat / month, billed monthly";
 
     return (
       <div className={styles.priceBlock}>
@@ -149,6 +153,7 @@ function PricingTiersCard({
       <article className={cardClassName}>
         <div className={styles.cardTop}>
           <h2 className={styles.tierName}>{tier?.name}</h2>
+          {tier?.bestFor ? <p className={styles.bestFor}>{tier.bestFor}</p> : null}
           <PricingTiersPrice tier={tier} billing={billing} />
           {tier?.trialLabel ? (
             <span className={styles.trialLabel}>{tier.trialLabel}</span>

@@ -1,6 +1,6 @@
 // /pricing — 2026 light redesign. Static page (no Sanity); tier copy +
 // comparison-table content live in components/pricing/pricing-data.ts,
-// the per-site QA agents price in
+// the per-site Care price and the Watch / Care capabilities in
 // components/pricing-2026/site-agents-data.ts, and FAQ copy in
 // components/pricing-2026/faq-data.ts.
 
@@ -36,11 +36,12 @@ import {
 
 export const revalidate = 60;
 
-const HERO_HEADING = "Ship Creative Assets Impossibly Fast";
+// Pricing v8 spec section 5: the headline and its paragraph.
+const HERO_HEADING = "Seats for your team, sites for your book.";
 const HERO_SUBHEADING =
-  `Transparent per-seat pricing with a free 10-day trial, plus QA agents and always-on monitoring at $${SITE_AGENTS_PRICE_USD} per site. Start free and upgrade whenever your team is ready.`;
+  `Pay per seat. Guests are free. Every site is watched for free, and you pay $${SITE_AGENTS_PRICE_USD} for each site you care for.`;
 
-const PAGE_DESCRIPTION = `Per-seat pricing with a free trial, plus QA agents and always-on monitoring at $${SITE_AGENTS_PRICE_USD} per site per month. Starter to Enterprise.`;
+const PAGE_DESCRIPTION = `Per-seat plans for your team, and every site watched for free. Care for a client site at $${SITE_AGENTS_PRICE_USD} per site per month. Starter to Enterprise.`;
 
 /**
  * Images for the two Product nodes below.
@@ -71,7 +72,7 @@ const PRICING_PRODUCT_SCHEMA = {
   "@type": "Product",
   name: "Superflow",
   description:
-    "Superflow plans - Starter (free), Growth, Scale, and Enterprise. A collaboration platform for agencies and marketers to review, proof, and deliver creative assets fast.",
+    "Superflow plans - Starter (free), Growth, Scale, and Enterprise. Seats for your team, sites for your book: every site is watched for free, and you pay only for the sites you care for.",
   brand: { "@id": ORG_ID },
   image: PRODUCT_IMAGES,
   url: `${SITE_URL}/pricing`,
@@ -97,14 +98,14 @@ const PRICING_PRODUCT_SCHEMA = {
   }),
 };
 
-// Separate Product schema for the per-site QA agents (the flat price in
-// components/pricing-2026/site-agents-data.ts, also shown in the agents
-// section, the comparison table and the pricing FAQ).
+// Separate Product schema for Care, the per-site price (in
+// components/pricing-2026/site-agents-data.ts, also shown in the Watch and
+// Care section, the comparison table and the pricing FAQ).
 const SITE_AGENTS_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: `Superflow ${SITE_AGENTS_NAME}`,
-  description: `Per-site QA agents and always-on monitoring for Superflow, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
+  description: `Care for a client site in Superflow, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
   brand: { "@id": ORG_ID },
   // The agents are sold on this page and have no artwork of their own, so
   // they carry the same pair rather than an invented image.

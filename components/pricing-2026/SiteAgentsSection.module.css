@@ -154,6 +154,12 @@
     color: var(--sa-muted);
 }
 
+/* The free Watch card: neutral, so the paid Care card keeps the accent. */
+.cardWatch {
+    border-color: #ececf1;
+    background: #fbfbfd;
+}
+
 .checkIcon {
     flex: 0 0 auto;
     width: 15px;
