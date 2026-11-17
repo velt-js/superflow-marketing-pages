@@ -322,7 +322,7 @@ export const SECTIONS: Section[] = [
       { label: "Verify on resolve", values: GROWTH_UP },
       {
         label: "Custom QA rules",
-        values: [cross, cross, text("1 per fully monitored site"), text("Unlimited")],
+        values: [cross, cross, text("Unlimited"), text("Unlimited")],
       },
       { label: "Ask AI", values: GROWTH_UP },
     ],
@@ -353,12 +353,12 @@ export const SECTIONS: Section[] = [
         values: [cross, text("90 days"), text("180 days"), text("365 days")],
       },
       { label: "Portfolio report across all sites", values: GROWTH_UP },
-      { label: "Your logo, name and color on reports", values: GROWTH_UP },
+      { label: "White-label reports", values: GROWTH_UP },
       {
         label: "\"Checked by Superflow\" footer",
         values: [text("Shown"), text("Shown"), text("Removed"), text("Removed")],
       },
-      { label: "Your logo on the toolbar", values: SCALE_UP },
+      { label: "White-label toolbar", values: SCALE_UP },
     ],
   },
   {
@@ -395,10 +395,10 @@ export const SECTIONS: Section[] = [
     accent: "#F62F6A",
     rows: [
       { label: "Automated QA behind login, private staging and VPN", values: ENTERPRISE_ONLY },
-      { label: "SOC 2 Type II, encryption in transit and at rest", values: ALL },
+      { label: "SOC 2 Type II, encryption in transit and at rest", values: ENTERPRISE_ONLY },
       {
         label: "Uptime SLA",
-        values: [text("99.9%"), text("99.9%"), text("99.9%"), text("99.9% with credits")],
+        values: [cross, cross, cross, text("99.999%")],
       },
       { label: "SAML SSO, SCIM, self-hosting, HIPAA with BAA, audit log", values: ENTERPRISE_ONLY },
       {
