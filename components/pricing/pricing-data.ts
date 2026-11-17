@@ -133,7 +133,6 @@ export const TIERS: Tier[] = [
       { text: "Unlimited Guest Seats" },
       { text: "1GB Storage" },
       { text: "Basic site monitoring & version history" },
-      { text: "Client requests" },
     ],
   },
   {
@@ -150,6 +149,7 @@ export const TIERS: Tier[] = [
       { text: "Unlimited projects" },
       { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.growth) },
       { text: "Lead audits" },
+      { text: "Client requests" },
       { text: "Asana, ClickUp and Monday" },
       { text: "Monitoring for up to 250 pages per site" },
     ],
@@ -168,7 +168,7 @@ export const TIERS: Tier[] = [
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
       { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.scale) },
-      { text: "White-label reports" },
+      { text: "White-label reports and client requests" },
       { text: "Custom AI checks" },
       { text: "Monitoring for up to 500 pages per site" },
     ],
@@ -356,7 +356,10 @@ export const SECTIONS: Section[] = [
         values: [text("Shown"), text("Shown"), text("Removed"), text("Removed")],
       },
       { label: "White-label toolbar", values: SCALE_UP },
-      { label: "Client requests", values: ALL },
+      {
+        label: "Client requests",
+        values: [cross, text("Yes"), text("White-labeled"), text("White-labeled")],
+      },
     ],
   },
   {
