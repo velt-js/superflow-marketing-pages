@@ -128,7 +128,7 @@ export const TIERS: Tier[] = [
     monthlyPrice: "0",
     annualPrice: "0",
     bestFor: "Try it on one site",
-    cta: { label: "Start for free", href: APP_URL },
+    cta: { label: "Start Free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
       { text: "1 Team Seat" },
@@ -145,7 +145,7 @@ export const TIERS: Tier[] = [
     annualPrice: "24",
     annualStrikePrice: "29",
     bestFor: "Small teams with a few client sites",
-    cta: { label: "Start with card", href: APP_URL },
+    cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
       { text: BASIC_MONITORING_BULLET },
@@ -164,7 +164,7 @@ export const TIERS: Tier[] = [
     bestFor: "Agencies with many client sites",
     badge: "Most agencies",
     highlighted: true,
-    cta: { label: "Start with card", href: APP_URL },
+    cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
       { text: BASIC_MONITORING_BULLET },
