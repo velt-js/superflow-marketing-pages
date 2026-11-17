@@ -2,12 +2,16 @@
 /**
  * Correct stale pricing claims in published Sanity content so it matches
  * /pricing (components/pricing/pricing-data.ts and
- * components/pricing-2026/site-agents-data.ts): no AI credits, QA agents
- * and always-on monitoring at $14 per site per month on Growth and Scale,
- * integration and feature gating as in the comparison table, current seat
- * prices, and SOC 2 Type II.
+ * components/pricing-2026/site-agents-data.ts).
  *
- * cms-patches.json holds one entry per string field: the document, the
+ * The patch file is cms-patches-v8.json by default (pricing v8: Scale
+ * $39 monthly / $32 yearly, every site watched for free, Care at $10 per
+ * site, no AI credits, Asana / ClickUp / Monday, webhooks and the REST API
+ * on Growth and up). cms-patches.json is the earlier pass (the $14/site QA
+ * agents add-on) and is SUPERSEDED: never apply it, it would write the old
+ * prices back. PATCHES_FILE picks another file in this folder.
+ *
+ * A patch file holds one entry per string field: the document, the
  * Sanity patch path, the exact text that was live when the patch was
  * drafted (`old`) and its replacement (`new`). The matching seed sources in
  * scripts/ already carry the `new` text, so a re-seed does not revert it.
@@ -35,9 +39,15 @@ if (!DRY_RUN && !token) {
   process.exit(1);
 }
 
+const PATCHES_FILE = process.env.PATCHES_FILE || "cms-patches-v8.json";
+if (PATCHES_FILE === "cms-patches.json" && process.env.ALLOW_SUPERSEDED !== "1") {
+  console.error("cms-patches.json is superseded by cms-patches-v8.json and would write old prices back.");
+  process.exit(1);
+}
 const patches = JSON.parse(
-  readFileSync(new URL("./cms-patches.json", import.meta.url), "utf8"),
+  readFileSync(new URL(`./${PATCHES_FILE}`, import.meta.url), "utf8"),
 );
+console.log(`patch file: ${PATCHES_FILE}`);
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "sckr62cw",

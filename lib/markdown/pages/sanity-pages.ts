@@ -13,6 +13,7 @@
 
 import { SUPERFLOW_VS_DISCLOSURE } from "@/lib/comparison-disclosure";
 import { superflowPlanLabel } from "@/lib/comparison-plans";
+import { SUPERFLOW_PLAN_SUMMARIES, isSuperflowColumn } from "@/components/pricing/pricing-data";
 import type { AgentDoc, AgentDocFaq, AgentDocSection } from "../types";
 import { portableTextToMarkdown, portableTextToPlain } from "../portable-text";
 import {
@@ -693,14 +694,23 @@ export function headToHeadToAgentDoc(doc: Doc, basePath: string, kind: string): 
     ])
     .filter((row) => row[0]);
 
-  const pricingRows = arr(doc.pricing)
-    .map((item) => [
-      clean(str(item, "c1Name")),
-      [clean(str(item, "c1Price")), clean(str(item, "c1Users"))].filter(Boolean).join(" / "),
-      clean(str(item, "c2Name")),
-      [clean(str(item, "c2Price")), clean(str(item, "c2Users"))].filter(Boolean).join(" / "),
-    ])
-    .filter((row) => row[0] || row[2]);
+  // Each column is its own list of plans, paired by position. Superflow's
+  // column comes from /pricing's data, the same as the page, never the CMS.
+  const column = (prefix: "c1" | "c2") =>
+    arr(doc.pricing)
+      .map((item) => [
+        clean(str(item, `${prefix}Name`)),
+        [clean(str(item, `${prefix}Price`)), clean(str(item, `${prefix}Users`))].filter(Boolean).join(" / "),
+      ])
+      .filter((cell) => cell[0] || cell[1]);
+  const leftPlans = isSuperflowColumn(left)
+    ? SUPERFLOW_PLAN_SUMMARIES.map((tier) => [tier.planName, `${tier.price} / ${tier.billing}`])
+    : column("c1");
+  const rightPlans = column("c2");
+  const pricingRows = Array.from(
+    { length: Math.max(leftPlans.length, rightPlans.length) },
+    (_, i) => [...(leftPlans[i] ?? ["", ""]), ...(rightPlans[i] ?? ["", ""])],
+  );
 
   return {
     title: firstOf(str(doc, "title"), titleFromSlug(slug)),

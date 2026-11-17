@@ -401,3 +401,41 @@ export const SECTIONS: Section[] = [
     ],
   },
 ];
+
+/** One plan as a short price summary: name, price, how it is billed. */
+export type PlanSummary = { planName: string; price: string; billing: string };
+
+/**
+ * Superflow's plans as one-line price summaries, read from TIERS. The
+ * alternative pages' pricing table and its Markdown copy show these in
+ * Superflow's column instead of the CMS cells, which carried a flat
+ * "$249 / $449" model years out of date.
+ */
+export const SUPERFLOW_PLAN_SUMMARIES: PlanSummary[] = TIERS.map((tier) => {
+  if (tier.customPrice) {
+    return { planName: tier.name, price: tier.monthlyPrice, billing: "Custom" };
+  }
+  if (tier.monthlyPrice === "0") {
+    return { planName: tier.name, price: "$0", billing: "Free forever" };
+  }
+  return {
+    planName: tier.name,
+    price: `$${tier.annualPrice}`,
+    billing: `per seat / month, billed yearly ($${tier.monthlyPrice} monthly)`,
+  };
+});
+
+/**
+ * Whether a comparison column is Superflow's (so its prices come from
+ * SUPERFLOW_PLAN_SUMMARIES rather than the CMS).
+ *
+ * @param name - The column's product name.
+ * @returns True for "Superflow", case and spacing ignored.
+ */
+export function isSuperflowColumn(name: string | undefined | null): boolean {
+  try {
+    return (name ?? "").trim().toLowerCase() === "superflow";
+  } catch {
+    return false;
+  }
+}
