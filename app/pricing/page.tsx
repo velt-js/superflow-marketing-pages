@@ -39,11 +39,11 @@ export const revalidate = 60;
 // The headline and its paragraph: the whole pricing model in plain words.
 const HERO_HEADING = "Simple, predictable pricing";
 const HERO_SUBHEADING =
-  `Pay per team seat. Guests and clients review for free. Basic monitoring and version history are free on every site. Unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
+  `Pay per team seat. Guests and clients review for free. Basic monitoring and version history are free on every site. Unlock full monitoring and version history for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
 // No em dashes in visible copy.
 const PAGE_TITLE = "Pricing: Simple Seat & Site Pricing | Superflow";
-const PAGE_DESCRIPTION = `Pay per team seat with unlimited free guests. Every site includes basic monitoring and version history for free, or unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
+const PAGE_DESCRIPTION = `Pay per team seat with unlimited free guests. Every site includes basic monitoring and version history for free, or unlock full monitoring and version history for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
 /**
  * Images for the two Product nodes below.
@@ -100,14 +100,14 @@ const PRICING_PRODUCT_SCHEMA = {
   }),
 };
 
-// Separate Product schema for full monitoring and version control, the
+// Separate Product schema for full monitoring and version history, the
 // per-site price (in components/pricing-2026/site-agents-data.ts, also shown
 // in the monitoring section, the comparison table and the pricing FAQ).
 const SITE_AGENTS_PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: `Superflow ${SITE_AGENTS_NAME}`,
-  description: `Full monitoring and version control for a site in Superflow, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
+  description: `Full monitoring and version history for a site in Superflow, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Includes ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
   brand: { "@id": ORG_ID },
   // The agents are sold on this page and have no artwork of their own, so
   // they carry the same pair rather than an invented image.

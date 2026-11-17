@@ -3,7 +3,7 @@
 //
 // Pricing v8, in plain product language: pay per team seat, guests are
 // free, every site gets basic monitoring and version history for free, and
-// full monitoring and version control is $10 per site per month. No internal
+// full monitoring and version history is $10 per site per month. No internal
 // plan codenames in anything a visitor reads.
 //
 // The comparison table follows the plan table the portal shows on
@@ -220,7 +220,7 @@ const seatPriceCell = (tierId: Tier["id"]): CellValue => {
 // Order: [starter, growth, scale, enterprise]. Rows and cells follow the
 // portal's plan table, in plain wording: the free per-site baseline reads as
 // included on every plan (never as a dash), and the paid per-site upgrade is
-// "Full monitoring & version control". Starter cannot buy the upgrade (the
+// "Full monitoring & version history". Starter cannot buy the upgrade (the
 // billing backend refuses it without a paid plan), so its cell says so.
 
 export const SECTIONS: Section[] = [
@@ -255,7 +255,7 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
-    title: "Monitoring & Version Control",
+    title: "Monitoring & Version History",
     accent: "#9333EA",
     rows: [
       { label: "Basic site monitoring & version history", values: all("Included") },
@@ -269,7 +269,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        label: "Full monitoring & version control",
+        label: "Full monitoring & version history",
         sublabel: "Flat price per site, per month",
         values: [
           text("Upgrade plan"),

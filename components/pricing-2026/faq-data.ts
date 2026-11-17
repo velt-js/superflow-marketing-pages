@@ -25,14 +25,14 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
       "Only internal team members you invite to manage projects count as paid Team seats. Clients and external reviewers join as Guests for free.",
   },
   {
-    question: "How does site monitoring and version control pricing work?",
+    question: "How does site monitoring and version history pricing work?",
     answer:
-      `Every site includes basic monitoring and version history for free on all accounts. You can upgrade individual sites to full monitoring and version control for $${SITE_AGENTS_PRICE_USD} per site per month (custom pricing on Enterprise).`,
+      `Every site includes basic monitoring and version history for free on all accounts. You can upgrade individual sites to full monitoring and version history for $${SITE_AGENTS_PRICE_USD} per site per month (custom pricing on Enterprise).`,
   },
   {
-    question: "What is included in full monitoring and version control?",
+    question: "What is included in full monitoring and version history?",
     answer:
-      `While free basic monitoring gives every site baseline tracking and version history, full monitoring and version control ($${SITE_AGENTS_PRICE_USD}/site/month) monitors changes continuously as they ship, lets you compare versions side by side, and runs automated QA checks.`,
+      `While free basic monitoring gives every site baseline tracking and version history, full monitoring and version history ($${SITE_AGENTS_PRICE_USD}/site/month) monitors changes continuously as they ship, lets you compare versions side by side, and runs automated QA checks.`,
   },
   {
     question: "How many sites with full monitoring are included?",
