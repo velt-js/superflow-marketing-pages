@@ -107,15 +107,14 @@ const ENTERPRISE_ONLY: Row["values"] = [cross, cross, cross, check];
 export const APP_URL = "https://app.usesuperflow.com";
 export const SALES_URL = "/book-demo";
 
-/** The free per-site baseline, as a card bullet on every paid plan. */
-const BASIC_MONITORING_BULLET = "Basic monitoring & version history on all sites";
-/** The paid per-site upgrade with its price, as a card bullet. */
-const FULL_MONITORING_BULLET = `Full monitoring & version control ($${SITE_AGENTS_PRICE_USD}/site add-on)`;
+/** "1 site with full monitoring included, more at $10/site": the per-site upgrade on a paid card. */
+const fullMonitoringIncluded = (sites: number): string =>
+  `${sites} ${sites === 1 ? "site" : "sites"} with full monitoring included, more at $${SITE_AGENTS_PRICE_USD}/site`;
 
 // --- Tier cards --------------------------------------------------------------
-// Each card lists what it adds over the plan before it, plus the per-site
-// monitoring line on every plan, so the free baseline is clear on all of
-// them; the comparison table carries the detail. Plain, literal wording: no
+// Each card lists only what it adds over the plan before it ("Everything in
+// Starter, plus"): basic monitoring and version history are on Starter, so
+// they are not repeated; the comparison table carries the detail. Plain, literal wording: no
 // internal plan codenames. The portal's plan cards (superflow_portal_v2
 // BillingPlansService `featureList`) carried the same bullets until this
 // wording pass; keep them in step when that copy is updated.
@@ -148,8 +147,8 @@ export const TIERS: Tier[] = [
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
-      { text: BASIC_MONITORING_BULLET },
-      { text: FULL_MONITORING_BULLET },
+      { text: "Unlimited projects" },
+      { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.growth) },
       { text: "Asana, ClickUp and Monday" },
       { text: "Monitoring for up to 250 pages per site" },
     ],
@@ -167,8 +166,7 @@ export const TIERS: Tier[] = [
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
-      { text: BASIC_MONITORING_BULLET },
-      { text: FULL_MONITORING_BULLET },
+      { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.scale) },
       { text: "White-label reports" },
       { text: "Custom QA rules" },
       { text: "Monitoring for up to 500 pages per site" },
@@ -185,8 +183,6 @@ export const TIERS: Tier[] = [
     cta: { label: "Talk to sales", href: SALES_URL },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
-      { text: BASIC_MONITORING_BULLET },
-      { text: "Full monitoring & version control (Custom)" },
       { text: "Custom seats, sites and pages" },
       { text: "QA behind login and VPN" },
       { text: "SSO, SCIM and HIPAA" },
