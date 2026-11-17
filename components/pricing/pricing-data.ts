@@ -1,17 +1,26 @@
-// Pricing-page data — single source of truth for both the four tier
-// cards and the long feature comparison table on /pricing.
+// Pricing-page data: single source of truth for both the four tier cards and
+// the long feature comparison table on /pricing.
 //
-// Sourced verbatim from usesuperflow.com/pricing (the live production
-// page). Kept as a plain TS module rather than Sanity content because
-// the comparison-table shape — 40+ rows × 4 tiers × mixed cell kinds —
-// doesn't fit cleanly in CMS arrays and the copy changes infrequently.
+// Pricing v8, in plain product language: pay per team seat, guests are
+// free, every site gets basic monitoring and version history for free, and
+// full monitoring and version control is $10 per site per month. No internal
+// plan codenames in anything a visitor reads.
 //
-// The "QA Agents & Monitoring" comparison section is the flat per-site
-// price in components/pricing-2026/site-agents-data.ts, not the live site.
+// The comparison table follows the plan table the portal shows on
+// Settings > Billing (superflow_portal_v2, SITES_AND_MONITORING_ROWS and
+// PricingFeatureTableView): the same plan values, with the monitoring rows
+// regrouped and renamed for this page. Like the portal, it leaves out spec
+// rows for features the product does not have yet (the live client request
+// tab, Linear, Trello and Jira, reports on your own domain and sender, form
+// testing, Workfront and friends, dedicated scanner IPs, an org above
+// workspaces, approval snapshots). Add such a row only together with the
+// portal.
+//
+// The per-site price and the monitoring tiers' wording live in
+// components/pricing-2026/site-agents-data.ts.
 
 import {
-  SITE_AGENTS_CAPABILITIES,
-  SITE_AGENTS_NAME,
+  CARE_SITES_INCLUDED,
   SITE_AGENTS_PRICE_USD,
 } from "@/components/pricing-2026/site-agents-data";
 
@@ -25,27 +34,25 @@ export type TierBullet = {
 export type Tier = {
   id: "starter" | "growth" | "scale" | "enterprise";
   name: string;
-  /** Hex accent for the tier name and comparison-table column accents.
-   *  Matches the live site's per-tier color treatment. */
+  /** Hex accent for the tier name and comparison-table column accents. */
   accent: string;
-  /** Monthly price label (string so we can carry "$0" and "Let's Talk"). */
+  /** Monthly price label (string so we can carry "0" and "Contact us"). */
   monthlyPrice: string;
   /** Annual-per-month price label. */
   annualPrice: string;
   /** When set and Annual is selected, this number is rendered with a
-   *  strikethrough next to the annual price — matches the "$24 ~~$29~~"
-   *  treatment on Growth and Scale cards. */
+   *  strikethrough next to the annual price ("$24 ~~$29~~"). */
   annualStrikePrice?: string;
-  /** When true, the price is treated as a custom contract — the card
-   *  shows the price string as-is with a "Custom" sub-label rather than
-   *  the "/seat/mo" suffix. */
+  /** When true, the price is a custom contract: the card shows the price
+   *  string as-is rather than the "/seat/mo" suffix. */
   customPrice?: boolean;
-  /** Small uppercase label above the CTA button ("10 DAY FREE TRIAL"). */
+  /** One line under the plan name: who the plan is for. */
+  bestFor: string;
+  /** Small uppercase label above the CTA button. */
   trialLabel?: string;
-  /** Pink "Most Popular" pill rendered above the card. Currently only
-   *  Scale ("Loved by 100+ Agencies"). */
+  /** Pill rendered above the card. Currently only Scale. */
   badge?: string;
-  /** When true, the Growth-style purple→cyan gradient ring is drawn. */
+  /** When true, the card gets the accent ring. */
   highlighted?: boolean;
   cta: { label: string; href: string };
   bullets: TierBullet[];
@@ -72,10 +79,9 @@ export type Row = {
 };
 
 export type Section = {
-  /** Coloured section heading, e.g. "Collaboration". */
+  /** Coloured section heading, e.g. "Sites and monitoring". */
   title: string;
-  /** Hex color for the section heading text — different per section to
-   *  echo the live site's category strip. */
+  /** Hex color for the section heading text. */
   accent: string;
   rows: Row[];
 };
@@ -87,11 +93,32 @@ const text = (value: string, sub?: string): CellValue => ({
   value,
   sub,
 });
+/** The same text in every column. */
+const all = (value: string): Row["values"] => [text(value), text(value), text(value), text(value)];
+/** Included on every plan. */
+const ALL: Row["values"] = [check, check, check, check];
+/** Growth and up. */
+const GROWTH_UP: Row["values"] = [cross, check, check, check];
+/** Scale and up. */
+const SCALE_UP: Row["values"] = [cross, cross, check, check];
+/** Enterprise only. */
+const ENTERPRISE_ONLY: Row["values"] = [cross, cross, cross, check];
 
-export const TRIAL_LABEL = "10 DAY FREE TRIAL";
 export const APP_URL = "https://app.usesuperflow.com";
+export const SALES_URL = "/book-demo";
+
+/** The free per-site baseline, as a card bullet on every paid plan. */
+const BASIC_MONITORING_BULLET = "Basic monitoring & version history on all sites";
+/** The paid per-site upgrade with its price, as a card bullet. */
+const FULL_MONITORING_BULLET = `Full monitoring & version control ($${SITE_AGENTS_PRICE_USD}/site add-on)`;
 
 // --- Tier cards --------------------------------------------------------------
+// Each card lists what it adds over the plan before it, plus the per-site
+// monitoring line on every plan, so the free baseline is clear on all of
+// them; the comparison table carries the detail. Plain, literal wording: no
+// internal plan codenames. The portal's plan cards (superflow_portal_v2
+// BillingPlansService `featureList`) carried the same bullets until this
+// wording pass; keep them in step when that copy is updated.
 
 export const TIERS: Tier[] = [
   {
@@ -100,14 +127,14 @@ export const TIERS: Tier[] = [
     accent: "#FF74A8",
     monthlyPrice: "0",
     annualPrice: "0",
-    trialLabel: TRIAL_LABEL,
-    cta: { label: "Start Free", href: APP_URL },
+    bestFor: "Try it on one site",
+    cta: { label: "Start for free", href: APP_URL },
     bullets: [
       { text: "1 Project" },
       { text: "1 Team Seat" },
       { text: "Unlimited Guest Seats" },
       { text: "1GB Storage" },
-      { text: "+2 More Features" },
+      { text: "Basic site monitoring & version history" },
     ],
   },
   {
@@ -117,58 +144,53 @@ export const TIERS: Tier[] = [
     monthlyPrice: "29",
     annualPrice: "24",
     annualStrikePrice: "29",
-    trialLabel: TRIAL_LABEL,
-    cta: { label: "Start Free Trial", href: APP_URL },
+    bestFor: "Small teams with a few client sites",
+    cta: { label: "Start with card", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
-      { text: "Unlimited Projects" },
-      { text: "Pay Per Team Seat" },
-      { text: "10GB Storage" },
-      { text: "Automatic website version snapshots" },
-      { text: "QA agents (add-on)" },
-      { text: "Always-on monitoring (add-on)" },
-      { text: "+8 More Features" },
+      { text: BASIC_MONITORING_BULLET },
+      { text: FULL_MONITORING_BULLET },
+      { text: "Asana, ClickUp and Monday" },
+      { text: "Monitoring for up to 250 pages per site" },
     ],
   },
   {
     id: "scale",
     name: "Scale",
     accent: "#A78BFA",
-    monthlyPrice: "34",
-    annualPrice: "28",
-    annualStrikePrice: "34",
-    badge: "Loved by 100+ Agencies",
+    monthlyPrice: "39",
+    annualPrice: "32",
+    annualStrikePrice: "39",
+    bestFor: "Agencies with many client sites",
+    badge: "Most agencies",
     highlighted: true,
-    trialLabel: TRIAL_LABEL,
-    cta: { label: "Start Free Trial", href: APP_URL },
+    cta: { label: "Start with card", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
-      { text: "30GB Storage" },
-      { text: "Asana, ClickUp & Monday" },
-      { text: "Private Comments" },
-      { text: "Automatic website version snapshots" },
-      { text: "QA agents (add-on)" },
-      { text: "Always-on monitoring (add-on)" },
-      { text: "+15 More Features" },
+      { text: BASIC_MONITORING_BULLET },
+      { text: FULL_MONITORING_BULLET },
+      { text: "White-label reports" },
+      { text: "Custom QA rules" },
+      { text: "Monitoring for up to 500 pages per site" },
     ],
   },
   {
     id: "enterprise",
     name: "Enterprise",
     accent: "#FFB46E",
-    monthlyPrice: "Let's Talk",
-    annualPrice: "Let's Talk",
+    monthlyPrice: "Contact us",
+    annualPrice: "Contact us",
     customPrice: true,
-    trialLabel: TRIAL_LABEL,
-    cta: { label: "Book Demo", href: "/book-demo" },
+    bestFor: "Brands and large portfolios",
+    cta: { label: "Talk to sales", href: SALES_URL },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
-      { text: "SAML based SSO" },
-      { text: "REST API" },
-      { text: "Data Self-Hosting" },
-      { text: "QA agents (add-on)" },
-      { text: "Always-on monitoring (add-on)" },
-      { text: "+15 More Features" },
+      { text: BASIC_MONITORING_BULLET },
+      { text: "Full monitoring & version control (Custom)" },
+      { text: "Custom seats, sites and pages" },
+      { text: "QA behind login and VPN" },
+      { text: "SSO, SCIM and HIPAA" },
+      { text: "365-day history" },
     ],
   },
 ];
@@ -189,209 +211,247 @@ const seatPriceCell = (tierId: Tier["id"]): CellValue => {
     }
     return {
       kind: "text",
-      value: `$${tier.monthlyPrice} /mo/seat`,
-      annualValue: `$${tier.annualPrice} /mo/seat`,
+      value: `$${tier.monthlyPrice}/seat/mo`,
+      annualValue: `$${tier.annualPrice}/seat/mo billed yearly`,
     };
   } catch {
     return text("Custom");
   }
 };
 
-/** "$14 /mo/site", the Growth and Scale cells in the agents row. Starter
- *  has no QA agents add-on; Enterprise prices it in the contract. */
-const SITE_AGENTS_CELL = text(`$${SITE_AGENTS_PRICE_USD} /mo/site`);
-
 // --- Comparison table --------------------------------------------------------
-// Order: [starter, growth, scale, enterprise]. Cell kinds match the live
-// site's rendered icons / text values per row.
+// Order: [starter, growth, scale, enterprise]. Rows and cells follow the
+// portal's plan table, in plain wording: the free per-site baseline reads as
+// included on every plan (never as a dash), and the paid per-site upgrade is
+// "Full monitoring & version control". Starter cannot buy the upgrade (the
+// billing backend refuses it without a paid plan), so its cell says so.
 
-// Rows + section colors mirror usesuperflow.com/pricing verbatim. Cell
-// values are X/check or text. Section accents match the live category
-// strip per scraped CSS.
 export const SECTIONS: Section[] = [
   {
     title: "Core",
     accent: "#FF5A7A",
     rows: [
       {
-        label: "Project",
-        values: [
-          text("1"),
-          text("Unlimited"),
-          text("Unlimited"),
-          text("Unlimited"),
-        ],
+        label: "Team seats",
+        values: [text("1"), seatPriceCell("growth"), seatPriceCell("scale"), text("Custom")],
+      },
+      { label: "Guest reviewers (always free)", values: all("Unlimited") },
+      {
+        label: "Review projects",
+        values: [text("1"), text("Unlimited"), text("Unlimited"), text("Unlimited")],
       },
       {
-        label: "Team Seats",
+        label: "Version history",
+        sublabel: "Included on every plan: which pages changed, when",
         values: [
-          text("1", "(No Additional Seats)"),
-          seatPriceCell("growth"),
-          seatPriceCell("scale"),
+          text("30 days"),
+          text("90 days"),
+          text("180 days"),
+          text("365 days, immutable"),
+        ],
+      },
+      { label: "Add a site by URL, nothing to install", values: ALL },
+      { label: "Staging password per site", values: GROWTH_UP },
+      { label: "First site scan", values: all("Full scan free, up to 100 pages") },
+      { label: "Uptime every 5 minutes", values: ALL },
+      { label: "Usage limits", values: all("None") },
+    ],
+  },
+  {
+    title: "Monitoring & Version Control",
+    accent: "#9333EA",
+    rows: [
+      { label: "Basic site monitoring & version history", values: all("Included") },
+      {
+        label: "Monitored pages per site",
+        values: [
+          text("100", "first scan"),
+          text("250"),
+          text("500", "raised on request"),
           text("Custom"),
         ],
       },
       {
-        label: "Automatic Website Version Snapshots",
-        values: [cross, check, check, check],
-      },
-      {
-        label: "Guest Seats",
+        label: "Full monitoring & version control",
+        sublabel: "Flat price per site, per month",
         values: [
-          text("Unlimited"),
-          text("Unlimited"),
-          text("Unlimited"),
-          text("Unlimited"),
+          text("Upgrade plan"),
+          text(`$${SITE_AGENTS_PRICE_USD} /mo/site`),
+          text(`$${SITE_AGENTS_PRICE_USD} /mo/site`, "50+ sites? Talk to us"),
+          text("Custom"),
         ],
       },
       {
-        label: "Storage",
-        values: [text("1 GB"), text("10 GB"), text("30 GB"), text("100 GB")],
+        label: "Sites with full monitoring included",
+        values: [
+          cross,
+          text(`${CARE_SITES_INCLUDED.growth}`),
+          text(`${CARE_SITES_INCLUDED.scale}`),
+          text("Custom"),
+        ],
       },
+      { label: "Continuous change detection", values: GROWTH_UP },
+      { label: "Visual compare / diff", values: GROWTH_UP },
+      { label: "Automated QA checks", values: GROWTH_UP },
+      {
+        label: "Daily change and QA checks",
+        values: [
+          text("Top 2 issues"),
+          text("All issues and pins"),
+          text("All issues and pins"),
+          text("All issues and pins"),
+        ],
+      },
+      { label: "Weekly full check (hash-gated)", values: GROWTH_UP },
+      { label: "Deploy-triggered checks and Rescan now", values: GROWTH_UP },
     ],
   },
   {
-    title: "QA Agents & Monitoring",
+    title: "QA checks",
     accent: "#7C3AED",
     rows: [
       {
-        label: SITE_AGENTS_NAME,
-        sublabel: "Flat price per site, per month",
-        values: [cross, SITE_AGENTS_CELL, SITE_AGENTS_CELL, text("Custom")],
+        label: "Default checks (visual, links, copy, SEO, a11y)",
+        values: [text("First scan + top 2 issues"), check, check, check],
       },
-      ...SITE_AGENTS_CAPABILITIES.map(
-        (capability): Row => ({
-          label: capability.label,
-          values: [cross, check, check, check],
-        }),
-      ),
+      {
+        label: "Site score and check-level view",
+        values: [text("Score + top 2 issues"), check, check, check],
+      },
+      { label: "Deduplicated component issues", values: ALL },
+      { label: "Verify on resolve", values: GROWTH_UP },
+      {
+        label: "Custom QA rules",
+        values: [cross, cross, text("1 per fully monitored site"), text("Unlimited")],
+      },
+      { label: "Ask AI", values: GROWTH_UP },
     ],
   },
   {
-    title: "Collaboration",
+    title: "Review and collaboration",
     accent: "#2F84D2",
     rows: [
-      {
-        label: "Supported Assets",
-        values: [
-          text("Websites, PDFs, Videos, Images and Lottie Files"),
-          text("Websites, PDFs, Videos, Images and Lottie Files"),
-          text("Websites, PDFs, Videos, Images and Lottie Files"),
-          text("Websites, PDFs, Videos, Images and Lottie Files"),
-        ],
-      },
-      {
-        label: "Recordings (Audio, Video & Screen)",
-        values: [check, check, check, check],
-      },
-      { label: "Attachments", values: [check, check, check, check] },
-      {
-        label: "Automated Screenshot",
-        values: [cross, check, check, check],
-      },
-      {
-        label: "Live Reviews (Huddle, Follow Me and More)",
-        values: [check, check, check, check],
-      },
-      {
-        label: "Smart Notifications",
-        values: [
-          text("Email"),
-          text("Slack and Email"),
-          text("Slack and Email"),
-          text("Slack and Email"),
-        ],
-      },
+      { label: "Comments, pins, screenshots, recordings, voice", values: ALL },
+      { label: "Website, PDF, video, image and Lottie review", values: ALL },
+      { label: "Cross-device review", values: ALL },
+      { label: "Logged-in page review (human, via extension)", values: ALL },
+      { label: "Private comments, custom statuses, access control", values: SCALE_UP },
     ],
   },
   {
-    title: "Access Control",
+    title: "Reports and clients",
     accent: "#0C8A58",
     rows: [
-      { label: "Private Comments", values: [cross, cross, check, check] },
-      { label: "Anonymous Guest Mode", values: [cross, cross, check, check] },
-      { label: "Access Control", values: [cross, cross, check, check] },
+      {
+        label: "Monthly client report, plain words, before and after",
+        values: [text("Preview"), check, check, check],
+      },
+      { label: "Machine Work Ledger", values: [text("Preview"), check, check, check] },
+      { label: "Share links and PDF", values: GROWTH_UP },
+      {
+        label: "Site history",
+        values: [cross, text("90 days"), text("180 days"), text("365 days")],
+      },
+      { label: "Portfolio report across all sites", values: GROWTH_UP },
+      { label: "Your logo, name and color on reports", values: GROWTH_UP },
+      {
+        label: "\"Checked by Superflow\" footer",
+        values: [text("Shown"), text("Shown"), text("Removed"), text("Removed")],
+      },
+      { label: "Your logo on the toolbar", values: SCALE_UP },
     ],
   },
   {
-    title: "Workspace Management",
+    title: "Prospecting",
     accent: "#D4840D",
     rows: [
-      { label: "Reporting - Analytics", values: [check, check, check, check] },
       {
-        label: "Dashboard Notifications",
-        values: [check, check, check, check],
+        label: "Prospect audits (branded, \"Checked by Superflow\")",
+        values: [cross, text("Unlimited"), text("Unlimited"), text("Unlimited")],
       },
-      { label: "Manage Domains", values: [cross, cross, check, check] },
-      { label: "Export Comments", values: [cross, cross, check, check] },
-      { label: "Custom Statuses", values: [cross, cross, check, check] },
-      { label: "Custom Branding", values: [cross, cross, check, check] },
+      {
+        label: "White-label prospect audit (no footer)",
+        values: [cross, cross, text("10 free a month, then $5 each"), text("Included")],
+      },
+      { label: "Free preview of any site, no account", values: ALL },
+      { label: "\"Won the client\" turns an audit into a fully monitored site", values: GROWTH_UP },
     ],
   },
   {
-    title: "Integrations",
+    title: "Integrations and developers",
     accent: "#672FF5",
     rows: [
-      { label: "Email", values: [check, check, check, check] },
-      { label: "Slack", values: [check, check, check, check] },
-      { label: "ClickUp", values: [cross, cross, check, check] },
-      { label: "Asana", values: [cross, cross, check, check] },
-      { label: "Monday.com", values: [cross, cross, check, check] },
-      { label: "Webhooks", values: [cross, cross, check, check] },
-      { label: "REST APIs", values: [cross, cross, cross, check] },
+      { label: "Email and Slack", values: ALL },
+      { label: "Asana, ClickUp and Monday", values: GROWTH_UP },
+      { label: "Webhooks and REST API", values: GROWTH_UP },
+      {
+        label: "MCP for Claude, Cursor and Claude Code",
+        values: [text("Read"), check, check, check],
+      },
     ],
   },
   {
-    title: "Security & Privacy",
+    title: "Enterprise",
     accent: "#F62F6A",
     rows: [
-      { label: "SAML based SSO", values: [cross, cross, cross, check] },
-      { label: "SCIM Provisioning", values: [cross, cross, cross, check] },
-      { label: "SOC 2 Type 2", values: [cross, cross, cross, check] },
-      { label: "HIPAA with BAA", values: [cross, cross, cross, check] },
-      { label: "Pen Testing", values: [cross, cross, cross, check] },
+      { label: "Automated QA behind login, private staging and VPN", values: ENTERPRISE_ONLY },
+      { label: "SOC 2 Type II, encryption in transit and at rest", values: ALL },
       {
-        label: "Custom Security Reviews",
-        values: [cross, cross, cross, check],
+        label: "Uptime SLA",
+        values: [text("99.9%"), text("99.9%"), text("99.9%"), text("99.9% with credits")],
       },
-      { label: "DPA", values: [cross, cross, cross, check] },
-      { label: "Data Self-hosting", values: [cross, cross, cross, check] },
-      { label: "GDPR APIs", values: [cross, cross, cross, check] },
+      { label: "SAML SSO, SCIM, self-hosting, HIPAA with BAA, audit log", values: ENTERPRISE_ONLY },
       {
-        label: "Multi Region Hosting",
-        values: [cross, cross, cross, check],
-      },
-    ],
-  },
-  {
-    title: "Support",
-    accent: "#625DF5",
-    rows: [
-      {
-        label: "Support Channels",
+        label: "Support",
         values: [
-          text("Community Slack"),
-          text("Email, Community Slack, Chat"),
-          text("Email, Community Slack, Chat"),
-          text("Private Slack and Zoom"),
+          text("Community"),
+          text("Email and chat"),
+          text("Priority"),
+          text("Named CSM, onboarding"),
         ],
       },
-      { label: "Onboarding", values: [cross, cross, cross, check] },
-      { label: "Dedicated CSM", values: [cross, cross, cross, check] },
-      { label: "Priority SLAs", values: [cross, cross, cross, check] },
       {
-        label: "Dedicated Implementation + Training",
-        values: [cross, cross, cross, check],
-      },
-      {
-        label: "Uptime SLAs",
-        values: [
-          text("99.9%"),
-          text("99.9%"),
-          text("99.9%"),
-          text("99.999%"),
-        ],
+        label: "How to buy",
+        values: [text("Free signup"), text("Card"), text("Card"), text("Contract, PO, net-60")],
       },
     ],
   },
 ];
+
+/** One plan as a short price summary: name, price, how it is billed. */
+export type PlanSummary = { planName: string; price: string; billing: string };
+
+/**
+ * Superflow's plans as one-line price summaries, read from TIERS. The
+ * alternative pages' pricing table and its Markdown copy show these in
+ * Superflow's column instead of the CMS cells, which carried a flat
+ * "$249 / $449" model years out of date.
+ */
+export const SUPERFLOW_PLAN_SUMMARIES: PlanSummary[] = TIERS.map((tier) => {
+  if (tier.customPrice) {
+    return { planName: tier.name, price: tier.monthlyPrice, billing: "Custom" };
+  }
+  if (tier.monthlyPrice === "0") {
+    return { planName: tier.name, price: "$0", billing: "Free forever" };
+  }
+  return {
+    planName: tier.name,
+    price: `$${tier.annualPrice}`,
+    billing: `per seat / month, billed yearly ($${tier.monthlyPrice} monthly)`,
+  };
+});
+
+/**
+ * Whether a comparison column is Superflow's (so its prices come from
+ * SUPERFLOW_PLAN_SUMMARIES rather than the CMS).
+ *
+ * @param name - The column's product name.
+ * @returns True for "Superflow", case and spacing ignored.
+ */
+export function isSuperflowColumn(name: string | undefined | null): boolean {
+  try {
+    return (name ?? "").trim().toLowerCase() === "superflow";
+  } catch {
+    return false;
+  }
+}

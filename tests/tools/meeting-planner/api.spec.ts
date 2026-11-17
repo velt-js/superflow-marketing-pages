@@ -204,7 +204,7 @@ test("MCP plan opens in the browser with readable copy and discoverable page met
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.route(
-    /(googletagmanager|google-analytics|amplitude|claydar|intercom|termly|rewardful)/,
+    /(googletagmanager|google-analytics|amplitude|claydar|snitcher|intercom|termly|rewardful)/,
     (route) => route.abort(),
   );
   const result = await (

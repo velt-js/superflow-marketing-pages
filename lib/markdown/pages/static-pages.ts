@@ -11,13 +11,34 @@
 
 import type { AgentDoc } from "../types";
 import { FAQ_ITEMS } from "@/components/home-2026/faq-data";
-import { TIERS } from "@/components/pricing/pricing-data";
+import { SECTIONS, TIERS, type CellValue } from "@/components/pricing/pricing-data";
 import {
   SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_LABEL,
+  FREE_SITE_TIER,
+  WATCH_NAME,
 } from "@/components/pricing-2026/site-agents-data";
+
+/**
+ * One comparison-table cell as Markdown text: "Yes", "No", or its value
+ * (monthly and yearly when the cell has both).
+ *
+ * @param cell - The cell to render.
+ * @returns The cell as plain text.
+ */
+function markdownCell(cell: CellValue): string {
+  try {
+    if (cell.kind === "check") return "Yes";
+    if (cell.kind === "x") return "No";
+    const value = cell.annualValue ? `${cell.value} (${cell.annualValue})` : cell.value;
+    return cell.sub ? `${value}, ${cell.sub}` : value;
+  } catch {
+    return "";
+  }
+}
+import { SECURITY_EMAIL, SECURITY_SCOPE } from "@/components/security/security-contact";
 import { SITE_URL } from "@/app/_seo/schema";
 import { MCP_PATH, availableToolApis } from "@/lib/tools/api-catalog";
 import { clean } from "../text";
@@ -39,13 +60,13 @@ function homeDoc(): AgentDoc {
       {
         label: "Integrations",
         value:
-          "Email and Slack on every plan; Asana, ClickUp, Monday and webhooks on Scale and above; REST API on Enterprise. Also works with Webflow and Google Tag Manager.",
+          "Email and Slack on every plan; Asana, ClickUp, Monday, webhooks and the REST API on Growth and above. Also works with Webflow and Google Tag Manager.",
       },
       { label: "Client accounts required", value: "No. Clients review over a link." },
-      { label: "Free tier", value: "Yes. Starter is $0 and the trial needs no card." },
+      { label: "Free tier", value: "Yes. Starter is $0 forever." },
       {
         label: "Pricing model",
-        value: `Per seat, plus QA agents and monitoring at ${SITE_AGENTS_PRICE_LABEL}`,
+        value: `Per team seat; guests are free. Basic monitoring and version history are free on every site; full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}`,
       },
     ],
     sections: [
@@ -91,45 +112,58 @@ function homeDoc(): AgentDoc {
 function pricingDoc(): AgentDoc {
   const tierRows = TIERS.map((tier) => [
     tier.name,
-    tier.monthlyPrice === "Let's Talk" ? "Custom" : `$${tier.monthlyPrice}/seat/mo`,
-    tier.annualPrice === "Let's Talk" ? "Custom" : `$${tier.annualPrice}/seat/mo`,
+    tier.customPrice ? tier.monthlyPrice : `$${tier.monthlyPrice}/seat/mo`,
+    tier.customPrice ? tier.annualPrice : `$${tier.annualPrice}/seat/mo`,
+    tier.bestFor,
   ]);
 
   return {
     title: "Superflow pricing",
-    summary: `Per-seat plans with a free tier, plus QA agents and always-on monitoring at ${SITE_AGENTS_PRICE_LABEL}.`,
+    summary: `Simple, predictable pricing. Pay per team seat; guests and clients review for free. Basic monitoring and version history are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/pricing",
     kind: "Pricing page",
     facts: [
-      { label: "Billing model", value: "Per seat, billed monthly or annually" },
-      { label: "Free tier", value: "Yes, the Starter plan" },
-      { label: "Trial", value: "10 day free trial" },
+      { label: "Billing model", value: "Per seat, billed monthly or yearly (yearly is two months free)" },
+      { label: "Free tier", value: "Yes, the Starter plan, $0 forever" },
       {
-        label: "QA agents and monitoring",
-        value: `${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
+        label: "Sites",
+        value: `Every site includes basic monitoring and version history for free. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
       },
       {
         label: "Client seats needed",
         value:
-          "None. Guests are free on every plan; guests can comment without signing in on Scale and Enterprise.",
+          "None. Guests and clients are free on every plan, and developers who work tickets in Asana, ClickUp or Monday don't need seats.",
       },
     ],
     sections: [
       {
         heading: "Plans",
-        body: ["Annual prices are per seat per month, billed yearly."],
+        body: ["Annual prices are per seat per month, billed yearly. Enterprise is priced on a contract."],
         table: {
-          headers: ["Plan", "Monthly", "Annual (per month)"],
+          headers: ["Plan", "Monthly", "Annual (per month)", "Best for"],
           rows: tierRows,
         },
       },
       {
-        heading: SITE_AGENTS_NAME,
+        heading: `${WATCH_NAME} (free)`,
+        body: [`Included on every site, on all plans: ${FREE_SITE_TIER.description.charAt(0).toLowerCase()}${FREE_SITE_TIER.description.slice(1)}`],
+      },
+      {
+        heading: `${SITE_AGENTS_NAME} (${SITE_AGENTS_PRICE_LABEL})`,
         body: [
-          `Every site gets its own QA agents and monitoring that stays on, at ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter.`,
+          `${SITE_AGENTS_AVAILABILITY} Not available on Starter. Upgrading a site is instant; moving it back to basic monitoring takes effect at the end of the billing cycle. No usage limits.`,
         ],
         bullets: SITE_AGENTS_CAPABILITIES.map(
           (capability) => `**${capability.label}.** ${capability.description}`,
+        ),
+      },
+      {
+        heading: "Compare plans",
+        body: ["Each line reads Starter / Growth / Scale / Enterprise."],
+        bullets: SECTIONS.flatMap((section) =>
+          section.rows.map(
+            (row) => `**${section.title}: ${row.label}.** ${row.values.map(markdownCell).join(" / ")}`,
+          ),
         ),
       },
     ],
@@ -150,12 +184,19 @@ function securityDoc(): AgentDoc {
       { label: "Encryption", value: "In transit and at rest" },
       { label: "SSO", value: "SAML-based, with SCIM provisioning, on the Enterprise plan" },
       { label: "Model training on customer data", value: "No" },
+      { label: "Security and abuse contact", value: SECURITY_EMAIL },
     ],
     sections: [
       {
         heading: "What this page covers",
         body: [
           "The controls Superflow operates, how compliance is monitored and evidenced, and how customer data is stored and handled. Read the full page for the current attestation status and the sub-processor list.",
+        ],
+      },
+      {
+        heading: "Report security issues or abuse",
+        body: [
+          `Security vulnerabilities, phishing, or any other abuse originating from ${SECURITY_SCOPE.join(" or ")} can be reported to ${SECURITY_EMAIL} (mailto:${SECURITY_EMAIL}). Include the affected URL and any details that help reproduce the issue.`,
         ],
       },
       {

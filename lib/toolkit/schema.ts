@@ -111,7 +111,7 @@ export function extractJsonLd(html: string): {
  *
  * @param value - Any parsed JSON-LD value.
  */
-function* walkNodes(value: unknown): Generator<Record<string, unknown>> {
+export function* walkNodes(value: unknown): Generator<Record<string, unknown>> {
   try {
     if (Array.isArray(value)) {
       for (const item of value) yield* walkNodes(item);

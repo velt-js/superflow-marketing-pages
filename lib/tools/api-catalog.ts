@@ -362,6 +362,21 @@ export const TOOL_APIS: readonly ToolApiEntry[] = [
     timeoutSeconds: 30,
   },
   {
+    slug: "og-video-checker",
+    mcpTool: "check_og_video",
+    title: "Open Graph Video Checker",
+    description:
+      "Check whether a page's og:video plays when its link is shared. Reads every og:video declaration and its structured properties (secure_url, type, width, height) the way ogp.me defines them, then fetches the first 512 KB of the video and identifies the real format from the file header, along with byte-range support, MP4 fast start, pixel size and length. Also fetches og:image as the poster and reports the tags the other readers use instead: the X player card (twitter:card player, twitter:player) and a Google VideoObject in JSON-LD. Pass the page URL, not the video file. Use check_social_preview for how the title, description and image render per platform.",
+    method: "POST",
+    path: "/api/tools/og-video-checker",
+    inputSchema: URL_SCHEMA,
+    sample: { url: "vimeo.com/76979871" },
+    returns:
+      "{ hasPlayableVideo, primary, videos[] with declared tags and probe (format, kind, dimensions, durationSeconds, rangeSupported, fastStart, problem), image, ogType, videoMeta, twitter, videoObject, checks[] with id, status and fix, counts }",
+    rateLimit: "60 runs per hour per IP",
+    timeoutSeconds: 30,
+  },
+  {
     slug: "website-status-checker",
     mcpTool: "check_website_status",
     title: "Website Status Checker",

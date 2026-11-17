@@ -154,6 +154,22 @@
     color: var(--sa-muted);
 }
 
+/* The free tier card: neutral, so the paid card keeps the accent. */
+.cardFree {
+    border-color: #ececf1;
+    background: #fbfbfd;
+}
+
+/* What a tier includes, in the column the capability grid used. Same type
+   as the section lede. */
+.cardDescription {
+    margin: 0;
+    font-family: var(--sa-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--sa-muted);
+}
+
 .checkIcon {
     flex: 0 0 auto;
     width: 15px;

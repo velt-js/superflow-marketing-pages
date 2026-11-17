@@ -16,7 +16,6 @@ import { toInternalHref } from "@/lib/links";
 import {
   SECTIONS,
   TIERS,
-  APP_URL,
   type CellValue,
   type Tier,
 } from "@/components/pricing/pricing-data";
@@ -26,13 +25,10 @@ import styles from "./PricingComparisonTable.module.css";
 /** Height of the fixed SiteNav; sticky offsets stack beneath it. */
 const NAV_OFFSET = 70;
 
-/** Per-tier CTA shown in the comparison-table column headers. */
-const HEADER_CTA: Record<Tier["id"], { label: string; href: string }> = {
-  starter: { label: "Start Free", href: APP_URL },
-  growth: { label: "Start Free Trial", href: APP_URL },
-  scale: { label: "Start Free Trial", href: APP_URL },
-  enterprise: { label: "Book Demo", href: "/book-demo" },
-};
+/** Per-tier CTA shown in the comparison-table column headers: the card's own. */
+const HEADER_CTA = Object.fromEntries(
+  TIERS.map((tier) => [tier.id, tier.cta]),
+) as Record<Tier["id"], { label: string; href: string }>;
 
 /**
  * The short price line shown in a tier's column header.

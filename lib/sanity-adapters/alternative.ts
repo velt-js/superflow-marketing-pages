@@ -7,6 +7,7 @@ import type {
   PricingProduct,
 } from "@/lib/detail-data";
 import { SHARED_REASONS } from "@/lib/detail-data";
+import { SUPERFLOW_PLAN_SUMMARIES, isSuperflowColumn } from "@/components/pricing/pricing-data";
 
 // Shape returned by `getAlternativePageBySlug` after GROQ deref. Keep this
 // loose — Sanity content evolves; the adapter pulls only the fields the
@@ -141,13 +142,16 @@ export function mapAlternativeDocToConfig(
     {
       name: c1Name,
       logo: doc.competitor1Logo,
-      tiers: (doc.pricing ?? [])
-        .filter((p) => p.c1Name || p.c1Price)
-        .map((p) => ({
-          planName: p.c1Name ?? "",
-          price: p.c1Price ?? "",
-          billing: p.c1Users,
-        })),
+      // Superflow's own prices come from /pricing's data, never the CMS cells.
+      tiers: isSuperflowColumn(c1Name)
+        ? SUPERFLOW_PLAN_SUMMARIES.map((tier) => ({ ...tier }))
+        : (doc.pricing ?? [])
+          .filter((p) => p.c1Name || p.c1Price)
+          .map((p) => ({
+            planName: p.c1Name ?? "",
+            price: p.c1Price ?? "",
+            billing: p.c1Users,
+          })),
     },
     {
       name: c2Name,
