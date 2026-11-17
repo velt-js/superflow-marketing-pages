@@ -60,7 +60,7 @@ const OUTPUTS = [
 
 /** The cost side of the ROI story, read from the /pricing data module. */
 const COST_POINTS = [
-  `Basic monitoring and version history are free on every site. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}, one flat price per site, so the cost is known before the month starts.`,
+  `Basic monitoring and version history are free on every site. Full monitoring and version history is ${SITE_AGENTS_PRICE_LABEL}, one flat price per site, so the cost is known before the month starts.`,
   `Full monitoring adds ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
   "Seats are per team member and guests are free on every plan, so clients and external reviewers never add to the bill.",
 ];

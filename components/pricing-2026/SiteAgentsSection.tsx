@@ -1,4 +1,4 @@
-// Site monitoring and version control section on /pricing, between the tier
+// Site monitoring and version history section on /pricing, between the tier
 // cards and the feature comparison table: what every site gets for free, and
 // what the per-site upgrade adds.
 //
@@ -10,7 +10,7 @@
 import { FREE_SITE_TIER, PAID_SITE_TIER } from "./site-agents-data";
 import styles from "./SiteAgentsSection.module.css";
 
-const HEADING = "Monitoring and version control for every site";
+const HEADING = "Monitoring and version history for every site";
 const LEDE =
   "Baseline tracking is included on all accounts. Upgrade individual sites only when you need side-by-side diffs and continuous checks.";
 
@@ -43,7 +43,7 @@ function SiteTierCard({ tier, free }: { tier: SiteTier; free: boolean }) {
 }
 
 /**
- * The site monitoring and version control section: heading, the free tier
+ * The site monitoring and version history section: heading, the free tier
  * card and the per-site upgrade card. Static content, so it renders inside
  * the page's BillingProvider without becoming a client component.
  */

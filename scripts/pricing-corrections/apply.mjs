@@ -7,7 +7,7 @@
  * The patch file is cms-patches-plain.json by default: the plain-wording
  * pass that replaces the internal plan names ("Watch", "Care") with what
  * the visitor reads on /pricing ("basic monitoring and version history",
- * "full monitoring and version control"). cms-patches-v8.json (pricing v8:
+ * "full monitoring and version history"). cms-patches-v8.json (pricing v8:
  * Scale $39 monthly / $32 yearly, $10 per site, no AI credits) is APPLIED
  * and its new text is the old text of the plain pass, so it no longer
  * matches anything. cms-patches.json is the earlier pass (the $14/site QA

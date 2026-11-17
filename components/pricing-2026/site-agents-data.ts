@@ -1,7 +1,7 @@
-// Site monitoring and version control: the per-site half of /pricing.
+// Site monitoring and version history: the per-site half of /pricing.
 //
 // Every site gets basic monitoring and version history for free, on every
-// plan. Full monitoring and version control is a paid upgrade per site:
+// plan. Full monitoring and version history is a paid upgrade per site:
 // $10 per site per month, 1 site included on Growth and 3 on Scale.
 // Server-safe module (no "use client") so the section, comparison table, FAQ,
 // Product JSON-LD, /pricing.md and /llms-full.txt all quote the same price
@@ -16,7 +16,7 @@
 // Keep the numbers equal to the portal's plan catalog
 // (shared-firebase-function PRICING_V8_CARE_PRICE_USD and the plan docs).
 
-/** Price of full monitoring and version control, per site per month, in USD. */
+/** Price of full monitoring and version history, per site per month, in USD. */
 export const SITE_AGENTS_PRICE_USD = 10;
 
 /** "$10 per site per month": the price as prose. */
@@ -30,7 +30,7 @@ export const SITE_AGENTS_AVAILABILITY =
   `Growth includes ${CARE_SITES_INCLUDED.growth} site with full monitoring and Scale includes ${CARE_SITES_INCLUDED.scale}; more are $${SITE_AGENTS_PRICE_USD} each. Custom on Enterprise.`;
 
 /** The paid per-site upgrade, as a name. */
-export const SITE_AGENTS_NAME = "Full monitoring & version control";
+export const SITE_AGENTS_NAME = "Full monitoring & version history";
 
 /** What every site gets for free, as a name. */
 export const WATCH_NAME = "Basic monitoring & version history";
@@ -58,7 +58,7 @@ export type SiteAgentsCapability = {
 };
 
 /**
- * What full monitoring and version control adds to a site, in display order.
+ * What full monitoring and version history adds to a site, in display order.
  * Version history is not here: every plan includes it, on free sites too.
  */
 export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
