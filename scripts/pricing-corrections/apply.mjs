@@ -4,10 +4,13 @@
  * /pricing (components/pricing/pricing-data.ts and
  * components/pricing-2026/site-agents-data.ts).
  *
- * The patch file is cms-patches-v8.json by default (pricing v8: Scale
- * $39 monthly / $32 yearly, every site watched for free, Care at $10 per
- * site, no AI credits, Asana / ClickUp / Monday, webhooks and the REST API
- * on Growth and up). cms-patches.json is the earlier pass (the $14/site QA
+ * The patch file is cms-patches-plain.json by default: the plain-wording
+ * pass that replaces the internal plan names ("Watch", "Care") with what
+ * the visitor reads on /pricing ("basic monitoring and version history",
+ * "full monitoring and version control"). cms-patches-v8.json (pricing v8:
+ * Scale $39 monthly / $32 yearly, $10 per site, no AI credits) is APPLIED
+ * and its new text is the old text of the plain pass, so it no longer
+ * matches anything. cms-patches.json is the earlier pass (the $14/site QA
  * agents add-on) and is SUPERSEDED: never apply it, it would write the old
  * prices back. PATCHES_FILE picks another file in this folder.
  *
@@ -39,7 +42,7 @@ if (!DRY_RUN && !token) {
   process.exit(1);
 }
 
-const PATCHES_FILE = process.env.PATCHES_FILE || "cms-patches-v8.json";
+const PATCHES_FILE = process.env.PATCHES_FILE || "cms-patches-plain.json";
 if (PATCHES_FILE === "cms-patches.json" && process.env.ALLOW_SUPERSEDED !== "1") {
   console.error("cms-patches.json is superseded by cms-patches-v8.json and would write old prices back.");
   process.exit(1);
