@@ -1,19 +1,22 @@
 // Pricing-page data: single source of truth for both the four tier cards and
 // the long feature comparison table on /pricing.
 //
-// Pricing v8 ("Seats for your team, sites for your book"). Seats for the
-// people who run the work, Care sites for the client book, every site
-// watched for free. The comparison table mirrors the plan table the portal
-// shows on Settings > Billing (superflow_portal_v2,
-// SITES_AND_MONITORING_ROWS and PricingFeatureTableView), row for row, so
-// the two never disagree. The portal leaves out spec rows for features the
-// product does not have yet (the live client request tab, Linear, Trello and
-// Jira, reports on your own domain and sender, form testing, Workfront and
-// friends, dedicated scanner IPs, an org above workspaces, approval
-// snapshots); this table leaves out the same rows. Add a row here only
-// together with the portal.
+// Pricing v8, in plain product language: pay per team seat, guests are
+// free, every site gets basic monitoring and version history for free, and
+// full monitoring and version control is $10 per site per month. No internal
+// plan codenames in anything a visitor reads.
 //
-// The per-site Care price and the Watch / Care capabilities live in
+// The comparison table follows the plan table the portal shows on
+// Settings > Billing (superflow_portal_v2, SITES_AND_MONITORING_ROWS and
+// PricingFeatureTableView): the same plan values, with the monitoring rows
+// regrouped and renamed for this page. Like the portal, it leaves out spec
+// rows for features the product does not have yet (the live client request
+// tab, Linear, Trello and Jira, reports on your own domain and sender, form
+// testing, Workfront and friends, dedicated scanner IPs, an org above
+// workspaces, approval snapshots). Add such a row only together with the
+// portal.
+//
+// The per-site price and the monitoring tiers' wording live in
 // components/pricing-2026/site-agents-data.ts.
 
 import {
@@ -104,15 +107,18 @@ const ENTERPRISE_ONLY: Row["values"] = [cross, cross, cross, check];
 export const APP_URL = "https://app.usesuperflow.com";
 export const SALES_URL = "/book-demo";
 
-/** "$10/site", the Care price as a card bullet. */
-const CARE_PRICE_SHORT = `$${SITE_AGENTS_PRICE_USD}/site`;
+/** The free per-site baseline, as a card bullet on every paid plan. */
+const BASIC_MONITORING_BULLET = "Basic monitoring & version history on all sites";
+/** The paid per-site upgrade with its price, as a card bullet. */
+const FULL_MONITORING_BULLET = `Full monitoring & version control ($${SITE_AGENTS_PRICE_USD}/site add-on)`;
 
 // --- Tier cards --------------------------------------------------------------
-// Pricing v8 spec section 5 ("The four cards"), kept short: each card lists
-// only what it adds over the plan before it; the comparison table carries
-// the detail. The bullets are the portal's plan-card bullets word for word
-// (superflow_portal_v2 BillingPlansService `featureList`, the copy ops seeds
-// into the plan docs): change both together.
+// Each card lists what it adds over the plan before it, plus the per-site
+// monitoring line on every plan, so the free baseline is clear on all of
+// them; the comparison table carries the detail. Plain, literal wording: no
+// internal plan codenames. The portal's plan cards (superflow_portal_v2
+// BillingPlansService `featureList`) carried the same bullets until this
+// wording pass; keep them in step when that copy is updated.
 
 export const TIERS: Tier[] = [
   {
@@ -124,10 +130,11 @@ export const TIERS: Tier[] = [
     bestFor: "Try it on one site",
     cta: { label: "Start for free", href: APP_URL },
     bullets: [
-      { text: "1 seat and 1 site" },
-      { text: "Unlimited free guests" },
-      { text: "Free full scan of your first site" },
-      { text: "Top 2 issues per site" },
+      { text: "1 Project" },
+      { text: "1 Team Seat" },
+      { text: "Unlimited Guest Seats" },
+      { text: "1GB Storage" },
+      { text: "Basic site monitoring & version history" },
     ],
   },
   {
@@ -137,14 +144,14 @@ export const TIERS: Tier[] = [
     monthlyPrice: "29",
     annualPrice: "24",
     annualStrikePrice: "29",
-    bestFor: "Small teams with a few retainers",
+    bestFor: "Small teams with a few client sites",
     cta: { label: "Start with card", href: APP_URL },
     bullets: [
       { text: "Everything in Starter, plus", divider: true },
-      { text: "Every site watched free" },
-      { text: `${CARE_SITES_INCLUDED.growth} Care site, then ${CARE_PRICE_SHORT}` },
+      { text: BASIC_MONITORING_BULLET },
+      { text: FULL_MONITORING_BULLET },
       { text: "Asana, ClickUp and Monday" },
-      { text: "250 pages per site" },
+      { text: "Monitoring for up to 250 pages per site" },
     ],
   },
   {
@@ -154,16 +161,17 @@ export const TIERS: Tier[] = [
     monthlyPrice: "39",
     annualPrice: "32",
     annualStrikePrice: "39",
-    bestFor: "Agencies with a client book",
+    bestFor: "Agencies with many client sites",
     badge: "Most agencies",
     highlighted: true,
     cta: { label: "Start with card", href: APP_URL },
     bullets: [
       { text: "Everything in Growth, plus", divider: true },
-      { text: `${CARE_SITES_INCLUDED.scale} Care sites, then ${CARE_PRICE_SHORT}` },
+      { text: BASIC_MONITORING_BULLET },
+      { text: FULL_MONITORING_BULLET },
       { text: "White-label reports" },
       { text: "Custom QA rules" },
-      { text: "500 pages per site" },
+      { text: "Monitoring for up to 500 pages per site" },
     ],
   },
   {
@@ -177,6 +185,8 @@ export const TIERS: Tier[] = [
     cta: { label: "Talk to sales", href: SALES_URL },
     bullets: [
       { text: "Everything in Scale, plus", divider: true },
+      { text: BASIC_MONITORING_BULLET },
+      { text: "Full monitoring & version control (Custom)" },
       { text: "Custom seats, sites and pages" },
       { text: "QA behind login and VPN" },
       { text: "SSO, SCIM and HIPAA" },
@@ -210,12 +220,15 @@ const seatPriceCell = (tierId: Tier["id"]): CellValue => {
 };
 
 // --- Comparison table --------------------------------------------------------
-// Order: [starter, growth, scale, enterprise]. Groups, rows, labels and cells
-// follow the portal's plan table (see the header).
+// Order: [starter, growth, scale, enterprise]. Rows and cells follow the
+// portal's plan table, in plain wording: the free per-site baseline reads as
+// included on every plan (never as a dash), and the paid per-site upgrade is
+// "Full monitoring & version control". Starter cannot buy the upgrade (the
+// billing backend refuses it without a paid plan), so its cell says so.
 
 export const SECTIONS: Section[] = [
   {
-    title: "Sites and monitoring",
+    title: "Core",
     accent: "#FF5A7A",
     rows: [
       {
@@ -228,29 +241,29 @@ export const SECTIONS: Section[] = [
         values: [text("1"), text("Unlimited"), text("Unlimited"), text("Unlimited")],
       },
       {
-        label: "Watch sites (free)",
-        values: [text("1"), text("Every site"), text("Every site"), text("Every site")],
-      },
-      {
-        label: "Care sites included",
+        label: "Version history",
+        sublabel: "Included on every plan: which pages changed, when",
         values: [
-          cross,
-          text(`${CARE_SITES_INCLUDED.growth}`),
-          text(`${CARE_SITES_INCLUDED.scale}`),
-          text("Custom"),
+          text("30 days"),
+          text("90 days"),
+          text("180 days"),
+          text("365 days, immutable"),
         ],
       },
+      { label: "Add a site by URL, nothing to install", values: ALL },
+      { label: "Staging password per site", values: GROWTH_UP },
+      { label: "First site scan", values: all("Full scan free, up to 100 pages") },
+      { label: "Uptime every 5 minutes", values: ALL },
+      { label: "Usage limits", values: all("None") },
+    ],
+  },
+  {
+    title: "Monitoring & Version Control",
+    accent: "#9333EA",
+    rows: [
+      { label: "Basic site monitoring & version history", values: all("Included") },
       {
-        label: "More Care sites",
-        values: [
-          cross,
-          text(`$${SITE_AGENTS_PRICE_USD} each`),
-          text(`$${SITE_AGENTS_PRICE_USD} each`, "50+? Talk to us"),
-          text("Custom"),
-        ],
-      },
-      {
-        label: "Pages per site",
+        label: "Monitored pages per site",
         values: [
           text("100", "first scan"),
           text("250"),
@@ -258,9 +271,28 @@ export const SECTIONS: Section[] = [
           text("Custom"),
         ],
       },
-      { label: "Add a site by URL, nothing to install", values: ALL },
-      { label: "Staging password per site", values: GROWTH_UP },
-      { label: "First site scan", values: all("Full scan free, up to 100 pages") },
+      {
+        label: "Full monitoring & version control",
+        sublabel: "Flat price per site, per month",
+        values: [
+          text("Upgrade plan"),
+          text(`$${SITE_AGENTS_PRICE_USD} /mo/site`),
+          text(`$${SITE_AGENTS_PRICE_USD} /mo/site`, "50+ sites? Talk to us"),
+          text("Custom"),
+        ],
+      },
+      {
+        label: "Sites with full monitoring included",
+        values: [
+          cross,
+          text(`${CARE_SITES_INCLUDED.growth}`),
+          text(`${CARE_SITES_INCLUDED.scale}`),
+          text("Custom"),
+        ],
+      },
+      { label: "Continuous change detection", values: GROWTH_UP },
+      { label: "Visual compare / diff", values: GROWTH_UP },
+      { label: "Automated QA checks", values: GROWTH_UP },
       {
         label: "Daily change and QA checks",
         values: [
@@ -272,22 +304,6 @@ export const SECTIONS: Section[] = [
       },
       { label: "Weekly full check (hash-gated)", values: GROWTH_UP },
       { label: "Deploy-triggered checks and Rescan now", values: GROWTH_UP },
-      {
-        label: "Version history",
-        sublabel: "Which pages changed, when",
-        values: [
-          text("30 days"),
-          text("90 days"),
-          text("180 days"),
-          text("365 days, immutable"),
-        ],
-      },
-      {
-        label: "Side-by-side diff",
-        values: [text("Locked"), text("Care sites"), text("Care sites"), text("Care sites")],
-      },
-      { label: "Uptime every 5 minutes", values: ALL },
-      { label: "Usage limits", values: all("None") },
     ],
   },
   {
@@ -306,7 +322,7 @@ export const SECTIONS: Section[] = [
       { label: "Verify on resolve", values: GROWTH_UP },
       {
         label: "Custom QA rules",
-        values: [cross, cross, text("1 per Care site"), text("Unlimited")],
+        values: [cross, cross, text("1 per fully monitored site"), text("Unlimited")],
       },
       { label: "Ask AI", values: GROWTH_UP },
     ],
@@ -358,7 +374,7 @@ export const SECTIONS: Section[] = [
         values: [cross, cross, text("10 free a month, then $5 each"), text("Included")],
       },
       { label: "Free preview of any site, no account", values: ALL },
-      { label: "\"Won the client\" converts an audit to a Care site", values: GROWTH_UP },
+      { label: "\"Won the client\" turns an audit into a fully monitored site", values: GROWTH_UP },
     ],
   },
   {

@@ -60,8 +60,8 @@ const OUTPUTS = [
 
 /** The cost side of the ROI story, read from the /pricing data module. */
 const COST_POINTS = [
-  `Every site is watched for free. Care is ${SITE_AGENTS_PRICE_LABEL}, one flat price per site, so the cost is known before the month starts.`,
-  `Care adds ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
+  `Basic monitoring and version history are free on every site. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}, one flat price per site, so the cost is known before the month starts.`,
+  `Full monitoring adds ${SITE_AGENTS_CAPABILITIES_SENTENCE}.`,
   "Seats are per team member and guests are free on every plan, so clients and external reviewers never add to the bill.",
 ];
 
@@ -133,11 +133,12 @@ export function RoiCost() {
               Set that against what it costs
             </h2>
             <p className={styles.costLede}>
-              Superflow is priced per seat, guests are free, every site is
-              watched for free, and Care is ${SITE_AGENTS_PRICE_USD} per site
-              per month. Caring for ten client sites costs at most
-              ${SITE_AGENTS_PRICE_USD * 10} a month while the calculator above
-              shows five or six figures recovered per year.
+              Superflow is priced per team seat, guests are free, every site
+              gets basic monitoring for free, and full monitoring is
+              ${SITE_AGENTS_PRICE_USD} per site per month. Full monitoring on
+              ten client sites costs at most ${SITE_AGENTS_PRICE_USD * 10} a
+              month while the calculator above shows five or six figures
+              recovered per year.
             </p>
           </div>
           <ul className={styles.costPoints}>
