@@ -106,9 +106,9 @@ const ENTERPRISE_ONLY: Row["values"] = [cross, cross, cross, check];
 export const APP_URL = "https://app.usesuperflow.com";
 export const SALES_URL = "/book-demo";
 
-/** "1 site with full monitoring & version control (then $10/site)": the per-site upgrade on a paid card. */
+/** "1 site with full monitoring & version history (then $10/site)": the per-site upgrade on a paid card. */
 const fullMonitoringIncluded = (sites: number): string =>
-  `${sites} ${sites === 1 ? "site" : "sites"} with full monitoring & version control (then $${SITE_AGENTS_PRICE_USD}/site)`;
+  `${sites} ${sites === 1 ? "site" : "sites"} with full monitoring & version history (then $${SITE_AGENTS_PRICE_USD}/site)`;
 
 // --- Tier cards --------------------------------------------------------------
 // Each card lists only what it adds over the plan before it ("Everything in
