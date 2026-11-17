@@ -19,7 +19,7 @@ import {
   SITE_AGENTS_AVAILABILITY,
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_PRICE_LABEL,
-  WATCH_CAPABILITIES,
+  FREE_SITE_TIER,
 } from "@/components/pricing-2026/site-agents-data";
 
 export const revalidate = 3600;
@@ -139,21 +139,15 @@ function pricingSection(): string {
     (capability) => `- ${capability.label}: ${capability.description}`,
   ).join("\n");
 
-  const watch = WATCH_CAPABILITIES.map(
-    (capability) => `- ${capability.label}: ${capability.description}`,
-  ).join("\n");
-
   return `## Pricing
 
-Seats for your team, sites for your book. Superflow is priced per seat for the people who run the work. Guests and clients are free and unlimited on every plan. Yearly billing is two months free.
+Simple, predictable pricing. Superflow is priced per team seat. Guests and clients are free and unlimited on every plan. Yearly billing is two months free.
 
 ${plans}
 
-Every site in a workspace is watched for free (Watch):
+Every site includes basic monitoring and version snapshots for free, on all plans: ${FREE_SITE_TIER.description.charAt(0).toLowerCase()}${FREE_SITE_TIER.description.slice(1)}
 
-${watch}
-
-Care is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter. Care adds:
+Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter. It adds:
 
 ${capabilities}
 `;
@@ -234,7 +228,7 @@ export async function GET() {
     "",
     "> Superflow is a website and creative-asset review tool for agencies and marketing teams. Teams leave contextual feedback on live websites, videos, PDFs, images, and Lottie animations, record videos, sync tasks to PM tools, run AI agent reviews, and ship faster with fewer review rounds.",
     "",
-    `Comments go to Slack and email on every plan and sync two-way with Asana, ClickUp, and Monday on the Growth plan and above; Superflow also works with Webflow and Google Tag Manager. AI QA agents catch issues (spelling, layout, links, brand) before clients do: every site is watched for free, and Care is ${SITE_AGENTS_PRICE_LABEL}. The link index version of this file is at ` +
+    `Comments go to Slack and email on every plan and sync two-way with Asana, ClickUp, and Monday on the Growth plan and above; Superflow also works with Webflow and Google Tag Manager. AI QA agents catch issues (spelling, layout, links, brand) before clients do: every site gets basic monitoring for free, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. The link index version of this file is at ` +
       `${SITE_URL}/llms.txt`,
     "",
     pricingSection(),

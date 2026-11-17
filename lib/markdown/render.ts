@@ -181,7 +181,7 @@ export function renderAgentDoc(doc: AgentDoc): string {
     // one arbitrary page should be one fetch away from the whole site.
     lines.push("## About Superflow", "");
     lines.push(
-      "Superflow is a website and creative-asset review tool. Its agents watch every page of a site, report what changed, and route findings to the people who approve them. Teams leave contextual feedback on live sites, staging environments, PDFs, images, videos, and Lottie animations, and comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
+      "Superflow is a website and creative-asset review tool. Its agents check every page of a site, report what changed, and route findings to the people who approve them. Teams leave contextual feedback on live sites, staging environments, PDFs, images, videos, and Lottie animations, and comments sync two-way with Asana, ClickUp, Monday, Slack, Webflow, and Google Tag Manager.",
       "",
     );
     lines.push("Machine-readable entry points:", "");

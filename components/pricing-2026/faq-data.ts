@@ -1,7 +1,9 @@
-// /pricing FAQ content: short plain-text answers from the pricing v8 spec
-// (section 5, "FAQ"), with the per-site Care price read from
+// /pricing FAQ content: short plain-text answers in literal product
+// language (no internal plan codenames), with the per-site price read from
 // ./site-agents-data.ts. Like the comparison table, the answers name only
 // what the product has today; see components/pricing/pricing-data.ts.
+// Version history is capped by plan (the table's "Version history" row), so
+// paid monitoring is "full", never "unlimited", version history.
 // Kept in a server-safe module (no "use client") so the page can build the
 // FAQPage JSON-LD from the same array the client <FaqSection> renders: one
 // source of truth for both.
@@ -17,23 +19,28 @@ const YEARLY_PRICES = TIERS.filter((tier) => !tier.customPrice && tier.monthlyPr
 
 export const PRICING_FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Who needs a seat?",
+    question: "What is counted as a seat?",
     answer:
-      "Only the people who run the work. Guests, clients and developers working in Asana, ClickUp or Monday are free.",
+      "Only internal team members you invite to manage projects count as paid Team seats. Clients and external reviewers join as Guests for free.",
   },
   {
-    question: "What is the difference between Watch and Care?",
+    question: "How does site monitoring and version control pricing work?",
     answer:
-      `Every site is on Watch for free: uptime, Site Score and the top 2 issues. Care is $${SITE_AGENTS_PRICE_USD} per site a month and shows every issue, with diffs, verified fixes and a monthly client report.`,
+      `Every site includes basic monitoring and recent version snapshots for free on all accounts. You can upgrade individual sites to full monitoring and version control for $${SITE_AGENTS_PRICE_USD} per site per month (custom pricing on Enterprise).`,
   },
   {
-    question: "How many Care sites are included?",
+    question: "What is included in full monitoring and version control?",
+    answer:
+      `While free basic monitoring gives every site baseline tracking and recent snapshots, full monitoring and version control ($${SITE_AGENTS_PRICE_USD}/site/month) captures full version history, monitors changes continuously as they ship, lets you compare versions side by side, and runs automated QA checks.`,
+  },
+  {
+    question: "How many sites with full monitoring are included?",
     answer:
       `Growth includes ${CARE_SITES_INCLUDED.growth} and Scale includes ${CARE_SITES_INCLUDED.scale}. Each extra site is $${SITE_AGENTS_PRICE_USD} a month.`,
   },
   {
-    question: "Can I move a site between Watch and Care?",
-    answer: "Yes. Watch to Care is instant. Care to Watch takes effect at the end of your billing cycle.",
+    question: "Can I switch a site between basic and full monitoring?",
+    answer: "Yes. Upgrading a site is instant. Moving a site back to basic monitoring takes effect at the end of your billing cycle.",
   },
   {
     question: "Are there usage limits?",

@@ -1,34 +1,55 @@
-// Watch and Care: the per-site half of /pricing (pricing v8).
+// Site monitoring and version control: the per-site half of /pricing.
 //
-// Every site in a workspace is watched for free (Watch). Care is the paid
-// state of a site: $10 per site per month, 1 included on Growth and 3 on
-// Scale. Server-safe module (no "use client") so the section, comparison
-// table, FAQ, Product JSON-LD, /pricing.md and /llms-full.txt all quote the
-// same price and the same capability list.
+// Every site gets basic monitoring and version snapshots for free, on every
+// plan. Full monitoring and version control is a paid upgrade per site:
+// $10 per site per month, 1 site included on Growth and 3 on Scale.
+// Server-safe module (no "use client") so the section, comparison table, FAQ,
+// Product JSON-LD, /pricing.md and /llms-full.txt all quote the same price
+// and the same wording.
+//
+// Copy rule: plain, literal product language. No internal plan codenames
+// in anything a visitor reads, and the free baseline is described by what it
+// includes, never as a reduced version.
 //
 // The export names keep their old SITE_AGENTS_ prefix so every consumer
-// (calculator, comparison pages, Markdown copies) follows the new price
-// without a rename. Keep the numbers equal to the portal's plan catalog
+// (calculator, comparison pages, Markdown copies) follows without a rename.
+// Keep the numbers equal to the portal's plan catalog
 // (shared-firebase-function PRICING_V8_CARE_PRICE_USD and the plan docs).
 
-/** Price of one Care site per month, in USD. */
+/** Price of full monitoring and version control, per site per month, in USD. */
 export const SITE_AGENTS_PRICE_USD = 10;
 
 /** "$10 per site per month": the price as prose. */
 export const SITE_AGENTS_PRICE_LABEL = `$${SITE_AGENTS_PRICE_USD} per site per month`;
 
-/** Care sites included in each plan before the per-site price applies. */
+/** Sites with full monitoring included in each plan before the per-site price applies. */
 export const CARE_SITES_INCLUDED = { growth: 1, scale: 3 } as const;
 
-/** Which plans can put a site on Care. */
+/** Which plans include, and can add, full monitoring sites. */
 export const SITE_AGENTS_AVAILABILITY =
-  `Growth includes ${CARE_SITES_INCLUDED.growth} Care site and Scale includes ${CARE_SITES_INCLUDED.scale}; more are $${SITE_AGENTS_PRICE_USD} each. Custom on Enterprise.`;
+  `Growth includes ${CARE_SITES_INCLUDED.growth} site with full monitoring and Scale includes ${CARE_SITES_INCLUDED.scale}; more are $${SITE_AGENTS_PRICE_USD} each. Custom on Enterprise.`;
 
-/** What the price buys, as a name. */
-export const SITE_AGENTS_NAME = "Care";
+/** The paid per-site upgrade, as a name. */
+export const SITE_AGENTS_NAME = "Full monitoring & version control";
 
-/** The free state every site starts in. */
-export const WATCH_NAME = "Watch";
+/** What every site gets for free, as a name. */
+export const WATCH_NAME = "Basic monitoring & version snapshots";
+
+/** The free tier's card: label, price, unit and what it includes. */
+export const FREE_SITE_TIER = {
+  label: "Free on every site",
+  price: "$0",
+  unit: "Included on all plans",
+  description: "Basic site monitoring, recent version snapshots, and live review comments.",
+} as const;
+
+/** The paid tier's card: label, price, unit and what it includes. */
+export const PAID_SITE_TIER = {
+  label: SITE_AGENTS_NAME,
+  price: `$${SITE_AGENTS_PRICE_USD}`,
+  unit: "per site / month",
+  description: "Continuous change detection, full version history, side-by-side visual diffs, and automated QA checks.",
+} as const;
 
 export type SiteAgentsCapability = {
   id: string;
@@ -36,56 +57,32 @@ export type SiteAgentsCapability = {
   description: string;
 };
 
-/** What Watch gives every site for free, in display order. */
-export const WATCH_CAPABILITIES: SiteAgentsCapability[] = [
-  {
-    id: "uptime",
-    label: "Uptime and Site Score",
-    description: "Checked every 5 minutes.",
-  },
-  {
-    id: "agents",
-    label: "QA on every change",
-    description: "Agents check every page that changes.",
-  },
-  {
-    id: "top-issues",
-    label: "Top 2 issues",
-    description: "The rest are counted and locked.",
-  },
-  {
-    id: "history",
-    label: "Version history",
-    description: "Which pages changed, and when.",
-  },
-];
-
-/** What Care adds to a site, in display order. */
+/** What full monitoring and version control adds to a site, in display order. */
 export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
   {
-    id: "every-issue",
-    label: "Every issue",
-    description: "Pinned on the page, with a fix.",
+    id: "history",
+    label: "Full version history",
+    description: "Every change to the site is captured automatically as a new version.",
+  },
+  {
+    id: "monitoring",
+    label: "Continuous monitoring",
+    description: "Detect layout, content, and code changes the moment they ship.",
   },
   {
     id: "compare",
     label: "Side-by-side diffs",
-    description: "See exactly what changed.",
+    description: "Compare versions visually to see exactly what changed.",
   },
   {
-    id: "verify",
-    label: "Verified fixes",
-    description: "A rescan confirms each fix.",
-  },
-  {
-    id: "report",
-    label: "Monthly client report",
-    description: "With your logo.",
+    id: "checks",
+    label: "Automated QA checks",
+    description: "Flag visual and functional issues automatically on every update.",
   },
 ];
 
-/** "every issue in full, side-by-side diffs, verify fix by rescan and monthly client report". */
+/** "full version history, continuous monitoring, side-by-side diffs and automated QA checks". */
 export const SITE_AGENTS_CAPABILITIES_SENTENCE = (() => {
-  const labels = SITE_AGENTS_CAPABILITIES.map((item) => item.label.toLowerCase());
+  const labels = SITE_AGENTS_CAPABILITIES.map((item) => item.label.charAt(0).toLowerCase() + item.label.slice(1));
   return `${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}`;
 })();

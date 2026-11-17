@@ -17,7 +17,7 @@ import {
   SITE_AGENTS_CAPABILITIES,
   SITE_AGENTS_NAME,
   SITE_AGENTS_PRICE_LABEL,
-  WATCH_CAPABILITIES,
+  FREE_SITE_TIER,
   WATCH_NAME,
 } from "@/components/pricing-2026/site-agents-data";
 
@@ -66,7 +66,7 @@ function homeDoc(): AgentDoc {
       { label: "Free tier", value: "Yes. Starter is $0 forever." },
       {
         label: "Pricing model",
-        value: `Per seat for your team. Every site is watched for free; Care is ${SITE_AGENTS_PRICE_LABEL}`,
+        value: `Per team seat; guests are free. Basic monitoring and version snapshots are free on every site; full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}`,
       },
     ],
     sections: [
@@ -119,7 +119,7 @@ function pricingDoc(): AgentDoc {
 
   return {
     title: "Superflow pricing",
-    summary: `Seats for your team, sites for your book. Per-seat plans with a free tier; every site is watched for free, and Care is ${SITE_AGENTS_PRICE_LABEL}.`,
+    summary: `Simple, predictable pricing. Pay per team seat; guests and clients review for free. Basic monitoring and version snapshots are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/pricing",
     kind: "Pricing page",
     facts: [
@@ -127,7 +127,7 @@ function pricingDoc(): AgentDoc {
       { label: "Free tier", value: "Yes, the Starter plan, $0 forever" },
       {
         label: "Sites",
-        value: `Every site in the workspace is watched for free. Care is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
+        value: `Every site includes basic monitoring and version snapshots for free. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
       },
       {
         label: "Client seats needed",
@@ -146,15 +146,12 @@ function pricingDoc(): AgentDoc {
       },
       {
         heading: `${WATCH_NAME} (free)`,
-        body: ["Every site in your workspace starts on Watch, at no cost."],
-        bullets: WATCH_CAPABILITIES.map(
-          (capability) => `**${capability.label}.** ${capability.description}`,
-        ),
+        body: [`Included on every site, on all plans: ${FREE_SITE_TIER.description.charAt(0).toLowerCase()}${FREE_SITE_TIER.description.slice(1)}`],
       },
       {
         heading: `${SITE_AGENTS_NAME} (${SITE_AGENTS_PRICE_LABEL})`,
         body: [
-          `${SITE_AGENTS_AVAILABILITY} Not available on Starter. Watch to Care is instant; Care to Watch takes effect at the end of the billing cycle. No usage limits.`,
+          `${SITE_AGENTS_AVAILABILITY} Not available on Starter. Upgrading a site is instant; moving it back to basic monitoring takes effect at the end of the billing cycle. No usage limits.`,
         ],
         bullets: SITE_AGENTS_CAPABILITIES.map(
           (capability) => `**${capability.label}.** ${capability.description}`,
