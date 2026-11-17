@@ -39,10 +39,10 @@ export const revalidate = 60;
 // The headline and its paragraph: the whole pricing model in plain words.
 const HERO_HEADING = "Simple, predictable pricing";
 const HERO_SUBHEADING =
-  `Pay per team seat. Guests and clients review for free. Basic monitoring and version snapshots are free on every site — unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
+  `Pay per team seat. Guests and clients review for free. Basic monitoring and version history are free on every site — unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
 const PAGE_TITLE = "Pricing — Simple Seat & Site Pricing | Superflow";
-const PAGE_DESCRIPTION = `Pay per team seat with unlimited free guests. Every site includes basic monitoring and version snapshots for free, or unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
+const PAGE_DESCRIPTION = `Pay per team seat with unlimited free guests. Every site includes basic monitoring and version history for free, or unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
 /**
  * Images for the two Product nodes below.
@@ -73,7 +73,7 @@ const PRICING_PRODUCT_SCHEMA = {
   "@type": "Product",
   name: "Superflow",
   description:
-    "Superflow plans - Starter (free), Growth, Scale, and Enterprise. Pay per team seat; guests are free. Every site includes basic monitoring and version snapshots for free.",
+    "Superflow plans - Starter (free), Growth, Scale, and Enterprise. Pay per team seat; guests are free. Every site includes basic monitoring and version history for free.",
   brand: { "@id": ORG_ID },
   image: PRODUCT_IMAGES,
   url: `${SITE_URL}/pricing`,

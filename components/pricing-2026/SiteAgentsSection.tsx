@@ -12,7 +12,7 @@ import styles from "./SiteAgentsSection.module.css";
 
 const HEADING = "Monitoring and version control for every site";
 const LEDE =
-  "Baseline tracking is included on all accounts. Upgrade individual sites only when you need full version history and continuous checks.";
+  "Baseline tracking is included on all accounts. Upgrade individual sites only when you need side-by-side diffs and continuous checks.";
 
 type SiteTier = { label: string; price: string; unit: string; description: string };
 

@@ -145,7 +145,7 @@ Simple, predictable pricing. Superflow is priced per team seat. Guests and clien
 
 ${plans}
 
-Every site includes basic monitoring and version snapshots for free, on all plans: ${FREE_SITE_TIER.description.charAt(0).toLowerCase()}${FREE_SITE_TIER.description.slice(1)}
+Every site includes basic monitoring and version history for free, on all plans: ${FREE_SITE_TIER.description.charAt(0).toLowerCase()}${FREE_SITE_TIER.description.slice(1)}
 
 Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY} Not available on Starter. It adds:
 

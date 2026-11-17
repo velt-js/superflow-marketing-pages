@@ -1,6 +1,6 @@
 // Site monitoring and version control: the per-site half of /pricing.
 //
-// Every site gets basic monitoring and version snapshots for free, on every
+// Every site gets basic monitoring and version history for free, on every
 // plan. Full monitoring and version control is a paid upgrade per site:
 // $10 per site per month, 1 site included on Growth and 3 on Scale.
 // Server-safe module (no "use client") so the section, comparison table, FAQ,
@@ -33,14 +33,14 @@ export const SITE_AGENTS_AVAILABILITY =
 export const SITE_AGENTS_NAME = "Full monitoring & version control";
 
 /** What every site gets for free, as a name. */
-export const WATCH_NAME = "Basic monitoring & version snapshots";
+export const WATCH_NAME = "Basic monitoring & version history";
 
 /** The free tier's card: label, price, unit and what it includes. */
 export const FREE_SITE_TIER = {
   label: "Free on every site",
   price: "$0",
   unit: "Included on all plans",
-  description: "Basic site monitoring, recent version snapshots, and live review comments.",
+  description: "Basic site monitoring, version history, and live review comments.",
 } as const;
 
 /** The paid tier's card: label, price, unit and what it includes. */
@@ -48,7 +48,7 @@ export const PAID_SITE_TIER = {
   label: SITE_AGENTS_NAME,
   price: `$${SITE_AGENTS_PRICE_USD}`,
   unit: "per site / month",
-  description: "Continuous change detection, full version history, side-by-side visual diffs, and automated QA checks.",
+  description: "Continuous change detection, side-by-side visual diffs, and automated QA checks.",
 } as const;
 
 export type SiteAgentsCapability = {
@@ -57,13 +57,11 @@ export type SiteAgentsCapability = {
   description: string;
 };
 
-/** What full monitoring and version control adds to a site, in display order. */
+/**
+ * What full monitoring and version control adds to a site, in display order.
+ * Version history is not here: every plan includes it, on free sites too.
+ */
 export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
-  {
-    id: "history",
-    label: "Full version history",
-    description: "Every change to the site is captured automatically as a new version.",
-  },
   {
     id: "monitoring",
     label: "Continuous monitoring",
@@ -81,7 +79,7 @@ export const SITE_AGENTS_CAPABILITIES: SiteAgentsCapability[] = [
   },
 ];
 
-/** "full version history, continuous monitoring, side-by-side diffs and automated QA checks". */
+/** "continuous monitoring, side-by-side diffs and automated QA checks". */
 export const SITE_AGENTS_CAPABILITIES_SENTENCE = (() => {
   const labels = SITE_AGENTS_CAPABILITIES.map((item) => item.label.charAt(0).toLowerCase() + item.label.slice(1));
   return `${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}`;

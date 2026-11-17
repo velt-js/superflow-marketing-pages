@@ -66,7 +66,7 @@ function homeDoc(): AgentDoc {
       { label: "Free tier", value: "Yes. Starter is $0 forever." },
       {
         label: "Pricing model",
-        value: `Per team seat; guests are free. Basic monitoring and version snapshots are free on every site; full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}`,
+        value: `Per team seat; guests are free. Basic monitoring and version history are free on every site; full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}`,
       },
     ],
     sections: [
@@ -119,7 +119,7 @@ function pricingDoc(): AgentDoc {
 
   return {
     title: "Superflow pricing",
-    summary: `Simple, predictable pricing. Pay per team seat; guests and clients review for free. Basic monitoring and version snapshots are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}.`,
+    summary: `Simple, predictable pricing. Pay per team seat; guests and clients review for free. Basic monitoring and version history are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}.`,
     path: "/pricing",
     kind: "Pricing page",
     facts: [
@@ -127,7 +127,7 @@ function pricingDoc(): AgentDoc {
       { label: "Free tier", value: "Yes, the Starter plan, $0 forever" },
       {
         label: "Sites",
-        value: `Every site includes basic monitoring and version snapshots for free. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
+        value: `Every site includes basic monitoring and version history for free. Full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}. ${SITE_AGENTS_AVAILABILITY}`,
       },
       {
         label: "Client seats needed",

@@ -2,7 +2,7 @@
 // the long feature comparison table on /pricing.
 //
 // Pricing v8, in plain product language: pay per team seat, guests are
-// free, every site gets basic monitoring and version snapshots for free, and
+// free, every site gets basic monitoring and version history for free, and
 // full monitoring and version control is $10 per site per month. No internal
 // plan codenames in anything a visitor reads.
 //
@@ -108,7 +108,7 @@ export const APP_URL = "https://app.usesuperflow.com";
 export const SALES_URL = "/book-demo";
 
 /** The free per-site baseline, as a card bullet on every paid plan. */
-const BASIC_MONITORING_BULLET = "Basic monitoring & snapshots on all sites";
+const BASIC_MONITORING_BULLET = "Basic monitoring & version history on all sites";
 /** The paid per-site upgrade with its price, as a card bullet. */
 const FULL_MONITORING_BULLET = `Full monitoring & version control ($${SITE_AGENTS_PRICE_USD}/site add-on)`;
 
@@ -134,7 +134,7 @@ export const TIERS: Tier[] = [
       { text: "1 Team Seat" },
       { text: "Unlimited Guest Seats" },
       { text: "1GB Storage" },
-      { text: "Basic site monitoring & version snapshots" },
+      { text: "Basic site monitoring & version history" },
     ],
   },
   {
@@ -151,7 +151,7 @@ export const TIERS: Tier[] = [
       { text: BASIC_MONITORING_BULLET },
       { text: FULL_MONITORING_BULLET },
       { text: "Asana, ClickUp and Monday" },
-      { text: "250 pages per site" },
+      { text: "Monitoring for up to 250 pages per site" },
     ],
   },
   {
@@ -171,7 +171,7 @@ export const TIERS: Tier[] = [
       { text: FULL_MONITORING_BULLET },
       { text: "White-label reports" },
       { text: "Custom QA rules" },
-      { text: "500 pages per site" },
+      { text: "Monitoring for up to 500 pages per site" },
     ],
   },
   {
@@ -241,26 +241,13 @@ export const SECTIONS: Section[] = [
         values: [text("1"), text("Unlimited"), text("Unlimited"), text("Unlimited")],
       },
       {
-        label: "Website version snapshots",
-        values: [text("Basic (Included)"), text("Included"), text("Included"), text("Included")],
-      },
-      {
         label: "Version history",
-        sublabel: "Which pages changed, when",
+        sublabel: "Included on every plan: which pages changed, when",
         values: [
           text("30 days"),
           text("90 days"),
           text("180 days"),
           text("365 days, immutable"),
-        ],
-      },
-      {
-        label: "Pages per site",
-        values: [
-          text("100", "first scan"),
-          text("250"),
-          text("500", "raised on request"),
-          text("Custom"),
         ],
       },
       { label: "Add a site by URL, nothing to install", values: ALL },
@@ -274,7 +261,16 @@ export const SECTIONS: Section[] = [
     title: "Monitoring & Version Control",
     accent: "#9333EA",
     rows: [
-      { label: "Basic site monitoring & snapshots", values: all("Included") },
+      { label: "Basic site monitoring & version history", values: all("Included") },
+      {
+        label: "Monitored pages per site",
+        values: [
+          text("100", "first scan"),
+          text("250"),
+          text("500", "raised on request"),
+          text("Custom"),
+        ],
+      },
       {
         label: "Full monitoring & version control",
         sublabel: "Flat price per site, per month",
@@ -294,7 +290,6 @@ export const SECTIONS: Section[] = [
           text("Custom"),
         ],
       },
-      { label: "Full version history", values: GROWTH_UP },
       { label: "Continuous change detection", values: GROWTH_UP },
       { label: "Visual compare / diff", values: GROWTH_UP },
       { label: "Automated QA checks", values: GROWTH_UP },

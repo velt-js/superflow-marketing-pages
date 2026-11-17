@@ -28,7 +28,7 @@ export const CALCULATOR_FAQ_ITEMS: FaqItem[] = [
   {
     question: "What does Superflow cost against the recovered billings?",
     answer:
-      `Per-seat plans start free, and guests are free on every plan. Basic monitoring and version snapshots are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}, covering ${SITE_AGENTS_CAPABILITIES_SENTENCE}. Full monitoring on ten client sites costs at most $${SITE_AGENTS_PRICE_USD * 10} a month while the calculator shows five or six figures recovered per year.`,
+      `Per-seat plans start free, and guests are free on every plan. Basic monitoring and version history are free on every site, and full monitoring and version control is ${SITE_AGENTS_PRICE_LABEL}, covering ${SITE_AGENTS_CAPABILITIES_SENTENCE}. Full monitoring on ten client sites costs at most $${SITE_AGENTS_PRICE_USD * 10} a month while the calculator shows five or six figures recovered per year.`,
   },
   {
     question: "Does my whole team need paid seats?",
