@@ -23,7 +23,7 @@ import {
 import { PRICING_FAQ_ITEMS } from "@/components/pricing-2026/faq-data";
 import { BillingProvider } from "@/components/pricing/BillingContext";
 import { TIERS } from "@/components/pricing/pricing-data";
-import { buildPageMetadata, stripEmDashes } from "@/app/_seo/page-metadata";
+import { buildPageMetadata } from "@/app/_seo/page-metadata";
 import { PAGE_OG_IMAGES } from "@/app/_seo/og-images";
 import { JsonLd } from "@/app/_seo/JsonLd";
 import { PageJsonLd } from "@/app/_seo/PageJsonLd";
@@ -39,9 +39,10 @@ export const revalidate = 60;
 // The headline and its paragraph: the whole pricing model in plain words.
 const HERO_HEADING = "Simple, predictable pricing";
 const HERO_SUBHEADING =
-  `Pay per team seat. Guests and clients review for free. Basic monitoring and version history are free on every site — unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
+  `Pay per team seat. Guests and clients review for free. Basic monitoring and version history are free on every site. Unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
-const PAGE_TITLE = "Pricing — Simple Seat & Site Pricing | Superflow";
+// No em dashes in visible copy.
+const PAGE_TITLE = "Pricing: Simple Seat & Site Pricing | Superflow";
 const PAGE_DESCRIPTION = `Pay per team seat with unlimited free guests. Every site includes basic monitoring and version history for free, or unlock full monitoring and version control for $${SITE_AGENTS_PRICE_USD}/site/month.`;
 
 /**
@@ -152,7 +153,7 @@ export default function PricingPage() {
           below, so PageJsonLd is called without a trail to avoid a
           duplicate BreadcrumbList. */}
       <PageJsonLd
-        name={stripEmDashes(PAGE_TITLE)}
+        name={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path="/pricing"
       />
