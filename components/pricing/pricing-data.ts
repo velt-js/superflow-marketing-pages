@@ -319,7 +319,7 @@ export const SECTIONS: Section[] = [
       { label: "Verify on resolve", values: GROWTH_UP },
       {
         label: "Custom AI checks",
-        values: [cross, cross, text("Unlimited"), text("Unlimited")],
+        values: [cross, cross, text("1 per fully monitored site"), text("Unlimited")],
       },
       { label: "Ask AI", values: GROWTH_UP },
     ],
