@@ -10,8 +10,7 @@
 // Settings > Billing (superflow_portal_v2, SITES_AND_MONITORING_ROWS and
 // PricingFeatureTableView): the same plan values, with the monitoring rows
 // regrouped and renamed for this page. Like the portal, it leaves out spec
-// rows for features the product does not have yet (the live client request
-// tab, Linear, Trello and Jira, reports on your own domain and sender, form
+// rows for features the product does not have yet (Linear, Trello and Jira, reports on your own domain and sender, form
 // testing, Workfront and friends, dedicated scanner IPs, an org above
 // workspaces, approval snapshots). Add such a row only together with the
 // portal.
@@ -134,6 +133,7 @@ export const TIERS: Tier[] = [
       { text: "Unlimited Guest Seats" },
       { text: "1GB Storage" },
       { text: "Basic site monitoring & version history" },
+      { text: "Client requests" },
     ],
   },
   {
@@ -149,6 +149,7 @@ export const TIERS: Tier[] = [
       { text: "Everything in Starter, plus", divider: true },
       { text: "Unlimited projects" },
       { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.growth) },
+      { text: "Lead audits" },
       { text: "Asana, ClickUp and Monday" },
       { text: "Monitoring for up to 250 pages per site" },
     ],
@@ -168,7 +169,7 @@ export const TIERS: Tier[] = [
       { text: "Everything in Growth, plus", divider: true },
       { text: fullMonitoringIncluded(CARE_SITES_INCLUDED.scale) },
       { text: "White-label reports" },
-      { text: "Custom QA rules" },
+      { text: "Custom AI checks" },
       { text: "Monitoring for up to 500 pages per site" },
     ],
   },
@@ -317,7 +318,7 @@ export const SECTIONS: Section[] = [
       { label: "Deduplicated component issues", values: ALL },
       { label: "Verify on resolve", values: GROWTH_UP },
       {
-        label: "Custom QA rules",
+        label: "Custom AI checks",
         values: [cross, cross, text("Unlimited"), text("Unlimited")],
       },
       { label: "Ask AI", values: GROWTH_UP },
@@ -355,18 +356,19 @@ export const SECTIONS: Section[] = [
         values: [text("Shown"), text("Shown"), text("Removed"), text("Removed")],
       },
       { label: "White-label toolbar", values: SCALE_UP },
+      { label: "Client requests", values: ALL },
     ],
   },
   {
-    title: "Prospecting",
+    title: "Lead audits",
     accent: "#D4840D",
     rows: [
       {
-        label: "Prospect audits (branded, \"Checked by Superflow\")",
+        label: "Lead audits (branded, \"Checked by Superflow\")",
         values: [cross, text("Unlimited"), text("Unlimited"), text("Unlimited")],
       },
       {
-        label: "White-label prospect audit (no footer)",
+        label: "White-label lead audits (no footer)",
         values: [cross, cross, text("10 free a month, then $5 each"), text("Included")],
       },
       { label: "Free preview of any site, no account", values: ALL },
