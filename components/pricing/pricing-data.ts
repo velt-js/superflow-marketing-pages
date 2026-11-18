@@ -287,9 +287,11 @@ export const SECTIONS: Section[] = [
           text("Custom"),
         ],
       },
-      { label: "Continuous change detection", values: GROWTH_UP },
+      // Basic monitoring checks for changes daily and runs the QA checks with
+      // the top issues in full (the "Daily change and QA checks" row below).
+      { label: "Continuous change detection", values: [text("Daily"), check, check, check] },
       { label: "Visual compare / diff", values: GROWTH_UP },
-      { label: "Automated QA checks", values: GROWTH_UP },
+      { label: "Automated QA checks", values: [text("Top 2 issues"), check, check, check] },
       {
         label: "Daily change and QA checks",
         values: [
