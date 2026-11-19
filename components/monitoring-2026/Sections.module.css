@@ -1,0 +1,117 @@
+/* Extra rules for /monitoring on top of home-new-2026/Sections.module.css. */
+
+.fourUp {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ------------------------------------------------------------ schedules */
+
+.schedules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 920px;
+  margin: 48px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scheduleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px;
+  border: 1px solid #e7e7eb;
+  border-radius: 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.scheduleLabel {
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  color: #1e1e1f;
+}
+
+/* ---------------------------------------------------------------- price */
+
+.price {
+  display: flex;
+  justify-content: center;
+}
+
+.priceCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+  padding: 36px;
+  border: 1px solid #e7e7eb;
+  border-radius: 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.priceCard ul {
+  margin-top: 16px;
+  text-align: left;
+}
+
+.priceAmount {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #1a78e0;
+}
+
+.priceTitle {
+  margin: 0;
+  font-family: var(--font-adamina), Georgia, serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: #1e1e1f;
+}
+
+.priceLink {
+  align-self: center;
+  margin-top: 12px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.priceLink:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 1080px) {
+  .fourUp {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .schedules {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 620px) {
+  .fourUp {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .priceCard {
+    padding: 24px;
+  }
+}

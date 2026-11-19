@@ -83,6 +83,11 @@
   border: 1px solid var(--hero-dark);
 }
 
+/* Light variant of the static card: a soft grey hairline (/new-home-2026). */
+.staticCardLight {
+  border-color: #e4e4e7;
+}
+
 .inner {
   width: 100%;
   max-width: calc(var(--hero-max-width) + var(--hero-gutter) * 2);
@@ -135,6 +140,12 @@
   line-height: 1.2;
   letter-spacing: -1.8px;
   color: #ffffff;
+}
+
+/* Longer two-line headline (/new-home-2026): sized so each line holds. */
+.headlineCompact {
+  font-size: clamp(38px, 3.9vw, 56px);
+  letter-spacing: -1.4px;
 }
 
 .headlineLine {
