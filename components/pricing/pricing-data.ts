@@ -157,7 +157,7 @@ export const TIERS: Tier[] = [
     annualPrice: "32",
     annualStrikePrice: "39",
     bestFor: "Agencies with many client sites",
-    badge: "Most agencies",
+    badge: "Most popular",
     highlighted: true,
     cta: { label: "Start Free Trial", href: APP_URL },
     bullets: [
@@ -315,7 +315,7 @@ export const SECTIONS: Section[] = [
       { label: "Verify on resolve", values: GROWTH_UP },
       {
         label: "Custom AI checks",
-        values: [cross, cross, text("1 per fully monitored site"), text("Unlimited")],
+        values: [cross, cross, text("Unlimited"), text("Unlimited")],
       },
       { label: "Ask AI", values: GROWTH_UP },
     ],
