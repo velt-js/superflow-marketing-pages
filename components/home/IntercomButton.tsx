@@ -1,19 +1,43 @@
 "use client";
 
-// Custom Intercom launcher. The Intercom widget script is loaded site-wide
-// from components/scripts/ThirdPartyScripts.tsx with `hide_default_launcher:
-// true`, so this button is the only entry-point to the messenger.
+// Custom Intercom launcher, and the only thing that loads Intercom.
+//
+// Intercom is not loaded on page load: chat widgets record what visitors
+// type and are a target of the same wiretap claims as session replay, so the
+// widget script is fetched only when the visitor clicks this button. The
+// first click loads it and opens the messenger; later clicks just open it.
+// `hide_default_launcher` keeps Intercom's own bubble from stacking on top of
+// this one.
 
-type IntercomFn = (action: string) => void;
-type WindowWithIntercom = Window & { Intercom?: IntercomFn };
+const INTERCOM_APP_ID = "gkjq60px";
+
+type IntercomFn = ((...args: unknown[]) => void) & { q?: unknown[]; c?: (args: unknown) => void };
+type WindowWithIntercom = Window & { Intercom?: IntercomFn; intercomSettings?: Record<string, unknown> };
+
+/** Queues Intercom calls until its script arrives, then injects the script. */
+function loadIntercom(w: WindowWithIntercom): IntercomFn {
+  w.intercomSettings = {
+    api_base: "https://api-iam.intercom.io",
+    app_id: INTERCOM_APP_ID,
+    hide_default_launcher: true,
+  };
+  const queue: IntercomFn = (...args: unknown[]) => queue.c?.(args);
+  queue.q = [];
+  queue.c = (args) => queue.q?.push(args);
+  w.Intercom = queue;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://widget.intercom.io/widget/${INTERCOM_APP_ID}`;
+  document.body.appendChild(script);
+  return queue;
+}
 
 export default function IntercomButton() {
   const handleClick = () => {
     try {
-      const intercom = (window as WindowWithIntercom).Intercom;
-      if (typeof intercom === "function") {
-        intercom("show");
-      }
+      const w = window as WindowWithIntercom;
+      const intercom = typeof w.Intercom === "function" ? w.Intercom : loadIntercom(w);
+      intercom("show");
     } catch (err) {
       console.error("Intercom show failed:", err);
     }

@@ -56,3 +56,6 @@ scripts/directory-import/inbox/
 /test-results/
 /playwright-report/
 /blob-report/
+
+# Consent audit screenshots (the JSON results are committed as evidence).
+scripts/consent-audit/results/screenshots/
