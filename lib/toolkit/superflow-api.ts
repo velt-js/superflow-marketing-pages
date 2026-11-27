@@ -26,7 +26,12 @@
 //
 // Override it with:
 //   SUPERFLOW_ANONYMOUS_API_URL   the callable endpoint, e.g.
-//     https://<region>-<project>.cloudfunctions.net/anonymoushandler
+//     https://staging.velt.dev/v2/sf/public
+//
+//   The callable is reached through the load balancer route, not its
+//   cloudfunctions.net URL, which stops accepting direct calls. The
+//   route serves the same callable, so the request and response shapes are
+//   unchanged.
 //
 //   Point it at staging to try a backend change before it is released.
 //   Set it to `local` to unconfigure the backend entirely, which sends the
@@ -47,14 +52,12 @@ import type {
  * The production callable. Free tools are live here, so this is what a
  * visitor reaches unless the environment names something else.
  */
-const PROD_ENDPOINT =
-  "https://us-central1-snippyly-sdk-prod.cloudfunctions.net/anonymoushandler";
+const PROD_ENDPOINT = "https://api.velt.dev/v2/sf/public";
 
 /**
  * The staging callable. Where an agent lands first, before it is released.
  */
-const STAGING_ENDPOINT =
-  "https://us-central1-snipply-sdk-staging.cloudfunctions.net/anonymoushandler";
+const STAGING_ENDPOINT = "https://staging.velt.dev/v2/sf/public";
 
 /**
  * Tools whose backend agent is live on STAGING but not yet released to prod.
